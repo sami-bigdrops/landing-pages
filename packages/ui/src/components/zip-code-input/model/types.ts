@@ -1,0 +1,13 @@
+import type * as React from "react"
+
+export interface ZipCodeInputProps
+  extends Omit<React.ComponentPropsWithoutRef<"input">, "value" | "onChange" | "type" | "maxLength"> {
+  label?: string
+  error?: string
+  hint?: string
+  value?: string
+  onChange?: (value: string) => void
+  containerClassName?: string
+  inputClassName?: string
+  maxLength?: 5
+}
