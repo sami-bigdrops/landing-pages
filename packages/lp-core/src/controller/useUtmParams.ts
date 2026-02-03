@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { UtmParamsResult, UseUtmParamsOptions } from '../model/utm-params';
 import {
   UTM_COOKIE_NAMES,
@@ -28,6 +28,8 @@ export function useUtmParams(
   options?: number | UseUtmParamsOptions
 ): UtmParamsResult {
   const { cookieDays, extra: extraMappings } = resolveOptions(options);
+  const extraMappingsRef = useRef(extraMappings);
+  extraMappingsRef.current = extraMappings;
 
   const [subid1, setSubid1] = useState('');
   const [subid2, setSubid2] = useState('');
@@ -37,14 +39,15 @@ export function useUtmParams(
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    const mappings = extraMappingsRef.current;
     const urlParams = new URLSearchParams(window.location.search);
     let utmSource = urlParams.get(UTM_URL_PARAM_KEYS.subid1) ?? '';
     let utmId = urlParams.get(UTM_URL_PARAM_KEYS.subid2) ?? '';
     let utmS1 = urlParams.get(UTM_URL_PARAM_KEYS.subid3) ?? '';
 
     const extraValues: Record<string, string> = {};
-    if (extraMappings?.length) {
-      for (const { urlParam, cookieName } of extraMappings) {
+    if (mappings?.length) {
+      for (const { urlParam, cookieName } of mappings) {
         const fromUrl = urlParams.get(urlParam) ?? '';
         const fromCookie = getCookie(cookieName) ?? '';
         const value = fromUrl || fromCookie;
@@ -56,7 +59,7 @@ export function useUtmParams(
     }
 
     const hasCoreInUrl = !!(utmSource || utmId || utmS1);
-    const hasExtraInUrl = extraMappings?.some(
+    const hasExtraInUrl = mappings?.some(
       (m) => urlParams.get(m.urlParam)
     );
     const shouldPersistAndClean = hasCoreInUrl || hasExtraInUrl;
@@ -77,8 +80,8 @@ export function useUtmParams(
       utmId = getCookie(UTM_COOKIE_NAMES.subid2) ?? '';
       utmS1 = getCookie(UTM_COOKIE_NAMES.subid3) ?? '';
 
-      if (extraMappings?.length) {
-        for (const { cookieName } of extraMappings) {
+      if (mappings?.length) {
+        for (const { cookieName } of mappings) {
           const value = getCookie(cookieName) ?? '';
           if (value) extraValues[cookieName] = value;
         }
@@ -88,8 +91,8 @@ export function useUtmParams(
     setSubid1(utmSource);
     setSubid2(utmId);
     setSubid3(utmS1);
-    if (extraMappings?.length) setExtra(extraValues);
-  }, [cookieDays, extraMappings]);
+    if (mappings?.length) setExtra(extraValues);
+  }, [cookieDays]);
 
   const result: UtmParamsResult = { subid1, subid2, subid3 };
   if (extraMappings?.length) result.extra = extra;

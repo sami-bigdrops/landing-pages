@@ -50,29 +50,38 @@ const TrustedForm: React.FC<TrustedFormProps> = ({
     }
   }, [enableSandbox, provideReferrer]);
 
+  const onCertificateReadyRef = useRef(onCertificateReady);
+  const onCertUrlReadyRef = useRef(onCertUrlReady);
+  onCertificateReadyRef.current = onCertificateReady;
+  onCertUrlReadyRef.current = onCertUrlReady;
+  const hasCallback = !!(onCertificateReady ?? onCertUrlReady);
+
   useEffect(() => {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined' || !hasCallback) return;
 
-    if (onCertificateReady ?? onCertUrlReady) {
-      const interval = setInterval(() => {
-        const certUrl = certUrlRef.current?.value;
-        const token = tokenRef.current?.value;
+    const interval = setInterval(() => {
+      const certUrl = certUrlRef.current?.value;
+      const token = tokenRef.current?.value;
 
-        if (certUrl) {
-          if (onCertificateReady && token) {
-            onCertificateReady(certUrl, token);
-          } else if (onCertUrlReady) {
-            onCertUrlReady(certUrl);
-          }
-          clearInterval(interval);
+      if (certUrl) {
+        const onCert = onCertificateReadyRef.current;
+        const onUrl = onCertUrlReadyRef.current;
+        if (onCert && token) {
+          onCert(certUrl, token);
+        } else if (onUrl) {
+          onUrl(certUrl);
         }
-      }, 500);
+        clearInterval(interval);
+      }
+    }, 500);
 
-      setTimeout(() => clearInterval(interval), timeout + 1000);
+    const t = setTimeout(() => clearInterval(interval), timeout + 1000);
 
-      return () => clearInterval(interval);
-    }
-  }, [onCertificateReady, onCertUrlReady, timeout]);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(t);
+    };
+  }, [timeout, hasCallback]);
 
   return (
     <>

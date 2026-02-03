@@ -1,13 +1,13 @@
 import { cva, type VariantProps } from "class-variance-authority"
 
 export const navbarVariants = cva(
-  "flex items-center justify-between w-full px-4 py-3 transition-colors",
+  "flex items-center justify-between w-full px-4 py-3 transition-colors border-b border-border",
   {
     variants: {
       variant: {
-        default: "bg-background",
+        default: "bg-background border-primary/20",
         sticky:
-          "sticky top-0 z-50 bg-background/95 border-b border-border shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60",
+          "sticky top-0 z-50 bg-background/95 border-primary/30 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60",
       },
       type: {
         "1":

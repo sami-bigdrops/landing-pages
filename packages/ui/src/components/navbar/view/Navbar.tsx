@@ -44,7 +44,7 @@ function Navbar({
           <div className="shrink-0 flex items-center gap-2">
             <span
               className={cn(
-                "text-sm font-medium text-foreground/80",
+                "text-sm font-medium text-muted-foreground",
                 contactTextClassName
               )}
             >
