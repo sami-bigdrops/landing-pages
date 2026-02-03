@@ -1,6 +1,6 @@
 {
-  "name": "assuritii-long",
-  "version": "0.0.1",
+  "name": "bdmg-components",
+  "version": "1.0.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -12,10 +12,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@workspace/lp-core": "workspace:*",
     "@workspace/ui": "workspace:*",
     "lucide-react": "^0.475.0",
     "next": "16.0.10",
-    "next-themes": "^0.4.6",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },
