@@ -1,5 +1,9 @@
+"use client"
 import { Navbar as NavbarUI } from "@workspace/ui/components/navbar"
 import Image from "next/image"
+import { useState } from "react";
+
+
 
 export default function Navbar() {
     return (
