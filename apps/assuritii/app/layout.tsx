@@ -6,6 +6,7 @@ import { Providers } from "@/components/providers"
 const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
 })
 
 export default function RootLayout({

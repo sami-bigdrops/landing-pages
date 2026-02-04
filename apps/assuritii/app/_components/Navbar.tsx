@@ -1,9 +1,6 @@
 "use client"
 import { Navbar as NavbarUI } from "@workspace/ui/components/navbar"
 import Image from "next/image"
-import { useState } from "react";
-
-
 
 export default function Navbar() {
     return (
@@ -15,9 +12,10 @@ export default function Navbar() {
             <Image
             src="/assuritii.svg"
             alt="Assuritii"
-            width={100}
-            height={100}
-            className="h-auto w-32 object-contain"
+            width={128}
+            height={40}
+            className="w-32 h-10 object-contain"
+            priority
             />
         }
         />

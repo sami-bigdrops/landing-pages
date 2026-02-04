@@ -1,9 +1,8 @@
 import Image from "next/image"
-import { COLORS, FONT } from "@/lib/constant"
 
 export default function Ribbon() {
     return (
-        <div className="ribbon hidden md:block bg-[#283E61] p-4 xl:p-5">
+        <div className="ribbon hidden md:flex md:items-center bg-[#283E61] p-4 xl:p-5 min-h-[56px] xl:min-h-[64px]">
             <div className="container mx-auto">
                 <div className="ribbon-content flex items-center justify-center gap-4">
                     <div className="flex items-center  gap-5 lg:gap-6 xl:gap-7">
@@ -15,8 +14,8 @@ export default function Ribbon() {
                         <Image 
                             src="/call.svg" 
                             alt="Phone" 
-                            width={1000} 
-                            height={1000}
+                            width={24} 
+                            height={24}
                             className="w-5 h-5 lg:w-6 lg:h-6"
                         />
                         <span className="text-white font-['Inter'] text-sm font-medium lg:text-base xl:text-lg flex items-center gap-2">
