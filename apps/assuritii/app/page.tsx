@@ -7,6 +7,7 @@ import Features from "@/app/type/long/v1/_components/Features"
 import Review from "@/app/type/long/v1/_components/Review"
 import Faq from "@/app/type/long/v1/_components/Faq"
 import ImageCompare from "@/app/type/long/v1/_components/ImageCompare"
+import Footer from "@/app/_components/Footer"
 
 export default function Page() {
 
@@ -20,6 +21,7 @@ export default function Page() {
       <Features />
       <Review />
       <Faq />
+      <Footer />
     </div>
      
   )

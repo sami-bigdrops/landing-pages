@@ -170,11 +170,11 @@ export const IMAGE_COMPARE_CONTENT = {
   header: "Real Protection For Real Car Problems",
   description: "Coverage built for today's cars and real driving needs",
   imageOne: {
-    src: "/unprotected.jpg",
+    src: "/unprotected.webp",
     alt: "Unprotected",
   },
   imageTwo: {
-    src: "/protected.jpg",
+    src: "/protected.webp",
     alt: "Protected",
   },
 } as const
@@ -247,4 +247,16 @@ export const FAQ_CONTENT = {
       answer: "Yes, you have flexibility with your plan. You can modify or cancel your coverage according to the terms outlined in your agreement. Contact our customer service team to discuss your options.",
     },
   ],
+} as const
+
+export const FOOTER_CONTENT = {
+  description: "Affordable vehicle protection for unexpected repairs.",
+  linkHeader: "Company",
+  links: [
+    { text: "Privacy Policy", href: "/privacy-policy" },
+    { text: "Terms of Use", href: "/terms-of-use" },
+  ],
+  copyrightText: "Copyright © 2026 Assuritii. All Rights Reserved.",
+  disclaimer:
+    'A Vehicle Service Contract (VSC) is often referred to as an "auto warranty" or an "extended car warranty," but it is not a warranty. A VSC does, however, provide repair coverage for your vehicle after the manufacturer\'s car warranty expires. A VSC is a contract between you and a VSC provider or administrator that states what is a covered repair and what is not.',
 } as const

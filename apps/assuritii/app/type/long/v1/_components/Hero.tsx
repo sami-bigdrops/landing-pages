@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import { FONT, COLORS, HERO_CONTENT } from "@/lib/constant";
 import Form from "@/app/type/long/v1/_components/Form";
