@@ -5,7 +5,8 @@ import { Providers } from "@/components/providers"
 
 const fontSans = Inter({
   subsets: ["latin"],
-  variable: "--font-sans  ",
+  variable: "--font-sans",
+  display: "swap",
 })
 
 export default function RootLayout({
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} font-sans antialiased `}
+        className={`${fontSans.variable} font-sans antialiased overflow-x-hidden overflow-y-auto`}
       >
         <Providers>{children}</Providers>
       </body>
