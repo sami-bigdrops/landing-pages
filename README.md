@@ -198,6 +198,29 @@ Add `@workspace/lp-core` to your app’s `package.json` dependencies to use it.
 
 Demo app that uses the shared Navbar, Button, ProgressBar, and (in test) lp-core. Reference for wiring `@workspace/ui` and `@workspace/lp-core` in a Next.js app.
 
+### assuritii
+
+Landing page app (vehicle protection).
+
+## Vercel deployment (monorepo)
+
+Use **one Vercel project per app**. Both point at the same repo; each project sets a different **Root Directory**.
+
+| App               | Vercel project name (example) | Root Directory        |
+|-------------------|-------------------------------|------------------------|
+| assuritii         | assuritii                     | `apps/assuritii`       |
+| bdmg-components    | bdmg-components               | `apps/bdmg-components` |
+
+**Steps**
+
+1. In Vercel: **Add New Project** and import this repo.
+2. Set **Root Directory** to the app (e.g. `apps/assuritii`). Enable **Override** so it is saved.
+3. Leave **Build Command** and **Output Directory** empty so the app’s `vercel.json` is used (install and build run from monorepo root).
+4. Deploy.
+5. For the other app, create a **second** Vercel project from the same repo and set its Root Directory to the other app (e.g. `apps/bdmg-components`).
+
+Each app’s `vercel.json` runs `pnpm install` and `turbo run build --filter=<app>` from the repo root so workspace dependencies resolve correctly.
+
 ## Tailwind
 
 Apps use Tailwind with `packages/ui/src/styles/globals.css` and are set up to consume the UI package styles. Do not duplicate theme or component styles in the app; extend via `className` or new variants in the UI package as needed.
