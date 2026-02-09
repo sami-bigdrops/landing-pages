@@ -6,7 +6,7 @@ import Steps from "@/app/type/long/v1/_components/Steps"
 import Features from "@/app/type/long/v1/_components/Features"
 import Review from "@/app/type/long/v1/_components/Review"
 import Faq from "@/app/type/long/v1/_components/Faq"
-
+import ImageCompare from "@/app/type/long/v1/_components/ImageCompare"
 
 export default function Page() {
 
@@ -16,6 +16,7 @@ export default function Page() {
       <Ribbon />
       <Hero />
       <Steps />
+      <ImageCompare />
       <Features />
       <Review />
       <Faq />

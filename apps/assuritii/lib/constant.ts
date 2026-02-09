@@ -166,6 +166,19 @@ export const FEATURES_CONTENT = {
 } as const
 
 
+export const IMAGE_COMPARE_CONTENT = {
+  header: "Real Protection For Real Car Problems",
+  description: "Coverage built for today's cars and real driving needs",
+  imageOne: {
+    src: "/unprotected.jpg",
+    alt: "Unprotected",
+  },
+  imageTwo: {
+    src: "/protected.jpg",
+    alt: "Protected",
+  },
+} as const
+
 export const REVIEW_CONTENT = {
   header: "Drivers Who Chose Peace Of Mind, Drivers Who Chose Assuritii!",
   reviews: [

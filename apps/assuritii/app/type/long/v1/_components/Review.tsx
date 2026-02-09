@@ -38,7 +38,7 @@ export default function Review() {
                   </div>
 
                   <p className="text-sm lg:text-base xl:text-lg xl:max-w-[330px] text-[#374151] font-['Inter']" style={{ lineHeight: 1.5 }}>
-                    "{review.quote}"
+                    &quot;{review.quote}&quot;
                   </p>
 
                   <div className="w-full flex items-center justify-start gap-3">

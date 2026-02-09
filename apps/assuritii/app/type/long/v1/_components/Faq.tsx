@@ -1,13 +1,85 @@
 'use client'
 
 import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import { FAQ_CONTENT } from '@/lib/constant'
 
 export default function Faq() {
-  const [openFaq, setOpenFaq] = useState<number | null>(1)
+  const [openFaqs, setOpenFaqs] = useState<Set<number>>(new Set())
 
   const toggleFaq = (id: number) => {
-    setOpenFaq(openFaq === id ? null : id)
+    setOpenFaqs((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const faqItem = (faq: (typeof FAQ_CONTENT.faqs)[number]) => {
+    const isOpen = openFaqs.has(faq.id)
+    return (
+      <div
+        key={faq.id}
+        className="w-full bg-white rounded-[10px] border border-[#D1D5DB] shadow-[2px_2px_15px_0_rgba(31,58,95,0.10)] overflow-hidden"
+      >
+        <button
+          type="button"
+          onClick={() => toggleFaq(faq.id)}
+          className="w-full p-5 text-left flex items-center justify-between transition-colors hover:bg-gray-50"
+        >
+          <h3 className="text-[0.9rem] md:text-base lg:text-lg xl:text-xl font-semibold text-[#111827] font-['Inter'] pr-4">
+            {faq.question}
+          </h3>
+          <div className="flex-shrink-0">
+            <div
+              className="w-8 h-8 flex items-center justify-center rounded-[6px]"
+              style={{ background: '#3498DB' }}
+            >
+              <motion.svg
+                className="w-4 h-4 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {isOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 12h16"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                )}
+              </motion.svg>
+            </div>
+          </div>
+        </button>
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+              className="overflow-hidden"
+            >
+              <div className="px-6 pb-6">
+                <p className="text-sm md:text-base lg:text-lg xl:text-xl text-[#374151] font-['Inter'] leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    )
   }
 
   return (
@@ -20,105 +92,15 @@ export default function Faq() {
 
           <div className="w-full flex flex-col md:flex-row md:items-start gap-5">
             <div className="w-full md:w-[calc(50%-0.625rem)] flex flex-col gap-5">
-              {FAQ_CONTENT.faqs.filter((faq) => faq.id === 1 || faq.id === 3).map((faq) => (
-                <div
-                  key={faq.id}
-                  className="w-full bg-white rounded-[10px] border border-[#D1D5DB] shadow-[2px_2px_15px_0_rgba(31,58,95,0.10)] overflow-hidden"
-                >
-                  <button
-                    onClick={() => toggleFaq(faq.id)}
-                    className="w-full p-5 text-left flex items-center justify-between transition-colors hover:bg-gray-50"
-                  >
-                    <h3 className="text-[0.9rem] md:text-base lg:text-lg xl:text-xl font-semibold text-[#111827] font-['Inter'] pr-4">
-                      {faq.question}
-                    </h3>
-                    <div className="flex-shrink-0">
-                      <div className="w-8 h-8 flex items-center justify-center rounded-[6px]" style={{ background: '#3498DB' }}>
-                        <svg
-                          className={`w-4 h-4 text-white transition-all duration-200 ${openFaq === faq.id ? 'rotate-0' : ''}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          {openFaq === faq.id ? (
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M4 12h16"
-                            />
-                          ) : (
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 4v16m8-8H4"
-                            />
-                          )}
-                        </svg>
-                      </div>
-                    </div>
-                  </button>
-                  {openFaq === faq.id && (
-                    <div className="px-6 pb-6">
-                      <p className="text-sm md:text-base lg:text-lg text-[#374151] font-['Inter'] leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
+              {FAQ_CONTENT.faqs
+                .filter((faq) => faq.id === 1 || faq.id === 3)
+                .map(faqItem)}
             </div>
 
             <div className="w-full md:w-[calc(50%-0.625rem)] flex flex-col gap-5">
-              {FAQ_CONTENT.faqs.filter((faq) => faq.id === 2 || faq.id === 4).map((faq) => (
-                <div
-                  key={faq.id}
-                  className="w-full bg-white rounded-[10px] border border-[#D1D5DB] shadow-[2px_2px_15px_0_rgba(31,58,95,0.10)] overflow-hidden"
-                >
-                  <button
-                    onClick={() => toggleFaq(faq.id)}
-                    className="w-full p-5 text-left flex items-center justify-between transition-colors hover:bg-gray-50"
-                  >
-                    <h3 className="text-[0.9rem] md:text-base lg:text-lg xl:text-xl font-semibold text-[#111827] font-['Inter'] pr-4">
-                      {faq.question}
-                    </h3>
-                    <div className="flex-shrink-0">
-                      <div className="w-8 h-8 flex items-center justify-center rounded-[6px]" style={{ background: '#3498DB' }}>
-                        <svg
-                          className={`w-4 h-4 text-white transition-all duration-200 ${openFaq === faq.id ? 'rotate-0' : ''}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          {openFaq === faq.id ? (
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M4 12h16"
-                            />
-                          ) : (
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 4v16m8-8H4"
-                            />
-                          )}
-                        </svg>
-                      </div>
-                    </div>
-                  </button>
-                  {openFaq === faq.id && (
-                    <div className="px-6 pb-6">
-                      <p className="text-sm md:text-base lg:text-lg xl:text-xl text-[#374151] font-['Inter'] leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
+              {FAQ_CONTENT.faqs
+                .filter((faq) => faq.id === 2 || faq.id === 4)
+                .map(faqItem)}
             </div>
           </div>
         </div>
