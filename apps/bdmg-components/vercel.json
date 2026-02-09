@@ -1,5 +1,4 @@
 {
-  "installCommand": "cd ../.. && pnpm install",
   "buildCommand": "cd ../.. && pnpm exec turbo run build --filter=bdmg-components",
   "outputDirectory": ".next"
 }
