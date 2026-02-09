@@ -69,7 +69,7 @@ export default function Form() {
       >
 
       
-        <h2 className="text-base md:text-lg xl:text-2xl w-full font-semibold text-[#111827] bg-[#1F3A5F] text-center font-['Inter'] py-5 px-5 xl:py-6 xl:px-6">
+        <h2 className="text-base md:text-lg xl:text-2xl w-full font-semibold text-white bg-[#1F3A5F] text-center font-['Inter'] py-5 px-5 xl:py-6 xl:px-6">
             {FORM_CONTENT.header}
         </h2>
       
