@@ -42,7 +42,7 @@ export default function Page() {
           Documentation
         </h2>
         <p className="text-muted-foreground mb-4">
-          For UI components use <code className="text-sm bg-muted px-1.5 py-0.5 rounded">@workspace/ui</code>. For UTM params and TrustedForm cert URL use <code className="text-sm bg-muted px-1.5 py-0.5 rounded">@workspace/lp-core</code>.
+          For UI components use <code className="text-sm bg-muted px-1.5 py-0.5 rounded">@workspace/ui</code>. For UTM params and TrustedForm cert URL use <code className="text-sm bg-muted px-1.5 py-0.5 rounded">@workspace/lp-core</code>. For the reusable thank-you page use <code className="text-sm bg-muted px-1.5 py-0.5 rounded">@workspace/bdmg-component</code>.
         </p>
         {docsNav.map((n) => {
           if (!("items" in n)) return null

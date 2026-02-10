@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@workspace/bdmg-component": "workspace:*",
     "@workspace/lp-core": "workspace:*",
     "@workspace/ui": "workspace:*",
     "lucide-react": "^0.475.0",

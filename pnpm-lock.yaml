@@ -29,6 +29,9 @@ importers:
       '@neondatabase/serverless':
         specifier: ^1.0.2
         version: 1.0.2
+      '@workspace/bdmg-component':
+        specifier: workspace:*
+        version: link:../../packages/bdmg-component
       '@workspace/lp-core':
         specifier: workspace:*
         version: link:../../packages/lp-core
@@ -96,6 +99,9 @@ importers:
 
   apps/bdmg-components:
     dependencies:
+      '@workspace/bdmg-component':
+        specifier: workspace:*
+        version: link:../../packages/bdmg-component
       '@workspace/lp-core':
         specifier: workspace:*
         version: link:../../packages/lp-core
@@ -138,6 +144,40 @@ importers:
         version: 9.39.1(jiti@2.6.1)
       typescript:
         specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/bdmg-component:
+    dependencies:
+      lucide-react:
+        specifier: ^0.475.0
+        version: 0.475.0(react@19.2.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.1.9
+        version: 19.2.7
+      '@types/react-dom':
+        specifier: ^19.1.7
+        version: 19.2.3(@types/react@19.2.7)
+      '@workspace/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      eslint:
+        specifier: ^9.32.0
+        version: 9.39.1(jiti@2.6.1)
+      next:
+        specifier: 16.0.10
+        version: 16.0.10(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      react:
+        specifier: ^19.1.1
+        version: 19.2.1
+      react-dom:
+        specifier: ^19.1.1
+        version: 19.2.1(react@19.2.1)
+      typescript:
+        specifier: ^5.9.2
         version: 5.9.3
 
   packages/eslint-config:

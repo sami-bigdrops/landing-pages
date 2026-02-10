@@ -17,6 +17,7 @@
     "fetch-vehicles": "tsx scripts/fetch-vehicles.ts"
   },
   "dependencies": {
+    "@workspace/bdmg-component": "workspace:*",
     "@neondatabase/serverless": "^1.0.2",
     "@workspace/lp-core": "workspace:*",
     "@workspace/ui": "workspace:*",

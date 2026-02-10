@@ -273,3 +273,16 @@ export const FOOTER_CONTENT = {
   disclaimer:
     'A Vehicle Service Contract (VSC) is often referred to as an "auto warranty" or an "extended car warranty," but it is not a warranty. A VSC does, however, provide repair coverage for your vehicle after the manufacturer\'s car warranty expires. A VSC is a contract between you and a VSC provider or administrator that states what is a covered repair and what is not.',
 } as const
+
+export const THANKYOU_CONTENT = {
+  title: "Thank you!",
+  subtitle:
+    "Your request has been received. A vehicle protection specialist will contact you shortly with your quote.",
+  confirmationTitle:
+    "A confirmation message has been sent to your email address.",
+  confirmationDescription:
+    "The message contains next steps and how to get your quote. Please check your spam folder if you don't see it in your inbox.",
+  contactTitle: "For immediate assistance",
+  contactPhoneLabel: "(1800) 123 - 4567",
+  contactPhoneHref: "tel:+18001234567",
+} as const

@@ -8,6 +8,12 @@ export const docsNav = [
     ],
   },
   {
+    title: "BDMG Component",
+    items: [
+      { title: "Thank You", href: "/docs/bdmg-component/thank-you" },
+    ],
+  },
+  {
     title: "Components",
     items: [
       { title: "Button", href: "/docs/components/button" },
