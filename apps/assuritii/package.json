@@ -13,12 +13,14 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "fetch-vehicles": "tsx scripts/fetch-vehicles.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
     "@workspace/lp-core": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "axios": "^1.13.5",
     "drizzle-orm": "^0.45.1",
     "lucide-react": "^0.475.0",
     "motion": "^12.34.0",
@@ -35,7 +37,9 @@
     "@types/react-dom": "^19.2.3",
     "@workspace/eslint-config": "workspace:^",
     "@workspace/typescript-config": "workspace:*",
+    "dotenv": "^17.2.4",
     "eslint": "^9.39.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

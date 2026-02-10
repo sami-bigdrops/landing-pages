@@ -1,10 +1,13 @@
 "use client"
 
-import Image from "next/image";
-import { FONT, COLORS, HERO_CONTENT } from "@/lib/constant";
-import Form from "@/app/type/long/v1/_components/Form";
+import Image from "next/image"
+import { useUtmParams } from "@workspace/lp-core"
+import { HERO_CONTENT } from "@/lib/constant"
+import Form from "@/app/type/long/v1/_components/Form"
 
 export default function Hero() {
+  useUtmParams(30)
+
   return (
     <div className="hero bg-white w-full h-full p-4 md:p-6 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
       <div className="container mx-auto">
