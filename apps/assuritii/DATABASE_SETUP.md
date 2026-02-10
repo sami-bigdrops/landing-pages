@@ -16,10 +16,10 @@ Create a `.env.local` file in the `apps/assuritii` directory:
 cp .env.local.example .env.local
 ```
 
-Update the `ASSURITII_DATABASE_URL` with your Neon connection string:
+Update the `DATABASE_URL` with your Neon connection string:
 
 ```env
-ASSURITII_DATABASE_URL=postgresql://user:password@host.neon.tech/database?sslmode=require
+DATABASE_URL=postgresql://user:password@host.neon.tech/database?sslmode=require
 ```
 
 ### 2. Push Schema to Database
