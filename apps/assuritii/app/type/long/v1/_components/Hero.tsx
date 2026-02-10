@@ -9,64 +9,30 @@ export default function Hero() {
   useUtmParams(30)
 
   return (
-    <div className="hero bg-white w-full h-full p-4 md:p-6 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
-      <div className="container mx-auto">
-        <div className="w-full hero-content flex flex-col items-center justify-center gap-4 xl:flex-row xl:justify-between xl:items-center ">
-          <div className="w-full  left flex flex-row items-center justify-center xl:flex-col gap-4 xl:gap-6 xl:w-[45%]">
-            <div className="flex flex-col  items-center justify-center md:items-start gap-4 w-full md:w-[50%]  lg:w-[50%] xl:w-full xl:gap-6">
-              <h1 className="text-[#111827] md:max-w-[300px] lg:max-w-[400px] xl:max-w-[550px] font-['Inter'] text-3xl lg:text-4xl xl:text-5xl text-center md:text-left font-bold">
-                {HERO_CONTENT.headline}
-              </h1>
-              <p className="text-[#374151] md:max-w-[340px] lg:max-w-[400px] xl:max-w-[550px] font-['Inter'] text-sm lg:text-base xl:text-lg text-center md:text-left">
-                {HERO_CONTENT.description}
-              </p>
-              <div className="partners hidden md:flex flex-row items-center justify-center gap-3 xl:gap-6 md:mt-2">
-                <div className="w-[80px] h-[30px] xl:w-[110px] xl:h-[40px]">
-                  <Image
-                    src={HERO_CONTENT.partners[0].src}
-                    alt={HERO_CONTENT.partners[0].alt}
-                    width={80}
-                    height={30}
-                    className="w-full h-full object-contain"
-                    priority
-                  />
-                </div>
-                <div className="w-[50px] h-[55px] xl:w-[65px] xl:h-[70px]">
-                  <Image
-                    src={HERO_CONTENT.partners[1].src}
-                    alt={HERO_CONTENT.partners[1].alt}
-                    width={50}
-                    height={50}
-                    className="w-full h-full object-contain"
-                    priority
-                  />
-                </div>
-                <div className="w-[140px] h-[40px] xl:w-[200px] xl:h-[50px]">
-                  <Image
-                    src={HERO_CONTENT.partners[2].src}
-                    alt={HERO_CONTENT.partners[2].alt}
-                    width={140}
-                    height={40}
-                    className="w-full h-full object-contain"
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="hidden md:flex w-full md:w-[50%] lg:w-[50%] xl:w-full h-full items-center justify-center xl:justify-start">
-              <Image
-                src="/hero-left.png"
-                alt="Hero Left"
-                width={400}
-                height={300}
-                className="w-[400px] h-[300px] lg:w-[500px] xl:h-[310px] object-contain"
-                priority
-              />
-            </div>
+    <div className="bg-white w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
+      <div className="container mx-auto min-w-0 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-10">
+        <div className="w-full min-w-0 lg:w-1/2 flex flex-col items-center gap-5 lg:gap-8">
+          <div className="w-full space-y-4 text-center lg:text-left">
+            <h1 className="text-3xl lg:text-4xl xl:text-5xl text-[#0F2440] font-bold">{HERO_CONTENT.headline}</h1>
+            <p className="text-sm lg:text-base xl:text-lg text-[#374151] max-w-xl">{HERO_CONTENT.description}</p>
           </div>
-          <div className="right-form w-full flex items-center justify-center  xl:w-[55%] ">
-            <Form />
+          <div className="w-full flex justify-center lg:justify-start min-h-0">
+            <Image
+              src={HERO_CONTENT.image.src}
+              alt={HERO_CONTENT.image.alt}
+              width={500}
+              height={500}
+              className="w-full max-w-md object-contain object-center h-auto max-h-[240px] sm:max-h-[280px] lg:max-h-[320px]"
+            />
           </div>
+          <div className="w-full min-w-0 flex items-center justify-center lg:justify-start gap-4 sm:gap-6 overflow-hidden">
+            <Image src={HERO_CONTENT.partners[0].src} alt={HERO_CONTENT.partners[0].alt} width={80} height={80} className="object-contain w-16 sm:w-20 lg:w-24 h-auto min-w-0 flex-shrink" />
+            <Image src={HERO_CONTENT.partners[1].src} alt={HERO_CONTENT.partners[1].alt} width={80} height={80} className="object-contain w-14 sm:w-16 lg:w-20 h-auto min-w-0 flex-shrink" />
+            <Image src={HERO_CONTENT.partners[2].src} alt={HERO_CONTENT.partners[2].alt} width={80} height={80} className="object-contain w-24 sm:w-32 lg:w-40 h-auto min-w-0 flex-shrink" />
+          </div>
+        </div>
+        <div className="w-full lg:w-1/2 h-full flex flex-col items-center lg:items-start justify-center gap-4">
+          <Form />
         </div>
       </div>
     </div>

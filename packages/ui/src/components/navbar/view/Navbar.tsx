@@ -20,6 +20,7 @@ function Navbar({
   contactLabel = "Contact",
   contactTextClassName,
   contactButton,
+  showContactIcon = true,
   className,
   ...props
 }: NavbarProps) {
@@ -66,7 +67,7 @@ function Navbar({
                 href={contactHref}
                 aria-label={`${contactText}: ${contactLabel}`}
               >
-                <Phone className="size-4" aria-hidden />
+                {showContactIcon ? <Phone className="size-4" aria-hidden /> : null}
                 {contactLabel}
               </a>
             </Button>

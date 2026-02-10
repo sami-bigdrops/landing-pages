@@ -22,8 +22,8 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: "Avoid surprise car repair bills before they happen!",
-  description: "Assuritii provides vehicle protection plans that help cover expensive mechanical breakdowns once your manufacturer's warranty ends.",
+  headline: "Save Big on Auto Repairs",
+  description: "Protect your car and your wallet from expensive repair bills.",
   
   partners: [
     {
@@ -95,7 +95,7 @@ export const FORM_CONTENT = {
       placeholder: "Enter Zip Code",
     },
   },
-  button: "Get Your FREE Quote",
+  button: "Unlock My Car's Protection Value",
   disclaimer: "By Clicking \"Get Your Free Quote\" You Agree That Assuritii May Contact You At The Number And Email Provided With Calls, Texts, Or Prerecorded/Artificial Voice Messages About Or Products/Services. Consent Is Not A Condition Of Purchase. Message/Data Rates Apply. You Can Withdraw Consent Anytime.",
 } as const
 
@@ -177,6 +177,19 @@ export const IMAGE_COMPARE_CONTENT = {
     src: "/protected.webp",
     alt: "Protected",
   },
+} as const
+
+export const REPAIR_COSTS_CONTENT = {
+  header: "AVERAGE REPAIR COSTS",
+  withoutLabel: "WITHOUT ASSURITII",
+  withLabel: "WITH ASSURITII",
+  totalLabel: "TOTAL FOR ALL",
+  items: [
+    { label: "ENGINE", cost: "$4,800" },
+    { label: "TRANSMISSION", cost: "$3,200" },
+    { label: "SUSPENSION", cost: "$1,750" },
+  ],
+  withTotalCost: "$0",
 } as const
 
 export const REVIEW_CONTENT = {

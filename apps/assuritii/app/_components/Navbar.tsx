@@ -6,8 +6,8 @@ export default function Navbar() {
     return (
         <NavbarUI
         variant="default"
-        type="2"
-        className="p-4 border-b border-gray-200"
+        type="1"
+        className="container mx-auto py-4 px-4 xl:px-0 border-b border-gray-200"
         logo={
             <Image
             src="/assuritii.svg"
@@ -18,6 +18,17 @@ export default function Navbar() {
             priority
             />
         }
+        contactText="Call Now"
+        contactTextClassName="text-lg text-zinc-900 font-semibold hidden md:inline"
+        showContactIcon={false}
+        contactHref="tel:+18001234567"
+        contactLabel="(1800) 123 - 4567"
+        contactButton={{
+            type: "1",
+            variant: "ghost",
+            size: "sm",
+            className: "text-lg text-[#3498DB] font-bold hover:bg-transparent hover:text-[#3498DB]",
+        }}
         />
     )
 }

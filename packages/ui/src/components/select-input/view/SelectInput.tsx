@@ -165,7 +165,7 @@ function SelectInput({
           </div>
         )}
       </div>
-      {error != null && (
+      {error != null && String(error).trim() !== "" && (
         <p
           id={`${selectId}-error`}
           className="text-sm text-destructive"

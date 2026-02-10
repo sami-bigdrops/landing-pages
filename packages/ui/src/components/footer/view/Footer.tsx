@@ -5,7 +5,7 @@ import { footerVariants } from "../controller/footer-variants"
 
 function Footer({
   type = "long",
-  linkHeader,
+  linkHeader: _linkHeader,
   links = [],
   logo,
   description,
@@ -17,6 +17,7 @@ function Footer({
   className,
   ...props
 }: FooterProps) {
+  void _linkHeader
   const style = bgColor != null ? { backgroundColor: bgColor } : undefined
 
   return (
@@ -26,38 +27,31 @@ function Footer({
       style={style}
       {...props}
     >
-      <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-        <div className="flex flex-col gap-2">
-          {logo != null && <div className="shrink-0">{logo}</div>}
-          {description != null && (
-            <p
-              className={cn(
-                "text-sm text-white/90 max-w-md leading-relaxed",
-                descriptionClassName
-              )}
-            >
-              {description}
-            </p>
-          )}
-        </div>
-        {linkHeader != null && links.length > 0 && (
-          <div className="flex flex-col gap-3">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wide">
-              {linkHeader}
-            </h3>
-            <ul className="flex flex-col gap-2">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-white/80 hover:text-white transition-colors"
-                  >
-                    {link.text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="flex flex-col items-center text-center gap-6">
+        {logo != null && <div className="shrink-0">{logo}</div>}
+        {description != null && (
+          <p
+            className={cn(
+              "text-sm text-white/90 max-w-md leading-relaxed",
+              descriptionClassName
+            )}
+          >
+            {description}
+          </p>
+        )}
+        {links.length > 0 && (
+          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1">
+            {links.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  {link.text}
+                </a>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
       <div className="border-t border-white/20 pt-6 md:pt-8 flex flex-col gap-4 text-center">

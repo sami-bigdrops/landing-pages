@@ -56,7 +56,7 @@ function ZipCodeInput({
         }
         {...props}
       />
-      {error != null && (
+      {error != null && String(error).trim() !== "" && (
         <p
           id={`${inputId}-error`}
           className="text-sm text-destructive"
