@@ -28,7 +28,7 @@ export default function Faq() {
           onClick={() => toggleFaq(faq.id)}
           className="w-full p-5 text-left flex items-center justify-between transition-colors hover:bg-gray-50"
         >
-          <h3 className="text-[0.9rem] md:text-base lg:text-lg xl:text-xl font-semibold text-[#111827] font-['Inter'] pr-4">
+          <h3 className="text-[0.9rem] md:text-base lg:text-lg xl:text-xl font-semibold text-[#111827] font-inter pr-4">
             {faq.question}
           </h3>
           <div className="flex-shrink-0">
@@ -71,7 +71,7 @@ export default function Faq() {
               className="overflow-hidden"
             >
               <div className="px-6 pb-6">
-                <p className="text-sm md:text-base lg:text-lg xl:text-xl text-[#374151] font-['Inter'] leading-relaxed">
+                <p className="text-sm md:text-base lg:text-lg xl:text-xl text-[#374151] font-inter leading-relaxed">
                   {faq.answer}
                 </p>
               </div>
@@ -83,10 +83,10 @@ export default function Faq() {
   }
 
   return (
-    <div id="faq" className="faq bg-white w-full h-full p-4 md:p-6 lg:px-14 lg:py-10 xl:px-20 xl:py-16">
+    <div id="faq" className="faq bg-white w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
       <div className="container mx-auto">
         <div className="faq-content w-full flex flex-col items-center justify-center gap-5 md:gap-8 lg:gap-10 xl:gap-16">
-          <h2 className="text-2xl lg:text-3xl xl:text-4xl md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-['Inter']">
+          <h2 className="text-2xl lg:text-3xl xl:text-4xl md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-inter">
             {FAQ_CONTENT.header}
           </h2>
 

@@ -18,7 +18,19 @@ export const config = [
       turbo: turboPlugin,
     },
     rules: {
-      "turbo/no-undeclared-env-vars": "warn",
+      "turbo/no-undeclared-env-vars": [
+        "warn",
+        {
+          allowList: [
+            "NODE_ENV",
+            "DATABASE_URL",
+            "LEADPROSPER_CAMPAIGN_ID",
+            "LEADPROSPER_SUPPLIER_ID",
+            "LEADPROSPER_API_KEY",
+            "LEADPROSPER_API_URL",
+          ],
+        },
+      ],
     },
   },
   {

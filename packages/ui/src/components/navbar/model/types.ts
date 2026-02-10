@@ -32,5 +32,6 @@ export interface NavbarProps
   contactLabel?: string
   contactTextClassName?: string
   contactButton?: NavbarContactButtonProps
+  showContactIcon?: boolean
   className?: string
 }
