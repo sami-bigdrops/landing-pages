@@ -23,7 +23,7 @@ export const config = [
         {
           allowList: [
             "NODE_ENV",
-            "DATABASE_URL",
+            "ASSURITII_DATABASE_URL",
             "LEADPROSPER_CAMPAIGN_ID",
             "LEADPROSPER_SUPPLIER_ID",
             "LEADPROSPER_API_KEY",

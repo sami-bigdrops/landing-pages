@@ -3,7 +3,7 @@
   "ui": "tui",
   "globalEnv": [
     "NODE_ENV",
-    "DATABASE_URL",
+    "ASSURITII_DATABASE_URL",
     "LEADPROSPER_CAMPAIGN_ID",
     "LEADPROSPER_SUPPLIER_ID",
     "LEADPROSPER_API_KEY",
@@ -16,7 +16,7 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "env": [
         "NODE_ENV",
-        "DATABASE_URL",
+        "ASSURITII_DATABASE_URL",
         "LEADPROSPER_CAMPAIGN_ID",
         "LEADPROSPER_SUPPLIER_ID",
         "LEADPROSPER_API_KEY",

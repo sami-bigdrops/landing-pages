@@ -9,7 +9,7 @@ Fetches vehicle years, makes, and models from the Endurance API and stores them 
    pnpm db:push
    ```
 
-2. **Environment**: Ensure `DATABASE_URL` is set in `.env.local`
+2. **Environment**: Ensure `ASSURITII_DATABASE_URL` is set in `.env.local`
 
 ## Usage
 
