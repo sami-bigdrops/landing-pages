@@ -6,7 +6,7 @@ export default function Ribbon() {
             <div className="container mx-auto">
                 <div className="ribbon-content flex items-center justify-center gap-4">
                     <div className="flex items-center  gap-5 lg:gap-6 xl:gap-7">
-                        <p className="text-white font-inter font-bold text-sm lg:text-base xl:text-lg">Save Up to $500 Off Your Auto Coverage Policy</p>
+                        <p className="text-white font-inter font-bold text-sm lg:text-base xl:text-lg">WINTER SAVINGS EVENT: Save Up to $500 Off Your Auto Coverage Policy!</p>
                     </div>
                 </div>
             </div>
