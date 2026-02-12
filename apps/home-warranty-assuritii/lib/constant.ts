@@ -22,8 +22,8 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: "Save Big on Auto Repairs",
-  description: "Protect your car and your wallet from expensive repair bills.",
+  headline: " Home warranty cover, built for real life! ",
+  description: "Get help with unexpected repairs for essential home systems and appliances.",
   
   partners: [
     {
