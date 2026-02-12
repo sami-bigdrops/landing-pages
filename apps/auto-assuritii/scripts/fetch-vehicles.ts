@@ -1,7 +1,7 @@
-import "../lib/load-env"
+import "../lib/load-env.js"
 import axios from "axios"
-import { db } from "../lib/db"
-import { vehicleYears, vehicleMakes, vehicleModels } from "../lib/db/schema"
+import { db } from "../lib/db/index.js"
+import { vehicleYears, vehicleMakes, vehicleModels } from "../lib/db/schema.js"
 
 const API_BASE = "https://leadsubmission.enduranceapi.com/api/v2/vehicle/"
 

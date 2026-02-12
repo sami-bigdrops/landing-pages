@@ -24,7 +24,7 @@ importers:
         specifier: 5.7.3
         version: 5.7.3
 
-  apps/assuritii:
+  apps/auto-assuritii:
     dependencies:
       '@neondatabase/serverless':
         specifier: ^1.0.2

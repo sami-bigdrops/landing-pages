@@ -10,7 +10,7 @@
 
 ### 1. Configure Environment Variables
 
-Create a `.env.local` file in the `apps/assuritii` directory:
+Create a `.env.local` file in the `apps/auto-assuritii` directory:
 
 ```bash
 cp .env.local.example .env.local

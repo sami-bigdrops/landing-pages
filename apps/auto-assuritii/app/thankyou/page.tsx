@@ -2,7 +2,7 @@ import { Suspense } from "react"
 import type { Metadata } from "next"
 import { ThankYouContent } from "@workspace/bdmg-component"
 import type { ThankYouAd } from "@workspace/bdmg-component"
-import { THANKYOU_CONTENT } from "../../lib/constant"
+import { THANKYOU_CONTENT } from "@/lib/constant"
 import Navbar from "@/app/_components/Navbar"
 import Footer from "@/app/_components/Footer"
 
