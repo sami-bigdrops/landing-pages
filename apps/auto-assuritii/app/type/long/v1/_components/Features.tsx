@@ -10,10 +10,10 @@ export default function Features() {
       <div className="container mx-auto">
         <div className="features-content w-full flex flex-col items-center justify-center lg:flex-row  lg:justify-between gap-6 md:gap-10 lg:gap-14 xl:gap-14">
           <div className="left flex flex-col items-center justify-center lg:items-start gap-3 md:gap-4 xl:gap-6 lg:w-[40%] xl:w-[45%] ">
-            <h2 className="text-2xl lg:text-3xl xl:text-4xl xl:max-w-[500px] font-bold text-[#111827] text-center lg:text-left font-inter" style={{ lineHeight: '1.2' }}>
+            <h2 className="text-2xl lg:text-3xl xl:text-4xl xl:max-w-[500px] font-bold text-[#111827] text-center lg:text-left font-sans" style={{ lineHeight: '1.2' }}>
               {FEATURES_CONTENT.header}
             </h2>
-            <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] md:max-w-[600px] lg:max-w-[500px] xl:max-w-[450px] lg:text-left text-[#374151] text-center font-inter" style={{ lineHeight: '1.6' }}>
+            <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] md:max-w-[600px] lg:max-w-[500px] xl:max-w-[450px] lg:text-left text-[#374151] text-center font-sans" style={{ lineHeight: '1.6' }}>
               {FEATURES_CONTENT.description}
             </p>
           </div>
@@ -37,10 +37,10 @@ export default function Features() {
                     </div>
                   </div>
                   <div className="flex flex-col items-start justify-center gap-1.5 ">
-                    <h3 className="text-[1.05rem] md:text-base lg:text-lg xl:text-xl font-medium text-[#111827] text-left font-inter">
+                    <h3 className="text-[1.05rem] md:text-base lg:text-lg xl:text-xl font-medium text-[#111827] text-left font-sans">
                       {feature.title}
                     </h3>
-                    <p className="text-sm xl:text-[1.15rem]  text-[#374151] text-left font-inter">
+                    <p className="text-sm xl:text-[1.15rem]  text-[#374151] text-left font-sans">
                       {feature.description}
                     </p>
                   </div>

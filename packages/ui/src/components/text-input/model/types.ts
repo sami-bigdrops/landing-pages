@@ -7,5 +7,6 @@ export interface TextInputProps
   hint?: string
   containerClassName?: string
   inputClassName?: string
+  labelClassName?: string
   size?: "default" | "sm" | "lg"
 }

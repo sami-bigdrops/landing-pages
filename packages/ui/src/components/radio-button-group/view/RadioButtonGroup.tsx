@@ -11,6 +11,9 @@ import {
   radioIndicatorDotVariants,
 } from "../controller/radio-button-group-variants"
 
+const DEFAULT_SELECTED_BG = "#EEF6FF"
+const DEFAULT_SELECTED_BORDER = "var(--primary)"
+
 function RadioButtonGroup({
   name,
   options,
@@ -23,13 +26,24 @@ function RadioButtonGroup({
   hint,
   containerClassName,
   optionClassName,
+  labelClassName,
   className,
   disabled,
+  selectedOptionBackgroundColor,
+  selectedOptionBorderColor,
   ...props
 }: RadioButtonGroupProps) {
   const id = React.useId()
   const fieldsetId = `${id}-fieldset`
   const groupId = `${id}-group`
+  const selectedStyle =
+    (type === "1" || type === "3") && (selectedOptionBackgroundColor != null || selectedOptionBorderColor != null)
+      ? {
+          backgroundColor: selectedOptionBackgroundColor ?? DEFAULT_SELECTED_BG,
+          borderColor: selectedOptionBorderColor ?? DEFAULT_SELECTED_BORDER,
+        }
+      : undefined
+  const useDefaultSelectedStyle = (type === "1" || type === "3") && selectedStyle === undefined
 
   return (
     <fieldset
@@ -45,7 +59,7 @@ function RadioButtonGroup({
       {...props}
     >
       {label != null && (
-        <legend className="text-sm font-medium text-foreground leading-none">
+        <legend className={cn("text-sm font-medium text-foreground leading-none", labelClassName)}>
           {label}
         </legend>
       )}
@@ -70,9 +84,13 @@ function RadioButtonGroup({
               htmlFor={optId}
               className={cn(
                 radioOptionVariants({ type }),
-                isChecked && type !== "1" && radioOptionCheckedVariants[type],
+                isChecked && type === "2" && radioOptionCheckedVariants[type],
+                isChecked && type === "4" && radioOptionCheckedVariants[type],
+                isChecked && (type === "1" || type === "3") && "text-foreground",
+                useDefaultSelectedStyle && isChecked && "border-primary bg-[#EEF6FF]",
                 optionClassName
               )}
+              style={isChecked && (type === "1" || type === "3") ? selectedStyle : undefined}
             >
               <span
                 className={cn(
@@ -109,7 +127,7 @@ function RadioButtonGroup({
               </span>
               <span
                 className={cn(
-                  "text-sm",
+                  "text-base font-medium",
                   (type === "1" || !isChecked) && "text-foreground",
                   type !== "1" && isChecked && "text-inherit"
                 )}

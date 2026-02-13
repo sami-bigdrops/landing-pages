@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useUtmParams } from "@workspace/lp-core"
 import { HERO_CONTENT } from "@/lib/constant"
 import Form from "@/app/type/long/v1/_components/Form"

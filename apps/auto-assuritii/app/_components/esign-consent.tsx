@@ -6,14 +6,14 @@ export default function eSignConsent() {
       <div className="container mx-auto">
         <div className="pas-esign-consent-content w-full flex flex-col gap-6 md:gap-8 lg:gap-10 xl:gap-12">
           <div className="content-title">
-            <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-[#111827] text-center font-inter">Auto Assuritii E-SIGN Consent</h1>
+            <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-[#111827] text-center font-sans">Auto Assuritii E-SIGN Consent</h1>
           </div>
           <div className="content-body flex flex-col gap-4 md:gap-5 lg:gap-6 xl:gap-7 max-w-4xl mx-auto">
-            <h3 className="text-lg lg:text-xl xl:text-2xl font-bold text-[#111827] font-inter bg-yellow-50 border-l-4 border-yellow-400 p-4 md:p-5 rounded">PLEASE PRINT AND RETAIN A COPY OF THIS CONSENT AGREEMENT FOR YOUR RECORDS.</h3>
+            <h3 className="text-lg lg:text-xl xl:text-2xl font-bold text-[#111827] font-sans bg-yellow-50 border-l-4 border-yellow-400 p-4 md:p-5 rounded">PLEASE PRINT AND RETAIN A COPY OF THIS CONSENT AGREEMENT FOR YOUR RECORDS.</h3>
 
-            <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-inter" style={{ lineHeight: '1.6' }}>You are submitting a request to be matched with one of our third party lenders. To offer and process your loan, these third party lenders are required by law to provide you with certain communications, notices, disclosures, information and other materials (&quot;Communications&quot;). These third party lenders must obtain your consent in order to provide you with these Communications electronically.</p>
+            <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-sans" style={{ lineHeight: '1.6' }}>You are submitting a request to be matched with one of our third party lenders. To offer and process your loan, these third party lenders are required by law to provide you with certain communications, notices, disclosures, information and other materials (&quot;Communications&quot;). These third party lenders must obtain your consent in order to provide you with these Communications electronically.</p>
 
-            <ol className="list-decimal list-inside space-y-3 md:space-y-4 text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-inter ml-4 md:ml-6" style={{ lineHeight: '1.6' }}>
+            <ol className="list-decimal list-inside space-y-3 md:space-y-4 text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-sans ml-4 md:ml-6" style={{ lineHeight: '1.6' }}>
               <li className="mb-3 md:mb-4">CONSUMER CONSENT. By submitting your request to be matched with lenders, you affirmatively consent and agree to receive all Communications required under law electronically. These Communications may be delivered to you via email or online at the website of the third party lender. You further affirmatively consent that your electronic signature on agreements and documents has the same effect as if you signed them in ink.</li>
               <li className="mb-3 md:mb-4">SCOPE OF CONSENT. You consents provided in Section 1 to receive Communications and to do business electronically applies to your request to WhiteCollar to be matched with third party lenders and to those third party lenders. Your consents also apply to all online interactions between you and the third party lenders, including those conducted via mobile devices.</li>
               <li className="mb-3 md:mb-4">WHAT YOU NEED - HARDWARE AND SOFTWARE REQUIREMENTS. In order to access and retain the Communications electronically, you will need the following:
