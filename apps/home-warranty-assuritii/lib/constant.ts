@@ -100,65 +100,62 @@ export const FORM_CONTENT = {
 } as const
 
 
-export const STEPS_CONTENT = {
-  header: "Start Smart. Stay Protected.",
+export const WORK_CONTENT = {
+  header: "How It Works",
   steps: [
     {
       number: 1,
-      title: "Check if your car qualifies",
-      description: "One quick form. Instant eligibility check.",
+      title: "Tell us what broke",
+      description: "Open a request in minutes and share the issue and your address.",
       image: {
-        src: "/step-1.svg",
+        src: "/step-1.webp",
         alt: "Check if your car qualifies",
       },
     },
     {
       number: 2,
-      title: "See real plan prices",
-      description: "Clear coverage. Clear monthly cost. No guessing.",
+      title: "We book the right help",
+      description: "A local, qualified technician is assigned and your visit is scheduled.",
       image: {
-        src: "/step-2.svg",
+        src: "/step-2.webp",
         alt: "See real plan prices",
       },
     },
     {
       number: 3,
-      title: "Lock in protection",
-      description: "Drive knowing repairs won't wreck your budget.",
+      title: "You get it fixed",
+      description: "If it’s covered, the repair or replacement is handled under your plan.",
       image: {
-        src: "/step-3.svg",
+        src: "/step-3.webp",
         alt: "Lock in protection",
       },
     },
   ],
 } as const
 
-
-export const FEATURES_CONTENT = {
-  header: "Car Repairs Shouldn't Drain Your Savings",
-  description: "Modern Vehicles Are Expensive To Fix Once Factory Warranties End. A Single Breakdown Can Create A Bill You Didn't Plan For.",
+export const ABOUT_CONTENT = {
+  header: "So, what does a home warranty actually do?",
+  description: "A home warranty helps when everyday home systems or appliances stop working from normal wear and tear.",
   features: [
     {
-      title: "Cars today cost more to repair",
-      description: "Advanced electronics and sensors raise service bills.",
+      title: "Helps cover home systems and appliances",
+     
       image: {
-        src: "/feature-1.svg",
+        src: "/about-1.svg",
         alt: "Cars today cost more to repair",
       },
     },
     {
-      title: "Unexpected repair costs",
-      description: "Major mechanical fixes can run into thousands without warning.",
+      title: "Works alongside homeowners insurance",
       image: {
-        src: "/feature-2.svg",
+        src: "/about-2.svg",
         alt: "Unexpected repair costs",
       },
     },
     {
-      title: "Breakdowns disrupt daily life",
-      description: "Missed work, family plans, and added stress.",
+      title: "Simple member support when things break",
       image: {
-        src: "/feature-3.svg",
+        src: "/about-3.svg",
         alt: "Breakdowns disrupt daily life",
       },
     },
@@ -166,69 +163,168 @@ export const FEATURES_CONTENT = {
 } as const
 
 
-export const IMAGE_COMPARE_CONTENT = {
-  header: "Real Protection For Real Car Problems",
-  description: "Coverage built for today's cars and real driving needs",
-  imageOne: {
-    src: "/unprotected.webp",
-    alt: "Unprotected",
+export const FEATURES_CONTENT = {
+  header: "What's Not Covered in Home Warranty",
+  features: [
+    {
+      title: "Pre-existing conditions",
+      image: {
+        src: "/cross.svg",
+        alt: "Cars today cost more to repair",
+      },
+    },
+    {
+      title: "Cosmetic damage",
+      image: {
+        src: "/cross.svg",
+        alt: "Unexpected repair costs",
+      },
+    },
+    {
+      title: "Improper maintenance",
+      image: {
+        src: "/cross.svg",
+        alt: "Breakdowns disrupt daily life",
+      },
+    },
+    {
+      title: "Items not listed in plan",
+      image: {
+        src: "/cross.svg",
+        alt: "Items not listed in plan",
+      },
+    },
+  ],
+} as const
+
+export const COVER_CONTENT = {
+  header: "What's Covered",
+  homeSystems: {
+    header: "HOME SYSTEMS",
+    items: [
+      {
+        title: "Heating And Air Conditioning Systems",
+        image: {
+          src: "/home-1.svg",
+          alt: "Heating And Air Conditioning Systems",
+        },
+      },
+      {
+        title: "Plumbing Systems And Accessories",
+        image: {
+          src: "/home-2.svg",
+          alt: "Plumbing Systems And Accessories",
+        },
+      },
+      {
+        title: "Electrical Systems And Accessories",
+        image: {
+          src: "/home-3.svg",
+          alt: "Electrical Systems And Accessories",
+        },
+      },
+      {
+        title: "Maintenance Services",
+        image: {
+          src: "/home-4.svg",
+          alt: "Maintenance Services",
+        },
+      },
+    ],
   },
-  imageTwo: {
-    src: "/protected.webp",
-    alt: "Protected",
+  appliances: {
+    header: "APPLIANCES",
+    items: [
+      {
+        title: "Refrigerator",
+        image: {
+          src: "/appliances-1.svg",
+          alt: "Refrigerator",
+        },
+      },
+      {
+        title: "Oven",
+        image: {
+          src: "/appliances-2.svg",
+          alt: "Oven",
+        },
+      },
+      {
+        title: "Washer / Dryer",
+        image: {
+          src: "/appliances-3.svg",
+          alt: "Washer / Dryer",
+        },
+      },
+      {
+        title: "Water Heater",
+        image: {
+          src: "/appliances-4.svg",
+          alt: "Water Heater",
+        },
+      },
+    ],
+    additionalText: "And More...",
+  },
+  callToAction: {
+    buttonText: "Get Your FREE Quote",
+    contactText: "Or give us a call",
+    phoneNumber: "1-800-388-1918",
+    phoneHref: "tel:+18003881918",
   },
 } as const
 
-export const REPAIR_COSTS_CONTENT = {
-  header: "AVERAGE REPAIR COSTS",
-  withoutLabel: "WITHOUT ASSURITII",
-  withLabel: "WITH ASSURITII",
-  totalLabel: "TOTAL FOR ALL",
-  items: [
-    { label: "ENGINE", cost: "$4,800" },
-    { label: "TRANSMISSION", cost: "$3,200" },
-    { label: "SUSPENSION", cost: "$1,750" },
-  ],
-  withTotalCost: "$0",
-} as const
+
+
+
 
 export const REVIEW_CONTENT = {
-  header: "Drivers Who Chose Peace Of Mind, Drivers Who Chose Assuritii!",
+  header: "See What Our Customers Have To Say",
+  rating: {
+    
+    image: {
+      src: "/review.svg",
+      alt: "Google Review Rating",
+    },
+    reviewText:"Based on 1,500+ reviews",
+  },
+
+
   reviews: [
     {
      id: 1,
-      quote: "When my transmission failed, Assuritii saved me over $2,000. The process was simple & there were no surprise charges.",
+      quote: "Our AC stopped working unexpectedly, and I was worried about the cost. Submitting a request was easy, and a technician was scheduled quickly. It really helped us avoid a big repair bill.",
       customer: {
-        name: "Linda Matthews",
-        status: "Verified Customer",
+        name: "Sarah Matthews",
+        status: "Dallas, TX",
         image: {
           src: "/profile-1.svg",
-          alt: "Linda Matthews",
+          alt: "Sarah Matthews",
         },
       },
     },
     {
       id: 2,
-      quote: "I liked that everything was explained clearly before I signed up. No confusing terms and no pressure calls at all.",
+      quote: "As a new homeowner, I wasn’t sure what to expect when our refrigerator broke down. Everything was explained clearly, and the repair process was simple from start to finish",
       customer: {
-        name: "David Lawson",
-        status: "Verified Customer",
+        name: "David Martinez",
+        status: "Orlando, FL",
         image: {
           src: "/profile-2.svg",
-          alt: "David Lawson",
+          alt: "David Martinez",
         },
       },
     },
     {
      
       id: 3,
-      quote: "Paying monthly is much easier than facing a huge repair bill at once. It gave me real peace of mind while driving.",
+      quote: "Having coverage made a stressful situation much easier. Our water heater needed repairs, and the whole experience was smooth and straightforward.",
       customer: {
-        name: "Susan Roberts",
-        status: "Verified Customer",
+        name: "Monica Patel",
+        status: "Phoenix, AZ",
         image: {
           src: "/profile-3.svg",
-          alt: "Susan Roberts",
+          alt: "Monica Patel",
         },
       },
     },
