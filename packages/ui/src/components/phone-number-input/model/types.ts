@@ -9,4 +9,5 @@ export interface PhoneNumberInputProps
   onChange?: (digits: string) => void
   containerClassName?: string
   inputClassName?: string
+  labelClassName?: string
 }

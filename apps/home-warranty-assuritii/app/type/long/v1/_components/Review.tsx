@@ -9,7 +9,7 @@ export default function Review() {
     <div className="review bg-white w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
       <div className="container mx-auto">
         <div className="review-content w-full flex flex-col items-center justify-center gap-5 md:gap-8 lg:gap-10 xl:gap-16">
-          <h2 className="text-2xl lg:text-3xl xl:text-4xl md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-inter">
+          <h2 className="text-2xl lg:text-3xl xl:text-4xl md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-sans">
             {REVIEW_CONTENT.header}
           </h2>
           
@@ -39,7 +39,7 @@ export default function Review() {
                     ))}
                   </div>
 
-                  <p className="text-sm lg:text-base xl:text-lg xl:max-w-[330px] text-[#374151] font-inter" style={{ lineHeight: 1.5 }}>
+                  <p className="text-sm lg:text-base xl:text-lg xl:max-w-[330px] text-[#374151] font-sans" style={{ lineHeight: 1.5 }}>
                     &quot;{review.quote}&quot;
                   </p>
 
@@ -54,10 +54,10 @@ export default function Review() {
                       />
                     </div>
                     <div>
-                      <p className="font-semibold text-sm lg:text-base xl:text-lg text-[#1C2833] font-inter">
+                      <p className="font-semibold text-sm lg:text-base xl:text-lg text-[#1C2833] font-sans">
                         {review.customer.name}
                       </p>
-                      <p className="text-xs lg:text-sm text-[#374151] font-inter">
+                      <p className="text-xs lg:text-sm text-[#374151] font-sans">
                         {review.customer.status}
                       </p>
                     </div>

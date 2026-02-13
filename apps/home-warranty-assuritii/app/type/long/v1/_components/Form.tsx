@@ -6,7 +6,6 @@ import { PhoneNumberInput as PhoneNumberInputUI } from "@workspace/ui/components
 import { ZipCodeInput as ZipCodeInputUI } from "@workspace/ui/components/zip-code-input"
 import { Button as ButtonUI } from "@workspace/ui/components/button"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
-import Link from "next/link"
 import Image from "next/image"
 import { HERO_CONTENT } from "@/lib/constant"
 

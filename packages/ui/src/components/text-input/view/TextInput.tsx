@@ -10,6 +10,7 @@ function TextInput({
   hint,
   containerClassName,
   inputClassName,
+  labelClassName,
   size = "default",
   id: idProp,
   className,
@@ -23,7 +24,7 @@ function TextInput({
       {label != null && (
         <label
           htmlFor={inputId}
-          className="text-sm font-medium text-foreground leading-none"
+          className={cn("text-sm font-medium text-foreground leading-none", labelClassName)}
         >
           {label}
         </label>

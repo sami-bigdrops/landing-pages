@@ -263,17 +263,17 @@ export default function Form() {
     <div className="w-full max-w-4xl overflow-hidden rounded-[10px] border border-[#1F3A5F] shadow-[4px_4px_20px_0_rgba(17,24,39,0.20)]">
       <form
         onSubmit={handleSubmit}
-        className="form w-full flex flex-col items-center justify-center gap-4 font-inter"
+        className="form w-full flex flex-col items-center justify-center gap-4 font-sans"
       >
         <TrustedForm />
-        <h2 className="text-base md:text-lg xl:text-xl w-full font-medium text-white bg-[#1F3A5F] text-center font-inter py-3 px-4 md:py-4 md:px-5">
+        <h2 className="text-base md:text-lg xl:text-xl w-full font-medium text-white bg-[#1F3A5F] text-center font-sans py-3 px-4 md:py-4 md:px-5">
           {FORM_CONTENT.header}
         </h2>
 
         <div className="w-full flex flex-col gap-3.5 px-4">
           <div className="inline-flex items-center gap-1.5 bg-[#E8F0FA] rounded-[16px] px-2.5 py-1 w-fit">
             <CarTaxiFront className="w-4 h-4 text-[#0F2440]" />
-            <span className="text-[0.75rem] font-semibold text-[#0F2440] uppercase tracking-wide font-inter">
+            <span className="text-[0.75rem] font-semibold text-[#0F2440] uppercase tracking-wide font-sans">
               {FORM_CONTENT.tabs.vehicleDetails}
             </span>
           </div>
@@ -336,7 +336,7 @@ export default function Form() {
 
           <div className="inline-flex items-center gap-1.5 bg-[#E8F0FA] rounded-[16px] px-2.5 py-1 w-fit">
             <UserRoundPen className="w-4 h-4 text-[#0F2440]" />
-            <span className="text-[0.75rem] font-semibold text-[#0F2440] uppercase tracking-wide font-inter">
+            <span className="text-[0.75rem] font-semibold text-[#0F2440] uppercase tracking-wide font-sans">
               {FORM_CONTENT.tabs.personalDetails}
             </span>
           </div>
@@ -407,7 +407,7 @@ export default function Form() {
 
         <div className="w-full flex flex-col items-center justify-center gap-3 px-4 pb-4">
           {submitStatus === "error" && submitError && (
-            <p className="w-full text-sm text-red-600 text-center font-inter" role="alert">
+            <p className="w-full text-sm text-red-600 text-center font-sans" role="alert">
               {submitError}
             </p>
           )}
@@ -417,13 +417,13 @@ export default function Form() {
               variant="default"
               htmlType="submit"
               disabled={submitStatus === "loading"}
-              className="w-full h-12 bg-[#3498DB] text-white py-3.5 text-sm font-semibold font-inter rounded-[8px]"
+              className="w-full h-12 bg-[#3498DB] text-white py-3.5 text-sm font-semibold font-sans rounded-[8px]"
             >
               {submitStatus === "loading" ? "Submitting..." : FORM_CONTENT.button}
             </ButtonUI>
           </div>
 
-          <p className="w-full text-[0.62rem] xl:text-[0.7rem] text-[#374151] text-center leading-relaxed font-inter">
+          <p className="w-full text-[0.62rem] xl:text-[0.7rem] text-[#374151] text-center leading-relaxed font-sans">
             {FORM_CONTENT.disclaimer}
           </p>
         </div>
