@@ -9,5 +9,6 @@ export interface ZipCodeInputProps
   onChange?: (value: string) => void
   containerClassName?: string
   inputClassName?: string
+  labelClassName?: string
   maxLength?: 5
 }
