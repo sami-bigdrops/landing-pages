@@ -3,6 +3,14 @@
 import React, { useRef, useEffect } from "react"
 import { cn } from "@workspace/ui/lib/utils"
 
+interface GooglePlacesAutocompleteInstance {
+  getPlace: () => {
+    address_components?: Array<{ long_name: string; short_name: string; types: string[] }>
+    formatted_address?: string
+  }
+  addListener: (event: string, fn: () => void) => void
+}
+
 declare global {
   interface Window {
     google?: {
@@ -11,13 +19,7 @@ declare global {
           Autocomplete: new (
             input: HTMLInputElement,
             opts?: { types?: string[]; componentRestrictions?: { country: string | string[] } }
-          ) => {
-            getPlace: () => {
-              address_components?: Array<{ long_name: string; short_name: string; types: string[] }>
-              formatted_address?: string
-            }
-            addListener: (event: string, fn: () => void) => void
-          }
+          ) => GooglePlacesAutocompleteInstance
         }
       }
     }
@@ -58,7 +60,7 @@ export function AddressAutocomplete({
   googleReady,
 }: AddressAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const autocompleteRef = useRef<ReturnType<Window["google"]["maps"]["places"]["Autocomplete"]> | null>(null)
+  const autocompleteRef = useRef<GooglePlacesAutocompleteInstance | null>(null)
 
   useEffect(() => {
     if (!googleReady || typeof window === "undefined" || !window.google?.maps?.places || !inputRef.current)
