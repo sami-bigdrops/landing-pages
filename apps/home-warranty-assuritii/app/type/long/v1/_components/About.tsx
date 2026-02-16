@@ -6,7 +6,7 @@ import { ABOUT_CONTENT } from '@/lib/constant'
 
 export default function About() {
   return (
-    <div className="about w-full h-full  px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-18 xl:py-14   ">
+    <div className="about w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-18 xl:py-14">
       <div className="container mx-auto ">
         <div className="features-content w-full flex flex-col items-center justify-center md:flex-row  md:justify-between lg:justify-between xl:justify-between gap-6 md:gap-10 lg:gap-13 xl:gap-16 2xl:gap-25">
           <div className="left flex flex-col items-center justify-center   md:items-start gap-3 md:gap-4 xl:gap-6 lg:w-[50%] xl:w-[58%] ">

@@ -20,7 +20,7 @@ export default function Hero() {
            
           }}
         >
-          <div className="relative z-10 space-y-4 max-w-2xl container mx-auto">
+          <div className="relative z-10 space-y-4 max-w-2xl w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-18 xl:py-14 flex flex-col items-center justify-end">
             <h1 className="text-3xl lg:text-4xl xl:text-5xl xl:max-w-[600px] font-bold text-white drop-shadow-lg" style={{ lineHeight: "1.2" }}>
               {HERO_CONTENT.headline}
             </h1>
