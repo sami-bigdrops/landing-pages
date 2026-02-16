@@ -6,19 +6,36 @@ import { REVIEW_CONTENT } from '@/lib/constant'
 
 export default function Review() {
   return (
-    <div className="review bg-white w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
+    <div className="review bg-white w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-18 xl:py-16 2xl:px-10">
       <div className="container mx-auto">
-        <div className="review-content w-full flex flex-col items-center justify-center gap-5 md:gap-8 lg:gap-10 xl:gap-16">
-          <h2 className="text-2xl lg:text-3xl xl:text-4xl md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-sans">
+        <div className="review-content w-full flex flex-col items-center justify-center gap-5  lg:gap-7">
+          <h2 className="text-2xl lg:text-3xl xl:text-[2.6rem] md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-inter">
             {REVIEW_CONTENT.header}
           </h2>
-          
+
+          <div className="w-full flex  items-center justify-center gap-3 md:gap-4 mb-2 md:mb-3 lg:mb-4 xl:mb-7">
+            <div className="relative w-full max-w-[70px] md:max-w-[75px] lg:max-w-[90px] h-auto">
+              <Image
+                src={REVIEW_CONTENT.rating.image.src}
+                alt={REVIEW_CONTENT.rating.image.alt}
+                width={70}
+                height={70}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
+            <p className="text-sm lg:text-base xl:text-lg text-[#374151] font-medium font-inter">
+              {REVIEW_CONTENT.rating.reviewText}
+            </p>
+          </div>
+
           <div className="w-full">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 lg:gap-6 xl:gap-10">
               {REVIEW_CONTENT.reviews.map((review) => (
                 <div
                   key={review.id}
-                  className="w-full md:w-auto min-w-0 bg-white rounded-[20px] border border-[#D1D5DB] shadow-[2px_2px_15px_0_rgba(31,58,95,0.10)] flex flex-col items-start justify-start gap-4 p-6 xl:gap-5 xl:p-7"
+                  className="w-full md:w-auto min-w-0 bg-white rounded-[20px] border border-[#D1D5DB] shadow-[2px_2px_15px_0_rgba(31,58,95,0.10)] flex flex-col items-start justify-start gap-4 p-6 xl:gap-5 xl:p-7 md:h-full"
+                  style={{}}
                 >
                   <div className="flex items-center justify-start gap-0.5">
                     {[...Array(5)].map((_, index) => (
@@ -39,11 +56,11 @@ export default function Review() {
                     ))}
                   </div>
 
-                  <p className="text-sm lg:text-base xl:text-lg xl:max-w-[330px] text-[#374151] font-sans" style={{ lineHeight: 1.5 }}>
+                  <p className="text-sm  lg:text-base xl:text-lg md:max-w-[200px] xl:max-w-[330px] text-[#374151] font-inter" style={{ lineHeight: 1.5 }}>
                     &quot;{review.quote}&quot;
                   </p>
 
-                  <div className="w-full flex items-center justify-start gap-3">
+                  <div className="w-full flex items-center justify-start gap-3 md:mt-auto">
                     <div className="w-10 h-10 xl:w-12 xl:h-12 overflow-hidden flex items-center justify-center flex-shrink-0 relative">
                       <Image
                         src={review.customer.image.src}
@@ -54,10 +71,10 @@ export default function Review() {
                       />
                     </div>
                     <div>
-                      <p className="font-semibold text-sm lg:text-base xl:text-lg text-[#1C2833] font-sans">
+                      <p className="font-semibold text-sm lg:text-base xl:text-lg text-[#1C2833] font-inter">
                         {review.customer.name}
                       </p>
-                      <p className="text-xs lg:text-sm text-[#374151] font-sans">
+                      <p className="text-xs lg:text-sm text-[#374151] font-inter">
                         {review.customer.status}
                       </p>
                     </div>
