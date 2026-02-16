@@ -13,6 +13,7 @@ import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 import { AddressAutocomplete } from "./AddressAutocomplete"
+import PartnerModal from "./Partners-model"
 
 
 
@@ -62,8 +63,13 @@ function FormPage() {
   const [trustedFormCertUrl, setTrustedFormCertUrl] = useState("")
   const [cityName, setCityName] = useState("")
   const [homeownerCount] = useState(() => Math.floor(Math.random() * 3) + 3)
+  const [minutesText] = useState(() => {
+    const options = [5, 10, 15, 20]
+    return options[Math.floor(Math.random() * options.length)]
+  })
   const [formData, setFormData] = useState(defaultFormData)
   const [googlePlacesReady, setGooglePlacesReady] = useState(false)
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false)
 
   const googlePlacesApiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
 
@@ -298,8 +304,7 @@ function FormPage() {
         {cityName && homeownerCount > 0 && (
           <div className="mb-5 text-center">
             <p className="text-sm md:text-base text-gray-700 font-semibold max-w-2xl mx-auto leading-snug">
-              {homeownerCount} people from <span className="text-sky-600 font-bold">{cityName}</span> got their FREE quote in the last 5 minutes from{" "}
-              <span className="text-sky-600 font-bold">Platinum Window Experts</span>
+              {homeownerCount} Customers from <span className="text-sky-600 font-bold">{cityName}</span> got their FREE quote in the last {minutesText} minutes!
             </p>
           </div>
         )}
@@ -549,9 +554,16 @@ function FormPage() {
                     Privacy Policy
                   </a>
                   . I authorize Platinum Window Experts and its{" "}
-                  <a href="/marketing-partners" className="text-sky-600 hover:text-sky-700 underline" target="_blank" rel="noopener noreferrer">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setIsPartnerModalOpen(true)
+                    }}
+                    className="text-sky-600 hover:text-sky-700 underline cursor-pointer"
+                  >
                     partners
-                  </a>{" "}
+                  </button>{" "}
                   to send me marketing text messages or phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. Opt-out anytime by replying STOP or using the unsubscribe link.
                 </p>
               </div>
@@ -562,6 +574,7 @@ function FormPage() {
           <Image src="/warranty.webp" alt="Warranty" width={800} height={400} className="w-60 h-auto rounded-lg" />
         </div>
       </div>
+      <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
     </div>
   )
 }
