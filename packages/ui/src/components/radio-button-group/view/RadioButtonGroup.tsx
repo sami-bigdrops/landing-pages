@@ -82,6 +82,9 @@ function RadioButtonGroup({
             <label
               key={opt.value}
               htmlFor={optId}
+              onClick={() => {
+                if (value === opt.value) onChange?.(opt.value)
+              }}
               className={cn(
                 radioOptionVariants({ type }),
                 isChecked && type === "2" && radioOptionCheckedVariants[type],
