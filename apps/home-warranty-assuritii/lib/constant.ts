@@ -338,22 +338,22 @@ export const FAQ_CONTENT = {
     {
       id: 1,
       question: "Q1. What does a home warranty help cover?",
-      answer: "No. This is vehicle protection, not car insurance. It helps cover unexpected mechanical repair costs after your manufacturer warranty ends, while insurance handles accidents and liability.",
+      answer: "It helps with covered repairs for home systems and appliances that fail from normal wear and tear.",
     },
     {
       id: 2,
       question: "Q2. What do I pay when I request service?",
-      answer: "Many vehicles qualify regardless of age or mileage. Our eligibility check will determine if your specific vehicle meets the requirements for coverage.",
+      answer: "You pay the service fee when you request help; covered repair or replacement costs are handled by your plan.",
     },
     {
       id: 3,
       question: "Q3. Is this the same as homeowners insurance?",
-      answer: "When your covered vehicle experiences a mechanical breakdown, simply contact our claims department. We'll help you get your vehicle repaired at a qualified service center, and your plan will cover the eligible repair costs according to your coverage terms.",
+      answer: "No. Homeowners insurance covers sudden events like fire or storms; a home warranty covers breakdowns of covered items.",
     },
     {
       id: 4,
       question: "Q4. Can I cancel or change my plan later?",
-      answer: "Yes, you have flexibility with your plan. You can modify or cancel your coverage according to the terms outlined in your agreement. Contact our customer service team to discuss your options.",
+      answer: "Yes. You can cancel or switch plans based on terms; your options are shown clearly before you enrol.",
     },
   ],
 } as const
