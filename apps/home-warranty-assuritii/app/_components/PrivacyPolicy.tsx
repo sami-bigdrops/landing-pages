@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
           <div className="content-body flex flex-col gap-4 md:gap-5 lg:gap-6 xl:gap-7 max-w-4xl mx-auto">
             <h3 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#111827] font-sans mt-4 md:mt-6">Overview</h3>
             <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-sans" style={{ lineHeight: '1.6' }}>
-              Auto Assuritii (the &quot;Website,&quot; &quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) takes your privacy seriously. Please read the following to learn more about our privacy policy. By visiting this website, you are accepting the practices described in this Privacy Notice.
+              Assuritii  (the &quot;Website,&quot; &quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) takes your privacy seriously. Please read the following to learn more about our privacy policy. By visiting this website, you are accepting the practices described in this Privacy Notice.
             </p>
 
             <h3 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#111827] font-sans mt-4 md:mt-6">What This Privacy Policy Covers</h3>
@@ -103,7 +103,7 @@ export default function PrivacyPolicy() {
 
             <h3 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#111827] font-sans mt-4 md:mt-6">Email Policy</h3>
             <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-sans" style={{ lineHeight: '1.6' }}>
-              To opt-out from receiving any additional email communications regarding this website, click here. You can also write to us at: 12540 SW Leveton Dr, #K9224, Tualatin, OR, 97062, <a href="mailto:contact@assuritii.com" className="text-blue-600 hover:text-blue-800 underline">contact@assuritii.com</a>
+              To opt-out from receiving any additional email communications regarding this website, <a href="https://www.hatsaltfolder.com/o-bflc-r56-290368870c13d42c2e9632555e2ca5ec" className="text-blue-600 hover:text-blue-800 underline">click here</a>. You can also write to us at: 12540 SW Leveton Dr, #P2150 Tualatin, OR, 97062 <a href="mailto:contact@assuritii.com" className="text-blue-600 hover:text-blue-800 underline">contact@assuritii.com </a>
             </p>
 
             <h3 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#111827] font-sans mt-4 md:mt-6">Wireless Policy</h3>
@@ -129,10 +129,13 @@ export default function PrivacyPolicy() {
               You can write to us at:
             </p>
             <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-sans">
-            12540 SW Leveton Dr, #P2150 Tualatin, OR, 97062
+            12540 SW Leveton Dr, 
             </p>
             <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-sans">
-              <a href="mailto:contact@assuritii.com" className="text-blue-600 hover:text-blue-800 underline">contact@assuritii.com</a>
+            #P2150 Tualatin, OR, 97062
+            </p>
+            <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-sans">
+              <a href="mailto:contact@assuritii.com " className="text-blue-600 hover:text-blue-800 underline">contact@assuritii.com </a>
             </p>
           </div>
         </div>
