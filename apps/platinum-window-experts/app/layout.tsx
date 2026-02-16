@@ -33,11 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
-          type="text/javascript"
-          src="https://script.crazyegg.com/pages/scripts/0132/1582.js"
-          async
-        />
+      <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0132/1582.js" async={true}></script>
       </head>
       <body
         className={`${fontSans.variable} font-sans antialiased overflow-x-hidden overflow-y-auto`}
