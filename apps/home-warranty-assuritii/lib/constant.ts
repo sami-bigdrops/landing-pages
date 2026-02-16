@@ -133,6 +133,39 @@ export const WORK_CONTENT = {
   ],
 } as const
 
+export const STEPS_CONTENT = {
+  header: "How It Works",
+  steps: [
+    {
+      number: 1,
+      title: "Tell us what broke",
+      description: "Open a request in minutes and share the issue and your address.",
+      image: {
+        src: "/step-1.webp",
+        alt: "Step 1",
+      },
+    },
+    {
+      number: 2,
+      title: "We book the right help",
+      description: "A local, qualified technician is assigned and your visit is scheduled.",
+      image: {
+        src: "/step-2.webp",
+        alt: "Step 2",
+      },
+    },
+    {
+      number: 3,
+      title: "You get it fixed",
+      description: "If it's covered, the repair or replacement is handled under your plan.",
+      image: {
+        src: "/step-3.webp",
+        alt: "Step 3",
+      },
+    },
+  ],
+} as const
+
 export const ABOUT_CONTENT = {
   header: "So, what does a home warranty actually do?",
   description: "A home warranty helps when everyday home systems or appliances stop working from normal wear and tear.",
