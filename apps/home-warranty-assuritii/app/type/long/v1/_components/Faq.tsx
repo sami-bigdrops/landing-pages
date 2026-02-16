@@ -86,7 +86,7 @@ export default function Faq() {
     <div id="faq" className="faq bg-white w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-18 xl:py-16 2xl:px-10">
       <div className="container mx-auto">
         <div className="faq-content w-full flex flex-col items-center justify-center gap-5 md:gap-8 lg:gap-10 xl:gap-16">
-          <h2 className="text-2xl lg:text-3xl xl:text-4xl md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-sans">
+          <h2 className="text-2xl lg:text-3xl xl:text-[2.6rem] md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-inter">
             {FAQ_CONTENT.header}
           </h2>
 

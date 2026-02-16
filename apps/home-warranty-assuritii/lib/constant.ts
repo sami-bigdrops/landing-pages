@@ -337,29 +337,29 @@ export const FAQ_CONTENT = {
   faqs: [
     {
       id: 1,
-      question: "Q1. Is this car insurance or something different?",
+      question: "Q1. What does a home warranty help cover?",
       answer: "No. This is vehicle protection, not car insurance. It helps cover unexpected mechanical repair costs after your manufacturer warranty ends, while insurance handles accidents and liability.",
     },
     {
       id: 2,
-      question: "Q2. Will my car qualify if it's older or high-mileage?",
+      question: "Q2. What do I pay when I request service?",
       answer: "Many vehicles qualify regardless of age or mileage. Our eligibility check will determine if your specific vehicle meets the requirements for coverage.",
     },
     {
       id: 3,
-      question: "Q3. What happens if my car breaks down?",
+      question: "Q3. Is this the same as homeowners insurance?",
       answer: "When your covered vehicle experiences a mechanical breakdown, simply contact our claims department. We'll help you get your vehicle repaired at a qualified service center, and your plan will cover the eligible repair costs according to your coverage terms.",
     },
     {
       id: 4,
-      question: "Q4. Can I leave or change my plan later?",
+      question: "Q4. Can I cancel or change my plan later?",
       answer: "Yes, you have flexibility with your plan. You can modify or cancel your coverage according to the terms outlined in your agreement. Contact our customer service team to discuss your options.",
     },
   ],
 } as const
 
 export const FOOTER_CONTENT = {
-  description: "Affordable vehicle protection for unexpected repairs.",
+  description: "Affordable coverage for unexpected home repairs.",
   linkHeader: "Company",
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
@@ -367,8 +367,9 @@ export const FOOTER_CONTENT = {
   ],
   copyrightText: "Copyright © 2026 Assuritii. All Rights Reserved.",
   disclaimer:
-    'A Vehicle Service Contract (VSC) is often referred to as an "auto warranty" or an "extended car warranty," but it is not a warranty. A VSC does, however, provide repair coverage for your vehicle after the manufacturer\'s car warranty expires. A VSC is a contract between you and a VSC provider or administrator that states what is a covered repair and what is not.',
+    'Assuritii reserves the right to offer cash back in lieu of repair or replacement in the amount of Assuritii actual cost (which at times may be less than retail) to repair or replace any covered system, component or appliance. In the event that Assuritii makes such payment, Assuritii will provide written notification of the basis for the amount of the payment. First Month Free with purchase of any single payment home warranty plan. The product being offered is a service contract and is separate and distinct from any product or service warranty which may be provided by the home builder or manufacturer. View our Privacy Policy.',
 } as const
+
 
 export const THANKYOU_CONTENT = {
   title: "Thank you!",
