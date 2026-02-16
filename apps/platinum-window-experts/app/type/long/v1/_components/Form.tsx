@@ -63,6 +63,10 @@ function FormPage() {
   const [trustedFormCertUrl, setTrustedFormCertUrl] = useState("")
   const [cityName, setCityName] = useState("")
   const [homeownerCount] = useState(() => Math.floor(Math.random() * 3) + 3)
+  const [minutesText] = useState(() => {
+    const options = [5, 10, 15, 20]
+    return options[Math.floor(Math.random() * options.length)]
+  })
   const [formData, setFormData] = useState(defaultFormData)
   const [googlePlacesReady, setGooglePlacesReady] = useState(false)
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false)
@@ -300,8 +304,7 @@ function FormPage() {
         {cityName && homeownerCount > 0 && (
           <div className="mb-5 text-center">
             <p className="text-sm md:text-base text-gray-700 font-semibold max-w-2xl mx-auto leading-snug">
-              {homeownerCount} people from <span className="text-sky-600 font-bold">{cityName}</span> got their FREE quote in the last 5 minutes from{" "}
-              <span className="text-sky-600 font-bold">Platinum Window Experts</span>
+              {homeownerCount} Customers from <span className="text-sky-600 font-bold">{cityName}</span> got their FREE quote in the last {minutesText} minutes!
             </p>
           </div>
         )}

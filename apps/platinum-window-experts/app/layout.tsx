@@ -1,5 +1,6 @@
 import { Montserrat } from "next/font/google"
 import { Metadata } from "next"
+import Script from "next/script"
 
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
@@ -32,6 +33,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script
+          src="https://script.crazyegg.com/pages/scripts/0132/1582.js"
+          strategy="afterInteractive"
+        />
+      </head>
       <body
         className={`${fontSans.variable} font-sans antialiased overflow-x-hidden overflow-y-auto`}
       >
