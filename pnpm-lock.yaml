@@ -148,9 +148,6 @@ importers:
 
   apps/home-warranty-assuritii:
     dependencies:
-      '@neondatabase/serverless':
-        specifier: ^1.0.2
-        version: 1.0.2
       '@workspace/bdmg-component':
         specifier: workspace:*
         version: link:../../packages/bdmg-component
@@ -163,9 +160,6 @@ importers:
       axios:
         specifier: ^1.13.5
         version: 1.13.5
-      drizzle-orm:
-        specifier: ^0.45.1
-        version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)
       lucide-react:
         specifier: ^0.475.0
         version: 0.475.0(react@19.2.1)
@@ -221,9 +215,6 @@ importers:
 
   apps/platinum-window-experts:
     dependencies:
-      '@neondatabase/serverless':
-        specifier: ^1.0.2
-        version: 1.0.2
       '@workspace/bdmg-component':
         specifier: workspace:*
         version: link:../../packages/bdmg-component
@@ -236,9 +227,6 @@ importers:
       axios:
         specifier: ^1.13.5
         version: 1.13.5
-      drizzle-orm:
-        specifier: ^0.45.1
-        version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)
       lucide-react:
         specifier: ^0.475.0
         version: 0.475.0(react@19.2.1)
