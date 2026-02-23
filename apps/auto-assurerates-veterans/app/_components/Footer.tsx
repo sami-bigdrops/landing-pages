@@ -8,9 +8,13 @@ export default function Footer() {
   return (
     <FooterUI
       type="long"
-      bgColor="#0F2440"
-      logo={<Image src="/pwe-white.svg" alt="Platinum Window Experts" width={120} height={40} className="w-40 h-auto object-contain" />}
+      bgColor="#1F3A5F"
+      logo={<Image src="/footer-logo.svg" alt="AssureRates" width={120} height={40} className="w-40 h-auto object-contain" />}
+      description={FOOTER_CONTENT.description}
+      descriptionClassName="max-w-full font-inter"
       links={[...FOOTER_CONTENT.links]}
+      disclaimer={FOOTER_CONTENT.disclaimer}
+      disclaimerClassName="max-w-4xl font-inter"
       copyrightText={FOOTER_CONTENT.copyrightText}
     />
   )

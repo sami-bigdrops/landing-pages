@@ -1,23 +1,23 @@
-import { Montserrat } from "next/font/google"
+import { Inter } from "next/font/google"
 import { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
 
-  const fontSans = Montserrat({
+const fontSans = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-inter",
   display: "swap",
 })
 
 export const metadata: Metadata = {
   title: {
-    default: "Platinum Window Experts - Window Replacement",
-    template: "%s | Platinum Window Experts",
+    default: "Auto Assurerates Veterans - Auto Insurance",
+    template: "%s | Auto Assurerates Veterans",
   },
   description:
-    "Platinum Window Experts provides top-quality window replacement services across the USA. We offer energy-efficient windows, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Auto Assurerates Veterans provides top-quality auto insurance services across the USA. We offer auto insurance, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
@@ -36,7 +36,7 @@ export default function RootLayout({
       <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0132/1582.js" async={true}></script>
       </head>
       <body
-        className={`${fontSans.variable} font-sans antialiased overflow-x-hidden overflow-y-auto`}
+        className={`${fontSans.variable} ${fontSans.className} antialiased overflow-x-hidden overflow-y-auto`}
       >
         <Providers>{children}</Providers>
         <Analytics />

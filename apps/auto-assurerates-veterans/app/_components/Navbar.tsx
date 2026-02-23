@@ -12,8 +12,8 @@ export default function Navbar() {
         logo={
             <Link href="/" className="block">
                 <Image
-                src="/pwe-logo.svg"
-                alt="Platinum Window Experts"
+                src="/assurerate-logo.svg"
+                alt="Auto Assurerates Veterans"
                 width={128}
                 height={40}
                 className="w-36 lg:w-40 xl:w-48 h-auto object-contain"

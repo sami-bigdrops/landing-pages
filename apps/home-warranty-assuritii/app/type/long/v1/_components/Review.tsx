@@ -9,7 +9,7 @@ export default function Review() {
     <div className="review bg-white w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-18 xl:py-16 2xl:px-10">
       <div className="container mx-auto">
         <div className="review-content w-full flex flex-col items-center justify-center gap-5  lg:gap-7">
-          <h2 className="text-2xl lg:text-3xl xl:text-[2.6rem] md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-inter">
+          <h2 className="text-2xl lg:text-3xl xl:text-[2.6rem] md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-sans">
             {REVIEW_CONTENT.header}
           </h2>
 
@@ -24,7 +24,7 @@ export default function Review() {
                 priority
               />
             </div>
-            <p className="text-sm lg:text-base xl:text-lg text-[#374151] font-medium font-inter">
+            <p className="text-sm lg:text-base xl:text-lg text-[#374151] font-medium font-sans">
               {REVIEW_CONTENT.rating.reviewText}
             </p>
           </div>
@@ -56,7 +56,7 @@ export default function Review() {
                     ))}
                   </div>
 
-                  <p className="text-sm  lg:text-base xl:text-lg md:max-w-[200px] xl:max-w-[330px] text-[#374151] font-inter" style={{ lineHeight: 1.5 }}>
+                  <p className="text-sm  lg:text-base xl:text-lg md:max-w-[200px] xl:max-w-[330px] text-[#374151] font-sans" style={{ lineHeight: 1.5 }}>
                     &quot;{review.quote}&quot;
                   </p>
 
@@ -71,10 +71,10 @@ export default function Review() {
                       />
                     </div>
                     <div>
-                      <p className="font-semibold text-sm lg:text-base xl:text-lg text-[#1C2833] font-inter">
+                      <p className="font-semibold text-sm lg:text-base xl:text-lg text-[#1C2833] font-sans">
                         {review.customer.name}
                       </p>
-                      <p className="text-xs lg:text-sm text-[#374151] font-inter">
+                      <p className="text-xs lg:text-sm text-[#374151] font-sans">
                         {review.customer.status}
                       </p>
                     </div>
