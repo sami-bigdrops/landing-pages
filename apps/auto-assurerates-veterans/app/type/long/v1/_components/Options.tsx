@@ -91,20 +91,7 @@ export default function Options() {
               </Button>
             </div>
 
-            <div className="w-full grid grid-cols-2 gap-y-4 gap-x-4 md:flex md:flex-row md:items-center md:justify-start xl:justify-center md:gap-4 lg:gap-4 xl:gap-6">
-              {OPTIONS_CONTENT.featureList.map((feature, index) => (
-                <div
-                  key={feature.text}
-                  className={`flex items-center justify-center gap-2 xl:gap-3
-                       ${index === 2 ? "col-span-2 justify-center" : ""}`}
-                >
-                  <span className="w-2.5 h-2.5  flex-shrink-0 rounded-full bg-[#3498DB] inline-block"></span>
-                  <p className="text-sm lg:text-[0.95rem] xl:text-lg font-normal text-[#374151] font-inter">
-                    {feature.text}
-                  </p>
-                </div>
-              ))}
-            </div>
+            
 
           </div>
         </div>
