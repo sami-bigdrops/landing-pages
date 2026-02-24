@@ -56,10 +56,6 @@ export default function Hero() {
                 <h1 className=" text-[1.3rem]  md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#1C2833] text-center md:text-left font-inter " style={{ lineHeight: "1.3" }}>
                   {headlineText}
                 </h1>
-
-                <p className="hidden md:block text-base md:text-base lg:text-lg xl:text-xl text-[#374151] text-center md:text-left max-w-xl font-inter">
-                  {HERO_CONTENT.description}
-                </p>
               </div>
               <div className="flex flex-col items-center md:flex-row  gap-3 md:gap-0  w-full lg:max-w-[460px] xl:max-w-full ">
                 <div className="w-full">

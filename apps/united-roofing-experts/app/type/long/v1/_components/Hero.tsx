@@ -27,9 +27,6 @@ export default function Hero() {
           <h1 className="text-4xl lg:text-5xl xl:text-6xl md:max-w-[400px] lg:max-w-[550px] xl:max-w-[700px] font-bold text-white drop-shadow-lg text-center font-sans leading-tight tracking-tight">
             {HERO_CONTENT.headline}
           </h1>
-          <p className="text-white font-sans text-sm lg:text-base xl:text-lg text-center font-medium">
-            {HERO_CONTENT.description}
-          </p>
 
           <div className="flex items-center justify-center gap-8 lg:gap-10 xl:gap-12">
             {HERO_CONTENT.partners.map((partner) => (

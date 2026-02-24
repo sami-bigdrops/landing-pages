@@ -2,7 +2,6 @@
 
 export const HERO_CONTENT = {
   headline: "See Veteran Friendly Auto Rates in Your <City Name>",
-  description: "Quick check. Clear choices. Pick what fits and move on.",
   image: {
     src: "/hero.webp",
     alt: "Veterans in military uniform"
@@ -49,7 +48,7 @@ export const REVIEW_CONTENT = {
   reviews: [
     {
      id: 1,
-      quote: "Quick and straightforward. I could compare options in one place and didn’t feel pressured to buy right away.",
+      quote: "Quick and straightforward. I could compare options in one place and didn't feel pressured to buy right away.",
       customer: {
         name: "JMark Keeling",
         location: "Army Veteran, Texas",
