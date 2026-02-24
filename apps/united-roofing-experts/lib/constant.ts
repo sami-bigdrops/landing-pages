@@ -1,31 +1,27 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "You Won't Believe How Affordable New Windows Can Be!",
+  headline: "Worried a storm damaged your roof?",
+  description: "Licensed, insured, and straightforward. Book a same-week inspection.",
   image: {
-    src: "/hero-bg.png",
-    alt: "Windows"
+    src: "/hero-bg.webp",
+    alt: "Roof"
   },
   
   partners: [
     {
       alt: "Angi",
-      src: "/angi.svg",
+      src: "/partner-1.svg",
       width: 80,
       className: "w-16 lg:w-20 xl:w-24 h-auto object-contain",
     },
     {
       alt: "Houzz",
-      src: "/houzz.svg",
+      src: "/partner-2.svg",
       width: 140,
       className: "w-24 lg:w-28 xl:w-32 h-auto object-contain",
     },
-    {
-      alt: "Consumer Reports",
-      src: "/consumer-reports.svg",
-      width: 140,
-      className: "w-24 lg:w-28 xl:w-32 h-auto object-contain",
-    },
+    
   ],
 } as const
 
