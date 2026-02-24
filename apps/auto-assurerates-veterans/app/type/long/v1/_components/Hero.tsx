@@ -35,8 +35,8 @@ export default function Hero() {
   }, []);
 
   const headlineText = cityName
-    ? HERO_CONTENT.headline.replace("<City Name>", cityName)
-    : HERO_CONTENT.headline.replace("<City Name>", "Area");
+    ? `Let's drop your rate in ${cityName} today!`
+    : "Let's drop your rate in your area today!";
 
   const handleRequestQuotes = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
