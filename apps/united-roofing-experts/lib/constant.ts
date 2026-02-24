@@ -2,7 +2,6 @@
 
 export const HERO_CONTENT = {
   headline: "Worried a storm damaged your roof?",
-  description: "Licensed, insured, and straightforward. Book a same-week inspection.",
   image: {
     src: "/hero-bg.webp",
     alt: "Roof"
@@ -234,7 +233,7 @@ export const FOOTER_CONTENT = {
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },
   ],
-  copyrightText: "Copyright © 2026 Platinum Window Experts. All Rights Reserved.",
+  copyrightText: "Copyright © 2026 United Roofing Experts. All Rights Reserved.",
 } as const
 
 export const THANKYOU_CONTENT = {
