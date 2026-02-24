@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUtmParams, setCookie } from "@workspace/lp-core";
 import { HERO_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
@@ -15,6 +15,28 @@ export default function Hero() {
 
   const [zipCode, setZipCode] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [cityName, setCityName] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/location")
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return;
+        const city = data?.city != null ? String(data.city).trim() : null;
+        const zip = data?.zip != null ? String(data.zip).replace(/\D/g, "").slice(0, 5) : null;
+        if (city) setCityName(city);
+        if (zip && zip.length === 5) {
+          setZipCode((prev) => (prev === "" ? zip : prev));
+        }
+      })
+      .catch(() => {});
+    return () => { cancelled = true };
+  }, []);
+
+  const headlineText = cityName
+    ? HERO_CONTENT.headline.replace("<City Name>", cityName)
+    : HERO_CONTENT.headline.replace("<City Name>", "Area");
 
   const handleRequestQuotes = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
@@ -32,14 +54,14 @@ export default function Hero() {
             <div className="flex flex-col items-center md:items-start gap-6 lg:gap-7 xl:gap-8 max-w-2xl mx-auto md:mx-0">
               <div className="flex flex-col items-center lg:items-start gap-3 xl:gap-4">
                 <h1 className=" text-[1.3rem]  md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#1C2833] text-center md:text-left font-inter " style={{ lineHeight: "1.3" }}>
-                  {HERO_CONTENT.headline}
+                  {headlineText}
                 </h1>
 
                 <p className="hidden md:block text-base md:text-base lg:text-lg xl:text-xl text-[#374151] text-center md:text-left max-w-xl font-inter">
                   {HERO_CONTENT.description}
                 </p>
               </div>
-              <div className="flex flex-col items-center md:flex-row  gap-3 md:gap-0  w-full lg:max-w-[380px] xl:max-w-[430px]">
+              <div className="flex flex-col items-center md:flex-row  gap-3 md:gap-0  w-full lg:max-w-[460px] xl:max-w-full ">
                 <div className="w-full">
                   <div className="relative">
                     <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
@@ -55,14 +77,14 @@ export default function Hero() {
                         rounded-[10px] 
                         
                         md:rounded-tr-none md:rounded-br-none
-                        border 
-                        border-[#D8E4F1] 
+                        border border-[#3498DB] 
                         md:border-r-0
                         bg-white 
                         w-full 
                         shadow-[0_0_15px_0_rgba(31,58,95,0.15)]
                       
                         placeholder:text-[#444444]
+                        focus-visible:ring-0 focus-visible:ring-offset-0
                       "
                       containerClassName="w-full"
                     />
@@ -74,7 +96,7 @@ export default function Hero() {
                   variant="default"
                   onClick={handleRequestQuotes}
                   disabled={submitted || zipCode.replace(/\D/g, "").length !== 5}
-                  className="bg-[#3498DB] h-14 xl:h-15.5 md:w-47 lg:w-52 xl:w-58  cursor-pointer text-white font-semibold font-inter rounded-[10px] md:rounded-tl-none md:rounded-bl-none text-sm xl:text-lg px-8 py-6 md:py-5.5  flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
+                  className="bg-[#3498DB] h-14 md:h-14.5 xl:h-16 md:w-47 lg:w-52 xl:w-66  cursor-pointer text-white font-semibold font-inter rounded-[10px] md:rounded-tl-none md:rounded-bl-none text-sm xl:text-lg px-8 py-6 md:py-5.5  flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
                 >
                   {submitted ? "Submitted" : "Request My Quotes"}
                   {!submitted && (

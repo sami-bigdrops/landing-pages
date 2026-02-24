@@ -1,17 +1,33 @@
+"use client";
+
 import Image from "next/image";
 import { OPTIONS_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { setCookie } from "@workspace/lp-core";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
 
 export default function Options() {
-
   const [zipCode, setZipCode] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/location")
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return;
+        const zip = data?.zip != null ? String(data.zip).replace(/\D/g, "").slice(0, 5) : null;
+        if (zip && zip.length === 5) {
+          setZipCode((prev) => (prev === "" ? zip : prev));
+        }
+      })
+      .catch(() => {});
+    return () => { cancelled = true };
+  }, []);
 
   const handleRequestQuotes = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
@@ -54,6 +70,7 @@ export default function Options() {
                         shadow-[0_0_15px_0_rgba(31,58,95,0.15)]
                       
                         placeholder:text-[#444444]
+                        focus-visible:ring-0 focus-visible:ring-offset-0
                       "
                     containerClassName="w-full"
                   />
