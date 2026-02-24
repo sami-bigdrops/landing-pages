@@ -132,7 +132,7 @@ export default function Hero() {
                         height={20}
                         className="w-4.5 h-4.5 xl:w-6 xl:h-6 flex-shrink-0 object-contain"
                       />
-                      <p className="text-sm xl:text-base xl:text-lg font-normal text-[#1F3A5F] font-inter">
+                      <p className="text-sm xl:text-lg font-normal text-[#1F3A5F] font-inter">
                         {feature.text}
                       </p>
                     </div>
