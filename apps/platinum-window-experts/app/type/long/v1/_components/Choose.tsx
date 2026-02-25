@@ -48,7 +48,7 @@ export default function Choose() {
           <Button
             type="1"
             variant="default"
-            className="bg-[#2B96E4] cursor-pointer hover:bg-[#2B96E4] hover:translate-y-[-4px] transition-all duration-300 text-white font-semibold rounded-sm text-base lg:text-lg xl:text-xl py-10 px-12"
+            className="bg-[#2B96E4] cursor-pointer hover:bg-[#2B96E4] hover:translate-y-[-4px] transition-all duration-300 text-white font-semibold rounded-sm text-base lg:text-lg xl:text-xl py-10 px-12 w-full max-w-sm"
             onClick={handleGetPricing}
           >
             Get Pricing
