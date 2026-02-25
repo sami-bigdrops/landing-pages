@@ -130,10 +130,10 @@ export const REPLACE_CONTENT = {
   signs: [
     {
       id: 1,
-      title: "Fog, moisture, or mould",
+      title: "Fog, moisture, or mold",
       image: {
         src: "/replace-1.png",
-        alt: "Fog, moisture, or mould",
+        alt: "Fog, moisture, or mold",
       }
     },
     {
@@ -146,10 +146,10 @@ export const REPLACE_CONTENT = {
     },
     {
       id: 3,
-      title: "Frames that wrap or crack",
+      title: "Frames that warp or crack",
       image: {
         src: "/replace-3.png",
-        alt: "Frames that wrap or crack",
+        alt: "Frames that warp or crack",
       }
     },
   ]
