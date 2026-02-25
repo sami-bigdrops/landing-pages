@@ -1,7 +1,8 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Worried a storm damaged your roof?",
+  headline: "Worried A Storm Damaged Your Roof?",
+  description: "Licensed, insured, and straightforward. Book a same-week inspection.",
   image: {
     src: "/hero-bg.webp",
     alt: "Roof"
@@ -12,56 +13,122 @@ export const HERO_CONTENT = {
       alt: "Angi",
       src: "/partner-1.svg",
       width: 80,
-      className: "w-16 lg:w-20 xl:w-24 h-auto object-contain",
+      className: "w-25 lg:w-30 xl:w-34 h-auto object-contain",
     },
     {
       alt: "Houzz",
       src: "/partner-2.svg",
       width: 140,
-      className: "w-24 lg:w-28 xl:w-32 h-auto object-contain",
+      className: "w-38 lg:w-40 xl:w-45 h-auto object-contain",
     },
     
   ],
 } as const
 
-const HEADING_GRADIENT = "linear-gradient(90deg, #2B96E4 0%, #275086 100%)"
+export const RIBBON_CONTENT = {
+  badges: [
+    {
+      icon: "/ribbon-1.svg",
+      label: "250+ Google Reviews",
+    },
+    {
+      icon: "/ribbon-2.svg",
+      label: "Licensed & Insured",
+    },
+    {
+      icon: "/ribbon-3.svg",
+      label: "Local Roofing Experts",
+    },
+    {
+      icon: "/ribbon-4.svg",
+      label: "Warranty Included",
+    },
+  ]
+}
 
-export const BENEFITS_CONTENT = {
-  header: "Why Energy-Saving Windows Are Worth It",
-  headerParts: {
-    before: "Why ",
-    gradient: "Energy-Saving Windows",
-    after: " Are Worth It",
-  },
-  headingGradient: HEADING_GRADIENT,
-  windowImage: "/benefit-window.webp",
-  image: {
-    src: "/benefits-window.webp",
-    alt: "Benefits Image",
-  },
-  benefitCards: [
-    { title: "Lower energy bills", description: "Keep indoor temperatures steadier, so your heating and cooling do not have to work as hard.", icon: "/benefit-1.svg" },
-    { title: "Quieter rooms", description: "Better seals and layered glass help cut outside noise, so your home feels calmer and more private.", icon: "/benefit-3.svg" },
-    { title: "Easy to clean", description: "Tilt-in design makes both sides simple to wipe down, without ladders or awkward angles.", icon: "/benefit-2.svg" },
-  ],
-  benefits: [
+export const RATING_CONTENT = {
+  ratings: [
     {
       id: 1,
-      title: "Lower energy bills",
-      description: "Keep indoor temperatures steadier, so your heating and cooling do not have to work as hard.",
-      icon: { src: "/benefit-1.svg", alt: "Lower energy bills" },
+      label: "RATING:",
+      value: "A+",
+      logo: {
+        src: "/BBB.svg",
+        alt: "BBB Accredited Business",
+        width: 80,
+        className: "w-26 lg:w-30 xl:w-32 h-auto object-contain"
+      },
     },
     {
       id: 2,
-      title: "Easy to clean",
-      description: "Tilt-in design makes both sides simple to wipe down, without ladders or awkward angles.",
-      icon: { src: "/benefit-2.svg", alt: "Easy to clean" },
+      label: "RATING:",
+      value: "4.9",
+      logo: {
+        src: "/facebook.svg",
+        alt: "Facebook",
+        width: 80,
+        className: "w-10 lg:w-12 xl:w-14  h-auto object-contain"
+      },
     },
     {
       id: 3,
-      title: "Quieter rooms",
-      description: "Better seals and layered glass help cut outside noise, so your home feels calmer and more private.",
-      icon: { src: "/benefit-3.svg", alt: "Quieter rooms" },
+      label: "RATING:",
+      value: "4.7",
+      logo: {
+        src: "/guild-quality.svg",
+        alt: "GuildQuality",
+        width: 80,
+        className: "w-37 lg:w-40 xl:w-44  h-auto object-contain"
+      },
+    },
+    {
+      id: 4,
+      label: "RATING:",
+      value: "4.8",
+      logo: {
+        src: "/google-icon.svg",
+        alt: "Google",
+        width: 80,
+        className: "w-25 lg:w-28 xl:w-30  h-auto object-contain"
+      },
+    },
+  ],
+}
+
+const HEADING_GRADIENT = "linear-gradient(90deg, #2B96E4 0%, #275086 100%)"
+
+export const WORKS_CONTENT = {
+  header: "How It Works",
+  steps: [
+    {
+      id: 1,
+      number: "01",
+      title: "Book Your Free Storm Inspection",
+      description: "Enter your ZIP and pick a slot. Same week inspections in many areas.",
+      image: {
+        src: "/step-1.webp",
+        alt: "Booking a free storm inspection on tablet"
+      },
+    },
+    {
+      id: 2,
+      number: "02",
+      title: "We Document Damage With Photos",
+      description: "We check shingles, flashing, and soft spots, then show you what we see.",
+      image: {
+        src: "/step-2.webp",
+        alt: "Roofers inspecting and taking notes"
+      },
+    },
+    {
+      id: 3,
+      number: "03",
+      title: "Get A Clear Plan And Timeline",
+      description: "You get a written estimate, repair options & a simple schedule to get it sorted.",
+      image: {
+        src: "/step-3.webp",
+        alt: "New roof installation with workers"
+      },
     },
   ],
 }
@@ -145,47 +212,56 @@ export const REPLACE_CONTENT = {
 }
 
 export const REVIEW_CONTENT = {
-  header: "What Our Customers Are Saying",
-  headerParts: {
-    before: "What Our",
-    gradient: "Customers Are Saying",
-  },
-  headingGradient: HEADING_GRADIENT,
-  reviews: [
+  header: "Testimonials",
+
+
+  testimonialImages: [
     {
-     id: 1,
-      quote: "The installation was quick and hassle-free. My new windows make the whole house feel brighter and more comfortable.",
+      id: 1,
+      testimonialImage: {
+        src: "/roof-1.webp",
+        alt: " roof"
+      },
+      
+    },
+    {
+      id: 2,
+      testimonialImage: {
+        src: "/roof-2.webp",
+        alt: " roof"
+      },
+    },
+    {
+      id: 3,
+      testimonialImage: {
+        src: "/roof-3.webp",
+        alt: "roof"
+      },
+    }
+  ],
+
+  testimonials: [
+    {
+      id: 1,
+      quote: "They came out the same week after our storm and showed us photos of the damage right away. Everything was explained clearly, and the crew finished on schedule. Our yard was spotless when they left.",
       customer: {
-        name: "Jessica R.",
-        status: "Verified Customer",
+        name: "Mark Reynolds",
+        status: "Plano, TX",
         image: {
           src: "/profile-1.svg",
-          alt: "Jessica R.",
+          alt: "Mark Reynolds",
         },
       },
     },
     {
       id: 2,
-      quote: "We noticed a big difference in our energy bills right away. The team was professional and left everything spotless.",
+      quote: "We weren’t sure if our roof needed repair or replacement. The inspection helped us understand our options, and there was zero pressure. The whole process was smooth from start to finish.",
       customer: {
-        name: "Mark & Emily S.",
-        status: "Verified Customer",
+        name: "Angela Morris",
+        status: "Tampa, FL",
         image: {
           src: "/profile-2.svg",
-          alt: "Mark & Emily S.",
-        },
-      },
-    },
-    {
-     
-      id: 3,
-      quote: "From the first consultation to final installation, everything was smooth. I love how quiet the house is now.",
-      customer: {
-        name: "Daniel P.",
-        status: "Verified Customer",
-        image: {
-          src: "/profile-3.svg",
-          alt: "Susan Roberts",
+          alt: "Angela Morris",
         },
       },
     },

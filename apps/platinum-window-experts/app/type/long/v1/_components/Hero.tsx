@@ -32,7 +32,7 @@ export default function Hero() {
           <Button
             type="1"
             variant="default"
-            className="bg-[#2B96E4] cursor-pointer hover:bg-[#2B96E4] hover:translate-y-[-4px] transition-all duration-300 text-white font-semibold rounded-sm text-base lg:text-lg xl:text-xl py-10 px-12"
+            className="bg-[#2B96E4] cursor-pointer hover:bg-[#2B96E4] hover:translate-y-[-4px] transition-all duration-300 text-white font-semibold rounded-sm text-base lg:text-lg xl:text-xl py-10 px-12 w-full max-w-sm"
             onClick={handleGetPricing}
           >
             Get Pricing
@@ -40,9 +40,9 @@ export default function Hero() {
         </div>
         <div className="flex flex-col items-center justify-center gap-4 max-w-2xl py-4">
           <p className="text-white font-sans text-sm lg:text-base xl:text-lg text-center italic font-medium">
-            Get matched with trusted local provider
+            Get matched with a trusted local provider
           </p>
-          <div className="flex items-center justify-center gap-8 lg:gap-10 xl:gap-12">
+          <div className="grid grid-cols-2 gap-8 lg:gap-10 xl:gap-12 md:flex md:flex-row md:items-center md:justify-center">
             {HERO_CONTENT.partners.map((partner) => (
               <Image
                 key={partner.alt}

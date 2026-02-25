@@ -15,6 +15,12 @@ export const HERO_CONTENT = {
       className: "w-16 lg:w-20 xl:w-24 h-auto object-contain",
     },
     {
+      alt: "Renewal By Andersen",
+      src: "/rba-white.png",
+      width: 120,
+      className: "w-35 xl:w-48 h-auto object-contain",
+    },
+    {
       alt: "Houzz",
       src: "/houzz.svg",
       width: 140,
