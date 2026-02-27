@@ -7,13 +7,13 @@ export default function Rating() {
   const ratings = RATING_CONTENT.ratings
 
   return (
-    <div className="rating bg-white w-full px-4 py-8 md:px-6 md:py-10 lg:px-14  xl:px-20 ">
+    <div className="rating bg-white w-full px-4 py-8 md:px-6 md:py-10 md:pb-7 lg:px-14  xl:px-20 xl:pt-14 ">
       <div className="container mx-auto ">
-        <div className="rating-content w-full flex flex-col items-center justify-center md:flex-row md:items-start md:justify-start gap-6">
+        <div className="rating-content w-full flex flex-col items-center justify-center md:flex-row md:items-start md:justify-start gap-6 lg:gap-8 ">
           {ratings.map((item, index) => (
             <div
               key={item.id}
-              className="w-full flex flex-col items-center justify-center md:justify-start text-center gap-2 lg:gap-3 xl:gap-4 md:border-l-[#0000004D] md:border-r md:pr-6 "
+              className={`w-full flex flex-col items-center justify-center md:justify-start text-center gap-2 lg:gap-3 xl:gap-4 md:border-l-[#0000004D] ${index < ratings.length - 1 ? "md:border-r md:border-r-[#0000004D] md:pr-6" : ""}`}
             >
               <p className="text-[#111827] font-medium text-sm lg:text-base xl:text-lg ">
                 {item.label}

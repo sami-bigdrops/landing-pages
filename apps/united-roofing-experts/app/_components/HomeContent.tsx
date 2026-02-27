@@ -2,13 +2,13 @@
 
 import Navbar from "@/app/_components/Navbar"
 import Hero from "@/app/type/long/v1/_components/Hero"
-import Choose from "@/app/type/long/v1/_components/Choose"
 import Review from "../type/long/v1/_components/Review"
 import Footer from "@/app/_components/Footer"
-import Trust from "@/app/type/long/v1/_components/Trust"
+import Roof from "@/app/type/long/v1/_components/Roof"
 import Ribbon from "@/app/type/long/v1/_components/Ribbon"
 import Works from "../type/long/v1/_components/Works"
 import Rating from "@/app/type/long/v1/_components/Rating"
+import Options from "../type/long/v1/_components/Options"
 
 export default function HomeContent() {
   return (
@@ -17,8 +17,10 @@ export default function HomeContent() {
       <Hero />
       <Ribbon />
       <Works />
+      <Roof />
       <Rating />
       <Review />
+      <Options />
       <Footer />
     </div>
   )

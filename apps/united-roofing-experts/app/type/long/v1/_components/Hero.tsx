@@ -23,7 +23,7 @@ export default function Hero() {
       backgroundPosition: "center",
     }}>
       <div className="container  mx-auto">
-      <div className="hero-content  flex flex-col items-center justify-center md:flex-row md:items-center md:justify-between gap-6 ">
+      <div className="hero-content  flex flex-col items-center justify-center md:flex-row  md:justify-between gap-6 ">
         
         <div className="left-content md:w-[50%] w-full flex flex-col items-center md:justify-start md:items-start justify-center gap-4 ">
           <h1 className="text-3xl lg:text-4xl xl:text-5xl md:max-w-[300px] lg:max-w-[350px] xl:max-w-[600px] font-bold md:text-left text-white text-center font-sans leading-tight tracking-tight">

@@ -95,7 +95,7 @@ export const RATING_CONTENT = {
   ],
 }
 
-const HEADING_GRADIENT = "linear-gradient(90deg, #2B96E4 0%, #275086 100%)"
+
 
 export const WORKS_CONTENT = {
   header: "How It Works",
@@ -133,83 +133,15 @@ export const WORKS_CONTENT = {
   ],
 }
 
-export const CHOOSE_CONTENT = {
-  header: "Choose A Window Style That Fits Your Home and Budget",
-  backgroundImage: "/choose-bg.png",
-  image: {
-    src: "/window-frame.png",
-    alt: "Window Frame",
-  },
-  windowStyles: [
-    {
-      id: 1,
-      title: "Awning",
-      image: {
-        src: "/awning.png",
-        alt: "Awning",
-      }
-    },
-    {
-      id: 2,
-      title: "Double Hung",
-      image: {
-        src: "/double-hung.png",
-        alt: "Double Hung",
-      }
-    },
-    {
-      id: 3,
-      title: "Bay Windows",
-      image: {
-        src: "/bay-windows.png",
-        alt: "Bay Windows",
-      }
-    },
-    {
-      id: 4,
-      title: "Double Slider",
-      image: {
-        src: "/double-slider.png",
-        alt: "Double Slider",
-      }
-    }
-  ]
-}
+export const OPTIONS_CONTENT = {
+  header: "Ready for Your Free Roof Inspection?",
+  description: "Same week availability in most areas.",
+  buttonText: "Book a FREE Roof Inspection",
+ 
+  
+} as const
 
-export const REPLACE_CONTENT = {
-  header: "3 Quick Signs It's Time to Price New Windows",
-  headerParts: {
-    gradient: "3 Quick Signs",
-    after: "It's Time To Price New Windows"
-  },
-  headingGradient: HEADING_GRADIENT,
-  signs: [
-    {
-      id: 1,
-      title: "Fog, moisture, or mould",
-      image: {
-        src: "/replace-1.png",
-        alt: "Fog, moisture, or mould",
-      }
-    },
-    {
-      id: 2,
-      title: "Bills keep increasing",
-      image: {
-        src: "/replace-2.png",
-        alt: "Bills keep increasing",
-      }
-    },
-    {
-      id: 3,
-      title: "Frames that wrap or crack",
-      image: {
-        src: "/replace-3.png",
-        alt: "Frames that wrap or crack",
-      }
-    },
-  ]
-}
+
 
 export const REVIEW_CONTENT = {
   header: "Testimonials",
@@ -238,6 +170,26 @@ export const REVIEW_CONTENT = {
         alt: "roof"
       },
     }
+
+
+  ],
+
+  reviewImages: [
+    {
+      id: 1,
+      testimonialImage: {
+        src: "/quote.svg",
+        alt: "Google Review"
+      },
+    },
+    {
+      id: 2,
+      testimonialImage: {
+        src: "/google-review.svg",
+        alt: "Quote"
+      },
+    },
+    
   ],
 
   testimonials: [
@@ -268,41 +220,56 @@ export const REVIEW_CONTENT = {
   ],
 } as const
 
-export const TRUST_CONTENT = {
+export const ROOF_CONTENT = { 
+  header: "COMMON SIGNS YOUR ROOF MAY NEED ATTENTION",
+  ctaButtonText: "Book a FREE Roof Inspection",
   image: {
-    src: "/made-in-usa.png",
-    alt: "Made in USA",
+    src: "/roof-bg.webp",
+    alt: "Roof",
   },
-  stats: [
+  signs: [
     {
       id: 1,
+      title: "Curled Shingles",
       image: {
-        src: "/shield.svg",
-        alt: "Shield",
+        src: "/roofing-1.webp",
+        alt: "Curled shingles on roof",
       },
-      number: "25+",
-      description: "Years of Experience",
     },
     {
       id: 2,
+      title: "Cracked Shingles",
       image: {
-        src: "/glass-window.svg",
-        alt: "Shield",
+        src: "/roofing-2.webp",
+        alt: "Cracked shingles",
       },
-      number: "10,000+",
-      description: "Windows Installed",
     },
     {
       id: 3,
+      title: "Moss growth",
       image: {
-        src: "/home.svg",
-        alt: "Home",
+        src: "/roofing-3.webp",
+        alt: "Moss growth on shingles",
       },
-      number: "1200+",
-      description: "Happy Homeowners",
-    }
-  ]
-}
+    },
+    {
+      id: 4,
+      title: "Granules in the Gutters",
+      image: {
+        src: "/roofing-4.webp",
+        alt: "Granules in the gutters",
+      },
+    },
+    {
+      id: 5,
+      title: "Insects in attic",
+      image: {
+        src: "/roofing-5.webp",
+        alt: "Insects in attic",
+      },
+    },
+  ],
+} as const
 
 export const FOOTER_CONTENT = {
   links: [
