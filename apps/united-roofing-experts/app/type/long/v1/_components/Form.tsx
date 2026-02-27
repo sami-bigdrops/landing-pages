@@ -12,15 +12,15 @@ import { ZipCodeInput as ZipCodeInputUI } from "@workspace/ui/components/zip-cod
 import { Button as ButtonUI } from "@workspace/ui/components/button"
 
 const whatDoYouNeedOptions = [
-  { value: "inspection", label: "Roof Inspection" },
-  { value: "repair", label: "Roof Repair" },
-  { value: "replacement", label: "Roof Replacement" },
-  { value: "other", label: "Other" },
+  { value: "Roof Replacement", label: "Roof Replacement" },
+  { value: "Roof Repair", label: "Roof Repair" },
+  { value: "Not Sure", label: "Not Sure" },
+  
 ]
 
 const roofTypeOptions = [
-  { value: "sloped", label: "Sloped" },
-  { value: "flat", label: "Flat" },
+  { value: "Sloped", label: "Sloped" },
+  { value: "Flat", label: "Flat" },
 ]
 
 const inputIconClass = "absolute left-3 top-1/2 -translate-y-1/2 z-10 pointer-events-none w-4.5 h-4.5 "
@@ -125,11 +125,11 @@ export default function FormPage() {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-end ">
-      <div className="w-full h-full lg:max-w-[500px] xl:max-w-[430px] mx-auto">
+    <div className="w-full h-full flex items-center md:justify-end  justify-center ">
+      <div className="w-full lg:max-w-[440px] xl:max-w-[450px] ">
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-[20px] py-6 px-4 md:px-5 md:py-7 flex flex-col gap-5 w-full h-full items-center justify-end"
+          className="bg-white rounded-[20px] py-6 px-4 md:px-5 md:py-7 flex flex-col gap-5 w-full h-full   items-center justify-center md:justify-end"
           style={{
             boxShadow: "0px 0px 10px 0px rgba(31, 58, 95, 0.15)" 
           }}
