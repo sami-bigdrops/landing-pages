@@ -1,7 +1,7 @@
 "use client"
 
+import { Fragment } from "react"
 import { ROOF_CONTENT } from "@/lib/constant"
-
 import Image from "next/image"
 import { Button } from "@workspace/ui/components/button"
 const SECTION_STYLE = {
@@ -60,15 +60,59 @@ export default function Roof() {
 
 
         {/* desktop view */}
-        <div className="desktop-view hidden md:flex md:flex-col md:items-center md:justify-center md:gap-10 ">
-          
-          <div className="bg-white rounded-b-[250px] md:max-w-[500px] mx-auto  px-6 pb-10 pt-10  shadow-lg ">
-            <h2 className="text-lg md:max-w-[250px] lg:max-w-[350px] xl:max-w-[400px] font-bold text-[#111827] text-center font-sans leading-tight tracking-tight" >
-              {ROOF_CONTENT.header}
-            </h2>
+        
+        <div className="desktop-view hidden md:flex md:flex-col md:items-center md:justify-center md:gap-10 lg:gap-18 xl:gap-20 ">
+          <div className="relative w-full max-w-[850px] mx-auto min-h-[250px]  flex flex-col items-center">
+            <div className="bg-white rounded-b-[450px] md:w-[50%] lg:w-[48%]  l mx-auto px-10 pb-20 pt-10 lg:pb-20 shadow-lg relative z-10">
+              <h2 className="md:text-[1.15rem] lg:text-[1.3rem] xl:text-[1.7rem]  md:max-w-[230px] lg:max-w-[300px] xl:max-w-[500px] font-bold text-[#111827] text-center font-sans leading-tight tracking-tight mx-auto">
+                {ROOF_CONTENT.header}
+              </h2>
+            </div>
+
+            {ROOF_CONTENT.signs.map((sign, index) => {
+              const isTopLeft = index === 0
+              const isMiddleLeft = index === 1
+              const isBottomCenter = index === 2
+              const isMiddleRight = index === 3
+              const isTopRight = index === 4
+              const imagePositionClass = [
+                "md:left-[20%] md:top-[10%]",
+                "md:left-[28%] md:top-[44%]",
+                "md:left-[50%] md:top-[60%] -translate-x-1/2",
+                "md:right-[28%] md:top-[44%]",
+                "md:right-[20%] md:top-[10%]",
+              ][index]
+              const textPositionClass = [
+                "md:left-[2.5%] md:top-[20%]",
+                "md:left-[9%] md:top-[55%]",
+                "md:left-[50%] md:top-[94%] -translate-x-1/2",
+                "md:right-[3.5%] md:top-[54%]",
+                "md:right-[4%] md:top-[20%]",
+              ][index]
+              return (
+                <Fragment key={sign.id}>
+                  <div
+                    className={`absolute z-20 ${imagePositionClass}`}
+                  >
+                    <div className="md:w-18 md:h-18 lg:w-20 lg:h-20 xl:w-20 xl:h-20 rounded-full overflow-hidden ">
+                      <Image
+                        src={sign.image.src}
+                        alt={sign.image.alt}
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <span
+                    className={`absolute z-20 font-sans text-white text-sm lg:text-base xl:text-lg font-medium whitespace-nowrap drop-shadow-sm ${textPositionClass}`}
+                  >
+                    {sign.title}
+                  </span>
+                </Fragment>
+              )
+            })}
           </div>
-
-
 
           <Button
             type="1"
