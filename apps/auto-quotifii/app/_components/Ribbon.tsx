@@ -1,15 +1,33 @@
 "use client"
 
+import { useEffect,useState } from "react";
+
 export default function Ribbon() {
+
+    const [city, setCity] = useState<string>("Your City")
+
+    useEffect(() => {
+        async function fetchCity() {
+            try {
+                const response = await fetch("/api/location")
+                const data = await response.json()
+                
+                if (data?.city) {
+                    setCity(data.city)
+                } else {
+                    setCity("Your City")
+                }
+            } catch (error) {
+                console.error("Error fetching city:", error)
+                setCity("Your City")
+            }
+        }
+        fetchCity()
+    }, [])
+
     return (
-        <div className="bg-[#3498DB] p-4 xl:p-5 min-h-[56px] xl:min-h-[64px] flex items-center justify-center">
-            <div className="container mx-auto">
-                <div className="ribbon-content flex items-center justify-center gap-4">
-                    <div className="flex items-center text-center gap-5 lg:gap-6 xl:gap-7">
-                        <p className="text-white font-sans font-bold text-sm lg:text-base xl:text-lg">WINTER SAVINGS EVENT: Save Up to $500 Off Your Auto Coverage Policy!</p>
-                    </div>
-                </div>
-            </div>
+        <div className="bg-[#F46036] p-3 flex items-center justify-center rounded-sm">
+            <p className="text-white font-sans font-semibold text-base lg:text-lg xl:text-xl">Save Big on Windows in {city}!</p>
         </div>
     );
 }

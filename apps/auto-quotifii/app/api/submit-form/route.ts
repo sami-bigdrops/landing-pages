@@ -1,17 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
 
-const REQUIRED_FIELDS = [
-  "firstName",
-  "lastName",
-  "email",
-  "phoneNumber",
-  "zipCode",
-  "carYear",
-  "carMake",
-  "carModel",
-  "currentMileage",
-] as const
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -22,23 +10,18 @@ export async function POST(request: NextRequest) {
       email,
       phoneNumber,
       zipCode,
-      carYear,
-      carMake,
-      carModel,
-      currentMileage,
+      homeowner,
+      projectNature,
+      windowCount,
+      workDone,
+      address,
+      city,
+      state,
       subid1,
       subid2,
       subid3,
       xxTrustedFormCertUrl,
     } = body
-
-    const missingFields = REQUIRED_FIELDS.filter((field) => !body[field]?.trim?.())
-    if (missingFields.length > 0) {
-      return NextResponse.json(
-        { error: "All fields are required", missingFields: [...missingFields] },
-        { status: 400 }
-      )
-    }
 
     const forwarded = request.headers.get("x-forwarded-for")
     const firstForwarded = forwarded?.split(",")[0]
@@ -52,10 +35,13 @@ export async function POST(request: NextRequest) {
       email,
       phoneNumber,
       zipCode,
-      carYear,
-      carMake,
-      carModel,
-      currentMileage,
+      homeowner,
+      projectNature,
+      windowCount,
+      workDone,
+      address,
+      city,
+      state,
       subid1: subid1 ?? "",
       subid2: subid2 ?? "",
       subid3: subid3 ?? "",
@@ -80,12 +66,16 @@ export async function POST(request: NextRequest) {
         first_name: String(firstName).trim(),
         last_name: String(lastName).trim(),
         email: String(email).trim(),
-        phone: String(phoneNumber).replace(/\D/g, ""),
+        phone: String(phoneNumber).trim(),
         zip_code: String(zipCode).trim(),
-        car_year: String(carYear).trim(),
-        car_make: String(carMake).trim(),
-        car_model: String(carModel).trim(),
-        current_mileage: String(currentMileage).trim(),
+        homeowner: String(homeowner).trim(),
+        address: String(address).trim(),
+        city: String(city).trim(),
+        state: String(state).trim(),
+        project: projectNature.trim(),
+        projectamount: windowCount.trim(),
+        timing: workDone.trim(),
+        tcpa: "By submitting this form, I agree to the Platinum Window Experts Terms of Use and Privacy Policy. I authorize Platinum Window Experts and its partners to send me marketing text messages or phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. Opt-out anytime by replying STOP or using the unsubscribe link.",
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",

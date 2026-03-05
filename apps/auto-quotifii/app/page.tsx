@@ -2,9 +2,9 @@ import { Metadata } from "next"
 import HomeContent from "@/app/_components/HomeContent"
 
 export const metadata: Metadata = {
-  title: "Vehicle Protection & Extended Warranty",
+  title: "Auto Assurerates Veterans",
   description:
-    "Save big on auto repairs. Protect your car and your wallet from expensive repair bills. Get your free vehicle protection quote from Assuritii.",
+    "Auto Assurerates Veterans provides top-quality auto insurance services across the USA. We offer auto insurance, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
 }
 
 export default function Page() {
