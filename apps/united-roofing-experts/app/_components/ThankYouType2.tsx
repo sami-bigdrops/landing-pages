@@ -102,53 +102,58 @@ export function ThankYouType2({
             {content.title}
           </h1>
 
-          <div className="mt-8 flex justify-center">
-            <Image
-              src={content.partnerLogo.src}
-              alt={content.partnerLogo.alt}
-              width={280}
-              height={120}
-              className="h-auto w-full max-w-[280px] object-contain"
-            />
-          </div>
+          {content.partnerLogo.src ? (
+            <div className="mt-8 flex justify-center">
+              <Image
+                src={content.partnerLogo.src}
+                alt={content.partnerLogo.alt}
+                width={280}
+                height={120}
+                className="h-auto w-full max-w-[280px] object-contain"
+              />
+            </div>
+          ) : null}
 
           <p className="mt-6 text-base font-medium leading-relaxed text-gray-600 sm:text-lg max-w-[690px] mx-auto">
             {content.confirmationMessage}
           </p>
 
-          <h2 className="mt-10 text-lg font-bold text-gray-900 sm:mt-12 sm:text-xl">
-            {content.aboutSectionTitle}
-          </h2>
-
-          <div className="mt-6 grid gap-5 sm:mt-8 sm:grid-cols-3 sm:gap-6">
-            {content.featureCards.map((card, index) => {
-              const IconComponent = ICON_MAP[card.icon]
-              return (
-                <div
-                  key={index}
-                  className="rounded-xl border border-gray-100 bg-white p-5 text-left shadow-[0_2px_12px_rgba(0,0,0,0.06)] sm:p-6"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-600 text-white sm:h-12 sm:w-12">
-                    <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2} />
-                  </div>
-                  <h3 className="mt-4 text-base font-bold text-gray-900 sm:text-lg">
-                    {card.title}
-                  </h3>
-                  <ul className="mt-3 space-y-2">
-                    {card.bulletPoints.map((point, i) => (
-                      <li
-                        key={i}
-                        className="flex items-start gap-2 text-sm text-gray-600 sm:text-[0.9375rem]"
-                      >
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-600" />
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )
-            })}
-          </div>
+          {content.aboutSectionTitle && content.featureCards.length > 0 ? (
+            <>
+              <h2 className="mt-10 text-lg font-bold text-gray-900 sm:mt-12 sm:text-xl">
+                {content.aboutSectionTitle}
+              </h2>
+              <div className="mt-6 grid gap-5 sm:mt-8 sm:grid-cols-3 sm:gap-6">
+                {content.featureCards.map((card, index) => {
+                  const IconComponent = ICON_MAP[card.icon]
+                  return (
+                    <div
+                      key={index}
+                      className="rounded-xl border border-gray-100 bg-white p-5 text-left shadow-[0_2px_12px_rgba(0,0,0,0.06)] sm:p-6"
+                    >
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-600 text-white sm:h-12 sm:w-12">
+                        <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2} />
+                      </div>
+                      <h3 className="mt-4 text-base font-bold text-gray-900 sm:text-lg">
+                        {card.title}
+                      </h3>
+                      <ul className="mt-3 space-y-2">
+                        {card.bulletPoints.map((point, i) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-2 text-sm text-gray-600 sm:text-[0.9375rem]"
+                          >
+                            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-600" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )
+                })}
+              </div>
+            </>
+          ) : null}
         </div>
       </section>
 

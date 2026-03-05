@@ -25,9 +25,14 @@ const roofTypeOptions = [
 
 const inputIconClass = "absolute left-3 top-1/2 -translate-y-1/2 z-10 pointer-events-none w-4.5 h-4.5 "
 const inputBaseClass =
-  "w-full rounded-[10px] pl-10 pr-3 py-3 h-13 mt-0.5 border border-[#D1D5DB] bg-[#FBFBFC] placeholder:text-[#9CA3AF] placeholder:text-sm"
+  "w-full rounded-[10px] pl-9 pr-3 py-3 h-13 mt-0.5 border border-[#D1D5DB] bg-[#FBFBFC] placeholder:text-[#9CA3AF] placeholder:text-[0.8rem] md:placeholder:text-[0.75rem] lg:placeholder:text-sm"
 
-export default function FormPage() {
+type FormPageProps = {
+  onClose?: () => void
+  embedInModal?: boolean
+}
+
+export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) {
   const router = useRouter()
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
@@ -84,13 +89,6 @@ export default function FormPage() {
       zipCode: zipCode.trim(),
       whatDoYouNeed: whatDoYouNeed || "",
       roofType: roofType || "",
-      homeowner: "",
-      projectNature: whatDoYouNeed || "",
-      windowCount: "",
-      workDone: "",
-      address: "",
-      city: "",
-      state: "",
       subid1: getCookie("subid1") ?? "",
       subid2: getCookie("subid2") ?? "",
       subid3: getCookie("subid3") ?? "",
@@ -124,20 +122,31 @@ export default function FormPage() {
     }
   }
 
-  return (
-    <div className="w-full h-full flex items-center md:justify-end  justify-center ">
-      <div className="w-full lg:max-w-[440px] xl:max-w-[450px] ">
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white rounded-[20px] py-6 px-4 md:px-5 md:py-7 flex flex-col gap-5 w-full h-full   items-center justify-center md:justify-end"
-          style={{
-            boxShadow: "0px 0px 10px 0px rgba(31, 58, 95, 0.15)" 
-          }}
-        >
-          <TrustedForm />
-          <h2 className="w-full text-[1.4rem] lg:text-[1.5rem] xl:text-[1.65rem] font-bold text-[#1F3A5F] text-center" style={{ lineHeight: "1.3" }}>
-            Get Your Free Inspection
-          </h2>
+  const formCard = (
+    <div className={`w-full ${embedInModal ? "max-w-[440px]" : "lg:max-w-[440px] xl:max-w-[460px]"}`}>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-[20px] py-6 px-4 md:px-5 md:py-7 flex flex-col gap-5 w-full h-full items-center justify-center md:justify-end relative"
+        style={{
+          boxShadow: "0px 0px 10px 0px rgba(31, 58, 95, 0.15)"
+        }}
+      >
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close form"
+            className="absolute top-4 xl:top-3 xl:right-3 right-4 z-10 w-6 h-6 md:w-7 md:h-7 flex items-center justify-center rounded-full bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] transition-colors"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="w-4 h-4">
+              <path d="M13.5 4.5L4.5 13.5M4.5 4.5L13.5 13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        )}
+        <TrustedForm />
+        <h2 id="form-popup-title" className="w-full text-[1.4rem] lg:text-[1.5rem] xl:text-[1.65rem] font-bold text-[#1F3A5F] text-center" style={{ lineHeight: "1.3" }}>
+          Get Your Free Inspection
+        </h2>
 
           <div className="w-full h-full flex flex-col gap-2.5">
             <div className="flex flex-col md:flex-row gap-2.5">
@@ -238,7 +247,7 @@ export default function FormPage() {
                 value={whatDoYouNeed}
                 onChange={setWhatDoYouNeed}
                 containerClassName="mb-0"
-                selectClassName={`${inputBaseClass} cursor-pointer flex items-center justify-between text-sm `}
+                selectClassName={`${inputBaseClass} cursor-pointer flex items-center justify-between text-[0.8rem] lg:text-sm md:text-[0.75rem]  `}
               />
             </div>
 
@@ -252,7 +261,7 @@ export default function FormPage() {
                 value={roofType}
                 onChange={setRoofType}
                 containerClassName="mb-0"
-                selectClassName={`${inputBaseClass} cursor-pointer flex items-center justify-between text-sm `}
+                selectClassName={`${inputBaseClass} cursor-pointer flex items-center justify-between text-[0.8rem] lg:text-sm md:text-[0.75rem]  `}
               />
             </div>
           </div>
@@ -267,7 +276,7 @@ export default function FormPage() {
             type="1"
             htmlType="submit"
             disabled={submitStatus === "loading"}
-            className="w-full h-14 my-0.5 bg-[#DC2626] text-white font-semibold text-base rounded-[10px] "
+            className="w-full h-14 my-0.5 bg-[#DC2626] text-white font-semibold text-base rounded-[10px] hover:bg-[#DC2626] cursor-pointer "
           >
             {submitStatus === "loading" ? "Submitting..." : "Get Pricing"}
           </ButtonUI>
@@ -305,8 +314,22 @@ export default function FormPage() {
           </p>
         </form>
       </div>
-      <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
-    </div>
+  )
+
+  return (
+    <>
+      {embedInModal ? (
+        <>
+          {formCard}
+          <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
+        </>
+      ) : (
+        <div className="w-full h-full flex items-center md:justify-end justify-center">
+          {formCard}
+          <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
+        </div>
+      )}
+    </>
   )
 }
 

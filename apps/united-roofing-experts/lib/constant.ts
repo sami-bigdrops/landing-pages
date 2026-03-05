@@ -13,13 +13,13 @@ export const HERO_CONTENT = {
       alt: "Angi",
       src: "/partner-1.svg",
       width: 80,
-      className: "w-25 lg:w-30 xl:w-34 h-auto object-contain",
+      className: "w-25 lg:w-30 xl:w-34 2xl:w-40 h-auto object-contain",
     },
     {
       alt: "Houzz",
       src: "/partner-2.svg",
       width: 140,
-      className: "w-38 lg:w-40 xl:w-45 h-auto object-contain",
+      className: "w-38 lg:w-40 xl:w-45 2xl:w-50 h-auto object-contain",
     },
     
   ],
@@ -309,38 +309,10 @@ export interface ThankYouType2Content {
 
 export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
   title: "Thank you!",
-  partnerName: "Renewal By Andersen",
-  partnerLogo: { src: "/rba.avif", alt: "RENEWAL by ANDERSEN" },
+  partnerName: "",
+  partnerLogo: { src: "", alt: "" },
   confirmationMessage:
-    "Congratulations! You have been matched with one of our partners, Renewal By Andersen. The Customer Specialist will be contacting you soon!",
-  aboutSectionTitle: "About Renewal by Andersen",
-  featureCards: [
-    {
-      title: "Trusted Excellence",
-      icon: "shield",
-      bulletPoints: [
-        "Division of Andersen Corporation",
-        "Decades of craftsmanship",
-        "Nationwide reliability",
-      ],
-    },
-    {
-      title: "Custom Solutions",
-      icon: "building",
-      bulletPoints: [
-        "Custom-made windows & doors",
-        "Energy efficient design",
-        "Enhanced curb appeal",
-      ],
-    },
-    {
-      title: "Premium Service",
-      icon: "check",
-      bulletPoints: [
-        "Full-service approach",
-        "Premium materials",
-        "Industry-leading warranties",
-      ],
-    },
-  ],
+    "Thank you for choosing United Roofing Experts! Your request has been received and a roofing specialist will contact you soon to schedule your free estimate.",
+  aboutSectionTitle: "",
+  featureCards: [],
 }
