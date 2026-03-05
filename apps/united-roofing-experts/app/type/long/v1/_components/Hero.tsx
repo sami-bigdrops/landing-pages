@@ -26,14 +26,14 @@ export default function Hero() {
       <div className="hero-content  flex flex-col items-center justify-center md:flex-row  md:justify-between gap-6 ">
         
         <div className="left-content md:w-[50%] w-full flex flex-col items-center md:justify-start md:items-start justify-center gap-4 ">
-          <h1 className="text-3xl lg:text-4xl xl:text-5xl md:max-w-[300px] lg:max-w-[350px] xl:max-w-[600px] font-bold md:text-left text-white text-center font-sans leading-tight tracking-tight">
+          <h1 className="text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl md:max-w-[300px] lg:max-w-[350px] xl:max-w-[600px] 2xl:max-w-[700px] font-bold md:text-left text-white text-center font-sans leading-tight tracking-tight">
             {HERO_CONTENT.headline}
           </h1>
-          <p className="text-white text-center font-sans text-base lg:text-lg xl:text-xl font-normal md:text-left md:max-w-[300px] lg:max-w-[350px] xl:max-w-[400px] leading-normal tracking-tight">
+          <p className="text-white text-center font-sans text-base lg:text-lg xl:text-xl 2xl:text-2xl font-normal md:text-left md:max-w-[300px] lg:max-w-[350px] xl:max-w-[400px] 2xl:max-w-[500px] leading-normal tracking-tight">
             {HERO_CONTENT.description}
           </p>
 
-          <div className="w-full flex items-center md:justify-start justify-center my-3 md:my-5 xl:my-7 gap-6 xl:gap-8 ">
+          <div className="w-full flex items-center md:justify-start justify-center my-3 md:my-5 xl:my-7 2xl:my-9 gap-6 xl:gap-8 ">
             {HERO_CONTENT.partners.map((partner) => (
               <Image
                 key={partner.alt}

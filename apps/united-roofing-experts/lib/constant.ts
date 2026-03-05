@@ -13,13 +13,13 @@ export const HERO_CONTENT = {
       alt: "Angi",
       src: "/partner-1.svg",
       width: 80,
-      className: "w-25 lg:w-30 xl:w-34 h-auto object-contain",
+      className: "w-25 lg:w-30 xl:w-34 2xl:w-40 h-auto object-contain",
     },
     {
       alt: "Houzz",
       src: "/partner-2.svg",
       width: 140,
-      className: "w-38 lg:w-40 xl:w-45 h-auto object-contain",
+      className: "w-38 lg:w-40 xl:w-45 2xl:w-50 h-auto object-contain",
     },
     
   ],
