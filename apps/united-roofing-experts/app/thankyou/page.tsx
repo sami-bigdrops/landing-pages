@@ -7,13 +7,21 @@ import { ThankYouType2, type ThankYouAd } from "@/app/_components/ThankYouType2"
 
 const THANKYOU_ADS: ThankYouAd[] = [
   {
-    image: "/2.png",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=115&sub1=pwe_${utm_source}&sub2=${utm_id}",
+    image: '/nerdwallet.png',
+    link: 'https://www.platinum-home-track.com/28KL6/3GHXJS7/?sub1=ure_${utmParams.utm_source}&sub2=${utmParams.utm_id}&sub3=${utmParams.utm_s1}'
   },
   {
-    image: "/3.jpg",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=113&sub1=pwe_${utm_source}&sub2=${utm_id}",
+    image: '/adt.png',
+    link: 'https://www.platinum-home-track.com/28KL6/49FHNSP/?sub1=ure_${utmParams.utm_source}&sub2=${utmParams.utm_id}&sub3=${utmParams.utm_s1}'
   },
+  {
+    image: '/ahs.jpg',
+    link: 'https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=113&sub1=ure_${utmParams.utm_source}&sub2=${utmParams.utm_id}&sub3=${utmParams.utm_s1}'
+  },
+  {
+    image: '/arw-home.png',
+    link: 'https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=114&sub1=ure_${utmParams.utm_source}&sub2=${utmParams.utm_id}&sub3=${utmParams.utm_s1}'
+  }
 ]
 
 export const metadata: Metadata = {
