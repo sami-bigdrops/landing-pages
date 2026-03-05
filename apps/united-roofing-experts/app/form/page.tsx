@@ -1,6 +1,6 @@
 import FormPageWrapper from "@/app/type/long/v1/_components/Form"
-import Navbar from "../_components/Navbar.js"
-import Footer from "../_components/Footer.js"
+import Navbar from "../_components/Navbar"
+import Footer from "../_components/Footer"
 
 export default function FormRoute() {
   return (
