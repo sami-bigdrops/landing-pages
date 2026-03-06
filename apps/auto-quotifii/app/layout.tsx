@@ -1,23 +1,24 @@
-import { Inter } from "next/font/google"
+import { Poppins } from "next/font/google"
 import { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
 
-const fontSans = Inter({
+const fontSans = Poppins({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-sans",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 })
 
 export const metadata: Metadata = {
   title: {
-    default: "Auto Assurerates Veterans - Auto Insurance",
-    template: "%s | Auto Assurerates Veterans",
+    default: "Auto Quotifii - Auto Quotes",
+    template: "%s | Auto Quotifii",
   },
   description:
-    "Auto Assurerates Veterans provides top-quality auto insurance services across the USA. We offer auto insurance, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Auto Quotifii provides top-quality auto quotes services across the USA. We offer auto quotes, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
