@@ -39,8 +39,8 @@ export default function Hero() {
   }, []);
 
   const headlineText = cityName
-    ? `Let's drop your rate in ${cityName} today!`
-    : "Let's drop your rate in your area today!";
+    ? `Let's Drop Your Rate in  ${cityName} Today!`
+    : "Let's Drop Your Rate in Your Area Today!";
 
   const handleContinue = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
@@ -79,21 +79,35 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="bg-[#D8E4F1] w-full px-6 sm:px-6 lg:px-8 py-8 lg:py-15 xl:px-23 ">
+    <div className="relative w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[510px]">
+      <div
+        className="absolute inset-0 w-full h-full"
+        style={{
+          backgroundImage: "url('/hero-bg.webp')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "left"
+        }}
+      />
+      <div
+        className="absolute inset-0 w-full h-full bg-black/25"
+        aria-hidden
+      />
+      <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-8 py-10 md:py-15 md:px-8 lg:py-22 xl:px-23 xl:py-38 2xl:py-50">
       <div className="container mx-auto ">
-        <div className="flex flex-col md:flex-row gap-6 md:gap-10 lg:gap-12 xl:gap-16 items-center lg:items-center">
+        <div className="flex flex-col md:flex-row  bg-[#FFFFFF] px-4 py-7 xl:px-6 xl:py-9 2xl:py-9.5  md:max-w-[500px] lg:max-w-[530px] xl:max-w-[790px] 2xl:max-w-[860px] rounded-none justify-center items-center md:justify-center lg:items-center">
           <div className="flex-1 w-full">
-            <div className="flex flex-col items-center md:items-start gap-6 lg:gap-7 xl:gap-8 max-w-2xl mx-auto md:mx-0">
-              <div className="flex flex-col items-center lg:items-start gap-3 xl:gap-4">
-                <h1 className=" text-[1.3rem]  md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#1C2833] text-center md:text-left font-inter " style={{ lineHeight: "1.3" }}>
+            <div className="w-full flex flex-col items-center md:items-center gap-4 md:gap-5 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
+              <div className="w-full flex flex-col items-center lg:items-center xl:items-start gap-3 xl:gap-4">
+                <h1 className=" text-[1.3rem] md:text-[1.25rem]  lg:text-[1.35rem] xl:text-[2rem] 2xl:text-[2.2rem] font-bold text-[#1C2833] text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-sans " style={{ lineHeight: "1.3" }}>
                   {headlineText}
                 </h1>
               </div>
-              <div className="flex flex-col items-center md:flex-row  gap-3 md:gap-0  w-full lg:max-w-[460px] xl:max-w-full ">
+              <div className="w-full flex flex-col items-center md:flex-row  gap-3   lg:max-w-[490px] xl:max-w-full ">
                 <div className="w-full">
                   <div className="relative">
                     <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                      <Image src="/location.svg" alt="" width={20} height={20} className="w-5 h-5 " />
+                      <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
                     </div>
                     <ZipCodeInput
                       id="hero-zipcode"
@@ -102,15 +116,14 @@ export default function Hero() {
                       onKeyDown={handleKeyPress}
                       placeholder="90001"
                       inputClassName="
-                        h-14 md:h-14.5 xl:h-16 pl-10 pr-2 text-base lg:text-lg xl:text-xl font-normal font-inter
+                        h-14 md:h-14.5 xl:h-16 pl-10 xl:pl-11 pr-2 text-[0.9rem] lg:text-[1.05rem] xl:text-xl font-normal font-sans
                         rounded-[10px] 
                         
-                        md:rounded-tr-none md:rounded-br-none
-                        border border-[#3498DB] 
-                        md:border-r-0
+
+                        border border-[#0035994D] 
                         bg-white 
                         w-full 
-                        shadow-[0_0_15px_0_rgba(31,58,95,0.15)]
+                        shadow-[0_0_10px_0_rgba(0,53,153,0.15)]
                       
                         placeholder:text-[#444444]
                         focus-visible:ring-0 focus-visible:ring-offset-0
@@ -125,52 +138,18 @@ export default function Hero() {
                   variant="default"
                   onClick={handleContinue}
                   disabled={isRedirecting || !zipValid}
-                  className="bg-[#3498DB] h-14 md:h-14.5 xl:h-16 md:w-47 lg:w-52 xl:w-66  cursor-pointer text-white font-semibold font-inter rounded-[10px] md:rounded-tl-none md:rounded-bl-none text-sm xl:text-lg px-8 py-6 md:py-5.5  flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
+                  className="bg-[#F16601] h-14 md:h-14.5 xl:h-16 md:w-45 lg:w-52 xl:w-66  cursor-pointer text-white font-medium font-sans rounded-[10px]  text-sm lg:text-[0.9rem] xl:text-lg px-8 py-6 md:py-5.5  flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed "
                 >
                   {isRedirecting ? "Redirecting..." : "Request My Quotes"}
-                  {!isRedirecting && (
-                    <Image src="/arrow.svg" alt="arrow icon" width={20} height={20} className="w-3.5 h-3.5" />
-                  )}
+                  
                 </Button>
               </div>
             </div>
           </div>
 
-          <div className="flex-1 w-full md:w-auto md:relative">
-            <div className="relative rounded-lg overflow-hidden h-full w-full md:h-[260px] lg:h-[300px] xl:h-[390px]">
-              <Image
-                src={HERO_CONTENT.image.src}
-                alt={HERO_CONTENT.image.alt}
-                width={800}
-                height={600}
-                className="w-full h-full object-cover hidden md:block"
-                priority
-              />
-
-              <div className="md:absolute bottom-3 left-3 xl:bottom-4 xl:left-4 flex flex-col justify-center items-center md:items-start gap-2 md:gap-2 xl:gap-3 z-10">
-                {HERO_CONTENT.features.map((feature, index) => (
-                  <div
-                    key={index}
-                    className="bg-[#EDF2F9] rounded-[10px] px-3 md:pr-3 md:py-2 py-2  max-w-fit w-full"
-                  >
-                    <div className="flex items-center justify-center w-full gap-2">
-                      <Image
-                        src={feature.image}
-                        alt={feature.alt}
-                        width={20}
-                        height={20}
-                        className="w-4.5 h-4.5 xl:w-6 xl:h-6 flex-shrink-0 object-contain"
-                      />
-                      <p className="text-sm xl:text-lg font-normal text-[#1F3A5F] font-inter">
-                        {feature.text}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          
         </div>
+      </div>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ export default function Review() {
     <div className="review bg-white w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
       <div className="container mx-auto">
         <div className="review-content w-full flex flex-col items-center justify-center gap-5 md:gap-8 lg:gap-10 xl:gap-16 ">
-          <h2 className="text-2xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-[#1C2833] text-center font-inter  leading-tight tracking-tight">
+          <h2 className="text-2xl md:text-2xl lg:text-3xl xl:text-4xl max-w-[200px] md:max-w-full  font-bold text-[#1A1A1A] text-center font-sans  leading-tight tracking-tight">
             {REVIEW_CONTENT.header}
           </h2>
 
@@ -18,7 +18,7 @@ export default function Review() {
               {REVIEW_CONTENT.reviews.map((review) => (
                 <div
                   key={review.id}
-                  className="w-full md:w-auto min-w-0 bg-white border border-[#B2B6BC] shadow-[4px_4px_6px_0_rgba(31,58,95,0.10)] rounded-[20px] flex flex-col items-start justify-start gap-4 p-5 xl:p-6 lg:gap-5.5 xl:gap-5  min-h-[260px] xl:min-h-[250px] "
+                  className="w-full md:w-auto min-w-0 bg-white border border-[#0035994D] shadow-[2px_2px_15px_0_rgba(31,58,95,0.10)] rounded-[15px] flex flex-col items-start justify-start gap-4 p-5 py-6 xl:p-6 lg:gap-5.5 xl:gap-5  min-h-[260px] xl:min-h-[250px] "
                 >
                   <div className="flex items-center justify-start gap-0.5">
                     {[...Array(5)].map((_, index) => (
@@ -39,12 +39,12 @@ export default function Review() {
                     ))}
                   </div>
 
-                  <p className="text-[0.9rem] lg:text-base xl:text-[1.05rem] xl:max-w-[330px] text-[#374151] font-inter flex-1" style={{ lineHeight: 1.5 }}>
+                  <p className="text-[0.9rem] lg:text-base xl:text-[1.05rem] xl:max-w-[330px] text-[#4B5563] font-sans flex-1" style={{ lineHeight: 1.5 }}>
                     &quot;{review.quote}&quot;
                   </p>
 
                   <div className="w-full flex flex-col items-start justify-start xl:flex-row xl:items-center xl:justify-between gap-2 mt-auto">
-                    <div className="flex items-center justify-start gap-3 xl:w-[58%] ">
+                    <div className="flex items-center justify-start gap-3  ">
                       <div className="w-10 h-10 xl:w-12 xl:h-12 overflow-hidden flex items-center justify-center flex-shrink-0 relative">
                         <Image
                           src={review.customer.image.src}
@@ -55,28 +55,15 @@ export default function Review() {
                         />
                       </div>
                       <div>
-                        <p className="font-semibold text-sm lg:text-base xl:text-lg text-[#1C2833] font-inter">
+                        <p className="font-semibold text-sm lg:text-base xl:text-lg text-[#1A1A1A] font-sans">
                           {review.customer.name}
                         </p>
-                        <p className="text-[0.83rem] md:text-[0.83rem] lg:text-[0.88rem] 2xl:text-[0.95rem] text-[#374151] font-inter">
+                        <p className="text-[0.83rem] md:text-[0.83rem] lg:text-[0.9rem] 2xl:text-[1rem] text-[#4B5563] font-inter">
                           {review.customer.location}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-start xl:justify-end w-full xl:w-[42%] xl:mt-0 mt-2">
-                      <div className="inline-flex items-center gap-1.5 rounded-[20px] bg-[#EDF2F9] px-2 py-1.5 xl:py-2">
-                        <Image
-                          src={REVIEW_CONTENT.verifiedBadge.src}
-                          alt={REVIEW_CONTENT.verifiedBadge.alt}
-                          width={18}
-                          height={18}
-                          className="w-3.5 h-3.5flex-shrink-0 object-contain"
-                        />
-                        <span className="text-xs xl:text-[0.8rem] font-medium text-[#1F3A5F] font-inter">
-                          {REVIEW_CONTENT.verifiedBadge.label}
-                        </span>
-                      </div>
-                    </div>
+                   
                   </div>
                 </div>
               ))}

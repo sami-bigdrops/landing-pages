@@ -1,89 +1,111 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "See Veteran Friendly Auto Rates in Your <City Name>",
+  headline: "Let's drop your rate in {city_name} today!",
   image: {
     src: "/hero.webp",
-    alt: "Veterans in military uniform"
+    alt: "Auto Quotifii"
   },
-  features: [
-    { text: "Curated insurance matches", image: "/hero-1.svg", alt: "flag icon" },
-    { text: "Trusted savings, made simple", image: "/hero-2.svg", alt: "money icon" },
-    { text: "+5 million matches delivered", image: "/hero-3.svg", alt: "user icon" },
-  ],
+ 
   
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "We Work With Top-Rated Insurance Partners Nationwide",
+  header: "We partner with top providers",
 
   partners: [
-    { alt: "Partner 1", src: "/partner-1.svg"  },
-    { alt: "Partner 2", src: "/partner-2.svg"  },
-    { alt: "Partner 3", src: "/partner-3.svg"  },
-    { alt: "Partner 4", src: "/partner-4.svg"  },
-    { alt: "Partner 5", src: "/partner-5.svg"  },
-    { alt: "Partner 6", src: "/partner-6.svg"  },
+    { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-35 xl:w-53 overflow-hidden object-contain" },
+    { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-35 xl:w-53 overflow-hidden object-contain" },
+    { alt: "Partner 3", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-35 xl:w-53 overflow-hidden object-contain" },
+    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-15 xl:w-25 overflow-hidden object-contain" },
+    { alt: "Partner 5", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-34 xl:w-53 overflow-hidden object-contain" },
+    { alt: "Partner 6", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-30 xl:w-40 overflow-hidden object-contain" },
   ],
 } as const
 
 export const OPTIONS_CONTENT = {
-  header: "Ready To See Options That Fit You?",
+  header: "A Better Rate Could Be Waiting In Your ZIP",
+  description: "Tell us the basics and we’ll line up options worth a look.",
 
- 
-  featureList: [
-    {  text: "Free to check" },
-    {  text: "No obligation" },
-    {  text: "Your details stay private" },
-  ],
+  image: {
+    src: "/quokka.webp",
+    alt: "Quokka Image",
+  },
+  
 } as const
 
 export const REVIEW_CONTENT = {
-  header: "Hear From Veterans Who Found a Better Fit",
-  verifiedBadge: {
-    src: "/review-vector.svg",
-    alt: "Verified",
-    label: "Verified Customer",
-  },
+  header: "What Our Customers Say",
+  
   reviews: [
     {
      id: 1,
-      quote: "Quick and straightforward. I could compare options in one place and didn't feel pressured to buy right away.",
+      quote: "I didn’t expect it to be this simple. I answered a few questions, compared options, and ended up switching to a better rate the same day. Having an agent walk me through everything really helped.",
       customer: {
-        name: "JMark Keeling",
-        location: "Army Veteran, Texas",
-        status: "Verified Customer",
+        name: "Amanda Reynolds",
+        location: "San Diego, CA",
         image: {
           src: "/profile-1.svg",
-          alt: "Jessica R.",
+          alt: "Amanda Reynolds",
         },
       },
     },
     {
       id: 2,
-      quote: "The steps were clear, and I knew what information I needed before starting. It saved me time calling around",
+      quote: "I liked that I could see different quotes in one place instead of jumping between websites. The process was quick, and I felt confident about the coverage I chose.",
       customer: {
-        name: "Beth Sawayn",
-        location: "Navy Veteran, Florida",
-        status: "Verified Customer",
+        name: "Jason M.",
+        location: "Austin, TX",
         image: {
           src: "/profile-2.svg",
-          alt: "Mark & Emily S.",
+          alt: "Jason M.",
         },
       },
     },
     {
      
       id: 3,
-      quote: "Helpful to see different coverage choices side by side. Made it easier to pick something that fit my budget.",
+      quote: "I was paying way more than I should have. Quotifii helped me find a more affordable option in minutes, and the agent explained everything clearly. Super easy experience.",
       customer: {
-        name: "Jimmie Hills Jr.",
-        location: "Marine Veteran, Ohio",
-        status: "Verified Customer",
+        name: "Priya S",
+        location: "Edison, NJ",
         image: {
           src: "/profile-3.svg",
-          alt: "Susan Roberts",
+          alt: "Priya S",
         },
+      },
+    },
+  ],
+} as const
+
+export const FEATURES_CONTENT = {
+  header: "A Smarter Way To Shop For Cover",
+  steps: [
+    {
+      number: 1,
+      title: "Multi-Vehicle Savings",
+      description: "One household, more than one car? Bundle options in seconds and see what changes.",
+      image: {
+        src: "/feature-1.svg",
+        alt: "Multi-Vehicle Savings",
+      },
+    },
+    {
+      number: 2,
+      title: "Safe Driver Discounts",
+      description: "If you drive sensibly, your rate should notice. We help you spot discounts you may qualify for.",
+      image: {
+        src: "/feature-2.svg",
+        alt: "Safe Driver Discounts",
+      },
+    },
+    {
+      number: 3,
+      title: "24/7 Roadside Assistance",
+      description: "Flat tyre, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
+      image: {
+        src: "/feature-3.svg",
+        alt: "24/7 Roadside Assistance",
       },
     },
   ],
@@ -92,15 +114,14 @@ export const REVIEW_CONTENT = {
 
 
 export const FOOTER_CONTENT = {
-  description: "The Smart Way to Shop For Insurance.",
+  
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },
     { text: "Contact ", href: "/contact" },
   ],
-  disclaimer:
-  'For quality control purposes, your activity on this site may be monitored or recorded by AssureRates or its service providers.',
-  copyrightText: "Copyright © 2026 AssureRates. All Rights Reserved.",
+
+  copyrightText: "Copyright © 2026 Quotifii. All Rights Reserved.",
 } as const
 
 export const THANKYOU_CONTENT = {
