@@ -89,18 +89,32 @@ export default function MortgageSlider({
           {formatMoney(value)}
         </span>
       </div>
-      <div className="px-1">
+      <div className="px-1 py-4 sm:py-2 touch-none select-none">
         <style>{`
+          #${id} {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none;
+          }
           #${id}::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 22px; width: 22px; border-radius: 50%;
             background: #3498DB; border: 3px solid white;
             box-shadow: 0 1px 6px rgba(52,152,219,0.45); cursor: pointer;
+            transition: transform 0.15s ease;
           }
           #${id}::-moz-range-thumb {
             height: 22px; width: 22px; border-radius: 50%;
             background: #3498DB; border: 3px solid white;
             box-shadow: 0 1px 6px rgba(52,152,219,0.45); cursor: pointer;
+            transition: transform 0.15s ease;
+          }
+          @media (max-width: 768px), (hover: none) {
+            #${id}::-webkit-slider-thumb {
+              height: 28px; width: 28px; border-width: 3px;
+            }
+            #${id}::-moz-range-thumb {
+              height: 28px; width: 28px; border-width: 3px;
+            }
           }
         `}</style>
         <input
@@ -111,7 +125,7 @@ export default function MortgageSlider({
           step={1}
           value={currentIdx}
           onChange={handleChange}
-          className="w-full h-2 rounded-full appearance-none cursor-pointer outline-none"
+          className="w-full h-2 sm:h-2 min-h-[44px] sm:min-h-0 rounded-full appearance-none cursor-pointer outline-none accent-[#3498DB]"
           style={{ background: `linear-gradient(to right, #3498DB ${pct}%, #dbeafe ${pct}%)` }}
         />
       </div>
