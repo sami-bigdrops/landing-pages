@@ -376,10 +376,10 @@ function InfoTip({ text }: { text: string }) {
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
-        className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-[#3498DB]/15 border border-[#3498DB]/40 text-[#3498DB] hover:bg-[#3498DB]/25 hover:border-[#3498DB] transition-colors"
+        className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-[#1E3A8A]/20 border border-[#1E3A8A]/60 text-[#1E3A8A] hover:bg-[#1E3A8A]/30 hover:border-[#1E3A8A] transition-colors"
         aria-label="More information"
       >
-        <Info size={12} />
+        <Info size={12} strokeWidth={2.5} />
       </button>
       {open && (
         <span className="absolute left-0 bottom-full mb-2 w-64 max-w-[80vw] p-3 rounded-lg bg-[#1C2833] text-white text-xs leading-relaxed font-normal shadow-lg z-50">
@@ -681,6 +681,26 @@ function RefinanceForm() {
           icon={<DollarSign size={18} className="text-[#3498DB]" />}
         />
       </div>
+
+      {!isLastStep && (() => {
+        const stepsLeft = progressTotal - progressCurrent;
+        const phrase = stepsLeft === 1
+          ? "Complete 1 more question to view updated rates."
+          : stepsLeft <= 3
+            ? "Complete 2-3 additional questions to view updated rates."
+            : `Complete ${stepsLeft} additional questions to view updated rates.`;
+        return (
+          <div className="mb-5 flex gap-2 rounded-lg border border-[#dc2626]/20 bg-[#fef2f2]/80 p-3 text-left">
+            <span className="mt-0.5 flex h-4 w-4 shrink-0 rounded-full bg-[#dc2626]" aria-hidden />
+            <div>
+              <p className="text-sm font-bold text-[#b91c1c]">{phrase}</p>
+              <p className="mt-0.5 text-xs text-[#991b1b]/90">
+                Note: If you abandon this form and rates rise tomorrow, you&apos;ll lose access to today&apos;s lower estimate.
+              </p>
+            </div>
+          </div>
+        );
+      })()}
 
       <div className="rounded-lg bg-white border border-gray-200 shadow-sm p-6 md:p-8">
 

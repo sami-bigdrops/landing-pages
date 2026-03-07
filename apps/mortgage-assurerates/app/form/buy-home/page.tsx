@@ -285,8 +285,8 @@ function InfoTip({ text }: { text: string }) {
     <span ref={ref} className="relative inline-flex ml-1.5 align-middle"
       onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <button type="button" onClick={() => setOpen((p) => !p)} aria-label="More information"
-        className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-[#3498DB]/15 border border-[#3498DB]/40 text-[#3498DB] hover:bg-[#3498DB]/25 hover:border-[#3498DB] transition-colors">
-        <Info size={12} />
+        className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-[#1E3A8A]/20 border border-[#1E3A8A]/60 text-[#1E3A8A] hover:bg-[#1E3A8A]/30 hover:border-[#1E3A8A] transition-colors">
+        <Info size={12} strokeWidth={2.5} />
       </button>
       {open && (
         <span className="absolute left-0 bottom-full mb-2 w-64 max-w-[80vw] p-3 rounded-lg bg-[#1C2833] text-white text-xs leading-relaxed font-normal shadow-lg z-50">
@@ -498,6 +498,26 @@ function BuyHomeForm() {
           icon={<Home size={18} className="text-[#3498DB]" />} />
       </div>
 
+      {!isLastStep && (() => {
+        const stepsLeft = TOTAL_STEPS - currentStep;
+        const phrase = stepsLeft === 1
+          ? "Complete 1 more question to view updated rates."
+          : stepsLeft <= 3
+            ? "Complete 2-3 additional questions to view updated rates."
+            : `Complete ${stepsLeft} additional questions to view updated rates.`;
+        return (
+          <div className="mb-5 flex gap-2 rounded-lg border border-[#dc2626]/20 bg-[#fef2f2]/80 p-3 text-left">
+            <span className="mt-0.5 flex h-4 w-4 shrink-0 rounded-full bg-[#dc2626]" aria-hidden />
+            <div>
+              <p className="text-sm font-bold text-[#b91c1c]">{phrase}</p>
+              <p className="mt-0.5 text-xs text-[#991b1b]/90">
+                Note: If you abandon this form and rates rise tomorrow, you&apos;ll lose access to today&apos;s lower estimate.
+              </p>
+            </div>
+          </div>
+        );
+      })()}
+
       <div className="rounded-lg bg-white border border-gray-200 shadow-sm p-6 md:p-8">
 
         {/* ── 1 · PROP_ST + PROP_DESC ── */}
@@ -567,17 +587,22 @@ function BuyHomeForm() {
               </span>
               <span className="text-sm font-semibold text-gray-400 font-inter">({downPct}%)</span>
             </div>
-            <div className="px-1">
+            <div className="px-1 py-4 sm:py-2 touch-none select-none">
               <style>{`
+                #downPmt { -webkit-tap-highlight-color: transparent; touch-action: none; }
                 #downPmt::-webkit-slider-thumb { -webkit-appearance:none; height:22px; width:22px; border-radius:50%;
-                  background:#3498DB; border:3px solid white; box-shadow:0 1px 6px rgba(52,152,219,0.45); cursor:pointer; }
+                  background:#3498DB; border:3px solid white; box-shadow:0 1px 6px rgba(52,152,219,0.45); cursor:pointer; transition: transform 0.15s ease; }
                 #downPmt::-moz-range-thumb { height:22px; width:22px; border-radius:50%;
-                  background:#3498DB; border:3px solid white; box-shadow:0 1px 6px rgba(52,152,219,0.45); cursor:pointer; }
+                  background:#3498DB; border:3px solid white; box-shadow:0 1px 6px rgba(52,152,219,0.45); cursor:pointer; transition: transform 0.15s ease; }
+                @media (max-width: 768px), (hover: none) {
+                  #downPmt::-webkit-slider-thumb { height: 28px; width: 28px; border-width: 3px; }
+                  #downPmt::-moz-range-thumb { height: 28px; width: 28px; border-width: 3px; }
+                }
               `}</style>
               <input id="downPmt" type="range" min={0} max={downPmtPts.length - 1} step={1}
                 value={(() => { const idx = downPmtPts.indexOf(fd._downPmt); return idx >= 0 ? idx : 0; })()}
                 onChange={(e) => { const v = downPmtPts[parseInt(e.target.value, 10)] ?? 0; update({ _downPmt: v }); }}
-                className="w-full h-2 rounded-full appearance-none cursor-pointer outline-none"
+                className="w-full h-2 min-h-[44px] sm:min-h-0 rounded-full appearance-none cursor-pointer outline-none accent-[#3498DB]"
                 style={{ background: `linear-gradient(to right, #3498DB ${((downPmtPts.indexOf(fd._downPmt) >= 0 ? downPmtPts.indexOf(fd._downPmt) : 0) / Math.max(downPmtPts.length - 1, 1)) * 100}%, #dbeafe ${((downPmtPts.indexOf(fd._downPmt) >= 0 ? downPmtPts.indexOf(fd._downPmt) : 0) / Math.max(downPmtPts.length - 1, 1)) * 100}%)` }}
               />
             </div>
