@@ -38,7 +38,6 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
   const [email, setEmail] = useState("")
   const [zipCode, setZipCode] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
-  const [roofType, setRoofType] = useState("")
   const [isHomeowner, setIsHomeowner] = useState("")
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
@@ -86,7 +85,6 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
       email: email.trim(),
       phoneNumber: phoneNumber.trim(),
       zipCode: zipCode.trim(),
-      roofType: roofType || "",
       isHomeowner: isHomeowner || "",
       subid1: getCookie("subid1") ?? "",
       subid2: getCookie("subid2") ?? "",
@@ -234,20 +232,6 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
                   className={inputBaseClass}
                 />
               </div>
-            </div>
-
-            <div className="relative">
-              <div className={inputIconClass}>
-                <Image src="/house.svg" alt="" width={20} height={20} className="w-5 h-5" />
-              </div>
-              <SelectInputUI
-                placeholder="Is your roof sloped or flat?"
-                options={roofTypeOptions}
-                value={roofType}
-                onChange={setRoofType}
-                containerClassName="mb-0"
-                selectClassName={`${inputBaseClass} cursor-pointer flex items-center justify-between text-[0.8rem] lg:text-sm md:text-[0.75rem]  `}
-              />
             </div>
 
             <RadioButtonGroup
