@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useUtmParams, setCookie, getCookie } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
-import { HERO_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
@@ -11,8 +10,8 @@ import { ArrowRight } from "lucide-react";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const REDIRECT_BASE_URL = "https://auto.assurerates.com";
-const REFERRER = "quotes.assurerates.com";
+const BASE_URL = "https://auto.assurerates.com";
+const REFERRER = "auto.quotifii.com";
 const TID = "3286";
 
 export default function Hero() {
@@ -65,7 +64,7 @@ export default function Hero() {
     if (utmId) params.set("subid2", utmId);
     if (utmS1) params.set("c1", utmS1);
 
-    const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
+    const redirectUrl = `${BASE_URL}/form?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
 
@@ -91,14 +90,20 @@ export default function Hero() {
         }}
       />
       <div
-        className="absolute inset-0 w-full h-full bg-black/25"
+        className="absolute inset-0 w-full h-full bg-black/40"
         aria-hidden
       />
       <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-8 py-10 md:py-15 md:px-8 lg:py-20 xl:px-23 xl:py-33 2xl:py-38">
         <div className="container mx-auto ">
           <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-4 md:gap-8 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
             <div className="w-full flex flex-col items-center  md:items-start gap-3 xl:gap-4">
-              <h1 className=" text-[1.45rem] md:text-[1.35rem] lg:text-[1.4rem]  xl:text-[1.9rem]  font-bold text-white text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-sans " style={{ lineHeight: "1.3" }}>
+              <h1
+                className="text-[1.45rem] md:text-[1.35rem] lg:text-[1.4rem] xl:text-[1.9rem] 2xl:text-[2.1rem] font-extrabold text-white text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-sans"
+                style={{
+                  lineHeight: "1.3",
+                  textShadow: "0 1px 3px rgba(0,0,0,0.5), 0 2px 12px rgba(0,0,0,0.4), 0 0 1px rgba(0,0,0,0.8)",
+                }}
+              >
                 {headlineText}
               </h1>
             </div>
