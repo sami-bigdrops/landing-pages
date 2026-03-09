@@ -23,6 +23,7 @@ export interface ThankYouType2Props {
   adSectionTitle?: string
   redirectPath?: string
   loadingFallback?: React.ReactNode
+  requireEmailInParams?: boolean
 }
 
 function getCookie(name: string): string {
@@ -39,6 +40,7 @@ export function ThankYouType2({
   adSectionTitle,
   redirectPath = "/",
   loadingFallback,
+  requireEmailInParams = false,
 }: ThankYouType2Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -59,6 +61,12 @@ export function ThankYouType2({
     if (accessCheckStartedRef.current) return
     accessCheckStartedRef.current = true
 
+    if (!requireEmailInParams) {
+      setIsAuthorized(true)
+      setIsLoading(false)
+      return
+    }
+
     const emailFromUrl = searchParams.get("email")
     if (emailFromUrl) {
       setIsAuthorized(true)
@@ -76,7 +84,7 @@ export function ThankYouType2({
       router.replace(redirectPath)
     }
     setIsLoading(false)
-  }, [searchParams, router, redirectPath])
+  }, [searchParams, router, redirectPath, requireEmailInParams])
 
   if (isLoading) {
     if (loadingFallback) return <>{loadingFallback}</>
@@ -102,8 +110,8 @@ export function ThankYouType2({
             {content.title}
           </h1>
 
-          {content.partnerLogo.src ? (
-            <div className="mt-8 flex justify-center">
+          <div className="mt-8 flex justify-center">
+            {content.partnerLogo.src ? (
               <Image
                 src={content.partnerLogo.src}
                 alt={content.partnerLogo.alt}
@@ -111,12 +119,25 @@ export function ThankYouType2({
                 height={120}
                 className="h-auto w-full max-w-[280px] object-contain"
               />
-            </div>
-          ) : null}
+            ) : (
+              <div
+                className="flex h-28 w-full max-w-[280px] items-center justify-center rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 text-sm font-medium text-gray-500"
+                aria-hidden
+              >
+                Brand Logo
+              </div>
+            )}
+          </div>
 
           <p className="mt-6 text-base font-medium leading-relaxed text-gray-600 sm:text-lg max-w-[690px] mx-auto">
             {content.confirmationMessage}
           </p>
+
+          {content.confirmationEmailSentNote ? (
+            <div className="mt-4 mx-auto max-w-[690px] rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-center text-sm text-green-800 sm:text-base">
+              {content.confirmationEmailSentNote}
+            </div>
+          ) : null}
 
           {content.aboutSectionTitle && content.featureCards.length > 0 ? (
             <>

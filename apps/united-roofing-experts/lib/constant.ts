@@ -303,16 +303,21 @@ export interface ThankYouType2Content {
   partnerName: string
   partnerLogo: { src: string; alt: string }
   confirmationMessage: string
+  confirmationEmailSentNote?: string
   aboutSectionTitle: string
   featureCards: ThankYouType2FeatureCard[]
 }
+
+export const THANKYOU_REQUIRE_EMAIL_IN_PARAMS = false
 
 export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
   title: "Thank you!",
   partnerName: "",
   partnerLogo: { src: "", alt: "" },
   confirmationMessage:
-    "Thank you for choosing United Roofing Experts! Your request has been received and a roofing specialist will contact you soon to schedule your free estimate.",
+    "Congratulations, you have been matched with \"Brand Name\" and a roofing specialist will contact you soon to schedule your free estimate.",
+  confirmationEmailSentNote:
+    "A confirmation email has been sent to your email address. If you don't see it in your inbox, please check your spam folder.",
   aboutSectionTitle: "",
   featureCards: [],
 }
