@@ -9,7 +9,7 @@ export default function Review() {
     <div className="review bg-white w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
       <div className="container mx-auto">
         <div className="review-content w-full flex flex-col items-center justify-center gap-5 md:gap-8 lg:gap-10 xl:gap-16 ">
-          <h2 className="text-2xl md:text-2xl lg:text-3xl xl:text-4xl max-w-[200px] md:max-w-full  font-bold text-[#1A1A1A] text-center font-sans  leading-tight tracking-tight">
+          <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl max-w-[200px] md:max-w-full  font-bold text-[#1A1A1A] text-center font-sans  leading-tight tracking-tight">
             {REVIEW_CONTENT.header}
           </h2>
 
@@ -39,13 +39,13 @@ export default function Review() {
                     ))}
                   </div>
 
-                  <p className="text-[0.9rem] lg:text-base xl:text-[1.05rem] xl:max-w-[330px] text-[#4B5563] font-sans flex-1" style={{ lineHeight: 1.5 }}>
+                  <p className="text-sm  xl:text-base xl:max-w-[330px] text-[#4B5563] font-sans flex-1" style={{ lineHeight: 1.5 }}>
                     &quot;{review.quote}&quot;
                   </p>
 
                   <div className="w-full flex flex-col items-start justify-start xl:flex-row xl:items-center xl:justify-between gap-2 mt-auto">
                     <div className="flex items-center justify-start gap-3  ">
-                      <div className="w-10 h-10 xl:w-12 xl:h-12 overflow-hidden flex items-center justify-center flex-shrink-0 relative">
+                      <div className="w-10 h-10 xl:w-11.5 xl:h-11.5 overflow-hidden flex items-center justify-center flex-shrink-0 relative">
                         <Image
                           src={review.customer.image.src}
                           alt={review.customer.image.alt}
@@ -55,10 +55,10 @@ export default function Review() {
                         />
                       </div>
                       <div>
-                        <p className="font-semibold text-sm lg:text-base xl:text-lg text-[#1A1A1A] font-sans">
+                        <p className="font-semibold text-sm lg:text-sm xl:text-base text-[#1A1A1A] font-sans">
                           {review.customer.name}
                         </p>
-                        <p className="text-[0.83rem] md:text-[0.83rem] lg:text-[0.9rem] 2xl:text-[1rem] text-[#4B5563] font-inter">
+                        <p className="text-sm lg:text-sm xl:text-base text-[#4B5563] font-inter">
                           {review.customer.location}
                         </p>
                       </div>
