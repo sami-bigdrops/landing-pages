@@ -102,7 +102,7 @@ export const FEATURES_CONTENT = {
     {
       number: 3,
       title: "24/7 Roadside Assistance",
-      description: "Flat tyre, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
+      description: "Flat tire, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
       image: {
         src: "/feature-3.svg",
         alt: "24/7 Roadside Assistance",
