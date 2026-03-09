@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
       email,
       phoneNumber,
       zipCode,
-      whatDoYouNeed,
       roofType,
       isHomeowner,
       subid1,
@@ -31,7 +30,6 @@ export async function POST(request: NextRequest) {
       email,
       phoneNumber,
       zipCode,
-      whatDoYouNeed: whatDoYouNeed ?? "",
       roofType: roofType ?? "",
       isHomeowner: isHomeowner ?? "",
       subid1: subid1 ?? "",
@@ -60,7 +58,6 @@ export async function POST(request: NextRequest) {
         email: String(email).trim(),
         phone: String(phoneNumber).trim(),
         zip_code: String(zipCode).trim(),
-        project: String(whatDoYouNeed ?? "").trim(),
         projectamount: String(roofType ?? "").trim(),
         homeowner: String(isHomeowner ?? "").trim(),
         tcpa: "By submitting this form, I agree to the United Roofing Experts Terms of Use and Privacy Policy. I authorize United Roofing Experts and its partners to send me marketing text messages or phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. Opt-out anytime by replying STOP or using the unsubscribe link.",
@@ -69,9 +66,6 @@ export async function POST(request: NextRequest) {
         landing_page_url: request.headers.get("referer") ?? "",
         trustedform_cert_url: xxTrustedFormCertUrl ?? "",
       }
-
-      const logPayload = { ...formData, lp_key: formData.lp_key ? "[REDACTED]" : "" }
-      console.log("[submit-form] formData:", JSON.stringify(logPayload, null, 2))
 
       const apiResponse = await fetch(process.env.LEADPROSPER_API_URL!, {
         method: "POST",
