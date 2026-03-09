@@ -9,7 +9,7 @@ export default function Features() {
     <div className="steps bg-white w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 lg:pb-14 xl:px-20 xl:py-14">
       <div className="container mx-auto">
         <div className="step-content w-full flex flex-col items-center justify-center gap-10 md:gap-10 lg:gap-14 xl:gap-16 ">
-          <h2 className="text-2xl md:text-2xl lg:text-3xl xl:text-4xl  font-bold text-[#1A1A1A] text-center  font-sans leading-tight tracking-tight">
+          <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl max-w-[200px] md:max-w-full  font-bold text-[#1A1A1A] text-center  font-sans leading-tight tracking-tight">
             {FEATURES_CONTENT.header}
           </h2>
 
@@ -24,13 +24,13 @@ export default function Features() {
                       {step.title}
                     </h3>
 
-                    <p className="text-sm lg:text-[0.9rem] xl:text-[1.05rem] md:max-w-[210px] lg:max-w-[300px] xl:max-w-full 2xl:max-w-[360px] mx-auto text-[#4B5563] text-center  font-sans">
+                    <p className="text-sm  xl:text-base md:max-w-[210px] lg:max-w-[300px] xl:max-w-[300px] 2xl:max-w-[340px] mx-auto text-[#4B5563] text-center  font-sans" style={{ lineHeight: 1.6 }}>
                       {step.description}
                     </p>
                   </div>
 
                   <div className="flex-1 flex items-center justify-center w-full h-full">
-                    <div className="w-14 h-14 xl:w-16 xl:h-16">
+                    <div className="w-14 h-14 xl:w-15 xl:h-15">
                       <Image
                         src={step.image.src}
                         alt={step.image.alt}

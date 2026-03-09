@@ -14,12 +14,12 @@ export const PARTNERS_CONTENT = {
   header: "We partner with top providers",
 
   partners: [
-    { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-35 xl:w-53 overflow-hidden object-contain" },
-    { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-35 xl:w-53 overflow-hidden object-contain" },
-    { alt: "Partner 3", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-35 xl:w-53 overflow-hidden object-contain" },
-    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-15 xl:w-25 overflow-hidden object-contain" },
-    { alt: "Partner 5", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-34 xl:w-53 overflow-hidden object-contain" },
-    { alt: "Partner 6", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-30 xl:w-40 overflow-hidden object-contain" },
+    { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 3", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-14 xl:w-19 overflow-hidden object-contain" },
+    { alt: "Partner 5", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 6", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
   ],
 } as const
 
