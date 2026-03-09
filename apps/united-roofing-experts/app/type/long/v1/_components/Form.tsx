@@ -10,6 +10,7 @@ import { SelectInput as SelectInputUI } from "@workspace/ui/components/select-in
 import { PhoneNumberInput as PhoneNumberInputUI } from "@workspace/ui/components/phone-number-input"
 import { ZipCodeInput as ZipCodeInputUI } from "@workspace/ui/components/zip-code-input"
 import { Button as ButtonUI } from "@workspace/ui/components/button"
+import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
 
 const whatDoYouNeedOptions = [
   { value: "Roof Replacement", label: "Roof Replacement" },
@@ -21,6 +22,11 @@ const whatDoYouNeedOptions = [
 const roofTypeOptions = [
   { value: "Sloped", label: "Sloped" },
   { value: "Flat", label: "Flat" },
+]
+
+const homeownerOptions = [
+  { value: "Yes", label: "Yes" },
+  { value: "No", label: "No" },
 ]
 
 const inputIconClass = "absolute left-3 top-1/2 -translate-y-1/2 z-10 pointer-events-none w-4.5 h-4.5 "
@@ -41,6 +47,7 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
   const [phoneNumber, setPhoneNumber] = useState("")
   const [whatDoYouNeed, setWhatDoYouNeed] = useState("")
   const [roofType, setRoofType] = useState("")
+  const [isHomeowner, setIsHomeowner] = useState("")
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<string, string>>>({})
@@ -89,6 +96,7 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
       zipCode: zipCode.trim(),
       whatDoYouNeed: whatDoYouNeed || "",
       roofType: roofType || "",
+      isHomeowner: isHomeowner || "",
       subid1: getCookie("subid1") ?? "",
       subid2: getCookie("subid2") ?? "",
       subid3: getCookie("subid3") ?? "",
@@ -144,8 +152,8 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
           </button>
         )}
         <TrustedForm />
-        <h2 id="form-popup-title" className="w-full text-[1.4rem] lg:text-[1.5rem] xl:text-[1.65rem] font-bold text-[#1F3A5F] text-center" style={{ lineHeight: "1.3" }}>
-          Get Your Free Inspection
+        <h2 id="form-popup-title" className="w-full text-lg xl:text-[22px] font-bold text-[#1F3A5F] text-center" style={{ lineHeight: "1.3" }}>
+          Start Here For Your FREE Estimate
         </h2>
 
           <div className="w-full h-full flex flex-col gap-2.5">
@@ -264,6 +272,22 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
                 selectClassName={`${inputBaseClass} cursor-pointer flex items-center justify-between text-[0.8rem] lg:text-sm md:text-[0.75rem]  `}
               />
             </div>
+
+            <RadioButtonGroup
+              name="isHomeowner"
+              label="Are You a Homeowner?"
+              options={homeownerOptions}
+              value={isHomeowner}
+              onChange={(value) => {
+                setIsHomeowner(value)
+                clearFieldError("isHomeowner")
+              }}
+              type="3"
+              layout="row"
+              labelClassName="text-sm font-medium text-[#374151]"
+              containerClassName="mb-0"
+              optionClassName="flex-1 flex justify-center items-center"
+            />
           </div>
 
           {submitStatus === "error" && submitError && (
@@ -278,7 +302,7 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
             disabled={submitStatus === "loading"}
             className="w-full h-14 my-0.5 bg-[#DC2626] text-white font-semibold text-base rounded-[10px] hover:bg-[#DC2626] cursor-pointer "
           >
-            {submitStatus === "loading" ? "Submitting..." : "Get Pricing"}
+            {submitStatus === "loading" ? "Submitting..." : "Get Pricing Now"}
           </ButtonUI>
 
           <p className="text-[0.68rem] xl:text-[0.75rem] text-[#111827] leading-relaxed ">
