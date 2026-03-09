@@ -64,7 +64,7 @@ export default function Hero() {
     if (utmId) params.set("subid2", utmId);
     if (utmS1) params.set("c1", utmS1);
 
-    const redirectUrl = `${BASE_URL}/form?${params.toString()}`;
+    const redirectUrl = `${BASE_URL}?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
 
