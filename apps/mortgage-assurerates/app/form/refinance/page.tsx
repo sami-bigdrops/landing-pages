@@ -14,6 +14,7 @@ import MortgageSlider, {
   getAverageValue,
 } from "./_components/MortgageSlider";
 import InterestSlider from "./_components/InterestSlider";
+import { TrustedForm, useUtmParams } from "@workspace/lp-core";
 
 // ── Psychological step order ────────────────────────────────────────────────
 //  Property (easy, non-threatening start)
@@ -394,6 +395,7 @@ function InfoTip({ text }: { text: string }) {
 // ── Main form component ────────────────────────────────────────────────────
 
 function RefinanceForm() {
+  useUtmParams(30);
   const searchParams = useSearchParams();
   const router = useRouter();
   const zipFromUrl = searchParams.get("zip") ?? "";
@@ -694,7 +696,8 @@ function RefinanceForm() {
         </div>
       )}
 
-      <div className="rounded-lg bg-white border border-gray-200 shadow-sm p-6 md:p-8">
+      <form onSubmit={(e) => e.preventDefault()} className="rounded-lg bg-white border border-gray-200 shadow-sm p-6 md:p-8">
+        <TrustedForm />
 
         {/* ── 1 · EST_VAL + BAL_ONE ── */}
         {currentStep === 1 && (
@@ -1055,7 +1058,7 @@ function RefinanceForm() {
               : isLastStep ? "Submit Details" : "Continue"}
           </button>
         </div>
-      </div>
+      </form>
 
       {isLastStep && (
         <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">

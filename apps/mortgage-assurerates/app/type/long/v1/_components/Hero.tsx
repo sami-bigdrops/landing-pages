@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useUtmParams, setCookie } from "@workspace/lp-core";
+import { useUtmParams, setCookie, getCookie } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 import { HERO_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
@@ -23,6 +23,9 @@ export default function Hero() {
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
+    const savedZip = getCookie(ZIP_COOKIE_NAME);
+    if (savedZip) setZipCode(savedZip);
+
     let cancelled = false;
     fetch("/api/location")
       .then((res) => res.json())
@@ -30,6 +33,10 @@ export default function Hero() {
         if (cancelled) return;
         const region = data?.region != null ? String(data.region).trim() : null;
         if (region) setStateName(region);
+        if (!savedZip) {
+          const zip = data?.zip != null ? String(data.zip).trim() : null;
+          if (zip) setZipCode(zip);
+        }
       })
       .catch(() => {});
     return () => { cancelled = true };

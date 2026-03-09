@@ -4,9 +4,9 @@ import Image from "next/image";
 import { OPTIONS_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { setCookie } from "@workspace/lp-core";
+import { setCookie, getCookie } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 
 const ZIP_COOKIE_NAME = "zipCode";
@@ -16,6 +16,24 @@ export default function Options() {
   const router = useRouter();
   const [zipCode, setZipCode] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
+
+  useEffect(() => {
+    const savedZip = getCookie(ZIP_COOKIE_NAME);
+    if (savedZip) {
+      setZipCode(savedZip);
+      return;
+    }
+    let cancelled = false;
+    fetch("/api/location")
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return;
+        const zip = data?.zip != null ? String(data.zip).trim() : null;
+        if (zip) setZipCode(zip);
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
 
   const handleContinue = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
