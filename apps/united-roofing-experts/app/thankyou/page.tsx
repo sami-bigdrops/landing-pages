@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
-import { THANKYOU_TYPE2_CONTENT } from "@/lib/constant"
+import { THANKYOU_TYPE2_CONTENT, THANKYOU_REQUIRE_EMAIL_IN_PARAMS } from "@/lib/constant"
 import Navbar from "@/app/_components/Navbar"
 import Footer from "@/app/_components/Footer"
 import { ThankYouType2, type ThankYouAd } from "@/app/_components/ThankYouType2"
@@ -18,10 +18,6 @@ const THANKYOU_ADS: ThankYouAd[] = [
     image: '/ahs.jpg',
     link: 'https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=113&sub1=ure_${utmParams.utm_source}&sub2=${utmParams.utm_id}&sub3=${utmParams.utm_s1}'
   },
-  {
-    image: '/arw-home.png',
-    link: 'https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=114&sub1=ure_${utmParams.utm_source}&sub2=${utmParams.utm_id}&sub3=${utmParams.utm_s1}'
-  }
 ]
 
 export const metadata: Metadata = {
@@ -50,6 +46,7 @@ export default function ThankYouPage() {
           ads={THANKYOU_ADS}
           redirectPath="/"
           loadingFallback={<ThankYouLoading />}
+          requireEmailInParams={THANKYOU_REQUIRE_EMAIL_IN_PARAMS}
         />
       </Suspense>
       <Footer />
