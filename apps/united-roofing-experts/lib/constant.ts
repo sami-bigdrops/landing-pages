@@ -1,8 +1,8 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Worried A Storm Damaged Your Roof?",
-  description: "Licensed, insured, and straightforward. Book a same-week inspection.",
+  headline: "Who Else Wants a Beautiful, Durable & Affordable Metal Roof?",
+  description: "It only takes a few seconds to get started online",
   image: {
     src: "/hero-bg.webp",
     alt: "Roof"
