@@ -10,7 +10,7 @@ import { ArrowRight } from "lucide-react";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://auto.assurerates.com";
+const BASE_URL = "https://auto1.quotifii.com";
 const REFERRER = "auto.quotifii.com";
 const TID = "3286";
 
