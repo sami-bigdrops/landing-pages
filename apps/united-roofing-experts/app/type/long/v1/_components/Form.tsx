@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useCallback, Suspense } from "react"
+import React, { useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
@@ -11,13 +11,6 @@ import { PhoneNumberInput as PhoneNumberInputUI } from "@workspace/ui/components
 import { ZipCodeInput as ZipCodeInputUI } from "@workspace/ui/components/zip-code-input"
 import { Button as ButtonUI } from "@workspace/ui/components/button"
 import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
-
-const whatDoYouNeedOptions = [
-  { value: "Roof Replacement", label: "Roof Replacement" },
-  { value: "Roof Repair", label: "Roof Repair" },
-  { value: "Not Sure", label: "Not Sure" },
-  
-]
 
 const roofTypeOptions = [
   { value: "Sloped", label: "Sloped" },
@@ -45,7 +38,6 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
   const [email, setEmail] = useState("")
   const [zipCode, setZipCode] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
-  const [whatDoYouNeed, setWhatDoYouNeed] = useState("")
   const [roofType, setRoofType] = useState("")
   const [isHomeowner, setIsHomeowner] = useState("")
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
@@ -94,7 +86,6 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
       email: email.trim(),
       phoneNumber: phoneNumber.trim(),
       zipCode: zipCode.trim(),
-      whatDoYouNeed: whatDoYouNeed || "",
       roofType: roofType || "",
       isHomeowner: isHomeowner || "",
       subid1: getCookie("subid1") ?? "",
@@ -243,20 +234,6 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
                   className={inputBaseClass}
                 />
               </div>
-            </div>
-
-            <div className="relative">
-              <div className={inputIconClass}>
-                <Image src="/wrench.svg" alt="" width={20} height={20} className="w-5 h-5" />
-              </div>
-              <SelectInputUI
-                placeholder="What do you need?"
-                options={whatDoYouNeedOptions}
-                value={whatDoYouNeed}
-                onChange={setWhatDoYouNeed}
-                containerClassName="mb-0"
-                selectClassName={`${inputBaseClass} cursor-pointer flex items-center justify-between text-[0.8rem] lg:text-sm md:text-[0.75rem]  `}
-              />
             </div>
 
             <div className="relative">
