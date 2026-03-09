@@ -11,8 +11,6 @@ import { ArrowRight } from "lucide-react";
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
 const BASE_URL = "https://autoquote.quotifii.com";
-const REFERRER = "auto.quotifii.com";
-const TID = "3286";
 
 export default function Hero() {
   useUtmParams(30);
@@ -55,16 +53,14 @@ export default function Hero() {
     const utmId = getCookie("subid2") || "";
     const utmS1 = getCookie("subid3") || "";
 
-    const params = new URLSearchParams({
-      zip_code: trimmed,
-      referrer: REFERRER,
-      tid: TID,
-    });
-    if (utmSource) params.set("subid", utmSource);
-    if (utmId) params.set("subid2", utmId);
-    if (utmS1) params.set("c1", utmS1);
+    const params = new URLSearchParams();
+    params.set("tid", utmId);
+    params.set("uid", utmId);
+    params.set("sid", utmSource);
+    params.set("sub1", utmS1);
+    params.set("zip", trimmed);
 
-    const redirectUrl = `${BASE_URL}?${params.toString()}`;
+    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
 
