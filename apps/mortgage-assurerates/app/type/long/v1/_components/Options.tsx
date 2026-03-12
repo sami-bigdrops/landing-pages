@@ -104,7 +104,7 @@ export default function Options() {
                 disabled={isRedirecting || !zipValid}
                 className="bg-[#3498DB] h-14 md:h-14.5 xl:h-16 md:w-47 lg:w-52 xl:w-66  cursor-pointer text-white font-semibold font-inter rounded-[10px] md:rounded-tl-none md:rounded-bl-none text-sm xl:text-lg px-8 py-6 md:py-5.5  flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
               >
-                {isRedirecting ? "Redirecting..." : "Calculate My Cashout"}
+                {isRedirecting ? "Redirecting..." : "Calculate My Cash Out"}
                 {!isRedirecting && (
                   <Image src="/arrow.svg" alt="arrow icon" width={20} height={20} className="w-3.5 h-3.5" />
                 )}

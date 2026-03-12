@@ -3,7 +3,7 @@
 export const HERO_CONTENT = {
   headline: "How Much Can You Cash Out?",
   subtitle: "Get a real-time equity estimate for your home in",
-  ctaButton: "Calculate My Cashout",
+  ctaButton: "Calculate My Cash Out",
   image: {
     src: "/hero-img.webp",
     alt: "Modern home"
