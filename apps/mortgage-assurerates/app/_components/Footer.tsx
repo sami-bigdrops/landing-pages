@@ -10,8 +10,6 @@ export default function Footer() {
       type="long"
       bgColor="#1F3A5F"
       logo={<Image src="/mortgage-assurerates-footer.svg" alt="AssureRates" width={120} height={40} className="w-40 h-auto object-contain" />}
-      description={FOOTER_CONTENT.description}
-      descriptionClassName="max-w-full font-inter"
       links={[...FOOTER_CONTENT.links]}
       disclaimer={FOOTER_CONTENT.disclaimer}
       disclaimerClassName="max-w-4xl font-inter"
