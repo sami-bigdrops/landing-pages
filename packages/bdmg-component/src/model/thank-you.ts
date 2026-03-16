@@ -10,7 +10,10 @@ export interface ThankYouUtmCookieNames {
   s1: string
 }
 
+export type ThankYouContentVariant = "1" | "2"
+
 export interface ThankYouContentProps {
+  variant?: ThankYouContentVariant
   title?: string
   subtitle?: string
   showBuyerLogo?: boolean

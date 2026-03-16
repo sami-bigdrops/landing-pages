@@ -180,15 +180,15 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
         partnersPlaceholder ? (
           <div className="partners flex justify-center xl:justify-start">
             <div className="w-full min-w-0 flex items-center justify-center rounded-lg border border-[#D1D5DB] bg-[#F9FAFB] py-6 px-4">
-              <p className="text-base font-medium text-[#374151] font-sans">&lt;ENDORSEMENT / RANKING LOGOS&gt;</p>
+              <p className="text-sm xl:text-base text-center font-medium text-[#374151] font-sans">&lt;ENDORSEMENT / RANKING LOGOS&gt;</p>
             </div>
           </div>
         ) : (
           <div className="partners flex justify-center xl:justify-start">
             <div className="w-full min-w-0 flex items-center justify-center lg:justify-start xl:justify-start gap-4 sm:gap-6 xl:gap-6 2xl:gap-11 overflow-hidden">
-              <Image src={HERO_CONTENT.partners[0].src} alt={HERO_CONTENT.partners[0].alt} width={80} height={80} className="object-contain w-16 sm:w-20 lg:w-22 xl:w-24 2xl:w-30 h-auto min-w-0 flex-shrink" />
-              <Image src={HERO_CONTENT.partners[1].src} alt={HERO_CONTENT.partners[1].alt} width={80} height={80} className="object-contain w-10 sm:w-16 lg:w-16 xl:w-16 2xl:w-18 h-auto min-w-0 flex-shrink" />
-              <Image src={HERO_CONTENT.partners[2].src} alt={HERO_CONTENT.partners[2].alt} width={80} height={80} className="object-contain w-28 sm:w-32 lg:w-40 xl:w-50 2xl:w-63 h-auto min-w-0 flex-shrink" />
+              <Image src={HERO_CONTENT.partners[0].src} alt={HERO_CONTENT.partners[0].alt} width={80} height={80} className="object-contain w-16 sm:w-20 lg:w-22 xl:w-24 2xl:w-28 h-auto min-w-0 flex-shrink" />
+              <Image src={HERO_CONTENT.partners[1].src} alt={HERO_CONTENT.partners[1].alt} width={80} height={80} className="object-contain w-10 sm:w-16 lg:w-16 xl:w-16 2xl:w-20 h-auto min-w-0 flex-shrink" />
+              <Image src={HERO_CONTENT.partners[2].src} alt={HERO_CONTENT.partners[2].alt} width={80} height={80} className="object-contain w-28 sm:w-32 lg:w-40 xl:w-50 2xl:w-55 h-auto min-w-0 flex-shrink" />
             </div>
           </div>
         )
@@ -212,7 +212,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
         >
           <TrustedForm />
 
-          <h2 id="form-modal-title" className={`text-xl md:text-2xl lg:text-3xl xl:text-[2.05rem] font-bold text-[#1F3A5F] text-center md:text-left ${onClose ? "pr-10" : ""}`} style={{ lineHeight: "1.2" }}>
+          <h2 id="form-modal-title" className={`text-xl  lg:text-[1.4rem] xl:text-[1.95rem] font-bold text-[#1F3A5F] text-center md:text-left ${onClose ? "pr-10" : ""}`} style={{ lineHeight: "1.2" }}>
             Let Us Get You Covered With a Free Quote
           </h2>
 
@@ -228,7 +228,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                     clearFieldError("firstName")
                   }}
                   error={fieldErrors.firstName}
-                  className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-sm lg:text-[0.95rem] py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                  className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
                   containerClassName="mb-0"
                 />
               </div>
@@ -242,7 +242,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                     clearFieldError("lastName")
                   }}
                   error={fieldErrors.lastName}
-                  className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-sm lg:text-[0.95rem] py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                  className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
                   containerClassName="mb-0"
                 />
               </div>
@@ -262,7 +262,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                 }}
                 placeholder="Address"
                 autoComplete="off"
-                className={`w-full pl-10 pr-3 rounded-[10px] border bg-white placeholder:text-[#9CA3AF] text-sm lg:text-[0.95rem] py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${fieldErrors.address ? "border-red-400" : "border-[#D1D5DB]"}`}
+                className={`w-full pl-10 pr-3 rounded-[10px] border bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${fieldErrors.address ? "border-red-400" : "border-[#D1D5DB]"}`}
               />
               {fieldErrors.address !== undefined && <p className="text-xs text-red-500 mt-1">Required</p>}
             </div>
@@ -277,7 +277,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                   clearFieldError("zipCode")
                 }}
                 error={fieldErrors.zipCode}
-                className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-sm lg:text-[0.95rem] py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
                 containerClassName="mb-0"
               />
             </div>
@@ -292,7 +292,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                   clearFieldError("phoneNumber")
                 }}
                 error={fieldErrors.phoneNumber}
-                className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-sm lg:text-[0.95rem] py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
                 containerClassName="mb-0"
               />
             </div>
@@ -308,12 +308,12 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                   clearFieldError("email")
                 }}
                 error={fieldErrors.email}
-                className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-sm lg:text-[0.95rem] py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
                 containerClassName="mb-0"
               />
             </div>
 
-            <div className="w-full">
+            <div className="w-full ">
               <p className="text-sm font-semibold text-[#1F3A5F] mb-2 xl:mb-2.5">Are you a homeowner?</p>
               <RadioButtonGroup
                 name="isHomeowner"
@@ -343,7 +343,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
               variant="default"
               htmlType="submit"
               disabled={submitStatus === "loading"}
-              className="w-full bg-[#3498DB] text-white font-medium py-7 xl:py-7.5 rounded-[10px] text-base lg:text-lg"
+              className="w-full bg-[#3498DB] text-white font-medium py-7 xl:py-7.5 rounded-[10px] text-sm lg:text-base xl:text-lg"
             >
               {submitStatus === "loading" ? "Submitting..." : "Get FREE Quote"}
             </ButtonUI>

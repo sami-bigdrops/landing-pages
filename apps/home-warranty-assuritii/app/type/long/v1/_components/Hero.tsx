@@ -25,10 +25,10 @@ export default function Hero({ formPartnersPlaceholder }: HeroProps = {}) {
           }}
         >
           <div className="relative z-10 space-y-4 max-w-2xl w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-18 xl:py-28 flex flex-col items-center justify-end">
-            <h1 className="text-3xl lg:text-4xl xl:text-5xl xl:max-w-[600px] font-bold text-white drop-shadow-lg" style={{ lineHeight: "1.2" }}>
+            <h1 className="text-3xl  lg:text-[1.8rem] xl:text-[2.3rem] 2xl:text-[2.4rem] xl:max-w-[600px] font-bold text-white drop-shadow-lg  lg:text-left xl:text-left" style={{ lineHeight: "1.2" }}>
               {HERO_CONTENT.headline}
             </h1>
-            <p className="text-base lg:text-lg xl:text-xl font-normal text-white drop-shadow-md max-w-xl" style={{ lineHeight: "1.5" }}>
+            <p className="text-base md:text-[0.95rem] lg:text-base xl:text-[1.2rem]  font-normal text-white drop-shadow-md max-w-xl" style={{ lineHeight: "1.5" }}>
               {HERO_CONTENT.description}
             </p>
           </div>

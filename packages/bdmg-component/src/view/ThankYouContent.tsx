@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback, useRef } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Check } from "lucide-react"
+import { Check, Phone, ArrowRight } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import type { ThankYouContentProps } from "../model/thank-you"
 
@@ -29,6 +29,7 @@ function setCookie(name: string, value: string, days: number = 30): void {
 }
 
 export function ThankYouContent({
+  variant = "1",
   title = "Thank you!",
   subtitle = "Your request has been received. A specialist will contact you shortly.",
   showBuyerLogo = true,
@@ -233,6 +234,78 @@ export function ThankYouContent({
       .replace(/\{\{utm_source\}\}/g, utmParams.utm_source)
       .replace(/\{\{utm_id\}\}/g, utmParams.utm_id)
       .replace(/\{\{utm_s1\}\}/g, utmParams.utm_s1)
+
+  if (variant === "2") {
+    return (
+      <main className="min-h-screen bg-[#F0F4F9]">
+        <section id="thankyou" className="px-4 py-8 sm:px-6 sm:py-12 lg:py-16">
+          <div className="mx-auto w-full max-w-[28rem] xl:max-w-[32rem]">
+            <div className="rounded-[20px] bg-white p-8 shadow-[0_0_15px_0_rgba(31,58,95,0.10)] sm:p-10 xl:p-12">
+              <div className="flex flex-col items-center text-center">
+                <div className="mb-4 flex h-8 w-8 md:h-10 md:w-10 xl:h-12 xl:w-12 shrink-0 items-center justify-center rounded-full bg-[#3498DB] ">
+                  <Check className="h-5 w-5 md:h-6 md:w-6 xl:h-7 xl:w-7 text-white " strokeWidth={2.5} />
+                </div>
+                <p className="text-xs xl:text-sm font-semibold uppercase tracking-[0.02em] text-[#3498DB] mb-5">
+                  REQUEST CONFIRMED
+                </p>
+                <h1 className="mt-0 text-[1.75rem] xl:text-[2rem] font-bold text-[#1C2833] ">
+                  {title}
+                </h1>
+                <p className="mt-4 max-w-md text-sm xl:text-[1rem] leading-[1.5] text-[#4A5568] mt-2 ">
+                  {subtitle}
+                </p>
+              </div>
+
+              <a
+                href={contactPhoneHref}
+                className="mt-8 flex items-center justify-between gap-4 rounded-[15px] bg-[#1F3A5F] px-5 py-4 text-left transition-opacity hover:opacity-95  sm:px-6 sm:py-4 xl:px-6 xl:py-5"
+              >
+                <div className="flex items-center justify-center p-2 h-8 w-8 md:h-10 md:w-10 xl:h-12 xl:w-12 shrink-0 rounded-[12px] bg-white/10">
+                  <Phone className="h-4 w-4 md:h-4.5 md:w-4.5 xl:h-5 xl:w-5 shrink-0 text-white " strokeWidth={2.5} />
+                </div>
+                
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <span className="text-xs md:text-[0.8rem]  xl:text-[0.95rem] font-normal text-white/90 mb-0.5 md:mb-1">{contactTitle}</span>
+                  <span className="text-[0.77rem] md:text-[0.85rem] xl:text-[1rem] font-medium text-white ">{contactPhoneLabel}</span>
+                </div>
+                <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4 xl:h-5.5 xl:w-5.5 shrink-0 text-white " strokeWidth={2.5} />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {ads.length > 0 && (
+          <section id="ad" className="border-t border-[#e2e8f0] bg-white px-4 py-10 sm:px-6 sm:py-14">
+            <div className="mx-auto w-full max-w-4xl">
+              <h2 className="mb-6 text-center text-[1.0625rem] font-semibold text-[#0f172a] sm:mb-8 sm:text-[1.25rem]">
+                {adSectionTitle ??
+                  `We have handpicked ${ads.length} great offers, just for you.`}
+              </h2>
+              <div className="grid grid-cols-1 gap-5 sm:gap-6">
+                {ads.map((ad, index) => (
+                  <a
+                    key={index}
+                    href={replaceUtm(ad.link)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block overflow-hidden rounded-xl border border-[#e2e8f0] bg-white shadow-[0_2px_12px_rgba(15,23,42,0.06)] transition-shadow hover:shadow-[0_8px_24px_rgba(15,23,42,0.1)]"
+                  >
+                    <Image
+                      src={ad.image}
+                      alt="Offer"
+                      width={900}
+                      height={450}
+                      className="h-auto w-full object-cover transition-opacity group-hover:opacity-[0.97]"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+      </main>
+    )
+  }
 
   return (
     <main className="min-h-screen bg-[#f1f5f9]">

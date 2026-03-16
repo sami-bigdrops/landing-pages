@@ -10,10 +10,10 @@ export default function About() {
       <div className="container mx-auto ">
         <div className="features-content w-full flex flex-col items-center justify-center md:flex-row  md:justify-between lg:justify-between xl:justify-between gap-6 md:gap-10 lg:gap-13 xl:gap-16 2xl:gap-25">
           <div className="left flex flex-col items-center justify-center   md:items-start gap-3 md:gap-4 xl:gap-6 lg:w-[50%] xl:w-[58%] ">
-            <h2 className="text-2xl lg:text-3xl xl:text-[2.6rem] md:max-w-[200px] lg:max-w-[500px] xl:max-w-[500px]  font-bold text-[#111827] text-center md:text-left font-inter" style={{ lineHeight: '1.2' }}>
+            <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl md:max-w-[200px] lg:max-w-[300px] xl:max-w-[350px]  font-bold text-[#111827] text-center md:text-left font-inter" style={{ lineHeight: '1.2' }}>
               {ABOUT_CONTENT.header}
             </h2>
-            <p className="text-sm lg:text-[1rem] xl:text-[1.15rem] md:max-w-[550px] lg:max-w-[500px] xl:max-w-[500px] md:text-left text-[#374151] text-center font-inter" style={{ lineHeight: '1.6' }}>
+            <p className="text-sm lg:text-[0.9rem] xl:text-[1.18rem] md:max-w-[550px] lg:max-w-[500px] xl:max-w-[500px] md:text-left text-[#374151] text-center font-inter" style={{ lineHeight: '1.6' }}>
               {ABOUT_CONTENT.description}
             </p>
           </div>
@@ -38,7 +38,7 @@ export default function About() {
                   </div>
 
 
-                  <h3 className="text-[1rem] md:text-base lg:text-[1.05rem] xl:text-[1.25rem] font-medium text-[#111827] text-left font-inter">
+                  <h3 className="text-[0.9rem] md:text-[0.9rem] lg:text-base xl:text-[1.2rem] md:max-w-[240px] lg:max-w-full  font-medium text-[#111827] text-left font-inter">
                     {feature.title}
                   </h3>
 

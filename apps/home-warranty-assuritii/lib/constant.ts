@@ -379,7 +379,7 @@ export const THANKYOU_CONTENT = {
     "A confirmation message has been sent to your email address.",
   confirmationDescription:
     "The message contains next steps and how to get your quote. Please check your spam folder if you don't see it in your inbox.",
-  contactTitle: "For immediate assistance",
+  contactTitle: "Need help now?",
   contactPhoneLabel: "(1800) 123 - 4567",
   contactPhoneHref: "tel:+18001234567",
 } as const
