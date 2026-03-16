@@ -1,10 +1,31 @@
 "use client"
 
-import React from 'react'
-import Image from 'next/image'
-import { REVIEW_CONTENT } from '@/lib/constant'
+import React from "react"
+import Image from "next/image"
+import { REVIEW_CONTENT } from "@/lib/constant"
 
-export default function Review() {
+type ReviewProps = {
+  placeholder?: boolean
+}
+
+export default function Review({ placeholder }: ReviewProps) {
+  if (placeholder) {
+    return (
+      <div className="review bg-white w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-18 xl:py-16 2xl:px-10">
+        <div className="container mx-auto">
+          <div className="review-content w-full flex flex-col items-center justify-center gap-5 lg:gap-7">
+            <h2 className="text-2xl lg:text-3xl xl:text-[2.6rem] md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-sans">
+              {REVIEW_CONTENT.header}
+            </h2>
+            <div className="w-full min-h-[200px] flex items-center justify-center rounded-[20px] border border-[#D1D5DB] bg-[#F9FAFB] p-8">
+              <p className="text-lg font-medium text-[#374151] font-sans">&lt;REVIEWS&gt;</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="review bg-white w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-18 xl:py-16 2xl:px-10">
       <div className="container mx-auto">

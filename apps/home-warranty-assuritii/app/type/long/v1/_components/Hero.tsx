@@ -6,7 +6,11 @@ import Form from "@/app/type/long/v1/_components/Form"
 
 
 
-export default function Hero() {
+type HeroProps = {
+  formPartnersPlaceholder?: boolean
+}
+
+export default function Hero({ formPartnersPlaceholder }: HeroProps = {}) {
   useUtmParams(30)
 
   return (
@@ -20,7 +24,7 @@ export default function Hero() {
            
           }}
         >
-          <div className="relative z-10 space-y-4 max-w-2xl w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-18 xl:py-14 flex flex-col items-center justify-end">
+          <div className="relative z-10 space-y-4 max-w-2xl w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-18 xl:py-28 flex flex-col items-center justify-end">
             <h1 className="text-3xl lg:text-4xl xl:text-5xl xl:max-w-[600px] font-bold text-white drop-shadow-lg" style={{ lineHeight: "1.2" }}>
               {HERO_CONTENT.headline}
             </h1>
@@ -30,7 +34,7 @@ export default function Hero() {
           </div>
         </div>
         <div className="w-full md:w-[45%] xl:w-[40%] 2xl:w-[43%]  bg-[#E8F0FA] flex flex-col items-center justify-center py-8 px-6  lg:px-8 lg:py-10 lg:pt-12 lg:pr-12 xl:pt-12 xl:pl-14 xl:pr-20 xl:pb-14 2xl:pl-25 2xl:pr-37">
-          <Form />
+          <Form partnersPlaceholder={formPartnersPlaceholder} />
         </div>
       </div>
     </div>

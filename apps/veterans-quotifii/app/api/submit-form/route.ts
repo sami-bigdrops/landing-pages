@@ -1,14 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
 
-const REQUIRED_FIELDS = [
-  "firstName",
-  "lastName",
-  "address",
-  "email",
-  "phoneNumber",
-  "zipCode",
-] as const
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -16,26 +7,21 @@ export async function POST(request: NextRequest) {
     const {
       firstName,
       lastName,
-      address,
-      city,
-      state,
       email,
       phoneNumber,
       zipCode,
+      homeowner,
+      projectNature,
+      windowCount,
+      workDone,
+      address,
+      city,
+      state,
       subid1,
       subid2,
       subid3,
       xxTrustedFormCertUrl,
-      isHomeowner,
     } = body
-
-    const missingFields = REQUIRED_FIELDS.filter((field) => !body[field]?.trim?.())
-    if (missingFields.length > 0) {
-      return NextResponse.json(
-        { error: "All fields are required", missingFields: [...missingFields] },
-        { status: 400 }
-      )
-    }
 
     const forwarded = request.headers.get("x-forwarded-for")
     const firstForwarded = forwarded?.split(",")[0]
@@ -46,17 +32,19 @@ export async function POST(request: NextRequest) {
     const submittedPayload = {
       firstName,
       lastName,
-      address,
-      city: city ?? "",
-      state: state ?? "",
       email,
       phoneNumber,
       zipCode,
-      isHomeowner,
+      homeowner,
+      projectNature,
+      windowCount,
+      workDone,
+      address,
+      city,
+      state,
       subid1: subid1 ?? "",
       subid2: subid2 ?? "",
       subid3: subid3 ?? "",
-      xxTrustedFormCertUrl,
       ip,
     }
     console.log("[submit-form] submitted:", JSON.stringify(submittedPayload, null, 2))
@@ -78,13 +66,16 @@ export async function POST(request: NextRequest) {
         first_name: String(firstName).trim(),
         last_name: String(lastName).trim(),
         email: String(email).trim(),
-        phone: String(phoneNumber).replace(/\D/g, ""),
+        phone: String(phoneNumber).trim(),
         zip_code: String(zipCode).trim(),
+        homeowner: String(homeowner).trim(),
         address: String(address).trim(),
-        city: String(city ?? "").trim(),
-        state: String(state ?? "").trim(),
-        homeowner: String(isHomeowner ?? "").trim(),
-        tcpa_text: "By Clicking The Button Below, You Consent To Receive Email At The Email Address You Provided, As Well As Prerecorded Messages, Auto-Dialed Phone Calls, And Text Messages At The Phone Number You Provided, From Assuritii And Its Marketing Partner. You Can View The Full List Of Our Marketing Partners Here You Understand That Your Consent Is Not A Condition Of Purchase. View Privacy Policy",
+        city: String(city).trim(),
+        state: String(state).trim(),
+        project: projectNature.trim(),
+        projectamount: windowCount.trim(),
+        timing: workDone.trim(),
+        tcpa: "By submitting this form, I agree to the Platinum Window Experts Terms of Use and Privacy Policy. I authorize Platinum Window Experts and its partners to send me marketing text messages or phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. Opt-out anytime by replying STOP or using the unsubscribe link.",
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",

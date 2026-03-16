@@ -374,7 +374,7 @@ export const FOOTER_CONTENT = {
 export const THANKYOU_CONTENT = {
   title: "Thank you!",
   subtitle:
-    "Your request has been received. A vehicle protection specialist will contact you shortly with your quote.",
+    "Your request has been received. A home warranty specialist will contact you shortly with your quote.",
   confirmationTitle:
     "A confirmation message has been sent to your email address.",
   confirmationDescription:

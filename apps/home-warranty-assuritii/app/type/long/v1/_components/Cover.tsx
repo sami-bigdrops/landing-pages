@@ -1,12 +1,19 @@
 "use client"
 
-import React from 'react'
+import React from "react"
 import { Button as ButtonUI } from "@workspace/ui/components/button"
+import Image from "next/image"
+import { COVER_CONTENT } from "@/lib/constant"
 
-import Image from 'next/image'
-import { COVER_CONTENT } from '@/lib/constant'
+type CoverProps = {
+  onGetQuoteClick?: () => void
+  phoneNumber?: string
+  phoneHref?: string
+}
 
-export default function Cover() {
+export default function Cover({ onGetQuoteClick, phoneNumber, phoneHref }: CoverProps) {
+  const displayPhone = phoneNumber ?? COVER_CONTENT.callToAction.phoneNumber
+  const displayPhoneHref = phoneHref ?? COVER_CONTENT.callToAction.phoneHref
     return (
         <div className="cover w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-18 xl:py-14 2xl:px-10  ">
             <div className="container mx-auto">
@@ -96,15 +103,16 @@ export default function Cover() {
                             <ButtonUI
                                 type="1"
                                 variant="default"
-                                htmlType="submit"
-                                className="w-full bg-[#3498DB] text-white font-medium py-7 xl:py-7.5 rounded-[10px] text-base xl:text-lg "
+                                htmlType="button"
+                                onClick={onGetQuoteClick}
+                                className="w-full bg-[#3498DB] text-white font-medium py-7 xl:py-7.5 rounded-[10px] text-base xl:text-lg cursor-pointer"
                             >
                                 {COVER_CONTENT.callToAction.buttonText}
                             </ButtonUI>
                         </div>
                         <div className="w-full flex items-center justify-center text-center text-[#1F3A5F] text-sm md:text-base lg:text-[1.05rem] xl:text-lg gap-1.5">
                             <p className="font-medium">{COVER_CONTENT.callToAction.contactText}</p>
-                            <a href={COVER_CONTENT.callToAction.phoneHref} className="font-bold">{COVER_CONTENT.callToAction.phoneNumber}</a>
+                            <a href={displayPhoneHref} className="font-bold">{displayPhone}</a>
                         </div>
 
                     </div>
