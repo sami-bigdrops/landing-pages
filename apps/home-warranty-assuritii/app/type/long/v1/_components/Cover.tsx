@@ -1,12 +1,15 @@
 "use client"
 
-import React from 'react'
+import React from "react"
 import { Button as ButtonUI } from "@workspace/ui/components/button"
+import Image from "next/image"
+import { COVER_CONTENT } from "@/lib/constant"
 
-import Image from 'next/image'
-import { COVER_CONTENT } from '@/lib/constant'
+type CoverProps = {
+  onGetQuoteClick?: () => void
+}
 
-export default function Cover() {
+export default function Cover({ onGetQuoteClick }: CoverProps) {
     return (
         <div className="cover w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-18 xl:py-14 2xl:px-10  ">
             <div className="container mx-auto">
@@ -96,8 +99,9 @@ export default function Cover() {
                             <ButtonUI
                                 type="1"
                                 variant="default"
-                                htmlType="submit"
-                                className="w-full bg-[#3498DB] text-white font-medium py-7 xl:py-7.5 rounded-[10px] text-base xl:text-lg "
+                                htmlType="button"
+                                onClick={onGetQuoteClick}
+                                className="w-full bg-[#3498DB] text-white font-medium py-7 xl:py-7.5 rounded-[10px] text-base xl:text-lg cursor-pointer"
                             >
                                 {COVER_CONTENT.callToAction.buttonText}
                             </ButtonUI>

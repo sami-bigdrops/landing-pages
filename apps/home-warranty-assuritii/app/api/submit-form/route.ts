@@ -17,6 +17,8 @@ export async function POST(request: NextRequest) {
       firstName,
       lastName,
       address,
+      city,
+      state,
       email,
       phoneNumber,
       zipCode,
@@ -24,6 +26,7 @@ export async function POST(request: NextRequest) {
       subid2,
       subid3,
       xxTrustedFormCertUrl,
+      isHomeowner,
     } = body
 
     const missingFields = REQUIRED_FIELDS.filter((field) => !body[field]?.trim?.())
@@ -44,12 +47,16 @@ export async function POST(request: NextRequest) {
       firstName,
       lastName,
       address,
+      city: city ?? "",
+      state: state ?? "",
       email,
       phoneNumber,
       zipCode,
+      isHomeowner,
       subid1: subid1 ?? "",
       subid2: subid2 ?? "",
       subid3: subid3 ?? "",
+      xxTrustedFormCertUrl,
       ip,
     }
     console.log("[submit-form] submitted:", JSON.stringify(submittedPayload, null, 2))
@@ -74,6 +81,10 @@ export async function POST(request: NextRequest) {
         phone: String(phoneNumber).replace(/\D/g, ""),
         zip_code: String(zipCode).trim(),
         address: String(address).trim(),
+        city: String(city ?? "").trim(),
+        state: String(state ?? "").trim(),
+        homeowner: String(isHomeowner ?? "").trim(),
+        tcpa_text: "By Clicking The Button Below, You Consent To Receive Email At The Email Address You Provided, As Well As Prerecorded Messages, Auto-Dialed Phone Calls, And Text Messages At The Phone Number You Provided, From Assuritii And Its Marketing Partner. You Can View The Full List Of Our Marketing Partners Here You Understand That Your Consent Is Not A Condition Of Purchase. View Privacy Policy",
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",
