@@ -46,9 +46,11 @@ declare global {
 type FormProps = {
   onClose?: () => void
   embedInModal?: boolean
+  phonePlaceholder?: string
+  partnersPlaceholder?: boolean
 }
 
-export default function Form({ onClose, embedInModal }: FormProps = {}) {
+export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone Number", partnersPlaceholder }: FormProps = {}) {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [address, setAddress] = useState("")
@@ -175,13 +177,21 @@ export default function Form({ onClose, embedInModal }: FormProps = {}) {
   return (
     <div className={`w-full flex flex-col-reverse justify-center items-center gap-6 2xl:gap-8 ${embedInModal ? "flex-col" : ""}`}>
       {!embedInModal && (
-        <div className="partners flex justify-center xl:justify-start">
-          <div className="w-full min-w-0 flex items-center justify-center lg:justify-start xl:justify-start gap-4 sm:gap-6 xl:gap-6 2xl:gap-11 overflow-hidden">
-            <Image src={HERO_CONTENT.partners[0].src} alt={HERO_CONTENT.partners[0].alt} width={80} height={80} className="object-contain w-16 sm:w-20 lg:w-22 xl:w-24 2xl:w-30 h-auto min-w-0 flex-shrink" />
-            <Image src={HERO_CONTENT.partners[1].src} alt={HERO_CONTENT.partners[1].alt} width={80} height={80} className="object-contain w-10 sm:w-16 lg:w-16 xl:w-16 2xl:w-18 h-auto min-w-0 flex-shrink" />
-            <Image src={HERO_CONTENT.partners[2].src} alt={HERO_CONTENT.partners[2].alt} width={80} height={80} className="object-contain w-28 sm:w-32 lg:w-40 xl:w-50 2xl:w-63 h-auto min-w-0 flex-shrink" />
+        partnersPlaceholder ? (
+          <div className="partners flex justify-center xl:justify-start">
+            <div className="w-full min-w-0 flex items-center justify-center rounded-lg border border-[#D1D5DB] bg-[#F9FAFB] py-6 px-4">
+              <p className="text-base font-medium text-[#374151] font-sans">&lt;ENDORSEMENT / RANKING LOGOS&gt;</p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="partners flex justify-center xl:justify-start">
+            <div className="w-full min-w-0 flex items-center justify-center lg:justify-start xl:justify-start gap-4 sm:gap-6 xl:gap-6 2xl:gap-11 overflow-hidden">
+              <Image src={HERO_CONTENT.partners[0].src} alt={HERO_CONTENT.partners[0].alt} width={80} height={80} className="object-contain w-16 sm:w-20 lg:w-22 xl:w-24 2xl:w-30 h-auto min-w-0 flex-shrink" />
+              <Image src={HERO_CONTENT.partners[1].src} alt={HERO_CONTENT.partners[1].alt} width={80} height={80} className="object-contain w-10 sm:w-16 lg:w-16 xl:w-16 2xl:w-18 h-auto min-w-0 flex-shrink" />
+              <Image src={HERO_CONTENT.partners[2].src} alt={HERO_CONTENT.partners[2].alt} width={80} height={80} className="object-contain w-28 sm:w-32 lg:w-40 xl:w-50 2xl:w-63 h-auto min-w-0 flex-shrink" />
+            </div>
+          </div>
+        )
       )}
       <div className="w-full relative">
         {onClose && (
@@ -275,7 +285,7 @@ export default function Form({ onClose, embedInModal }: FormProps = {}) {
             <div className="relative">
               <Image src="/phone.svg" alt="Phone icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-5 h-5 z-10 pointer-events-none" />
               <PhoneNumberInputUI
-                placeholder="Phone Number"
+                placeholder={phonePlaceholder}
                 value={phoneNumber}
                 onChange={(value) => {
                   setPhoneNumber(value)

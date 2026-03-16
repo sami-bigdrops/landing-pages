@@ -7,9 +7,13 @@ import { COVER_CONTENT } from "@/lib/constant"
 
 type CoverProps = {
   onGetQuoteClick?: () => void
+  phoneNumber?: string
+  phoneHref?: string
 }
 
-export default function Cover({ onGetQuoteClick }: CoverProps) {
+export default function Cover({ onGetQuoteClick, phoneNumber, phoneHref }: CoverProps) {
+  const displayPhone = phoneNumber ?? COVER_CONTENT.callToAction.phoneNumber
+  const displayPhoneHref = phoneHref ?? COVER_CONTENT.callToAction.phoneHref
     return (
         <div className="cover w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-18 xl:py-14 2xl:px-10  ">
             <div className="container mx-auto">
@@ -108,7 +112,7 @@ export default function Cover({ onGetQuoteClick }: CoverProps) {
                         </div>
                         <div className="w-full flex items-center justify-center text-center text-[#1F3A5F] text-sm md:text-base lg:text-[1.05rem] xl:text-lg gap-1.5">
                             <p className="font-medium">{COVER_CONTENT.callToAction.contactText}</p>
-                            <a href={COVER_CONTENT.callToAction.phoneHref} className="font-bold">{COVER_CONTENT.callToAction.phoneNumber}</a>
+                            <a href={displayPhoneHref} className="font-bold">{displayPhone}</a>
                         </div>
 
                     </div>
