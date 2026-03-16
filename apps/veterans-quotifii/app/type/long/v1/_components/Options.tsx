@@ -10,8 +10,8 @@ import { track } from "@vercel/analytics";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const REDIRECT_BASE_URL = "https://auto.assurerates.com";
-const REFERRER = "quotes.assurerates.com";
+const REDIRECT_BASE_URL = "https://auto.Quotifii.com";
+const REFERRER = "quotes.Quotifii.com";
 const TID = "3286";
 
 export default function Options() {
@@ -73,7 +73,7 @@ export default function Options() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="options bg-[#EDF2F9] w-full h-full px-4 py-8 md:px-6 md:py-10 lg:px-14 lg:py-12 xl:px-20 xl:py-16">
+    <div className="options bg-[#EBF4FF] w-full h-full px-4 py-8 md:px-6 md:py-10 lg:px-14 lg:py-12 xl:px-20 xl:py-16">
       <div className="container mx-auto">
         <div className="options-content w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6 md:gap-6 lg:gap-10 xl:gap-14">
           <h2 className="text-2xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-[#1C2833] md:w-[40%] lg:w-[50%] xl:w-[57%]  md:max-w-[200px] lg:max-w-[300px] xl:max-w-[400px] md:text-left text-center font-inter leading-tight tracking-tight">
@@ -118,7 +118,7 @@ export default function Options() {
                 variant="default"
                 onClick={handleContinue}
                 disabled={isRedirecting || !zipValid}
-                className="bg-[#3498DB] h-14 md:h-14.5 xl:h-16 md:w-47 lg:w-52 xl:w-66  cursor-pointer text-white font-semibold font-inter rounded-[10px] md:rounded-tl-none md:rounded-bl-none text-sm xl:text-lg px-8 py-6 md:py-5.5  flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
+                className="bg-[#F16601] h-14 md:h-14.5 xl:h-16 md:w-47 lg:w-52 xl:w-66  cursor-pointer text-white font-semibold font-inter rounded-[10px] md:rounded-tl-none md:rounded-bl-none text-sm xl:text-lg px-8 py-6 md:py-5.5  flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
               >
                 {isRedirecting ? "Redirecting..." : "Request My Quotes"}
                 {!isRedirecting && (

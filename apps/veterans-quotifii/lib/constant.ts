@@ -99,8 +99,8 @@ export const FOOTER_CONTENT = {
     { text: "Contact ", href: "/contact" },
   ],
   disclaimer:
-  'For quality control purposes, your activity on this site may be monitored or recorded by AssureRates or its service providers.',
-  copyrightText: "Copyright © 2026 AssureRates. All Rights Reserved.",
+  'For quality control purposes, your activity on this site may be monitored or recorded by Quotifii or its service providers.',
+  copyrightText: "Copyright © 2026 Quotifii. All Rights Reserved.",
 } as const
 
 export const THANKYOU_CONTENT = {

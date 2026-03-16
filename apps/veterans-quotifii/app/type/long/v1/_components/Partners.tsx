@@ -7,7 +7,7 @@ export default function Partners() {
   return (
     <div
       className="partners w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-23 xl:py-14"
-      style={{ backgroundColor: "#1F3A5F" }}
+      style={{ backgroundColor: "#1E4FAF" }}
     >
       <div className="container mx-auto">
         <div className="partners-content w-full flex flex-col items-center justify-center gap-6 md:gap-8 xl:gap-14">

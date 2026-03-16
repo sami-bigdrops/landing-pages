@@ -255,7 +255,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-base font-semibold text-gray-900">Email</h3>
-                    <p className="text-sm text-gray-600">contact@assurerates.com</p>
+                    <p className="text-sm text-gray-600">contact@Quotifii.com</p>
                   </div>
                 </div>
 
@@ -281,7 +281,7 @@ const Contact = () => {
                   <div>
                     <h3 className="text-base font-semibold text-gray-900">LinkedIn</h3>
                     <a 
-                      href="https://www.linkedin.com/company/assurerates/" 
+                      href="https://www.linkedin.com/company/Quotifii/" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-sm text-[#1E3A8A] hover:text-[#1E3A8A]/80 transition-colors"
