@@ -374,12 +374,12 @@ export const FOOTER_CONTENT = {
 export const THANKYOU_CONTENT = {
   title: "Thank you!",
   subtitle:
-    "Your request has been received. A home warranty specialist will contact you shortly with your quote.",
+    "Thank you for requesting information from Assuritii. A Customer Specialist will contact you shortly.",
   confirmationTitle:
     "A confirmation message has been sent to your email address.",
   confirmationDescription:
     "The message contains next steps and how to get your quote. Please check your spam folder if you don't see it in your inbox.",
   contactTitle: "Need help now?",
-  contactPhoneLabel: "(1800) 123 - 4567",
-  contactPhoneHref: "tel:+18001234567",
+  contactPhoneLabel: "1-855-916-3700",
+  contactPhoneHref: "tel:+18559163700",
 } as const

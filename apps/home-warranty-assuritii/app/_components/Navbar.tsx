@@ -8,7 +8,7 @@ type NavbarProps = {
   contactHref?: string
 }
 
-export default function Navbar({ contactLabel = "(1800) 123 - 4567", contactHref = "tel:+18001234567" }: NavbarProps = {}) {
+export default function Navbar({ contactLabel = "1-855-916-3700", contactHref = "tel:+18559163700" }: NavbarProps = {}) {
   return (
     <NavbarUI
       variant="default"

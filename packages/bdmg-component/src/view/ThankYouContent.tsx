@@ -237,38 +237,39 @@ export function ThankYouContent({
 
   if (variant === "2") {
     return (
-      <main className="min-h-screen bg-[#F0F4F9]">
-        <section id="thankyou" className="px-4 py-8 sm:px-6 sm:py-12 lg:py-16">
+      <main className="min-h-screen bg-gradient-to-b from-[#EEF2F7] to-[#F0F4F9]">
+        <section id="thankyou" className="px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
           <div className="mx-auto w-full max-w-[28rem] xl:max-w-[32rem]">
-            <div className="rounded-[20px] bg-white p-8 shadow-[0_0_15px_0_rgba(31,58,95,0.10)] sm:p-10 xl:p-12">
+            <div className="overflow-hidden rounded-[24px] border border-[#E2E8F0]/80 bg-white shadow-[0_4px_6px_-1px_rgba(31,58,95,0.06),0_10px_25px_-5px_rgba(31,58,95,0.12),0_0_0_1px_rgba(31,58,95,0.04)] sm:shadow-[0_8px_30px_-12px_rgba(31,58,95,0.18),0_0_0_1px_rgba(31,58,95,0.04)] p-8 sm:p-10 xl:p-12">
               <div className="flex flex-col items-center text-center">
-                <div className="mb-4 flex h-8 w-8 md:h-10 md:w-10 xl:h-12 xl:w-12 shrink-0 items-center justify-center rounded-full bg-[#3498DB] ">
-                  <Check className="h-5 w-5 md:h-6 md:w-6 xl:h-7 xl:w-7 text-white " strokeWidth={2.5} />
+                <div className="mb-5 flex h-11 w-11 sm:h-12 sm:w-12 xl:h-14 xl:w-14 shrink-0 items-center justify-center rounded-full bg-[#3498DB] shadow-[0_4px_14px_0_rgba(52,152,219,0.4)]">
+                  <Check className="h-6 w-6 sm:h-6 sm:w-6 xl:h-7 xl:w-7 text-white" strokeWidth={2.5} />
                 </div>
-                <p className="text-xs xl:text-sm font-semibold uppercase tracking-[0.02em] text-[#3498DB] mb-5">
+                <p className="text-xs xl:text-sm font-semibold uppercase tracking-[0.12em] text-[#3498DB] mb-4">
                   REQUEST CONFIRMED
                 </p>
-                <h1 className="mt-0 text-[1.75rem] xl:text-[2rem] font-bold text-[#1C2833] ">
+                <h1 className="text-[1.875rem] xl:text-[2.125rem] font-bold tracking-tight text-[#1C2833]">
                   {title}
                 </h1>
-                <p className="mt-4 max-w-md text-sm xl:text-[1rem] leading-[1.5] text-[#4A5568] mt-2 ">
+                <p className="mt-3 max-w-md text-[0.9375rem] xl:text-[1.0625rem] leading-[1.6] text-[#4A5568]">
                   {subtitle}
                 </p>
               </div>
 
               <a
                 href={contactPhoneHref}
-                className="mt-8 flex items-center justify-between gap-4 rounded-[15px] bg-[#1F3A5F] px-5 py-4 text-left transition-opacity hover:opacity-95  sm:px-6 sm:py-4 xl:px-6 xl:py-5"
+                className="mt-8 flex items-center justify-between gap-4 rounded-[16px] bg-[#1F3A5F] px-5 py-4 text-left shadow-[0_2px_8px_0_rgba(31,58,95,0.2)] transition-all hover:shadow-[0_4px_14px_0_rgba(31,58,95,0.28)] hover:bg-[#1a3250] active:scale-[0.99] sm:px-6 sm:py-4 xl:px-6 xl:py-5"
               >
-                <div className="flex items-center justify-center p-2 h-8 w-8 md:h-10 md:w-10 xl:h-12 xl:w-12 shrink-0 rounded-[12px] bg-white/10">
-                  <Phone className="h-4 w-4 md:h-4.5 md:w-4.5 xl:h-5 xl:w-5 shrink-0 text-white " strokeWidth={2.5} />
+                <div className="flex h-10 w-10 md:h-11 md:w-11 xl:h-12 xl:w-12 shrink-0 items-center justify-center rounded-[12px] bg-white/12">
+                  <Phone className="h-4 w-4 md:h-5 md:w-5 xl:h-5 xl:w-5 shrink-0 text-white" strokeWidth={2.5} />
                 </div>
-                
                 <div className="flex min-w-0 flex-1 flex-col">
-                  <span className="text-xs md:text-[0.8rem]  xl:text-[0.95rem] font-normal text-white/90 mb-0.5 md:mb-1">{contactTitle}</span>
-                  <span className="text-[0.77rem] md:text-[0.85rem] xl:text-[1rem] font-medium text-white ">{contactPhoneLabel}</span>
+                  <span className="text-xs md:text-[0.8125rem] xl:text-[0.9375rem] font-normal text-white/90 mb-0.5">{contactTitle}</span>
+                  <span className="text-[0.8125rem] md:text-[0.9375rem] xl:text-[1.0625rem] font-semibold text-white">{contactPhoneLabel}</span>
                 </div>
-                <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4 xl:h-5.5 xl:w-5.5 shrink-0 text-white " strokeWidth={2.5} />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15">
+                  <ArrowRight className="h-4 w-4 md:h-4.5 md:w-4.5 xl:h-5 xl:w-5 text-white" strokeWidth={2.5} />
+                </div>
               </a>
             </div>
           </div>

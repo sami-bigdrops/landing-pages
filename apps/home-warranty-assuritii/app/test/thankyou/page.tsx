@@ -30,6 +30,7 @@ export default function TestThankYouPage() {
       <Suspense fallback={<ThankYouLoading />}>
         <>
         <ThankYouContent
+          variant="2"
           title={THANKYOU_CONTENT.title}
           subtitle={THANKYOU_CONTENT.subtitle}
           showBuyerLogo={false}

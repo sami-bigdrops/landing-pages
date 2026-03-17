@@ -174,26 +174,27 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
     }
   }
 
+  const compact = !embedInModal
   return (
-    <div className={`w-full flex flex-col-reverse justify-center items-center gap-6 2xl:gap-8 ${embedInModal ? "flex-col" : ""}`}>
+    <div className={`w-full flex flex-col-reverse justify-center items-center ${embedInModal ? "flex-col gap-6 2xl:gap-8" : "gap-3 2xl:gap-4 shrink-0"}`}>
       {!embedInModal && (
         partnersPlaceholder ? (
-          <div className="partners flex justify-center xl:justify-start">
-            <div className="w-full min-w-0 flex items-center justify-center rounded-lg border border-[#D1D5DB] bg-[#F9FAFB] py-6 px-4">
-              <p className="text-sm xl:text-base text-center font-medium text-[#374151] font-sans">&lt;ENDORSEMENT / RANKING LOGOS&gt;</p>
+          <div className="partners flex justify-center xl:justify-start shrink-0">
+            <div className="w-full min-w-0 flex items-center justify-center rounded-lg border border-[#D1D5DB] bg-[#F9FAFB] py-3 px-3">
+              <p className="text-xs xl:text-sm text-center font-medium text-[#374151] font-sans">&lt;ENDORSEMENT / RANKING LOGOS&gt;</p>
             </div>
           </div>
         ) : (
-          <div className="partners flex justify-center xl:justify-start">
-            <div className="w-full min-w-0 flex items-center justify-center lg:justify-start xl:justify-start gap-4 sm:gap-6 xl:gap-6 2xl:gap-11 overflow-hidden">
-              <Image src={HERO_CONTENT.partners[0].src} alt={HERO_CONTENT.partners[0].alt} width={80} height={80} className="object-contain w-16 sm:w-20 lg:w-22 xl:w-24 2xl:w-28 h-auto min-w-0 flex-shrink" />
-              <Image src={HERO_CONTENT.partners[1].src} alt={HERO_CONTENT.partners[1].alt} width={80} height={80} className="object-contain w-10 sm:w-16 lg:w-16 xl:w-16 2xl:w-20 h-auto min-w-0 flex-shrink" />
-              <Image src={HERO_CONTENT.partners[2].src} alt={HERO_CONTENT.partners[2].alt} width={80} height={80} className="object-contain w-28 sm:w-32 lg:w-40 xl:w-50 2xl:w-55 h-auto min-w-0 flex-shrink" />
+          <div className="partners flex justify-center xl:justify-start shrink-0">
+            <div className="w-full min-w-0 flex items-center justify-center lg:justify-start xl:justify-start gap-2 sm:gap-3 xl:gap-4 2xl:gap-5 overflow-hidden">
+              <Image src={HERO_CONTENT.partners[0].src} alt={HERO_CONTENT.partners[0].alt} width={80} height={80} className="object-contain w-12 sm:w-14 lg:w-16 xl:w-[4.5rem] 2xl:w-20 h-auto min-w-0 flex-shrink" />
+              <Image src={HERO_CONTENT.partners[1].src} alt={HERO_CONTENT.partners[1].alt} width={80} height={80} className="object-contain w-8 sm:w-10 lg:w-12 xl:w-12 2xl:w-14 h-auto min-w-0 flex-shrink" />
+              <Image src={HERO_CONTENT.partners[2].src} alt={HERO_CONTENT.partners[2].alt} width={80} height={80} className="object-contain w-20 sm:w-24 lg:w-28 xl:w-36 2xl:w-40 h-auto min-w-0 flex-shrink" />
             </div>
           </div>
         )
       )}
-      <div className="w-full relative">
+      <div className="w-full md:max-w-[20rem] xl:max-w-[28rem] md:mx-auto relative min-w-0">
         {onClose && (
           <button
             type="button"
@@ -208,16 +209,16 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
         )}
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-col gap-5 xl:gap-6 rounded-lg"
+          className={`w-full flex flex-col rounded-lg ${compact ? "gap-2.5 xl:gap-3" : "gap-5 xl:gap-6"}`}
         >
           <TrustedForm />
 
-          <h2 id="form-modal-title" className={`text-xl  lg:text-[1.4rem] xl:text-[1.95rem] font-bold text-[#1F3A5F] text-center md:text-left ${onClose ? "pr-10" : ""}`} style={{ lineHeight: "1.2" }}>
+          <h2 id="form-modal-title" className={`font-bold text-[#1F3A5F] text-center md:text-left ${onClose ? "pr-10" : ""} ${compact ? "text-lg lg:text-[1.15rem] xl:text-[1.35rem]" : "text-xl lg:text-[1.4rem] xl:text-[1.95rem]"}`} style={{ lineHeight: "1.2" }}>
             Let Us Get You Covered With a Free Quote
           </h2>
 
-          <div className="w-full flex flex-col gap-2.5 xl:gap-3">
-            <div className="grid grid-cols-2 gap-2 xl:gap-3">
+          <div className={`w-full flex flex-col ${compact ? "gap-1.5 xl:gap-2" : "gap-2.5 xl:gap-3"}`}>
+            <div className={`grid grid-cols-2 ${compact ? "gap-1.5 xl:gap-2" : "gap-2 xl:gap-3"}`}>
               <div className="relative">
                 <Image src="/user.svg" alt="User icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-5 h-5 z-10 pointer-events-none" />
                 <TextInputUI
@@ -228,7 +229,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                     clearFieldError("firstName")
                   }}
                   error={fieldErrors.firstName}
-                  className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                  className={`pl-9 rounded-[8px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${compact ? "py-2.5 xl:py-3 h-auto" : "py-4 xl:py-4.5 h-auto"}`}
                   containerClassName="mb-0"
                 />
               </div>
@@ -242,7 +243,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                     clearFieldError("lastName")
                   }}
                   error={fieldErrors.lastName}
-                  className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                  className={`pl-9 rounded-[8px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${compact ? "py-2.5 xl:py-3 h-auto" : "py-4 xl:py-4.5 h-auto"}`}
                   containerClassName="mb-0"
                 />
               </div>
@@ -262,7 +263,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                 }}
                 placeholder="Address"
                 autoComplete="off"
-                className={`w-full pl-10 pr-3 rounded-[10px] border bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${fieldErrors.address ? "border-red-400" : "border-[#D1D5DB]"}`}
+                className={`w-full pl-9 pr-3 rounded-[8px] border bg-white placeholder:text-[#9CA3AF] text-[0.85rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${fieldErrors.address ? "border-red-400" : "border-[#D1D5DB]"} ${compact ? "py-2.5 xl:py-3" : "py-4 xl:py-4.5"}`}
               />
               {fieldErrors.address !== undefined && <p className="text-xs text-red-500 mt-1">Required</p>}
             </div>
@@ -277,7 +278,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                   clearFieldError("zipCode")
                 }}
                 error={fieldErrors.zipCode}
-                className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                className={`pl-9 rounded-[8px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${compact ? "py-2.5 xl:py-3 h-auto" : "py-4 xl:py-4.5 h-auto"}`}
                 containerClassName="mb-0"
               />
             </div>
@@ -292,7 +293,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                   clearFieldError("phoneNumber")
                 }}
                 error={fieldErrors.phoneNumber}
-                className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                className={`pl-9 rounded-[8px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${compact ? "py-2.5 xl:py-3 h-auto" : "py-4 xl:py-4.5 h-auto"}`}
                 containerClassName="mb-0"
               />
             </div>
@@ -308,13 +309,13 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                   clearFieldError("email")
                 }}
                 error={fieldErrors.email}
-                className="pl-10 rounded-[10px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] lg:text-[0.9rem]  py-4 xl:py-4.5 h-auto shadow-[0_0_10px_0_rgba(31,58,95,0.06)]"
+                className={`pl-9 rounded-[8px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.85rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${compact ? "py-2.5 xl:py-3 h-auto" : "py-4 xl:py-4.5 h-auto"}`}
                 containerClassName="mb-0"
               />
             </div>
 
-            <div className="w-full ">
-              <p className="text-sm font-semibold text-[#1F3A5F] mb-2 xl:mb-2.5">Are you a homeowner?</p>
+            <div className="w-full">
+              <p className={`font-semibold text-[#1F3A5F] ${compact ? "text-sm mb-1.5" : "mb-2 xl:mb-2.5"}`}>Are you a homeowner?</p>
               <RadioButtonGroup
                 name="isHomeowner"
                 options={[
@@ -325,13 +326,13 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                 onChange={(value) => setIsHomeowner(value)}
                 type="3"
                 layout="row"
-                className="flex flex-row gap-2 xl:gap-3 w-full"
-                optionClassName="flex-1 justify-center items-center text-center min-w-0"
+                className={compact ? "flex flex-row gap-1.5 w-full" : "flex flex-row gap-2 xl:gap-3 w-full"}
+                optionClassName={`flex-1 justify-center items-center text-center min-w-0 ${compact ? "min-h-[2.25rem] rounded-[8px]" : "min-h-[2.75rem] rounded-[10px]"}`}
               />
             </div>
           </div>
 
-          <div className="w-full flex flex-col gap-5">
+          <div className={`w-full flex flex-col ${compact ? "gap-2" : "gap-5"}`}>
             {submitStatus === "error" && submitError && (
               <p className="w-full text-sm text-red-600 text-center" role="alert">
                 {submitError}
@@ -343,12 +344,12 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
               variant="default"
               htmlType="submit"
               disabled={submitStatus === "loading"}
-              className="w-full bg-[#3498DB] text-white font-medium py-7 xl:py-7.5 rounded-[10px] text-sm lg:text-base xl:text-lg"
+              className={`w-full bg-[#3498DB] text-white font-medium rounded-[10px] ${compact ? "py-4 xl:py-5 text-sm rounded-[8px]" : "py-8 xl:py-9 text-sm lg:text-base xl:text-lg"}`}
             >
-              {submitStatus === "loading" ? "Submitting..." : "Get FREE Quote"}
+              {submitStatus === "loading" ? "Submitting..." : "Get A FREE Quote"}
             </ButtonUI>
 
-            <p className="text-[0.65rem] lg:text-[0.7rem] xl:text-[0.75rem] text-[#374151] text-center md:text-left leading-relaxed">
+            <p className={`text-[#374151] text-center md:text-left leading-relaxed ${compact ? "text-[0.6rem] xl:text-[0.65rem]" : "text-[0.65rem] lg:text-[0.7rem] xl:text-[0.75rem]"}`}>
               By Clicking The Button Below, You Consent To Receive Email At The Email Address You Provided, As Well As Prerecorded Messages, Auto-Dialed Phone Calls, And Text Messages At The Phone Number You Provided, From Assuritii And Its Marketing Partner.
               You Can View The Full List Of Our Marketing Partners Here
               You Understand That Your Consent Is Not A Condition Of Purchase.
