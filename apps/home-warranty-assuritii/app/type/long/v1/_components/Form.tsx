@@ -160,6 +160,9 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
       if (!res.ok) {
         setSubmitStatus("error")
         setSubmitError(data.error ?? "Submission failed")
+        if (data.field && typeof data.field === "string") {
+          setFieldErrors((prev) => ({ ...prev, [data.field]: data.error ?? "" }))
+        }
         return
       }
 
