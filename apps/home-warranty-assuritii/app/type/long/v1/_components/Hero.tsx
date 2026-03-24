@@ -3,6 +3,7 @@
 import { useUtmParams } from "@workspace/lp-core"
 import { HERO_CONTENT } from "@/lib/constant"
 import Form from "@/app/type/long/v1/_components/Form"
+import Image from "next/image"
 
 
 
@@ -14,57 +15,77 @@ export default function Hero({ formPartnersPlaceholder }: HeroProps = {}) {
   useUtmParams(30)
 
   return (
-    <div className="bg-white w-full">
-      <div className="w-full flex flex-col md:flex-row md:h-[70vh] md:min-h-[480px]">
-        {/* Image + headline – hidden on mobile, shown on md+ */}
-        <div
-          className="hidden md:flex relative w-full md:w-[55%] xl:w-[60%] 2xl:w-[57%] min-h-0 flex-col justify-end md:py-10"
-          style={{
-            background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.10) 77.75%), linear-gradient(180deg, rgba(0, 0, 0, 0.00) 32.16%, rgba(0, 0, 0, 0.40) 69.82%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%), url(${HERO_CONTENT.image.src}) lightgray top / cover no-repeat`
-          }}
-        >
-          <div className="relative z-10 space-y-3 max-w-2xl w-full h-full px-8 py-8 lg:px-14 lg:py-8 xl:px-18 xl:py-10 flex flex-col items-start justify-end">
-            <h1 className="text-[1.8rem] lg:text-[2rem] xl:text-[2.3rem] 2xl:text-[2.4rem] xl:max-w-[600px] font-bold text-white drop-shadow-lg" style={{ lineHeight: "1.2" }}>
+    <div
+      className="bg-white w-full h-full py-6 px-6 md:min-h-[500px] md:p-0 md:py-0 md:px-10 lg:min-h-[500px]"
+      style={{
+        background: `linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.1) 100%), url(${HERO_CONTENT.image.src}) lightgray 40% / cover no-repeat`,
+      }}
+    >
+      <div className="container mx-auto md:max-w-none md:mx-0 md:px-0 md:w-full">
+        <div className="flex flex-col gap-6 md:flex-row md:gap-0 md:items-stretch md:min-h-[600px] md:w-full lg:gap-0 xl:gap-0 2xl:gap-0">
+          <div className="left flex flex-col items-center justify-center gap-4 md:w-1/2 md:max-w-none md:min-h-[600px] md:flex md:flex-col md:justify-end md:items-start md:gap-5 md:pb-10 ">
+            <h1
+              className="text-[1.8rem] lg:text-[2rem] xl:text-[2.3rem] 2xl:text-[2.4rem] max-w-[250px] lg:max-w-[350px] xl:max-w-[600px] 2xl:max-w-[700px] text-center md:text-left font-bold text-white drop-shadow-lg"
+              style={{ lineHeight: "1.2" }}
+            >
               {HERO_CONTENT.headline}
             </h1>
-            <p className="text-[0.95rem] lg:text-base xl:text-[1.1rem] font-normal text-white drop-shadow-md max-w-xl" style={{ lineHeight: "1.5" }}>
+            <p
+              className="text-sm lg:text-base xl:text-[1.1rem] max-w-[250px] lg:max-w-[350px] xl:max-w-[400px] 2xl:max-w-[500px] font-normal text-center md:text-left text-white drop-shadow-md"
+              style={{ lineHeight: "1.5" }}
+            >
               {HERO_CONTENT.description}
             </p>
-          </div>
-        </div>
 
-        {/* Form column – full page on mobile, right pane on md+ */}
-
-        {/* Mobile only */}
-        <div className="md:hidden flex flex-col w-full">
-          {/* Image band with headline */}
-          <div
-            className="relative w-full flex flex-col items-center justify-end px-5 pt-10 pb-8 sm:px-6 sm:pb-10"
-            style={{
-              minHeight: "62vw",
-              background: `linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.60) 100%), url(${HERO_CONTENT.image.src}) lightgray 50% 20% / cover no-repeat`
-            }}
-          >
-            <div className="w-full text-center space-y-2">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg" style={{ lineHeight: "1.2" }}>
-                {HERO_CONTENT.headline}
-              </h1>
-              <p className="text-sm font-normal text-white/90 drop-shadow-md" style={{ lineHeight: "1.5" }}>
-                {HERO_CONTENT.description}
-              </p>
+            <div className="hidden w-full min-w-0 items-center justify-center gap-5 overflow-hidden sm:gap-3 md:flex md:justify-start xl:gap-4 2xl:gap-5">
+              <Image
+                src={HERO_CONTENT.partners[0].src}
+                alt={HERO_CONTENT.partners[0].alt}
+                width={100}
+                height={100}
+                className="object-contain md:w-35 lg:w-16 xl:w-[4.5rem] 2xl:w-20 h-auto min-w-0 flex-shrink"
+              />
+              <Image
+                src={HERO_CONTENT.partners[1].src}
+                alt={HERO_CONTENT.partners[1].alt}
+                width={100}
+                height={100}
+                className="object-contain md:w-10 lg:w-16 xl:w-[4.5rem] 2xl:w-20 h-auto min-w-0 flex-shrink"
+              />
             </div>
           </div>
-          {/* Form on clean background */}
-          <div className="w-full bg-[#E8F0FA] px-5 py-6 sm:px-6 sm:py-7">
-            <Form partnersPlaceholder={formPartnersPlaceholder} />
-          </div>
-        </div>
 
-        {/* md+ only: solid background column */}
-        <div className="hidden md:flex w-full md:w-[45%] xl:w-[40%] 2xl:w-[43%] min-h-0 bg-[#E8F0FA] flex-col items-center justify-center py-6 px-6 lg:py-6 lg:px-6 xl:py-6 xl:px-8 2xl:px-10">
-          <Form partnersPlaceholder={formPartnersPlaceholder} />
+          <div className="right flex w-full flex-col items-center justify-center md:h-auto md:min-h-[600px] md:w-1/2 md:max-w-none md:items-stretch md:justify-start md:bg-[#EBF2FA]">
+            <div className="flex w-full min-h-0 flex-col md:h-full md:min-h-[600px] md:flex-1">
+              <Form />
+            </div>
+            <div className="partners mt-3 flex shrink-0 justify-center md:hidden xl:justify-start">
+              {formPartnersPlaceholder ? (
+                <div className="w-full min-w-0 flex items-center justify-center rounded-lg border border-[#D1D5DB] bg-[#F9FAFB] py-3 px-3">
+                  <p className="text-xs xl:text-sm text-center font-medium text-[#374151] font-sans">&lt;ENDORSEMENT / RANKING LOGOS&gt;</p>
+                </div>
+              ) : (
+                <div className="flex w-full min-w-0 items-center justify-center gap-5 overflow-hidden sm:gap-3 lg:justify-start xl:justify-start xl:gap-4 2xl:gap-5">
+                  <Image
+                    src={HERO_CONTENT.partners[0].src}
+                    alt={HERO_CONTENT.partners[0].alt}
+                    width={100}
+                    height={100}
+                    className="w-45 flex-shrink object-contain sm:w-14 lg:w-16 xl:w-[4.5rem] 2xl:w-20"
+                  />
+                  <Image
+                    src={HERO_CONTENT.partners[1].src}
+                    alt={HERO_CONTENT.partners[1].alt}
+                    width={100}
+                    height={100}
+                    className="w-16 flex-shrink object-contain sm:w-14 lg:w-16 xl:w-[4.5rem] 2xl:w-20"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
