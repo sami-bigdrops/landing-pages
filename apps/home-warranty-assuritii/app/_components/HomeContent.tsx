@@ -13,6 +13,8 @@ import Footer from "@/app/_components/Footer"
 import { FormPopupModal } from "@/app/type/long/v1/_components/FormPopupModal"
 import Form from "@/app/type/long/v1/_components/Form"
 
+const PLACEHOLDER_OFFER = "LIMITED OFFER! : $200 OFF +2 MONTHS & FREE ROOF COVERAGE!"
+
 export default function HomeContent() {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false)
 
@@ -20,6 +22,7 @@ export default function HomeContent() {
     <>
       <div className="flex flex-col min-h-screen">
         <Navbar />
+        <Ribbon offerText={PLACEHOLDER_OFFER} />
         <Hero />
         <About />
         <Work onGetQuoteClick={() => setIsFormModalOpen(true)} />

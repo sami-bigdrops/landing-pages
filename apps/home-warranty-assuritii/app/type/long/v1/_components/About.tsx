@@ -6,9 +6,9 @@ import { ABOUT_CONTENT } from '@/lib/constant'
 
 export default function About() {
   return (
-    <div className="about w-full h-full  px-6 py-12 md:px-10 md:py-14 xl:py-12  xl:px-20 ">
+    <div className="about w-full h-full  px-6 py-12 md:px-10 md:py-14 xl:py-13  xl:px-20 ">
       <div className="container mx-auto max-w-6xl">
-        <div className="features-content w-full flex flex-col items-center justify-center  gap-6 md:gap-10 lg:gap-13 xl:gap-16 2xl:gap-25">
+        <div className="features-content w-full flex flex-col items-center justify-center  gap-6 md:gap-10 lg:gap-13 xl:gap-15 ">
           <div className="left flex flex-col items-center justify-center  gap-3 md:gap-4 xl:gap-6 ">
             <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl md:max-w-[400px] lg:max-w-[500px] xl:max-w-[520px]  font-bold text-[#111827] text-center font-inter" style={{ lineHeight: '1.2' }}>
               {ABOUT_CONTENT.header}
