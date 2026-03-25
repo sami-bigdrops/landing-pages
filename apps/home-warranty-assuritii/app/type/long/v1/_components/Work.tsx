@@ -5,7 +5,11 @@ import Image from 'next/image'
 import { Button as ButtonUI } from "@workspace/ui/components/button"
 import { COVER_CONTENT, WORK_CONTENT } from '@/lib/constant'
 
-export default function Work() {
+type WorkProps = {
+  onGetQuoteClick?: () => void
+}
+
+export default function Work({ onGetQuoteClick }: WorkProps) {
   return (
     <section className="w-full bg-[#E8F0FA] px-6 py-8 md:px-10 md:py-10 lg:px-16 lg:py-12 xl:px-25 xl:py-16">
       <div className="container mx-auto">
@@ -20,13 +24,13 @@ export default function Work() {
           </div>
 
           <div className="w-full mx-auto flex flex-col gap-7 md:gap-8 lg:gap-12 xl:gap-10 md:flex-row md:items-stretch ">
-            <div className="w-full shrink-0 md:w-[48%] xl:w-[50%]">
+            <div className="w-full shrink-0 md:w-[48%] xl:w-[50%] ">
               <Image
                 src={WORK_CONTENT.workImage[0].src}
                 alt={WORK_CONTENT.workImage[0].alt}
                 width={800}
                 height={560}
-                className="h-auto w-full lg:w-[420px] xl:w-[560px] xl:h-[330px] md:h-[290px] rounded-[10px] object-cover shadow-[0_4px_24px_rgba(15,23,42,0.08)]"
+                className="h-auto w-full lg:w-[420px] xl:w-[560px] xl:h-[330px] md:h-[290px] 2xl:w-[690px] rounded-[10px] object-cover shadow-[0_4px_24px_rgba(15,23,42,0.08)]"
                 sizes="(min-width: 1024px) 32rem, 100vw"
                 priority
               />
@@ -69,7 +73,8 @@ export default function Work() {
               <ButtonUI
                 type="1"
                 variant="default"
-                htmlType="submit"
+                htmlType="button"
+                onClick={onGetQuoteClick}
                 className="w-full bg-[#3498DB] text-white font-medium py-6 xl:py-7.5 rounded-[10px] text-sm xl:text-lg "
               >
                 {COVER_CONTENT.callToAction.buttonText}

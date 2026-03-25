@@ -22,7 +22,7 @@ export default function HomeContent() {
         <Navbar />
         <Hero />
         <About />
-        <Work />
+        <Work onGetQuoteClick={() => setIsFormModalOpen(true)} />
         <Cover onGetQuoteClick={() => setIsFormModalOpen(true)} />
 
         <Review />

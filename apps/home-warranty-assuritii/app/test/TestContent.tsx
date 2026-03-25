@@ -5,7 +5,6 @@ import Navbar from "@/app/_components/Navbar"
 import Ribbon from "@/app/_components/Ribbon"
 import Hero from "@/app/type/long/v1/_components/Hero"
 import Work from "@/app/type/long/v1/_components/Work"
-import Features from "@/app/type/long/v1/_components/Features"
 import Review from "@/app/type/long/v1/_components/Review"
 import Faq from "@/app/type/long/v1/_components/Faq"
 import About from "@/app/type/long/v1/_components/About"
@@ -27,13 +26,12 @@ export default function TestContent() {
         <Ribbon offerText={PLACEHOLDER_OFFER} />
         <Hero formPartnersPlaceholder />
         <About />
-        <Work />
+        <Work onGetQuoteClick={() => setIsFormModalOpen(true)} />
         <Cover
           onGetQuoteClick={() => setIsFormModalOpen(true)}
           phoneNumber={PLACEHOLDER_PHONE}
           phoneHref="#"
         />
-        <Features />
         <Review placeholder />
         <Faq />
         <Footer />

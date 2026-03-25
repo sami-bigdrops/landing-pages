@@ -178,10 +178,10 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
   const compact = !embedInModal
   return (
     <div
-      className={`w-full flex flex-col justify-center items-center ${embedInModal ? "gap-6 2xl:gap-8" : "gap-3 2xl:gap-4 shrink-0 md:h-full md:min-h-0 md:flex-1 md:items-stretch md:justify-start"}`}
+      className={`w-full flex flex-col justify-center items-center md:justify-end lg:justify-end ${embedInModal ? "gap-6 2xl:gap-8" : "gap-3 2xl:gap-4 shrink-0 md:h-full md:min-h-0 md:flex-1 md:items-stretch md:justify-end"}`}
     >
       <div
-        className={`relative min-w-0 w-full md:max-w-[25rem] xl:max-w-[28rem] md:mx-auto ${embedInModal ? "" : "md:mx-0 md:flex md:h-full md:max-w-none md:w-full md:flex-1 md:flex-col"}`}
+        className={`relative min-w-0 w-full rounded-[10px] md:rounded-none  lg:mx-0 xl:mx-0  ${embedInModal ? "md:mx-auto " : "md:flex md:h-full md:min-h-0 md:w-full md:flex-1 md:flex-col md:items-center md:justify-end"}`}
       >
         {onClose && (
           <button
@@ -197,11 +197,11 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
         )}
         <form
           onSubmit={handleSubmit}
-          className={`flex h-full w-full flex-col items-center justify-center rounded-lg bg-[#E8F0FA] py-8 px-6 md:rounded-none md:border-none lg:px-8 lg:py-10 lg:pt-12 lg:pr-12 xl:pt-12 xl:pl-14 xl:pr-20 xl:pb-14 2xl:pl-25 2xl:pr-37 ${compact ? "gap-2.5 xl:gap-3 md:min-h-0 md:flex-1 md:justify-start md:bg-transparent" : "gap-5 xl:gap-6"}`}
+          className={`flex w-full flex-col items-center justify-center rounded-lg bg-[#E8F0FA] py-8 px-6 md:rounded-none md:border-none md:py-5 lg:pt-6 xl:px-7 lg:mx-0 xl:mx-0 ${compact ? "gap-2.5 md:mx-auto md:h-full md:min-h-0 md:flex-1   md:justify-center lg:max-w-[22rem] xl:max-w-[35rem] 2xl:max-w-[30rem] xl:gap-3" : "h-full gap-5 xl:gap-6"}`}
         >
           <TrustedForm />
 
-          <h2 id="form-modal-title" className={`font-bold text-[#1F3A5F] mb-2 text-center md:text-left ${onClose ? "pr-10" : ""} ${compact ? "text-lg lg:text-[1.15rem] xl:text-[1.35rem]" : "text-xl lg:text-[1.4rem] xl:text-[1.95rem]"}`} style={{ lineHeight: "1.2" }}>
+          <h2 id="form-modal-title" className={`font-bold text-[#1F3A5F] mb-2 text-center xl:max-w-[300px] ${onClose ? "pr-10" : ""} ${compact ? "text-lg lg:text-[1.15rem] xl:text-[1.4rem]" : "text-xl lg:text-[1.4rem] xl:text-[1.95rem]"}`} style={{ lineHeight: "1.3" }}>
             Let Us Get You Covered With a Free Quote
           </h2>
 
@@ -209,7 +209,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
           <p className={`font-semibold text-[#111827] text-[0.8rem] `}>Personal Information</p>
             <div className={`grid grid-cols-1 md:grid-cols-2 ${compact ? "gap-1.5 xl:gap-2" : "gap-2 xl:gap-3"}`}>
               <div className="relative">
-                <Image src="/user.svg" alt="User icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-5 h-5 z-10 pointer-events-none" />
+                <Image src="/user.svg" alt="User icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
                 <TextInputUI
                   placeholder="First Name"
                   value={firstName}
@@ -223,7 +223,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
                 />
               </div>
               <div className="relative">
-                <Image src="/user.svg" alt="User icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-5 h-5 z-10 pointer-events-none" />
+                <Image src="/user.svg" alt="User icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
                 <TextInputUI
                   placeholder="Last Name"
                   value={lastName}
@@ -240,7 +240,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
 
             <div className="relative">
               <style>{PLACES_STYLES}</style>
-              <Image src="/location.svg" alt="Location icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-5 h-5 z-10 pointer-events-none" />
+              <Image src="/location.svg" alt="Location icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
               <input
                 ref={addressInputRef}
                 id="address"
@@ -258,7 +258,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
             </div>
 
             <div className="relative">
-              <Image src="/location.svg" alt="Location icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-5 h-5 z-10 pointer-events-none" />
+              <Image src="/location.svg" alt="Location icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
               <ZipCodeInputUI
                 placeholder="Zip Code"
                 value={zipCode}
@@ -273,7 +273,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
             </div>
 
             <div className="relative">
-              <Image src="/phone.svg" alt="Phone icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-5 h-5 z-10 pointer-events-none" />
+              <Image src="/phone.svg" alt="Phone icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
               <PhoneNumberInputUI
                 placeholder={phonePlaceholder}
                 value={phoneNumber}
@@ -288,7 +288,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
             </div>
 
             <div className="relative">
-              <Image src="/email.svg" alt="Email icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-5 h-5 z-10 pointer-events-none" />
+              <Image src="/email.svg" alt="Email icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
               <TextInputUI
                 placeholder="Email Address"
                 type="email"
@@ -333,7 +333,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
               variant="default"
               htmlType="submit"
               disabled={submitStatus === "loading"}
-              className={`w-full bg-[#3498DB] text-white font-medium rounded-[4px] ${compact ? "py-5 xl:py-5 text-sm rounded-[4px]" : "py-8 xl:py-9 text-sm lg:text-base xl:text-lg rounded-[4px]"}`}
+              className={`w-full bg-[#3498DB] text-white font-medium rounded-[4px] ${compact ? "py-5 xl:py-6 text-sm rounded-[4px]" : "py-8 xl:py-9 text-sm lg:text-base xl:text-lg rounded-[4px]"}`}
             >
               {submitStatus === "loading" ? "Submitting..." : "Get A FREE Quote"}
             </ButtonUI>

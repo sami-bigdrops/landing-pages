@@ -163,28 +163,28 @@ export const FEATURES_CONTENT = {
     {
       title: "Pre-existing conditions",
       image: {
-        src: "/cross.svg",
+        src: "/feature-icon.svg",
         alt: "Cars today cost more to repair",
       },
     },
     {
       title: "Cosmetic damage",
       image: {
-        src: "/cross.svg",
+        src: "/feature-icon.svg",
         alt: "Unexpected repair costs",
       },
     },
     {
       title: "Improper maintenance",
       image: {
-        src: "/cross.svg",
+        src: "/feature-icon.svg",
         alt: "Breakdowns disrupt daily life",
       },
     },
     {
       title: "Items not listed in plan",
       image: {
-        src: "/cross.svg",
+        src: "/feature-icon.svg",
         alt: "Items not listed in plan",
       },
     },

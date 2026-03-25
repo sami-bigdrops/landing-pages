@@ -11,7 +11,7 @@ type ReviewProps = {
 export default function Review({ placeholder }: ReviewProps) {
   if (placeholder) {
     return (
-      <div className="review bg-[#E8F0FA] w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-18 xl:py-16 2xl:px-10">
+      <div className="review bg-[#E8F0FA] w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-18 xl:py-16 ">
         <div className="container mx-auto">
           <div className="review-content w-full flex flex-col items-center justify-center gap-5 lg:gap-7">
             <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-sans">
