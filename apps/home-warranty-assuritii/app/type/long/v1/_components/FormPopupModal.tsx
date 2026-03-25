@@ -54,13 +54,13 @@ export function FormPopupModal({ isOpen, onClose, children }: FormPopupModalProp
       role="dialog"
       aria-modal="true"
       aria-labelledby="form-modal-title"
-      className={`fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-y-auto bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center  overflow-y-auto bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
         visible && !closing ? "opacity-100" : "opacity-0"
       }`}
       onClick={handleOverlayClick}
     >
       <div
-        className={`relative w-full max-w-[min(520px,calc(100vw-2rem))] sm:max-w-[520px] my-auto transition-all duration-300 rounded-[20px] bg-white shadow-xl ${
+        className={`relative w-full max-w-[min(520px,calc(100vw-2rem))] sm:max-w-[520px]  my-auto transition-all duration-300 rounded-[20px] bg-transparent ${
           visible && !closing ? "opacity-100 scale-100" : "opacity-0 scale-95"
         }`}
         onClick={(e) => e.stopPropagation()}

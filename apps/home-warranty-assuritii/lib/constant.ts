@@ -26,26 +26,27 @@ export const HERO_CONTENT = {
   description: "Get help with unexpected repairs for essential home systems and appliances.",
   
   partners: [
-    {
-      alt: "Google",
-      src: "/partner-1.svg",
+    // {
+    //   alt: "Google",
+    //   src: "/partner-1.svg",
      
+    // },
+    {
+      alt: "Consumer Affairs",
+      src: "/partner-3.svg",
+      
+      
     },
     {
       alt: "2025 Top Rated Consumers",
       src: "/partner-2.svg",
-      
-    },
-    {
-      alt: "Consumer Affairs",
-      src: "/partner-3.svg",
      
     },
   ],
 
   image: {
     alt: "Hero Image",
-    src: "/hero.webp",
+    src: "/hero-bg.webp",
   },
 } as const
 
@@ -99,36 +100,29 @@ export const FORM_CONTENT = {
   disclaimer: "By Clicking \"Get Your Free Quote\" You Agree That Assuritii May Contact You At The Number And Email Provided With Calls, Texts, Or Prerecorded/Artificial Voice Messages About Or Products/Services. Consent Is Not A Condition Of Purchase. Message/Data Rates Apply. You Can Withdraw Consent Anytime.",
 } as const
 
-
 export const WORK_CONTENT = {
   header: "How It Works",
   steps: [
     {
-      number: 1,
-      title: "Tell us what broke",
-      description: "Open a request in minutes and share the issue and your address.",
-      image: {
-        src: "/step-1.webp",
-        alt: "Check if your car qualifies",
-      },
+      number: "01",
+      title: "Enter your ZIP",
+      description: "See which insurance options are available where you live.",
     },
     {
-      number: 2,
-      title: "We book the right help",
-      description: "A local, qualified technician is assigned and your visit is scheduled.",
-      image: {
-        src: "/step-2.webp",
-        alt: "See real plan prices",
-      },
+      number: "02",
+      title: "Answer a few quick questions",
+      description: "Tell us about your vehicle and the cover level you want.",
     },
     {
-      number: 3,
-      title: "You get it fixed",
-      description: "If it’s covered, the repair or replacement is handled under your plan.",
-      image: {
-        src: "/step-3.webp",
-        alt: "Lock in protection",
-      },
+      number: "03",
+      title: "View matched quotes",
+      description: "See prices and details, then choose the option that suits your budget.",
+    },
+  ],
+  workImage: [
+    {
+      src: "/step-3.webp",
+      alt: "Couple in a modern kitchen discussing their home",
     },
   ],
 } as const
@@ -169,28 +163,28 @@ export const FEATURES_CONTENT = {
     {
       title: "Pre-existing conditions",
       image: {
-        src: "/cross.svg",
+        src: "/feature-icon.svg",
         alt: "Cars today cost more to repair",
       },
     },
     {
       title: "Cosmetic damage",
       image: {
-        src: "/cross.svg",
+        src: "/feature-icon.svg",
         alt: "Unexpected repair costs",
       },
     },
     {
       title: "Improper maintenance",
       image: {
-        src: "/cross.svg",
+        src: "/feature-icon.svg",
         alt: "Breakdowns disrupt daily life",
       },
     },
     {
       title: "Items not listed in plan",
       image: {
-        src: "/cross.svg",
+        src: "/feature-icon.svg",
         alt: "Items not listed in plan",
       },
     },
@@ -269,8 +263,8 @@ export const COVER_CONTENT = {
   callToAction: {
     buttonText: "Get Your FREE Quote",
     contactText: "Or give us a call",
-    phoneNumber: "1-800-388-1918",
-    phoneHref: "tel:+18003881918",
+    phoneNumber: "(1800) 123 - 4567",
+    phoneHref: "tel:+18001234567",
   },
 } as const
 

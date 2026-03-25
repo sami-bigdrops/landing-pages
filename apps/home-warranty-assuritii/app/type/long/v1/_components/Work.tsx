@@ -2,78 +2,91 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { WORK_CONTENT } from '@/lib/constant'
+import { Button as ButtonUI } from "@workspace/ui/components/button"
+import { COVER_CONTENT, WORK_CONTENT } from '@/lib/constant'
 
-const STEP_COLORS: { accent: string; badge: string; connector: string }[] = [
-  { accent: "#3498DB", badge: "bg-[#EBF5FB] text-[#3498DB]", connector: "bg-[#3498DB]/20" },
-  { accent: "#1F3A5F", badge: "bg-[#EBF0F8] text-[#1F3A5F]", connector: "bg-[#1F3A5F]/20" },
-  { accent: "#2ECC71", badge: "bg-[#E8F8F0] text-[#27AE60]", connector: "bg-[#2ECC71]/20" },
-]
+type WorkProps = {
+  onGetQuoteClick?: () => void
+}
 
-const DEFAULT_STEP_COLOR: { accent: string; badge: string; connector: string } = { accent: "#3498DB", badge: "bg-[#EBF5FB] text-[#3498DB]", connector: "bg-[#3498DB]/20" }
-
-export default function Work() {
+export default function Work({ onGetQuoteClick }: WorkProps) {
   return (
-    <section className="w-full bg-[#F0F5FB] px-6 py-12 md:px-10 md:py-14 lg:px-16 lg:py-16 xl:px-20 xl:py-20">
-      <div className="container mx-auto max-w-6xl">
+    <section className="w-full bg-[#E8F0FA] px-6 py-8 md:px-10 md:py-10 lg:px-16 lg:py-12 xl:px-25 xl:py-16">
+      <div className="container mx-auto">
+        <div className="work-content w-full flex flex-col items-center justify-center  gap-8 md:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16">
 
-        {/* Header */}
-        <div className="flex flex-col items-center text-center gap-3 mb-10 md:mb-12 xl:mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#EBF5FB] px-4 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#3498DB]" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#3498DB]">Simple Process</span>
+          {/* Header */}
+          <div className=" flex flex-col items-center justify-center gap-3 md:gap-4 xl:gap-6 ">
+            <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl md:max-w-[200px] lg:max-w-[500px] xl:max-w-[500px]  font-bold text-[#111827] text-center  font-inter" style={{ lineHeight: '1.2' }}>
+              {WORK_CONTENT.header}
+            </h2>
+
           </div>
-          <h2 className="text-2xl lg:text-[1.65rem] xl:text-[1.85rem] font-bold text-[#111827]" style={{ lineHeight: "1.25" }}>
-            {WORK_CONTENT.header}
-          </h2>
-          <p className="text-sm lg:text-[0.95rem] text-[#4B5563] max-w-md" style={{ lineHeight: "1.7" }}>
-            Getting your home protected is quick and easy — just three steps.
-          </p>
-        </div>
 
-        {/* Steps grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
-          {WORK_CONTENT.steps.map((step, i) => {
-            const color = STEP_COLORS[Math.min(i, STEP_COLORS.length - 1)] ?? DEFAULT_STEP_COLOR
-            return (
-              <div
-                key={step.number}
-                className="group flex flex-col rounded-2xl bg-white border border-[#E4EBF5] overflow-hidden shadow-[0_2px_12px_0_rgba(31,58,95,0.06)] hover:shadow-[0_8px_28px_0_rgba(31,58,95,0.12)] transition-shadow duration-200"
-              >
-                {/* Image */}
-                <div className="relative w-full overflow-hidden h-[200px] md:h-[160px] lg:h-[150px] xl:h-[160px] 2xl:h-[170px]">
-                  <Image
-                    src={step.image.src}
-                    alt={step.image.alt}
-                    fill
-                    className="object-cover group-hover:scale-[1.03] transition-transform duration-300"
-                  />
-                  {/* Step badge over image */}
-                  <div
-                    className="absolute top-3 left-3 flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white shadow-md"
-                    style={{ backgroundColor: color.accent }}
-                  >
-                    {step.number}
+          <div className="w-full mx-auto flex flex-col gap-7 md:gap-8 lg:gap-12 xl:gap-10 md:flex-row md:items-stretch ">
+            <div className="w-full shrink-0 md:w-[48%] xl:w-[50%] ">
+              <Image
+                src={WORK_CONTENT.workImage[0].src}
+                alt={WORK_CONTENT.workImage[0].alt}
+                width={800}
+                height={560}
+                className="h-auto w-full lg:w-[420px] xl:w-[560px] xl:h-[330px] md:h-[290px] 2xl:w-[690px] rounded-[10px] object-cover shadow-[0_4px_24px_rgba(15,23,42,0.08)]"
+                sizes="(min-width: 1024px) 32rem, 100vw"
+                priority
+              />
+            </div>
+            <div className="w-full min-w-0 flex flex-col justify-center md:w-[52%] xl:w-[50%]">
+              <div className="flex flex-col">
+                {WORK_CONTENT.steps.map((step, index) => (
+                  <div key={step.number} className="flex gap-4 xl:gap-5 items-stretch">
+                    <div className="flex w-9.5 lg:w-10 xl:w-11.5  shrink-0 flex-col items-center self-stretch md:w-[3.25rem] lg:w-[4rem] ">
+                      <div
+                        className="relative z-10 flex h-9.5 lg:h-10 w-9.5 lg:w-10 xl:w-11.5 xl:h-11.5 shrink-0 items-center justify-center rounded-[100px] border border-[rgba(31,58,95,0.60)] bg-white text-sm xl:text-base font-bold tracking-tight text-[#1F3A5F] "
+                        aria-hidden
+                      >
+                        {step.number}
+                      </div>
+                      {index < WORK_CONTENT.steps.length - 1 ? (
+                        <div
+                          className="w-px flex-1 min-h-0 lg:min-h-10 shrink-0 bg-[rgba(31,58,95,0.30)]"
+                          aria-hidden
+                        />
+                      ) : null}
+                    </div>
+                    <div
+                      className={`min-w-0 flex-1 pt-0.5 ${index < WORK_CONTENT.steps.length - 1 ? "pb-8 md:pb-10 xl:pb-18" : ""}`}
+                    >
+                      <h3 className="text-[0.89rem] lg:text-[0.93rem] xl:text-lg font-semibold text-[#1C2833]  font-sans" style={{ lineHeight: 1.4 }}>{step.title}</h3>
+                      <p className="mt-1 xl:mt-2.5 text-[0.8rem] lg:text-[0.85rem] xl:text-base leading-relaxed text-[#374151]  font-sans">
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-col gap-2 px-5 py-5 xl:px-6 xl:py-6 flex-1">
-                  <span className={`self-start text-[0.65rem] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full ${color.badge}`}>
-                    Step {step.number}
-                  </span>
-                  <h3 className="text-[1rem] xl:text-[1.0625rem] font-bold text-[#111827]" style={{ lineHeight: "1.3" }}>
-                    {step.title}
-                  </h3>
-                  <p className="text-[0.875rem] xl:text-[0.9375rem] text-[#4B5563]" style={{ lineHeight: "1.65" }}>
-                    {step.description}
-                  </p>
-                </div>
+                ))}
               </div>
-            )
-          })}
-        </div>
+            </div>
+          </div>
 
+
+          <div className="bottom flex flex-col items-center justify-center gap-5 xl:gap-6">
+            <div className="w-full ">
+              <ButtonUI
+                type="1"
+                variant="default"
+                htmlType="button"
+                onClick={onGetQuoteClick}
+                className="w-full bg-[#3498DB] text-white font-medium py-6 xl:py-7.5 rounded-[10px] text-sm xl:text-lg "
+              >
+                {COVER_CONTENT.callToAction.buttonText}
+              </ButtonUI>
+            </div>
+            <div className="w-full flex items-center justify-center text-center text-[#1F3A5F] text-sm  xl:text-lg gap-1.5">
+              <p className="font-medium">{COVER_CONTENT.callToAction.contactText}</p>
+              <a href={COVER_CONTENT.callToAction.phoneHref} className="font-bold">{COVER_CONTENT.callToAction.phoneNumber}</a>
+            </div>
+
+          </div>
+        </div>
       </div>
     </section>
   )
