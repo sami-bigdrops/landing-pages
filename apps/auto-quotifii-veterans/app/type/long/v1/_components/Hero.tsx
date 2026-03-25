@@ -10,7 +10,9 @@ import Image from "next/image";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://autoquote.quotifii.com";
+const REDIRECT_BASE_URL = "https://auto.assurerates.com";
+const REFERRER = "quotes.assurerates.com";
+const TID = "3286";
 
 export default function Hero() {
   useUtmParams(30);
@@ -53,14 +55,16 @@ export default function Hero() {
     const utmId = getCookie("subid2") || "";
     const utmS1 = getCookie("subid3") || "";
 
-    const params = new URLSearchParams();
-    params.set("tid", utmId);
-    params.set("uid", utmId);
-    params.set("sid", utmSource);
-    params.set("sub1", utmS1);
-    params.set("zip", trimmed);
+    const params = new URLSearchParams({
+      zip_code: trimmed,
+      referrer: REFERRER,
+      tid: TID,
+    });
+    if (utmSource) params.set("subid", utmSource);
+    if (utmId) params.set("subid2", utmId);
+    if (utmS1) params.set("c1", utmS1);
 
-    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
+    const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
 
@@ -75,7 +79,7 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="bg-[#EBF4FF] w-full px-6 sm:px-6 lg:px-8 py-8 lg:py-15 xl:px-23 ">
+    <div className="bg-[#D8E4F1] w-full px-6 sm:px-6 lg:px-8 py-8 lg:py-15 xl:px-23 ">
       <div className="container mx-auto ">
         <div className="flex flex-col md:flex-row gap-6 md:gap-10 lg:gap-12 xl:gap-16 items-center lg:items-center">
           <div className="flex-1 w-full">
@@ -121,7 +125,7 @@ export default function Hero() {
                   variant="default"
                   onClick={handleContinue}
                   disabled={isRedirecting || !zipValid}
-                  className="bg-[#F16601] h-14 md:h-14.5 xl:h-16 md:w-47 lg:w-52 xl:w-66  cursor-pointer text-white font-semibold font-inter rounded-[10px] md:rounded-tl-none md:rounded-bl-none text-sm xl:text-lg px-8 py-6 md:py-5.5  flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
+                  className="bg-[#3498DB] h-14 md:h-14.5 xl:h-16 md:w-47 lg:w-52 xl:w-66  cursor-pointer text-white font-semibold font-inter rounded-[10px] md:rounded-tl-none md:rounded-bl-none text-sm xl:text-lg px-8 py-6 md:py-5.5  flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
                 >
                   {isRedirecting ? "Redirecting..." : "Request My Quotes"}
                   {!isRedirecting && (
