@@ -81,7 +81,7 @@ export default function Hero() {
           <div className="flex-1 w-full">
             <div className="flex flex-col items-center md:items-start gap-6 lg:gap-7 xl:gap-8 max-w-2xl mx-auto md:mx-0">
               <div className="flex flex-col items-center lg:items-start gap-3 xl:gap-4">
-                <h1 className=" text-[1.3rem]  md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#1C2833] text-center md:text-left font-inter " style={{ lineHeight: "1.3" }}>
+                <h1 className=" text-[1.3rem]  md:text-3xl lg:text-4xl font-bold text-[#1C2833] text-center md:text-left font-inter " style={{ lineHeight: "1.3" }}>
                   {headlineText}
                 </h1>
               </div>

@@ -11,7 +11,7 @@ export default function Partners() {
     >
       <div className="container mx-auto">
         <div className="partners-content w-full flex flex-col items-center justify-center gap-6 md:gap-8 xl:gap-14">
-          <h2 className="text-base lg:text-lg xl:text-2xl font-normal text-white text-center font-inter leading-tight tracking-tight">
+          <h2 className="text-base lg:text-lg xl:text-xl font-normal text-white text-center font-inter leading-tight tracking-tight">
             {PARTNERS_CONTENT.header}
           </h2>
 
@@ -27,7 +27,7 @@ export default function Partners() {
                     alt={partner.alt}
                     width={80}
                     height={60}
-                    className="w-30 md:w-25 lg:w-34 xl:w-53 h-auto object-contain overflow-hidden"
+                    className="w-30 md:w-25 lg:w-34 xl:w-40 h-auto object-contain overflow-hidden"
                     style={{ objectFit: "contain" }}
                   />
                 </div>

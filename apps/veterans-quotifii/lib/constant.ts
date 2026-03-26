@@ -89,7 +89,38 @@ export const REVIEW_CONTENT = {
   ],
 } as const
 
-
+export const FEATURES_CONTENT = {
+  header: "A Smarter Way To Shop For Cover",
+  steps: [
+    {
+      number: 1,
+      title: "Multi-Vehicle Savings",
+      description: "One household, more than one car? Bundle options in seconds and see what changes.",
+      image: {
+        src: "/feature-1.svg",
+        alt: "Multi-Vehicle Savings",
+      },
+    },
+    {
+      number: 2,
+      title: "Safe Driver Discounts",
+      description: "If you drive sensibly, your rate should notice. We help you spot discounts you may qualify for.",
+      image: {
+        src: "/feature-2.svg",
+        alt: "Safe Driver Discounts",
+      },
+    },
+    {
+      number: 3,
+      title: "24/7 Roadside Assistance",
+      description: "Flat tire, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
+      image: {
+        src: "/feature-3.svg",
+        alt: "24/7 Roadside Assistance",
+      },
+    },
+  ],
+} as const
 
 export const FOOTER_CONTENT = {
   description: "The Smart Way to Shop For Insurance.",
