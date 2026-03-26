@@ -199,17 +199,22 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
         )}
         <form
           onSubmit={handleSubmit}
-          className={`flex w-full flex-col items-center justify-center bg-white md:py-5 lg:pt-6 lg:mx-0 xl:mx-0 ${compact ? "py-6 px-4 sm:px-5 xl:px-6 gap-2.5 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1 md:justify-center lg:max-w-[22rem] xl:max-w-[35rem] 2xl:max-w-[30rem] xl:gap-3" : "py-8 px-6 xl:px-7 h-full rounded-[10px] md:rounded-[10px] md:max-w-[25rem] lg:max-w-[28rem] xl:max-w-[35rem] 2xl:max-w-[33rem] md:justify-center gap-2.5 xl:gap-3"}`}
+          className={`flex w-full flex-col items-center justify-center bg-white md:py-4 lg:pt-4 lg:mx-0 xl:mx-0 ${compact ? "py-1.5 px-2 sm:py-2 sm:px-2.5 gap-2 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1 md:justify-center lg:max-w-[22rem] xl:max-w-[35rem] 2xl:max-w-[30rem] xl:gap-2.5" : "py-8 px-6 xl:px-7 h-full rounded-[10px] md:rounded-[10px] md:max-w-[25rem] lg:max-w-[28rem] xl:max-w-[35rem] 2xl:max-w-[33rem] md:justify-center gap-2.5 xl:gap-3"}`}
         >
           <TrustedForm />
 
-          <h2 id="form-modal-title" className={`font-bold text-[#1F3A5F] mb-2 text-center xl:max-w-[300px] ${onClose ? "pr-0" : ""} ${compact ? "text-lg lg:text-[1.15rem] xl:text-[1.4rem]" : "text-lg lg:text-[1.15rem] text-center xl:text-[1.4rem] md:max-w-[250px] xl:max-w-[300px]"}`} style={{ lineHeight: "1.3" }}>
-            Let Us Get You Covered With a Free Quote
+          <h2
+            id="form-modal-title"
+            className={`font-bold text-[#1F3A5F] mb-2 xl:max-w-[300px] ${onClose ? "pr-0" : ""} ${compact ? "text-left text-[1.28rem] sm:text-[1.48rem] leading-[1.2] max-w-[260px] self-start" : "text-lg lg:text-[1.15rem] text-center xl:text-[1.4rem] md:max-w-[250px] xl:max-w-[300px]"}`}
+          >
+            Let Us Get You Covered
+            <br />
+            With a Free Quote
           </h2>
 
           <div className={`w-full flex flex-col ${compact ? "gap-1.5 xl:gap-2" : "gap-2.5 xl:gap-3"}`}>
           <p className={`font-semibold text-[#111827] text-[0.8rem] `}>Personal Information</p>
-            <div className={`grid grid-cols-1 md:grid-cols-2 ${compact ? "gap-1.5 xl:gap-2" : "gap-2 xl:gap-3"}`}>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 ${compact ? "gap-1.5 xl:gap-2" : "gap-2 xl:gap-3"}`}>
               <div className="relative">
                 <Image src="/user.svg" alt="User icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
                 <TextInputUI
@@ -259,34 +264,36 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
               {fieldErrors.address !== undefined && <p className="text-xs text-red-500 mt-1">Required</p>}
             </div>
 
-            <div className="relative">
-              <Image src="/location.svg" alt="Location icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
-              <ZipCodeInputUI
-                placeholder="Zip Code"
-                value={zipCode}
-                onChange={(value) => {
-                  setZipCode(value)
-                  clearFieldError("zipCode")
-                }}
-                error={fieldErrors.zipCode}
-                className={`pl-9 rounded-[4px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.8rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${compact ? "py-2.5 xl:py-3 h-auto" : "py-2.5 xl:py-3 h-auto"}`}
-                containerClassName="mb-0"
-              />
-            </div>
+            <div className={`grid grid-cols-2 ${compact ? "gap-1.5 xl:gap-2" : "gap-2 xl:gap-3"}`}>
+              <div className="relative">
+                <Image src="/location.svg" alt="Location icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
+                <ZipCodeInputUI
+                  placeholder="Zip Code"
+                  value={zipCode}
+                  onChange={(value) => {
+                    setZipCode(value)
+                    clearFieldError("zipCode")
+                  }}
+                  error={fieldErrors.zipCode}
+                  className={`pl-9 rounded-[4px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.8rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${compact ? "py-2.5 xl:py-3 h-auto" : "py-2.5 xl:py-3 h-auto"}`}
+                  containerClassName="mb-0"
+                />
+              </div>
 
-            <div className="relative">
-              <Image src="/phone.svg" alt="Phone icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
-              <PhoneNumberInputUI
-                placeholder={phonePlaceholder}
-                value={phoneNumber}
-                onChange={(value) => {
-                  setPhoneNumber(value)
-                  clearFieldError("phoneNumber")
-                }}
-                error={fieldErrors.phoneNumber}
-                className={`pl-9 rounded-[4px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.8rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${compact ? "py-2.5 xl:py-3 h-auto" : "py-2.5 xl:py-3 h-auto"}`}
-                containerClassName="mb-0"
-              />
+              <div className="relative">
+                <Image src="/phone.svg" alt="Phone icon" width={20} height={20} className="absolute left-3 top-[50%] -translate-y-1/2 w-4 h-4 z-10 pointer-events-none" />
+                <PhoneNumberInputUI
+                  placeholder={phonePlaceholder}
+                  value={phoneNumber}
+                  onChange={(value) => {
+                    setPhoneNumber(value)
+                    clearFieldError("phoneNumber")
+                  }}
+                  error={fieldErrors.phoneNumber}
+                  className={`pl-9 rounded-[4px] border border-[#D1D5DB] bg-white placeholder:text-[#9CA3AF] text-[0.8rem] shadow-[0_0_10px_0_rgba(31,58,95,0.06)] ${compact ? "py-2.5 xl:py-3 h-auto" : "py-2.5 xl:py-3 h-auto"}`}
+                  containerClassName="mb-0"
+                />
+              </div>
             </div>
 
             <div className="relative">
