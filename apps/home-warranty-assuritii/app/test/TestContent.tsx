@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Navbar from "@/app/_components/Navbar"
-import Ribbon from "@/app/_components/Ribbon"
 import Hero from "@/app/type/long/v1/_components/Hero"
 import Work from "@/app/type/long/v1/_components/Work"
 import Review from "@/app/type/long/v1/_components/Review"
@@ -23,8 +22,7 @@ export default function TestContent() {
     <>
       <div className="flex flex-col min-h-screen">
         <Navbar contactLabel={PLACEHOLDER_PHONE} contactHref="#" />
-        <Ribbon offerText={PLACEHOLDER_OFFER} />
-        <Hero formPartnersPlaceholder />
+        <Hero offerText={PLACEHOLDER_OFFER} />
         <About />
         <Work onGetQuoteClick={() => setIsFormModalOpen(true)} />
         <Cover

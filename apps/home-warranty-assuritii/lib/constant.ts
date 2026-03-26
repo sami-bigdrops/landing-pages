@@ -46,7 +46,7 @@ export const HERO_CONTENT = {
 
   image: {
     alt: "Hero Image",
-    src: "/hero-bg.webp",
+    src: "/family.webp",
   },
 } as const
 
