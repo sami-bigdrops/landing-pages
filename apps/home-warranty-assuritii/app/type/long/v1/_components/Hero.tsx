@@ -5,87 +5,62 @@ import { HERO_CONTENT } from "@/lib/constant"
 import Form from "@/app/type/long/v1/_components/Form"
 import Image from "next/image"
 
-
-
 type HeroProps = {
-  formPartnersPlaceholder?: boolean
+  offerText?: string
 }
 
-export default function Hero({ formPartnersPlaceholder }: HeroProps = {}) {
+const DEFAULT_OFFER = "LIMITED OFFER! : $200 OFF +2 MONTHS & FREE ROOF COVERAGE!"
+
+export default function Hero({ offerText = DEFAULT_OFFER }: HeroProps = {}) {
   useUtmParams(30)
 
   return (
-    <div
-      className="bg-white w-full h-full  py-6 px-6 md:min-h-[500px] md:p-0 md:py-0 md:px-10 lg:px-16 xl:px-24 2xl:px-35   lg:min-h-[500px] xl:min-h-[600px] 2xl:min-h-[670px]"
-      style={{
-        background: `linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.1) 100%), url(${HERO_CONTENT.image.src}) lightgray 40% / cover no-repeat`,
-      }}
-    >
-      <div className="container mx-auto md:max-w-none md:mx-0 md:px-0 md:w-full">
-        <div className="flex flex-col gap-6 md:flex-row md:gap-0 md:items-stretch md:min-h-[600px] md:w-full lg:gap-0 xl:gap-0 2xl:gap-0">
-          <div className="left flex flex-col items-center justify-center gap-4 md:w-1/2 lg:w-[60%] xl:w-[65%] md:max-w-none md:min-h-[600px] md:flex md:flex-col md:justify-end md:items-start md:gap-4 md:pb-10 ">
-            <h1
-              className="text-[1.8rem] lg:text-[2rem] xl:text-[2.5rem] 2xl:text-[2.5rem] max-w-[250px] lg:max-w-[348px] xl:max-w-[435px]  text-center md:text-left font-bold text-white "
-              style={{ lineHeight: "1.2" }}
-            >
-              {HERO_CONTENT.headline}
-            </h1>
-            <p
-              className="text-sm  xl:text-[1.2rem] max-w-[250px] lg:max-w-[350px] xl:max-w-[430px] font-normal text-center md:text-left text-white "
-              style={{ lineHeight: "1.5" }}
-            >
-              {HERO_CONTENT.description}
-            </p>
+    <section className="relative w-full overflow-hidden px-4 py-5 sm:px-6 sm:py-6 md:px-10 md:py-8 lg:px-16 lg:py-10 xl:px-24">
+      <div
+        className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat blur-[2px]"
+        style={{ backgroundImage: "url('/bg-image.webp')" }}
+      />
+      <div className="absolute inset-0 bg-[#0F172A]/72" />
 
-            <div className="hidden w-full min-w-0 items-center justify-center gap-5 xl:gap-6 xl:mt-5 overflow-hidden  md:flex md:justify-start">
+      <div className="relative z-10 container mx-auto max-w-[1180px]">
+        <div className="overflow-hidden rounded-[12px] border border-[#E3ECF6] bg-white shadow-[0_8px_20px_rgba(31,58,95,0.08)] sm:rounded-[14px]">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="relative min-h-[340px] sm:min-h-[380px] md:min-h-[460px] lg:min-h-[560px] xl:min-h-[600px]">
               <Image
-                src={HERO_CONTENT.partners[0].src}
-                alt={HERO_CONTENT.partners[0].alt}
-                width={100}
-                height={100}
-                className="object-contain md:w-43 xl:w-55  h-auto min-w-0 flex-shrink"
+                src={HERO_CONTENT.image.src}
+                alt={HERO_CONTENT.image.alt}
+                fill
+                className="object-cover"
+                sizes="(min-width: 1280px) 58vw, (min-width: 1024px) 60vw, 100vw"
+                priority
               />
-              <Image
-                src={HERO_CONTENT.partners[1].src}
-                alt={HERO_CONTENT.partners[1].alt}
-                width={100}
-                height={100}
-                className="object-contain md:w-12 xl:w-16  h-auto min-w-0 flex-shrink"
-              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.6)_58%,rgba(0,0,0,0.76)_100%)]" />
+              <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5 md:p-7 lg:p-9">
+                <div className="max-w-[560px] space-y-2.5 sm:space-y-3 md:space-y-4">
+                  <h1 className="text-[1.95rem] font-bold leading-[1.1] text-white sm:text-[2.05rem] md:text-[2.35rem] xl:text-[2.8rem]">
+                    {HERO_CONTENT.headline}
+                  </h1>
+                  <p className="max-w-[520px] text-[0.94rem] leading-relaxed text-[#EAF4FD] md:text-base">
+                    {HERO_CONTENT.description}
+                  </p>
+                  <div className="mt-3 inline-flex max-w-full items-center gap-2 rounded-[10px] border border-[#7DD3FC]/60 bg-[linear-gradient(90deg,#0EA5E9_0%,#2563EB_100%)] px-2.5 py-2 shadow-[0_8px_20px_rgba(37,99,235,0.38)] sm:px-3.5 md:mt-4 md:px-4 md:py-2.5">
+                    <span className="inline-flex shrink-0 items-center rounded-[6px] bg-[#FDE68A] px-2 py-1 text-[0.6rem] font-extrabold uppercase tracking-[0.04em] text-[#1E3A8A] sm:text-[0.64rem]">
+                      Hot
+                    </span>
+                    <p className="text-[0.68rem] font-bold leading-tight tracking-[0.01em] text-white sm:text-[0.74rem] md:text-sm">
+                      {offerText}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="right flex w-full flex-col items-center justify-center md:h-auto md:min-h-[600px] xl:min-h-[670px]  md:w-1/2 lg:w-[40%] xl:w-[35%]  md:items-stretch md:justify-end ">
-            <div className="flex w-full min-h-0 flex-col md:h-full md:min-h-[600px] md:items-center md:justify-end">
-              <Form />
-            </div>
-            <div className="partners mt-3 flex shrink-0 justify-center md:hidden xl:justify-start">
-              {formPartnersPlaceholder ? (
-                <div className="w-full min-w-0 flex items-center justify-center rounded-lg border border-[#D1D5DB] bg-[#F9FAFB] py-3 px-3">
-                  <p className="text-xs xl:text-sm text-center font-medium text-[#374151] font-sans">&lt;ENDORSEMENT / RANKING LOGOS&gt;</p>
-                </div>
-              ) : (
-                <div className="flex w-full min-w-0 items-center justify-center gap-5 overflow-hidden sm:gap-3 lg:justify-start xl:justify-start xl:gap-4 2xl:gap-5">
-                  <Image
-                    src={HERO_CONTENT.partners[0].src}
-                    alt={HERO_CONTENT.partners[0].alt}
-                    width={100}
-                    height={100}
-                    className="w-45 flex-shrink object-contain sm:w-14 lg:w-16 xl:w-[4.5rem] 2xl:w-20"
-                  />
-                  <Image
-                    src={HERO_CONTENT.partners[1].src}
-                    alt={HERO_CONTENT.partners[1].alt}
-                    width={100}
-                    height={100}
-                    className="w-16 flex-shrink object-contain sm:w-14 lg:w-16 xl:w-[4.5rem] 2xl:w-20"
-                  />
-                </div>
-              )}
+            <div className="flex items-center bg-white p-3.5 sm:p-4 md:p-6 lg:p-5 xl:p-6">
+              <Form showPartnerBadges />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

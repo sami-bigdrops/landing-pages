@@ -9,6 +9,7 @@ import { Button as ButtonUI } from "@workspace/ui/components/button"
 import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 import Image from "next/image"
+import { HERO_CONTENT } from "@/lib/constant"
 
 const PLACES_STYLES = `
   .pac-container { border: 1px solid #e5e7eb; border-radius: 6px; margin-top: 4px; box-shadow: 0 8px 24px rgba(0,0,0,0.10); font-family: Inter, sans-serif; overflow: hidden; padding: 4px 0; background: #fff; z-index: 9999; }
@@ -46,9 +47,10 @@ type FormProps = {
   onClose?: () => void
   embedInModal?: boolean
   phonePlaceholder?: string
+  showPartnerBadges?: boolean
 }
 
-export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone Number" }: FormProps = {}) {
+export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone Number", showPartnerBadges = false }: FormProps = {}) {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [address, setAddress] = useState("")
@@ -197,7 +199,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
         )}
         <form
           onSubmit={handleSubmit}
-          className={`flex w-full flex-col items-center justify-center  bg-[#E8F0FA] py-8 px-6  md:py-5 lg:pt-6 xl:px-7 lg:mx-0 xl:mx-0 ${compact ? "gap-2.5 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1   md:justify-center lg:max-w-[22rem] xl:max-w-[35rem] 2xl:max-w-[30rem] xl:gap-3" : "h-full rounded-[10px] md:rounded-[10px] md:max-w-[25rem] lg:max-w-[28rem] xl:max-w-[35rem] 2xl:max-w-[33rem] md:justify-center gap-2.5 xl:gap-3"}`}
+          className={`flex w-full flex-col items-center justify-center bg-white md:py-5 lg:pt-6 lg:mx-0 xl:mx-0 ${compact ? "py-6 px-4 sm:px-5 xl:px-6 gap-2.5 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1 md:justify-center lg:max-w-[22rem] xl:max-w-[35rem] 2xl:max-w-[30rem] xl:gap-3" : "py-8 px-6 xl:px-7 h-full rounded-[10px] md:rounded-[10px] md:max-w-[25rem] lg:max-w-[28rem] xl:max-w-[35rem] 2xl:max-w-[33rem] md:justify-center gap-2.5 xl:gap-3"}`}
         >
           <TrustedForm />
 
@@ -344,6 +346,24 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
               You Understand That Your Consent Is Not A Condition Of Purchase.
               View Privacy Policy
             </p>
+            {showPartnerBadges && (
+              <div className="w-full flex flex-row flex-nowrap items-center justify-center gap-3 pt-1 md:gap-4 md:pt-2">
+                <Image
+                  src={HERO_CONTENT.partners[0].src}
+                  alt={HERO_CONTENT.partners[0].alt}
+                  width={154}
+                  height={42}
+                  className="h-auto w-26 object-contain md:w-36"
+                />
+                <Image
+                  src={HERO_CONTENT.partners[1].src}
+                  alt={HERO_CONTENT.partners[1].alt}
+                  width={62}
+                  height={62}
+                  className="h-auto w-9 object-contain md:w-12"
+                />
+              </div>
+            )}
           </div>
         </form>
       <Script
