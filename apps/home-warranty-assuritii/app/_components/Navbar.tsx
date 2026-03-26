@@ -13,7 +13,7 @@ export default function Navbar({ contactLabel = "1-855-916-3700", contactHref = 
     <NavbarUI
       variant="default"
       type="1"
-      className="container mx-auto py-4 px-4 xl:px-0 border-b border-gray-200"
+      className="mx-auto w-full max-w-[1180px] border-b border-gray-200 px-4 py-3.5 sm:px-6 md:px-10 lg:px-0"
       logo={
         <Image
           src="/assuritii.svg"
@@ -33,7 +33,7 @@ export default function Navbar({ contactLabel = "1-855-916-3700", contactHref = 
         type: "1",
         variant: "ghost",
         size: "sm",
-        className: "text-lg text-[#3498DB] font-bold hover:bg-transparent hover:text-[#3498DB]",
+        className: "text-lg md:text-xl text-[#3498DB] font-bold hover:bg-transparent hover:text-[#3498DB]",
       }}
     />
   )

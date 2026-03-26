@@ -26,7 +26,6 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
@@ -38,7 +37,11 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontSans.className} antialiased overflow-x-hidden overflow-y-auto`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <main className="flex min-h-screen items-center justify-center bg-white px-6">
+            <h1 className="text-3xl font-bold text-[#111827] md:text-4xl">Under Maintenance</h1>
+          </main>
+        </Providers>
         <Analytics />
       </body>
     </html>
