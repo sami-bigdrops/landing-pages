@@ -90,7 +90,7 @@ export const REVIEW_CONTENT = {
 } as const
 
 export const FEATURES_CONTENT = {
-  header: "A Smarter Way To Shop For Cover",
+  header: "A Smarter Way To Shop For Coverage",
   steps: [
     {
       number: 1,
