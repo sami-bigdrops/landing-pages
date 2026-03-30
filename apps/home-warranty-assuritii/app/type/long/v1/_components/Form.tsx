@@ -50,7 +50,7 @@ type FormProps = {
   showPartnerBadges?: boolean
 }
 
-export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone Number", showPartnerBadges = false }: FormProps = {}) {
+export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone Number",showPartnerBadges = false }: FormProps = {}) {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [address, setAddress] = useState("")
