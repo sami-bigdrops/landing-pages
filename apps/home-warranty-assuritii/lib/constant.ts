@@ -26,11 +26,7 @@ export const HERO_CONTENT = {
   description: "Get help with unexpected repairs for essential home systems and appliances.",
   
   partners: [
-    // {
-    //   alt: "Google",
-    //   src: "/partner-1.svg",
-     
-    // },
+    
     {
       alt: "Consumer Affairs",
       src: "/partner-3.svg",
