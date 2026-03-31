@@ -11,7 +11,7 @@ const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 7
 type UserRow = typeof users.$inferSelect
 
 function normalizeUsername(username: string): string {
-  return username.trim().toLowerCase()
+  return username.trim()
 }
 
 function hashToken(token: string): string {

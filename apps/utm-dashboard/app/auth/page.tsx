@@ -2,11 +2,13 @@
 
 import { FormEvent, useState } from "react"
 import { useRouter } from "next/navigation"
+import { Eye, EyeOff } from "lucide-react"
 
 export default function AuthPage() {
   const router = useRouter()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -53,14 +55,24 @@ export default function AuthPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-zinc-700">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-[color:var(--brand-primary)]"
-              autoComplete="current-password"
-              required
-            />
+            <div className="mt-1 relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full rounded-md border border-zinc-300 px-3 py-2 pr-10 text-sm outline-none focus:border-[color:var(--brand-primary)]"
+                autoComplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute inset-y-0 right-2 inline-flex items-center text-zinc-500 hover:text-zinc-700"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
           </div>
           {error ? <p className="text-sm text-rose-600">{error}</p> : null}
           <button
