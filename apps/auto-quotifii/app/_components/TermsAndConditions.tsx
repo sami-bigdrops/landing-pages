@@ -278,7 +278,7 @@ export default function TermsOfUse() {
                     If you have any questions regarding any of these Terms, please contact us by emailing <a href="mailto:contact@quotifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@quotifii.com</a>.
                   </p>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Reach us at: 1985 Del Amo Blvd #P2150, Torrance, CA, 90501
+                    Reach us at: 1021 E Lincolnway Suite #6487, Cheyenne, WY 82001
                   </p>
                 </div>
               </div>

@@ -267,8 +267,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-base font-semibold text-gray-900">Office</h3>
-                    <p className="text-sm text-gray-600">1985 Del Amo Blvd #P2150</p>
-                    <p className="text-sm text-gray-600">Torrance, CA, 90501</p>
+                    <p className="text-sm text-gray-600">1021 E Lincolnway Suite #6487</p>
+                    <p className="text-sm text-gray-600">Cheyenne, WY 82001</p>
                   </div>
                 </div>
 
