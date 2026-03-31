@@ -11,6 +11,7 @@ type UTMParam = {
 }
 type ParamStatus = "active" | "blocked"
 type ModalFilter = "all" | ParamStatus
+type CardFilter = "all" | "source" | "s1"
 
 type EditableParam = {
   key: string
@@ -106,6 +107,7 @@ function ParamsPanel({
 export default function UtmParamsColumns() {
   const [activeItems, setActiveItems] = useState<UTMParam[]>([])
   const [blockedItems, setBlockedItems] = useState<UTMParam[]>([])
+  const [cardFilter, setCardFilter] = useState<CardFilter>("all")
 
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -133,6 +135,22 @@ export default function UtmParamsColumns() {
       return statusMatch && searchMatch
     })
   }, [draftItems, searchQuery, statusFilter])
+
+  const filteredActiveItems = useMemo(() => {
+    if (cardFilter === "all") return activeItems
+    if (cardFilter === "source") {
+      return activeItems.filter((item) => item.key === "utm_source")
+    }
+    return activeItems.filter((item) => item.key === "utm_s1")
+  }, [activeItems, cardFilter])
+
+  const filteredBlockedItems = useMemo(() => {
+    if (cardFilter === "all") return blockedItems
+    if (cardFilter === "source") {
+      return blockedItems.filter((item) => item.key === "utm_source")
+    }
+    return blockedItems.filter((item) => item.key === "utm_s1")
+  }, [blockedItems, cardFilter])
 
   useEffect(() => {
     let cancelled = false
@@ -234,9 +252,44 @@ export default function UtmParamsColumns() {
           Edit
         </Button>
       </div>
+      <div className="mb-4 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => setCardFilter("all")}
+          className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+            cardFilter === "all"
+              ? "border-zinc-300 bg-zinc-100 text-zinc-900"
+              : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50"
+          }`}
+        >
+          All
+        </button>
+        <button
+          type="button"
+          onClick={() => setCardFilter("source")}
+          className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+            cardFilter === "source"
+              ? "border-zinc-300 bg-zinc-100 text-zinc-900"
+              : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50"
+          }`}
+        >
+          Source
+        </button>
+        <button
+          type="button"
+          onClick={() => setCardFilter("s1")}
+          className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+            cardFilter === "s1"
+              ? "border-zinc-300 bg-zinc-100 text-zinc-900"
+              : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50"
+          }`}
+        >
+          S1
+        </button>
+      </div>
       <div className="grid gap-4 lg:grid-cols-2">
-        <ParamsPanel title="Active UTM Params" items={activeItems} tone="success" />
-        <ParamsPanel title="Blocked UTM Params" items={blockedItems} tone="danger" />
+        <ParamsPanel title="Active UTM Params" items={filteredActiveItems} tone="success" />
+        <ParamsPanel title="Blocked UTM Params" items={filteredBlockedItems} tone="danger" />
       </div>
 
       {isEditOpen ? (
