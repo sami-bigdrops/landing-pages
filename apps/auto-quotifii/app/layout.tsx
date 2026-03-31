@@ -14,11 +14,11 @@ const fontSans = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "Auto Quotifii - Auto Quotes",
-    template: "%s | Auto Quotifii",
+    default: "Quotifii - Auto Quotes",
+    template: "%s | Quotifii",
   },
   description:
-    "Auto Quotifii provides top-quality auto quotes services across the USA. We offer auto quotes, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "`Quotifii provides top-quality auto quotes services across the USA. We offer auto quotes, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },

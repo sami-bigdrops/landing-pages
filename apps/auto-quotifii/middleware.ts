@@ -28,13 +28,7 @@ function collectUtmParams(request: NextRequest): Map<string, string> {
   return collected
 }
 
-export async function middleware(request: NextRequest) {
-  const response = NextResponse.next()
-  if (request.method !== "GET") return response
-
-  const utmMap = collectUtmParams(request)
-  if (utmMap.size === 0) return response
-
+function applyUtmCookies(response: NextResponse, utmMap: Map<string, string>) {
   for (const [key, value] of utmMap) {
     response.cookies.set(key, value, {
       path: "/",
@@ -43,6 +37,23 @@ export async function middleware(request: NextRequest) {
       maxAge: COOKIE_MAX_AGE,
     })
   }
+}
+
+export async function middleware(request: NextRequest) {
+  const deniedPath = "/access-denied"
+  const { pathname } = request.nextUrl
+
+  if (pathname === deniedPath || pathname.includes(".")) {
+    return NextResponse.next()
+  }
+
+  const response = NextResponse.next()
+  if (request.method !== "GET") return response
+
+  const utmMap = collectUtmParams(request)
+  if (utmMap.size === 0) return response
+
+  applyUtmCookies(response, utmMap)
 
   try {
     for (const [key, value] of utmMap) {
@@ -54,7 +65,15 @@ export async function middleware(request: NextRequest) {
         ),
       })
 
-      if (existing) continue
+      if (existing) {
+        if (existing.status === "blocked") {
+          const deniedUrl = new URL(deniedPath, request.url)
+          const deniedResponse = NextResponse.redirect(deniedUrl)
+          applyUtmCookies(deniedResponse, utmMap)
+          return deniedResponse
+        }
+        continue
+      }
 
       await db.insert(utmParams).values({
         brandId: BRAND_ID,
@@ -71,5 +90,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|access-denied|.*\\..*).*)"],
 }

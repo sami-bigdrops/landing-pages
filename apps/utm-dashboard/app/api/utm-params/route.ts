@@ -5,6 +5,7 @@ import { headers } from "next/headers"
 import { db } from "@/lib/db"
 import { getBrandByHostname } from "@/lib/brand-config"
 import { utmParams } from "@/lib/db/schema"
+import { getCurrentUser } from "@/lib/auth"
 
 type ParamStatus = "active" | "blocked"
 
@@ -24,6 +25,11 @@ async function resolveBrandIdForRequest() {
 
 export async function GET() {
   try {
+    const user = await getCurrentUser()
+    if (!user) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
+    }
+
     const brandId = await resolveBrandIdForRequest()
     const rows = await db
       .select({
@@ -44,6 +50,11 @@ export async function GET() {
 
 export async function PUT(request: NextRequest) {
   try {
+    const user = await getCurrentUser()
+    if (!user) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
+    }
+
     const brandId = await resolveBrandIdForRequest()
     const body = (await request.json()) as { items?: ParamPayload[] }
     const items = body.items ?? []

@@ -1,5 +1,6 @@
 import {
   pgEnum,
+  integer,
   pgTable,
   serial,
   text,
@@ -9,7 +10,7 @@ import {
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  email: text("email").notNull().unique(),
+  username: text("username").notNull().unique(),
   passwordHash: text("password_hash").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true })
@@ -17,6 +18,26 @@ export const users = pgTable("users", {
     .defaultNow()
     .$onUpdate(() => new Date()),
 })
+
+export const authSessions = pgTable(
+  "auth_sessions",
+  {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    tokenHash: text("token_hash").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+  },
+  (table) => ({
+    tokenHashUnique: uniqueIndex("auth_sessions_token_hash_unique").on(table.tokenHash),
+  })
+)
 
 export const utmParamStatusEnum = pgEnum("utm_param_status", ["active", "blocked"])
 

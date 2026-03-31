@@ -4,7 +4,7 @@ export const HERO_CONTENT = {
   headline: "Let's drop your rate in {city_name} today!",
   image: {
     src: "/hero.webp",
-    alt: "Auto Quotifii"
+    alt: "Quotifii"
   },
  
   

@@ -10,7 +10,7 @@ export default function Footer() {
       type="long"
       bgColor="#003599"
       className="relative z-10"
-      logo={<Image src="/quotifii-logo.svg" alt="Auto Quotifii" width={120} height={40} className="w-40 h-auto object-contain" />}
+      logo={<Image src="/quotifii-logo.svg" alt="Quotifii" width={120} height={40} className="w-40 h-auto object-contain" />}
       links={[...FOOTER_CONTENT.links]}
       copyrightText={FOOTER_CONTENT.copyrightText}
     />
