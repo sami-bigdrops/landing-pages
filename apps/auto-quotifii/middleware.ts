@@ -6,20 +6,21 @@ import { utmParams } from "@/lib/db/schema"
 
 const BRAND_ID = "quotifii"
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 90
+const ALLOWED_UTM_KEYS = new Set(["utm_source", "utm_s1"])
 
 function collectUtmParams(request: NextRequest): Map<string, string> {
   const collected = new Map<string, string>()
 
   for (const [key, value] of request.nextUrl.searchParams.entries()) {
     const normalizedKey = key.toLowerCase()
-    if (normalizedKey.startsWith("utm_") && value.trim()) {
+    if (ALLOWED_UTM_KEYS.has(normalizedKey) && value.trim()) {
       collected.set(normalizedKey, value.trim())
     }
   }
 
   for (const cookie of request.cookies.getAll()) {
     const normalizedKey = cookie.name.toLowerCase()
-    if (!normalizedKey.startsWith("utm_")) continue
+    if (!ALLOWED_UTM_KEYS.has(normalizedKey)) continue
     if (collected.has(normalizedKey)) continue
     if (!cookie.value.trim()) continue
     collected.set(normalizedKey, cookie.value.trim())
