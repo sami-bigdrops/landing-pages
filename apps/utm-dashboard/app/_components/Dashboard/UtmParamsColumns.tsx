@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
@@ -41,10 +41,12 @@ function ParamsPanel({
   title,
   items,
   tone,
+  headerActions,
 }: {
   title: string
   items: UTMParam[]
   tone: "danger" | "success"
+  headerActions?: React.ReactNode
 }) {
   const toneStyles =
     tone === "danger"
@@ -81,11 +83,14 @@ function ParamsPanel({
               {tone === "success" ? "Allowed traffic parameters" : "Filtered out by rules"}
             </p>
           </div>
-          <span
-            className={`rounded-full px-2.5 py-1 text-xs font-semibold tabular-nums ${toneStyles.badge}`}
-          >
-          {items.length} params
-          </span>
+          <div className="flex items-center gap-2">
+            {headerActions}
+            <span
+              className={`rounded-full px-2.5 py-1 text-xs font-semibold tabular-nums ${toneStyles.badge}`}
+            >
+              {items.length} params
+            </span>
+          </div>
         </div>
       </div>
       <ul className="mt-4 flex flex-wrap gap-2.5">
@@ -114,6 +119,11 @@ export default function UtmParamsColumns() {
   const [statusFilter, setStatusFilter] = useState<ModalFilter>("all")
   const [draftItems, setDraftItems] = useState<EditableParam[]>([])
   const [isSaving, setIsSaving] = useState(false)
+  const [addBlockedType, setAddBlockedType] = useState<"utm_source" | "utm_s1">("utm_source")
+  const [addBlockedValue, setAddBlockedValue] = useState("")
+  const [isAddingBlocked, setIsAddingBlocked] = useState(false)
+  const [addBlockedError, setAddBlockedError] = useState("")
+  const [isAddBlockedOpen, setIsAddBlockedOpen] = useState(false)
 
   const draftCounts = useMemo(
     () => ({
@@ -152,35 +162,30 @@ export default function UtmParamsColumns() {
     return blockedItems.filter((item) => item.key === "utm_s1")
   }, [blockedItems, cardFilter])
 
-  useEffect(() => {
-    let cancelled = false
-
-    const loadParams = async () => {
-      try {
-        const response = await fetch("/api/utm-params", { cache: "no-store" })
-        if (!response.ok) return
-        const data = (await response.json()) as {
-          items?: Array<{ key: string; value: string; status: ParamStatus }>
-        }
-        if (!data.items || cancelled) return
-        const active = data.items
-          .filter((item) => item.status === "active")
-          .map((item) => ({ key: item.key, value: item.value }))
-        const blocked = data.items
-          .filter((item) => item.status === "blocked")
-          .map((item) => ({ key: item.key, value: item.value }))
-        setActiveItems(active)
-        setBlockedItems(blocked)
-      } catch (error) {
-        console.error("[utm-dashboard] failed to load UTM params", error)
+  const loadParams = useCallback(async () => {
+    try {
+      const response = await fetch("/api/utm-params", { cache: "no-store" })
+      if (!response.ok) return
+      const data = (await response.json()) as {
+        items?: Array<{ key: string; value: string; status: ParamStatus }>
       }
-    }
-
-    void loadParams()
-    return () => {
-      cancelled = true
+      if (!data.items) return
+      const active = data.items
+        .filter((item) => item.status === "active")
+        .map((item) => ({ key: item.key, value: item.value }))
+      const blocked = data.items
+        .filter((item) => item.status === "blocked")
+        .map((item) => ({ key: item.key, value: item.value }))
+      setActiveItems(active)
+      setBlockedItems(blocked)
+    } catch (error) {
+      console.error("[utm-dashboard] failed to load UTM params", error)
     }
   }, [])
+
+  useEffect(() => {
+    void loadParams()
+  }, [loadParams])
 
   const openEditModal = () => {
     setDraftItems(buildEditableParams(activeItems, blockedItems))
@@ -222,14 +227,58 @@ export default function UtmParamsColumns() {
     }
   }
 
+  const addBlockedParam = async (): Promise<boolean> => {
+    setAddBlockedError("")
+    const value = addBlockedValue.trim()
+    if (!value) {
+      setAddBlockedError("Please enter a value.")
+      return false
+    }
+    setIsAddingBlocked(true)
+    try {
+      const response = await fetch("/api/utm-params", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: [{ key: addBlockedType, value, status: "blocked" as const }],
+        }),
+      })
+      if (!response.ok) {
+        setAddBlockedError("Failed to add blocked param.")
+        return false
+      }
+      setAddBlockedValue("")
+      await loadParams()
+      return true
+    } catch {
+      setAddBlockedError("Failed to add blocked param.")
+      return false
+    } finally {
+      setIsAddingBlocked(false)
+    }
+  }
+
+  const openAddBlockedModal = () => {
+    setAddBlockedError("")
+    setAddBlockedValue("")
+    setAddBlockedType("utm_source")
+    setIsAddBlockedOpen(true)
+  }
+
+  const closeAddBlockedModal = () => {
+    if (isAddingBlocked) return
+    setIsAddBlockedOpen(false)
+    setAddBlockedError("")
+  }
+
   useEffect(() => {
-    if (!isEditOpen) return
+    if (!isEditOpen && !isAddBlockedOpen) return
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
     return () => {
       document.body.style.overflow = previousOverflow
     }
-  }, [isEditOpen])
+  }, [isEditOpen, isAddBlockedOpen])
 
   return (
     <section className="container mx-auto mt-6 px-4 xl:px-0">
@@ -289,7 +338,20 @@ export default function UtmParamsColumns() {
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
         <ParamsPanel title="Active UTM Params" items={filteredActiveItems} tone="success" />
-        <ParamsPanel title="Blocked UTM Params" items={filteredBlockedItems} tone="danger" />
+        <ParamsPanel
+          title="Blocked UTM Params"
+          items={filteredBlockedItems}
+          tone="danger"
+          headerActions={
+            <button
+              type="button"
+              onClick={openAddBlockedModal}
+              className="rounded-md bg-rose-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-rose-700"
+            >
+              Add Manually
+            </button>
+          }
+        />
       </div>
 
       {isEditOpen ? (
@@ -413,6 +475,74 @@ export default function UtmParamsColumns() {
                 disabled={isSaving}
               >
                 {isSaving ? "Saving..." : "Save"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {isAddBlockedOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4">
+          <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl">
+            <div className="border-b border-zinc-200 px-5 py-4">
+              <h3 className="text-lg font-semibold text-[color:var(--brand-secondary)]">
+                Add Blocked UTM Param
+              </h3>
+              <p className="mt-1 text-sm text-zinc-600">
+                Choose type and enter the value you want to block.
+              </p>
+            </div>
+
+            <div className="space-y-4 px-5 py-4">
+              <div className="flex gap-4 text-sm text-zinc-700">
+                <label className="inline-flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="add-blocked-key"
+                    checked={addBlockedType === "utm_source"}
+                    onChange={() => setAddBlockedType("utm_source")}
+                  />
+                  Source
+                </label>
+                <label className="inline-flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="add-blocked-key"
+                    checked={addBlockedType === "utm_s1"}
+                    onChange={() => setAddBlockedType("utm_s1")}
+                  />
+                  S1
+                </label>
+              </div>
+
+              <input
+                value={addBlockedValue}
+                onChange={(e) => setAddBlockedValue(e.target.value)}
+                placeholder="Enter value to block"
+                className="h-10 w-full rounded-md border border-zinc-300 px-3 text-sm outline-none focus:border-rose-300"
+              />
+
+              {addBlockedError ? <p className="text-sm text-rose-600">{addBlockedError}</p> : null}
+            </div>
+
+            <div className="flex items-center justify-end gap-2 border-t border-zinc-200 px-5 py-4">
+              <Button type="1" variant="ghost" size="sm" onClick={closeAddBlockedModal}>
+                Cancel
+              </Button>
+              <Button
+                type="1"
+                variant="default"
+                size="sm"
+                className="bg-rose-600 text-white hover:bg-rose-700"
+                onClick={async () => {
+                  const ok = await addBlockedParam()
+                  if (ok) {
+                    setIsAddBlockedOpen(false)
+                  }
+                }}
+                disabled={isAddingBlocked}
+              >
+                {isAddingBlocked ? "Adding..." : "Add"}
               </Button>
             </div>
           </div>

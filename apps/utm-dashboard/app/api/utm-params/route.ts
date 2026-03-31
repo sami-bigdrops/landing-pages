@@ -72,6 +72,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const values = [...new Set(valid.map((item) => item.value))]
+    const keys = [...new Set(valid.map((item) => item.key))]
 
     const existing = await db
       .select({
@@ -79,24 +80,38 @@ export async function PUT(request: NextRequest) {
         value: utmParams.value,
       })
       .from(utmParams)
-      .where(and(eq(utmParams.brandId, brandId), inArray(utmParams.value, values)))
+      .where(
+        and(
+          eq(utmParams.brandId, brandId),
+          inArray(utmParams.key, keys),
+          inArray(utmParams.value, values)
+        )
+      )
 
     const existingSet = new Set(existing.map((item) => `${item.key}::${item.value}`))
 
     let updated = 0
     for (const item of valid) {
       const id = `${item.key}::${item.value}`
-      if (!existingSet.has(id)) continue
-      await db
-        .update(utmParams)
-        .set({ status: item.status })
-        .where(
-          and(
-            eq(utmParams.brandId, brandId),
-            eq(utmParams.key, item.key),
-            eq(utmParams.value, item.value)
+      if (existingSet.has(id)) {
+        await db
+          .update(utmParams)
+          .set({ status: item.status })
+          .where(
+            and(
+              eq(utmParams.brandId, brandId),
+              eq(utmParams.key, item.key),
+              eq(utmParams.value, item.value)
+            )
           )
-        )
+      } else {
+        await db.insert(utmParams).values({
+          brandId,
+          key: item.key,
+          value: item.value,
+          status: item.status,
+        })
+      }
       updated += 1
     }
 
