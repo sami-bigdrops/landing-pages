@@ -200,7 +200,7 @@ export default function PrivacyPolicy() {
                   </p>
 
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Reach us at: 1985 Del Amo Blvd #P2150, Torrance, CA, 90501
+                    Reach us at: 1021 E Lincolnway Suite #6487, Cheyenne, WY 82001
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
