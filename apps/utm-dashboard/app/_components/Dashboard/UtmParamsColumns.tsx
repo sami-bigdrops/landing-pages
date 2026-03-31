@@ -18,46 +18,6 @@ type EditableParam = {
   status: ParamStatus
 }
 
-const blockedParams: UTMParam[] = [
-  { key: "utm_source", value: "spam-network" },
-  { key: "utm_campaign", value: "test-campaign" },
-  { key: "utm_medium", value: "bot-traffic" },
-  { key: "utm_source", value: "invalid-affiliate" },
-  { key: "utm_source", value: "unknown-referrer" },
-  { key: "utm_campaign", value: "duplicate-campaign" },
-  { key: "utm_medium", value: "restricted-channel" },
-  { key: "utm_medium", value: "high-fraud-score" },
-  { key: "utm_medium", value: "suspicious-click" },
-  { key: "utm_campaign", value: "internal-test" },
-  { key: "utm_source", value: "blocked-partner" },
-  { key: "utm_campaign", value: "expired-promo" },
-  { key: "utm_source", value: "fake-lead" },
-  { key: "utm_campaign", value: "redirect-loop" },
-]
-
-const activeParams: UTMParam[] = [
-  { key: "utm_source", value: "google" },
-  { key: "utm_campaign", value: "spring-sale" },
-  { key: "utm_medium", value: "email" },
-  { key: "utm_medium", value: "newsletter" },
-  { key: "utm_source", value: "facebook-ads" },
-  { key: "utm_source", value: "instagram-reel" },
-  { key: "utm_source", value: "youtube-pre-roll" },
-  { key: "utm_source", value: "bing-search" },
-  { key: "utm_source", value: "affiliate-a1" },
-  { key: "utm_campaign", value: "retargeting-meta" },
-  { key: "utm_campaign", value: "holiday-promo" },
-  { key: "utm_campaign", value: "brand-campaign" },
-  { key: "utm_source", value: "comparison-site" },
-  { key: "utm_medium", value: "content-seo" },
-  { key: "utm_source", value: "partner-referral" },
-  { key: "utm_campaign", value: "webinar-funnel" },
-  { key: "utm_medium", value: "push-notification" },
-  { key: "utm_medium", value: "sms-reminder" },
-  { key: "utm_source", value: "organic-social" },
-  { key: "utm_campaign", value: "lookalike-audience" },
-]
-
 function buildEditableParams(active: UTMParam[], blocked: UTMParam[]): EditableParam[] {
   return [
     ...active.map((item) => ({ ...item, status: "active" as const })),
@@ -144,8 +104,8 @@ function ParamsPanel({
 }
 
 export default function UtmParamsColumns() {
-  const [activeItems, setActiveItems] = useState<UTMParam[]>(activeParams)
-  const [blockedItems, setBlockedItems] = useState<UTMParam[]>(blockedParams)
+  const [activeItems, setActiveItems] = useState<UTMParam[]>([])
+  const [blockedItems, setBlockedItems] = useState<UTMParam[]>([])
 
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")

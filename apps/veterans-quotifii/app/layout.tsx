@@ -13,11 +13,11 @@ const fontSans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Auto Quotifii Veterans - Auto Insurance",
-    template: "%s | Auto Quotifii Veterans",
+    default: "Quotifii Veterans - Auto Insurance",
+    template: "%s | Quotifii Veterans",
   },
   description:
-    "Auto Quotifii Veterans provides top-quality auto insurance services across the USA. We offer auto insurance, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Quotifii Veterans provides top-quality auto insurance services across the USA. We offer auto insurance, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
