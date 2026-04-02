@@ -49,6 +49,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(maintenancePath, request.url))
   }
 
+  if (pathname === maintenancePath) {
+    if (process.env.MAINTENANCE_MODE !== "true") {
+      return NextResponse.redirect(new URL("/", request.url))
+    }
+    return NextResponse.next()
+  }
+
   if (pathname === deniedPath || pathname.includes(".")) {
     return NextResponse.next()
   }
@@ -96,5 +103,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|access-denied|maintenance|.*\\..*).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|access-denied|.*\\..*).*)"],
 }
