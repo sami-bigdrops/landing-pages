@@ -40,7 +40,7 @@ function applyUtmCookies(response: NextResponse, utmMap: Map<string, string>) {
   }
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const deniedPath = "/access-denied"
   const { pathname } = request.nextUrl
 
