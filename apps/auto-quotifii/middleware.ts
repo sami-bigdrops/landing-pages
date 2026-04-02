@@ -42,7 +42,12 @@ function applyUtmCookies(response: NextResponse, utmMap: Map<string, string>) {
 
 export async function middleware(request: NextRequest) {
   const deniedPath = "/access-denied"
+  const maintenancePath = "/maintenance"
   const { pathname } = request.nextUrl
+
+  if (process.env.MAINTENANCE_MODE === "true" && pathname !== maintenancePath) {
+    return NextResponse.redirect(new URL(maintenancePath, request.url))
+  }
 
   if (pathname === deniedPath || pathname.includes(".")) {
     return NextResponse.next()
@@ -91,5 +96,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|access-denied|.*\\..*).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|access-denied|maintenance|.*\\..*).*)"],
 }
