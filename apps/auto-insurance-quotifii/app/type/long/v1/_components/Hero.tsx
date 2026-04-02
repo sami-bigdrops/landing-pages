@@ -10,7 +10,7 @@ import { ArrowRight } from "lucide-react";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://autoquote.quotifii.com";
+const BASE_URL = "https://auto-quote.quotifii.com";
 
 export default function Hero() {
   useUtmParams(30);
