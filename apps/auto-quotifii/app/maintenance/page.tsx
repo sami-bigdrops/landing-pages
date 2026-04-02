@@ -1,5 +1,4 @@
 import { Metadata } from "next"
-import { redirect } from "next/navigation"
 
 export const metadata: Metadata = {
   title: "Maintenance",
@@ -7,10 +6,6 @@ export const metadata: Metadata = {
 }
 
 export default function MaintenancePage() {
-  if (process.env.MAINTENANCE_MODE !== "true") {
-    redirect("/")
-  }
-
   return (
     <main className="flex min-h-screen items-center justify-center bg-white px-6">
       <section className="w-full max-w-lg rounded-2xl border border-[#1E3A8A]/20 bg-[#1E3A8A]/5 p-8 text-center">
