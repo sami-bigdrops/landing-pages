@@ -40,10 +40,10 @@ export const HERO_CONTENT = {
     },
   ],
 
-  image: {
-    alt: "Hero Image",
-    src: "/family.webp",
-  },
+  // image: {
+  //   alt: "Hero Image",
+  //   src: "/family.webp",
+  // },
 } as const
 
 

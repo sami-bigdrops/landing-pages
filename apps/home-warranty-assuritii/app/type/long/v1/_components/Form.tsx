@@ -353,24 +353,8 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
               You Understand That Your Consent Is Not A Condition Of Purchase.
               View Privacy Policy
             </p>
-            {showPartnerBadges && (
-              <div className="w-full flex flex-row flex-nowrap items-center justify-center gap-3 pt-1 md:gap-4 md:pt-2">
-                <Image
-                  src={HERO_CONTENT.partners[0].src}
-                  alt={HERO_CONTENT.partners[0].alt}
-                  width={154}
-                  height={42}
-                  className="h-auto w-26 object-contain md:w-36"
-                />
-                <Image
-                  src={HERO_CONTENT.partners[1].src}
-                  alt={HERO_CONTENT.partners[1].alt}
-                  width={62}
-                  height={62}
-                  className="h-auto w-9 object-contain md:w-12"
-                />
-              </div>
-            )}
+             
+          
           </div>
         </form>
       <Script
