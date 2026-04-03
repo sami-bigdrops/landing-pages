@@ -12,8 +12,8 @@ import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
-import { AddressAutocomplete } from "./AddressAutocomplete.js"
-import PartnerModal from "./Partners-model.js"
+import { AddressAutocomplete } from "./AddressAutocomplete"
+import PartnerModal from "./Partners-model"
 
 
 

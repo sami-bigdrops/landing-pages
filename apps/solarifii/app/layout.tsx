@@ -1,23 +1,32 @@
-import { Montserrat } from "next/font/google"
+import { Inter, Poppins } from "next/font/google"
 import { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
 
-  const fontSans = Montserrat({
+const fontInter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-inter",
   display: "swap",
 })
 
+const fontPoppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
+  display: "swap",
+})
+
+export { fontInter, fontPoppins }
+
 export const metadata: Metadata = {
   title: {
-    default: "Platinum Window Experts - Window Replacement",
-    template: "%s | Platinum Window Experts",
+    default: "Solarifii - Solar Panel Solutions",
+    template: "%s | Solarifii",
   },
   description:
-    "Platinum Window Experts provides top-quality window replacement services across the USA. We offer energy-efficient windows, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Solarifii helps homeowners switch to solar energy with ease. Get expert advice, transparent pricing, and top-rated solar solutions to save money and protect the environment.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
@@ -36,7 +45,7 @@ export default function RootLayout({
       <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0132/1582.js" async={true}></script>
       </head>
       <body
-        className={`${fontSans.variable} font-sans antialiased overflow-x-hidden overflow-y-auto`}
+        className="antialiased overflow-x-hidden overflow-y-auto"
       >
         <Providers>{children}</Providers>
         <Analytics />

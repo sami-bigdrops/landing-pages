@@ -2,9 +2,9 @@ import { Metadata } from "next"
 import HomeContent from "@/app/_components/HomeContent"
 
 export const metadata: Metadata = {
-  title: "Platinum Window Experts",
+  title: "Solarifii - Solar Panel Solutions",
   description:
-    "Platinum Window Experts provides top-quality window replacement services across the USA. We offer energy-efficient windows, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Solarifii helps homeowners switch to solar energy with ease. Get expert advice, transparent pricing, and top-rated solar solutions to save money and protect the environment.",
 }
 
 export default function Page() {

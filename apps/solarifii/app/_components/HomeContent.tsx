@@ -14,12 +14,13 @@ export default function HomeContent() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <Hero />
-      <Benefits />
+      {/* <Benefits />
       <Choose />
       <Replace />
       <Review />
       <Trust />
-      <Footer />
+       */}
+       <Footer />
     </div>
   )
 }
