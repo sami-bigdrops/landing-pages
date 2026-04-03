@@ -118,6 +118,20 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+@theme {
+  --animate-offer-text-scale: offer-text-scale 2.2s ease-in-out infinite;
+
+  @keyframes offer-text-scale {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.06);
+    }
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
