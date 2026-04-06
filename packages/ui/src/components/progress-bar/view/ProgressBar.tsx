@@ -163,6 +163,17 @@ function ProgressBar({
           </div>
         </>
       )}
+      {type === "7" && (
+        <div
+          className="relative h-2.5 w-full overflow-hidden rounded-none"
+          style={{ backgroundColor: bg }}
+        >
+          <div
+            className="h-full rounded-none transition-all duration-300"
+            style={{ width: `${percentage}%`, backgroundColor: fg }}
+          />
+        </div>
+      )}
       {type === "6" && (
         <div className="flex w-full items-start justify-between gap-0">
           {Array.from({ length: steps }, (_, i) => {

@@ -11,6 +11,7 @@ export const progressBarVariants = cva(
         "4": "gap-0",
         "5": "gap-0",
         "6": "gap-0 items-center justify-between",
+        "7": "gap-0 !mb-0 md:!mb-0",
       },
     },
     defaultVariants: {

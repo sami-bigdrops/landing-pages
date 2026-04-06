@@ -43,6 +43,20 @@ export default function ProgressBar() {
           stepLabels={["Vehicle Details", "Personal Details", "Payment Details"]}
         />
       </section>
+
+      <section className="space-y-2">
+        <h3 className="text-sm font-medium text-muted-foreground">Type 7 (minimal strip)</h3>
+        <div className="overflow-hidden rounded-xl border bg-card">
+          <ProgressBarUI
+            type="7"
+            currentStep={1}
+            totalSteps={8}
+            foregroundColor="#F5820D"
+            backgroundColor="#FFEAD2"
+          />
+          <div className="p-4 text-sm text-muted-foreground">Content below the bar</div>
+        </div>
+      </section>
     </div>
   )
 }

@@ -2,37 +2,43 @@
 
 export const HERO_CONTENT = {
   headline: "You Won't Believe How Affordable New Windows Can Be!",
+  description: "Enter your ZIP Code to see local solar offers and the next step for your home.",
+  topDescription: "Quick 2-minute eligibility check",
+  icon: "/zap.svg",
   image: {
+
     src: "/hero-bg.png",
     alt: "Windows"
   },
+
+
   
-  partners: [
-    {
-      alt: "Angi",
-      src: "/angi.svg",
-      width: 80,
-      className: "w-16 lg:w-20 xl:w-24 h-auto object-contain",
-    },
-    {
-      alt: "Renewal By Andersen",
-      src: "/rba-white.png",
-      width: 120,
-      className: "w-35 xl:w-48 h-auto object-contain",
-    },
-    {
-      alt: "Houzz",
-      src: "/houzz.svg",
-      width: 140,
-      className: "w-24 lg:w-28 xl:w-32 h-auto object-contain",
-    },
-    {
-      alt: "Consumer Reports",
-      src: "/consumer-reports.svg",
-      width: 140,
-      className: "w-24 lg:w-28 xl:w-32 h-auto object-contain",
-    },
-  ],
+  // partners: [
+  //   {
+  //     alt: "Angi",
+  //     src: "/angi.svg",
+  //     width: 80,
+  //     className: "w-16 lg:w-20 xl:w-24 h-auto object-contain",
+  //   },
+  //   {
+  //     alt: "Renewal By Andersen",
+  //     src: "/rba-white.png",
+  //     width: 120,
+  //     className: "w-35 xl:w-48 h-auto object-contain",
+  //   },
+  //   {
+  //     alt: "Houzz",
+  //     src: "/houzz.svg",
+  //     width: 140,
+  //     className: "w-24 lg:w-28 xl:w-32 h-auto object-contain",
+  //   },
+  //   {
+  //     alt: "Consumer Reports",
+  //     src: "/consumer-reports.svg",
+  //     width: 140,
+  //     className: "w-24 lg:w-28 xl:w-32 h-auto object-contain",
+  //   },
+  // ],
 } as const
 
 const HEADING_GRADIENT = "linear-gradient(90deg, #2B96E4 0%, #275086 100%)"
