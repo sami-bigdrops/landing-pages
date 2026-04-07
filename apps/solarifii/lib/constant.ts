@@ -52,8 +52,9 @@ export const FOOTER_CONTENT = {
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },
+    { text: "Do Not Sell My Info", href: "/do-not-sell-my-info" },
   ],
-  copyrightText: "Copyright © 2026 Platinum Window Experts. All Rights Reserved.",
+  copyrightText: "Copyright © 2026 Solarifii.com.  All Rights Reserved.",
 } as const
 
 export const THANKYOU_CONTENT = {
