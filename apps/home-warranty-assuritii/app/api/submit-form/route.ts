@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
+import { sendSubmissionConfirmationEmail } from "@/lib/send-submission-email"
+
 const REQUIRED_FIELDS = [
   "firstName",
   "lastName",
@@ -145,14 +147,39 @@ export async function POST(request: NextRequest) {
       })
 
       const rawResponse = await apiResponse.text()
-      let result: { status?: string }
+      let result: { status?: string; code?: number; message?: string }
       try {
         result = JSON.parse(rawResponse)
       } catch {
-        result = { status: "ACCEPTED" }
+        console.error("[submit-form] LeadProsper invalid JSON:", rawResponse.slice(0, 500))
+        return NextResponse.json(
+          { success: false, error: "Lead submission failed" },
+          { status: 400 }
+        )
       }
 
-      const acceptedStatuses = ["ACCEPTED", "DUPLICATED", "ERROR"]
+      if (result.status === "ERROR") {
+        console.warn(
+          "[submit-form] LeadProsper ERROR:",
+          result.code,
+          result.message ?? rawResponse.slice(0, 200)
+        )
+        const code = result.code
+        const qs =
+          typeof code === "number" && Number.isFinite(code)
+            ? `?code=${encodeURIComponent(String(code))}`
+            : ""
+        return NextResponse.json(
+          {
+            success: true,
+            rejected: true,
+            redirectUrl: `/rejected${qs}`,
+          },
+          { status: 200 }
+        )
+      }
+
+      const acceptedStatuses = ["ACCEPTED", "DUPLICATED"]
       if (!result.status || !acceptedStatuses.includes(result.status)) {
         return NextResponse.json(
           {
@@ -163,6 +190,15 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         )
       }
+    }
+
+    const sent = await sendSubmissionConfirmationEmail({
+      to: String(email).trim(),
+      firstName: String(firstName).trim(),
+      lastName: String(lastName).trim(),
+    })
+    if (!sent) {
+      console.error("[submit-form] confirmation email was not sent")
     }
 
     const accessToken = crypto.randomUUID()

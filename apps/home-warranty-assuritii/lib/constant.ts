@@ -373,3 +373,73 @@ export const THANKYOU_CONTENT = {
   contactPhoneLabel: "1-855-916-3700",
   contactPhoneHref: "tel:+18559163700",
 } as const
+
+export interface ThankYouType2FeatureCard {
+  title: string
+  bulletPoints: string[]
+  icon: "shield" | "building" | "check"
+}
+
+export interface ThankYouType2Content {
+  title: string
+  partnerName: string
+  partnerLogo: { src: string; alt: string }
+  confirmationMessage: string
+  /** Shown in a green notice below the main confirmation copy */
+  emailConfirmationNotice?: string
+  aboutSectionTitle: string
+  featureCards: ThankYouType2FeatureCard[]
+}
+
+export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
+  title: "Thank you!",
+  partnerName: "First Premier Home Warranty",
+  partnerLogo: { src: "/first-premier.png", alt: "First Premier Home Warranty" },
+  confirmationMessage:
+    "You're matched with First Premier Home Warranty. A specialist will contact you soon.",
+  emailConfirmationNotice:
+    "We've sent a confirmation email to your inbox. If you don't see it within a few minutes, check your spam or junk folder.",
+  aboutSectionTitle: "Why Choose First Premier Home Warranty",
+  featureCards: [
+    {
+      title: "Our Mission: Budget-friendly Plans",
+      icon: "shield",
+      bulletPoints: [
+        "Getting the best home warranty should not mean stretching your finances.",
+        "Plans priced so every homeowner can access solid, reliable coverage.",
+        "Whether you are a first-time buyer or a long-time homeowner, there is a plan built for your situation.",
+      ],
+    },
+    {
+      title: "Wide Network of Technicians",
+      icon: "building",
+      bulletPoints: [
+        "When things go wrong, we connect you with experienced contractors.",
+        "From diagnosis to repair, with efficiency and care your home deserves.",
+        "Less stress finding help when you need it most.",
+      ],
+    },
+    {
+      title: "Nationwide Coverage",
+      icon: "check",
+      bulletPoints: [
+        "Wherever you own a home, we work to keep you protected.",
+        "Coverage options that fit different households, budgets, and needs.",
+        "Dependable protection so you can focus on living in your home, not stressing over repairs.",
+      ],
+    },
+  ],
+}
+
+export const REJECTED_PAGE_CONTENT = {
+  title: "We couldn’t complete your submission",
+  leadMessage:
+    "Our verification partner wasn’t able to accept this submission. This can happen when information doesn’t pass their checks.",
+  defaultDetail:
+    "Please confirm your address and contact details are accurate, then try again. If you continue to see this message, try again later or use a different phone number.",
+  codeMessages: {
+    1013:
+      "The lead was rejected by our partner. You may have submitted recently, or your details could not be verified. Please review your information and try again.",
+  } as Record<number, string>,
+  partnerLogo: { src: "/first-premier.png", alt: "First Premier Home Warranty" },
+}
