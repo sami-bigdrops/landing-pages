@@ -2,7 +2,7 @@ import type * as React from "react"
 
 export interface TextInputProps
   extends Omit<React.ComponentPropsWithoutRef<"input">, "size"> {
-  label?: string
+  label?: React.ReactNode
   error?: string
   hint?: string
   containerClassName?: string

@@ -1,23 +1,20 @@
 "use client"
 
 import React, { useState, useEffect, useCallback, Suspense } from "react"
-import { ArrowLeft, Loader2, Check, ChevronDown } from "lucide-react"
+import { Loader2, ChevronDown } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import Script from "next/script"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
-import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
 import type { RadioOption } from "@workspace/ui/components/radio-button-group"
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
-import { AddressAutocomplete } from "./AddressAutocomplete"
-import PartnerModal from "./Partners-model"
-import { fontPoppins } from "@/app/fonts"
+
+
 import { cn } from "@workspace/ui/lib/utils"
 
-const TOTAL_STEPS = 10
+const TOTAL_STEPS = 8
 
 const ROOF_SHADE_OPTIONS: { value: string; label: string; image: string }[] = [
   { value: "no_shade", label: "No Shade", image: "/house-1.svg" },
@@ -49,22 +46,13 @@ const POWER_BILL_RANGES: { value: string; label: string }[] = [
   { value: "501_plus", label: "$501+" },
 ]
 
-const projectNatureOptions: RadioOption[] = [
-  { value: "home_window_replacement", label: "Install new window(s)" },
-  { value: "home_window_repair", label: "Repair existing window(s)" },
-]
 
-const windowCountOptions: RadioOption[] = [
-  { value: "Windows - New Windows - 1-2", label: "1 - 2 Windows" },
-  { value: "Windows - New Windows - 3-5", label: "3 - 5 Windows" },
-  { value: "Windows - New Windows - 6 +", label: "6+ Windows" },
-]
-
-const workDoneOptions: RadioOption[] = [
-  { value: "immediately", label: "Immediately" },
-  { value: "1_6_months", label: "1-6 Months" },
-  { value: "not_sure", label: "Not Sure / Still Planning" },
-]
+const US_STATES = [
+  "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
+  "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+  "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
+  "VT", "VA", "WA", "WV", "WI", "WY",
+] as const
 
 const defaultFormData = {
   powerBillRange: POWER_BILL_RANGES[3]?.value ?? "",
@@ -90,17 +78,9 @@ function FormPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [trustedFormCertUrl, setTrustedFormCertUrl] = useState("")
   const [cityName, setCityName] = useState("")
-  const [homeownerCount] = useState(() => Math.floor(Math.random() * 3) + 3)
-  const [minutesText] = useState(() => {
-    const options = [5, 10, 15, 20]
-    return options[Math.floor(Math.random() * options.length)]
-  })
   const [formData, setFormData] = useState(defaultFormData)
   const [powerBillIndex, setPowerBillIndex] = useState(3)
-  const [googlePlacesReady, setGooglePlacesReady] = useState(false)
-  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false)
-
-  const googlePlacesApiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
+ 
 
   useEffect(() => {
     if (typeof window === "undefined") return
@@ -239,28 +219,19 @@ function FormPage() {
       case 4:
         return formData.roofShade !== ""
       case 5:
-        return formData.projectNature !== ""
-      case 6:
-        return formData.windowCount !== ""
-      case 7:
-        return formData.workDone !== ""
-      case 8: {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return (
-          formData.firstName?.trim() !== "" &&
-          formData.lastName?.trim() !== "" &&
-          formData.email !== "" &&
-          emailRegex.test(formData.email)
-        )
-      }
-      case 9:
         return (
           formData.address.trim() !== "" &&
           formData.city.trim() !== "" &&
           formData.state.trim() !== "" &&
           formData.zipCode.length === 5
         )
-      case 10:
+      case 6:
+        return formData.firstName?.trim() !== "" && formData.lastName?.trim() !== ""
+      case 7: {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return formData.email !== "" && emailRegex.test(formData.email)
+      }
+      case 8:
         return formData.phoneNumber.replace(/\D/g, "").length === 10
       default:
         return false
@@ -337,7 +308,7 @@ function FormPage() {
   const handleBack = () => setCurrentStep((p) => p - 1)
 
   return (
-    <div className="flex min-h-[400px] lg:min-h-[460px] xl:min-h-[580px] flex-col bg-[#F8FAFC">
+    <div className="flex min-h-[400px] lg:min-h-[460px] xl:min-h-[580px] flex-col bg-[#F8FAFC] font-inter">
       <div className="w-full shrink-0">
         <ProgressBar
           type="7"
@@ -348,13 +319,6 @@ function FormPage() {
           className="w-full"
         />
       </div>
-      {googlePlacesApiKey && (
-        <Script
-          src={`https://maps.googleapis.com/maps/api/js?key=${googlePlacesApiKey}&libraries=places`}
-          strategy="lazyOnload"
-          onLoad={() => setGooglePlacesReady(true)}
-        />
-      )}
       <div className="w-full  flex-1 flex items-center justify-center px-4 pb-8 pt-6">
         <form
           className="mx-auto w-full max-w-3xl"
@@ -556,208 +520,192 @@ function FormPage() {
 
             {currentStep === 5 && (
               <div className="flex w-full flex-col items-center text-center">
-                <h2 className="mb-8 text-xl font-bold leading-tight tracking-tight text-[#1e1e1e] md:mb-10 md:text-2xl lg:text-3xl">
-                  What is the nature of this project?
+                <h2 className="font-inter mb-3 text-xl font-bold text-[#1F2937]  md:text-2xl  xl:text-3xl">
+                  What&apos;s your property address?
                 </h2>
-                <RadioButtonGroup
-                  name="projectNature"
-                  label="Select an Option"
-                  labelClassName="text-base font-semibold text-gray-800"
-                  options={projectNatureOptions}
-                  value={formData.projectNature}
-                  onChange={(value) => handleInputChange("projectNature", value, true)}
-                  className="mb-8 w-full max-w-lg"
-                />
+                <p className="mb-8  text-sm font-medium text-[#0F766E]  xl:text-base">
+                  For verification only. We do not mail.
+                </p>
+                <div className="w-full md:max-w-xs xl:max-w-sm space-y-4 text-left  mb-10">
+                  <TextInput
+                    id="propertyAddress"
+                    label={
+                      <>
+                        Address <span className="text-[#FB2C36]">*</span>
+                      </>
+                    }
+                    value={formData.address}
+                    onChange={(e) => handleInputChange("address", e.target.value)}
+                    placeholder="123 Main street"
+                    labelClassName="text-sm xl:text-base font-medium text-[#4B5563]"
+                    className="h-12 xl:h-13 mt-1.5 pl-4 rounded-[6px] border border-[#D3D3D3] bg-white text-sm xl:text-base font-normal placeholder:text-[#8F8E93] placeholder:text-[0.8rem] xl:placeholder:text-[0.9rem] focus:border-[#8F8E93]"
+                  />
+                  <TextInput
+                    id="propertyCity"
+                    label={
+                      <>
+                        City <span className="text-[#FB2C36]">*</span>
+                      </>
+                    }
+                    value={formData.city}
+                    onChange={(e) => handleInputChange("city", e.target.value)}
+                    placeholder="New York"
+                    labelClassName="text-sm xl:text-base font-medium text-[#4B5563]"
+                    className="h-12 xl:h-13 mt-1.5 pl-4 rounded-[6px] border border-[#D3D3D3] bg-white text-sm xl:text-base font-normal placeholder:text-[#8F8E93] placeholder:text-[0.8rem] xl:placeholder:text-[0.9rem] focus:border-[#8F8E93]"
+                  />
+                  <div className="space-y-1.5">
+                    <label htmlFor="propertyState" className="text-sm xl:text-base font-medium text-[#4B5563]">
+                      State <span className="text-[#FB2C36]">*</span>
+                    </label>
+                    <div className="relative">
+                      <select
+                        id="propertyState"
+                        value={formData.state}
+                        onChange={(e) => handleInputChange("state", e.target.value)}
+                        className={cn(
+                          "h-12 xl:h-13 mt-1.5 w-full appearance-none rounded-[6px] border border-[#D3D3D3] bg-white py-2 pl-4 pr-10 text-left text-sm xl:text-base outline-none transition-colors placeholder:text-[#8F8E93] placeholder:text-[0.8rem] xl:placeholder:text-[0.9rem] focus:border-[#8F8E93]",
+                          formData.state === "" ? "text-gray-500" : "text-[#374151]"
+                        )}
+                      >
+                        <option value="" disabled>
+                          Choose a state...
+                        </option>
+                        {US_STATES.map((abbr) => (
+                          <option key={abbr} value={abbr}>
+                            {abbr}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown
+                        className="pointer-events-none absolute right-3 top-1/2 size-5 -translate-y-1/2 text-[#9CA3AF]"
+                        aria-hidden
+                      />
+                    </div>
+                  </div>
+                  <ZipCodeInput
+                    id="propertyZip"
+                    label={
+                      <>
+                        Zip <span className="text-[#FB2C36]">*</span>
+                      </>
+                    }
+                    value={formData.zipCode}
+                    onChange={(v) => handleInputChange("zipCode", v)}
+                    placeholder="90001"
+                    labelClassName="text-sm xl:text-base font-medium text-[#4B5563]"
+                    className="h-12 xl:h-13 mt-1.5 pl-4 rounded-[6px] border border-[#D3D3D3] bg-white text-sm xl:text-base font-normal placeholder:text-[#8F8E93] placeholder:text-[0.8rem] xl:placeholder:text-[0.9rem] focus:border-[#8F8E93]"
+                  />
+                </div>
               </div>
             )}
 
             {currentStep === 6 && (
               <div className="flex w-full flex-col items-center text-center">
-                <h2 className="mb-8 text-xl font-bold leading-tight tracking-tight text-[#1e1e1e] md:mb-10 md:text-2xl lg:text-3xl">
-                  {formData.projectNature === "home_window_replacement" ? "How many windows do you need to install?" : "How many windows do you need to repair?"}
+                <h2 className="font-inter mb-3 text-xl font-bold text-[#1F2937] md:text-2xl xl:text-3xl">
+                  What&apos;s your name?
                 </h2>
-                <RadioButtonGroup
-                  name="windowCount"
-                  label="Select an Option"
-                  labelClassName="text-base font-semibold text-gray-800"
-                  options={windowCountOptions}
-                  value={formData.windowCount}
-                  onChange={(value) => handleInputChange("windowCount", value, true)}
-                  className="mb-8 w-full max-w-lg"
-                />
+                <p className="mb-8 xl:mb-9 text-sm font-medium text-[#0F766E] xl:text-base">
+                  Personal Information Is Safe &amp; Secure.
+                </p>
+                <div className="w-full md:max-w-xs xl:max-w-sm space-y-4 text-left mb-10 xl:mb-13">
+                  <TextInput
+                    id="step6FirstName"
+                    label={
+                      <>
+                        First Name <span className="text-[#FB2C36]">*</span>
+                      </>
+                    }
+                    value={formData.firstName}
+                    onChange={(e) => handleInputChange("firstName", e.target.value)}
+                    placeholder="John"
+                    labelClassName="text-sm xl:text-base font-medium text-[#4B5563]"
+                    className="h-12 xl:h-13 mt-1.5 pl-4 rounded-[6px] border border-[#D3D3D3] bg-white text-sm xl:text-base font-normal placeholder:text-[#8F8E93] placeholder:text-[0.8rem] xl:placeholder:text-[0.9rem] focus:border-[#8F8E93]"
+                  />
+                  <TextInput
+                    id="step6LastName"
+                    label={
+                      <>
+                        Last Name <span className="text-[#FB2C36]">*</span>
+                      </>
+                    }
+                    value={formData.lastName}
+                    onChange={(e) => handleInputChange("lastName", e.target.value)}
+                    placeholder="Doe"
+                    labelClassName="text-sm xl:text-base font-medium text-[#4B5563]"
+                    className="h-12 xl:h-13 mt-1.5 pl-4 rounded-[6px] border border-[#D3D3D3] bg-white text-sm xl:text-base font-normal placeholder:text-[#8F8E93] placeholder:text-[0.8rem] xl:placeholder:text-[0.9rem] focus:border-[#8F8E93]"
+                  />
+                </div>
               </div>
             )}
 
             {currentStep === 7 && (
-              <div className="flex w-full flex-col items-center text-center">
-                <h2 className="mb-8 text-xl font-bold leading-tight tracking-tight text-[#1e1e1e] md:mb-10 md:text-2xl lg:text-3xl">
-                  When do you need this work done?
-                </h2>
-                <RadioButtonGroup
-                  name="workDone"
-                  label="Select an Option"
-                  labelClassName="text-base font-semibold text-gray-800"
-                  options={workDoneOptions}
-                  value={formData.workDone}
-                  onChange={(value) => handleInputChange("workDone", value, true)}
-                  className="mb-8 w-full max-w-lg"
+              <div className="flex w-full flex-col items-center">
+              <h2 className="mb-3 text-center font-inter text-xl font-bold text-[#1F2937] md:mb-4 md:text-2xl xl:text-3xl">
+                What&apos;s your email?
+              </h2>
+              <p className="mb-8 text-sm font-medium text-[#0F766E] xl:text-base">
+              We take privacy seriously. No spam!
+              </p>
+              <div className="mb-8 w-full md:max-w-xs xl:max-w-sm text-left">
+                <TextInput
+                  id="email"
+                  label={
+                    <>
+                      Email <span className="text-[#FB2C36]">*</span>
+                    </>
+                  }
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  placeholder="email@gmail.com"
+                  labelClassName="text-sm xl:text-base font-medium text-[#4B5563]"
+                  className="h-12 xl:h-13 mt-1.5 pl-4 rounded-[6px] border border-[#D3D3D3] bg-white text-sm xl:text-base font-normal placeholder:text-[#8F8E93] placeholder:text-[0.8rem] xl:placeholder:text-[0.9rem] focus:border-[#8F8E93]"
                 />
               </div>
+            </div>
             )}
 
             {currentStep === 8 && (
-              <div className="flex w-full flex-col items-center">
-                <h2 className="mb-8 text-center text-xl font-bold leading-tight tracking-tight text-[#1e1e1e] md:mb-10 md:text-2xl lg:text-3xl">
-                  Who should we prepare this FREE quote for?
+              <div className="flex w-full flex-col items-center text-center">
+                <p className="mb-3 xl:mb-8 xl:mt-8 max-w-lg text-sm xl:text-base font-medium text-[#4B5563] ">
+                  You&apos;ve Been Matched With Top Providers To Get Quotes!
+                </p>
+                <h2 className="font-inter mb-8 text-xl font-bold text-[#1F2937] md:mb-8 md:text-2xl xl:text-3xl">
+                  Complete This Final Step To See Results
                 </h2>
-                <div className="mb-8 w-full max-w-2xl">
-                  <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <TextInput
-                      id="firstName"
-                      label="First Name"
-                      value={formData.firstName}
-                      onChange={(e) => handleInputChange("firstName", e.target.value)}
-                      placeholder="John"
-                      labelClassName="text-base font-semibold text-gray-800"
-                      className="h-12 text-base font-normal"
-                    />
-                    <TextInput
-                      id="lastName"
-                      label="Last Name"
-                      value={formData.lastName}
-                      onChange={(e) => handleInputChange("lastName", e.target.value)}
-                      placeholder="Doe"
-                      labelClassName="text-base font-semibold text-gray-800"
-                      className="h-12 text-base font-normal"
-                    />
-                  </div>
-                  <TextInput
-                    id="email"
-                    label="Email Address"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
-                    placeholder="example@email.com"
-                    labelClassName="text-base font-semibold text-gray-800"
-                    className="h-12 text-base font-normal"
-                  />
-                </div>
-              </div>
-            )}
-
-            {currentStep === 9 && (
-              <div className="flex w-full flex-col items-center">
-                <h2 className="mb-8 text-center text-xl font-bold leading-tight tracking-tight text-[#1e1e1e] md:mb-10 md:text-2xl lg:text-3xl">
-                  Address Information
-                </h2>
-                <div className="mb-8 w-full max-w-2xl space-y-6">
-                  <AddressAutocomplete
-                    id="address"
-                    label="Address"
-                    value={formData.address}
-                    onChange={(v) => handleInputChange("address", v)}
-                    onPlaceSelect={(details) => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        address: details.address,
-                        city: details.city,
-                        state: details.state,
-                        zipCode: details.zipCode,
-                      }))
-                    }}
-                    placeholder="Start typing your address..."
-                    labelClassName="text-base font-semibold text-gray-800"
-                    className="h-12 text-base font-normal"
-                    googleReady={googlePlacesReady}
-                  />
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <TextInput
-                      id="city"
-                      label="City"
-                      value={formData.city}
-                      onChange={(e) => handleInputChange("city", e.target.value)}
-                      placeholder="City"
-                      labelClassName="text-base font-semibold text-gray-800"
-                      className="h-12 text-base font-normal"
-                    />
-                    <TextInput
-                      id="state"
-                      label="State"
-                      value={formData.state}
-                      onChange={(e) => handleInputChange("state", e.target.value)}
-                      placeholder="State"
-                      maxLength={2}
-                      labelClassName="text-base font-semibold text-gray-800"
-                      className="h-12 text-base font-normal"
-                    />
-                  </div>
-                  <ZipCodeInput
-                    id="zipCode"
-                    label="Zip Code"
-                    value={formData.zipCode}
-                    onChange={(v) => handleInputChange("zipCode", v)}
-                    placeholder="12345"
-                    labelClassName="text-base font-semibold text-gray-800"
-                    className="h-12 text-base font-normal"
-                  />
-                </div>
-              </div>
-            )}
-
-            {currentStep === 10 && (
-              <div className="flex w-full flex-col items-center">
-                <h2 className="mb-8 text-center text-xl font-bold leading-tight tracking-tight text-[#1e1e1e] md:mb-10 md:text-2xl lg:text-3xl">
-                  Phone Number
-                </h2>
-                <div className="mb-8 w-full max-w-2xl">
+                <div className="mb-8 md:mb-10 xl:mb-12 w-full md:max-w-xs xl:max-w-sm text-left">
                   <PhoneNumberInput
                     id="phoneNumber"
-                    label="Phone Number"
+                    label={
+                      <>
+                        Phone <span className="text-[#FB2C36]">*</span>
+                      </>
+                    }
                     value={formData.phoneNumber}
                     onChange={(v) => handleInputChange("phoneNumber", v)}
-                    labelClassName="text-base font-semibold text-gray-800"
-                    className="h-12 text-base font-normal"
+                    placeholder="(555) 555-5555"
+                    labelClassName="text-sm xl:text-base font-medium text-[#4B5563]"
+                    className="h-12 xl:h-13 mt-1.5 pl-4 rounded-[6px] border border-[#D3D3D3] bg-white text-sm xl:text-base font-normal placeholder:text-[#8F8E93] focus:border-[#8F8E93]"
                   />
                 </div>
-              </div>
-            )}
-
-            {currentStep >= 8 && (
-              <div className="mb-6 flex w-full items-center justify-center gap-3">
-                <div className="relative">
-                  <Image src="/lady.png" alt="Security" width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
-                  <div className="absolute -bottom-1 -right-1 bg-sky-500 rounded-full p-1 flex items-center justify-center">
-                    <Check size={12} className="text-white" />
-                  </div>
-                </div>
-                <p className="text-base text-gray-700 font-semibold">Your Information is safe & secure</p>
               </div>
             )}
 
             {currentStep !== 2 && currentStep !== 4 && (
             <div className="mx-auto flex w-full max-w-2xl justify-center gap-4 md:max-w-[200px] xl:max-w-[250px]">
-              {currentStep > 1 && currentStep !== 3 && (
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="flex items-center gap-2 rounded-[6px] border-2 border-gray-300 px-6 py-3 font-semibold text-base text-gray-800 transition-all duration-300 hover:border-sky-600 hover:text-sky-600 hover:shadow-lg md:py-4 md:text-lg"
-                >
-                  <ArrowLeft size={20} />
-                  Back
-                </button>
-              )}
+              
               <button
                 type="button"
                 onClick={handleNext}
                 disabled={!isStepValid() || isSubmitting}
                 className={`${
-                  currentStep > 1 && currentStep !== 2 && currentStep !== 3 ? "flex-1" : "w-full"
-                } flex items-center justify-center gap-2 rounded-[6px] py-3 font-semibold text-base transition-all duration-300 md:py-3.5 xl:py-4.5 xl:text-lg ${
-                  !isStepValid() || isSubmitting
-                    ? "cursor-not-allowed bg-gray-300 text-gray-500"
-                    : currentStep <= 2 || currentStep === 3
-                      ? "cursor-pointer bg-[#FF7A00] text-white shadow-lg hover:scale-[1.02] hover:bg-[#e56d00] hover:shadow-xl"
-                      : "cursor-pointer bg-sky-600 text-white shadow-lg hover:scale-105 hover:bg-sky-700 hover:shadow-xl"
+                  currentStep > 1 && currentStep !== 2 && currentStep !== 3 && currentStep !== 5 && currentStep !== 6 && currentStep !== 8
+                    ? "flex-1"
+                    : "w-full"
+                } flex items-center justify-center gap-2 rounded-[6px] py-3 font-semibold text-base text-white transition-all duration-300 md:py-3.5 xl:py-4.5 xl:text-lg ${
+                  !isStepValid() && !isSubmitting
+                    ? "cursor-not-allowed bg-[#FF7A00] shadow-md"
+                    : "cursor-pointer bg-[#FF7A00] shadow-lg hover:scale-[1.02] hover:bg-[#e56d00] hover:shadow-xl"
                 }`}
               >
                 {isSubmitting ? (
@@ -766,7 +714,7 @@ function FormPage() {
                     Submitting...
                   </>
                 ) : currentStep === TOTAL_STEPS ? (
-                  "Submit Details"
+                  "View Results"
                 ) : (
                   "Continue"
                 )}
@@ -775,28 +723,27 @@ function FormPage() {
             )}
 
             {currentStep === TOTAL_STEPS && (
-              <div className="mx-auto mt-6 w-full max-w-2xl rounded-lg border border-gray-200 p-4">
-                <p className="text-xs text-gray-700 leading-relaxed font-medium">
-                  By submitting this form, I agree to the Platinum Window Experts{" "}
-                  <a href="/terms-of-use" className="text-sky-600 hover:text-sky-700 underline" target="_blank" rel="noopener noreferrer">
-                    Terms of Use
+              <div className="mx-auto mt-10 xl:mt-12 w-full md:max-w-lg xl:max-w-xl rounded-[10px] font-normal border border-gray-200 bg-[#F0F2F5] p-4 ">
+                <p className="text-left font-normal text-xs  text-[#1F2937 leading-relaxed">
+                By clicking the button above, I am providing my electronic signature in which I authorize Solarifii and up to four{" "}
+                  <a
+                    href="/partners"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#246A99] underline cursor-pointer"
+                  >
+                    home services or solar companies
+                  </a>
+                  {" "}
+                  to email and/or call me, and send me pre-recorded messages and text messages at the number I’ve entered above, using an autodialer, with offers about their solar products or services, even if my phone number is on any national, or state or corporate "Do- Not -Call" list. Message and data rates may apply. Your consent is not a condition of purchase. You may revoke your consent at any time. You also agree to our{" "}
+                  <a href="/terms-of-use" className="text-[#246A99] underline" target="_blank" rel="noopener noreferrer">
+                    terms
                   </a>{" "}
                   and{" "}
-                  <a href="/privacy-policy" className="text-sky-600 hover:text-sky-700 underline" target="_blank" rel="noopener noreferrer">
-                    Privacy Policy
+                  <a href="/privacy-policy" className="text-[#246A99] underline" target="_blank" rel="noopener noreferrer">
+                    privacy policy
                   </a>
-                  . I authorize Platinum Window Experts and its{" "}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setIsPartnerModalOpen(true)
-                    }}
-                    className="text-sky-600 hover:text-sky-700 underline cursor-pointer"
-                  >
-                    partners
-                  </button>{" "}
-                  to send me marketing text messages or phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. Opt-out anytime by replying STOP or using the unsubscribe link.
+                  .
                 </p>
               </div>
             )}
@@ -804,7 +751,7 @@ function FormPage() {
         </form>
       </div>
 
-      <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
+     
     </div>
   )
 }
@@ -813,7 +760,7 @@ export default function FormPageWrapper() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-white">
+        <div className="flex min-h-screen items-center justify-center bg-white font-inter">
           <div className="text-sky-600 text-lg md:text-xl font-semibold">Loading...</div>
         </div>
       }

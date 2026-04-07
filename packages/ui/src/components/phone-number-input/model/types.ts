@@ -2,7 +2,7 @@ import type * as React from "react"
 
 export interface PhoneNumberInputProps
   extends Omit<React.ComponentPropsWithoutRef<"input">, "value" | "onChange" | "type"> {
-  label?: string
+  label?: React.ReactNode
   error?: string
   hint?: string
   value?: string
