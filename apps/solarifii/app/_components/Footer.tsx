@@ -8,9 +8,10 @@ export default function Footer() {
   return (
     <FooterUI
       type="long"
-      bgColor="#0F2440"
+      bgColor="#0F766E"
       logo={<Image src="/solarifii-logo.svg" alt="Solarifii" width={120} height={40} className="w-40 h-auto object-contain" />}
       links={[...FOOTER_CONTENT.links]}
+      
       copyrightText={FOOTER_CONTENT.copyrightText}
     />
   )

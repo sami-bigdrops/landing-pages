@@ -2,7 +2,7 @@ import type * as React from "react"
 
 export interface ZipCodeInputProps
   extends Omit<React.ComponentPropsWithoutRef<"input">, "value" | "onChange" | "type" | "maxLength"> {
-  label?: string
+  label?: React.ReactNode
   error?: string
   hint?: string
   value?: string

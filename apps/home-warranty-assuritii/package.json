@@ -13,6 +13,7 @@
     "fetch-vehicles": "tsx scripts/fetch-vehicles.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.1025.0",
     "@workspace/bdmg-component": "workspace:*",
     "@workspace/lp-core": "workspace:*",
     "@workspace/ui": "workspace:*",

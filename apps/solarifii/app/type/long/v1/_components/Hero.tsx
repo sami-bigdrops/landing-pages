@@ -94,8 +94,8 @@ export default function Hero() {
       /> */}
       <div className="relative z-10 w-full h-[550px] md:h-[420px] lg:h-[420px] xl:h-[550px] 2xl:h-[650px] px-6 pb-0 sm:px-6 lg:px-8 py-10 lg:pt-13 xl:pt-20 2xl:pt-26   md:px-8 xl:px-23 2xl:pb-0 ">
         <div className="container mx-auto ">
-          <div className="hero-content w-full flex flex-col items-center justify-center gap-6 md:gap-7 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+          <div className="hero-content w-full flex flex-col items-center justify-center gap-6 md:gap-7 lg:gap-6.5 xl:gap-9 2xl:gap-10  ">
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-7">
               <div
                 className="inline-flex items-center gap-2 p-2 rounded-[20px] border border-[#FDB813] bg-[rgba(255,255,255,0.8)]"
               >
@@ -150,6 +150,7 @@ export default function Hero() {
                           placeholder:text-[#444444]
                           placeholder:text-sm
                           focus-visible:ring-0 focus-visible:ring-offset-0
+                          
                         "
                         containerClassName="w-full"
                       />
@@ -160,7 +161,7 @@ export default function Hero() {
     
                       disabled={isRedirecting || !zipValid}
                       onClick={handleCheckMyEligibility}
-                      className="bg-[#0D9488] h-14 w-full cursor-pointer rounded-[6px] px-8 py-4 text-[0.9rem] font-medium font-inherit text-white shadow-md transition-all duration-300 hover:bg-[#F16601] disabled:cursor-not-allowed disabled:opacity-90 flex items-center justify-center gap-2"
+                      className="bg-[#0D9488] h-14 w-full cursor-pointer rounded-[6px] px-8 py-4 text-[0.9rem] font-medium font-inherit text-white shadow-md transition-all duration-300 hover:bg-[#0D9488] disabled:cursor-not-allowed disabled:opacity-90 flex items-center justify-center gap-2"
                     >
                       {isRedirecting ? "Redirecting..." : <>Check My Eligibility </>}
                     </Button>
@@ -196,7 +197,7 @@ export default function Hero() {
                       variant="default"
                       onClick={handleCheckMyEligibility}
                       disabled={isRedirecting || !zipValid}
-                      className="absolute right-2 top-2 xl:top-3 xl:right-2.5 flex md:h-10.5 xl:h-12   cursor-pointer items-center justify-center gap-2 rounded-[6px]  bg-[#0D9488] text-sm font-medium font-inherit text-white shadow-md transition-all duration-300 hover:bg-[#F16601] disabled:cursor-not-allowed disabled:opacity-90  md:w-[165px] xl:w-[185px]   lg:text-[0.9rem] xl:text-base"
+                      className="absolute right-2 top-2 xl:top-3 xl:right-2.5 flex md:h-10.5 xl:h-12   cursor-pointer items-center justify-center gap-2 rounded-[6px]  bg-[#0D9488] text-sm font-medium font-inherit text-white shadow-md transition-all duration-300 hover:bg-[#0D9488] disabled:cursor-not-allowed disabled:opacity-90  md:w-[165px] xl:w-[185px]   lg:text-[0.9rem] xl:text-base"
                     >
                       {isRedirecting ? "Redirecting..." : <>Check My Eligibility </>}
                     </Button>
