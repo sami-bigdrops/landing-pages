@@ -31,14 +31,6 @@ function getFromAddress(): string | null {
   return from || null;
 }
 
-function siteOrigin(): string {
-  const raw =
-    process.env.SITE_URL?.trim() ||
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-    "";
-  return raw.replace(/\/$/, "");
-}
-
 export interface SubmissionEmailParams {
   to: string;
   firstName: string;
@@ -68,9 +60,6 @@ export async function sendSubmissionConfirmationEmail(
   const phone = COVER_CONTENT.callToAction;
   const subject = `Thank you for ${partnerName} — your quote request is in!`;
 
-  const origin = siteOrigin();
-  const logoUrl = origin ? `${origin}/first-premier.png` : "";
-
   const htmlBody = `
 <!DOCTYPE html>
 <html>
@@ -96,7 +85,6 @@ export async function sendSubmissionConfirmationEmail(
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       border: 1px solid #e8e8e8;
-      overflow: hidden;
     }
     .email-wrapper {
       background-color: #f8f9fa;
@@ -114,12 +102,14 @@ export async function sendSubmissionConfirmationEmail(
       text-align: center;
       vertical-align: top;
     }
-    img.hero-logo {
+    .email-banner-img {
       border: 0;
-      width: 100%;
-      max-width: 320px;
-      height: auto;
+      outline: none;
+      text-decoration: none;
       display: block;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
       margin: 0 auto;
     }
     .headline {
@@ -178,20 +168,22 @@ export async function sendSubmissionConfirmationEmail(
 <body>
   <div class="email-wrapper">
     <div class="email-container">
-      <table>
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="layout" style="width:100%;max-width:600px;border-collapse:collapse;margin:0 auto;">
       <tr>
-        <td>
-          <img src="https://www.home.assuritii.com/email/content-1.png" alt="content">
+        <td style="padding:0;line-height:0;font-size:0;">
+          <img class="email-banner-img" src="https://www.home.assuritii.com/email/content-1.png" alt="Thank you for choosing First Premier Home Warranty" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
         </td>
       </tr>
       <tr>
-        <td>
-          <a href="tel:+18559163700"><img src="https://www.home.assuritii.com/email/cta.png" alt="cta"></a>
+        <td style="padding:0;line-height:0;font-size:0;">
+          <a href="tel:+18559163700" style="display:block;line-height:0;">
+            <img class="email-banner-img" src="https://www.home.assuritii.com/email/content-2.png" alt="Call to speak with a specialist" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
+          </a>
         </td>
       </tr>
       <tr>
-        <td>
-          <img src="https://www.home.assuritii.com/email/content-3.png" alt="content">
+        <td style="padding:0;line-height:0;font-size:0;">
+          <img class="email-banner-img" src="https://www.home.assuritii.com/email/content-3.png" alt="First Premier Home Warranty" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
         </td>
       </tr>
       <tr>
