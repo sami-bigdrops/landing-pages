@@ -14,6 +14,7 @@ export const utmParams = pgTable(
   {
     id: serial("id").primaryKey(),
     brandId: text("brand_id").notNull(),
+    productId: text("product_id").notNull().default("auto_insurance_quotifii"),
     key: text("key").notNull(),
     value: text("value").notNull(),
     status: utmParamStatusEnum("status").notNull().default("active"),
@@ -24,8 +25,9 @@ export const utmParams = pgTable(
       .$onUpdate(() => new Date()),
   },
   (table) => ({
-    brandKeyValueUnique: uniqueIndex("utm_params_brand_id_key_value_unique").on(
+    brandProductKeyValueUnique: uniqueIndex("utm_params_brand_product_key_value_unique").on(
       table.brandId,
+      table.productId,
       table.key,
       table.value
     ),

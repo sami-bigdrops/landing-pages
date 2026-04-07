@@ -2,8 +2,7 @@ import { Metadata } from "next"
 import { redirect } from "next/navigation"
 
 import Navbar from "./_components/Navbar"
-import StatsCard from "./_components/Dashboard/StatsCard"
-import UtmParamsColumns from "./_components/Dashboard/UtmParamsColumns"
+import UtmProductShell from "./_components/Dashboard/UtmProductShell"
 import { getCurrentUser } from "@/lib/auth"
 
 export const metadata: Metadata = {
@@ -19,8 +18,7 @@ export default async function Page() {
   return (
     <>
       <Navbar />
-      <StatsCard />
-      <UtmParamsColumns />
+      <UtmProductShell />
     </>
   )
 }

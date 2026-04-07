@@ -5,6 +5,7 @@ import { db } from "@/lib/db"
 import { utmParams } from "@/lib/db/schema"
 
 const BRAND_ID = "quotifii"
+const UTM_PRODUCT_ID = "auto_insurance_quotifii"
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 90
 const ALLOWED_UTM_KEYS = new Set(["utm_source", "utm_s1"])
 
@@ -61,6 +62,7 @@ export async function proxy(request: NextRequest) {
       const existing = await db.query.utmParams.findFirst({
         where: and(
           eq(utmParams.brandId, BRAND_ID),
+          eq(utmParams.productId, UTM_PRODUCT_ID),
           eq(utmParams.key, key),
           eq(utmParams.value, value)
         ),
@@ -78,6 +80,7 @@ export async function proxy(request: NextRequest) {
 
       await db.insert(utmParams).values({
         brandId: BRAND_ID,
+        productId: UTM_PRODUCT_ID,
         key,
         value,
         status: "active",

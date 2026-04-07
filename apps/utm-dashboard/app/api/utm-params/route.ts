@@ -6,6 +6,7 @@ import { db } from "@/lib/db"
 import { getBrandByHostname } from "@/lib/brand-config"
 import { utmParams } from "@/lib/db/schema"
 import { getCurrentUser } from "@/lib/auth"
+import { isUtmProductId, parseUtmProductIdParam } from "@/lib/utm-products"
 
 type ParamStatus = "active" | "blocked"
 
@@ -23,7 +24,7 @@ async function resolveBrandIdForRequest() {
   return brand.id
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser()
     if (!user) {
@@ -31,6 +32,8 @@ export async function GET() {
     }
 
     const brandId = await resolveBrandIdForRequest()
+    const productId = parseUtmProductIdParam(request.nextUrl.searchParams.get("productId"))
+
     const rows = await db
       .select({
         key: utmParams.key,
@@ -38,10 +41,10 @@ export async function GET() {
         status: utmParams.status,
       })
       .from(utmParams)
-      .where(eq(utmParams.brandId, brandId))
+      .where(and(eq(utmParams.brandId, brandId), eq(utmParams.productId, productId)))
       .orderBy(asc(utmParams.key), asc(utmParams.value))
 
-    return NextResponse.json({ success: true, items: rows })
+    return NextResponse.json({ success: true, items: rows, productId })
   } catch (error) {
     console.error("[utm-params:get] failed", error)
     return NextResponse.json({ success: false, error: "Failed to load UTM params" }, { status: 500 })
@@ -56,8 +59,14 @@ export async function PUT(request: NextRequest) {
     }
 
     const brandId = await resolveBrandIdForRequest()
-    const body = (await request.json()) as { items?: ParamPayload[] }
+    const body = (await request.json()) as { items?: ParamPayload[]; productId?: string }
     const items = body.items ?? []
+
+    const rawProduct = body.productId
+    if (rawProduct !== undefined && !isUtmProductId(rawProduct)) {
+      return NextResponse.json({ success: false, error: "Invalid productId" }, { status: 400 })
+    }
+    const productId = parseUtmProductIdParam(rawProduct ?? null)
 
     const valid = items.filter(
       (item) =>
@@ -83,6 +92,7 @@ export async function PUT(request: NextRequest) {
       .where(
         and(
           eq(utmParams.brandId, brandId),
+          eq(utmParams.productId, productId),
           inArray(utmParams.key, keys),
           inArray(utmParams.value, values)
         )
@@ -100,6 +110,7 @@ export async function PUT(request: NextRequest) {
           .where(
             and(
               eq(utmParams.brandId, brandId),
+              eq(utmParams.productId, productId),
               eq(utmParams.key, item.key),
               eq(utmParams.value, item.value)
             )
@@ -107,6 +118,7 @@ export async function PUT(request: NextRequest) {
       } else {
         await db.insert(utmParams).values({
           brandId,
+          productId,
           key: item.key,
           value: item.value,
           status: item.status,
@@ -115,7 +127,7 @@ export async function PUT(request: NextRequest) {
       updated += 1
     }
 
-    return NextResponse.json({ success: true, updated })
+    return NextResponse.json({ success: true, updated, productId })
   } catch (error) {
     console.error("[utm-params:put] failed", error)
     return NextResponse.json(

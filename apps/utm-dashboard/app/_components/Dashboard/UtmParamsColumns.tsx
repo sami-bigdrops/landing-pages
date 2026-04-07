@@ -5,6 +5,9 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 
+import { UTM_PRODUCT_TABS } from "@/lib/utm-products"
+import type { UtmProductId } from "@/lib/utm-products"
+
 type UTMParam = {
   key: string
   value: string
@@ -109,7 +112,11 @@ function ParamsPanel({
   )
 }
 
-export default function UtmParamsColumns() {
+type Props = {
+  productId: UtmProductId
+}
+
+export default function UtmParamsColumns({ productId }: Props) {
   const [activeItems, setActiveItems] = useState<UTMParam[]>([])
   const [blockedItems, setBlockedItems] = useState<UTMParam[]>([])
   const [cardFilter, setCardFilter] = useState<CardFilter>("all")
@@ -162,9 +169,12 @@ export default function UtmParamsColumns() {
     return blockedItems.filter((item) => item.key === "utm_s1")
   }, [blockedItems, cardFilter])
 
+  const productLabel = UTM_PRODUCT_TABS.find((t) => t.id === productId)?.label ?? ""
+
   const loadParams = useCallback(async () => {
     try {
-      const response = await fetch("/api/utm-params", { cache: "no-store" })
+      const qs = new URLSearchParams({ productId })
+      const response = await fetch(`/api/utm-params?${qs.toString()}`, { cache: "no-store" })
       if (!response.ok) return
       const data = (await response.json()) as {
         items?: Array<{ key: string; value: string; status: ParamStatus }>
@@ -181,11 +191,16 @@ export default function UtmParamsColumns() {
     } catch (error) {
       console.error("[utm-dashboard] failed to load UTM params", error)
     }
-  }, [])
+  }, [productId])
 
   useEffect(() => {
     void loadParams()
   }, [loadParams])
+
+  useEffect(() => {
+    setIsEditOpen(false)
+    setIsAddBlockedOpen(false)
+  }, [productId])
 
   const openEditModal = () => {
     setDraftItems(buildEditableParams(activeItems, blockedItems))
@@ -214,7 +229,7 @@ export default function UtmParamsColumns() {
       await fetch("/api/utm-params", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: draftItems }),
+        body: JSON.stringify({ productId, items: draftItems }),
       })
       const next = splitByStatus(draftItems)
       setActiveItems(next.active)
@@ -240,6 +255,7 @@ export default function UtmParamsColumns() {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          productId,
           items: [{ key: addBlockedType, value, status: "blocked" as const }],
         }),
       })
@@ -288,7 +304,9 @@ export default function UtmParamsColumns() {
             UTM Params Status
           </h2>
           <p className="text-sm text-zinc-600">
-            Left side shows active params, right side shows blocked params.
+            <span className="font-medium text-zinc-800">{productLabel}</span>
+            {" — "}
+            active params on the left, blocked on the right.
           </p>
         </div>
         <Button
