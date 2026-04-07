@@ -6,7 +6,7 @@ import { PropsTable } from "../../_components/PropsTable"
 import { DocPreview } from "../../_components/DocPreview"
 
 const progressBarProps = [
-  { name: "type", type: '"1" | "2" | "3" | "4" | "5" | "6"', default: '"1"', required: false, description: "Visual style (see Types section)." },
+  { name: "type", type: '"1" | "2" | "3" | "4" | "5" | "6" | "7"', default: '"1"', required: false, description: "Visual style (see Types section)." },
   { name: "currentStep", type: "number", default: "-", required: true, description: "Current step (1-based) or progress numerator." },
   { name: "totalSteps", type: "number", default: "-", required: true, description: "Total steps or progress denominator." },
   { name: "stepLabels", type: "string[]", default: "-", required: false, description: "Labels for each step (used by type 6)." },
@@ -22,7 +22,7 @@ export default function ProgressBarDocsPage() {
     <article>
       <h1 className="text-3xl font-bold tracking-tight mb-2">Progress Bar</h1>
       <p className="text-muted-foreground text-lg mb-8">
-        Progress indicators in six styles: bar with percentage, inline label, compact, step segments, label above bar, and stepper with labels.
+        Progress indicators in seven styles: bar with percentage, inline label, compact, step segments, label above bar, stepper with labels, and a minimal full-width strip (type 7).
       </p>
 
       <DocSection title="Installation" id="installation">
@@ -53,6 +53,12 @@ export default function ProgressBarDocsPage() {
           <li><strong>4</strong> – Segmented steps (blocks)</li>
           <li><strong>5</strong> – Label above the bar</li>
           <li><strong>6</strong> – Stepper with circles and optional stepLabels</li>
+          <li>
+            <strong>7</strong> – Minimal strip: full width, ~4px tall, square corners, no labels. Progress is{" "}
+            <code className="text-sm bg-muted px-1 py-0.5 rounded">(currentStep / totalSteps) × 100</code>
+            . Use <code className="text-sm bg-muted px-1 py-0.5 rounded">foregroundColor</code> /{" "}
+            <code className="text-sm bg-muted px-1 py-0.5 rounded">backgroundColor</code> for fill and track (defaults follow theme).
+          </li>
         </ul>
         <CodeBlock
           code={`<ProgressBar type="2" currentStep={4} totalSteps={5} />
@@ -74,6 +80,41 @@ export default function ProgressBarDocsPage() {
             totalSteps={3}
             stepLabels={["Details", "Review", "Pay"]}
           />
+        </DocPreview>
+      </DocSection>
+
+      <DocSection title="Type 7 (minimal strip)" id="type-7">
+        <p className="text-muted-foreground mb-4">
+          Flush to the top of a container: no labels, flat two-tone bar, square edges. Typical pairing:{" "}
+          <code className="text-sm bg-muted px-1.5 py-0.5 rounded">overflow-hidden</code> on the card and{" "}
+          <code className="text-sm bg-muted px-1.5 py-0.5 rounded">rounded-*</code> on the outer wrapper.
+        </p>
+        <CodeBlock
+          code={`<div className="overflow-hidden rounded-xl border bg-card max-w-xl shadow-sm">
+  <ProgressBar
+    type="7"
+    currentStep={1}
+    totalSteps={8}
+    foregroundColor="#F5820D"
+    backgroundColor="#FFEAD2"
+  />
+  <div className="p-6">
+    <p className="font-semibold text-foreground">Current Monthly Power Bill</p>
+  </div>
+</div>`}
+          language="tsx"
+        />
+        <DocPreview className="">
+          <div className="overflow-hidden rounded-xl border border-border bg-card max-w-xl shadow-sm w-full">
+            <ProgressBarUI
+              type="7"
+              currentStep={1}
+              totalSteps={8}
+              foregroundColor="#F5820D"
+              backgroundColor="#FFEAD2"
+            />
+            
+          </div>
         </DocPreview>
       </DocSection>
 
