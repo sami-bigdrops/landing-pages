@@ -29,7 +29,7 @@ function escapeHtml(s: string): string {
 function getSesFromSource(): string | null {
   const addr = process.env.AWS_SES_FROM_EMAIL?.trim();
   if (!addr) return null;
-  return `Communication <${addr}>`;
+  return `Assuritii <${addr}>`;
 }
 
 export interface SubmissionEmailParams {
