@@ -379,6 +379,9 @@ importers:
       '@aws-sdk/client-ses':
         specifier: ^3.1025.0
         version: 3.1025.0
+      '@vercel/analytics':
+        specifier: ^1.4.1
+        version: 1.6.1(next@16.0.10(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
       '@workspace/bdmg-component':
         specifier: workspace:*
         version: link:../../packages/bdmg-component
