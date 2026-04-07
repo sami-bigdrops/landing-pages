@@ -13,11 +13,12 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:migrate:utm-product": "tsx scripts/ensure-utm-product-id-column.ts"
   },
   "dependencies": {
-    "@workspace/bdmg-component": "workspace:*",
     "@neondatabase/serverless": "^1.0.2",
+    "@workspace/bdmg-component": "workspace:*",
     "@workspace/lp-core": "workspace:*",
     "@workspace/ui": "workspace:*",
     "axios": "^1.13.5",
@@ -28,6 +29,7 @@
     "react": "^19.2.1",
     "react-compare-slider": "^3.1.0",
     "react-dom": "^19.2.1",
+    "undici": "^6.21.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

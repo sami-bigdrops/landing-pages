@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 
 import MetricCard from "@/components/dashboard/MetricCard"
+import type { UtmProductId } from "@/lib/utm-products"
 
 type ParamStatus = "active" | "blocked"
 
@@ -12,7 +13,12 @@ type ApiItem = {
   status: ParamStatus
 }
 
-export default function StatsCard() {
+type Props = {
+  productId: UtmProductId
+  productLabel: string
+}
+
+export default function StatsCard({ productId, productLabel }: Props) {
   const [items, setItems] = useState<ApiItem[]>([])
 
   useEffect(() => {
@@ -20,7 +26,8 @@ export default function StatsCard() {
 
     const load = async () => {
       try {
-        const response = await fetch("/api/utm-params", { cache: "no-store" })
+        const qs = new URLSearchParams({ productId })
+        const response = await fetch(`/api/utm-params?${qs.toString()}`, { cache: "no-store" })
         if (!response.ok) return
         const data = (await response.json()) as { items?: ApiItem[] }
         if (!cancelled) {
@@ -35,7 +42,7 @@ export default function StatsCard() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [productId])
 
   const counts = useMemo(() => {
     const total = items.length
@@ -83,7 +90,8 @@ export default function StatsCard() {
           UTM Overview
         </h2>
         <p className="text-sm text-zinc-600">
-          Quick health summary of your current UTM parameter status.
+          Quick health summary for{" "}
+          <span className="font-medium text-zinc-800">{productLabel}</span>.
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
