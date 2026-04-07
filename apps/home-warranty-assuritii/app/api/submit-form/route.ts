@@ -20,6 +20,12 @@ function toE164(phone: string, defaultCountry = "US"): string {
   return digits ? `+${digits}` : ""
 }
 
+function leadProsperPhoneDigits(phone: string): string {
+  const d = String(phone).replace(/\D/g, "")
+  if (d.length === 11 && d.startsWith("1")) return d.slice(1)
+  return d
+}
+
 async function verifyPhone(phone: string, key: string, defaultCountry = "US"): Promise<{ valid: boolean; error?: string }> {
   const e164 = toE164(phone, defaultCountry)
   if (!e164) return { valid: false, error: "Invalid phone number" }
@@ -121,7 +127,7 @@ export async function POST(request: NextRequest) {
         first_name: String(firstName).trim(),
         last_name: String(lastName).trim(),
         email: String(email).trim(),
-        phone: String(phoneNumber).replace(/\D/g, ""),
+        phone: leadProsperPhoneDigits(String(phoneNumber)),
         zip_code: String(zipCode).trim(),
         address: String(address).trim(),
         city: String(city ?? "").trim(),
@@ -197,7 +203,9 @@ export async function POST(request: NextRequest) {
       firstName: String(firstName).trim(),
       lastName: String(lastName).trim(),
     })
-    if (!sent) {
+    if (sent) {
+      console.log("[submit-form] confirmation email sent")
+    } else {
       console.error("[submit-form] confirmation email was not sent")
     }
 

@@ -26,9 +26,10 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function getFromAddress(): string | null {
-  const from = process.env.AWS_SES_FROM_EMAIL?.trim();
-  return from || null;
+function getSesFromSource(): string | null {
+  const addr = process.env.AWS_SES_FROM_EMAIL?.trim();
+  if (!addr) return null;
+  return `Communication <${addr}>`;
 }
 
 export interface SubmissionEmailParams {
@@ -45,10 +46,10 @@ export async function sendSubmissionConfirmationEmail(
     return false;
   }
 
-  const from = getFromAddress();
-  if (!from) {
+  const source = getSesFromSource();
+  if (!source) {
     console.warn(
-      "[send-submission-email] Set SES_FROM_EMAIL or AWS_SES_FROM_EMAIL; skipping confirmation email",
+      "[send-submission-email] Set AWS_SES_FROM_EMAIL; skipping confirmation email",
     );
     return false;
   }
@@ -58,7 +59,7 @@ export async function sendSubmissionConfirmationEmail(
   const { confirmationMessage, emailConfirmationNotice } =
     THANKYOU_TYPE2_CONTENT;
   const phone = COVER_CONTENT.callToAction;
-  const subject = `Thank you for ${partnerName} — your quote request is in!`;
+  const subject = "Thank you for your response!";
 
   const htmlBody = `
 <!DOCTYPE html>
@@ -223,7 +224,7 @@ assuritii.com${process.env.SES_EMAIL_FOOTER_ADDRESS?.trim() ? ` | ${process.env.
 
   try {
     const command = new SendEmailCommand({
-      Source: from,
+      Source: source,
       Destination: { ToAddresses: [email.trim()] },
       ReplyToAddresses: process.env.SES_REPLY_TO?.trim()
         ? [process.env.SES_REPLY_TO.trim()]
