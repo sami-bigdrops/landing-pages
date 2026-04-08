@@ -32,10 +32,10 @@ export default function Hero({ offerText = DEFAULT_OFFER }: HeroProps = {}) {
         <div className="hero-content h-full w-full flex flex-col items-center justify-center md:flex-row md:items-center md:justify-between gap-6">
 
           <div className="left w-full md:w-[50%] lg:max-w-[60%] flex flex-col items-center justify-center md:justify-start md:items-start gap-4">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-center font-extrabold text-white md:text-left leading-relaxed " style={{ lineHeight: "1.3" }}>
+            <h1 className="text-2xl md:text-3xl  xl:text-4xl xl:max-w-[430px] text-center font-extrabold text-white md:text-left leading-relaxed " style={{ lineHeight: "1.3" }}>
               {HERO_CONTENT.headline}
             </h1>
-            <p className="text-sm lg:text-lg xl:text-xl font-normal text-white  text-center md:text-left" style={{ lineHeight: "1.6" }}>
+            <p className="text-sm  xl:max-w-[440px] xl:text-base font-normal text-white  text-center md:text-left" style={{ lineHeight: "1.6" }}>
               {HERO_CONTENT.description}
             </p>
 
@@ -52,7 +52,7 @@ export default function Hero({ offerText = DEFAULT_OFFER }: HeroProps = {}) {
                     w-fit
                     shadow-none
                     transition
-                    ${idx === 0 ? "md:w-[80px]" : idx === 1 ? "md:w-[130px]" : "md:w-[190px]"}
+                    ${idx === 0 ? "md:w-[80px] xl:w-[85px]" : idx === 1 ? "md:w-[130px] xl:w-[150px]" : "md:w-[190px] xl:w-[220px]"}
                     w-full
                     max-w-[220px]
                    
@@ -66,9 +66,9 @@ export default function Hero({ offerText = DEFAULT_OFFER }: HeroProps = {}) {
                     alt={`${badge.label} icon`}
                     width={24}
                     height={24}
-                    className="w-4 h-4 object-contain"
+                    className="w-4 h-4 xl:w-5 xl:h-5 object-contain"
                   />
-                  <span className="text-white font-medium text-[0.8rem]  font-inter">
+                  <span className="text-white font-normal text-[0.8rem] xl:text-[0.95rem]   font-inter">
                     {badge.label}
                   </span>
                 </div>
@@ -78,7 +78,7 @@ export default function Hero({ offerText = DEFAULT_OFFER }: HeroProps = {}) {
 
 
           </div>
-          <div className="right w-full md:w-[50%] lg:max-w-[40%] flex items-center bg-white p-2  rounded-[30px] shadow-[0_4px_20px_0_rgba(0,40,104,0.15)]">
+          <div className="right w-full md:w-[50%] lg:max-w-[40%] xl:max-w-sm  flex items-center bg-white p-2  rounded-[30px] shadow-[0_4px_20px_0_rgba(0,40,104,0.15)]">
      
             <Form />
 

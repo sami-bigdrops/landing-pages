@@ -115,7 +115,7 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
       className={`w-full flex flex-col justify-center items-center md:justify-end lg:justify-end ${embedInModal ? "gap-6 2xl:gap-8" : "gap-3 2xl:gap-4 shrink-0 md:h-full md:rounded-[10px] md:min-h-0 md:flex-1  md:items-stretch md:justify-center"}`}
     >
       <div
-        className={`relative min-w-0 w-full rounded-[10px] md:rounded-none  lg:mx-0 xl:mx-0  ${embedInModal ? "md:mx-auto " : "md:flex md:h-full md:min-h-0 md:w-full md:rounded-[10px] md:flex-1 md:flex-col md:items-center md:justify-center"}`}
+        className={`relative min-w-0 w-full rounded-[10px]  md:rounded-none  lg:mx-0 xl:mx-0  ${embedInModal ? "md:mx-auto " : "md:flex md:h-full md:min-h-0 md:w-full md:rounded-[10px] md:flex-1 md:flex-col md:items-center md:justify-center"}`}
       >
         {onClose && (
           <button
@@ -131,13 +131,13 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
         )}
         <form
           onSubmit={handleSubmit}
-          className={`flex w-full flex-col items-center justify-center bg-white md:py-4 lg:pt-4 lg:mx-0 xl:mx-0 ${compact ? "py-1.5 px-2 sm:py-2 sm:px-2.5 gap-2 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1 md:justify-center  xl:max-w-[35rem] 2xl:max-w-[30rem] xl:gap-2.5" : "py-8 px-6 xl:px-7 h-full rounded-[10px] md:rounded-[10px] md:max-w-[25rem] lg:max-w-[28rem] xl:max-w-[35rem] 2xl:max-w-[33rem] md:justify-center gap-2.5 xl:gap-3"}`}
+          className={`flex w-full flex-col items-center justify-center bg-white md:py-4 lg:pt-4 lg:mx-0 xl:mx-0 ${compact ? "py-1.5 px-2 sm:py-2 sm:px-2.5 gap-2 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1 md:justify-center   xl:gap-2.5" : "py-8 px-6 xl:px-7 h-full rounded-[10px] md:rounded-[10px] md:max-w-[25rem] lg:max-w-[28rem] xl:max-w-[35rem] 2xl:max-w-[33rem] md:justify-center gap-2.5 xl:gap-3"}`}
         >
           <TrustedForm />
 
           <h2
             id="form-modal-title"
-            className={`font-bold text-[#0F172A] text-center mb-2 mt-2 md:mt-0 md:mb-3 xl:max-w-[300px] mx-auto ${onClose ? "pr-0" : ""} ${compact ? "text-[1.28rem]  leading-[1.2] max-w-[260px] md:max-w-[230px]" : "text-lg lg:text-[1.15rem] xl:text-[1.4rem] md:max-w-[250px] xl:max-w-[300px]"}`}
+            className={`font-bold text-[#0F172A] text-center mb-2 mt-2 md:mt-0 md:mb-3 lg:max-w-full mx-auto ${onClose ? "pr-0" : ""} ${compact ? "text-[1.28rem]  leading-[1.2] max-w-[260px] md:max-w-[230px]" : "text-lg lg:text-[1.15rem] xl:text-[1.4rem] md:max-w-[250px] xl:max-w-[300px]"}`}
           >
             Start Here for Your FREE Quote
           </h2>

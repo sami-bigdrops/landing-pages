@@ -46,6 +46,37 @@ export const HERO_CONTENT = {
 } as const
 
 
+export const PARTNERS_CONTENT = {
+  title: "We Partner With Top Providers",
+  partners: [
+    {
+      name: "ADT",
+      logo: "/partner-1.svg",
+      alt: "ADT Logo",
+    },
+    {
+      name: "vivint.",
+      logo: "/partner-2.svg",
+      alt: "Vivint Logo",
+    },
+    {
+      name: "BRINKS HOME",
+      logo: "/partner-3.svg",
+      alt: "Brinks Home Logo",
+    },
+  ],
+} as const
+
+
+
+
+
+
+
+
+
+
+
 
 export const FORM_CONTENT = {
   header: "Receive Your FREE Vehicle Protection Quote",
