@@ -15,7 +15,7 @@ const PARTNER_LOGO_FRAME: Record<PartnerName, string> = {
 
 export default function Partners() {
   return (
-    <section className="w-full bg-[#F3F4F6] px-4 py-8 sm:px-6 md:px-8 md:py-10 lg:px-12 lg:py-12 xl:px-20 xl:py-14">
+    <section className="w-full bg-[#F3F4F6] p-6 md:px-8 md:py-10 lg:px-12 lg:py-12 xl:px-20 xl:py-14">
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 md:flex-row md:items-center md:justify-center md:gap-12 lg:gap-14 xl:gap-20 ">
         <h2 className="w-full text-center font-sans text-base font-semibold leading-snug tracking-tight text-[#1F2937] md:w-auto md:max-w-[min(100%,17rem)] md:shrink-0 md:text-left lg:text-lg xl:text-xl">
           {PARTNERS_CONTENT.title}
