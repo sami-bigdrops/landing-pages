@@ -22,28 +22,27 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: " Home warranty cover, built for real life! ",
-  description: "Get help with unexpected repairs for essential home systems and appliances.",
-  
-  partners: [
-    
+  headline: "Your Home Isn’t As Safe As You Think",
+  description:
+    "Check what home security options are available in your area and get matched with trusted providers.",
+  badges: [
     {
-      alt: "Consumer Affairs",
-      src: "/partner-3.svg",
-      
-      
+      icon: "/coin.svg", // Replace with appropriate icon reference in your app if needed
+      label: "Free",
     },
     {
-      alt: "2025 Top Rated Consumers",
-      src: "/partner-2.svg",
-     
+      icon: "/shield.svg", // Replace with appropriate icon reference in your app if needed
+      label: "No obligation",
+    },
+    {
+      icon: "flash.svg", // Replace with appropriate icon reference in your app if needed
+      label: "Takes under 2 minutes",
     },
   ],
-
-  // image: {
-  //   alt: "Hero Image",
-  //   src: "/family.webp",
-  // },
+  image: {
+    alt: "A hooded figure in the shadows representing home security concern",
+    src: "/hero-bg.webp", // Use a representative filename, update as needed
+  },
 } as const
 
 

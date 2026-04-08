@@ -20,12 +20,12 @@ export default function HomeContent() {
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <Hero />
-        <About />
+        {/* <About />
         <Work onGetQuoteClick={() => setIsFormModalOpen(true)} />
         <Cover onGetQuoteClick={() => setIsFormModalOpen(true)} />
 
         <Review />
-        <Faq />
+        <Faq /> */}
         <Footer />
       </div>
       <FormPopupModal isOpen={isFormModalOpen} onClose={() => setIsFormModalOpen(false)}>
