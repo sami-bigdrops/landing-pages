@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useCallback, useRef } from "react"
-import { track } from "@vercel/analytics"
 import Script from "next/script"
 import { TextInput as TextInputUI } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput as PhoneNumberInputUI } from "@workspace/ui/components/phone-number-input"
@@ -11,25 +10,6 @@ import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 import Image from "next/image"
 import { HERO_CONTENT } from "@/lib/constant"
-
-const FORM_SUBMIT_EVENT = "home_warranty_form_submit"
-
-function formAnalyticsSegment(value: string): string {
-  const t = value.trim()
-  if (!t) return "unknown"
-  return t.slice(0, 32)
-}
-
-function formLocationAnalytics(cityVal: string, stateVal: string): { city: string; state: string } {
-  return {
-    city: formAnalyticsSegment(cityVal),
-    state: formAnalyticsSegment(stateVal),
-  }
-}
-
-function trackFormSubmit(props: Record<string, string>) {
-  track(FORM_SUBMIT_EVENT, props)
-}
 
 const PLACES_STYLES = `
   .pac-container { border: 1px solid #e5e7eb; border-radius: 6px; margin-top: 4px; box-shadow: 0 8px 24px rgba(0,0,0,0.10); font-family: Inter, sans-serif; overflow: hidden; padding: 4px 0; background: #fff; z-index: 9999; }
@@ -142,17 +122,11 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
       setFieldErrors(errors)
       setSubmitStatus("error")
       setSubmitError("")
-      trackFormSubmit({
-        outcome: "validation_error",
-        ...formLocationAnalytics(city, state),
-        fields: Object.keys(errors).sort().join(","),
-      })
       return
     }
 
     setFieldErrors({})
     setSubmitStatus("loading")
-    track("home_warranty_form_attempt", formLocationAnalytics(city, state))
 
     const form = e.currentTarget
     const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
@@ -193,30 +167,10 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
           setFieldErrors({})
           setSubmitError(message)
         }
-        trackFormSubmit({
-          outcome: "api_error",
-          ...formLocationAnalytics(city, state),
-          ...(typeof data.field === "string" && data.field ? { field: data.field } : {}),
-        })
         return
       }
 
       if (data.success && data.redirectUrl) {
-        const rejected = data.rejected === true
-        let leadCode = ""
-        if (rejected && typeof data.redirectUrl === "string") {
-          try {
-            const u = new URL(data.redirectUrl, window.location.origin)
-            leadCode = u.searchParams.get("code") ?? ""
-          } catch {
-            /* ignore */
-          }
-        }
-        trackFormSubmit({
-          outcome: rejected ? "rejected" : "success",
-          ...formLocationAnalytics(city, state),
-          ...(leadCode ? { lead_code: leadCode } : {}),
-        })
         window.location.href = data.redirectUrl
         return
       }
@@ -224,10 +178,6 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
     } catch {
       setSubmitStatus("error")
       setSubmitError("Something went wrong. Please try again.")
-      trackFormSubmit({
-        outcome: "network_error",
-        ...formLocationAnalytics(city, state),
-      })
     }
   }
 

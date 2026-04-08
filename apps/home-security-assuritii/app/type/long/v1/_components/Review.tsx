@@ -1,0 +1,111 @@
+"use client"
+
+import React from "react"
+import Image from "next/image"
+import { REVIEW_CONTENT } from "@/lib/constant"
+
+type ReviewProps = {
+  placeholder?: boolean
+}
+
+export default function Review({ placeholder }: ReviewProps) {
+  if (placeholder) {
+    return (
+      <div className="review bg-[#E8F0FA] w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-18 xl:py-16 ">
+        <div className="container mx-auto">
+          <div className="review-content w-full flex flex-col items-center justify-center gap-5 lg:gap-7">
+            <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-sans">
+              {REVIEW_CONTENT.header}
+            </h2>
+            <div className="w-full min-h-[200px] flex items-center justify-center rounded-[20px] border border-[#D1D5DB] bg-[#F9FAFB] p-8">
+              <p className="text-base xl:text-lg text-center font-medium text-[#374151] font-sans">&lt;REVIEWS&gt;</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="review bg-[#E8F0FA] w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-18 xl:py-16 2xl:px-10">
+      <div className="container mx-auto">
+        <div className="review-content w-full flex flex-col items-center justify-center gap-5  lg:gap-7">
+          <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl md:max-w-[600px] lg:max-w-[800px] xl:max-w-full font-bold text-[#111827] text-center font-sans">
+            {REVIEW_CONTENT.header}
+          </h2>
+
+          <div className="w-full flex  items-center justify-center gap-3 md:gap-4 mb-2 md:mb-3 lg:mb-4 xl:mb-7">
+            <div className="relative w-full max-w-[70px] md:max-w-[75px] lg:max-w-[90px] h-auto">
+              <Image
+                src={REVIEW_CONTENT.rating.image.src}
+                alt={REVIEW_CONTENT.rating.image.alt}
+                width={70}
+                height={70}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
+            <p className="text-sm  xl:text-lg text-[#374151] font-medium font-sans">
+              {REVIEW_CONTENT.rating.reviewText}
+            </p>
+          </div>
+
+          <div className="w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-4 lg:gap-6 xl:gap-10">
+              {REVIEW_CONTENT.reviews.map((review, index) => (
+                <div
+                  key={review.id}
+                  className={`w-full md:w-auto min-w-0 bg-white rounded-[20px]  flex flex-col items-start justify-start gap-4 p-6 xl:gap-5 xl:p-7 md:h-full ${index === 2 ? "max-lg:hidden" : ""}`}
+                >
+                  <div className="flex items-center justify-start gap-0.5">
+                    {[...Array(5)].map((_, index) => (
+                      <svg
+                        key={index}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="26"
+                        height="26"
+                        viewBox="0 0 26 26"
+                        fill="none"
+                        className="w-5 h-5 xl:w-6 xl:h-6"
+                      >
+                        <path
+                          d="M9.35575 8.79725L12.2709 2.89042C12.569 2.28653 13.4301 2.28653 13.7281 2.89042L16.6433 8.79725L23.1619 9.74445C23.8283 9.84129 24.0944 10.6603 23.6122 11.1303L18.8953 15.7282L20.0088 22.2204C20.1227 22.8841 19.426 23.3903 18.8299 23.0769L12.9995 20.0117L7.16916 23.0769C6.57308 23.3903 5.87642 22.8841 5.99026 22.2204L7.10377 15.7282L2.38688 11.1303C1.90465 10.6603 2.17075 9.84129 2.83718 9.74445L9.35575 8.79725Z"
+                          fill="#FFB300"
+                        />
+                      </svg>
+                    ))}
+                  </div>
+
+                  <p className="text-sm  xl:text-[1.1rem]  xl:max-w-[330px] text-[#374151] font-sans" style={{ lineHeight: 1.5 }}>
+                    &quot;{review.quote}&quot;
+                  </p>
+
+                  <div className="w-full flex items-center justify-start gap-3 md:mt-auto">
+                    <div className="w-10 h-10 xl:w-12 xl:h-12 overflow-hidden flex items-center justify-center flex-shrink-0 relative">
+                      <Image
+                        src={review.customer.image.src}
+                        alt={review.customer.image.alt}
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm xl:text-base  text-[#1C2833] font-sans">
+                        {review.customer.name}
+                      </p>
+                      <p className="text-xs lg:text-sm xl:text-base text-[#374151] font-sans">
+                        {review.customer.status}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
