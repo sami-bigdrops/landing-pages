@@ -27,21 +27,21 @@ export const HERO_CONTENT = {
     "Check what home security options are available in your area and get matched with trusted providers.",
   badges: [
     {
-      icon: "/coin.svg", // Replace with appropriate icon reference in your app if needed
+      icon: "/coin.svg",
       label: "Free",
     },
     {
-      icon: "/shield.svg", // Replace with appropriate icon reference in your app if needed
+      icon: "/shield.svg",
       label: "No obligation",
     },
     {
-      icon: "flash.svg", // Replace with appropriate icon reference in your app if needed
+      icon: "/flash.svg",
       label: "Takes under 2 minutes",
     },
   ],
   image: {
     alt: "A hooded figure in the shadows representing home security concern",
-    src: "/hero-bg.webp", // Use a representative filename, update as needed
+    src: "/hero-bg.webp",
   },
 } as const
 
@@ -69,7 +69,7 @@ export const PARTNERS_CONTENT = {
 
 
 export const ABOUT_CONTENT = {
-  header: "Most break-ins happen when you least expect them.",
+  header: "Break-ins happen when you least expect them.",
   description:
     "When you’re at work.\nOn vacation.\nOr asleep inside your own home.\n\nWithout a security system,\nyou wouldn’t even know until it’s too\nlate.",
 
@@ -80,9 +80,74 @@ export const ABOUT_CONTENT = {
 } as const
 
 
+export const FEATURES_CONTENT = {
+  header: "How Modern Home Security Protects You",
+  features: [
+    {
+      icon: "/feature-1.svg",
+      text: "Alerts when doors or\nwindows are opened",
+    },
+    {
+      icon: "/feature-2.svg",
+      text: "Cameras that show live\nactivity",
+    },
+    {
+      icon: "/feature-3.svg",
+      text: "Motion detection inside\nyour home",
+    },
+    {
+      icon: "/feature-4.svg",
+      text: "24/7 monitoring ready to\nrespond instantly",
+    },
+  ],
+  image: {
+    src: "/feature-img.webp",
+    alt: "A person using a smartphone to monitor a smart home security system",
+  },
+} as const
 
 
-
+export const WORKS_CONTENT = {
+  header: "How It Works",
+  steps: [
+    {
+      id: 1,
+      number: "01",
+      title: "Enter your ZIP Code",
+      description: "Check available providers in your area",
+      image: {
+        src: "/sp-1.svg",
+        alt: "Enter your ZIP Code"
+      },
+    },
+    {
+      id: 2,
+      number: "02",
+      title: "Answer a few quick questions",
+      description: "Tell us about your home and needs",
+      image: {
+        src: "/sp-3.svg" ,
+        alt: "Answer a few quick questions"
+      },
+    },
+    {
+      id: 3,
+      number: "03",
+      title: "Get matched instantly",
+      description: "Compare offers from trusted brands",
+      image: {
+        src: "/sp-2.svg",
+        alt: "New roof installation with workers"
+      },
+    },
+  ],
+  callToAction: {
+    buttonText: "Get Started",
+    contactText: "Or give us a call",
+    phoneNumber: "(1800) 123 - 4567",
+    phoneHref: "tel:+18001234567",
+  },
+}
 
 
 
