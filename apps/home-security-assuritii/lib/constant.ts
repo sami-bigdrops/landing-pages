@@ -22,334 +22,215 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: " Home warranty cover, built for real life! ",
-  description: "Get help with unexpected repairs for essential home systems and appliances.",
-  
+  headline: "Your Home Isn’t As Safe As You Think",
+  description:
+    "Check what home security options are available in your area and get matched with trusted providers.",
+  badges: [
+    {
+      icon: "/coin.svg",
+      label: "Free",
+    },
+    {
+      icon: "/shield.svg",
+      label: "No obligation",
+    },
+    {
+      icon: "/flash.svg",
+      label: "Takes under 2 minutes",
+    },
+  ],
+  image: {
+    alt: "A hooded figure in the shadows representing home security concern",
+    src: "/hero-bg.webp",
+  },
+} as const
+
+
+export const PARTNERS_CONTENT = {
+  title: "We Partner With Top Providers",
   partners: [
-    
     {
-      alt: "Consumer Affairs",
-      src: "/partner-3.svg",
-      
-      
+      name: "ADT",
+      logo: "/partner-1.svg",
+      alt: "ADT Logo",
     },
     {
-      alt: "2025 Top Rated Consumers",
-      src: "/partner-2.svg",
-     
-    },
-  ],
-
-  // image: {
-  //   alt: "Hero Image",
-  //   src: "/family.webp",
-  // },
-} as const
-
-
-
-export const FORM_CONTENT = {
-  header: "Receive Your FREE Vehicle Protection Quote",
-  tabs: {
-    vehicleDetails: "VEHICLE DETAILS",
-    personalDetails: "PERSONAL DETAILS",
-  },
-  fields: {
-    carYear: {
-      label: "Car Year",
-      placeholder: "Select Year",
-    },
-    carMake: {
-      label: "Car Make",
-      placeholder: "Select Make",
-    },
-    carModel: {
-      label: "Car Model",
-      placeholder: "Select Model",
-    },
-    currentMileage: {
-      label: "Current Mileage",
-      placeholder: "Enter Mileage",
-    },
-    firstName: {
-      label: "First Name",
-      placeholder: "Enter First Name",
-    },
-    lastName: {
-      label: "Last Name",
-      placeholder: "Enter Last Name",
-    },
-    email: {
-      label: "Email",
-      placeholder: "Enter Email",
-    },
-    phoneNumber: {
-      label: "Phone Number",
-      placeholder: "(123) 4567-890",
-    },
-    zipCode: {
-      label: "Zip Code",
-      placeholder: "Enter Zip Code",
-    },
-  },
-  button: "Unlock My Car's Protection Value",
-  disclaimer: "By Clicking \"Get Your Free Quote\" You Agree That Assuritii May Contact You At The Number And Email Provided With Calls, Texts, Or Prerecorded/Artificial Voice Messages About Or Products/Services. Consent Is Not A Condition Of Purchase. Message/Data Rates Apply. You Can Withdraw Consent Anytime.",
-} as const
-
-export const WORK_CONTENT = {
-  header: "How It Works",
-  steps: [
-    {
-      number: "01",
-      title: "Enter your ZIP",
-      description: "See which insurance options are available where you live.",
+      name: "vivint.",
+      logo: "/partner-2.svg",
+      alt: "Vivint Logo",
     },
     {
-      number: "02",
-      title: "Answer a few quick questions",
-      description: "Tell us about your vehicle and the cover level you want.",
-    },
-    {
-      number: "03",
-      title: "View matched quotes",
-      description: "See prices and details, then choose the option that suits your budget.",
-    },
-  ],
-  workImage: [
-    {
-      src: "/step-3.webp",
-      alt: "Couple in a modern kitchen discussing their home",
+      name: "BRINKS HOME",
+      logo: "/partner-3.svg",
+      alt: "Brinks Home Logo",
     },
   ],
 } as const
+
 
 export const ABOUT_CONTENT = {
-  header: "So, what does a home warranty actually do?",
-  description: "A home warranty helps when everyday home systems or appliances stop working from normal wear and tear.",
-  features: [
-    {
-      title: "Helps cover home systems and appliances",
-     
-      image: {
-        src: "/about-1.svg",
-        alt: "Cars today cost more to repair",
-      },
-    },
-    {
-      title: "Works alongside homeowners insurance",
-      image: {
-        src: "/about-2.svg",
-        alt: "Unexpected repair costs",
-      },
-    },
-    {
-      title: "Simple member support when things break",
-      image: {
-        src: "/about-3.svg",
-        alt: "Breakdowns disrupt daily life",
-      },
-    },
-  ],
+  header: "Break-ins happen when you least expect them.",
+  description:
+    "When you’re at work.\nOn vacation.\nOr asleep inside your own home.\n\nWithout a security system,\nyou wouldn’t even know until it’s too\nlate.",
+
+  aboutImage: {
+    src: "/about.webp",
+    alt: "About Image",
+  },
 } as const
 
 
 export const FEATURES_CONTENT = {
-  header: "What's Not Covered in Home Warranty",
+  header: "How Modern Home Security Protects You",
   features: [
     {
-      title: "Pre-existing conditions",
+      icon: "/feature-1.svg",
+      text: "Alerts when doors or\nwindows are opened",
+    },
+    {
+      icon: "/feature-2.svg",
+      text: "Cameras that show live\nactivity",
+    },
+    {
+      icon: "/feature-3.svg",
+      text: "Motion detection inside\nyour home",
+    },
+    {
+      icon: "/feature-4.svg",
+      text: "24/7 monitoring ready to\nrespond instantly",
+    },
+  ],
+  image: {
+    src: "/feature-img.webp",
+    alt: "A person using a smartphone to monitor a smart home security system",
+  },
+} as const
+
+
+export const WORKS_CONTENT = {
+  header: "How It Works",
+  steps: [
+    {
+      id: 1,
+      number: "01",
+      title: "Enter your ZIP Code",
+      description: "Check available providers in your area",
       image: {
-        src: "/feature-icon.svg",
-        alt: "Cars today cost more to repair",
+        src: "/sp-1.svg",
+        alt: "Enter your ZIP Code"
       },
     },
     {
-      title: "Cosmetic damage",
+      id: 2,
+      number: "02",
+      title: "Answer a few quick questions",
+      description: "Tell us about your home and needs",
       image: {
-        src: "/feature-icon.svg",
-        alt: "Unexpected repair costs",
+        src: "/sp-3.svg" ,
+        alt: "Answer a few quick questions"
       },
     },
     {
-      title: "Improper maintenance",
+      id: 3,
+      number: "03",
+      title: "Get matched instantly",
+      description: "Compare offers from trusted brands",
       image: {
-        src: "/feature-icon.svg",
-        alt: "Breakdowns disrupt daily life",
-      },
-    },
-    {
-      title: "Items not listed in plan",
-      image: {
-        src: "/feature-icon.svg",
-        alt: "Items not listed in plan",
+        src: "/sp-2.svg",
+        alt: "New roof installation with workers"
       },
     },
   ],
-} as const
-
-export const COVER_CONTENT = {
-  header: "What's Covered",
-  homeSystems: {
-    header: "HOME SYSTEMS",
-    items: [
-      {
-        title: "Heating And Air Conditioning Systems",
-        image: {
-          src: "/home-1.svg",
-          alt: "Heating And Air Conditioning Systems",
-        },
-      },
-      {
-        title: "Plumbing Systems And Accessories",
-        image: {
-          src: "/home-2.svg",
-          alt: "Plumbing Systems And Accessories",
-        },
-      },
-      {
-        title: "Electrical Systems And Accessories",
-        image: {
-          src: "/home-3.svg",
-          alt: "Electrical Systems And Accessories",
-        },
-      },
-      {
-        title: "Maintenance Services",
-        image: {
-          src: "/home-4.svg",
-          alt: "Maintenance Services",
-        },
-      },
-    ],
-  },
-  appliances: {
-    header: "APPLIANCES",
-    items: [
-      {
-        title: "Refrigerator",
-        image: {
-          src: "/appliances-1.svg",
-          alt: "Refrigerator",
-        },
-      },
-      {
-        title: "Oven",
-        image: {
-          src: "/appliances-2.svg",
-          alt: "Oven",
-        },
-      },
-      {
-        title: "Washer / Dryer",
-        image: {
-          src: "/appliances-3.svg",
-          alt: "Washer / Dryer",
-        },
-      },
-      {
-        title: "Water Heater",
-        image: {
-          src: "/appliances-4.svg",
-          alt: "Water Heater",
-        },
-      },
-    ],
-    additionalText: "And More...",
-  },
   callToAction: {
-    buttonText: "Get Your FREE Quote",
+    buttonText: "Get Started",
     contactText: "Or give us a call",
     phoneNumber: "(1800) 123 - 4567",
     phoneHref: "tel:+18001234567",
   },
+}
+
+export const TRUST_CONTENT = {
+  headline: "Get Matched with Trusted Home Security Providers",
+   
+  providers: [
+    {
+      name: "ADT",
+      logo: {
+        src: "/trust-1.svg",
+        alt: "ADT logo",
+      },
+    },
+    {
+      name: "Vivint",
+      logo: {
+        src: "/trust-2.svg",
+        alt: "Vivint logo",
+      },
+    },
+    {
+      name: "Brinks Home",
+      logo: {
+        src: "/trust-3.svg",
+        alt: "Brinks Home logo",
+      },
+    },
+  ],
+  description:
+    "Trusted systems with professional installation, smart monitoring, and real-time alerts.",
 } as const
 
 
-
-
-
-export const REVIEW_CONTENT = {
-  header: "See What Our Customers Have To Say",
-  rating: {
-    
-    image: {
-      src: "/review.svg",
-      alt: "Google Review Rating",
+export const CHOOSE_CONTENT = {
+  header: "Feel Safe, No Matter Where You Are",
+  items: [
+    {
+      icon: {
+        src: "/protect-1.svg",
+        alt: "Eye icon",
+      },
+      title: "Know what’s happening at your home – even when you’re not there",
     },
-    reviewText:"Based on 1,500+ reviews",
+    {
+      icon: {
+        src: "/protect-2.svg",
+        alt: "Alert icon",
+      },
+      title: "Get alerts the moment something feels off",
+    },
+    {
+      icon: {
+        src: "/protect-3.svg",
+        alt: "Shield icon",
+      },
+      title: "Feel safer when you’re home alone",
+    },
+    {
+      icon: {
+        src: "/protect-4.svg",
+        alt: "Home icon",
+      },
+      title: "Protect what matters most",
+    }
+  ],
+} as const
+
+export const INFO_CONTENT = {
+  headline: "See If Your Home Qualifies For Security Options Near You",
+  subtext: "Takes less than 2 minutes. No obligation.",
+  button: {
+    text: "Get Your FREE Quote"
   },
-
-
-  reviews: [
-    {
-     id: 1,
-      quote: "Our AC stopped working unexpectedly, and I was worried about the cost. Submitting a request was easy, and a technician was scheduled quickly. It really helped us avoid a big repair bill.",
-      customer: {
-        name: "Sarah Matthews",
-        status: "Dallas, TX",
-        image: {
-          src: "/profile-1.svg",
-          alt: "Sarah Matthews",
-        },
-      },
-    },
-    {
-      id: 2,
-      quote: "As a new homeowner, I wasn’t sure what to expect when our refrigerator broke down. Everything was explained clearly, and the repair process was simple from start to finish",
-      customer: {
-        name: "David Martinez",
-        status: "Orlando, FL",
-        image: {
-          src: "/profile-2.svg",
-          alt: "David Martinez",
-        },
-      },
-    },
-    {
-     
-      id: 3,
-      quote: "Having coverage made a stressful situation much easier. Our water heater needed repairs, and the whole experience was smooth and straightforward.",
-      customer: {
-        name: "Monica Patel",
-        status: "Phoenix, AZ",
-        image: {
-          src: "/profile-3.svg",
-          alt: "Monica Patel",
-        },
-      },
-    },
-  ],
+  image: {
+    src: "/info-img.webp", // Update with actual image asset path if different
+    alt: "Family sitting on couch looking at tablet together"
+  }
 } as const
 
 
-export const FAQ_CONTENT = {
-  header: "Frequently Asked Questions",
-  faqs: [
-    {
-      id: 1,
-      question: "Q1. What does a home warranty help cover?",
-      answer: "It helps with covered repairs for home systems and appliances that fail from normal wear and tear.",
-    },
-    {
-      id: 2,
-      question: "Q2. What do I pay when I request service?",
-      answer: "You pay the service fee when you request help; covered repair or replacement costs are handled by your plan.",
-    },
-    {
-      id: 3,
-      question: "Q3. Is this the same as homeowners insurance?",
-      answer: "No. Homeowners insurance covers sudden events like fire or storms; a home warranty covers breakdowns of covered items.",
-    },
-    {
-      id: 4,
-      question: "Q4. Can I cancel or change my plan later?",
-      answer: "Yes. You can cancel or switch plans based on terms; your options are shown clearly before you enrol.",
-    },
-  ],
-} as const
+
 
 export const FOOTER_CONTENT = {
-  description: "Affordable coverage for unexpected home repairs.",
+  description: "Affordable home security solutions to help protect what matters most.",
   linkHeader: "Company",
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
@@ -357,7 +238,7 @@ export const FOOTER_CONTENT = {
   ],
   copyrightText: "Copyright © 2026 Assuritii. All Rights Reserved.",
   disclaimer:
-    'Assuritii reserves the right to offer cash back in lieu of repair or replacement in the amount of Assuritii actual cost (which at times may be less than retail) to repair or replace any covered system, component or appliance. In the event that Assuritii makes such payment, Assuritii will provide written notification of the basis for the amount of the payment. First Month Free with purchase of any single payment home warranty plan. The product being offered is a service contract and is separate and distinct from any product or service warranty which may be provided by the home builder or manufacturer. View our Privacy Policy.',
+    'Assuritii helps connect you with trusted home security providers in your area. We do not directly provide installation or monitoring services. By submitting your details, you agree to be contacted by our partners via phone, text, or email. Offers and availability may vary. Consent is not required to purchase.',
 } as const
 
 

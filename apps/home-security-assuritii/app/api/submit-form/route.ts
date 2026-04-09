@@ -5,7 +5,6 @@ import { sendSubmissionConfirmationEmail } from "@/lib/send-submission-email"
 const REQUIRED_FIELDS = [
   "firstName",
   "lastName",
-  "address",
   "email",
   "phoneNumber",
   "zipCode",
@@ -54,9 +53,6 @@ export async function POST(request: NextRequest) {
     const {
       firstName,
       lastName,
-      address,
-      city,
-      state,
       email,
       phoneNumber,
       zipCode,
@@ -66,6 +62,10 @@ export async function POST(request: NextRequest) {
       xxTrustedFormCertUrl,
       isHomeowner,
     } = body
+
+    const address = typeof body.address === "string" ? body.address : ""
+    const city = typeof body.city === "string" ? body.city : ""
+    const state = typeof body.state === "string" ? body.state : ""
 
     const missingFields = REQUIRED_FIELDS.filter((field) => !body[field]?.trim?.())
     if (missingFields.length > 0) {

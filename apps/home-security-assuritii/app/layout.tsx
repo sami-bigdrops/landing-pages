@@ -13,11 +13,11 @@ const fontSans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Assuritii - Home Warranty",
+    default: "Assuritii - Home Security",
     template: "%s | Assuritii",
   },
   description:
-    "Protect your home and your wallet from expensive repair bills. Get a free home warranty quote from Assuritii.",
+    "Secure your home and protect your loved ones. Get a free quote for Assuritii Home Security solutions.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
