@@ -21,7 +21,7 @@ export default function Info({ onGetQuoteClick }: InfoProps) {
 
                     <div className="flex w-full flex-col items-center justify-center gap-6 md:flex-row  md:gap-8 lg:gap-10 xl:gap-14">
                         <div className="left flex flex-col items-center justify-center gap-4 xl:gap-5 md:w-[50%] md:items-start md:justify-center ">
-                            <h2 className="text-xl text-center md:text-left md:text-2xl xl:text-3xl xl:max-w-[450px] font-bold text-[#111827] text-center font-sans ">
+                            <h2 className="text-xl text-center md:text-left md:text-2xl xl:text-3xl xl:max-w-[450px] font-bold text-[#111827] text-center font-sans " style={{ lineHeight: '1.3' }}>
                                 {INFO_CONTENT.headline}
                             </h2>
 

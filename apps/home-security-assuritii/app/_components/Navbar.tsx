@@ -24,7 +24,7 @@ export default function Navbar({ contactLabel = "1-855-916-3700", contactHref = 
           priority
         />
       }
-      contactText="Call Now"
+      contactText="Give us a call"
       contactTextClassName="text-lg text-zinc-900 font-semibold hidden md:inline"
       showContactIcon={false}
       contactHref={contactHref}
@@ -33,7 +33,7 @@ export default function Navbar({ contactLabel = "1-855-916-3700", contactHref = 
         type: "1",
         variant: "ghost",
         size: "sm",
-        className: "text-lg md:text-xl text-[#3498DB] font-bold hover:bg-transparent hover:text-[#3498DB]",
+        className: "text-lg md:text-xl text-[#000000] font-bold hover:bg-transparent hover:text-[#3498DB]",
       }}
     />
   )

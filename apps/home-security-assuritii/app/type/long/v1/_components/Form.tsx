@@ -7,6 +7,7 @@ import { ZipCodeInput as ZipCodeInputUI } from "@workspace/ui/components/zip-cod
 import { Button as ButtonUI } from "@workspace/ui/components/button"
 import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
+import { useFormModalClose } from "@/app/type/long/v1/_components/FormPopupModal"
 
 type FormProps = {
   embedInModal?: boolean
@@ -15,6 +16,7 @@ type FormProps = {
 }
 
 export default function Form({ embedInModal, phonePlaceholder = "Phone Number", showPartnerBadges = false }: FormProps = {}) {
+  const closeModal = useFormModalClose()
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [zipCode, setZipCode] = useState("")
@@ -111,20 +113,32 @@ export default function Form({ embedInModal, phonePlaceholder = "Phone Number", 
   const compact = !embedInModal
   return (
     <div
-      className={`w-full flex flex-col justify-center items-center md:justify-end lg:justify-end ${embedInModal ? "gap-6 2xl:gap-8" : "gap-3 2xl:gap-4 shrink-0 md:h-full md:rounded-[10px] md:min-h-0 md:flex-1  md:items-stretch md:justify-center"}`}
+      className={`w-full flex flex-col justify-center items-center md:justify-end lg:justify-end ${embedInModal ? "gap-6 2xl:gap-8" : "gap-3 2xl:gap-4 shrink-0 md:h-full md:rounded-[10px] md:min-h-0 md:flex-1  md:items-center md:justify-center"}`}
     >
       <div
         className={`relative min-w-0 w-full rounded-[10px]  md:rounded-none  lg:mx-0 xl:mx-0  ${embedInModal ? "md:mx-auto " : "md:flex md:h-full md:min-h-0 md:w-full md:rounded-[10px] md:flex-1 md:flex-col md:items-center md:justify-center"}`}
       >
+        {embedInModal && closeModal && (
+          <button
+            type="button"
+            onClick={closeModal}
+            aria-label="Close form"
+            className="absolute top-1 right-2 md:right-26 md:top-3 lg:right-14 lg:top-2 xl:right-4 xl:top-4 z-[110] flex h-6 w-6 md:h-7 md:w-7 xl:h-10 xl:w-10 shrink-0 items-center justify-center  rounded-full text-[#374151] transition-colors hover:bg-[#F3F4F6] sm:-top-2 sm:-right-2"
+          >
+            <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="h-4 w-4 md:h-4.5 md:w-4.5 xl:h-6 xl:w-6">
+              <path d="M13.5 4.5L4.5 13.5M4.5 4.5L13.5 13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        )}
         <form
           onSubmit={handleSubmit}
-          className={`flex w-full flex-col items-center justify-center bg-white md:py-4 lg:pt-4 lg:mx-0 xl:mx-0 ${compact ? "py-1.5 px-2 sm:py-2 sm:px-2.5 gap-2 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1 md:justify-center   xl:gap-2.5" : "py-3 px-5 h-full rounded-[10px] md:rounded-[10px] md:max-w-[25rem] lg:max-w-[28rem] xl:max-w-[35rem] 2xl:max-w-[33rem] md:justify-center gap-2.5 xl:gap-3"}`}
+          className={`flex w-full flex-col items-center justify-center bg-white md:py-4 lg:pt-4 lg:mx-0 xl:mx-0 ${compact ? "py-1.5 px-2 sm:py-2 sm:px-2.5 gap-2 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1 md:justify-center   xl:gap-2.5" : "py-3 px-5 pt-5 md:pt-3 xl:px-7 xl:pb-5 h-full rounded-[10px] md:rounded-[10px] md:max-w-[23rem] lg:max-w-[26rem] xl:max-w-[35rem] 2xl:max-w-[34rem] md:justify-center gap-2.5 xl:gap-3"}`}
         >
           <TrustedForm />
 
           <h2
             id="form-modal-title"
-            className={`font-bold text-[#0F172A] text-center mb-2 mt-2 md:mt-0 md:mb-3 lg:max-w-full mx-auto ${compact ? "text-[1.28rem]  leading-[1.2] max-w-[260px] md:max-w-[230px]" : "text-lg lg:text-[1.15rem] xl:text-[1.4rem] md:max-w-[250px] xl:max-w-[300px]"}`}
+            className={`font-bold text-[#0F172A] text-center mb-2 mt-2 md:mt-0 md:mb-3 lg:max-w-full mx-auto ${compact ? "text-[1.28rem]  leading-[1.2] max-w-[260px] md:max-w-[230px]" : "text-lg  lg:text-[1.15rem] xl:text-[1.4rem] md:max-w-[250px] xl:max-w-[250px]"}`}
           >
             Start Here for Your FREE Quote
           </h2>
