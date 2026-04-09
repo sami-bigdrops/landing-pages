@@ -149,6 +149,34 @@ export const WORKS_CONTENT = {
   },
 }
 
+export const TRUST_CONTENT = {
+  title: "Get Matched With A Trusted Provider",
+  providers: [
+    {
+      name: "ADT",
+      logo: {
+        src: "/trust-1.svg",
+        alt: "ADT logo",
+      },
+    },
+    {
+      name: "Vivint",
+      logo: {
+        src: "/trust-2.svg",
+        alt: "Vivint logo",
+      },
+    },
+    {
+      name: "Brinks Home",
+      logo: {
+        src: "/trust-3.svg",
+        alt: "Brinks Home logo",
+      },
+    },
+  ],
+  description:
+    "Trusted systems with professional installation, smart monitoring, and real-time alerts.",
+} as const
 
 
 

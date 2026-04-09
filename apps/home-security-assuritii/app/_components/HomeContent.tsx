@@ -10,6 +10,7 @@ import Form from "@/app/type/long/v1/_components/Form"
 import About from "@/app/type/long/v1/_components/About"
 import Features from "@/app/type/long/v1/_components/Features"
 import Works from "@/app/type/long/v1/_components/Works"
+import Trust from "@/app/type/long/v1/_components/Trust"
 
 export default function HomeContent() {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false)
@@ -22,7 +23,8 @@ export default function HomeContent() {
         <Partners />
         <About />
         <Features />
-        <Works />
+        <Works  />
+        <Trust />
         <Footer />
       </div>
       <FormPopupModal isOpen={isFormModalOpen} onClose={() => setIsFormModalOpen(false)}>
