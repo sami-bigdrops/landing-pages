@@ -9,13 +9,12 @@ import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 
 type FormProps = {
-  onClose?: () => void
   embedInModal?: boolean
   phonePlaceholder?: string
   showPartnerBadges?: boolean
 }
 
-export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone Number", showPartnerBadges = false }: FormProps = {}) {
+export default function Form({ embedInModal, phonePlaceholder = "Phone Number", showPartnerBadges = false }: FormProps = {}) {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [zipCode, setZipCode] = useState("")
@@ -117,27 +116,15 @@ export default function Form({ onClose, embedInModal, phonePlaceholder = "Phone 
       <div
         className={`relative min-w-0 w-full rounded-[10px]  md:rounded-none  lg:mx-0 xl:mx-0  ${embedInModal ? "md:mx-auto " : "md:flex md:h-full md:min-h-0 md:w-full md:rounded-[10px] md:flex-1 md:flex-col md:items-center md:justify-center"}`}
       >
-        {onClose && (
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close form"
-            className="absolute top-1.5 right-3 md:right-17 md:top-3 lg:right-9 xl:right-7 lg:top-5 z-10 w-8 h-8 lg:w-9 lg:h-9 flex items-center justify-center rounded-full bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] transition-colors"
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="w-4 h-4">
-              <path d="M13.5 4.5L4.5 13.5M4.5 4.5L13.5 13.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        )}
         <form
           onSubmit={handleSubmit}
-          className={`flex w-full flex-col items-center justify-center bg-white md:py-4 lg:pt-4 lg:mx-0 xl:mx-0 ${compact ? "py-1.5 px-2 sm:py-2 sm:px-2.5 gap-2 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1 md:justify-center   xl:gap-2.5" : "py-8 px-6 xl:px-7 h-full rounded-[10px] md:rounded-[10px] md:max-w-[25rem] lg:max-w-[28rem] xl:max-w-[35rem] 2xl:max-w-[33rem] md:justify-center gap-2.5 xl:gap-3"}`}
+          className={`flex w-full flex-col items-center justify-center bg-white md:py-4 lg:pt-4 lg:mx-0 xl:mx-0 ${compact ? "py-1.5 px-2 sm:py-2 sm:px-2.5 gap-2 rounded-[10px] md:rounded-none md:border-none md:mx-auto md:h-full md:min-h-0 md:flex-1 md:justify-center   xl:gap-2.5" : "py-3 px-5 h-full rounded-[10px] md:rounded-[10px] md:max-w-[25rem] lg:max-w-[28rem] xl:max-w-[35rem] 2xl:max-w-[33rem] md:justify-center gap-2.5 xl:gap-3"}`}
         >
           <TrustedForm />
 
           <h2
             id="form-modal-title"
-            className={`font-bold text-[#0F172A] text-center mb-2 mt-2 md:mt-0 md:mb-3 lg:max-w-full mx-auto ${onClose ? "pr-0" : ""} ${compact ? "text-[1.28rem]  leading-[1.2] max-w-[260px] md:max-w-[230px]" : "text-lg lg:text-[1.15rem] xl:text-[1.4rem] md:max-w-[250px] xl:max-w-[300px]"}`}
+            className={`font-bold text-[#0F172A] text-center mb-2 mt-2 md:mt-0 md:mb-3 lg:max-w-full mx-auto ${compact ? "text-[1.28rem]  leading-[1.2] max-w-[260px] md:max-w-[230px]" : "text-lg lg:text-[1.15rem] xl:text-[1.4rem] md:max-w-[250px] xl:max-w-[300px]"}`}
           >
             Start Here for Your FREE Quote
           </h2>

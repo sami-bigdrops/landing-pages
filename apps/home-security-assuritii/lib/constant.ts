@@ -150,7 +150,8 @@ export const WORKS_CONTENT = {
 }
 
 export const TRUST_CONTENT = {
-  title: "Get Matched With A Trusted Provider",
+  headline: "Get Matched with Trusted Home Security Providers",
+   
   providers: [
     {
       name: "ADT",
@@ -179,12 +180,57 @@ export const TRUST_CONTENT = {
 } as const
 
 
+export const CHOOSE_CONTENT = {
+  header: "Feel Safe, No Matter Where You Are",
+  items: [
+    {
+      icon: {
+        src: "/protect-1.svg",
+        alt: "Eye icon",
+      },
+      title: "Know what’s happening at your home – even when you’re not there",
+    },
+    {
+      icon: {
+        src: "/protect-2.svg",
+        alt: "Alert icon",
+      },
+      title: "Get alerts the moment something feels off",
+    },
+    {
+      icon: {
+        src: "/protect-3.svg",
+        alt: "Shield icon",
+      },
+      title: "Feel safer when you’re home alone",
+    },
+    {
+      icon: {
+        src: "/protect-4.svg",
+        alt: "Home icon",
+      },
+      title: "Protect what matters most",
+    }
+  ],
+} as const
+
+export const INFO_CONTENT = {
+  headline: "See If Your Home Qualifies For Security Options Near You",
+  subtext: "Takes less than 2 minutes. No obligation.",
+  button: {
+    text: "Get Your FREE Quote"
+  },
+  image: {
+    src: "/info-img.webp", // Update with actual image asset path if different
+    alt: "Family sitting on couch looking at tablet together"
+  }
+} as const
 
 
 
 
 export const FOOTER_CONTENT = {
-  description: "Affordable coverage for unexpected home repairs.",
+  description: "Affordable home security solutions to help protect what matters most.",
   linkHeader: "Company",
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
@@ -192,7 +238,7 @@ export const FOOTER_CONTENT = {
   ],
   copyrightText: "Copyright © 2026 Assuritii. All Rights Reserved.",
   disclaimer:
-    'Assuritii reserves the right to offer cash back in lieu of repair or replacement in the amount of Assuritii actual cost (which at times may be less than retail) to repair or replace any covered system, component or appliance. In the event that Assuritii makes such payment, Assuritii will provide written notification of the basis for the amount of the payment. First Month Free with purchase of any single payment home warranty plan. The product being offered is a service contract and is separate and distinct from any product or service warranty which may be provided by the home builder or manufacturer. View our Privacy Policy.',
+    'Assuritii helps connect you with trusted home security providers in your area. We do not directly provide installation or monitoring services. By submitting your details, you agree to be contacted by our partners via phone, text, or email. Offers and availability may vary. Consent is not required to purchase.',
 } as const
 
 

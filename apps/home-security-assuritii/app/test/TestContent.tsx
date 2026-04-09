@@ -36,7 +36,7 @@ export default function TestContent() {
       </div>
       <FormPopupModal isOpen={isFormModalOpen} onClose={() => setIsFormModalOpen(false)}>
         <div className="p-6 md:p-8 max-h-[90vh] overflow-y-auto">
-          <Form onClose={() => setIsFormModalOpen(false)} embedInModal phonePlaceholder={PLACEHOLDER_PHONE} />
+          <Form embedInModal phonePlaceholder={PLACEHOLDER_PHONE} />
         </div>
       </FormPopupModal>
     </>

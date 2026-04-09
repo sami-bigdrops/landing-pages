@@ -1,10 +1,19 @@
+"use client"
+
 import Image from "next/image"
 import { WORKS_CONTENT } from "@/lib/constant"
 import { Button as ButtonUI } from "@workspace/ui/components/button"
 
-export default function Works() {
+type WorksProps = {
+  onGetQuoteClick?: () => void
+}
+
+export default function Works({ onGetQuoteClick }: WorksProps) {
   return (
-    <div className="works w-full bg-white  p-6 md:px-10 md:py-10 lg:px-16 lg:py-12 xl:px-24 2xl:px-64 xl:py-14">
+    <div
+      id="works-section"
+      className="works w-full bg-white  p-6 md:px-10 md:py-10 lg:px-16 lg:py-12 xl:px-24 2xl:px-64 xl:py-14"
+    >
       <div className="container mx-auto ">
         <div className="works-content w-full flex flex-col items-center justify-center gap-6 md:gap-10 lg:gap-12 xl:gap-14">
           <h2 className="text-xl text-center md:text-2xl xl:text-3xl font-bold text-[#111827] text-center font-sans ">
@@ -52,7 +61,7 @@ export default function Works() {
                 type="1"
                 variant="default"
                 htmlType="button"
-                onClick={() => {}}
+                onClick={() => onGetQuoteClick?.()}
                 className="w-full bg-[#3498DB] text-white font-medium py-6 xl:py-7.5 rounded-[10px] text-sm xl:text-lg "
               >
                 Get Your FREE Quote

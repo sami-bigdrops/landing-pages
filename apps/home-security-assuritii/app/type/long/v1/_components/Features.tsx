@@ -5,9 +5,9 @@ import { FEATURES_CONTENT } from "@/lib/constant"
 
 export default function Features() {
     return (
-        <section className="w-full bg-[#E8F0FA] p-6 md:px-10 md:py-10 lg:px-16 lg:py-12 xl:px-24 xl:py-14 ">
+        <section className="w-full bg-[#E8F0FA] p-6 md:px-10 md:py-8 lg:px-16  xl:px-24 xl:py-10 ">
             <div className="container mx-auto max-w-6xl">
-                <div className="flex flex-col items-center justify-center gap-6 md:gap-8">
+                <div className="flex flex-col items-center justify-center gap-6 md:gap-8 lg:gap-10 xl:gap-12">
                     <h2 className="text-xl text-center md:text-2xl xl:text-3xl md:max-w-[400px] lg:max-w-[330px] xl:max-w-[520px] font-bold text-[#111827]  " style={{ lineHeight: '1.2' }}>
                         {FEATURES_CONTENT.header}
                     </h2>
