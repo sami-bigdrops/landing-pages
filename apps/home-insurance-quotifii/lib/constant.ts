@@ -1,88 +1,77 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "See Veteran Friendly Auto Rates in Your <City Name>",
+  
   image: {
     src: "/hero.webp",
-    alt: "Veterans in military uniform"
+    alt: "Quotifii"
   },
-  features: [
-    { text: "Curated insurance matches", image: "/hero-1.svg", alt: "flag icon" },
-    { text: "Trusted savings, made simple", image: "/hero-2.svg", alt: "money icon" },
-    { text: "+5 million matches delivered", image: "/hero-3.svg", alt: "user icon" },
-  ],
+ 
   
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "We Work With Top-Rated Insurance Partners Nationwide",
+  header: "We partner with top providers",
 
   partners: [
-    { alt: "Partner 1", src: "/partner-1.svg"  },
-    { alt: "Partner 2", src: "/partner-2.svg"  },
-    { alt: "Partner 3", src: "/partner-3.svg"  },
-    { alt: "Partner 4", src: "/partner-4.svg"  },
-    { alt: "Partner 5", src: "/partner-5.svg"  },
-    { alt: "Partner 6", src: "/partner-6.svg"  },
+    { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 3", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-14 xl:w-19 overflow-hidden object-contain" },
+    { alt: "Partner 5", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 6", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
   ],
 } as const
 
 export const OPTIONS_CONTENT = {
-  header: "Ready To See Options That Fit You?",
+  header: "A Better Rate Could Be Waiting In Your ZIP",
+  description: "Tell us the basics and we’ll line up options worth a look.",
 
- 
-  featureList: [
-    {  text: "Free to check" },
-    {  text: "No obligation" },
-    {  text: "Your details stay private" },
-  ],
+  image: {
+    src: "/quokka.webp",
+    alt: "Quokka Image",
+  },
+  
 } as const
 
 export const REVIEW_CONTENT = {
-  header: "Hear From Veterans Who Found a Better Fit",
-  verifiedBadge: {
-    src: "/review-vector.svg",
-    alt: "Verified",
-    label: "Verified Customer",
-  },
+  header: "What Our Customers Say",
+  
   reviews: [
     {
      id: 1,
-      quote: "Quick and straightforward. I could compare options in one place and didn't feel pressured to buy right away.",
+      quote: "I didn’t expect it to be this simple. I answered a few questions, compared options, and ended up switching to a better rate the same day. Having an agent walk me through everything really helped.",
       customer: {
-        name: "JMark Keeling",
-        location: "Army Veteran, Texas",
-        status: "Verified Customer",
+        name: "Amanda Reynolds",
+        location: "San Diego, CA",
         image: {
           src: "/profile-1.svg",
-          alt: "Jessica R.",
+          alt: "Amanda Reynolds",
         },
       },
     },
     {
       id: 2,
-      quote: "The steps were clear, and I knew what information I needed before starting. It saved me time calling around",
+      quote: "I liked that I could see different quotes in one place instead of jumping between websites. The process was quick, and I felt confident about the coverage I chose.",
       customer: {
-        name: "Beth Sawayn",
-        location: "Navy Veteran, Florida",
-        status: "Verified Customer",
+        name: "Jason M.",
+        location: "Austin, TX",
         image: {
           src: "/profile-2.svg",
-          alt: "Mark & Emily S.",
+          alt: "Jason M.",
         },
       },
     },
     {
      
       id: 3,
-      quote: "Helpful to see different coverage choices side by side. Made it easier to pick something that fit my budget.",
+      quote: "I was paying way more than I should have. Quotifii helped me find a more affordable option in minutes, and the agent explained everything clearly. Super easy experience.",
       customer: {
-        name: "Jimmie Hills Jr.",
-        location: "Marine Veteran, Ohio",
-        status: "Verified Customer",
+        name: "Priya S",
+        location: "Edison, NJ",
         image: {
           src: "/profile-3.svg",
-          alt: "Susan Roberts",
+          alt: "Priya S",
         },
       },
     },

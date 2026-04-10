@@ -1,23 +1,26 @@
-import { Inter } from "next/font/google"
+import { Poppins } from "next/font/google"
 import { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
 
-const fontSans = Inter({
+const fontSans = Poppins({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 })
+
+
 
 export const metadata: Metadata = {
   title: {
-    default: "Quotifii Veterans - Auto Insurance",
-    template: "%s | Quotifii Veterans",
+    default: "Quotifii Home Insurance",
+    template: "%s | Quotifii Home Insurance",
   },
   description:
-    "Quotifii Veterans provides top-quality auto insurance services across the USA. We offer auto insurance, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Quotifii Home Insurance provides premier home insurance services to protect your property and peace of mind. Enjoy comprehensive coverage, expert guidance, and dedicated customer care for homeowners across the USA.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
