@@ -1,6 +1,8 @@
 import Image from "next/image"
+import { cn } from "@workspace/ui/lib/utils"
 
 import { PARTNERS_CONTENT } from "@/lib/constant"
+import { pageSectionInner } from "@/lib/page-layout"
 
 type PartnerName = (typeof PARTNERS_CONTENT.partners)[number]["name"]
 
@@ -15,8 +17,13 @@ const PARTNER_LOGO_FRAME: Record<PartnerName, string> = {
 
 export default function Partners() {
   return (
-    <section className="w-full bg-[#F3F4F6] p-6 md:px-8  lg:px-12  xl:px-20 xl:py-8 lg:px-16  xl:px-24">
-      <div className="mx-auto flex w-full xl:max-w-5xl flex-col items-center gap-6 md:flex-row md:items-center md:justify-between md:gap-12 lg:gap-14 xl:gap-55 ">
+    <section className="w-full bg-[#F3F4F6] py-8 md:py-10 lg:py-11">
+      <div
+        className={cn(
+          pageSectionInner,
+          "flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between md:gap-12 lg:gap-14 xl:gap-16",
+        )}
+      >
         <h2 className="w-full text-center font-sans text-sm xl:text-lg font-semibold  text-[#1F2937] md:w-auto md:max-w-[min(100%,17rem)] md:shrink-0 md:text-left ">
           {PARTNERS_CONTENT.title}
         </h2>

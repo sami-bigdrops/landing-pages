@@ -1,7 +1,9 @@
 "use client"
 
 import Image from "next/image"
+import { cn } from "@workspace/ui/lib/utils"
 import { INFO_CONTENT } from "@/lib/constant"
+import { pageSectionInner } from "@/lib/page-layout"
 import { Button as ButtonUI } from "@workspace/ui/components/button"
 
 type InfoProps = {
@@ -12,9 +14,9 @@ export default function Info({ onGetQuoteClick }: InfoProps) {
     return (
         <div
             id="info-section"
-            className="info w-full bg-white  p-6 md:px-10 md:py-8 lg:px-16 lg:py-10 xl:px-24  xl:py-12"
+            className="info w-full bg-white py-10 md:py-11 lg:py-12"
         >
-            <div className="container mx-auto ">
+            <div className={cn(pageSectionInner)}>
                 
 
 

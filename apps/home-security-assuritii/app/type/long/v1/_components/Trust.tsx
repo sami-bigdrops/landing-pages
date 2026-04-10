@@ -1,12 +1,14 @@
 import Image from "next/image"
+import { cn } from "@workspace/ui/lib/utils"
 import { TRUST_CONTENT } from "@/lib/constant"
+import { pageSectionInner } from "@/lib/page-layout"
 
 export default function Trust() {
   const [adt, vivint, brinks] = TRUST_CONTENT.providers
 
   return (
-    <section className="w-full bg-[#1F3A5F] p-6 md:px-10 md:py-10 lg:px-16 lg:py-12 xl:px-24  xl:py-14">
-      <div className="container mx-auto ">
+    <section className="w-full bg-[#1F3A5F] py-10 md:py-12 lg:py-14">
+      <div className={cn(pageSectionInner)}>
         <div className="works-content w-full flex flex-col items-center justify-center gap-10 md:gap-10 lg:gap-12 xl:gap-14">
           <h2 className="text-xl text-center text-white md:text-2xl xl:text-3xl font-bold text-center font-sans" style={{ lineHeight: '1.4' }}>
             

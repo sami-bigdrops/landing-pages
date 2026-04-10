@@ -4,22 +4,18 @@
 import { useUtmParams } from "@workspace/lp-core"
 import { HERO_CONTENT } from "@/lib/constant"
 import Form from "@/app/type/long/v1/_components/Form"
+import { pageSectionInner } from "@/lib/page-layout"
+import { cn } from "@workspace/ui/lib/utils"
 
 import Image from "next/image"
 
 
-type HeroProps = {
-  offerText?: string
-}
-
-const DEFAULT_OFFER = "LIMITED OFFER! : $200 OFF +2 MONTHS & FREE ROOF COVERAGE!"
-
-export default function Hero({ offerText = DEFAULT_OFFER }: HeroProps = {}) {
+export default function Hero() {
   useUtmParams(30)
 
   return (
     <div
-      className="w-full h-full p-6 md:px-10 md:py-8 lg:px-16 lg:py-10 xl:px-24"
+      className="w-full min-h-0 py-8 md:py-10 lg:py-12"
       style={{
         backgroundImage: `url(${HERO_CONTENT.image.src})`,
         backgroundSize: "cover",
@@ -27,38 +23,28 @@ export default function Hero({ offerText = DEFAULT_OFFER }: HeroProps = {}) {
         backgroundRepeat: "no-repeat",
       }}
     >
-
-      <div className="container mx-auto h-full">
-        <div className="hero-content h-full w-full flex flex-col items-center justify-center md:flex-row md:items-center md:justify-between gap-6">
-
-          <div className="left w-full md:w-[50%] lg:max-w-[60%] flex flex-col items-center justify-center md:justify-start md:items-start gap-4">
-            <h1 className="text-2xl md:text-3xl  xl:text-4xl xl:max-w-[430px] text-center font-extrabold text-white md:text-left leading-relaxed " style={{ lineHeight: "1.3" }}>
+      <div className={cn(pageSectionInner)}>
+        <div className="flex w-full flex-col items-stretch justify-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10 lg:gap-12 xl:gap-14">
+          <div className="left flex min-w-0 flex-1 flex-col items-center justify-center gap-4 md:items-start md:justify-center md:gap-5 lg:gap-6">
+            <h1 className="max-w-[22rem] text-center text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:max-w-xl sm:text-4xl md:text-left md:text-4xl lg:max-w-[26rem] lg:text-5xl xl:max-w-[28rem]">
               {HERO_CONTENT.headline}
             </h1>
-            <p className="text-sm  xl:max-w-[440px] xl:text-base font-normal text-white  text-center md:text-left" style={{ lineHeight: "1.6" }}>
+            <p className="max-w-xl text-center text-base font-normal leading-relaxed text-white/90 sm:text-lg md:text-left md:text-lg lg:text-xl">
               {HERO_CONTENT.description}
             </p>
 
-            <div className="w-full flex flex-col items-center justify-center gap-2 md:items-start md:justify-start md:gap-3 md:mt-3">
+            <div className="mt-1 flex w-full flex-col items-center justify-center gap-2.5 md:mt-0 md:items-start md:justify-start md:gap-3">
               {HERO_CONTENT.badges.map((badge, idx) => (
                 <div
                   key={idx}
-                  className={`
-                    flex items-center gap-2
-                    bg-[rgba(237,242,249,0.40)]
-                    rounded-[10px]
-                    px-3 py-2
-                    md:px-2.5
-                    w-fit
-                    shadow-none
-                    transition
-                    ${idx === 0 ? "md:w-[80px] xl:w-[85px]" : idx === 1 ? "md:w-[130px] xl:w-[150px]" : "md:w-[190px] xl:w-[220px]"}
-                    w-full
-                    max-w-[220px]
-                   
-                  `}
+                  className={cn(
+                    "flex w-full max-w-[240px] items-center gap-2.5 rounded-[10px] bg-[rgba(237,242,249,0.40)] px-3 py-2.5 shadow-none transition sm:max-w-[260px] md:w-fit md:max-w-none",
+                    idx === 0 && "md:min-w-[5.5rem]",
+                    idx === 1 && "md:min-w-[8.5rem]",
+                    idx === 2 && "md:min-w-[12rem]",
+                  )}
                   style={{
-                    boxShadow: "0 4px 20px 0 rgba(0,40,104,0.15)"
+                    boxShadow: "0 4px 20px 0 rgba(0,40,104,0.15)",
                   }}
                 >
                   <Image
@@ -66,22 +52,17 @@ export default function Hero({ offerText = DEFAULT_OFFER }: HeroProps = {}) {
                     alt={`${badge.label} icon`}
                     width={24}
                     height={24}
-                    className="w-4 h-4 xl:w-5 xl:h-5 object-contain"
+                    className="h-4 w-4 shrink-0 object-contain sm:h-5 sm:w-5"
                   />
-                  <span className="text-white font-normal text-[0.8rem] xl:text-[0.95rem]   font-inter">
+                  <span className="text-left text-xs font-medium text-white sm:text-sm">
                     {badge.label}
                   </span>
                 </div>
               ))}
             </div>
-      
-
-
           </div>
-          <div className="right w-full md:w-[50%] lg:max-w-[40%] xl:max-w-sm  flex items-center bg-white p-2  rounded-[30px] shadow-[0_4px_20px_0_rgba(0,40,104,0.15)]">
-     
+          <div className="right flex w-full shrink-0 items-center rounded-[30px] bg-white p-2 shadow-[0_4px_20px_0_rgba(0,40,104,0.15)] md:max-w-[min(100%,24rem)] lg:max-w-[26rem] xl:max-w-sm">
             <Form />
-
           </div>
         </div>
       </div>
