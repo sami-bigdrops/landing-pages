@@ -2,12 +2,14 @@
 
 import React from "react"
 import Image from "next/image"
+import { cn } from "@workspace/ui/lib/utils"
 import { ABOUT_CONTENT } from "@/lib/constant"
+import { pageSectionInner } from "@/lib/page-layout"
 
 export default function About() {
   return (
-    <div className="about w-full h-full p-6 md:px-10 md:py-10 lg:px-16 lg:py-12 xl:px-24 xl:py-14 ">
-      <div className="container mx-auto max-w-7xl ">
+    <div className="about w-full py-10 md:py-12 lg:py-14">
+      <div className={cn(pageSectionInner)}>
         <div className="flex w-full h-full flex-col items-center justify-center gap-6 md:flex-row md:items-center md:justify-center md:gap-10 xl:gap-14 2xl:gap-18 ">
            <div className="w-full shrink-0 md:w-[50%] lg:w-[50%] xl:w-[50%] ">
               <Image

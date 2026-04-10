@@ -1,10 +1,12 @@
 import Image from "next/image"
+import { cn } from "@workspace/ui/lib/utils"
 import { CHOOSE_CONTENT } from "@/lib/constant"
+import { pageSectionInner } from "@/lib/page-layout"
 
 export default function Choose() {
   return (
-    <section className="w-full bg-[#E8F0FA] p-6 md:px-10 md:py-10 lg:px-16 lg:py-12 xl:px-24  xl:py-17">
-      <div className="container mx-auto ">
+    <section className="w-full bg-[#E8F0FA] py-10 md:py-12 lg:py-14 xl:py-16">
+      <div className={cn(pageSectionInner)}>
         <div className="works-content w-full flex flex-col items-center justify-center gap-6 md:gap-10 lg:gap-12 xl:gap-16">
           <h2 className="text-xl text-center text-[#111827] md:text-2xl xl:text-3xl font-bold text-center font-sans" style={{ lineHeight: '1.4' }}>
             

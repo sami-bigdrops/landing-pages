@@ -259,8 +259,8 @@ export const COVER_CONTENT = {
   callToAction: {
     buttonText: "Get Your FREE Quote",
     contactText: "Or give us a call",
-    phoneNumber: "(1800) 123 - 4567",
-    phoneHref: "tel:+18001234567",
+    phoneNumber: "1-855-916-3700",
+    phoneHref: "tel:+18559163700",
   },
 } as const
 

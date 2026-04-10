@@ -1,7 +1,9 @@
 "use client"
 
 import { Navbar as NavbarUI } from "@workspace/ui/components/navbar"
+import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
+import { pageSectionInner } from "@/lib/page-layout"
 
 type NavbarProps = {
   contactLabel?: string
@@ -13,7 +15,7 @@ export default function Navbar({ contactLabel = "1-855-916-3700", contactHref = 
     <NavbarUI
       variant="default"
       type="1"
-      className="mx-auto w-full max-w-[1180px] border-b border-gray-200 px-4 py-3.5 sm:px-6 md:px-10 lg:px-0"
+      className={cn(pageSectionInner, "border-b border-gray-200 py-3.5")}
       logo={
         <Image
           src="/assuritii.svg"

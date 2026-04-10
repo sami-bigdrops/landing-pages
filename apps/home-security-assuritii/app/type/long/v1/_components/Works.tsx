@@ -1,7 +1,9 @@
 "use client"
 
 import Image from "next/image"
+import { cn } from "@workspace/ui/lib/utils"
 import { WORKS_CONTENT } from "@/lib/constant"
+import { pageSectionInner } from "@/lib/page-layout"
 import { Button as ButtonUI } from "@workspace/ui/components/button"
 
 type WorksProps = {
@@ -12,9 +14,9 @@ export default function Works({ onGetQuoteClick }: WorksProps) {
   return (
     <div
       id="works-section"
-      className="works w-full bg-white  p-6 md:px-10 md:py-10 lg:px-16 lg:py-12 xl:px-24 2xl:px-64 xl:py-14"
+      className="works w-full bg-white py-10 md:py-12 lg:py-14 xl:py-16"
     >
-      <div className="container mx-auto ">
+      <div className={cn(pageSectionInner)}>
         <div className="works-content w-full flex flex-col items-center justify-center gap-6 md:gap-10 lg:gap-12 xl:gap-14">
           <h2 className="text-xl text-center md:text-2xl xl:text-3xl font-bold text-[#111827] text-center font-sans ">
             {WORKS_CONTENT.header}

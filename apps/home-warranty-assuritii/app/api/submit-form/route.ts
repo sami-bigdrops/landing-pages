@@ -26,6 +26,17 @@ function leadProsperPhoneDigits(phone: string): string {
   return d
 }
 
+function isCaliforniaLead(state: string, zipCode: string): boolean {
+  const s = String(state).trim()
+  const upper = s.toUpperCase()
+  if (upper === "CA" || s.toLowerCase() === "california") return true
+  const digits = String(zipCode).replace(/\D/g, "").slice(0, 5)
+  if (digits.length !== 5) return false
+  const n = parseInt(digits, 10)
+  if (!Number.isFinite(n)) return false
+  return n >= 90001 && n <= 96162
+}
+
 async function verifyPhone(phone: string, key: string, defaultCountry = "US"): Promise<{ valid: boolean; error?: string }> {
   const e164 = toE164(phone, defaultCountry)
   if (!e164) return { valid: false, error: "Invalid phone number" }
@@ -72,6 +83,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "All fields are required", missingFields: [...missingFields] },
         { status: 400 }
+      )
+    }
+
+    const stateVal = typeof state === "string" ? state : ""
+    const zipVal = typeof zipCode === "string" ? zipCode : String(zipCode ?? "")
+    if (isCaliforniaLead(stateVal, zipVal)) {
+      console.log("[submit-form] Rejected: California")
+      return NextResponse.json(
+        {
+          success: true,
+          rejected: true,
+          redirectUrl: "/rejected",
+        },
+        { status: 200 }
       )
     }
 

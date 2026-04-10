@@ -13,7 +13,6 @@ import { FormPopupModal } from "@/app/type/long/v1/_components/FormPopupModal"
 import Form from "@/app/type/long/v1/_components/Form"
 
 const PLACEHOLDER_PHONE = "(1800) XXX - XXXX"
-const PLACEHOLDER_OFFER = "LIMITED OFFER! : <YOUR PROMOTIONAL OFFER>"
 
 export default function TestContent() {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false)
@@ -22,7 +21,7 @@ export default function TestContent() {
     <>
       <div className="flex flex-col min-h-screen">
         <Navbar contactLabel={PLACEHOLDER_PHONE} contactHref="#" />
-        <Hero offerText={PLACEHOLDER_OFFER} />
+        <Hero />
         <About />
         <Work onGetQuoteClick={() => setIsFormModalOpen(true)} />
         <Cover

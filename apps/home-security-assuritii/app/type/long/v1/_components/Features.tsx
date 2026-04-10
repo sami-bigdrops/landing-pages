@@ -1,12 +1,14 @@
 "use client"
 
 import Image from "next/image"
+import { cn } from "@workspace/ui/lib/utils"
 import { FEATURES_CONTENT } from "@/lib/constant"
+import { pageSectionInner } from "@/lib/page-layout"
 
 export default function Features() {
     return (
-        <section className="w-full bg-[#E8F0FA] p-6 md:px-10 md:py-8 lg:px-16  xl:px-24 xl:py-10 ">
-            <div className="container mx-auto max-w-7xl">
+        <section className="w-full bg-[#E8F0FA] py-10 md:py-11 lg:py-12">
+            <div className={cn(pageSectionInner)}>
                 <div className="flex flex-col items-center justify-center gap-6 md:gap-8 lg:gap-10 xl:gap-12">
                     <h2 className="text-xl text-center md:text-2xl xl:text-3xl md:max-w-[400px] lg:max-w-[330px] xl:max-w-[520px] font-bold text-[#111827]  " style={{ lineHeight: '1.3' }}>
                         {FEATURES_CONTENT.header}
