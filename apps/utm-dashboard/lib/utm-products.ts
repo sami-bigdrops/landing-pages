@@ -1,6 +1,7 @@
 export const UTM_PRODUCT_TABS = [
   { id: "auto_insurance_quotifii", label: "Auto Insurance Quotifii" },
   { id: "auto_veterans_quotifii", label: "Auto Veterans Quotifii" },
+  { id: "home_insurance_quotifii", label: "Home Insurance Quotifii" },
 ] as const
 
 export type UtmProductId = (typeof UTM_PRODUCT_TABS)[number]["id"]

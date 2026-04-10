@@ -1,0 +1,190 @@
+//  sections constants
+
+export const HERO_CONTENT = {
+  
+  image: {
+    src: "/hero.webp",
+    alt: "Quotifii"
+  },
+ 
+  
+} as const
+
+export const PARTNERS_CONTENT = {
+  header: "We partner with top providers",
+
+  partners: [
+    { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 3", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-14 xl:w-19 overflow-hidden object-contain" },
+    { alt: "Partner 5", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "Partner 6", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
+  ],
+} as const
+
+export const OPTIONS_CONTENT = {
+  header: "A Better Rate Could Be Waiting In Your ZIP",
+  description: "Tell us the basics and we’ll line up options worth a look.",
+
+  image: {
+    src: "/quokka.webp",
+    alt: "Quokka Image",
+  },
+  
+} as const
+
+export const REVIEW_CONTENT = {
+  header: "What Our Customers Say",
+  
+  reviews: [
+    {
+     id: 1,
+      quote: "I didn’t expect it to be this simple. I answered a few questions, compared options, and ended up switching to a better rate the same day. Having an agent walk me through everything really helped.",
+      customer: {
+        name: "Amanda Reynolds",
+        location: "San Diego, CA",
+        image: {
+          src: "/profile-1.svg",
+          alt: "Amanda Reynolds",
+        },
+      },
+    },
+    {
+      id: 2,
+      quote: "I liked that I could see different quotes in one place instead of jumping between websites. The process was quick, and I felt confident about the coverage I chose.",
+      customer: {
+        name: "Jason M.",
+        location: "Austin, TX",
+        image: {
+          src: "/profile-2.svg",
+          alt: "Jason M.",
+        },
+      },
+    },
+    {
+     
+      id: 3,
+      quote: "I was paying way more than I should have. Quotifii helped me find a more affordable option in minutes, and the agent explained everything clearly. Super easy experience.",
+      customer: {
+        name: "Priya S",
+        location: "Edison, NJ",
+        image: {
+          src: "/profile-3.svg",
+          alt: "Priya S",
+        },
+      },
+    },
+  ],
+} as const
+
+export const FEATURES_CONTENT = {
+  header: "A Smarter Way To Shop For Coverage",
+  steps: [
+    {
+      number: 1,
+      title: "Multi-Vehicle Savings",
+      description: "One household, more than one car? Bundle options in seconds and see what changes.",
+      image: {
+        src: "/feature-1.svg",
+        alt: "Multi-Vehicle Savings",
+      },
+    },
+    {
+      number: 2,
+      title: "Safe Driver Discounts",
+      description: "If you drive sensibly, your rate should notice. We help you spot discounts you may qualify for.",
+      image: {
+        src: "/feature-2.svg",
+        alt: "Safe Driver Discounts",
+      },
+    },
+    {
+      number: 3,
+      title: "24/7 Roadside Assistance",
+      description: "Flat tire, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
+      image: {
+        src: "/feature-3.svg",
+        alt: "24/7 Roadside Assistance",
+      },
+    },
+  ],
+} as const
+
+export const FOOTER_CONTENT = {
+  description: "The Smart Way to Shop For Insurance.",
+  links: [
+    { text: "Privacy Policy", href: "/privacy-policy" },
+    { text: "Terms of Use", href: "/terms-of-use" },
+    { text: "Contact ", href: "/contact" },
+  ],
+  disclaimer:
+  'For quality control purposes, your activity on this site may be monitored or recorded by Quotifii or its service providers.',
+  copyrightText: "Copyright © 2026 Quotifii. All Rights Reserved.",
+} as const
+
+export const THANKYOU_CONTENT = {
+  title: "Thank you!",
+  subtitle:
+    "Your request has been received. A vehicle protection specialist will contact you shortly with your quote.",
+  confirmationTitle:
+    "A confirmation message has been sent to your email address.",
+  confirmationDescription:
+    "The message contains next steps and how to get your quote. Please check your spam folder if you don't see it in your inbox.",
+  contactTitle: "For immediate assistance",
+  contactPhoneLabel: "(1800) 123 - 4567",
+  contactPhoneHref: "tel:+18001234567",
+} as const
+
+export interface ThankYouType2FeatureCard {
+  title: string
+  bulletPoints: string[]
+  icon: "shield" | "building" | "check"
+}
+
+export interface ThankYouType2Content {
+  title: string
+  partnerName: string
+  partnerLogo: { src: string; alt: string }
+  confirmationMessage: string
+  aboutSectionTitle: string
+  featureCards: ThankYouType2FeatureCard[]
+}
+
+export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
+  title: "Thank you!",
+  partnerName: "Renewal By Andersen",
+  partnerLogo: { src: "/rba.avif", alt: "RENEWAL by ANDERSEN" },
+  confirmationMessage:
+    "Congratulations! You have been matched with one of our partners, Renewal By Andersen. The Customer Specialist will be contacting you soon!",
+  aboutSectionTitle: "About Renewal by Andersen",
+  featureCards: [
+    {
+      title: "Trusted Excellence",
+      icon: "shield",
+      bulletPoints: [
+        "Division of Andersen Corporation",
+        "Decades of craftsmanship",
+        "Nationwide reliability",
+      ],
+    },
+    {
+      title: "Custom Solutions",
+      icon: "building",
+      bulletPoints: [
+        "Custom-made windows & doors",
+        "Energy efficient design",
+        "Enhanced curb appeal",
+      ],
+    },
+    {
+      title: "Premium Service",
+      icon: "check",
+      bulletPoints: [
+        "Full-service approach",
+        "Premium materials",
+        "Industry-leading warranties",
+      ],
+    },
+  ],
+}
