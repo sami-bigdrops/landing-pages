@@ -232,7 +232,17 @@ export default function Form() {
 
       if (!res.ok) {
         setSubmitStatus("error")
-        setSubmitError(data.error ?? "Submission failed")
+        const msg = (data.error as string | undefined) ?? "Submission failed"
+        if (data.invalidField === "email") {
+          setFieldErrors((prev) => ({ ...prev, email: msg }))
+          setSubmitError("")
+        } else if (data.field === "phoneNumber") {
+          setFieldErrors((prev) => ({ ...prev, phoneNumber: msg }))
+          setSubmitError("")
+        } else {
+          setFieldErrors({})
+          setSubmitError(msg)
+        }
         return
       }
 

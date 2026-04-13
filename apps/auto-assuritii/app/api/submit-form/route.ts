@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
+import { verifyEmailWithHunter } from "@/lib/hunter-verify-email"
+import { verifyPhone } from "@/lib/veriphone-verify-phone"
 
 const REQUIRED_FIELDS = [
   "firstName",
@@ -40,6 +42,30 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const emailTrimmed = String(email).trim()
+    const hunter = await verifyEmailWithHunter(emailTrimmed)
+    if (!hunter.ok) {
+      return NextResponse.json(
+        { error: hunter.message, invalidField: "email" as const },
+        { status: 422 }
+      )
+    }
+
+    const phoneTrimmed = String(phoneNumber).trim()
+    const veriphoneKey = process.env.VERIPHONE_API_KEY
+    if (veriphoneKey) {
+      const verification = await verifyPhone(phoneTrimmed, veriphoneKey, "US")
+      if (!verification.valid) {
+        return NextResponse.json(
+          {
+            error: verification.error ?? "Invalid phone number",
+            field: "phoneNumber" as const,
+          },
+          { status: 400 }
+        )
+      }
+    }
+
     const forwarded = request.headers.get("x-forwarded-for")
     const firstForwarded = forwarded?.split(",")[0]
     const ip = firstForwarded
@@ -49,8 +75,8 @@ export async function POST(request: NextRequest) {
     const submittedPayload = {
       firstName,
       lastName,
-      email,
-      phoneNumber,
+      email: emailTrimmed,
+      phoneNumber: phoneTrimmed,
       zipCode,
       carYear,
       carMake,
@@ -79,13 +105,13 @@ export async function POST(request: NextRequest) {
         lp_subid3: subid3 ?? "",
         first_name: String(firstName).trim(),
         last_name: String(lastName).trim(),
-        email: String(email).trim(),
-        phone: String(phoneNumber).replace(/\D/g, ""),
+        email: emailTrimmed,
+        phone: phoneTrimmed.replace(/\D/g, ""),
         zip_code: String(zipCode).trim(),
-        car_year: String(carYear).trim(),
-        car_make: String(carMake).trim(),
-        car_model: String(carModel).trim(),
-        current_mileage: String(currentMileage).trim(),
+        Vehicle_Year: String(carYear).trim(),
+        Vehicle_Make: String(carMake).trim(),
+        Vehicle_Model: String(carModel).trim(),
+        Expected_Mileage: String(currentMileage).trim(),
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",
@@ -132,7 +158,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "Form submitted successfully",
-        redirectUrl: `/thankyou?email=${encodeURIComponent(String(email).trim())}`,
+        redirectUrl: `/thankyou?email=${encodeURIComponent(emailTrimmed)}`,
         accessToken,
         expiresAt,
       },

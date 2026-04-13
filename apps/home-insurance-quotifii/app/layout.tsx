@@ -5,7 +5,8 @@ import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
 
-const fontSans = Poppins({
+
+const fontPoppins = Poppins({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
@@ -39,7 +40,7 @@ export default function RootLayout({
       <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0132/1582.js" async={true}></script>
       </head>
       <body
-        className={`${fontSans.variable} ${fontSans.className} antialiased overflow-x-hidden overflow-y-auto`}
+        className={`${fontPoppins.variable} ${fontPoppins.className} antialiased overflow-x-hidden overflow-y-auto`}
       >
         <Providers>{children}</Providers>
         <Analytics />

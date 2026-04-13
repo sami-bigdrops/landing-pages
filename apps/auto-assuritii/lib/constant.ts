@@ -135,31 +135,35 @@ export const STEPS_CONTENT = {
 
 
 export const FEATURES_CONTENT = {
-  header: "Car Repairs Shouldn't Drain Your Savings",
-  description: "Modern Vehicles Are Expensive To Fix Once Factory Warranties End. A Single Breakdown Can Create A Bill You Didn't Plan For.",
+  header: "Protect Your Car and Your Wallet",
+  description:
+    "Car repairs can quickly add up, whether it's for minor parts or major system failures. With American Dream Warranty, you can rest easy knowing that your vehicle is covered when your warranty expires. Say goodbye to unexpected expenses and keep your car running smoothly for years to come.",
   features: [
     {
-      title: "Cars today cost more to repair",
-      description: "Advanced electronics and sensors raise service bills.",
+      title: "Protect Yourself",
+      description:
+        "Is your auto warranty expired or about to expire? Our Vehicle Protection Plans shield you from the high cost of parts and labor so you are not facing major repair bills on your own.",
       image: {
         src: "/feature-1.svg",
-        alt: "Cars today cost more to repair",
+        alt: "Protect Yourself",
       },
     },
     {
-      title: "Unexpected repair costs",
-      description: "Major mechanical fixes can run into thousands without warning.",
+      title: "Save Money",
+      description:
+        "We know that every driver's needs are unique. Choose from three flexible plans: Platinum, Gold, and Silver tailored to your budget and vehicle type, from full coverage to essential parts and labor protection.",
       image: {
         src: "/feature-2.svg",
-        alt: "Unexpected repair costs",
+        alt: "Save Money",
       },
     },
     {
-      title: "Breakdowns disrupt daily life",
-      description: "Missed work, family plans, and added stress.",
+      title: "Peace of Mind",
+      description:
+        "Know what to expect from your plan. Clear coverage details and support when you need to use your vehicle protection, so you can stay focused on driving.",
       image: {
         src: "/feature-3.svg",
-        alt: "Breakdowns disrupt daily life",
+        alt: "Peace of Mind",
       },
     },
   ],
@@ -274,15 +278,55 @@ export const FOOTER_CONTENT = {
     'A Vehicle Service Contract (VSC) is often referred to as an "auto warranty" or an "extended car warranty," but it is not a warranty. A VSC does, however, provide repair coverage for your vehicle after the manufacturer\'s car warranty expires. A VSC is a contract between you and a VSC provider or administrator that states what is a covered repair and what is not.',
 } as const
 
-export const THANKYOU_CONTENT = {
+export interface ThankYouType2FeatureCard {
+  title: string
+  bulletPoints: string[]
+  icon: "shield" | "building" | "check"
+}
+
+export interface ThankYouType2Content {
+  title: string
+  partnerName: string
+  partnerLogo: { src: string; alt: string }
+  confirmationMessage: string
+  aboutSectionTitle: string
+  featureCards: ThankYouType2FeatureCard[]
+}
+
+export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
   title: "Thank you!",
-  subtitle:
-    "Your request has been received. A vehicle protection specialist will contact you shortly with your quote.",
-  confirmationTitle:
-    "A confirmation message has been sent to your email address.",
-  confirmationDescription:
-    "The message contains next steps and how to get your quote. Please check your spam folder if you don't see it in your inbox.",
-  contactTitle: "For immediate assistance",
-  contactPhoneLabel: "(1800) 123 - 4567",
-  contactPhoneHref: "tel:+18001234567",
-} as const
+  partnerName: "American Dream Auto Protect",
+  partnerLogo: { src: "/american-dream-logo.svg", alt: "American Dream Warranty" },
+  confirmationMessage:
+    "Congratulations! You have been matched with American Dream Auto Protect (ADAP). A Customer Specialist will be contacting you soon with your quote and next steps.",
+  aboutSectionTitle: "Comprehensive Protection Plans for Your Car",
+  featureCards: [
+    {
+      title: "Protect Yourself",
+      icon: "shield",
+      bulletPoints: [
+        "Vehicle Protection Plans for when your factory warranty is expired or ending",
+        "Help shield yourself from high parts-and-labor costs on covered repairs",
+        "Drive with confidence: coverage designed for real-world breakdowns",
+      ],
+    },
+    {
+      title: "Save Money",
+      icon: "building",
+      bulletPoints: [
+        "Three flexible plans (Platinum, Gold, and Silver) for your budget and vehicle",
+        "From full coverage to essential parts and labor protection",
+        "Plans that keep repair costs low and help maintain your car in top condition",
+      ],
+    },
+    {
+      title: "Peace of Mind",
+      icon: "check",
+      bulletPoints: [
+        "Clear information about what your plan covers and how to use it",
+        "Support when you need to file a claim or find a qualified repair facility",
+        "Protection that helps you manage covered repairs with less financial surprise",
+      ],
+    },
+  ],
+}
