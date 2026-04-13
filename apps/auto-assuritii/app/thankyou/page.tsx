@@ -1,10 +1,9 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
-import { ThankYouContent } from "@workspace/bdmg-component"
-import type { ThankYouAd } from "@workspace/bdmg-component"
-import { THANKYOU_CONTENT } from "@/lib/constant"
+import { THANKYOU_TYPE2_CONTENT } from "@/lib/constant"
 import Navbar from "@/app/_components/Navbar"
 import Footer from "@/app/_components/Footer"
+import { ThankYouType2, type ThankYouAd } from "@/app/_components/ThankYouType2"
 
 const THANKYOU_ADS: ThankYouAd[] = [
   {
@@ -46,18 +45,11 @@ export default function ThankYouPage() {
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <Suspense fallback={<ThankYouLoading />}>
-        <ThankYouContent
-          title={THANKYOU_CONTENT.title}
-          subtitle={THANKYOU_CONTENT.subtitle}
-          showBuyerLogo={false}
-          confirmationTitle={THANKYOU_CONTENT.confirmationTitle}
-          confirmationDescription={THANKYOU_CONTENT.confirmationDescription}
-          contactTitle={THANKYOU_CONTENT.contactTitle}
-          contactPhoneLabel={THANKYOU_CONTENT.contactPhoneLabel}
-          contactPhoneHref={THANKYOU_CONTENT.contactPhoneHref}
-          redirectPath="/"
-          sendWelcomeEmail={false}
+        <ThankYouType2
+          content={THANKYOU_TYPE2_CONTENT}
           ads={THANKYOU_ADS}
+          redirectPath="/"
+          loadingFallback={<ThankYouLoading />}
         />
       </Suspense>
       <Footer />
