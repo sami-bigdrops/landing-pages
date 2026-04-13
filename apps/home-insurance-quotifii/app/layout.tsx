@@ -1,5 +1,5 @@
-import { Poppins } from "next/font/google"
 import { Metadata } from "next"
+import { Poppins } from "next/font/google"
 
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
@@ -8,7 +8,7 @@ import { Providers } from "@/components/providers"
 
 const fontPoppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-poppins",
   display: "swap",
   weight: ["400", "500", "600", "700"],
 })

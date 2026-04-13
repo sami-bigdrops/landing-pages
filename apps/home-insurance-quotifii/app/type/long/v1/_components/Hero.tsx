@@ -78,13 +78,13 @@ export default function Hero() {
   return (
     <div className="relative w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[510px]">
       <div
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-full bg-[position:center]  lg:bg-[position:right_center]"
         style={{
           backgroundImage: "url('/hero-bg.webp')",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundPosition: "right 50%"
-        }}
+          
+        }} 
       />
       <div
         className="absolute inset-0 w-full h-full bg-black/40"

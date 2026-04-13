@@ -29,11 +29,11 @@ export const PARTNERS_CONTENT = {
 } as const
 
 export const OPTIONS_CONTENT = {
-  header: "A Better Rate Could Be Waiting In Your ZIP",
-  description: "Tell us the basics and we’ll line up options worth a look.",
+  header: "A Better Home Insurance Plan Could Be Waiting in Your ZIP",
+  description: "Tell us a few details and compare top options instantly",
 
   image: {
-    src: "/quokka.webp",
+    src: "/option.webp",
     alt: "Quokka Image",
   },
   
@@ -115,6 +115,47 @@ export const FEATURES_CONTENT = {
     },
   ],
 } as const
+
+export const COVER_CONTENT = {
+  header: "What Does Home Insurance Typically Cover?",
+  items: [
+    {
+      title: "Rebuilding costs",
+      description: "Covers damage to your home structure",
+      image: {
+        src: "/cover-1.webp",
+        alt: "Rebuilding costs",
+      },
+    },
+    {
+      title: "Personal belongings",
+      description: "Protects furniture, electronics, and valuables",
+      image: {
+        src: "/cover-2.webp",
+        alt: "Personal belongings",
+      },
+    },
+    {
+      title: "Liability protection",
+      description: "Covers accidents and legal responsibilities",
+      image: {
+        src: "/cover-3.webp",
+        alt: "Liability protection",
+      },
+    },
+    {
+      title: "Living Expenses",
+      description: "Pays for temporary stay if needed",
+      image: {
+        src: "/cover-4.webp",
+        alt: "Living Expenses",
+      },
+    },
+  ],
+} as const
+
+
+
 
 export const FOOTER_CONTENT = {
   description: "The Smart Way to Shop For Insurance.",

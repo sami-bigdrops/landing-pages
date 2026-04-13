@@ -9,12 +9,9 @@ export default function Footer() {
     <FooterUI
       type="long"
       bgColor="#003599"
-      logo={<Image src="/footer-logo.svg" alt="Veterans Quotifii" width={120} height={40} className="w-40 h-auto object-contain" />}
-      description={FOOTER_CONTENT.description}
+      logo={<Image src="/footer-logo.svg" alt="Home Insurance Quotifii" width={120} height={40} className="w-40 h-auto object-contain" />}
       descriptionClassName="max-w-full font-inter"
       links={[...FOOTER_CONTENT.links]}
-      disclaimer={FOOTER_CONTENT.disclaimer}
-      disclaimerClassName="max-w-4xl font-inter"
       copyrightText={FOOTER_CONTENT.copyrightText}
     />
   )
