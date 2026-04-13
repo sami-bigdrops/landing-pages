@@ -78,7 +78,7 @@ const [user] = await db.insert(users).values({
   firstName: "John",
   lastName: "Doe",
   email: "john@example.com",
-  phoneNumber: "1234567890",
+  phoneNumber: "8559163700",
   zipCode: "12345",
 }).returning()
 

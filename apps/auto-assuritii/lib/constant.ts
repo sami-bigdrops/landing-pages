@@ -1,3 +1,9 @@
+export const SUPPORT_PHONE = {
+  display: "1-855-916-3700",
+  tel: "+18559163700",
+  placeholder: "(855) 916-3700",
+} as const
+
 export const COLORS_CONSTANTS = {
   white: "#FFFFFF",
   heading: "#111827",
@@ -88,7 +94,7 @@ export const FORM_CONTENT = {
     },
     phoneNumber: {
       label: "Phone Number",
-      placeholder: "(123) 4567-890",
+      placeholder: SUPPORT_PHONE.placeholder,
     },
     zipCode: {
       label: "Zip Code",

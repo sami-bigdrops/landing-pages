@@ -393,7 +393,7 @@ export default function Form() {
             <PhoneNumberInputUI
               label={FORM_CONTENT.fields.phoneNumber.label}
               value={phoneNumber}
-              placeholder="(123) 4567 - 890"
+              placeholder={FORM_CONTENT.fields.phoneNumber.placeholder}
               onChange={(value) => {
                 setPhoneNumber(value)
                 clearFieldError("phoneNumber")

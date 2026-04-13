@@ -1,6 +1,7 @@
 "use client"
 import { Navbar as NavbarUI } from "@workspace/ui/components/navbar"
 import Image from "next/image"
+import { SUPPORT_PHONE } from "@/lib/constant"
 
 export default function Navbar() {
     return (
@@ -21,8 +22,8 @@ export default function Navbar() {
         contactText="Call Now"
         contactTextClassName="text-lg text-zinc-900 font-semibold hidden md:inline"
         showContactIcon={false}
-        contactHref="tel:+18001234567"
-        contactLabel="(1800) 123 - 4567"
+        contactHref={`tel:${SUPPORT_PHONE.tel}`}
+        contactLabel={SUPPORT_PHONE.display}
         contactButton={{
             type: "1",
             variant: "ghost",
