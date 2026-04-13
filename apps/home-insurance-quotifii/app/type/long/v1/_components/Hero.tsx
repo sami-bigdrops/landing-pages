@@ -11,7 +11,7 @@ import { HERO_CONTENT } from "@/lib/constant";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://home-quote.quotifii.com";
+const BASE_URL = "https://home.quotifii.com";
 
 export default function Hero() {
   useUtmParams(30);
@@ -177,7 +177,7 @@ export default function Hero() {
                       variant="default"
                       onClick={handleContinue}
                       disabled={isRedirecting || !zipValid}
-                      className="h-14 md:h-14.5 xl:h-18 w-[180px] md:w-[170px] lg:w-[180px] xl:w-[232px] shrink-0 rounded-[10px] cursor-pointer text-white font-medium font-poppins text-sm  xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md bg-[#F16601] hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed bg-[#F16601]"
+                      className="h-14 md:h-14.5 xl:h-18 w-[180px] md:w-[170px] lg:w-[180px] xl:w-[232px] shrink-0 rounded-[10px] cursor-pointer text-white font-medium font-poppins text-sm  xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed bg-[#F16601]"
                     >
                       {isRedirecting ? "Redirecting..." : <>Request My Quotes </>}
                     </Button>
