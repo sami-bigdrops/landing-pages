@@ -5,7 +5,10 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 
-import { UTM_PRODUCT_TABS } from "@/lib/utm-products"
+import {
+  UTM_PRODUCT_TABS,
+  filterUtmRowsForProductDisplay,
+} from "@/lib/utm-products"
 import type { UtmProductId } from "@/lib/utm-products"
 
 type UTMParam = {
@@ -22,11 +25,24 @@ type EditableParam = {
   status: ParamStatus
 }
 
+const PARAM_GROUPS = [
+  { key: "utm_source", label: "Source", description: "utm_source" },
+  { key: "utm_s1", label: "S1", description: "utm_s1" },
+] as const
+
+function sortParamsByKeyThenValue<T extends { key: string; value: string }>(items: T[]): T[] {
+  return [...items].sort((a, b) => {
+    const byKey = a.key.localeCompare(b.key)
+    if (byKey !== 0) return byKey
+    return a.value.localeCompare(b.value, undefined, { sensitivity: "base" })
+  })
+}
+
 function buildEditableParams(active: UTMParam[], blocked: UTMParam[]): EditableParam[] {
-  return [
+  return sortParamsByKeyThenValue([
     ...active.map((item) => ({ ...item, status: "active" as const })),
     ...blocked.map((item) => ({ ...item, status: "blocked" as const })),
-  ].sort((a, b) => a.value.localeCompare(b.value))
+  ])
 }
 
 function splitByStatus(items: EditableParam[]) {
@@ -45,11 +61,13 @@ function ParamsPanel({
   items,
   tone,
   headerActions,
+  emptyMessage,
 }: {
   title: string
   items: UTMParam[]
   tone: "danger" | "success"
   headerActions?: React.ReactNode
+  emptyMessage: string
 }) {
   const toneStyles =
     tone === "danger"
@@ -59,9 +77,10 @@ function ParamsPanel({
           badge: "bg-rose-100 text-rose-700 ring-1 ring-rose-200/80",
           title: "text-rose-700",
           subtitle: "text-rose-700/70",
-          chip:
-            "border-rose-200/70 bg-white text-rose-700 hover:bg-rose-50 hover:border-rose-300",
-          chipDot: "bg-rose-500/70",
+          rowBorder: "border-rose-100",
+          rowBg: "bg-white hover:bg-rose-50/40",
+          typeBadge: "bg-rose-100/90 text-rose-800 ring-1 ring-rose-200/60",
+          valueText: "text-rose-900",
         }
       : {
           border: "border-teal-200/70",
@@ -69,17 +88,31 @@ function ParamsPanel({
           badge: "bg-teal-100 text-teal-700 ring-1 ring-teal-200/80",
           title: "text-teal-700",
           subtitle: "text-teal-700/70",
-          chip:
-            "border-teal-200/70 bg-white text-teal-700 hover:bg-teal-50 hover:border-teal-300",
-          chipDot: "bg-teal-500/70",
+          rowBorder: "border-teal-100",
+          rowBg: "bg-white hover:bg-teal-50/40",
+          typeBadge: "bg-teal-100/90 text-teal-800 ring-1 ring-teal-200/60",
+          valueText: "text-teal-900",
         }
+
+  const sorted = sortParamsByKeyThenValue(items)
+  const byKey = new Map<string, UTMParam[]>()
+  for (const row of sorted) {
+    const list = byKey.get(row.key) ?? []
+    list.push(row)
+    byKey.set(row.key, list)
+  }
+
+  const knownKeySet = new Set<string>(PARAM_GROUPS.map((g) => g.key))
+  const unknownKeys = Array.from(byKey.keys())
+    .filter((k) => !knownKeySet.has(k))
+    .sort((a, b) => a.localeCompare(b))
 
   return (
     <section
-      className={`rounded-2xl border bg-white p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5 ${toneStyles.border}`}
+      className={`flex flex-col rounded-2xl border bg-white shadow-sm transition-shadow hover:shadow-md ${toneStyles.border}`}
     >
-      <div className={`rounded-xl px-3 py-2 sm:px-4 ${toneStyles.header}`}>
-        <div className="flex items-center justify-between gap-3">
+      <div className={`rounded-t-2xl px-4 py-3 sm:px-5 sm:py-3.5 ${toneStyles.header}`}>
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h3 className={`text-base font-semibold sm:text-lg ${toneStyles.title}`}>{title}</h3>
             <p className={`text-xs ${toneStyles.subtitle}`}>
@@ -91,23 +124,109 @@ function ParamsPanel({
             <span
               className={`rounded-full px-2.5 py-1 text-xs font-semibold tabular-nums ${toneStyles.badge}`}
             >
-              {items.length} params
+              {items.length} {items.length === 1 ? "param" : "params"}
             </span>
           </div>
         </div>
       </div>
-      <ul className="mt-4 flex flex-wrap gap-2.5">
-        {items.map((item) => (
-          <li
-            key={`${item.key}:${item.value}`}
-            className={`inline-flex w-fit max-w-full items-center gap-1.5 rounded-full border px-3 py-2 text-sm font-medium leading-none transition-all ${toneStyles.chip}`}
-            title={`${item.key}=${item.value}`}
-          >
-            <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${toneStyles.chipDot}`} />
-            {item.value}
-          </li>
-        ))}
-      </ul>
+
+      {items.length === 0 ? (
+        <div className="border-t border-zinc-100 px-4 py-10 text-center sm:px-5">
+          <p className="text-sm text-zinc-500">{emptyMessage}</p>
+        </div>
+      ) : (
+        <div className="border-t border-zinc-100">
+          <div className="hidden grid-cols-[minmax(0,7rem)_1fr] gap-0 border-b border-zinc-200 bg-zinc-50/90 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 sm:grid sm:px-5">
+            <span>Type</span>
+            <span>Value</span>
+          </div>
+          <div className="divide-y divide-zinc-100">
+            {PARAM_GROUPS.map((group) => {
+              const rows = byKey.get(group.key) ?? []
+              if (rows.length === 0) return null
+              return (
+                <div key={group.key} className="border-b border-zinc-100 last:border-b-0">
+                  <div className="bg-zinc-50/50 px-4 py-2 text-xs font-semibold text-zinc-600 sm:px-5">
+                    {group.label}{" "}
+                    <span className="font-normal text-zinc-400">({group.description})</span>
+                    <span className="ml-2 tabular-nums text-zinc-500">{rows.length}</span>
+                  </div>
+                  <ul className="divide-y divide-zinc-100">
+                    {rows.map((item) => (
+                      <li
+                        key={`${item.key}:${item.value}`}
+                        className={`grid grid-cols-1 gap-1 px-4 py-2.5 sm:grid-cols-[minmax(0,7rem)_1fr] sm:items-center sm:gap-4 sm:px-5 ${toneStyles.rowBg}`}
+                      >
+                        <div className="flex sm:hidden">
+                          <span
+                            className={`inline-flex w-fit max-w-full rounded-md px-2 py-0.5 text-xs font-semibold ${toneStyles.typeBadge}`}
+                          >
+                            {group.label}
+                          </span>
+                        </div>
+                        <span
+                          className={`hidden text-xs font-semibold sm:inline ${toneStyles.typeBadge} rounded-md px-2 py-1 text-center`}
+                        >
+                          {group.label}
+                        </span>
+                        <span
+                          className={`min-w-0 break-all text-sm font-medium ${toneStyles.valueText}`}
+                          title={`${item.key}=${item.value}`}
+                        >
+                          {item.value}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            })}
+            {unknownKeys.map((keyName) => {
+              const rows = byKey.get(keyName) ?? []
+              if (rows.length === 0) return null
+              const keyShort =
+                keyName.length > 14 ? `${keyName.slice(0, 14)}…` : keyName
+              return (
+                <div key={keyName} className="border-b border-zinc-100 last:border-b-0">
+                  <div className="bg-amber-50/40 px-4 py-2 text-xs font-semibold text-amber-900 sm:px-5">
+                    <span className="font-mono">{keyName}</span>
+                    <span className="ml-2 tabular-nums font-normal text-amber-800">{rows.length}</span>
+                  </div>
+                  <ul className="divide-y divide-zinc-100">
+                    {rows.map((item) => (
+                      <li
+                        key={`${item.key}:${item.value}`}
+                        className={`grid grid-cols-1 gap-1 px-4 py-2.5 sm:grid-cols-[minmax(0,7rem)_1fr] sm:items-center sm:gap-4 sm:px-5 ${toneStyles.rowBg}`}
+                      >
+                        <div className="flex sm:hidden">
+                          <span
+                            className={`inline-flex max-w-full rounded-md px-2 py-0.5 font-mono text-xs font-semibold ${toneStyles.typeBadge}`}
+                            title={keyName}
+                          >
+                            {keyShort}
+                          </span>
+                        </div>
+                        <span
+                          className={`hidden font-mono text-xs font-semibold sm:inline ${toneStyles.typeBadge} rounded-md px-2 py-1 text-center`}
+                          title={keyName}
+                        >
+                          {keyShort}
+                        </span>
+                        <span
+                          className={`min-w-0 break-all text-sm font-medium ${toneStyles.valueText}`}
+                          title={`${item.key}=${item.value}`}
+                        >
+                          {item.value}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
     </section>
   )
 }
@@ -180,12 +299,17 @@ export default function UtmParamsColumns({ productId }: Props) {
         items?: Array<{ key: string; value: string; status: ParamStatus }>
       }
       if (!data.items) return
-      const active = data.items
-        .filter((item) => item.status === "active")
-        .map((item) => ({ key: item.key, value: item.value }))
-      const blocked = data.items
-        .filter((item) => item.status === "blocked")
-        .map((item) => ({ key: item.key, value: item.value }))
+      const visible = filterUtmRowsForProductDisplay(productId, data.items)
+      const active = sortParamsByKeyThenValue(
+        visible
+          .filter((item) => item.status === "active")
+          .map((item) => ({ key: item.key, value: item.value }))
+      )
+      const blocked = sortParamsByKeyThenValue(
+        visible
+          .filter((item) => item.status === "blocked")
+          .map((item) => ({ key: item.key, value: item.value }))
+      )
       setActiveItems(active)
       setBlockedItems(blocked)
     } catch (error) {
@@ -319,7 +443,15 @@ export default function UtmParamsColumns({ productId }: Props) {
           Edit
         </Button>
       </div>
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div
+        className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3"
+        role="group"
+        aria-label="Filter UTM list by parameter type"
+      >
+        <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+          Filter
+        </span>
+        <div className="flex flex-wrap gap-2">
         <button
           type="button"
           onClick={() => setCardFilter("all")}
@@ -353,13 +485,20 @@ export default function UtmParamsColumns({ productId }: Props) {
         >
           S1
         </button>
+        </div>
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
-        <ParamsPanel title="Active UTM Params" items={filteredActiveItems} tone="success" />
+        <ParamsPanel
+          title="Active UTM Params"
+          items={filteredActiveItems}
+          tone="success"
+          emptyMessage="No active UTM parameters for this filter. Traffic with new source or S1 values will appear here once recorded."
+        />
         <ParamsPanel
           title="Blocked UTM Params"
           items={filteredBlockedItems}
           tone="danger"
+          emptyMessage="No blocked UTM parameters. Add blocked values manually or mark entries as blocked in Edit."
           headerActions={
             <button
               type="button"

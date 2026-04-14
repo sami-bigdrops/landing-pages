@@ -18,3 +18,18 @@ export function parseUtmProductIdParam(raw: string | null): UtmProductId {
   if (isUtmProductId(raw)) return raw
   return DEFAULT_UTM_PRODUCT_ID
 }
+
+export const UTM_PARAM_KEYS_SHOWN_FOR_PRODUCT: Partial<
+  Record<UtmProductId, ReadonlySet<string>>
+> = {
+  home_insurance_quotifii: new Set(["utm_source", "utm_s1"]),
+}
+
+export function filterUtmRowsForProductDisplay<T extends { key: string }>(
+  productId: UtmProductId,
+  rows: T[]
+): T[] {
+  const allowed = UTM_PARAM_KEYS_SHOWN_FOR_PRODUCT[productId]
+  if (!allowed) return rows
+  return rows.filter((row) => allowed.has(row.key))
+}
