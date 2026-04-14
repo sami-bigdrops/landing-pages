@@ -23,15 +23,6 @@ export default function Form({ embedInModal, phonePlaceholder = "Phone Number", 
   const [phoneNumber, setPhoneNumber] = useState("")
   const [email, setEmail] = useState("")
   const [isHomeowner, setIsHomeowner] = useState("")
-  const [thankYouPartner, setThankYouPartner] = useState<
-    "adt" | "vivint" | "brinkshome"
-  >("adt")
-
-  const partnerInterestOptions = [
-    { value: "adt" as const, label: "ADT" },
-    { value: "vivint" as const, label: "Vivint" },
-    { value: "brinkshome" as const, label: "Brinks Home" },
-  ]
 
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
@@ -85,7 +76,6 @@ export default function Form({ embedInModal, phonePlaceholder = "Phone Number", 
       subid3: getCookie("subid3") ?? "",
       xxTrustedFormCertUrl: certInput?.value ?? "",
       xxTrustedFormToken: tokenInput?.value ?? "",
-      thankYouPartner,
     }
 
     try {
@@ -230,26 +220,6 @@ export default function Form({ embedInModal, phonePlaceholder = "Phone Number", 
                 layout="row"
                 className={compact ? "flex flex-row gap-1.5 !text-sm" : "flex flex-row gap-2 xl:gap-3 !text-sm"}
                 optionClassName={`flex-1 justify-center items-center text-center min-w-0 border border-[#D1D5DB] bg-white text-[#111827] !text-sm transition-colors transition-colors transition duration-200 ease-in-out has-[:checked]:border-[#3498DB] has-[:checked]:bg-[#3498DB] has-[:checked]:text-white ${compact ? "rounded-[5px] py-2 h-[42px]" : "rounded-[5px] py-2 xl:py-3 h-[50px]"}`}
-              />
-            </div>
-
-            <div className="w-full mt-1 mb-1">
-              <p
-                className={`font-semibold text-[#111827] text-[0.8rem] ${compact ? "text-sm mb-1.5" : "text-sm mb-2 xl:mb-2.5"}`}
-              >
-                Which provider are you interested in?
-              </p>
-              <RadioButtonGroup
-                name="thankYouPartner"
-                options={partnerInterestOptions}
-                value={thankYouPartner}
-                onChange={(value) =>
-                  setThankYouPartner(value as "adt" | "vivint" | "brinkshome")
-                }
-                type="3"
-                layout="column"
-                className={compact ? "flex flex-col gap-1.5 !text-sm" : "flex flex-col gap-2 !text-sm"}
-                optionClassName={`w-full justify-center items-center text-center min-w-0 border border-[#D1D5DB] bg-white text-[#111827] !text-sm transition-colors transition duration-200 ease-in-out has-[:checked]:border-[#3498DB] has-[:checked]:bg-[#3498DB] has-[:checked]:text-white ${compact ? "rounded-[5px] py-2.5 px-2" : "rounded-[5px] py-3 px-2"}`}
               />
             </div>
           </div>
