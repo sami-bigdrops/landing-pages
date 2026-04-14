@@ -1,7 +1,7 @@
 export const SUPPORT_PHONE = {
-  display: "1-855-916-3700",
-  tel: "+18559163700",
-  placeholder: "(855) 916-3700",
+  display: "1-844-310-0460",
+  tel: "+18443100460",
+  placeholder: "(844) 310-0460",
 } as const
 
 export const COLORS_CONSTANTS = {
