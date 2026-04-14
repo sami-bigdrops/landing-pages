@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 
+import { isThankYouPartnerSlug, type ThankYouPartnerSlug } from "@/lib/constant"
 import { sendSubmissionConfirmationEmail } from "@/lib/send-submission-email"
 
 const REQUIRED_FIELDS = [
@@ -62,6 +63,12 @@ export async function POST(request: NextRequest) {
       xxTrustedFormCertUrl,
       isHomeowner,
     } = body
+
+    const rawPartner =
+      typeof body.thankYouPartner === "string" ? body.thankYouPartner.trim() : ""
+    const thankYouPartner: ThankYouPartnerSlug = isThankYouPartnerSlug(rawPartner)
+      ? rawPartner
+      : "adt"
 
     const address = typeof body.address === "string" ? body.address : ""
     const city = typeof body.city === "string" ? body.city : ""
@@ -202,6 +209,7 @@ export async function POST(request: NextRequest) {
       to: String(email).trim(),
       firstName: String(firstName).trim(),
       lastName: String(lastName).trim(),
+      thankYouPartner,
     })
     if (sent) {
       console.log("[submit-form] confirmation email sent")
@@ -216,7 +224,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "Form submitted successfully",
-        redirectUrl: `/thankyou?email=${encodeURIComponent(String(email).trim())}`,
+        redirectUrl: `/thankyou/${thankYouPartner}?email=${encodeURIComponent(String(email).trim())}`,
         accessToken,
         expiresAt,
       },

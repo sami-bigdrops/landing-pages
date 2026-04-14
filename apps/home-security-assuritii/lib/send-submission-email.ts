@@ -1,6 +1,11 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
-import { COVER_CONTENT, THANKYOU_TYPE2_CONTENT } from "@/lib/constant";
+import {
+  COVER_CONTENT,
+  THANKYOU_CONTENT_BY_PARTNER,
+  type ThankYouPartnerSlug,
+  isThankYouPartnerSlug,
+} from "@/lib/constant";
 
 const region = process.env.AWS_REGION || "us-east-1";
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
@@ -36,6 +41,7 @@ export interface SubmissionEmailParams {
   to: string;
   firstName: string;
   lastName: string;
+  thankYouPartner?: ThankYouPartnerSlug;
 }
 
 export async function sendSubmissionConfirmationEmail(
@@ -55,11 +61,25 @@ export async function sendSubmissionConfirmationEmail(
   }
 
   const firstName = params.firstName?.trim() || "there";
-  const partnerName = THANKYOU_TYPE2_CONTENT.partnerName;
-  const { confirmationMessage, emailConfirmationNotice } =
-    THANKYOU_TYPE2_CONTENT;
+  const slug: ThankYouPartnerSlug =
+    params.thankYouPartner && isThankYouPartnerSlug(params.thankYouPartner)
+      ? params.thankYouPartner
+      : "adt";
+  const tyContent = THANKYOU_CONTENT_BY_PARTNER[slug];
+  const partnerName = tyContent.partnerName;
+  const { confirmationMessage, emailConfirmationNotice } = tyContent;
   const phone = COVER_CONTENT.callToAction;
   const subject = "Thank you for your response!";
+
+  const siteBase = (
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://www.home.assuritii.com"
+  ).replace(/\/$/, "");
+  const emailDir =
+    slug === "vivint" ? "vivint" : slug === "brinkshome" ? "brinkshome" : "adt";
+  const img1 = `${siteBase}/email/${emailDir}/content-1.png`;
+  const img2 = `${siteBase}/email/${emailDir}/content-2.png`;
+  const img3 = `${siteBase}/email/${emailDir}/content-3.png`;
+  const phoneHref = phone.phoneHref.replace(/^tel:/, "");
 
   const htmlBody = `
 <!DOCTYPE html>
@@ -172,19 +192,19 @@ export async function sendSubmissionConfirmationEmail(
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="layout" style="width:100%;max-width:600px;border-collapse:collapse;margin:0 auto;">
       <tr>
         <td style="padding:0;line-height:0;font-size:0;">
-          <img class="email-banner-img" src="https://www.home.assuritii.com/email/content-1.png" alt="Thank you for choosing First Premier Home Warranty" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
+          <img class="email-banner-img" src="${img1}" alt="${escapeHtml(partnerName)}" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
         </td>
       </tr>
       <tr>
         <td style="padding:0;line-height:0;font-size:0;">
-          <a href="tel:+18559163700" style="display:block;line-height:0;">
-            <img class="email-banner-img" src="https://www.home.assuritii.com/email/content-2.png" alt="Call to speak with a specialist" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
+          <a href="tel:${phoneHref}" style="display:block;line-height:0;">
+            <img class="email-banner-img" src="${img2}" alt="Call to speak with a specialist" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
           </a>
         </td>
       </tr>
       <tr>
         <td style="padding:0;line-height:0;font-size:0;">
-          <img class="email-banner-img" src="https://www.home.assuritii.com/email/content-3.png" alt="First Premier Home Warranty" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
+          <img class="email-banner-img" src="${img3}" alt="${escapeHtml(partnerName)}" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
         </td>
       </tr>
       <tr>

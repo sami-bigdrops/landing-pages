@@ -255,6 +255,14 @@ export const THANKYOU_CONTENT = {
   contactPhoneHref: "tel:+18559163700",
 } as const
 
+export const COVER_CONTENT = {
+  callToAction: {
+    contactText: THANKYOU_CONTENT.contactTitle,
+    phoneNumber: THANKYOU_CONTENT.contactPhoneLabel,
+    phoneHref: THANKYOU_CONTENT.contactPhoneHref,
+  },
+} as const
+
 export interface ThankYouType2FeatureCard {
   title: string
   bulletPoints: string[]
@@ -272,45 +280,144 @@ export interface ThankYouType2Content {
   featureCards: ThankYouType2FeatureCard[]
 }
 
-export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
-  title: "Thank you!",
-  partnerName: "First Premier Home Warranty",
-  partnerLogo: { src: "/first-premier.png", alt: "First Premier Home Warranty" },
-  confirmationMessage:
-    "You're matched with First Premier Home Warranty. A specialist will contact you soon.",
-  emailConfirmationNotice:
-    "We've sent a confirmation email to your inbox. If you don't see it within a few minutes, check your spam or junk folder.",
-  aboutSectionTitle: "Why Choose First Premier Home Warranty",
-  featureCards: [
-    {
-      title: "Our Mission: Budget-friendly Plans",
-      icon: "shield",
-      bulletPoints: [
-        "Getting the best home warranty should not mean stretching your finances.",
-        "Plans priced so every homeowner can access solid, reliable coverage.",
-        "Whether you are a first-time buyer or a long-time homeowner, there is a plan built for your situation.",
-      ],
-    },
-    {
-      title: "Wide Network of Technicians",
-      icon: "building",
-      bulletPoints: [
-        "When things go wrong, we connect you with experienced contractors.",
-        "From diagnosis to repair, with efficiency and care your home deserves.",
-        "Less stress finding help when you need it most.",
-      ],
-    },
-    {
-      title: "Nationwide Coverage",
-      icon: "check",
-      bulletPoints: [
-        "Wherever you own a home, we work to keep you protected.",
-        "Coverage options that fit different households, budgets, and needs.",
-        "Dependable protection so you can focus on living in your home, not stressing over repairs.",
-      ],
-    },
-  ],
+export const THANKYOU_PARTNER_SLUGS = ["adt", "vivint", "brinkshome"] as const
+export type ThankYouPartnerSlug = (typeof THANKYOU_PARTNER_SLUGS)[number]
+
+export const THANKYOU_CONTENT_BY_PARTNER: Record<ThankYouPartnerSlug, ThankYouType2Content> = {
+  adt: {
+    title: "Thank you!",
+    partnerName: "ADT",
+    partnerLogo: { src: "/partner-1.svg", alt: "ADT" },
+    confirmationMessage:
+      "Congratulations! You have been matched with ADT. A security specialist will contact you soon with next steps for your home.",
+    emailConfirmationNotice:
+      "We've sent a confirmation email to your inbox. If you don't see it within a few minutes, check your spam or junk folder.",
+    aboutSectionTitle: "Why homeowners choose ADT",
+    featureCards: [
+      {
+        title: "Professional monitoring",
+        icon: "shield",
+        bulletPoints: [
+          "24/7 monitoring centers ready to dispatch help when alarms go off",
+          "Trained professionals watch over your home around the clock",
+          "Fast response when seconds matter",
+        ],
+      },
+      {
+        title: "Smart home security",
+        icon: "building",
+        bulletPoints: [
+          "Integrate cameras, sensors, and smart locks in one ecosystem",
+          "Control and get alerts from your phone, wherever you are",
+          "Options for professional installation and ongoing support",
+        ],
+      },
+      {
+        title: "Trusted nationwide",
+        icon: "check",
+        bulletPoints: [
+          "A recognized name in home security with broad U.S. coverage",
+          "Flexible packages to fit different homes and budgets",
+          "Help choosing the right equipment for doors, windows, and interior spaces",
+        ],
+      },
+    ],
+  },
+  vivint: {
+    title: "Thank you!",
+    partnerName: "Vivint",
+    partnerLogo: { src: "/partner-2.svg", alt: "Vivint" },
+    confirmationMessage:
+      "Congratulations! You have been matched with Vivint. A specialist will reach out shortly to discuss smart security options for your home.",
+    emailConfirmationNotice:
+      "We've sent a confirmation email to your inbox. If you don't see it within a few minutes, check your spam or junk folder.",
+    aboutSectionTitle: "Why homeowners choose Vivint",
+    featureCards: [
+      {
+        title: "All-in-one smart security",
+        icon: "shield",
+        bulletPoints: [
+          "Connected devices that work together from a single app",
+          "Professional monitoring available for added peace of mind",
+          "Designed for modern smart homes",
+        ],
+      },
+      {
+        title: "Pro installation and support",
+        icon: "building",
+        bulletPoints: [
+          "Expert setup so sensors, panels, and cameras are placed correctly",
+          "Support when you need to adjust settings or add devices",
+          "Clear guidance on how to use your system day to day",
+        ],
+      },
+      {
+        title: "Control from anywhere",
+        icon: "check",
+        bulletPoints: [
+          "Arm, disarm, and view activity from your phone",
+          "Notifications when something needs your attention",
+          "Flexible plans so you can scale protection over time",
+        ],
+      },
+    ],
+  },
+  brinkshome: {
+    title: "Thank you!",
+    partnerName: "Brinks Home",
+    partnerLogo: { src: "/partner-3.svg", alt: "Brinks Home" },
+    confirmationMessage:
+      "Congratulations! You have been matched with Brinks Home. A representative will contact you soon about protecting your home.",
+    emailConfirmationNotice:
+      "We've sent a confirmation email to your inbox. If you don't see it within a few minutes, check your spam or junk folder.",
+    aboutSectionTitle: "Why homeowners choose Brinks Home",
+    featureCards: [
+      {
+        title: "Flexible protection",
+        icon: "shield",
+        bulletPoints: [
+          "Options for intrusion, environmental, and life-safety monitoring",
+          "Choose features that match how you live",
+          "Support finding the right mix of equipment and service",
+        ],
+      },
+      {
+        title: "Experienced monitoring",
+        icon: "building",
+        bulletPoints: [
+          "Monitoring designed to help when alarms trigger",
+          "Clear escalation so you know what to expect",
+          "Nationwide presence trusted by many households",
+        ],
+      },
+      {
+        title: "Simple next steps",
+        icon: "check",
+        bulletPoints: [
+          "A specialist walks you through quote and install options",
+          "Straightforward answers about contracts and equipment",
+          "Focus on getting your home protected without guesswork",
+        ],
+      },
+    ],
+  },
 }
+
+export function getThankYouContentForPartner(
+  slug: string | null | undefined
+): ThankYouType2Content | null {
+  if (!slug) return null
+  if (slug in THANKYOU_CONTENT_BY_PARTNER) {
+    return THANKYOU_CONTENT_BY_PARTNER[slug as ThankYouPartnerSlug]
+  }
+  return null
+}
+
+export function isThankYouPartnerSlug(s: string): s is ThankYouPartnerSlug {
+  return THANKYOU_PARTNER_SLUGS.includes(s as ThankYouPartnerSlug)
+}
+
+export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = THANKYOU_CONTENT_BY_PARTNER.adt
 
 export const REJECTED_PAGE_CONTENT = {
   title: "We couldn’t complete your submission",

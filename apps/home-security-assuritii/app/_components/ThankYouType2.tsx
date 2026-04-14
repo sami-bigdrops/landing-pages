@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Shield, Building2, CheckCircle, Mail } from "lucide-react"
+import { cn } from "@workspace/ui/lib/utils"
 import type { ThankYouType2Content } from "@/lib/constant"
 
 const ICON_MAP = {
@@ -81,13 +82,17 @@ export function ThankYouType2({
   if (isLoading) {
     if (loadingFallback) return <>{loadingFallback}</>
     return (
-      <main className="flex min-h-[50vh] flex-1 items-center justify-center bg-slate-50 px-6 py-20">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-slate-200 border-t-[#1e3a5f]" />
+      <main className="flex min-h-[50vh] items-center justify-center bg-white px-6 py-20">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-gray-200 border-t-sky-600" />
       </main>
     )
   }
 
   if (!isAuthorized) return null
+
+  const isAdtLogo =
+    content.partnerLogo.src === "/partner-1.svg" ||
+    content.partnerLogo.src.endsWith("/partner-1.svg")
 
   const replaceUtm = (link: string) =>
     link
@@ -95,76 +100,69 @@ export function ThankYouType2({
       .replace(/\$\{utm_id\}/g, utmParams.utm_id)
 
   return (
-    <main className="flex w-full flex-1 flex-col bg-gradient-to-b from-slate-100/90 via-white to-slate-50">
-      <section className="px-4 pb-10 pt-6 sm:px-6 sm:pb-14 sm:pt-8">
-        <div className="mx-auto max-w-lg sm:max-w-xl">
-          <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-[0_4px_24px_-4px_rgba(15,36,64,0.08)] sm:p-8 md:p-10">
-            <h1 className="text-center text-2xl font-bold tracking-tight text-[#1e3a5f] sm:text-[1.75rem] sm:leading-tight">
-              {content.title}
-            </h1>
+    <main className="min-h-screen bg-white">
+      <section className="px-4 py-10 sm:px-6 sm:py-14 lg:py-20">
+        <div className="mx-auto max-w-5xl text-center">
+          <h1 className="text-2xl font-bold tracking-tight text-[#1e3a5f] sm:text-3xl">
+            {content.title}
+          </h1>
 
-            <div className="mt-6 flex justify-center sm:mt-8">
-              <Image
-                src={content.partnerLogo.src}
-                alt={content.partnerLogo.alt}
-                width={320}
-                height={140}
-                className="h-auto w-full max-w-[300px] object-contain sm:max-w-[320px]"
-                priority
-              />
-            </div>
+          <div className="mt-8 flex justify-center">
+            <Image
+              src={content.partnerLogo.src}
+              alt={content.partnerLogo.alt}
+              width={isAdtLogo ? 120 : 200}
+              height={isAdtLogo ? 52 : 86}
+              className={cn(
+                "h-auto w-full object-contain",
+                isAdtLogo
+                  ? "max-w-[96px] sm:max-w-[104px]"
+                  : "max-w-[160px] sm:max-w-[180px]"
+              )}
+              priority
+            />
+          </div>
 
-            <p className="mt-6 text-center text-[0.9375rem] font-medium leading-relaxed text-slate-600 sm:text-base">
-              {content.confirmationMessage}
-            </p>
+          <p className="mx-auto mt-6 max-w-[690px] text-base font-medium leading-relaxed text-gray-600 sm:text-lg">
+            {content.confirmationMessage}
+          </p>
 
-            {content.emailConfirmationNotice ? (
-              <div className="mt-5 flex gap-3 rounded-xl border border-emerald-200/90 bg-emerald-50/90 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-600/10 text-emerald-700">
-                  <Mail className="h-4 w-4 sm:h-[18px] sm:w-[18px]" strokeWidth={2} aria-hidden />
-                </div>
-                <p className="min-w-0 flex-1 text-left text-sm font-medium leading-relaxed text-emerald-950 sm:text-[0.9375rem]">
-                  {content.emailConfirmationNotice}
-                </p>
+          {content.emailConfirmationNotice ? (
+            <div className="mx-auto mt-6 flex max-w-[690px] gap-3 rounded-xl border border-emerald-200/90 bg-emerald-50/90 px-4 py-3.5 text-left sm:px-5 sm:py-4">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-600/10 text-emerald-700">
+                <Mail className="h-4 w-4 sm:h-[18px] sm:w-[18px]" strokeWidth={2} aria-hidden />
               </div>
-            ) : null}
-          </div>
-        </div>
-      </section>
+              <p className="min-w-0 flex-1 text-sm font-medium leading-relaxed text-emerald-950 sm:text-[0.9375rem]">
+                {content.emailConfirmationNotice}
+              </p>
+            </div>
+          ) : null}
 
-      <section className="border-t border-slate-200/80 bg-slate-50/90 px-4 py-10 sm:px-6 sm:py-14">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              {content.partnerName}
-            </p>
-            <h2 className="mt-2 text-xl font-bold text-[#0f2440] sm:text-2xl">
-              {content.aboutSectionTitle}
-            </h2>
-            <div className="mx-auto mt-4 h-1 w-12 rounded-full bg-sky-600/80" aria-hidden />
-          </div>
+          <h2 className="mt-10 text-lg font-bold text-gray-900 sm:mt-12 sm:text-xl">
+            {content.aboutSectionTitle}
+          </h2>
 
-          <div className="grid gap-5 sm:grid-cols-3 sm:gap-6 lg:gap-8">
+          <div className="mt-6 grid gap-5 sm:mt-8 sm:grid-cols-3 sm:gap-6">
             {content.featureCards.map((card, index) => {
               const IconComponent = ICON_MAP[card.icon]
               return (
                 <div
                   key={index}
-                  className="flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm transition-shadow duration-200 hover:shadow-md sm:p-6"
+                  className="rounded-xl border border-gray-100 bg-white p-5 text-left shadow-[0_2px_12px_rgba(0,0,0,0.06)] sm:p-6"
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1e3a5f] text-white shadow-sm sm:h-12 sm:w-12">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-600 text-white sm:h-12 sm:w-12">
                     <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2} />
                   </div>
-                  <h3 className="mt-4 text-base font-bold leading-snug text-[#0f2440] sm:text-lg">
+                  <h3 className="mt-4 text-base font-bold text-gray-900 sm:text-lg">
                     {card.title}
                   </h3>
-                  <ul className="mt-3 flex flex-1 flex-col gap-2.5">
+                  <ul className="mt-3 space-y-2">
                     {card.bulletPoints.map((point, i) => (
                       <li
                         key={i}
-                        className="flex items-start gap-2.5 text-sm leading-relaxed text-slate-600 sm:text-[0.9375rem]"
+                        className="flex items-start gap-2 text-sm text-gray-600 sm:text-[0.9375rem]"
                       >
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-600" />
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-600" />
                         <span>{point}</span>
                       </li>
                     ))}
@@ -177,9 +175,9 @@ export function ThankYouType2({
       </section>
 
       {ads.length > 0 && (
-        <section className="border-t border-slate-200 bg-white px-4 py-10 sm:px-6 sm:py-14">
+        <section className="border-t border-gray-200 bg-gray-50 px-4 py-10 sm:px-6 sm:py-14">
           <div className="mx-auto max-w-4xl">
-            <h2 className="mb-6 text-center text-base font-semibold text-[#0f2440] sm:mb-8 sm:text-lg">
+            <h2 className="mb-6 text-center text-base font-semibold text-gray-900 sm:mb-8 sm:text-lg">
               {adSectionTitle ?? `We have handpicked ${ads.length} great offers, just for you.`}
             </h2>
             <div className="grid grid-cols-1 gap-5 sm:gap-6">
@@ -189,7 +187,7 @@ export function ThankYouType2({
                   href={replaceUtm(ad.link)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+                  className="group block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md"
                 >
                   <Image
                     src={ad.image}
