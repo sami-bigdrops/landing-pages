@@ -65,12 +65,7 @@ export default async function ThankYouPartnerPage({
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <Suspense fallback={<ThankYouLoading />}>
-        <ThankYouType2
-          content={content}
-          ads={THANKYOU_ADS}
-          redirectPath="/"
-          loadingFallback={<ThankYouLoading />}
-        />
+        <ThankYouType2 content={content} ads={THANKYOU_ADS} />
       </Suspense>
       <Footer />
     </div>

@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState } from "react"
 import Image from "next/image"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { Shield, Building2, CheckCircle, Mail } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import type { ThankYouType2Content } from "@/lib/constant"
@@ -22,8 +22,6 @@ export interface ThankYouType2Props {
   content: ThankYouType2Content
   ads?: ThankYouAd[]
   adSectionTitle?: string
-  redirectPath?: string
-  loadingFallback?: React.ReactNode
 }
 
 function getCookie(name: string): string {
@@ -38,57 +36,27 @@ export function ThankYouType2({
   content,
   ads = [],
   adSectionTitle,
-  redirectPath = "/",
-  loadingFallback,
 }: ThankYouType2Props) {
-  const router = useRouter()
   const searchParams = useSearchParams()
-  const [isAuthorized, setIsAuthorized] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
   const [utmParams, setUtmParams] = useState({ utm_source: "", utm_id: "" })
-  const accessCheckStartedRef = useRef(false)
 
   useEffect(() => {
-    if (!isAuthorized) return
     const utm_source =
       searchParams.get("utm_source") || getCookie("subid1") || ""
     const utm_id = searchParams.get("utm_id") || getCookie("subid2") || ""
     setUtmParams({ utm_source, utm_id })
-  }, [isAuthorized, searchParams])
+  }, [searchParams])
 
   useEffect(() => {
-    if (accessCheckStartedRef.current) return
-    accessCheckStartedRef.current = true
-
-    const emailFromUrl = searchParams.get("email")
-    if (emailFromUrl) {
-      setIsAuthorized(true)
-      setTimeout(() => {
-        if (typeof window !== "undefined") {
-          const cleanUrl =
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            window.location.pathname
-          window.history.replaceState({}, document.title, cleanUrl)
-        }
-      }, 100)
-    } else {
-      router.replace(redirectPath)
-    }
-    setIsLoading(false)
-  }, [searchParams, router, redirectPath])
-
-  if (isLoading) {
-    if (loadingFallback) return <>{loadingFallback}</>
-    return (
-      <main className="flex min-h-[50vh] items-center justify-center bg-white px-6 py-20">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-gray-200 border-t-sky-600" />
-      </main>
-    )
-  }
-
-  if (!isAuthorized) return null
+    if (typeof window === "undefined") return
+    if (!searchParams.get("email")) return
+    const url = new URL(window.location.href)
+    if (!url.searchParams.has("email")) return
+    url.searchParams.delete("email")
+    const next =
+      url.pathname + (url.search ? url.search : "") + (url.hash ?? "")
+    window.history.replaceState({}, document.title, next)
+  }, [searchParams])
 
   const isAdtLogo =
     content.partnerLogo.src === "/partner-1.svg" ||
