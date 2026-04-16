@@ -1,4 +1,0 @@
-{
-  "buildCommand": "cd ../.. && pnpm exec turbo run build --filter=affordable-windows-of-usa",
-  "outputDirectory": ".next"
-}
