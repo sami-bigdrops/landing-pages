@@ -96,8 +96,8 @@ export default function Hero() {
               </h1>
               <p className="text-center md:text-left text-sm xl:text-lg font-normal md:max-w-[450px] lg:max-w-[450px] xl:max-w-[600px]  text-white" style={{ lineHeight: "1.6" }}>{HERO_CONTENT.description}</p>
             </div>
-            <div className="flex-1 w-full min-w-0 flex flex-col md:flex-row p-4 md:p-3 md:max-w-[450px] lg:max-w-[460px] xl:max-w-[570px] rounded-[10px] bg-[#0F2A44] justify-center items-center md:justify-center lg:items-center">
-              <div className="w-full min-w-0 h-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-4 lg:gap-5 xl:gap-7 ">
+            <div className="flex-1 w-full min-w-0 flex flex-col md:flex-row p-4 md:p-3 xl:p-3.5 md:max-w-[450px] lg:max-w-[460px] xl:max-w-[560px] rounded-[10px] bg-[#0F2A44] justify-center items-center md:justify-center lg:items-center">
+              <div className="w-full min-w-0 h-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-5.5 xl:gap-6 ">
          
 
                 <div className="w-full h-full space-y-4 sm:space-y-0 lg:max-w-[490px] xl:max-w-full">
@@ -178,7 +178,7 @@ export default function Hero() {
                
                   </div>
                 </div>
-                <div className="mx-auto grid w-auto min-w-0 grid-cols-2 justify-items-center gap-x-2 gap-y-3.5 sm:gap-x-3 sm:gap-y-3.5 md:flex md:flex-row md:flex-nowrap md:items-center md:justify-center md:gap-x-1.5 md:gap-y-0 lg:gap-x-3 xl:gap-4">
+                <div className=" grid w-auto min-w-0 grid-cols-2 justify-items-center gap-x-2 gap-y-3.5 sm:gap-x-3 sm:gap-y-3.5 md:flex md:flex-row md:flex-nowrap md:items-center md:justify-center md:gap-x-5 md:gap-y-0 lg:gap-x-5 xl:gap-x-7 ">
                   {FORM_CONTENT.badges.map((badge, index) => (
                     <div
                       key={badge.text}
@@ -186,16 +186,16 @@ export default function Hero() {
                         index === 2 ? "col-span-2" : ""
                       }`}
                     >
-                      <div className="flex size-[22px] shrink-0 items-center justify-center rounded-[6px] bg-white/80 sm:size-6 md:size-[22px] lg:size-6">
+                      <div className="flex size-[22px] shrink-0 items-center justify-center rounded-[6px] bg-white/80 ">
                         <Image
                           src={badge.icon}
                           alt=""
                           width={22}
                           height={22}
-                          className="size-3.5 object-contain object-center sm:size-4 md:size-3.5 lg:size-4"
+                          className="size-3.5 object-contain object-center "
                         />
                       </div>
-                      <span className="min-w-0 text-left font-sans text-[0.83rem] font-normal leading-tight text-white md:text-[0.8rem] md:leading-snug lg:text-xs xl:text-sm 2xl:text-base">
+                      <span className="min-w-0 text-left font-sans text-[0.83rem] font-normal leading-tight text-white md:text-[0.83rem] md:leading-snug lg:text-[0.85rem] xl:text-[1rem] md:whitespace-nowrap">
                         {badge.text}
                       </span>
                     </div>
