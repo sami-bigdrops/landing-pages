@@ -1,39 +1,62 @@
-//  sections constants
+
+
 
 export const HERO_CONTENT = {
-  headline: "You Won't Believe How Affordable New Windows Can Be!",
+  headline: "New Windows Without the Big Price Tag",
+  description: "Check what homeowners in your area are paying and get a fast quote from local installers.",
+
   image: {
-    src: "/hero-bg.png",
+
+    src: "/hero-bg.webp",
     alt: "Windows"
   },
-  
-  partners: [
+
+
+} as const
+
+export const FORM_CONTENT = {
+  badges: [
     {
-      alt: "Angi",
-      src: "/angi.svg",
-      width: 80,
-      className: "w-16 lg:w-20 xl:w-24 h-auto object-contain",
+      icon: "/form-1.svg",
+      text: "Free Quote",
     },
     {
-      alt: "Renewal By Andersen",
-      src: "/rba-white.png",
-      width: 120,
-      className: "w-35 xl:w-48 h-auto object-contain",
+      icon: "/form-2.svg",
+      text: "No Pressure",
     },
     {
-      alt: "Houzz",
-      src: "/houzz.svg",
-      width: 140,
-      className: "w-24 lg:w-28 xl:w-32 h-auto object-contain",
-    },
-    {
-      alt: "Consumer Reports",
-      src: "/consumer-reports.svg",
-      width: 140,
-      className: "w-24 lg:w-28 xl:w-32 h-auto object-contain",
+      icon: "/form-3.svg",
+      text: "Quick 2-Minute Check",
     },
   ],
 } as const
+
+export const ABOUT_CONTENT = {
+  header: "The price gap is bigger than most people expect",
+
+  aboutImage: {
+    src: "/about.webp",
+    alt: "About Image",
+  },
+
+  aboutbadges: [
+    {
+      icon: "/money.svg",
+      text: "That is why checking a fair local price first matters.",
+    },
+   
+  ],
+} as const
+
+
+
+
+
+
+
+
+
+
 
 const HEADING_GRADIENT = "linear-gradient(90deg, #2B96E4 0%, #275086 100%)"
 

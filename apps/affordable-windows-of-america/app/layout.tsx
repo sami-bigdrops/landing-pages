@@ -1,11 +1,11 @@
-import { Montserrat } from "next/font/google"
+import { Inter } from "next/font/google"
 import { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
 
-  const fontSans = Montserrat({
+const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -13,11 +13,11 @@ import { Providers } from "@/components/providers"
 
 export const metadata: Metadata = {
   title: {
-    default: "Platinum Window Experts - Window Replacement",
-    template: "%s | Platinum Window Experts",
+    default: "Affordable Windows of America - Window Replacement",
+    template: "%s | Affordable Windows of America",
   },
   description:
-    "Platinum Window Experts provides top-quality window replacement services across the USA. We offer energy-efficient windows, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Affordable Windows of America delivers high-quality, energy-efficient window replacement services nationwide. We specialize in expert installations and exceptional customer care, helping homeowners increase comfort, value, and curb appeal with affordable solutions.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
