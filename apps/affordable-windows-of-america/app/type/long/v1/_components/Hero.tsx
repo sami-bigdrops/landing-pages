@@ -70,7 +70,7 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="relative w-full h-full md:min-h-[280px] lg:min-h-[320px] xl:min-h-[500px]  px-6 sm:px-6 lg:px-8 py-10 md:py-12 md:px-8 lg:py-16 xl:px-23 xl:py-25 "
+    <div className="relative w-full h-full md:min-h-[280px] lg:min-h-[320px] xl:min-h-[480px]  px-6 sm:px-6 lg:px-14 py-10 md:py-12 md:px-8 lg:py-16 xl:px-23 xl:py-25 "
     style={{
       backgroundImage: "url('/hero-bg.webp')",
       backgroundRepeat: "no-repeat",
