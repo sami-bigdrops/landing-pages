@@ -48,6 +48,47 @@ export const ABOUT_CONTENT = {
   ],
 } as const
 
+export const COST_CONTENT = {
+  header: "What Should New Windows Cost in Your Area?",
+
+  aboutImage: {
+    src: "/cost.webp",
+    alt: "About Image",
+  },
+
+  aboutbadges: [
+    {
+      icon: "/money.svg",
+      text: "Check the price first. Then decide what makes sense.",
+    },
+   
+  ],
+} as const
+
+export const OPTIONS_CONTENT = {
+  header: "See What Fair Window Pricing Looks Like Near You",
+  description: "Start with your ZIP Code and get a quick quote check from local installers.",
+
+
+  optionsbadges: [
+    {
+      icon: "/option-1.svg",
+      text: "Free estimate",
+    },
+    {
+      icon: "/option-2.svg",
+      text: "No pressure",
+    },
+    {
+      icon: "/option-3.svg",
+      text: "Fast local quote check",
+    },
+  ],
+
+ 
+  
+} as const
+
 
 
 

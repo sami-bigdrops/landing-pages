@@ -1,19 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useUtmParams, setCookie, getCookie } from "@workspace/lp-core";
+import Image from "next/image";
+import { COST_CONTENT, OPTIONS_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
-import Image from "next/image";
-import { FORM_CONTENT, HERO_CONTENT } from "@/lib/constant";
+import { useState, useEffect } from "react";
+import { setCookie, getCookie } from "@workspace/lp-core";
+import { ArrowRight } from "lucide-react";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://autoquote.quotifii.com";
+const REDIRECT_BASE_URL = "https://auto.assurerates.com";
+const REFERRER = "quotes.assurerates.com";
+const TID = "3286";
 
-export default function Hero() {
-  useUtmParams(30);
-
+export default function Options() {
   const [zipCode, setZipCode] = useState("");
   const [cityName, setCityName] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -35,8 +36,6 @@ export default function Hero() {
     return () => { cancelled = true };
   }, []);
 
- 
-
   const handleContinue = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
     if (!/^\d{5}$/.test(trimmed)) {
@@ -50,14 +49,17 @@ export default function Hero() {
     const utmId = getCookie("subid2") || "";
     const utmS1 = getCookie("subid3") || "";
 
-    const params = new URLSearchParams();
-    params.set("tid", utmId);
-    params.set("uid", utmId);
-    params.set("sid", utmSource);
-    params.set("sub1", utmS1);
-    params.set("zip", trimmed);
+    const params = new URLSearchParams({
+      zip_code: trimmed,
+      referrer: REFERRER,
+      tid: TID,
+    });
+    if (utmSource) params.set("subid", utmSource);
+    if (utmId) params.set("subid2", utmId);
+    if (utmS1) params.set("c1", utmS1);
 
-    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
+    const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
+
 
     setIsRedirecting(true);
     window.location.href = redirectUrl;
@@ -70,35 +72,26 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="relative w-full h-full md:min-h-[280px] lg:min-h-[320px] xl:min-h-[500px]  px-6 sm:px-6 lg:px-8 py-10 md:py-12 md:px-8 lg:py-16 xl:px-23 xl:py-25 "
-    style={{
-      backgroundImage: "url('/hero-bg.webp')",
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-      backgroundPosition: "center"
-    }}>
-      
-      {/* <div
-        className="absolute inset-0 w-full h-full bg-black/10"
-        aria-hidden
-      /> */}
-      <div className="relative z-10 w-full h-full ">
-        <div className="container mx-auto ">
-          <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-8 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
-            <div className="w-full flex flex-col items-center  md:items-start gap-3 xl:gap-4">
-              <h1
-                className="text-3xl md:text-4xl lg:text-[2.5rem] xl:text-5xl  font-extrabold text-white text-center md:text-left lg:text-left xl:text-left 2xl:text-left md:max-w-[450px] lg:max-w-[470px] xl:max-w-[600px] 2xl:max-w-[700px] font-sans"
-                style={{
-                  lineHeight: "1.3",
-                }}
-              >
-                {HERO_CONTENT.headline}
-              </h1>
-              <p className="text-center md:text-left text-sm xl:text-lg font-normal md:max-w-[450px] lg:max-w-[450px] xl:max-w-[600px]  text-white" style={{ lineHeight: "1.6" }}>{HERO_CONTENT.description}</p>
+    <div
+      className="options bg-[#D5E4FB] w-full h-full px-6 py-8 md:px-6 md:py-10 lg:px-14 lg:py-12  xl:px-20 xl:py-15"
+
+    >
+      <div className="container mx-auto">
+        <div className="options-content w-full flex flex-col md:flex-row items-center justify-center md:justify-center md:items-center gap-6 lg:gap-15 xl:gap-20 ">
+
+          <div className="w-full   flex flex-col items-center justify-center md:justify-center md:items-center gap-7 lg:gap-8 xl:gap-10  ">
+            <div className="flex flex-col items-center justify-center gap-3 md:gap-2.5 xl:gap-3">
+              <h2 className="text-2xl font-bold text-[#1A1A1A] md:text-2xl  xl:text-4xl text-center " style={{ lineHeight: "1.3" }}>
+                {OPTIONS_CONTENT.header}
+              </h2>
+              <p className="text-sm  lg:text-[0.9rem] xl:text-lg text-[#1A1A1A]  text-center font-sans " style={{ lineHeight: 1.6 }}>
+                {OPTIONS_CONTENT.description}
+              </p>
             </div>
-            <div className="flex-1 w-full min-w-0 flex flex-col md:flex-row p-4 md:p-3 xl:p-3.5 md:max-w-[450px] lg:max-w-[460px] xl:max-w-[560px] rounded-[10px] bg-[#0F2A44] justify-center items-center md:justify-center lg:items-center">
-              <div className="w-full min-w-0 h-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-5.5 xl:gap-6 ">
-         
+
+            <div className="flex-1 w-full min-w-0 flex flex-col md:flex-row  md:max-w-[450px] lg:max-w-[460px] xl:max-w-[560px]  justify-center items-center md:justify-center lg:items-center">
+              <div className="w-full min-w-0 h-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-5 xl:gap-7 ">
+
 
                 <div className="w-full h-full space-y-4 sm:space-y-0 lg:max-w-[490px] xl:max-w-full">
                   {/* Mobile */}
@@ -135,9 +128,9 @@ export default function Hero() {
                       onClick={handleContinue}
                       className="bg-[#DD2525] h-14 w-full cursor-pointer uppercase rounded-[6px] px-8 py-4 text-[0.9rem] font-medium font-inherit text-white shadow-[0_0_4px_0_rgba(0,0,0,0.25)] transition-all duration-300 hover:bg-[#DD2525] disabled:cursor-not-allowed disabled:opacity-90 flex items-center justify-center gap-2"
                     >
-                      {isRedirecting ? "Redirecting..." : <>See My Window Price </>}
+                      {isRedirecting ? "Redirecting..." : <>Get My Window Price </>}
                     </Button>
-               
+
                   </div>
 
                   {/* Desktop */}
@@ -163,7 +156,7 @@ export default function Hero() {
                         placeholder:text-sm  md:placeholder:text-base xl:placeholder:text-xl
                         focus-visible:ring-0 focus-visible:ring-offset-0
                       "
-                 
+
                       containerClassName="w-full"
                     />
                     <Button
@@ -173,29 +166,29 @@ export default function Hero() {
                       disabled={isRedirecting || !zipValid}
                       className="absolute right-1.5 top-1.5 xl:top-2 xl:right-2 uppercase flex md:h-13 xl:h-15.5 cursor-pointer items-center justify-center gap-2 rounded-[6px] bg-[#DD2525] text-sm font-medium font-inherit text-white shadow-[0_0_4px_0_rgba(0,0,0,0.25)] transition-all duration-300 hover:bg-[#DD2525] disabled:cursor-not-allowed disabled:opacity-90 md:w-[200px] xl:w-[235px]  xl:text-base"
                     >
-                      {isRedirecting ? "Redirecting..." : <>See My Window Price </>}
+                      {isRedirecting ? "Redirecting..." : <>Get My Window Price </>}
                     </Button>
-               
+
                   </div>
                 </div>
-                <div className=" grid w-auto min-w-0 grid-cols-2 justify-items-center gap-x-2 gap-y-3.5 sm:gap-x-3 sm:gap-y-3.5 md:flex md:flex-row md:flex-nowrap md:items-center md:justify-center md:gap-x-5 md:gap-y-0 lg:gap-x-5 xl:gap-x-7 ">
-                  {FORM_CONTENT.badges.map((badge, index) => (
+                <div className=" grid w-auto min-w-0 grid-cols-2 justify-items-center gap-x-2 gap-y-3.5 sm:gap-x-3 sm:gap-y-3.5 md:flex md:flex-row md:flex-nowrap md:items-center md:justify-center md:gap-x-6 md:gap-y-0 lg:gap-x-6 xl:gap-x-8 ">
+                  {OPTIONS_CONTENT.optionsbadges.map((badge, index) => (
                     <div
                       key={badge.text}
-                      className={`flex items-center justify-center gap-1.5 sm:gap-2 justify-self-center md:flex-1 md:basis-0 md:justify-center ${
-                        index === 2 ? "col-span-2" : ""
-                      }`}
+                      className={`flex items-center justify-center gap-1.5 sm:gap-2 justify-self-center md:flex-1 md:basis-0 md:justify-center ${index === 2 ? "col-span-2" : ""
+                        }`}
                     >
-                      <div className="flex size-[22px] shrink-0 items-center justify-center rounded-[6px] bg-white/80 ">
+                      <div className="flex size-[22px] xl:size-5.5 shrink-0 items-center justify-center rounded-[6px] bg-[#0F2A44]">
+                 
                         <Image
                           src={badge.icon}
                           alt=""
                           width={22}
                           height={22}
-                          className="size-3.5 object-contain object-center "
+                          className="size-3.5 xl:size-4 object-contain object-center "
                         />
                       </div>
-                      <span className="min-w-0 text-left font-sans text-[0.83rem] font-normal leading-tight text-white md:text-[0.83rem] md:leading-snug lg:text-[0.85rem] xl:text-[1rem] md:whitespace-nowrap">
+                      <span className="min-w-0 text-left font-sans text-[0.83rem] font-normal leading-tight text-[#1A1A1A] md:text-[0.83rem] md:leading-snug lg:text-[0.85rem] xl:text-[1.08rem] md:whitespace-nowrap">
                         {badge.text}
                       </span>
                     </div>
@@ -203,8 +196,6 @@ export default function Hero() {
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>

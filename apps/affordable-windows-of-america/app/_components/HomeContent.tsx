@@ -9,6 +9,8 @@ import Review from "@/app/type/long/v1/_components/Review"
 import Footer from "@/app/_components/Footer"
 import Trust from "@/app/type/long/v1/_components/Trust"
 import About from "@/app/type/long/v1/_components/About"
+import Cost from "@/app/type/long/v1/_components/Cost"
+import Options from "@/app/type/long/v1/_components/Options"
 
 export default function HomeContent() {
   return (
@@ -16,6 +18,8 @@ export default function HomeContent() {
       <Navbar />
       <Hero />
       <About />
+      <Cost />
+      <Options />
       <Footer />
     </div>
   )
