@@ -70,18 +70,20 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="relative w-full h-full md:min-h-[280px] lg:min-h-[320px] xl:min-h-[480px]  px-6 sm:px-6 lg:px-14 py-10 md:py-12 md:px-8 lg:py-16 xl:px-23 xl:py-25 "
-    style={{
-      backgroundImage: "url('/hero-bg.webp')",
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-      backgroundPosition: "center"
-    }}>
+    <div className="relative w-full h-full md:min-h-[280px] lg:min-h-[320px] xl:min-h-[480px]  px-6 sm:px-6 lg:px-14 py-10 md:py-12 md:px-8 lg:py-16 xl:px-23 xl:py-25 ">
+    
+    
+    
+    <div
+        className="absolute inset-0 w-full h-full bg-[position:left] md:bg-[position:right_center] lg:bg-[position:right_center]"
+        style={{
+          backgroundImage: "url('/hero-bg.webp')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      />
       
-      {/* <div
-        className="absolute inset-0 w-full h-full bg-black/10"
-        aria-hidden
-      /> */}
+     
       <div className="relative z-10 w-full h-full ">
         <div className="container mx-auto ">
           <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-8 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
