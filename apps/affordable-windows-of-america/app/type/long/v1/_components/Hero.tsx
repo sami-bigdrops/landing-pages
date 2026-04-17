@@ -189,7 +189,7 @@ export default function Hero() {
                       <div className="flex size-[22px] shrink-0 items-center justify-center rounded-[6px] bg-white/80 ">
                         <Image
                           src={badge.icon}
-                          alt=""
+                          alt="badge icon"
                           width={22}
                           height={22}
                           className="size-3.5 object-contain object-center "
