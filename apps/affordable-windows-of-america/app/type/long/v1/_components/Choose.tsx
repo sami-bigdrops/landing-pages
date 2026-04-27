@@ -1,60 +1,59 @@
-import { CHOOSE_CONTENT } from "@/lib/constant";
-import { Button } from "@workspace/ui/components/button";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+"use client"
+
+import React from 'react'
+import Image from 'next/image'
+import { CHOOSE_CONTENT } from '@/lib/constant'
 
 export default function Choose() {
-  const router = useRouter();
-  const handleGetPricing = () => {
-    router.push("/form");
-  };
-
   return (
-    <div className="bg-white w-full h-full">
-      <div
-        className="flex flex-col items-center justify-center py-10 px-4"
-        style={{
-          background: `url(${CHOOSE_CONTENT.backgroundImage}) no-repeat center center`,
-          backgroundSize: "cover",
-        }}
-      >
-
-        <div className="w-full max-w-6xl mx-auto flex flex-col items-center justify-center gap-8 py-6">
-          <h2 className="text-2xl lg:text-3xl xl:text-4xl md:max-w-[400px] lg:max-w-[550px] xl:max-w-[700px] font-bold text-white drop-shadow-lg text-center font-sans leading-tight tracking-tight">
+    <div
+      className="choose w-full h-full px-6 py-8 md:px-6 md:py-11 lg:px-14 lg:py-11  xl:px-20 xl:py-17"
+      style={{
+        background: "linear-gradient(0deg, rgba(15, 42, 68, 0.92) 0%, rgba(15, 42, 68, 0.92) 100%), url('/choose-bg.webp') lightgray 50% / cover no-repeat"
+      }}
+    >
+      <div className="container mx-auto">
+        <div className="choose-content w-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:gap-14 xl:gap-16 ">
+          <h2 className="text-2xl font-bold text-[#FFFFFF] md:text-2xl  xl:text-4xl text-center font-sans" style={{ lineHeight: '1.3' }}>
             {CHOOSE_CONTENT.header}
           </h2>
 
-          <div className="w-full flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-8 py-4">
-            <div className="flex flex-col items-center justify-center gap-4 w-full lg:w-1/2">
-              <Image src={CHOOSE_CONTENT.image.src} alt={CHOOSE_CONTENT.image.alt} width={500} height={500} className="w-80 md:w-100 lg:w-110 xl:w-120 object-contain object-center h-auto" />
-            </div>
-            <div className="grid grid-cols-2 gap-4 w-full lg:w-1/2">
-              {CHOOSE_CONTENT.windowStyles.map((windowStyle) => (
-                <div key={windowStyle.id} className="flex flex-col items-center justify-center gap-4">
-                <Image
-                  key={windowStyle.id}
-                  src={windowStyle.image.src}
-                  alt={windowStyle.image.alt}
-                  width={200}
-                  height={200}
-                  unoptimized
-                  className="w-35 md:w-30 lg:w-35 xl:w-40 object-contain object-center h-auto"
-                  />
-                  <p className="text-white text-center font-sans text-sm lg:text-base xl:text-lg font-medium">{windowStyle.title}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 lg:gap-15  xl:gap-26 2xl:gap-32">
+            {CHOOSE_CONTENT.steps.map((step) => (
+              <div key={step.number} className="flex flex-col items-center gap-4 md:gap-6 lg:gap-8">
+                <div className="flex flex-col-reverse items-center justify-center gap-4 md:gap-5 lg:gap-5 xl:gap-6 w-full">
+                  <div className="flex-1 flex flex-col items-center justify-center gap-2 md:gap-1.5 lg:gap-2 xl:gap-2.5">
+
+
+                    <h3 className="text-[0.95rem]  lg:text-base xl:text-xl  xl:max-w-[260px] font-bold text-[#FFFFFF] text-center font-sans">
+                      {step.title}
+                    </h3>
+
+                    <p className="text-[0.85rem] md:text-[0.83rem] font-normal xl:text-base md:max-w-[210px] lg:max-w-[240px] xl:max-w-[295px]  mx-auto text-[#FFFFFF] text-center font-sans" style={{ lineHeight: 1.6 }}>
+                      {step.description}
+                    </p>
+                  </div>
+
+                  <div className="flex-1 flex items-center justify-center w-full h-full">
+                    <div className="w-12 h-12 md:w-13 md:h-13  lg:w-14 lg:h-14  xl:w-17 xl:h-17">
+                      <Image
+                        src={step.image.src}
+                        alt={step.image.alt}
+                        width={60}
+                        height={60}
+                        className="w-full h-full object-contain"
+                        priority
+                      />
+                    </div>
+                  </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-          <Button
-            type="1"
-            variant="default"
-            className="bg-[#2B96E4] cursor-pointer hover:bg-[#2B96E4] hover:translate-y-[-4px] transition-all duration-300 text-white font-semibold rounded-sm text-base lg:text-lg xl:text-xl py-10 px-12 w-full max-w-sm"
-            onClick={handleGetPricing}
-          >
-            Get Pricing
-          </Button>
         </div>
+
       </div>
+
     </div>
   )
 }

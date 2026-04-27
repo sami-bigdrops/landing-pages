@@ -2,9 +2,9 @@ import { Metadata } from "next"
 import HomeContent from "@/app/_components/HomeContent"
 
 export const metadata: Metadata = {
-  title: "Platinum Window Experts",
+  title: "Affordable Windows of America",
   description:
-    "Platinum Window Experts provides top-quality window replacement services across the USA. We offer energy-efficient windows, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Affordable Windows of America delivers high-quality, energy-efficient window replacement services nationwide. We specialize in expert installations and exceptional customer care, helping homeowners increase comfort, value, and curb appeal with affordable solutions.",
 }
 
 export default function Page() {
