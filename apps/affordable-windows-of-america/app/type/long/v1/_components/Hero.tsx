@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUtmParams, setCookie, getCookie } from "@workspace/lp-core";
+import { useUtmParams, setCookie } from "@workspace/lp-core";
+import { useRouter } from "next/navigation";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
@@ -9,13 +10,12 @@ import { FORM_CONTENT, HERO_CONTENT } from "@/lib/constant";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://autoquote.quotifii.com";
 
 export default function Hero() {
   useUtmParams(30);
+  const router = useRouter();
 
   const [zipCode, setZipCode] = useState("");
-  const [cityName, setCityName] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
@@ -24,9 +24,7 @@ export default function Hero() {
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;
-        const city = data?.city != null ? String(data.city).trim() : null;
         const zip = data?.zip != null ? String(data.zip).replace(/\D/g, "").slice(0, 5) : null;
-        if (city) setCityName(city);
         if (zip && zip.length === 5) {
           setZipCode((prev) => (prev === "" ? zip : prev));
         }
@@ -46,21 +44,8 @@ export default function Hero() {
 
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
 
-    const utmSource = getCookie("subid1") || "";
-    const utmId = getCookie("subid2") || "";
-    const utmS1 = getCookie("subid3") || "";
-
-    const params = new URLSearchParams();
-    params.set("tid", utmId);
-    params.set("uid", utmId);
-    params.set("sid", utmSource);
-    params.set("sub1", utmS1);
-    params.set("zip", trimmed);
-
-    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
-
     setIsRedirecting(true);
-    window.location.href = redirectUrl;
+    router.push(`/form?zip=${trimmed}`);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

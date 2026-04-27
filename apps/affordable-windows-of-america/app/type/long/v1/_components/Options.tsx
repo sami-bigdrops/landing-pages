@@ -5,16 +5,15 @@ import { COST_CONTENT, OPTIONS_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import { useState, useEffect } from "react";
-import { setCookie, getCookie } from "@workspace/lp-core";
+import { setCookie } from "@workspace/lp-core";
+import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const REDIRECT_BASE_URL = "https://auto.assurerates.com";
-const REFERRER = "quotes.assurerates.com";
-const TID = "3286";
 
 export default function Options() {
+  const router = useRouter();
   const [zipCode, setZipCode] = useState("");
   const [cityName, setCityName] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -45,24 +44,8 @@ export default function Options() {
 
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
 
-    const utmSource = getCookie("subid1") || "";
-    const utmId = getCookie("subid2") || "";
-    const utmS1 = getCookie("subid3") || "";
-
-    const params = new URLSearchParams({
-      zip_code: trimmed,
-      referrer: REFERRER,
-      tid: TID,
-    });
-    if (utmSource) params.set("subid", utmSource);
-    if (utmId) params.set("subid2", utmId);
-    if (utmS1) params.set("c1", utmS1);
-
-    const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
-
-
     setIsRedirecting(true);
-    window.location.href = redirectUrl;
+    router.push(`/form?zip=${trimmed}`);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
