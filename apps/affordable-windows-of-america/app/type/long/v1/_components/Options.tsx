@@ -45,7 +45,7 @@ export default function Options() {
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
 
     setIsRedirecting(true);
-    router.push(`/form?zip=${trimmed}`);
+    router.push(`/form`);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
