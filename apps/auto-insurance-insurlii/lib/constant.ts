@@ -18,7 +18,7 @@ export const HERO_CONTENT = {
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "We partner with top providers",
+  header: "COMPARE RATES FROM TOP INSURANCE COMPANIES",
 
   partners: [
     { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
@@ -31,13 +31,14 @@ export const PARTNERS_CONTENT = {
 } as const
 
 export const OPTIONS_CONTENT = {
-  header: "A Better Rate Could Be Waiting In Your ZIP",
-  description: "Tell us the basics and we’ll line up options worth a look.",
+  header: "Compare Your Auto Insurance Options Today",
+  description: "Explore policies designed around your vehicle, usage, and protection.",
 
-  image: {
-    src: "/quokka.webp",
-    alt: "Quokka Image",
-  },
+ badge : {
+  label: "Tailored options. Clear next steps. No generic quote flow.",
+  src: "/shield.svg",
+  alt: "Badge",
+ },
   
 } as const
 
@@ -47,38 +48,38 @@ export const REVIEW_CONTENT = {
   reviews: [
     {
      id: 1,
-      quote: "I didn’t expect it to be this simple. I answered a few questions, compared options, and ended up switching to a better rate the same day. Having an agent walk me through everything really helped.",
+      quote: "Most sites just show prices. This helped me understand what coverage actually included - clear and straightforward.",
       customer: {
-        name: "Amanda Reynolds",
-        location: "San Diego, CA",
+        name: "Michael R.",
+        location: "Austin, TX",
         image: {
           src: "/profile-1.svg",
-          alt: "Amanda Reynolds",
+          alt: "Michael R.",
         },
       },
     },
     {
       id: 2,
-      quote: "I liked that I could see different quotes in one place instead of jumping between websites. The process was quick, and I felt confident about the coverage I chose.",
+      quote: "I needed better repair standards and liability coverage. Comparing options side by side made it easy.",
       customer: {
-        name: "Jason M.",
-        location: "Austin, TX",
+        name: "Sarah L.",
+        location: "San Diego, CA",
         image: {
           src: "/profile-2.svg",
-          alt: "Jason M.",
+          alt: "Sarah L.",
         },
       },
     },
     {
      
       id: 3,
-      quote: "I was paying way more than I should have. Quotifii helped me find a more affordable option in minutes, and the agent explained everything clearly. Super easy experience.",
+      quote: "Didn’t feel like a typical quote flow. I could review options at my own pace - no pressure.",
       customer: {
-        name: "Priya S",
-        location: "Edison, NJ",
+        name: "Daniel K.",
+        location: "Chicago, IL",
         image: {
           src: "/profile-3.svg",
-          alt: "Priya S",
+          alt: "Daniel K.",
         },
       },
     },
@@ -86,33 +87,33 @@ export const REVIEW_CONTENT = {
 } as const
 
 export const FEATURES_CONTENT = {
-  header: "A Smarter Way To Shop For Coverage",
+  header: "How It Works",
   steps: [
     {
       number: 1,
-      title: "Multi-Vehicle Savings",
-      description: "One household, more than one car? Bundle options in seconds and see what changes.",
+      title: "Share a Few Details",
+      description: "Tell us about your vehicle and coverage preferences.",
       image: {
         src: "/feature-1.svg",
-        alt: "Multi-Vehicle Savings",
+        alt: "Share a Few Details",
       },
     },
     {
       number: 2,
-      title: "Safe Driver Discounts",
-      description: "If you drive sensibly, your rate should notice. We help you spot discounts you may qualify for.",
+      title: "Review Tailored Options",
+      description: "Explore coverage designed around your needs - not generic policies.",
       image: {
         src: "/feature-2.svg",
-        alt: "Safe Driver Discounts",
+        alt: "Review Tailored Options",
       },
     },
     {
       number: 3,
-      title: "24/7 Roadside Assistance",
-      description: "Flat tire, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
+      title: "Speak With a Specialist",
+      description: "Get clarity and guidance before making a decision.",
       image: {
         src: "/feature-3.svg",
-        alt: "24/7 Roadside Assistance",
+        alt: "Speak With a Specialist",
       },
     },
   ],
@@ -128,7 +129,7 @@ export const FOOTER_CONTENT = {
     { text: "Contact ", href: "/contact" },
   ],
 
-  copyrightText: "Copyright © 2026 Quotifii. All Rights Reserved.",
+  copyrightText: "Copyright © 2026 Insurlii. All Rights Reserved.",
 } as const
 
 export const THANKYOU_CONTENT = {

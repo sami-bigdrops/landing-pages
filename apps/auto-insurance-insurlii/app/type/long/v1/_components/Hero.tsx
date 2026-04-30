@@ -186,7 +186,7 @@ export default function Hero() {
 
             <div className="flex-1 w-full relative md:w-[50%] md:justify-end">
               {/* For mobile and tablet, single image. For lg+, overlapping images */}
-              <div className=" rounded-lg overflow-hidden  flex justify-center items-center lg:absolute lg:-top-27 lg:-right-3 xl:-top-39 xl:-right-1 md:justify-end h-full w-[190px] md:w-[180px] mx-auto  lg:h-[260px] xl:h-[380px] xl:w-[200px] lg:justify-end lg:mx-0 lg:block lg:bg-transparent lg:overflow-visible">
+              <div className=" rounded-lg overflow-hidden  flex justify-center items-center lg:absolute lg:-top-27 lg:-right-3 xl:-top-39 xl:-right-1 md:justify-end h-full w-[190px] md:w-[160px] mx-auto lg:w-[180px]  lg:h-[260px] xl:h-[380px] xl:w-[200px] lg:justify-end lg:mx-0 lg:block lg:bg-transparent lg:overflow-visible">
                 <Image
                   src={HERO_CONTENT.image1.src}
                   alt={HERO_CONTENT.image1.alt}
