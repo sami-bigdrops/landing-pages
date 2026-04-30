@@ -172,7 +172,7 @@ export default function Hero() {
                       variant="default"
                       onClick={handleContinue}
                       disabled={isRedirecting || !zipValid}
-                      className="absolute right-1.5 top-1.5 xl:top-2 xl:right-2 flex md:h-13 xl:h-15.5 cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#FF5715] text-sm font-medium font-inherit text-white  transition-all duration-300 hover:bg-[#DD2525] disabled:cursor-not-allowed disabled:opacity-90 md:w-[160px] xl:w-[190px]  xl:text-base"
+                      className="absolute right-1.5 top-1.5 xl:top-2 xl:right-2 flex md:h-13 xl:h-15.5 cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#FF5715] text-sm font-medium font-inherit text-white  transition-all duration-300 hover:bg-[#FF5715] disabled:cursor-not-allowed disabled:opacity-90 md:w-[160px] xl:w-[190px]  xl:text-base"
                     >
                       {isRedirecting ? "Redirecting..." : <>View My Options</>}
                     </Button>
