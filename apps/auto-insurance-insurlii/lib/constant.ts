@@ -2,11 +2,18 @@
 
 export const HERO_CONTENT = {
   headline: "Let's drop your rate in {city_name} today!",
-  image: {
+  description: "See real options from top providers near you.",
+  
+
+  image1: {
     src: "/hero.webp",
-    alt: "Quotifii"
+    alt: "Insurlii Auto Insurance"
   },
- 
+  image2: {
+    src: "/hero-2.webp",
+    alt: "Insurlii Auto Insurance"
+  },
+  
   
 } as const
 

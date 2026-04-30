@@ -1,11 +1,11 @@
-import { Poppins } from "next/font/google"
+import { Inter } from "next/font/google"
 import { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
 
-const fontSans = Poppins({
+const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -14,11 +14,11 @@ const fontSans = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "Quotifii - Auto Quotes",
-    template: "%s | Quotifii",
+    default: "Insurlii Auto Insurance - Get Quotes Fast",
+    template: "%s | Insurlii Auto Insurance",
   },
   description:
-    "`Quotifii provides top-quality auto quotes services across the USA. We offer auto quotes, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Insurlii Auto Insurance helps you compare and get the best auto insurance quotes quickly. Fast, competitive rates, and excellent customer support across the USA.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
