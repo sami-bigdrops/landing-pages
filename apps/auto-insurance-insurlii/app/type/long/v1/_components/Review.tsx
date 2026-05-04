@@ -8,7 +8,7 @@ import { REVIEW_CONTENT } from '@/lib/constant'
 export default function Review() {
   return (
     <div className="review bg-white w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
-      <div className="container mx-auto">
+      <div className="mx-auto w-full max-w-[1280px]">
         <div className="review-content w-full flex flex-col items-center justify-center gap-6 md:gap-8 lg:gap-10 xl:gap-14 ">
           <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl font-bold text-[#0F172A] text-center font-inter  " style={{ lineHeight: 1.4 }}>
             {REVIEW_CONTENT.header}

@@ -4,7 +4,7 @@ export default function PrivacyPolicy() {
   return (
     <div>
       <section id="privacy-policy" className="p-5 md:p-8 lg:p-10 xl:px-16 2xl:px-20 bg-white">
-        <div className="container mx-auto max-w-4xl">
+        <div className="mx-auto w-full max-w-[1280px]">
           <div className="flex flex-col gap-8">
             <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
               <div className="text-center mb-8">
@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
                     This Privacy Policy applies to the sites and apps where it appears.
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    This Policy describes how we treat personal information on the websites and apps where it is located. Your use of this website indicates that you agree to our collection, disclosure, use, of your information as described in this Privacy Policy. This includes quotifii&apos;s auto, home and life insurance services as well as all services marketed and provided by quotifii.com. It also applies to our mobile sites and apps.
+                    This Policy describes how we treat personal information on the websites and apps where it is located. Your use of this website indicates that you agree to our collection, disclosure, use, of your information as described in this Privacy Policy. This includes insurlii&apos;s auto, home and life insurance services as well as all services marketed and provided by insurlii.com. It also applies to our mobile sites and apps.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
@@ -125,11 +125,11 @@ export default function PrivacyPolicy() {
                     You have certain choices about how we use your information.
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    <span className="font-bold">You can opt out of receiving our marketing emails.</span> To stop receiving our promotional emails, email customer support at <a href="mailto:contact@quotifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@quotifii.com</a> or follow the instructions in any promotional message you get from us. Even if you opt out of getting marketing messages, we will still send you transactional messages. These include responses to your questions. If you opt-out of receiving marketing communications from our business partners with whom we have shared your information, you will still receive marketing communications from us and any other business partners with whom your information was shared.
+                    <span className="font-bold">You can opt out of receiving our marketing emails.</span> To stop receiving our promotional emails, email customer support at <a href="mailto:contact@insurlii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@insurlii.com</a> or follow the instructions in any promotional message you get from us. Even if you opt out of getting marketing messages, we will still send you transactional messages. These include responses to your questions. If you opt-out of receiving marketing communications from our business partners with whom we have shared your information, you will still receive marketing communications from us and any other business partners with whom your information was shared.
                   </p>
 
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    <span className="font-bold">You can request that we stop sharing information with third parties for their marketing purposes.</span> To opt out of having us share your information with third parties for their promotional purposes, email us at <a href="mailto:contact@quotifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@quotifii.com</a>.
+                    <span className="font-bold">You can request that we stop sharing information with third parties for their marketing purposes.</span> To opt out of having us share your information with third parties for their promotional purposes, email us at <a href="mailto:contact@insurlii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@insurlii.com</a>.
                   </p>
 
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
@@ -164,14 +164,14 @@ export default function PrivacyPolicy() {
                   </p>
 
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    <span className="font-bold">Sale of Personal Information:</span> California law requires that we provide transparency about personal information we &quot;sell,&quot; which for the purposes of the CCPA, means scenarios in which personal information is shared with third parties in exchange for valuable consideration. In the preceding 12 months, we have &quot;sold&quot; the following categories of personal information: identifiers, categories of personal information described in subdivision (e) of Section 1798.80 including financial information, commercial information, biometric information, internet or other electronic network activity information, geolocation data, professional or employment-related information, education information, and inferences draw from any of the information identified. California consumers above the age of 16 have the right to opt out of these sales at any time. We do not knowingly sell personal information about consumers under the age of 16. Please email <a href="mailto:contact@quotifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@quotifii.com</a> to make an opt-out request.
+                    <span className="font-bold">Sale of Personal Information:</span> California law requires that we provide transparency about personal information we &quot;sell,&quot; which for the purposes of the CCPA, means scenarios in which personal information is shared with third parties in exchange for valuable consideration. In the preceding 12 months, we have &quot;sold&quot; the following categories of personal information: identifiers, categories of personal information described in subdivision (e) of Section 1798.80 including financial information, commercial information, biometric information, internet or other electronic network activity information, geolocation data, professional or employment-related information, education information, and inferences draw from any of the information identified. California consumers above the age of 16 have the right to opt out of these sales at any time. We do not knowingly sell personal information about consumers under the age of 16. Please email <a href="mailto:contact@insurlii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@insurlii.com</a> to make an opt-out request.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
                     Your Consumer Rights
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    If you are a California resident, you have the right to (1) request more information about the categories and specific pieces of personal information we have collected, sold and disclosed for a business purpose in the last 12 months, (2) request deletion of your personal information, (3) opt out of the sale of your personal information, if applicable, and (4) be free from discrimination for exercising your rights under the CCPA. You may make these requests by emailing <a href="mailto:contact@quotifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@quotifii.com</a> To opt out of sales, you can email <a href="mailto:contact@quotifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@quotifii.com</a>. We will verify your request by confirming at least two pieces of personal information, including contact information, you provided in submitting your form. To designate an authorized agent to exercise these rights on your behalf, send an email with your request to <a href="mailto:contact@quotifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@quotifii.com</a>.
+                    If you are a California resident, you have the right to (1) request more information about the categories and specific pieces of personal information we have collected, sold and disclosed for a business purpose in the last 12 months, (2) request deletion of your personal information, (3) opt out of the sale of your personal information, if applicable, and (4) be free from discrimination for exercising your rights under the CCPA. You may make these requests by emailing <a href="mailto:contact@insurlii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@insurlii.com</a> To opt out of sales, you can email <a href="mailto:contact@insurlii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@insurlii.com</a>. We will verify your request by confirming at least two pieces of personal information, including contact information, you provided in submitting your form. To designate an authorized agent to exercise these rights on your behalf, send an email with your request to <a href="mailto:contact@insurlii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@insurlii.com</a>.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
@@ -196,7 +196,7 @@ export default function PrivacyPolicy() {
                     Feel free to contact us if you have more questions.
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    If you have any questions about this Policy, please email us at <a href="mailto:contact@quotifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@quotifii.com</a>.
+                    If you have any questions about this Policy, please email us at <a href="mailto:contact@insurlii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@insurlii.com</a>.
                   </p>
 
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">

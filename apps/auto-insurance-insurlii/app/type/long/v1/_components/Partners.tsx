@@ -9,7 +9,7 @@ export default function Partners() {
       className="partners w-full h-full bg-[#F5F7FA] px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-23 xl:py-12"
       
     >
-      <div className="container mx-auto">
+      <div className="mx-auto w-full max-w-[1280px]">
         <div className="partners-content w-full flex flex-col items-center justify-center gap-8 md:gap-8 xl:gap-10">
           <h2 className="text-sm lg:text-base xl:text-lg font-bold text-[#0F172A] text-center font-sans " style={{
             lineHeight: "1.5",

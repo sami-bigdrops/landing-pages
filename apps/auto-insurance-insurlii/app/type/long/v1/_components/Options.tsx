@@ -75,7 +75,7 @@ export default function Options() {
 
   return (
     <div className="options bg-white w-full h-full px-4 py-8 md:px-6 md:py-10 lg:px-14 lg:py-12  xl:px-20 xl:py-16">
-      <div className="container mx-auto">
+      <div className="mx-auto w-full max-w-[1280px]">
         <div className="options-content w-full flex flex-col md:flex-row items-center justify-center md:justify-start md:items-center lg:items-start gap-6 md:gap-6 lg:gap-10 xl:gap-14">
           <div className="flex flex-col items-center justify-center  md:items-start gap-3 xl:gap-4  md:w-[50%] xl:w-[55%]">
             <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl md:max-w-[300px] lg:max-w-[400px] xl:max-w-[500px] md:text-left   font-bold text-[#0F172A] md:text-left text-center font-inter " style={{ lineHeight: 1.3 }}>

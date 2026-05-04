@@ -224,7 +224,7 @@ const Contact = () => {
       )}
       
       <div className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto w-full max-w-[1280px]">
           {/* Header Section */}
           <div className="text-center mb-8">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1E3A8A] mb-4">
@@ -255,7 +255,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-base font-semibold text-gray-900">Email</h3>
-                    <p className="text-sm text-gray-600">contact@quotifii.com</p>
+                    <p className="text-sm text-gray-600">contact@insurlii.com</p>
                   </div>
                 </div>
 

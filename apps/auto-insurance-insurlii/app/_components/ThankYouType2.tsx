@@ -97,7 +97,7 @@ export function ThankYouType2({
   return (
     <main className="min-h-screen bg-white">
       <section className="px-4 py-10 sm:px-6 sm:py-14 lg:py-20">
-        <div className="mx-auto max-w-5xl text-center">
+        <div className="mx-auto w-full max-w-[1280px] text-center">
           <h1 className="text-2xl font-bold tracking-tight text-[#1e3a5f] sm:text-3xl">
             {content.title}
           </h1>
@@ -154,7 +154,7 @@ export function ThankYouType2({
 
       {ads.length > 0 && (
         <section className="border-t border-gray-200 bg-gray-50 px-4 py-10 sm:px-6 sm:py-14">
-          <div className="mx-auto max-w-4xl">
+          <div className="mx-auto w-full max-w-[1280px]">
             <h2 className="mb-6 text-center text-base font-semibold text-gray-900 sm:mb-8 sm:text-lg">
               {adSectionTitle ?? `We have handpicked ${ads.length} great offers, just for you.`}
             </h2>

@@ -11,7 +11,7 @@ import { HERO_CONTENT } from "@/lib/constant";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://auto-quote.quotifii.com";
+const BASE_URL = "https://auto-quote.insurlii.com";
 
 export default function Hero() {
   useUtmParams(30);
@@ -79,7 +79,7 @@ export default function Hero() {
     <div className="relative w-full h-full bg-[#1D4ED8] md:min-h-[292px] lg:min-h-[335px] xl:min-h-[490px] px-6 py-8 lg:px-8  md:px-8 lg:py-10 lg:pt-14 xl:px-23 xl:py-23 xl:pt-27  overflow-hidden ">
 
       <div className="relative z-10 w-full h-full ">
-        <div className="container mx-auto ">
+        <div className="mx-auto w-full max-w-[1280px]">
           <div className="hero-content w-full flex flex-col items-center justify-center  md:flex-row md:justify-between md:items-center gap-6 md:gap-8 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
             <div className="flex flex-col items-center md:items-start md:justify-center  gap-6 md:gap-7 lg:gap-8 xl:gap-12 md:w-[50%]">
               <div className="w-full flex flex-col items-center  md:items-start md:justify-center gap-2.5 xl:gap-4">
