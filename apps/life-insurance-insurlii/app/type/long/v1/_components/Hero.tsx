@@ -6,7 +6,6 @@ import { track } from "@vercel/analytics";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { HERO_CONTENT } from "@/lib/constant";
 
 const ZIP_COOKIE_NAME = "zipCode";
@@ -37,9 +36,7 @@ export default function Hero() {
     return () => { cancelled = true };
   }, []);
 
-  const headlineText = cityName
-    ? `Compare Auto Insurance in   ${cityName} `
-    : "Compare Auto Insurance in Your Area";
+ 
 
   const handleContinue = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
@@ -76,22 +73,22 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="relative w-full h-full bg-[#1D4ED8] md:min-h-[292px] lg:min-h-[335px] xl:min-h-[490px] px-6 py-8 lg:px-8  md:px-8 lg:py-10 lg:pt-14 xl:px-23 xl:py-23 xl:pt-27  overflow-hidden ">
+    <div className="relative w-full h-full bg-[#DDE6F4] md:min-h-[300px] lg:min-h-[350px] xl:min-h-[500px] px-6 py-8 lg:px-8  md:px-8 md:py-10 lg:py-12 lg:px-14 xl:px-34 xl:py-18  overflow-hidden ">
 
       <div className="relative z-10 w-full h-full ">
         <div className="mx-auto w-full max-w-[1280px]">
-          <div className="hero-content w-full flex flex-col items-center justify-center  md:flex-row md:justify-between md:items-center gap-6 md:gap-8 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
-            <div className="flex flex-col items-center md:items-start md:justify-center  gap-6 md:gap-7 lg:gap-8 xl:gap-12 md:w-[50%]">
-              <div className="w-full flex flex-col items-center  md:items-start md:justify-center gap-2.5 xl:gap-4">
+          <div className="hero-content w-full h-full flex flex-col items-center justify-center md:flex-row md:justify-between md:items-stretch">
+            <div className=" bg-white px-4 py-6 md:px-6 lg:px-9 lg:py-8 xl:py-9 flex flex-col items-center md:items-start md:justify-center  gap-6 lg:gap-7 xl:gap-9 md:w-[50%]">
+              <div className="w-full flex flex-col items-center  md:items-start md:justify-center gap-2.5 lg:gap-3  xl:gap-4">
                 <h1
-                  className="text-[1.5rem] md:text-[1.8rem] lg:text-3xl xl:text-4xl lg:max-w-[370px] xl:max-w-[450px] font-extrabold text-[#FFFFFF] text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-sans"
+                  className="text-[1.5rem]  lg:text-3xl xl:text-4xl lg:max-w-[370px] xl:max-w-[450px] font-extrabold text-[#0F172A] text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-sans"
                   style={{
-                    lineHeight: "1.4",
+                    lineHeight: "1.3",
                   }}
                 >
-                  {headlineText}
+                  {HERO_CONTENT.headline}
                 </h1>
-                <p className="text-sm lg:text-base xl:text-lg text-[#FFFFFF] font-normal text-center md:text-left" style={{ lineHeight: "1.6" }}>{HERO_CONTENT.description}</p>
+                <p className="text-sm lg:text-base xl:text-lg   text-[#374151] xl:max-w-[450px] font-normal text-center md:text-left" style={{ lineHeight: "1.6" }}>{HERO_CONTENT.description}</p>
               </div>
               <div className="flex-1 w-full min-w-0 flex flex-col md:flex-row  md:max-w-[450px] lg:max-w-[460px] xl:max-w-[560px] justify-center items-center md:justify-center lg:items-center">
                 <div className="w-full min-w-0 h-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-5.5 xl:gap-6 ">
@@ -117,7 +114,7 @@ export default function Hero() {
                             bg-white
                             w-full
                             shadow-[0_0_4px_0_rgba(17,24,39,0.06)]
-                            placeholder:text-[#444444]
+                            placeholder:text-[#374151]
                             placeholder:text-sm
                             focus-visible:ring-0 focus-visible:ring-offset-0
                           "
@@ -130,7 +127,7 @@ export default function Hero() {
                         variant="default"
                         disabled={isRedirecting || !zipValid}
                         onClick={handleContinue}
-                        className="bg-[#FF5715] h-14 w-full cursor-pointer rounded-[10px] px-8 py-4 text-[0.9rem] font-medium font-inherit text-white shadow-[0_0_4px_0_rgba(0,0,0,0.25)] transition-all duration-300 hover:bg-[#FF5715] disabled:cursor-not-allowed disabled:opacity-90 flex items-center justify-center gap-2"
+                        className="bg-[#2563EB] h-14 w-full cursor-pointer rounded-[10px] px-8 py-4 text-[0.9rem] font-medium font-inherit text-white transition-all duration-300 hover:bg-[#FF5715] disabled:cursor-not-allowed disabled:opacity-90 flex items-center justify-center gap-2"
                       >
                         {isRedirecting ? "Redirecting..." : <>View My Options</>}
                       </Button>
@@ -160,7 +157,7 @@ export default function Hero() {
                    
                         shadow-[0_0_4px_0_rgba(17,24,39,0.06)]
                    
-                        placeholder:text-[#444444]
+                        placeholder:text-[#374151]
                         placeholder:text-sm  md:placeholder:text-base xl:placeholder:text-xl
                         focus-visible:ring-0 focus-visible:ring-offset-0
                       "
@@ -172,7 +169,7 @@ export default function Hero() {
                       variant="default"
                       onClick={handleContinue}
                       disabled={isRedirecting || !zipValid}
-                      className="absolute right-1.5 top-1.5 xl:top-2 xl:right-2 flex md:h-13 xl:h-15.5 cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#FF5715] text-sm font-medium font-inherit text-white  transition-all duration-300 hover:bg-[#FF5715] disabled:cursor-not-allowed disabled:opacity-90 md:w-[160px] xl:w-[190px]  xl:text-base"
+                      className="absolute right-1.5 top-1.5 xl:top-2 xl:right-2 flex md:h-13 xl:h-15.5 cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#2563EB] text-sm font-medium font-inherit text-white  transition-all duration-300 hover:bg-[#FF5715] disabled:cursor-not-allowed disabled:opacity-90 md:w-[145px] lg:w-[165px] xl:w-[195px]  xl:text-base"
                     >
                       {isRedirecting ? "Redirecting..." : <>View My Options</>}
                     </Button>
@@ -184,35 +181,24 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="flex-1 w-full relative md:w-[50%] md:justify-end">
-              {/* For mobile and tablet, single image. For lg+, overlapping images */}
-              <div className=" rounded-lg overflow-hidden  flex justify-center items-center lg:absolute lg:-top-27 lg:-right-3 xl:-top-39 xl:-right-1 md:justify-end h-full w-[190px] md:w-[160px] mx-auto lg:w-[180px]  lg:h-[260px] xl:h-[380px] xl:w-[200px] lg:justify-end lg:mx-0 lg:block lg:bg-transparent lg:overflow-visible">
+            <div className="relative flex w-full min-h-0 flex-1 flex-col md:w-[50%] md:min-h-0">
+              <div className="relative aspect-[5/4] w-full max-md:max-h-[320px] md:aspect-auto md:min-h-0 md:flex-1">
                 <Image
-                  src={HERO_CONTENT.image1.src}
-                  alt={HERO_CONTENT.image1.alt}
-                  width={340}
-                  height={355}
-                  className="w-full h-full relative object-contain flex justify-center z-10 items-center md:justify-end"
+                  src="/hero.webp"
+                  alt="hero"
+                  fill
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                  className="object-cover"
                   priority
                 />
-                {/* Overlapping phone image for lg and up */}
-                <div className="hidden lg:block absolute top-33 xl:top-50 -translate-y-1/2 right-26 xl:right-30 w-[340px] h-[300px] xl:w-[480px] xl:h-[420px] overflow-hidden">
-                  <Image
-                    src="/hero-2.webp"
-                    alt="hero-2"
-                    width={1000}
-                    height={1000}
-                    className="object-cover w-full h-full"
-                    priority
-                  />
-                </div>
               </div>
             </div>
-     
             </div>
+            
           </div>
         </div>
       </div>
     
   );
+
 }

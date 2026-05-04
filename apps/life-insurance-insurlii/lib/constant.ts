@@ -1,21 +1,50 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Let's drop your rate in {city_name} today!",
-  description: "See real options from top providers near you.",
+  headline: "Life Insurance Designed Around Your Legacy",
+  description: "Explore coverage shaped around estate planning, wealth transfer, and long-term family protection.",
   
 
-  image1: {
+  image: {
     src: "/hero.webp",
-    alt: "Insurlii Auto Insurance"
+    alt: "Insurlii Life Insurance"
   },
-  image2: {
-    src: "/hero-2.webp",
-    alt: "Insurlii Auto Insurance"
-  },
+ 
   
   
 } as const
+
+export const BADGE_CONTENT = {
+ 
+  badges: [
+    {
+      number: 1,
+      title: "Estate-aware planning",
+      image: {
+        src: "/estate-wealth-planning.svg",
+        alt: "Estate-aware planning Icon"
+      }
+    },
+    {
+      number: 2,
+      title: "Tailored Coverage",
+      image: {
+        src: "/tailored-coverage.svg",
+        alt: "Tailored Coverage Icon"
+      }
+    },
+    {
+      number: 3,
+      title: "Private Guidance",
+      image: {
+        src: "/prompt-guidance.svg",
+        alt: "Prompt Guidance Icon"
+      }
+    },
+  ]
+} as const
+
+
 
 export const PARTNERS_CONTENT = {
   header: "COMPARE RATES FROM TOP INSURANCE COMPANIES",
@@ -31,68 +60,30 @@ export const PARTNERS_CONTENT = {
 } as const
 
 export const OPTIONS_CONTENT = {
-  header: "Compare Your Auto Insurance Options Today",
-  description: "Explore policies designed around your vehicle, usage, and protection.",
+  header: "Explore Life Insurance Built Around Your Needs",
+  
+  image: {
+    src: "/option.webp",
+    alt: "Option Image"
+  },
 
  badge : {
-  label: "Tailored options. Clear next steps. No generic quote flow.",
+  label: "Tailored options. Clear next steps.",
   src: "/shield.svg",
   alt: "Badge",
  },
   
 } as const
 
-export const REVIEW_CONTENT = {
-  header: "What Our Customers Say",
-  
-  reviews: [
-    {
-     id: 1,
-      quote: "Most sites just show prices. This helped me understand what coverage actually included - clear and straightforward.",
-      customer: {
-        name: "Michael R.",
-        location: "Austin, TX",
-        image: {
-          src: "/profile-1.svg",
-          alt: "Michael R.",
-        },
-      },
-    },
-    {
-      id: 2,
-      quote: "I needed better repair standards and liability coverage. Comparing options side by side made it easy.",
-      customer: {
-        name: "Sarah L.",
-        location: "San Diego, CA",
-        image: {
-          src: "/profile-2.svg",
-          alt: "Sarah L.",
-        },
-      },
-    },
-    {
-     
-      id: 3,
-      quote: "Didn’t feel like a typical quote flow. I could review options at my own pace - no pressure.",
-      customer: {
-        name: "Daniel K.",
-        location: "Chicago, IL",
-        image: {
-          src: "/profile-3.svg",
-          alt: "Daniel K.",
-        },
-      },
-    },
-  ],
-} as const
 
-export const FEATURES_CONTENT = {
+
+export const WORKS_CONTENT = {
   header: "How It Works",
   steps: [
     {
       number: 1,
       title: "Share a Few Details",
-      description: "Tell us about your vehicle and coverage preferences.",
+      description: "Tell us about your situation and what you’d like to plan for.",
       image: {
         src: "/feature-1.svg",
         alt: "Share a Few Details",
@@ -101,7 +92,7 @@ export const FEATURES_CONTENT = {
     {
       number: 2,
       title: "Review Tailored Options",
-      description: "Explore coverage designed around your needs - not generic policies.",
+      description: "Explore coverage structured around your needs and long-term goals.",
       image: {
         src: "/feature-2.svg",
         alt: "Review Tailored Options",
@@ -110,10 +101,52 @@ export const FEATURES_CONTENT = {
     {
       number: 3,
       title: "Speak With a Specialist",
-      description: "Get clarity and guidance before making a decision.",
+      description: "Get guidance if needed - no pressure, just clarity.",
       image: {
         src: "/feature-3.svg",
         alt: "Speak With a Specialist",
+      },
+    },
+  ],
+} as const
+
+export const FEATURES_CONTENT = {
+  header: "Why Life Insurance Matters Beyond Income Protection",
+  steps: [
+    {
+      number: 1,
+      title: "Estate Liquidity",
+      description: "Provides liquidity to cover estate obligations without disrupting long-term assets.",
+      image: {
+        src: "/feature-1.svg",
+        alt: "Share a Few Details",
+      },
+    },
+    {
+      number: 2,
+      title: "Wealth Transfer",
+      description: "Helps transfer wealth efficiently while maintaining control and structure.",
+      image: {
+        src: "/feature-2.svg",
+        alt: "Review Tailored Options",
+      },
+    },
+    {
+      number: 3,
+      title: "Family Continuity",
+      description: "Supports long-term financial stability for future generations.",
+      image: {
+        src: "/feature-3.svg",
+        alt: "Speak With a Specialist",
+      },
+    },
+    {
+      number: 4,
+      title: "Business Succession",
+      description: "Ensures smoother transitions for business ownership and continuity.",
+      image: {
+        src: "/feature-4.svg",
+        alt: "Legacy Preservation",
       },
     },
   ],

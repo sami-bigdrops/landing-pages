@@ -14,11 +14,11 @@ const fontSans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Insurlii Auto Insurance - Get Quotes Fast",
-    template: "%s | Insurlii Auto Insurance",
+    default: "Insurlii Life Insurance - Get Quotes Fast",
+    template: "%s | Insurlii Life Insurance",
   },
   description:
-    "Insurlii Auto Insurance helps you compare and get the best auto insurance quotes quickly. Fast, competitive rates, and excellent customer support across the USA.",
+    "Insurlii Life Insurance helps you compare and get the best life insurance quotes quickly. Fast, competitive rates, and excellent customer support across the USA.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
