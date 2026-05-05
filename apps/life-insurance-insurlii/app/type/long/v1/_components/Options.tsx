@@ -10,8 +10,8 @@ import { track } from "@vercel/analytics";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const REDIRECT_BASE_URL = "https://auto.assurerates.com";
-const REFERRER = "quotes.assurerates.com";
+const REDIRECT_BASE_URL = "https://auto-quote.insurlii.com";
+const REFERRER = "quotes.insurlii.com";
 const TID = "3286";
 
 export default function Options() {

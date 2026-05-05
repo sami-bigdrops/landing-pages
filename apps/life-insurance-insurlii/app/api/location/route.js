@@ -8,7 +8,7 @@ export async function GET(request) {
 
         const response = await fetch(`https://ipinfo.io/${targetIp}/json/`, {
             cache: "no-store",
-            headers: { "User-Agent": "platinum-window-experts/1.0" },
+            headers: { "User-Agent": "life-insurance-insurlii/1.0" },
         })
 
         const data = await response.json().catch(() => null)
