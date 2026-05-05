@@ -292,7 +292,7 @@ function FormPage() {
   const handleBack = () => setCurrentStep((p) => p - 1)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 px-4 pt-8 pb-8">
+    <div className="min-h-screen bg-white px-4 pt-8 pb-8">
       {googlePlacesApiKey && (
         <Script
           src={`https://maps.googleapis.com/maps/api/js?key=${googlePlacesApiKey}&libraries=places`}
@@ -303,12 +303,19 @@ function FormPage() {
       <div className="w-full max-w-3xl mx-auto">
         {cityName && homeownerCount > 0 && (
           <div className="mb-5 text-center">
-            <p className="text-sm md:text-base text-gray-700 font-semibold max-w-2xl mx-auto leading-snug">
-              {homeownerCount} Customers from <span className="text-sky-600 font-bold">{cityName}</span> got their FREE quote in the last {minutesText} minutes!
+            <p className="text-sm md:text-base text-[#1A1A1A] font-semibold max-w-2xl mx-auto leading-snug">
+              {homeownerCount} Customers from <span className="text-[#0F2A44] font-bold">{cityName}</span> got their FREE quote in the last {minutesText} minutes!
             </p>
           </div>
         )}
-        <ProgressBar type="5" currentStep={currentStep} totalSteps={TOTAL_STEPS} className="mb-6" />
+        <ProgressBar
+          type="5"
+          currentStep={currentStep}
+          totalSteps={TOTAL_STEPS}
+          className="mb-6"
+          backgroundColor="#B8CFE8"
+          foregroundColor="#DD2525"
+        />
         <form
           onSubmit={(e) => {
             e.preventDefault()
@@ -321,75 +328,83 @@ function FormPage() {
             }
           }}
         >
-          <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-8">
+          <div className="rounded-[10px] border border-[#E2E8F0] bg-white p-6 shadow-[0_0_10px_0_rgba(0,0,0,0.12)] md:p-8">
             <TrustedForm onCertUrlReady={handleTrustedFormReady} />
 
             {currentStep === 1 && (
               <>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1e1e1e] tracking-tight leading-tight mb-8 md:mb-10">Are you a homeowner?</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">Are you a homeowner?</h2>
                 <RadioButtonGroup
                   type="1"
                   name="homeowner"
                   label="Select an Option"
-                  labelClassName="text-base font-semibold text-gray-800"
+                  labelClassName="text-base font-semibold text-[#1A1A1A]"
                   options={homeownerOptions}
                   value={formData.homeowner}
                   onChange={(value) => handleInputChange("homeowner", value, true)}
                   className="mb-8"
+                  selectedOptionBackgroundColor="#D5E4FB"
+                  selectedOptionBorderColor="#0F2A44"
                 />
               </>
             )}
 
             {currentStep === 2 && (
               <>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1e1e1e] tracking-tight leading-tight mb-8 md:mb-10">What is the nature of this project?</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">What is the nature of this project?</h2>
                 <RadioButtonGroup
                   name="projectNature"
                   label="Select an Option"
-                  labelClassName="text-base font-semibold text-gray-800"
+                  labelClassName="text-base font-semibold text-[#1A1A1A]"
                   options={projectNatureOptions}
                   value={formData.projectNature}
                   onChange={(value) => handleInputChange("projectNature", value, true)}
                   className="mb-8"
+                  selectedOptionBackgroundColor="#D5E4FB"
+                  selectedOptionBorderColor="#0F2A44"
                 />
               </>
             )}
 
             {currentStep === 3 && (
               <>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1e1e1e] tracking-tight leading-tight mb-8 md:mb-10">
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">
                   {formData.projectNature === "home_window_replacement" ? "How many windows do you need to install?" : "How many windows do you need to repair?"}
                 </h2>
                 <RadioButtonGroup
                   name="windowCount"
                   label="Select an Option"
-                  labelClassName="text-base font-semibold text-gray-800"
+                  labelClassName="text-base font-semibold text-[#1A1A1A]"
                   options={windowCountOptions}
                   value={formData.windowCount}
                   onChange={(value) => handleInputChange("windowCount", value, true)}
                   className="mb-8"
+                  selectedOptionBackgroundColor="#D5E4FB"
+                  selectedOptionBorderColor="#0F2A44"
                 />
               </>
             )}
 
             {currentStep === 4 && (
               <>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1e1e1e] tracking-tight leading-tight mb-8 md:mb-10">When do you need this work done?</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">When do you need this work done?</h2>
                 <RadioButtonGroup
                   name="workDone"
                   label="Select an Option"
-                  labelClassName="text-base font-semibold text-gray-800"
+                  labelClassName="text-base font-semibold text-[#1A1A1A]"
                   options={workDoneOptions}
                   value={formData.workDone}
                   onChange={(value) => handleInputChange("workDone", value, true)}
                   className="mb-8"
+                  selectedOptionBackgroundColor="#D5E4FB"
+                  selectedOptionBorderColor="#0F2A44"
                 />
               </>
             )}
 
             {currentStep === 5 && (
               <>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1e1e1e] tracking-tight leading-tight mb-8 md:mb-10">Who should we prepare this FREE quote for?</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">Who should we prepare this FREE quote for?</h2>
                 <div className="mb-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <TextInput
@@ -398,7 +413,7 @@ function FormPage() {
                       value={formData.firstName}
                       onChange={(e) => handleInputChange("firstName", e.target.value)}
                       placeholder="John"
-                      labelClassName="text-base font-semibold text-gray-800"
+                      labelClassName="text-base font-semibold text-[#1A1A1A]"
                       className="h-12 text-base font-normal"
                     />
                     <TextInput
@@ -407,7 +422,7 @@ function FormPage() {
                       value={formData.lastName}
                       onChange={(e) => handleInputChange("lastName", e.target.value)}
                       placeholder="Doe"
-                      labelClassName="text-base font-semibold text-gray-800"
+                      labelClassName="text-base font-semibold text-[#1A1A1A]"
                       className="h-12 text-base font-normal"
                     />
                   </div>
@@ -418,7 +433,7 @@ function FormPage() {
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
                     placeholder="example@email.com"
-                    labelClassName="text-base font-semibold text-gray-800"
+                    labelClassName="text-base font-semibold text-[#1A1A1A]"
                     className="h-12 text-base font-normal"
                   />
                 </div>
@@ -427,7 +442,7 @@ function FormPage() {
 
             {currentStep === 6 && (
               <>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1e1e1e] tracking-tight leading-tight mb-8 md:mb-10">Address Information</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">Address Information</h2>
                 <div className="mb-8 space-y-6">
                   <AddressAutocomplete
                     id="address"
@@ -444,7 +459,7 @@ function FormPage() {
                       }))
                     }}
                     placeholder="Start typing your address..."
-                    labelClassName="text-base font-semibold text-gray-800"
+                    labelClassName="text-base font-semibold text-[#1A1A1A]"
                     className="h-12 text-base font-normal"
                     googleReady={googlePlacesReady}
                   />
@@ -455,7 +470,7 @@ function FormPage() {
                       value={formData.city}
                       onChange={(e) => handleInputChange("city", e.target.value)}
                       placeholder="City"
-                      labelClassName="text-base font-semibold text-gray-800"
+                      labelClassName="text-base font-semibold text-[#1A1A1A]"
                       className="h-12 text-base font-normal"
                     />
                     <TextInput
@@ -465,7 +480,7 @@ function FormPage() {
                       onChange={(e) => handleInputChange("state", e.target.value)}
                       placeholder="State"
                       maxLength={2}
-                      labelClassName="text-base font-semibold text-gray-800"
+                      labelClassName="text-base font-semibold text-[#1A1A1A]"
                       className="h-12 text-base font-normal"
                     />
                   </div>
@@ -475,7 +490,7 @@ function FormPage() {
                     value={formData.zipCode}
                     onChange={(v) => handleInputChange("zipCode", v)}
                     placeholder="12345"
-                    labelClassName="text-base font-semibold text-gray-800"
+                    labelClassName="text-base font-semibold text-[#1A1A1A]"
                     className="h-12 text-base font-normal"
                   />
                 </div>
@@ -484,14 +499,14 @@ function FormPage() {
 
             {currentStep === 7 && (
               <>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1e1e1e] tracking-tight leading-tight mb-8 md:mb-10">Phone Number</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">Phone Number</h2>
                 <div className="mb-8">
                   <PhoneNumberInput
                     id="phoneNumber"
                     label="Phone Number"
                     value={formData.phoneNumber}
                     onChange={(v) => handleInputChange("phoneNumber", v)}
-                    labelClassName="text-base font-semibold text-gray-800"
+                    labelClassName="text-base font-semibold text-[#1A1A1A]"
                     className="h-12 text-base font-normal"
                   />
                 </div>
@@ -502,11 +517,11 @@ function FormPage() {
               <div className="mb-6 flex items-center gap-3">
                 <div className="relative">
                   <Image src="/lady.png" alt="Security" width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
-                  <div className="absolute -bottom-1 -right-1 bg-sky-500 rounded-full p-1 flex items-center justify-center">
+                  <div className="absolute -bottom-1 -right-1 rounded-full bg-[#0F2A44] p-1 flex items-center justify-center">
                     <Check size={12} className="text-white" />
                   </div>
                 </div>
-                <p className="text-base text-gray-700 font-semibold">Your Information is safe & secure</p>
+                <p className="text-base font-semibold text-[#1A1A1A]">Your Information is safe & secure</p>
               </div>
             )}
 
@@ -515,7 +530,7 @@ function FormPage() {
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="px-6 py-4 rounded-xl font-semibold text-base md:text-lg border-2 border-gray-300 text-gray-800 hover:border-sky-600 hover:text-sky-600 transition-all duration-300 hover:shadow-lg flex items-center gap-2"
+                  className="flex items-center gap-2 rounded-[10px] border-2 border-[#BBB] px-6 py-4 text-base font-semibold text-[#1A1A1A] transition-all duration-300 hover:border-[#0F2A44] hover:text-[#0F2A44] hover:shadow-[0_0_10px_0_rgba(0,0,0,0.1)] md:text-lg"
                 >
                   <ArrowLeft size={20} />
                   Back
@@ -525,8 +540,10 @@ function FormPage() {
                 type="button"
                 onClick={handleNext}
                 disabled={!isStepValid() || isSubmitting}
-                className={`${currentStep > 1 ? "flex-1" : "w-full"} py-4 rounded-xl font-semibold text-base md:text-lg transition-all duration-300 flex items-center justify-center gap-2 ${
-                  !isStepValid() || isSubmitting ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-sky-600 text-white hover:bg-sky-700 shadow-lg hover:shadow-xl hover:scale-105 cursor-pointer"
+                className={`${currentStep > 1 ? "flex-1" : "w-full"} flex cursor-pointer items-center justify-center gap-2 rounded-[6px] py-4 text-base font-semibold uppercase transition-all duration-300 shadow-[0_0_4px_0_rgba(0,0,0,0.25)] md:text-lg ${
+                  !isStepValid() || isSubmitting
+                    ? "cursor-not-allowed bg-gray-300 text-gray-500"
+                    : "bg-[#DD2525] text-white hover:bg-[#DD2525]"
                 }`}
               >
                 {isSubmitting ? (
@@ -543,14 +560,14 @@ function FormPage() {
             </div>
 
             {currentStep === TOTAL_STEPS && (
-              <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <p className="text-xs text-gray-700 leading-relaxed font-medium">
+              <div className="mt-6 rounded-[10px] border border-[#BBB] bg-[#F8F9FB] p-4">
+                <p className="text-xs font-medium leading-relaxed text-[#1A1A1A]">
                   By submitting this form, I agree to the Affordable Windows of America{" "}
-                  <a href="/terms-of-use" className="text-sky-600 hover:text-sky-700 underline" target="_blank" rel="noopener noreferrer">
+                  <a href="/terms-of-use" className="text-[#0F2A44] underline hover:text-[#DD2525]" target="_blank" rel="noopener noreferrer">
                     Terms of Use
                   </a>{" "}
                   and{" "}
-                  <a href="/privacy-policy" className="text-sky-600 hover:text-sky-700 underline" target="_blank" rel="noopener noreferrer">
+                  <a href="/privacy-policy" className="text-[#0F2A44] underline hover:text-[#DD2525]" target="_blank" rel="noopener noreferrer">
                     Privacy Policy
                   </a>
                   . I authorize Affordable Windows of America and its{" "}
@@ -560,7 +577,7 @@ function FormPage() {
                       e.preventDefault()
                       setIsPartnerModalOpen(true)
                     }}
-                    className="text-sky-600 hover:text-sky-700 underline cursor-pointer"
+                    className="cursor-pointer text-[#0F2A44] underline hover:text-[#DD2525]"
                   >
                     partners
                   </button>{" "}
@@ -583,8 +600,8 @@ export default function FormPageWrapper() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 flex items-center justify-center">
-          <div className="text-sky-600 text-lg md:text-xl font-semibold">Loading...</div>
+        <div className="flex min-h-screen items-center justify-center bg-white">
+          <div className="text-lg font-semibold text-[#0F2A44] md:text-xl">Loading...</div>
         </div>
       }
     >

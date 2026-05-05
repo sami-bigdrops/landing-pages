@@ -16,6 +16,7 @@ export default function Hero() {
   const router = useRouter();
 
   const [zipCode, setZipCode] = useState("");
+  const [cityName, setCityName] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
@@ -24,16 +25,21 @@ export default function Hero() {
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;
-        const zip = data?.zip != null ? String(data.zip).replace(/\D/g, "").slice(0, 5) : null;
+        const city = data?.city != null ? String(data.city).trim() : null;
+        if (city) setCityName(city);
+        const zip =
+          data?.zip != null
+            ? String(data.zip).replace(/\D/g, "").slice(0, 5)
+            : null;
         if (zip && zip.length === 5) {
           setZipCode((prev) => (prev === "" ? zip : prev));
         }
       })
-      .catch(() => { });
-    return () => { cancelled = true };
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
   }, []);
-
- 
 
   const handleContinue = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
@@ -56,10 +62,7 @@ export default function Hero() {
 
   return (
     <div className="relative w-full h-full md:min-h-[280px] lg:min-h-[320px] xl:min-h-[480px]  px-6 sm:px-6 lg:px-14 py-10 md:py-12 md:px-8 lg:py-16 xl:px-23 xl:py-25 ">
-    
-    
-    
-    <div
+      <div
         className="absolute inset-0 w-full h-full bg-[position:left] md:bg-[position:right_center] lg:bg-[position:right_center]"
         style={{
           backgroundImage: "url('/hero-bg.webp')",
@@ -67,8 +70,7 @@ export default function Hero() {
           backgroundSize: "cover",
         }}
       />
-      
-     
+
       <div className="relative z-10 w-full h-full ">
         <div className="container mx-auto ">
           <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-8 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
@@ -81,18 +83,27 @@ export default function Hero() {
               >
                 {HERO_CONTENT.headline}
               </h1>
-              <p className="text-center md:text-left text-sm xl:text-lg font-normal md:max-w-[450px] lg:max-w-[450px] xl:max-w-[600px]  text-white" style={{ lineHeight: "1.6" }}>{HERO_CONTENT.description}</p>
+              <p
+                className="text-center md:text-left text-sm xl:text-lg font-normal md:max-w-[450px] lg:max-w-[450px] xl:max-w-[600px]  text-white"
+                style={{ lineHeight: "1.6" }}
+              >
+                {`Check what homeowners in ${cityName || "your area"} are paying and get a fast quote from local installers.`}
+              </p>
             </div>
             <div className="flex-1 w-full min-w-0 flex flex-col md:flex-row p-4 md:p-3 xl:p-3.5 md:max-w-[450px] lg:max-w-[460px] xl:max-w-[560px] rounded-[10px] bg-[#0F2A44] justify-center items-center md:justify-center lg:items-center">
               <div className="w-full min-w-0 h-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-5.5 xl:gap-6 ">
-         
-
                 <div className="w-full h-full space-y-4 sm:space-y-0 lg:max-w-[490px] xl:max-w-full">
                   {/* Mobile */}
                   <div className="block sm:hidden space-y-3 mb-0">
                     <div className="relative w-full h-full">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                        <Image src="/form-location.svg" alt="location icon" width={20} height={20} className="w-5.5 h-5.5 xl:w-6 xl:h-6 " />
+                        <Image
+                          src="/form-location.svg"
+                          alt="location icon"
+                          width={20}
+                          height={20}
+                          className="w-5.5 h-5.5 xl:w-6 xl:h-6 "
+                        />
                       </div>
                       <ZipCodeInput
                         id="hero-zipcode-mobile"
@@ -109,8 +120,7 @@ export default function Hero() {
                           shadow-[0_0_10px_0_rgba(0,0,0,0.15)]
                           placeholder:text-[#444444]
                           placeholder:text-sm
-                          focus-visible:ring-0 focus-visible:ring-offset-0
-                          
+                          focus-visible:ring-0 focus-visible:ring-offset-0  
                         "
                         containerClassName="w-full"
                       />
@@ -122,16 +132,25 @@ export default function Hero() {
                       onClick={handleContinue}
                       className="bg-[#DD2525] h-14 w-full cursor-pointer uppercase rounded-[6px] px-8 py-4 text-[0.9rem] font-medium font-inherit text-white shadow-[0_0_4px_0_rgba(0,0,0,0.25)] transition-all duration-300 hover:bg-[#DD2525] disabled:cursor-not-allowed disabled:opacity-90 flex items-center justify-center gap-2"
                     >
-                      {isRedirecting ? "Redirecting..." : <>See My Window Price </>}
+                      {isRedirecting ? (
+                        "Redirecting..."
+                      ) : (
+                        <>See My Window Price </>
+                      )}
                     </Button>
-               
                   </div>
 
                   {/* Desktop */}
 
                   <div className="hidden sm:block relative w-full ">
                     <div className="absolute left-3 xl:left-4 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                      <Image src="/form-location.svg" alt="location icon" width={20} height={20} className="md:w-5 md:h-5 xl:w-6 xl:h-6 " />
+                      <Image
+                        src="/form-location.svg"
+                        alt="location icon"
+                        width={20}
+                        height={20}
+                        className="md:w-5 md:h-5 xl:w-6 xl:h-6 "
+                      />
                     </div>
                     <ZipCodeInput
                       id="hero-zipcode"
@@ -150,7 +169,6 @@ export default function Hero() {
                         placeholder:text-sm  md:placeholder:text-base xl:placeholder:text-xl
                         focus-visible:ring-0 focus-visible:ring-offset-0
                       "
-                 
                       containerClassName="w-full"
                     />
                     <Button
@@ -160,9 +178,12 @@ export default function Hero() {
                       disabled={isRedirecting || !zipValid}
                       className="absolute right-1.5 top-1.5 xl:top-2 xl:right-2 uppercase flex md:h-13 xl:h-15.5 cursor-pointer items-center justify-center gap-2 rounded-[6px] bg-[#DD2525] text-sm font-medium font-inherit text-white shadow-[0_0_4px_0_rgba(0,0,0,0.25)] transition-all duration-300 hover:bg-[#DD2525] disabled:cursor-not-allowed disabled:opacity-90 md:w-[200px] xl:w-[235px]  xl:text-base"
                     >
-                      {isRedirecting ? "Redirecting..." : <>See My Window Price </>}
+                      {isRedirecting ? (
+                        "Redirecting..."
+                      ) : (
+                        <>See My Window Price </>
+                      )}
                     </Button>
-               
                   </div>
                 </div>
                 <div className=" grid w-auto min-w-0 grid-cols-2 justify-items-center gap-x-2 gap-y-3.5 sm:gap-x-3 sm:gap-y-3.5 md:flex md:flex-row md:flex-nowrap md:items-center md:justify-center md:gap-x-5 md:gap-y-0 lg:gap-x-5 xl:gap-x-7 ">
@@ -190,8 +211,6 @@ export default function Hero() {
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
