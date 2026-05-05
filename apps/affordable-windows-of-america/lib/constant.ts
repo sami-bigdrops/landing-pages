@@ -3,7 +3,6 @@
 
 export const HERO_CONTENT = {
   headline: "New Windows Without the Big Price Tag",
-  description: "Check what homeowners in your area are paying and get a fast quote from local installers.",
 
   image: {
 

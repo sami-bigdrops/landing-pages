@@ -175,7 +175,7 @@ export default function PartnerModal({ isOpen, onClose }: PartnerModalProps) {
               {partners.map((partner, index) => (
                 <div
                   key={index}
-                  className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-sky-300 hover:bg-sky-50 transition-all duration-200"
+                  className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 transition-all duration-200 hover:border-[#0F2A44]/35 hover:bg-[#D5E4FB]/50 sm:px-4 sm:py-3"
                 >
                   <p className="text-xs sm:text-sm md:text-base text-[#1e1e1e] font-medium">
                     {partner}
