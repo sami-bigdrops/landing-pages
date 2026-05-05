@@ -18,7 +18,7 @@ export default function TermsOfUse() {
                     Terms
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    By accessing this website (&quot;Site&quot;) owned by platinumwindowexperts.com, you agree to be bound by these Terms and Conditions of Use (&quot;Agreement&quot;). Please comply with all applicable laws and regulations, and if you disagree with any of these terms, refrain from using this Site. The materials on this Site are protected by copyright and trademark law.
+                    By accessing this website (&quot;Site&quot;) owned by affordablewindowsofamerica.com, you agree to be bound by these Terms and Conditions of Use (&quot;Agreement&quot;). Please comply with all applicable laws and regulations, and if you disagree with any of these terms, refrain from using this Site. The materials on this Site are protected by copyright and trademark law.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e]">
@@ -32,28 +32,28 @@ export default function TermsOfUse() {
                     Prohibited Uses
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    You agree not to use the Site in a manner prohibited by any law or regulation, invade others&apos; privacy, violate intellectual property or contractual rights, or transmit objectionable material. Additionally, you must not violate the Site&apos;s security, impersonate Platinum Window Experts personnel, interfere with the Site&apos;s functionality, or resell your right to use the Site.
+                    You agree not to use the Site in a manner prohibited by any law or regulation, invade others&apos; privacy, violate intellectual property or contractual rights, or transmit objectionable material. Additionally, you must not violate the Site&apos;s security, impersonate Affordable Windows of America personnel, interfere with the Site&apos;s functionality, or resell your right to use the Site.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e]">
                     Disclaimer
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] italic">
-                    The materials on this Site are provided &quot;as is&quot;. Platinum Window Experts makes no warranties, expressed or implied, and disclaims all other warranties, including without limitation, implied warranties of merchantability, fitness for a particular purpose, or non-infringement of intellectual property. Platinum Window Experts does not guarantee uninterrupted or error-free access to the Site.
+                    The materials on this Site are provided &quot;as is&quot;. Affordable Windows of America makes no warranties, expressed or implied, and disclaims all other warranties, including without limitation, implied warranties of merchantability, fitness for a particular purpose, or non-infringement of intellectual property. Affordable Windows of America does not guarantee uninterrupted or error-free access to the Site.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e]">
                     User Information; Privacy
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    Review Platinum Window Experts&apos; Privacy Policy incorporated into this Agreement. We may disclose non-personally identifiable information to third parties and any information required by law to government authorities.
+                    Review Affordable Windows of America&apos; Privacy Policy incorporated into this Agreement. We may disclose non-personally identifiable information to third parties and any information required by law to government authorities.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e]">
                     Indemnification
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    You agree that Platinum Window Experts, its subsidiaries, affiliates, officers, directors, and employees will not be held responsible for any third-party claim, demand, or damage arising out of your use of the Site.
+                    You agree that Affordable Windows of America, its subsidiaries, affiliates, officers, directors, and employees will not be held responsible for any third-party claim, demand, or damage arising out of your use of the Site.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e]">
@@ -67,28 +67,28 @@ export default function TermsOfUse() {
                     Links
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    Platinum Window Experts is not responsible for the contents of linked sites. Inclusion of any link does not imply endorsement, and use of any linked website is at the user&apos;s own risk.
+                    Affordable Windows of America is not responsible for the contents of linked sites. Inclusion of any link does not imply endorsement, and use of any linked website is at the user&apos;s own risk.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e]">
                     Site Terms of Use Modifications
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    Platinum Window Experts may revise this Agreement without notice. Your use of this Site constitutes your agreement to be bound by the current version of this Agreement.
+                    Affordable Windows of America may revise this Agreement without notice. Your use of this Site constitutes your agreement to be bound by the current version of this Agreement.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e]">
                     Governing Law
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    Any claim relating to Platinum Window Experts or this Site shall be governed by the laws of the State of New York without regard to its conflict of law provisions.
+                    Any claim relating to Affordable Windows of America or this Site shall be governed by the laws of the State of New York without regard to its conflict of law provisions.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e]">
                     Entire Agreement
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    This Agreement and all referenced materials constitute the entire understanding between you and Platinum Window Experts. If any provision is held invalid, the remaining provisions shall be enforced. Platinum Window Experts&apos; failure to enforce any provision is not a waiver of any provision or right.
+                    This Agreement and all referenced materials constitute the entire understanding between you and Affordable Windows of America. If any provision is held invalid, the remaining provisions shall be enforced. Affordable Windows of America&apos; failure to enforce any provision is not a waiver of any provision or right.
                   </p>
                 </div>
               </div>

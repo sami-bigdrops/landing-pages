@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
         project: projectNature.trim(),
         projectamount: windowCount.trim(),
         timing: workDone.trim(),
-        tcpa: "By submitting this form, I agree to the Platinum Window Experts Terms of Use and Privacy Policy. I authorize Platinum Window Experts and its partners to send me marketing text messages or phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. Opt-out anytime by replying STOP or using the unsubscribe link.",
+        tcpa: "By submitting this form, I agree to the Affordable Windows of America Terms of Use and Privacy Policy. I authorize Affordable Windows of America and its partners to send me marketing text messages or phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. Opt-out anytime by replying STOP or using the unsubscribe link.",
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",

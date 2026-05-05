@@ -173,7 +173,6 @@ export const FOOTER_CONTENT = {
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },
-    { text: "Contact ", href: "/contact" },
   ],
   description: "We connect homeowners with local window providers",
   copyrightText: "Copyright © 2026 Affordable Windows of America. All Rights Reserved.",

@@ -7,7 +7,6 @@ import { Button } from "@workspace/ui/components/button";
 import { useState, useEffect } from "react";
 import { setCookie, getCookie } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
-import { ArrowRight } from "lucide-react";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
@@ -78,7 +77,7 @@ export default function Options() {
       <div className="mx-auto w-full max-w-[1280px]">
         <div className="options-content w-full flex flex-col md:flex-row items-center justify-center md:justify-start md:items-center lg:items-start gap-6 md:gap-6 lg:gap-10 xl:gap-14">
           <div className="flex flex-col items-center justify-center  md:items-start gap-3 xl:gap-4  md:w-[50%] xl:w-[55%]">
-            <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl md:max-w-[300px] lg:max-w-[400px] xl:max-w-[500px] md:text-left   font-bold text-[#0F172A] md:text-left text-center font-inter " style={{ lineHeight: 1.3 }}>
+            <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl md:max-w-[300px] lg:max-w-[400px] xl:max-w-[500px] font-bold text-[#0F172A] md:text-left text-center font-inter " style={{ lineHeight: 1.3 }}>
               {OPTIONS_CONTENT.header}
             </h2>
             <p className="text-sm lg:text-sm xl:text-[1.05rem] text-[#374151] md:max-w-[320px] lg:max-w-[380px] xl:max-w-full md:text-left text-center font-sans" style={{ lineHeight: 1.6 }}>{OPTIONS_CONTENT.description}</p>
