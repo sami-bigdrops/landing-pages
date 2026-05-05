@@ -99,7 +99,7 @@ export default function Hero() {
                     <div className="block sm:hidden space-y-2.5 mb-0">
                       <div className="relative w-full h-full">
                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                          <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5.5 h-5.5 xl:w-6 xl:h-6 " />
+                          <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
                         </div>
                         <ZipCodeInput
                           id="hero-zipcode-mobile"

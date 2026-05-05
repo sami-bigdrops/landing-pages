@@ -6,7 +6,7 @@ import { FOOTER_CONTENT } from "@/lib/constant"
 
 export default function Footer() {
   return (
-    <div className="w-full bg-[#051850]">
+    <div className="w-full bg-[#0F294C]">
       <div className="mx-auto w-full max-w-[1280px]">
         <FooterUI
           type="long"
