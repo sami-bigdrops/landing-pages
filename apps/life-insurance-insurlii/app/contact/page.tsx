@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Navbar from '@/app/_components/Navbar'
 import Footer from '@/app/_components/Footer'
-import { Send, Mail, MapPin, AlertCircle, Linkedin } from 'lucide-react'
+import { Send, Mail, MapPin, AlertCircle } from 'lucide-react'
 
 interface FormErrors {
   firstName?: string
@@ -38,27 +38,28 @@ const Contact = () => {
         if (value.trim().length < 2) return 'First name must be at least 2 characters'
         return ''
       
-      case 'lastName':
+      case 'lastName': {
         if (!value.trim()) return 'Last name is required'
         if (value.trim().length < 2) return 'Last name must be at least 2 characters'
         return ''
-      
-      case 'email':
+      }
+      case 'email': {
         if (!value.trim()) return 'Email address is required'
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!emailRegex.test(value)) return 'Please enter a valid email address'
         return ''
+      }
       
-      case 'subject':
+      case 'subject': {
         if (!value.trim()) return 'Subject is required'
         if (value.trim().length < 5) return 'Subject must be at least 5 characters'
         return ''
-      
-      case 'message':
+      }
+      case 'message': {
         if (!value.trim()) return 'Message is required'
         if (value.trim().length < 10) return 'Message must be at least 10 characters'
         return ''
-      
+      }
       default:
         return ''
     }

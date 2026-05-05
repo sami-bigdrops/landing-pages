@@ -545,7 +545,7 @@ function FormPage() {
             {currentStep === TOTAL_STEPS && (
               <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
                 <p className="text-xs text-gray-700 leading-relaxed font-medium">
-                  By submitting this form, I agree to the Platinum Window Experts{" "}
+                  By submitting this form, I agree to the Affordable Windows of America{" "}
                   <a href="/terms-of-use" className="text-sky-600 hover:text-sky-700 underline" target="_blank" rel="noopener noreferrer">
                     Terms of Use
                   </a>{" "}
@@ -553,7 +553,7 @@ function FormPage() {
                   <a href="/privacy-policy" className="text-sky-600 hover:text-sky-700 underline" target="_blank" rel="noopener noreferrer">
                     Privacy Policy
                   </a>
-                  . I authorize Platinum Window Experts and its{" "}
+                  . I authorize Affordable Windows of America and its{" "}
                   <button
                     type="button"
                     onClick={(e) => {

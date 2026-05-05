@@ -15,7 +15,7 @@ export default function PrivacyPolicy() {
               <div className="flex flex-col gap-8">
                 <div>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    Platinum Window Experts (referred to as &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) is dedicated to safeguarding your privacy. This Privacy Statement (referred to as &quot;Statement&quot;) has been crafted to explain how we collect information through your online interactions with us, particularly via our website <a href="https://www.platinumwindowexperts.com" className="text-blue-600 hover:text-blue-800">www.platinumwindowexperts.com</a> (referred to as the &quot;Website&quot;), the purposes for which we use the information, and the circumstances under which we share such information.
+                    Affordable Windows of America (referred to as &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) is dedicated to safeguarding your privacy. This Privacy Statement (referred to as &quot;Statement&quot;) has been crafted to explain how we collect information through your online interactions with us, particularly via our website <a href="https://www.affordablewindowsofamerica.com" className="text-blue-600 hover:text-blue-800">www.affordablewindowsofamerica.com</a> (referred to as the &quot;Website&quot;), the purposes for which we use the information, and the circumstances under which we share such information.
                   </p>
 
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
@@ -123,7 +123,7 @@ export default function PrivacyPolicy() {
                     Contacting Us
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e]">
-                    For inquiries, corrections, or deletions of Personal Information, contact us at <a href="mailto:contact@platinumwindowexperts.com" className="text-blue-600 hover:text-blue-800">contact@platinumwindowexperts.com</a>.
+                    For inquiries, corrections, or deletions of Personal Information, contact us at <a href="mailto:contact@affordablewindowsofamerica.com" className="text-blue-600 hover:text-blue-800">contact@affordablewindowsofamerica.com</a>.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e]">
