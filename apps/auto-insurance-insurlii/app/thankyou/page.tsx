@@ -8,11 +8,13 @@ import { ThankYouType2, type ThankYouAd } from "@/app/_components/ThankYouType2"
 const THANKYOU_ADS: ThankYouAd[] = [
   {
     image: "/2.png",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=115&sub1=pwe_${utm_source}&sub2=${utm_id}",
+    link: "#",
+    // link: "https://auto-quote.insurlii.com/?sub1=${utm_source}&sub2=${utm_id}&slot=a",
   },
   {
     image: "/3.jpg",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=113&sub1=pwe_${utm_source}&sub2=${utm_id}",
+    link: "#",
+    // link: "https://auto-quote.insurlii.com/?sub1=${utm_source}&sub2=${utm_id}&slot=b",
   },
 ]
 

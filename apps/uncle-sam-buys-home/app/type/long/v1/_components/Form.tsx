@@ -1,40 +1,29 @@
 "use client"
 
 import { useState } from "react"
-import { Building2, Heart, Home, Map, Users } from "lucide-react"
+import Image from "next/image"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
-
-const ACCENT = "#44BF7C"
-
-function SingleFamilyIcon({ className }: { className?: string }) {
-  return (
-    <div className={`flex flex-col items-center ${className ?? ""}`}>
-      <Heart className="mb-0.5 h-5 w-5 stroke-current" strokeWidth={2} aria-hidden />
-      <Users className="h-9 w-9 stroke-current" strokeWidth={1.75} aria-hidden />
-    </div>
-  )
-}
 
 const HOME_TYPE_OPTIONS = [
   {
     id: "single_family",
     label: "Single Family Home",
-    Icon: SingleFamilyIcon,
+    Icon: "/family.svg",
   },
   {
     id: "condominium",
     label: "Condominium / Townhome",
-    Icon: Building2,
+    Icon: "/mall.svg",
   },
   {
     id: "mobile",
     label: "Mobile / Manufactured Home",
-    Icon: Home,
+    Icon: "/car.svg",
   },
   {
     id: "vacant_land",
     label: "Vacant Land",
-    Icon: Map,
+    Icon: "/land.svg",
   },
 ] as const
 
@@ -46,22 +35,27 @@ export default function Form() {
   const [homeType, setHomeType] = useState<HomeTypeId>("condominium")
 
   return (
-    <div className="w-full max-w-2xl rounded-xl bg-[#ECF5F8] px-4 py-6 md:px-6 md:py-8">
-      <div className="flex w-full flex-col gap-6">
+    <div className="w-full  flex flex-col items-center justify-center gap-10 md:gap-10">
+      <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#111827]  text-center">
+         Need to Sell Quickly? Get a Cash Offer Now for Your Home Today!
+      </h2>
+      <div className="flex w-full max-w-2xl flex-col justify-center items-center gap-3">
+        <div className="w-full md:max-w-lg xl:max-w-2xl flex justify-center items-center">
         <ProgressBar
-          type="5"
+          type="8"
           currentStep={currentStep}
           totalSteps={totalSteps}
-          backgroundColor="#8CD6AB"
-          foregroundColor={ACCENT}
+          backgroundColor="#2CA58D33"
+     
+          foregroundColor="#2CA58D"
         />
-
-        <div>
-          <h2 className="text-center text-lg font-bold text-[#111827] md:text-xl">
+        </div>
+        <div className="w-full flex flex-col justify-center items-center gap-6">
+          <h2 className="text-center text-base font-medium text-[#1C1C1C] ">
             Confirm Your Home Type
           </h2>
 
-          <div className="mt-6 grid grid-cols-2 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 gap-3 md:gap-4 md:max-w-lg">
             {HOME_TYPE_OPTIONS.map(({ id, label, Icon }) => {
               const selected = homeType === id
               return (
@@ -70,26 +64,22 @@ export default function Form() {
                   type="button"
                   onClick={() => setHomeType(id)}
                   aria-pressed={selected}
-                  className={`flex flex-col items-center justify-center gap-3 rounded-2xl border-2 px-3 py-5 text-center transition-colors md:px-4 md:py-6 ${
-                    selected
-                      ? "border-transparent bg-[#44BF7C] text-white"
-                      : "border-[#44BF7C] bg-white text-[#111827]"
-                  }`}
+                  className="flex flex-col items-center justify-center gap-4 rounded-[10px] border border-[#2CA58D] bg-white px-3 py-5 text-center transition-colors md:px-4 md:py-6"
+             
+                    
                 >
-                  {id === "single_family" ? (
-                    <SingleFamilyIcon
-                      className={`h-12 w-12 shrink-0 md:h-14 md:w-14 ${selected ? "text-white" : "text-[#44BF7C]"}`}
+                  <span className="flex shrink-0 items-center justify-center">
+                    <Image
+                      src={Icon}
+                      alt=""
+                      width={48}
+                      height={48}
+                      aria-hidden
+                      className="h-9.5 w-9.5 md:h-10 md:w-10 object-contain"
                     />
-                  ) : (
-                    <Icon
-                      className={`h-12 w-12 shrink-0 md:h-14 md:w-14 ${selected ? "text-white" : "text-[#44BF7C]"}`}
-                      strokeWidth={1.75}
-                    />
-                  )}
+                  </span>
                   <span
-                    className={`text-sm font-bold leading-tight md:text-[0.95rem] ${
-                      selected ? "text-white" : "text-[#111827]"
-                    }`}
+                    className="text-[0.85rem] font-semibold leading-normal text-[#343434]"
                   >
                     {label}
                   </span>
