@@ -15,7 +15,7 @@ export default function Navbar() {
             <Link href="/" className="block">
               <Image
                 src="/insurlii-logo.svg"
-                alt="Insurlii Auto Insurance"
+                alt="Insurlii Life Insurance"
                 width={128}
                 height={40}
                 className="w-36 lg:w-40 xl:w-48 h-auto object-contain"

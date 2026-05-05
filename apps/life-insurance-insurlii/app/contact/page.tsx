@@ -232,7 +232,7 @@ const Contact = () => {
               Get in Touch
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Have questions about our auto insurance services? We&apos;d love to hear from you. 
+              Have questions about life insurance with Insurlii? We&apos;d love to hear from you.
               Send us a message and we&apos;ll respond as soon as possible.
             </p>
           </div>
@@ -243,7 +243,7 @@ const Contact = () => {
               <div>
                 <h2 className="text-2xl font-bold text-[#1E3A8A] mb-4">Contact Information</h2>
                 <p className="text-gray-600 mb-6">
-                  Reach out to us through any of the following channels. We&apos;re here to help you find the best auto insurance coverage.
+                  Reach out to us through any of the following channels. We&apos;re here to help you find life insurance coverage that fits your needs.
                 </p>
               </div>
 
@@ -282,7 +282,7 @@ const Contact = () => {
                   <div>
                     <h3 className="text-base font-semibold text-gray-900">LinkedIn</h3>
                     <a 
-                      href="https://www.linkedin.com/company/assurerates/" 
+                      href="https://www.linkedin.com/company/insurlii/" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-sm text-[#1E3A8A] hover:text-[#1E3A8A]/80 transition-colors"
