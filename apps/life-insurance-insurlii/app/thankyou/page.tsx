@@ -8,11 +8,13 @@ import { ThankYouType2, type ThankYouAd } from "@/app/_components/ThankYouType2"
 const THANKYOU_ADS: ThankYouAd[] = [
   {
     image: "/2.png",
-    link: "https://auto-quote.insurlii.com/?sub1=${utm_source}&sub2=${utm_id}&slot=a",
+    link: "#",
+    // link: "https://auto-quote.insurlii.com/?sub1=${utm_source}&sub2=${utm_id}&slot=a",
   },
   {
     image: "/3.jpg",
-    link: "https://auto-quote.insurlii.com/?sub1=${utm_source}&sub2=${utm_id}&slot=b",
+    link: "#",
+    // link: "https://auto-quote.insurlii.com/?sub1=${utm_source}&sub2=${utm_id}&slot=b",
   },
 ]
 
