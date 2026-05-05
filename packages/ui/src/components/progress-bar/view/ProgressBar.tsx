@@ -11,6 +11,8 @@ function getPercentage(currentStep: number, totalSteps: number): number {
 
 const DEFAULT_BG = "var(--muted)"
 const DEFAULT_FG = "var(--primary)"
+const TYPE8_TRACK = "#d1e9e6"
+const TYPE8_FILL = "#26a69a"
 
 function getDefaultForeground(): string {
   return DEFAULT_FG
@@ -171,6 +173,20 @@ function ProgressBar({
           <div
             className="h-full rounded-none transition-all duration-300"
             style={{ width: `${percentage}%`, backgroundColor: fg }}
+          />
+        </div>
+      )}
+      {type === "8" && (
+        <div
+          className="relative h-3.5 md:h-3 xl:h-4 w-full overflow-hidden rounded-[100px]"
+          style={{ backgroundColor: backgroundColor ?? TYPE8_TRACK }}
+        >
+          <div
+            className="h-full max-w-full rounded-full transition-all duration-300"
+            style={{
+              width: `${percentage}%`,
+              backgroundColor: foregroundColor ?? TYPE8_FILL,
+            }}
           />
         </div>
       )}
