@@ -127,7 +127,7 @@ export default function Hero() {
                         variant="default"
                         disabled={isRedirecting || !zipValid}
                         onClick={handleContinue}
-                        className="bg-[#2563EB] h-14 w-full cursor-pointer rounded-[10px] px-8 py-4 text-[0.9rem] font-medium font-inherit text-white transition-all duration-300 hover:bg-[#FF5715] disabled:cursor-not-allowed disabled:opacity-90 flex items-center justify-center gap-2"
+                        className="bg-[#2563EB] h-14 w-full cursor-pointer rounded-[10px] px-8 py-4 text-[0.9rem] font-medium font-inherit text-white transition-all duration-300 hover:bg-[#2563EB] disabled:cursor-not-allowed disabled:opacity-90 flex items-center justify-center gap-2"
                       >
                         {isRedirecting ? "Redirecting..." : <>View My Options</>}
                       </Button>
@@ -169,7 +169,7 @@ export default function Hero() {
                       variant="default"
                       onClick={handleContinue}
                       disabled={isRedirecting || !zipValid}
-                      className="absolute right-1.5 top-1.5 xl:top-2 xl:right-2 flex md:h-13 xl:h-15.5 cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#2563EB] text-sm font-medium font-inherit text-white  transition-all duration-300 hover:bg-[#FF5715] disabled:cursor-not-allowed disabled:opacity-90 md:w-[145px] lg:w-[165px] xl:w-[195px]  xl:text-base"
+                      className="absolute right-1.5 top-1.5 xl:top-2 xl:right-2 flex md:h-13 xl:h-15.5 cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#2563EB] text-sm font-medium font-inherit text-white cursor-pointer  transition-all duration-300 hover:bg-[#2563EB] disabled:cursor-not-allowed disabled:opacity-90 md:w-[145px] lg:w-[165px] xl:w-[195px]  xl:text-base"
                     >
                       {isRedirecting ? "Redirecting..." : <>View My Options</>}
                     </Button>

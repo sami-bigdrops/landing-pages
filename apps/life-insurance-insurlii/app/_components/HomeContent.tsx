@@ -9,6 +9,7 @@ import Options from "@/app/type/long/v1/_components/Options"
 import Features from "@/app/type/long/v1/_components/Features"
 import Badge from "@/app/type/long/v1/_components/Badge"
 import Works from "@/app/type/long/v1/_components/Works"
+import FAQ from "@/app/type/long/v1/_components/FAQ"
 
 export default function HomeContent() {
   return (
@@ -18,6 +19,7 @@ export default function HomeContent() {
       <Badge />
       <Features />
       <Works />
+      <FAQ />
       <Options /> 
       <Footer />
     </div>

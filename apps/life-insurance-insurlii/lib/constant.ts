@@ -1,8 +1,8 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Life Insurance Designed Around Your Legacy",
-  description: "Explore coverage shaped around estate planning, wealth transfer, and long-term family protection.",
+  headline: "Life Insurance Built Around Your Legacy",
+  description: "Explore life insurance options shaped around estate planning, wealth transfer, family protection, and long-term financial security.",
   
 
   image: {
@@ -19,7 +19,7 @@ export const BADGE_CONTENT = {
   badges: [
     {
       number: 1,
-      title: "Estate-aware planning",
+      title: "Estate-Aware Planning",
       image: {
         src: "/badge-1.svg",
         alt: "Estate-aware planning Icon"
@@ -44,6 +44,28 @@ export const BADGE_CONTENT = {
   ]
 } as const
 
+export const FAQ_CONTENT = {
+  header: "Frequently Asked Questions",
+  faqs: [
+    {
+      question: "Can this work with trusts?",
+      answer:
+        "Yes. Life insurance is often structured alongside trusts as part of broader estate planning. A specialist can help you understand which approach may suit your goals.",
+    },
+    {
+      question: "Is permanent life more relevant here?",
+      answer: "Permanent life insurance may suit people looking at long-term protection, estate planning, or wealth transfer. The right fit depends on your age, assets, family needs, and financial priorities.",
+    },
+    {
+      question: "Is this only about replacing income?",
+      answer: "No. Life insurance can also support estate liquidity, inheritance planning, business succession, and long-term family protection.",
+    },
+    {
+      question: "How is this different from standard policies?",
+      answer: "This approach looks at your broader financial picture first. Coverage is reviewed through the lens of estate planning, family goals, ownership structure, and long-term protection.",
+    },
+  ],
+} as const
 
 
 
@@ -72,7 +94,7 @@ export const WORKS_CONTENT = {
     {
       number: 1,
       title: "Share a Few Details",
-      description: "Tell us about your situation and what you’d like to plan for.",
+      description: "Tell us about your situation, your goals, and the people or assets you want to protect.",
       image: {
         src: "/works-1.svg",
         alt: "Share a Few Details",
@@ -81,7 +103,7 @@ export const WORKS_CONTENT = {
     {
       number: 2,
       title: "Review Tailored Options",
-      description: "Explore coverage structured around your needs and long-term goals.",
+      description: "Explore life insurance coverage shaped around your financial needs and long-term plans.",
       image: {
         src: "/works-2.svg",
         alt: "Review Tailored Options",
@@ -90,7 +112,7 @@ export const WORKS_CONTENT = {
     {
       number: 3,
       title: "Speak With a Specialist",
-      description: "Get guidance if needed - no pressure, just clarity.",
+      description: "Get clear guidance when needed, with no pressure and no rushed decisions.",
       image: {
         src: "/works-3.svg",
         alt: "Speak With a Specialist",
@@ -105,7 +127,7 @@ export const FEATURES_CONTENT = {
     {
       number: 1,
       title: "Estate Liquidity",
-      description: "Provides liquidity to cover estate obligations without disrupting long-term assets.",
+      description: "Creates funds that may help cover estate obligations without disrupting long-term assets.",
       image: {
         src: "/feature-1.svg",
         alt: "Share a Few Details",
@@ -114,7 +136,7 @@ export const FEATURES_CONTENT = {
     {
       number: 2,
       title: "Wealth Transfer",
-      description: "Helps transfer wealth efficiently while maintaining control and structure.",
+      description: "Helps protect wealth distribution plans with structure, clarity, and future-focused planning.",
       image: {
         src: "/feature-2.svg",
         alt: "Review Tailored Options",
@@ -123,7 +145,7 @@ export const FEATURES_CONTENT = {
     {
       number: 3,
       title: "Family Continuity",
-      description: "Supports long-term financial stability for future generations.",
+      description: "Supports spouses, children, and future generations through planned financial protection.",
       image: {
         src: "/feature-3.svg",
         alt: "Speak With a Specialist",
@@ -132,7 +154,7 @@ export const FEATURES_CONTENT = {
     {
       number: 4,
       title: "Business Succession",
-      description: "Ensures smoother transitions for business ownership and continuity.",
+      description: "Gives business owners a smoother path for transition, ownership planning, and continuity.",
       image: {
         src: "/feature-4.svg",
         alt: "Legacy Preservation",

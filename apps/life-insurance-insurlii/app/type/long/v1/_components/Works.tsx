@@ -13,7 +13,7 @@ export default function Works() {
             {WORKS_CONTENT.header}
           </h2>
 
-          <div className="grid grid-cols-1 items-stretch md:grid-cols-3 gap-6 md:gap-5 lg:gap-6 xl:gap-12">
+          <div className="w-full grid grid-cols-1 items-stretch md:grid-cols-3 gap-6 md:gap-5 lg:gap-6 xl:gap-13">
             {WORKS_CONTENT.steps.map((step) => (
               <div key={step.number} className="h-full w-full">
                 <div className="flex h-full flex-col-reverse items-start justify-end gap-4 w-full rounded-[25px] border border-[#C0CDEA] bg-white/50 p-6 xl:p-7 shadow-[0_0_2px_0_rgba(0,0,0,0.10)] md:gap-5 lg:gap-5 xl:gap-6">
@@ -26,7 +26,7 @@ export default function Works() {
                       {step.title}
                     </h3>
 
-                    <p className="text-[0.85rem] md:text-[0.8rem] lg:text-sm xl:text-base text-[#374151] text-left  font-sans" style={{ lineHeight: 1.6 }}>
+                    <p className="text-[0.85rem] md:text-[0.8rem] lg:text-sm xl:text-base  xl:max-w-[280px] text-[#374151] text-left  font-sans" style={{ lineHeight: 1.6 }}>
                       {step.description}
                     </p>
                   </div>
