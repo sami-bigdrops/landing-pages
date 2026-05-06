@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useState } from "react"
+import { Suspense, useState, type FormEvent } from "react"
 import Image from "next/image"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
@@ -84,7 +84,7 @@ const HOUSE_VALUE_RANGES: { value: string; label: string }[] = [
   { value: "1_5m_plus", label: "$1.5M+" },
 ]
 
-const TOTAL_STEPS = 9
+const TOTAL_STEPS = 10
 
 const defaultFormData = {
   homeType: "condominium" as HomeTypeId,
@@ -99,6 +99,7 @@ const defaultFormData = {
   last_name: "",
   phone_number: "",
   email: "",
+  street_address: "",
 }
 
 type FormNavigationProps = {
@@ -136,9 +137,9 @@ function FormNavigation({
         <button
           type="button"
           onClick={onBack}
-          className="flex items-center gap-1.5 text-[0.9rem] xl:text-[0.95rem] cursor-pointer font-semibold text-[#47514F] transition-colors hover:text-[#374151]"
+          className="flex items-center gap-1.5 text-[0.9rem] xl:text-base cursor-pointer font-semibold text-[#47514F] transition-colors hover:text-[#374151]"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-[#47514F]">
+          <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 16 16" fill="none" className="w-4 h-4 lg:w-4.5 lg:h-4.5 xl:w-5 xl:h-5 text-[#47514F]">
             <path d="M6.66667 4.66669C6.66667 4.86669 6.6 5.00002 6.46667 5.13335L3.13333 8.46669C2.86667 8.73335 2.46667 8.73335 2.2 8.46669C1.93333 8.20002 1.93333 7.80002 2.2 7.53335L5.53333 4.20002C5.8 3.93335 6.2 3.93335 6.46667 4.20002C6.6 4.33335 6.66667 4.46669 6.66667 4.66669Z" fill="#47514F" />
             <path d="M6.66667 11.3333C6.66667 11.5333 6.6 11.6667 6.46667 11.8C6.2 12.0667 5.8 12.0667 5.53333 11.8L2.2 8.46667C1.93333 8.2 1.93333 7.8 2.2 7.53333C2.46667 7.26667 2.86667 7.26667 3.13333 7.53333L6.46667 10.8667C6.6 11 6.66667 11.1333 6.66667 11.3333Z" fill="#47514F" />
             <path d="M14 8.00002C14 8.40002 13.7333 8.66669 13.3333 8.66669H2.66667C2.26667 8.66669 2 8.40002 2 8.00002C2 7.60002 2.26667 7.33335 2.66667 7.33335H13.3333C13.7333 7.33335 14 7.60002 14 8.00002Z" fill="#47514F" />
@@ -157,6 +158,9 @@ function FormPage() {
     const idx = HOUSE_VALUE_RANGES.findIndex((r) => r.value === defaultFormData.houseValueRange)
     return idx >= 0 ? idx : 9
   })
+
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
+  const [submitError, setSubmitError] = useState("")
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     if (field === "zipCode") {
@@ -182,6 +186,87 @@ function FormPage() {
     setCurrentStep((prev) => prev - 1)
   }
 
+  const handleLeadSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (currentStep !== TOTAL_STEPS) {
+      if (currentStep === 2 && isStepValid()) {
+        handleNext()
+      } else if (currentStep === 9) {
+        handleNext()
+      }
+      return
+    }
+
+    setSubmitError("")
+
+    const zip = formData.zipCode.trim()
+    if (
+      !formData.first_name.trim() ||
+      !formData.last_name.trim() ||
+      !formData.street_address.trim() ||
+      !formData.email.trim() ||
+      !formData.phone_number.trim() ||
+      !zip
+    ) {
+      setSubmitStatus("error")
+      setSubmitError("Please complete all required fields.")
+      return
+    }
+
+    setSubmitStatus("loading")
+
+    const form = e.currentTarget
+    const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
+    const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
+
+    const payload = {
+      firstName: formData.first_name.trim(),
+      lastName: formData.last_name.trim(),
+      address: formData.street_address.trim(),
+      city: "",
+      state: "",
+      email: formData.email.trim(),
+      phoneNumber: formData.phone_number.trim(),
+      zipCode: zip,
+      isHomeowner: "",
+      subid1: getCookie("subid1") ?? "",
+      subid2: getCookie("subid2") ?? "",
+      subid3: getCookie("subid3") ?? "",
+      xxTrustedFormCertUrl: certInput?.value ?? "",
+      xxTrustedFormToken: tokenInput?.value ?? "",
+    }
+
+    try {
+      const res = await fetch("/api/submit-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      const data = (await res.json()) as {
+        error?: string
+        success?: boolean
+        redirectUrl?: string
+        field?: string
+      }
+
+      if (!res.ok) {
+        setSubmitStatus("error")
+        setSubmitError(typeof data.error === "string" ? data.error : "Submission failed")
+        return
+      }
+
+      if (data.success && typeof data.redirectUrl === "string") {
+        window.location.href = data.redirectUrl
+        return
+      }
+
+      setSubmitStatus("idle")
+    } catch {
+      setSubmitStatus("error")
+      setSubmitError("Something went wrong. Please try again.")
+    }
+  }
+
   return (
     <div className="w-full min-h-[400px] lg:min-h-[460px] xl:min-h-[580px] flex flex-col items-center justify-center gap-10 md:gap-10 xl:gap-13">
       <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#182542]  text-center">
@@ -198,7 +283,12 @@ function FormPage() {
             foregroundColor="#C12026"
           />
         </div>
-        <div className="w-full flex flex-col justify-center items-center gap-6 xl:gap-8">
+        <form
+          onSubmit={handleLeadSubmit}
+          className="w-full flex flex-col justify-center items-center gap-6 xl:gap-8"
+          noValidate
+        >
+          <TrustedForm />
           {currentStep === 1 && (
             <>
               <h2 className="text-center text-base xl:text-xl font-medium text-[#1C1C1C] ">
@@ -217,7 +307,7 @@ function FormPage() {
                         setCurrentStep(2)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#2CA58D] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -250,7 +340,7 @@ function FormPage() {
                   placeholder="Please enter zip code"
                   containerClassName="w-full md:max-w-[270px] lg:max-w-[320px] "
                   labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                  className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#2CA58D] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#9CA3AF] focus:border-[#2CA58D] focus:outline-none"
+                  className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
 
 
                 />
@@ -286,7 +376,7 @@ function FormPage() {
                         setCurrentStep(4)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#2CA58D] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -327,7 +417,7 @@ function FormPage() {
                         setCurrentStep(5)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#2CA58D] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-7 xl:px-6 xl:py-10"
+                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-7 xl:px-6 xl:py-10"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -367,7 +457,7 @@ function FormPage() {
                         setCurrentStep(6)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#2CA58D] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -407,7 +497,7 @@ function FormPage() {
                         setCurrentStep(7)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#2CA58D] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -448,7 +538,7 @@ function FormPage() {
                         setCurrentStep(8)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#2CA58D] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -503,7 +593,7 @@ function FormPage() {
                           : `linear-gradient(to right, #102E50 0%, #102E50 ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB 100%)`,
                     }}
                   />
-                  <div className="mt-2 flex w-full justify-between text-xs font-medium text-[#4B5563] xl:text-sm">
+                  <div className="mt-2 flex w-full justify-between text-xs font-medium text-[#343434] xl:text-sm">
                     <span>Under $100K</span>
                     <span>$1.5M+</span>
                   </div>
@@ -524,8 +614,8 @@ function FormPage() {
 
           {currentStep === 9 && (
             <>
-              <div className="w-full  md:max-w-sm xl:max-w-xl flex flex-col justify-center items-center gap-5 md:gap-6">
-                <div className="w-full md:max-w-xs xl:max-w-sm space-y-4 text-left mb-3">
+              <div className="w-full  md:max-w-sm xl:max-w-xl flex flex-col justify-center items-center gap-5 xl:gap-6">
+                <div className="w-full md:max-w-xs xl:max-w-sm space-y-2.5 lg:space-y-3 xl:space-y-4.5  text-left mb-3">
                   <TextInput
                     id="step6FirstName"
                     label="First Name"
@@ -533,7 +623,7 @@ function FormPage() {
                     onChange={(e) => handleInputChange("first_name", e.target.value)}
                     placeholder="enter First Name"
                     labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#2CA58D] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#9CA3AF] focus:border-[#2CA58D] focus:outline-none"
+                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
                   />
                   <TextInput
                     id="step6LastName"
@@ -542,7 +632,7 @@ function FormPage() {
                     onChange={(e) => handleInputChange("last_name", e.target.value)}
                     placeholder="enter Last Name"
                     labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#2CA58D] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#9CA3AF] focus:border-[#2CA58D] focus:outline-none"
+                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
                   />
 
                   <TextInput
@@ -553,7 +643,7 @@ function FormPage() {
                     onChange={(e) => handleInputChange("email", e.target.value)}
                     placeholder="enter Email Address"
                     labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#2CA58D] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#9CA3AF] focus:border-[#2CA58D] focus:outline-none"
+                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
                   />
                 </div>
 
@@ -567,7 +657,64 @@ function FormPage() {
               </div>
             </>
           )}
-        </div>
+
+          {currentStep === TOTAL_STEPS && (
+            <>
+              <div className="w-full  md:max-w-sm xl:max-w-xl flex flex-col justify-center items-center gap-5 xl:gap-6">
+                <div className="w-full md:max-w-xs xl:max-w-sm space-y-3 lg:space-y-3 xl:space-y-4.5 text-left mb-3">
+                  <TextInput
+                    id="propertyAddress"
+                    label="Street Address"
+                    value={formData.street_address}
+                    onChange={(e) => handleInputChange("street_address", e.target.value)}
+                    placeholder="enter Street Address"
+                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
+                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
+                  />
+                  <div className="w-full ">
+                    <p className="text-[0.7rem] mb-1 font-medium text-left text-[#1C1C1C]">NEW YORK, NY, 10001</p>
+                  </div>
+
+                  <PhoneNumberInput
+                    id="phoneNumber"
+                    label="Phone Number"
+                    value={formData.phone_number}
+                    onChange={(v) => handleInputChange("phone_number", v)}
+                    placeholder="enter Phone Number"
+                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
+                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
+                  />
+           
+                  <div className="w-full mt-6 flex flex-col items-center justify-center gap-5">
+                  <p className="text-xs font-normal text-left text-[#343434]" style={{lineHeight: "1.5"}}>
+                    By clicking the button below, you acknowledge, consent, and agree to our terms at the bottom of this page.
+                  </p>
+
+                  {submitStatus === "error" && submitError ? (
+                    <p className="text-sm text-red-600" role="alert">
+                      {submitError}
+                    </p>
+                  ) : null}
+
+                  <button
+                    type="submit"
+                    disabled={submitStatus === "loading"}
+                    className="w-full h-13  rounded-[10px] bg-[#C12026] cursor-pointer py-3 text-sm xl:text-[1.05rem] font-medium uppercase text-white transition-all duration-300 md:py-3.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
+                  </button>
+
+                  <p className="text-xs mb-1 font-normal text-left text-[#343434]" style={{lineHeight: "1.6"}}>
+                    By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to  <strong>2 partners</strong>; that you are providing your prior express written consent for those <strong>partners</strong> to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our <a href="/terms-of-use" className="text-[#343434] font-bold " target="_blank" rel="noopener noreferrer">Terms of Use</a>, including its <strong>Arbitration provision</strong>, and <a href="/privacy-policy" className="text-[#343434] font-bold " target="_blank" rel="noopener noreferrer">Privacy Policy</a>; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email consent@unclesambuyshome.com and you can revoke your consent at any time by emailing us
+                  </p>
+                  </div>
+                </div>
+
+                <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
+              </div>
+            </>
+          )}
+        </form>
       </div>
     </div>
   )
@@ -578,7 +725,7 @@ export default function Form() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-white">
-          <div className="text-base font-semibold text-[#2CA58D] md:text-lg">Loading...</div>
+          <div className="text-base font-semibold text-[#102E50] md:text-lg">Loading...</div>
         </div>
       }
     >
