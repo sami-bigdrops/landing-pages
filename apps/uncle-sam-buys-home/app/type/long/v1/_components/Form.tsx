@@ -4,6 +4,9 @@ import { Suspense, useState } from "react"
 import Image from "next/image"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
+import { TextInput } from "@workspace/ui/components/text-input"
+import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
+import { TrustedForm, getCookie } from "@workspace/lp-core"
 
 
 const HOME_TYPE_OPTIONS = [
@@ -45,7 +48,7 @@ const CREDIT_OPTIONS = [
   { id: "poor", label: "Poor (559 Or Less)", Icon: "/poor.svg" },
   { id: "fair", label: "Fair (560–639)", Icon: "/fair.svg" },
   { id: "good", label: "Good (640–700)", Icon: "/good.svg" },
-  { id: "excellent", label: "Excellent (701+)", Icon: "/excellent.svg" }
+  { id: "excellent", label: "Excellent (701+)", Icon: "/excellant.svg" }
 ] as const
 
 
@@ -81,7 +84,7 @@ const HOUSE_VALUE_RANGES: { value: string; label: string }[] = [
   { value: "1_5m_plus", label: "$1.5M+" },
 ]
 
-const TOTAL_STEPS = 8
+const TOTAL_STEPS = 9
 
 const defaultFormData = {
   homeType: "condominium" as HomeTypeId,
@@ -92,6 +95,10 @@ const defaultFormData = {
   money: "asap" as MoneyTypeId,
   credit: "poor" as CreditTypeId,
   houseValueRange: "500_550",
+  first_name: "",
+  last_name: "",
+  phone_number: "",
+  email: "",
 }
 
 type FormNavigationProps = {
@@ -467,14 +474,14 @@ function FormPage() {
 
           {currentStep === 8 && (
             <>
-              <div className="flex w-full flex-col items-center justify-center text-center">
-                <h2 className="mb-4 md:mb-6 xl:mb-8 text-base xl:text-xl font-medium text-[#1C1C1C]">
+              <div className="flex w-full flex-col items-center justify-center text-center gap-5 md:gap-6 xl:gap-8 mb-3 lg:mb-4 xl:mb-6">
+                <h2 className=" text-base xl:text-xl font-medium text-[#1C1C1C]">
                   Estimate House Value
                 </h2>
-                <p className="mb-4 md:mb-6 xl:mb-8 text-xl font-bold text-[#182542] md:text-2xl xl:text-3xl">
+                <p className=" text-xl font-medium text-[#182542] md:text-2xl xl:text-3xl">
                   {HOUSE_VALUE_RANGES[houseValueIndex]?.label ?? ""}
                 </p>
-                <div className="mb-2 w-full md:max-w-sm xl:max-w-md">
+                <div className="mb-2 w-full md:max-w-lg lg:max-w-xl xl:max-w-3xl">
                   <input
                     type="range"
                     min={0}
@@ -488,15 +495,15 @@ function FormPage() {
                       const v = HOUSE_VALUE_RANGES[idx]?.value ?? ""
                       setFormData((prev) => ({ ...prev, houseValueRange: v }))
                     }}
-                    className="h-2 w-full cursor-pointer appearance-none rounded-full bg-[#E5E7EB] accent-[#182542] [&::-webkit-slider-thumb]:size-5 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[#182542] [&::-webkit-slider-thumb]:bg-white [&::-moz-range-thumb]:size-5 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-[#182542] [&::-moz-range-thumb]:bg-white"
+                    className="h-2 xl:h-2.5 w-full cursor-pointer appearance-none rounded-full bg-[#E5E7EB] accent-[#182542] [&::-webkit-slider-thumb]:size-5.5 xl:[&::-webkit-slider-thumb]:size-7 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-3 xl:[&::-webkit-slider-thumb]:border-3.5 [&::-webkit-slider-thumb]:border-[#182542] [&::-webkit-slider-thumb]:bg-white [&::-moz-range-thumb]:size-5.5 xl:[&::-moz-range-thumb]:size-7 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-3 xl:[&::-moz-range-thumb]:border-3.5 [&::-moz-range-thumb]:border-[#182542] [&::-moz-range-thumb]:bg-white"
                     style={{
                       background:
                         HOUSE_VALUE_RANGES.length <= 1
-                          ? "#182542"
-                          : `linear-gradient(to right, #182542 0%, #182542 ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB 100%)`,
+                          ? "#102E50"
+                          : `linear-gradient(to right, #102E50 0%, #102E50 ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB 100%)`,
                     }}
                   />
-                  <div className="mt-2 flex w-full justify-between text-xs font-medium text-[#4B5563] md:text-sm">
+                  <div className="mt-2 flex w-full justify-between text-xs font-medium text-[#4B5563] xl:text-sm">
                     <span>Under $100K</span>
                     <span>$1.5M+</span>
                   </div>
@@ -504,6 +511,52 @@ function FormPage() {
               </div>
 
               <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-6 md:max-w-sm xl:max-w-xl">
+                <FormNavigation
+                  showBack
+                  showNext
+                  isNextDisabled={!isStepValid()}
+                  onNext={handleNext}
+                  onBack={handleBack}
+                />
+              </div>
+            </>
+          )}
+
+          {currentStep === 9 && (
+            <>
+              <div className="w-full  md:max-w-sm xl:max-w-xl flex flex-col justify-center items-center gap-5 md:gap-6">
+                <div className="w-full md:max-w-xs xl:max-w-sm space-y-4 text-left mb-3">
+                  <TextInput
+                    id="step6FirstName"
+                    label="First Name"
+                    value={formData.first_name}
+                    onChange={(e) => handleInputChange("first_name", e.target.value)}
+                    placeholder="enter First Name"
+                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
+                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#2CA58D] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#9CA3AF] focus:border-[#2CA58D] focus:outline-none"
+                  />
+                  <TextInput
+                    id="step6LastName"
+                    label="Last Name"
+                    value={formData.last_name}
+                    onChange={(e) => handleInputChange("last_name", e.target.value)}
+                    placeholder="enter Last Name"
+                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
+                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#2CA58D] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#9CA3AF] focus:border-[#2CA58D] focus:outline-none"
+                  />
+
+                  <TextInput
+                    id="email"
+                    label="Email Address"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    placeholder="enter Email Address"
+                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
+                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#2CA58D] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#9CA3AF] focus:border-[#2CA58D] focus:outline-none"
+                  />
+                </div>
+
                 <FormNavigation
                   showBack
                   showNext
