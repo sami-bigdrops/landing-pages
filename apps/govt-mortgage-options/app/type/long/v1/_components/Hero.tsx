@@ -96,7 +96,7 @@ export default function Hero() {
               <div className="w-full">
                 <div className="relative">
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                    <Image src="/location.svg" alt="" width={20} height={20} className="w-5 h-5" />
+                    <Image src="/location.svg?v=2" alt="" width={20} height={20} className="w-5 h-5" />
                   </div>
                   <ZipCodeInput
                     id="hero-zipcode"
@@ -108,7 +108,7 @@ export default function Hero() {
                       h-14 md:h-14.5 xl:h-16 pl-10 pr-2 text-base lg:text-lg xl:text-xl font-normal font-inter
                       rounded-[10px]
                       sm:rounded-tr-none sm:rounded-br-none
-                      border border-[#3498DB]
+                      border border-[#941F32]
                       sm:border-r-0
                       bg-white
                       w-full
@@ -125,7 +125,7 @@ export default function Hero() {
                 variant="default"
                 onClick={handleContinue}
                 disabled={isRedirecting || !zipValid}
-                className="bg-[#3498DB] h-14 md:h-14.5 xl:h-16 sm:w-47 lg:w-52 xl:w-66 cursor-pointer text-white font-semibold font-inter rounded-[10px] sm:rounded-tl-none sm:rounded-bl-none text-sm xl:text-lg px-6 flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
+                className="bg-[#941F32] h-14 md:h-14.5 xl:h-16 sm:w-47 lg:w-52 xl:w-66 cursor-pointer text-white font-semibold font-inter rounded-[10px] sm:rounded-tl-none sm:rounded-bl-none text-sm xl:text-lg px-6 flex items-center gap-2 transition-all duration-300 w-full max-w-md justify-center shadow-md hover:bg-[#7F1A2A] hover:shadow-lg disabled:opacity-90 disabled:cursor-not-allowed"
               >
                 {isRedirecting ? "Redirecting..." : HERO_CONTENT.ctaButton}
                 {!isRedirecting && (
@@ -141,7 +141,7 @@ export default function Hero() {
                   key={index}
                   className="flex items-center gap-1.5 text-white/70 font-inter text-xs sm:text-sm whitespace-nowrap"
                 >
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#3498DB]" />
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#941F32]" />
                   {feature.text}
                 </li>
               ))}

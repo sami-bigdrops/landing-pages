@@ -1,0 +1,9 @@
+:root {
+  --primary: oklch(0.37 0.145 21);
+  --primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.37 0.145 21);
+  --secondary: oklch(0.96 0.03 21);
+  --secondary-foreground: oklch(0.3 0.12 21);
+  --accent: oklch(0.94 0.05 21);
+  --accent-foreground: oklch(0.3 0.12 21);
+}

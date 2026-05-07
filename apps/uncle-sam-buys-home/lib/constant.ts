@@ -351,10 +351,8 @@ export const FOOTER_CONTENT = {
   description: "Affordable coverage for unexpected home repairs.",
   linkHeader: "Company",
   links: [
-    { text: "Privacy Policy", href: "/privacy-policy" },
-    { text: "Terms of Use", href: "/terms-of-use" },
-    { text: "Do Not Sell My Info", href: "/do-not-sell-my-info" },
-    { text: "Opt Out ", href: "/opt out" },
+    { text: "Privacy Policy", href: "#" },
+    { text: "Terms of Use", href: "#" },
   ],
   copyrightText: "Copyright © 2026 Uncle Sam Buys Home. All Rights Reserved.",
   disclaimer:

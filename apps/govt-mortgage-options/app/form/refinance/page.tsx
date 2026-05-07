@@ -6,9 +6,9 @@ import Script from "next/script";
 import { ArrowLeft, DollarSign, Loader2, Info } from "lucide-react";
 import { ProgressBar } from "@workspace/ui/components/progress-bar";
 import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group";
+import { SelectInput } from "@workspace/ui/components/select-input";
 import MotivationalQuote from "@/components/MotivationalQuotes";
 import MortgageSlider, {
-  SNAP_POINTS,
   SNAP_POINTS_WITH_ZERO,
   snapToNearest,
   getAverageValue,
@@ -18,9 +18,9 @@ import { TrustedForm, useUtmParams } from "@workspace/lp-core";
 
 // ── Psychological step order ────────────────────────────────────────────────
 //  Property (easy, non-threatening start)
-//  1  EST_VAL + BAL_ONE  Home value & mortgage balance sliders
-//  2  PROP_DESC          Property type (radio, auto-advance)
-//  3  PROP_PURP          Property purpose (radio, auto-advance)
+//  1  PROP_DESC          Property type (radio, auto-advance)
+//  2  EST_VAL + BAL_ONE  Home value & mortgage balance (select inputs)
+//  3  CRED_GRADE         Credit rating (radio, auto-advance)
 //
 //  Financial details (engaged, momentum built)
 //  4  MTG_ONE_INT        Current mortgage rate slider
@@ -31,7 +31,7 @@ import { TrustedForm, useUtmParams } from "@workspace/lp-core";
 //
 //  Preferences & qualifications (invested, ask harder questions)
 //  9  LOAN_TYPE          Loan type (radio, auto-advance)
-//  10 CRED_GRADE         Credit grade (radio, auto-advance)
+//  10 PROP_PURP          Property purpose (radio, auto-advance)
 //  11 VA_STATUS          Veteran? (radio, auto-advance)
 //  12 FHA_BANK_FORECLOSURE   (radio, auto-advance)
 //  13 ANNUAL_VERIFIABLE_INCOME (radio, auto-advance)
@@ -43,10 +43,9 @@ import { TrustedForm, useUtmParams } from "@workspace/lp-core";
 // ────────────────────────────────────────────────────────────────────────────
 
 const TOTAL_STEPS = 16;
-const DEFAULT_HOME_VALUE = 250_000;
 
 const INPUT_CLS =
-  "w-full px-4 py-3 rounded-md border border-gray-200 text-sm font-inter focus:outline-none focus:ring-2 focus:ring-[#3498DB]/30 focus:border-[#3498DB] transition-colors";
+  "w-full px-4 py-3 rounded-md border border-gray-200 text-sm font-inter focus:outline-none focus:ring-2 focus:ring-[#941F32]/20 focus:border-[#941F32] transition-colors";
 const LABEL_CLS = "text-sm font-semibold text-[#1C2833] font-inter";
 const STEP_HEADING_CLS = "text-xl md:text-2xl font-extrabold text-[#1C2833] font-inter leading-snug";
 const STEP_SUBTEXT_CLS = "text-sm text-gray-500 font-inter mt-1";
@@ -59,11 +58,10 @@ const US_STATES = [
   "VT","VA","WA","WV","WI","WY",
 ];
 
-const PROP_DESC_OPTS  = [
-  { value: "SINGLE_FAM", label: "Single Family" },
-  { value: "MULTI_FAM",  label: "Multi Family" },
-  { value: "CONDO",      label: "Condo" },
-  { value: "TOWNHOME",   label: "Townhome" },
+const PROP_DESC_OPTS = [
+  { value: "SINGLE_FAM", label: "Single Family Home" },
+  { value: "MULTI_FAM", label: "Multi-Family Home" },
+  { value: "CONDO", label: "Condominium" },
   { value: "MOBILEHOME", label: "Mobile Home" },
 ];
 const PROP_PURP_OPTS  = [
@@ -72,10 +70,10 @@ const PROP_PURP_OPTS  = [
   { value: "INVESTMENT",       label: "Investment Home" },
 ];
 const CRED_GRADE_OPTS = [
-  { value: "EXCELLENT", label: "Excellent (680+)" },
-  { value: "GOOD",      label: "Good (640-679)" },
-  { value: "FAIR",      label: "Fair (560-599)" },
-  { value: "POOR",      label: "Poor (below 560)" },
+  { value: "EXCELLENT", label: "Excellent (720+)" },
+  { value: "GOOD",      label: "Good (680-719)" },
+  { value: "FAIR",      label: "Fair (640-679)" },
+  { value: "POOR",      label: "Poor (639 or less)" },
 ];
 const YES_NO_OPTS     = [{ value: "YES", label: "Yes" }, { value: "NO", label: "No" }];
 const LOAN_TYPE_OPTS  = [
@@ -88,6 +86,66 @@ const LATES_OPTS = [
   { value: "ONE",         label: "One" },
   { value: "TWO_OR_MORE", label: "Two or More" },
 ];
+
+const PROP_VALUE_OPTS = [
+  "$90,001 - $105,000","$75,000 - $90,000","$105,001 - $120,000","$120,001 - $135,000",
+  "$135,001 - $150,000","$150,001 - $165,000","$165,001 - $180,000","$180,001 - $195,000",
+  "$195,001 - $210,000","$210,001 - $225,000","$225,001 - $240,000","$240,001 - $255,000",
+  "$255,001 - $270,000","$270,001 - $285,000","$285,001 - $300,000","$300,001 - $315,000",
+  "$315,001 - $330,000","$330,001 - $345,000","$345,001 - $360,000","$360,001 - $375,000",
+  "$375,001 - $390,000","$390,001 - $405,000","$405,001 - $420,000","$420,001 - $435,000",
+  "$435,001 - $450,000","$450,001 - $465,000","$465,001 - $480,000","$480,001 - $495,000",
+  "$495,001 - $510,000","$510,001 - $525,000","$525,001 - $540,000","$540,001 - $555,000",
+  "$555,001 - $570,000","$570,001 - $585,000","$585,001 - $600,000","$600,001 - $615,000",
+  "$615,001 - $630,000","$630,001 - $645,000","$645,001 - $660,000","$660,001 - $675,000",
+  "$675,001 - $690,000","$690,001 - $705,000","$705,001 - $720,000","$720,001 - $735,000",
+  "$735,001 - $750,000","$750,001 - $765,000","$765,001 - $780,000","$780,001 - $795,000",
+  "$795,001 - $810,000","$810,001 - $825,000","$825,001 - $840,000","$840,001 - $855,000",
+  "$855,001 - $870,000","$870,001 - $885,000","$885,001 - $900,000","$900,001 - $915,000",
+  "$915,001 - $930,000","$930,001 - $945,000","$945,001 - $960,000","$960,001 - $975,000",
+  "$975,001 - $990,000","$990,001 - $1,000,000",
+  "$1.0M - $1.1M","$1.11M - $1.2M","$1.21M - $1.3M","$1.31M - $1.4M","$1.41M - $1.5M",
+  "$1.51M - $1.6M","$1.61M - $1.7M","$1.71M - $1.8M","$1.81M - $1.9M","$1.91M - $2.0M",
+  "$2.0M or more",
+];
+
+const BALANCE_OPTS = [
+  "$50,000 - $59,999","$60,000 - $79,999","$80,000 - $89,999","$90,000 - $99,999",
+  "$100,000 - $120,000","$120,001 - $135,000","$135,001 - $150,000","$150,001 - $165,000",
+  "$165,001 - $180,000","$180,001 - $195,000","$195,001 - $210,000","$210,001 - $225,000",
+  "$225,001 - $240,000","$240,001 - $255,000","$255,001 - $270,000","$270,001 - $285,000",
+  "$285,001 - $300,000","$300,001 - $315,000","$315,001 - $330,000","$330,001 - $345,000",
+  "$345,001 - $360,000","$360,001 - $375,000","$375,001 - $390,000","$390,001 - $405,000",
+  "$405,001 - $420,000","$420,001 - $435,000","$435,001 - $450,000","$450,001 - $465,000",
+  "$465,001 - $480,000","$480,001 - $495,000","$495,001 - $510,000","$510,001 - $525,000",
+  "$525,001 - $540,000","$540,001 - $555,000","$555,001 - $570,000","$570,001 - $585,000",
+  "$585,001 - $600,000","$600,001 - $615,000","$615,001 - $630,000","$630,001 - $645,000",
+  "$645,001 - $660,000","$660,001 - $675,000","$675,001 - $690,000","$690,001 - $705,000",
+  "$705,001 - $720,000","$720,001 - $735,000","$735,001 - $750,000","$750,001 - $765,000",
+  "$765,001 - $780,000","$780,001 - $795,000","$795,001 - $810,000","$810,001 - $825,000",
+  "$825,001 - $840,000","$840,001 - $855,000","$855,001 - $870,000","$870,001 - $885,000",
+  "$885,001 - $900,000","$900,001 - $915,000","$915,001 - $930,000","$930,001 - $945,000",
+  "$945,001 - $960,000","$960,001 - $975,000","$975,001 - $990,000","$990,001 - $1,000,000",
+  "$1.0M - $1.1M","$1.11M - $1.2M","$1.21M - $1.3M","$1.31M - $1.4M","$1.41M - $1.5M",
+  "$1.51M - $1.6M","$1.61M - $1.7M","$1.71M - $1.8M","$1.81M - $1.9M","$1.91M - $2.0M",
+  "$2.0M or more",
+];
+
+function parseLabelToMidpoint(label: string): number {
+  if (label.includes("or more")) {
+    const m = label.match(/([\d.]+)M/);
+    return m ? Math.round(parseFloat(m[1]!) * 1_000_000 * 1.05) : 2_100_000;
+  }
+  if (label.includes("M")) {
+    const ms = [...label.matchAll(/([\d.]+)M/g)];
+    if (ms.length >= 2) {
+      return Math.round((parseFloat(ms[0]![1]!) + parseFloat(ms[1]![1]!)) / 2 * 1_000_000);
+    }
+  }
+  const nums = [...label.matchAll(/[\d,]+/g)].map((m) => parseInt(m[0]!.replace(/,/g, ""), 10));
+  if (nums.length >= 2) return Math.round((nums[0]! + nums[1]!) / 2);
+  return 0;
+}
 
 function formatPhone(raw: string): string {
   const d = raw.replace(/\D/g, "").slice(0, 10);
@@ -139,7 +197,7 @@ const PLACES_STYLES = `
     border-top: none;
     transition: background 0.15s;
   }
-  .pac-item:hover, .pac-item-selected { background: #eff8ff; }
+  .pac-item:hover, .pac-item-selected { background: #fdf2f4; }
   .pac-icon {
     width: 16px; height: 16px;
     background-image: none !important;
@@ -149,10 +207,10 @@ const PLACES_STYLES = `
     content: "";
     display: block;
     width: 14px; height: 14px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233498DB'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z'/%3E%3C/svg%3E") center/contain no-repeat;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23941F32'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z'/%3E%3C/svg%3E") center/contain no-repeat;
   }
   .pac-item-query { font-weight: 600; color: #1C2833; font-size: 13px; }
-  .pac-matched { color: #3498DB; }
+  .pac-matched { color: #941F32; }
 `;
 
 // ── Searchable State Dropdown ───────────────────────────────────────────────
@@ -196,7 +254,7 @@ function StateSelect({ value, onChange }: { value: string; onChange: (v: string)
       <button
         type="button"
         onClick={() => { setOpen((p) => !p); setQuery(""); }}
-        className="w-full px-4 py-3 rounded-md border border-gray-200 text-sm font-inter text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#3498DB]/30 focus:border-[#3498DB] transition-colors bg-white"
+        className="w-full px-4 py-3 rounded-md border border-gray-200 text-sm font-inter text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#941F32]/20 focus:border-[#941F32] transition-colors bg-white"
       >
         <span className={value ? "text-[#1C2833]" : "text-gray-400"}>
           {selectedLabel || "Select state"}
@@ -215,7 +273,7 @@ function StateSelect({ value, onChange }: { value: string; onChange: (v: string)
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search state..."
-              className="w-full px-3 py-2 text-sm rounded-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#3498DB]/30 focus:border-[#3498DB] font-inter"
+              className="w-full px-3 py-2 text-sm rounded-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#941F32]/20 focus:border-[#941F32] font-inter"
             />
           </div>
           <ul className="max-h-52 overflow-y-auto py-1">
@@ -228,7 +286,7 @@ function StateSelect({ value, onChange }: { value: string; onChange: (v: string)
                   type="button"
                   onClick={() => { onChange(abbr); setOpen(false); setQuery(""); }}
                   className={`w-full px-4 py-2.5 text-left text-sm font-inter flex items-center justify-between transition-colors
-                    ${value === abbr ? "bg-[#eff8ff] text-[#3498DB] font-semibold" : "text-[#1C2833] hover:bg-gray-50"}`}
+                    ${value === abbr ? "bg-[#fdf2f4] text-[#941F32] font-semibold" : "text-[#1C2833] hover:bg-gray-50"}`}
                 >
                   <span>{name}</span>
                   <span className="text-xs text-gray-400 font-medium">{abbr}</span>
@@ -309,7 +367,7 @@ function EmailInput({
     "w-full px-4 py-3 rounded-md border text-sm font-inter focus:outline-none focus:ring-2 transition-colors " +
     (error
       ? "border-red-400 focus:border-red-400 focus:ring-red-200"
-      : "border-gray-200 focus:ring-[#3498DB]/30 focus:border-[#3498DB]");
+      : "border-gray-200 focus:ring-[#941F32]/20 focus:border-[#941F32]");
 
   return (
     <div ref={containerRef} className="relative">
@@ -334,10 +392,10 @@ function EmailInput({
                   type="button"
                   onMouseDown={(e) => { e.preventDefault(); pick(s); }}
                   className={`w-full px-4 py-2.5 text-left text-sm font-inter flex items-center gap-0.5 transition-colors
-                    ${i === activeSug ? "bg-[#eff8ff] text-[#3498DB]" : "hover:bg-gray-50 text-[#1C2833]"}`}
+                    ${i === activeSug ? "bg-[#fdf2f4] text-[#941F32]" : "hover:bg-gray-50 text-[#1C2833]"}`}
                 >
                   <span className="font-semibold">{local}</span>
-                  <span className={i === activeSug ? "text-[#3498DB]" : "text-gray-400"}>{domain}</span>
+                  <span className={i === activeSug ? "text-[#941F32]" : "text-gray-400"}>{domain}</span>
                 </button>
               </li>
             );
@@ -403,7 +461,6 @@ function RefinanceForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const currentStepRef = useRef(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [cityName, setCityName] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const addressInputRef = useRef<HTMLInputElement>(null);
@@ -450,17 +507,17 @@ function RefinanceForm() {
 
   // ── Form state ─────────────────────────────────────────────────────────────
   const [fd, setFd] = useState(() => {
-    const estSnap = snapToNearest(DEFAULT_HOME_VALUE);
-    const balSnap = snapToNearest(Math.round(DEFAULT_HOME_VALUE * 0.7));
     return {
       PROP_ZIP: "",
-      _estSnap: estSnap, _balSnap: balSnap, _balTouched: false,
-      EST_VAL: getAverageValue(estSnap), BAL_ONE: getAverageValue(balSnap),
+      _estValLabel: "$240,001 - $255,000",
+      _balLabel: "$165,001 - $180,000",
+      EST_VAL: 247_500,
+      BAL_ONE: 172_500,
       PROP_DESC: "", PROP_PURP: "PRIMARY",
       MTG_ONE_INT: 5.25, MTG_TWO: "NO",
       _bal2Snap: 50_000, MTG_TWO_INT: 6, BAL_TWO: getAverageValue(50_000),
       _cashSnap: 0, ADD_CASH: 0,
-      LOAN_TYPE: "FIXED", CRED_GRADE: "GOOD",
+      LOAN_TYPE: "FIXED", CRED_GRADE: "",
       VA_STATUS: "NO",
       FHA_BANK_FORECLOSURE: "NO", ANNUAL_VERIFIABLE_INCOME: "YES", NUM_MORTGAGE_LATES: "NONE",
       EMAIL: "", FNAME: "", LNAME: "",
@@ -478,36 +535,12 @@ function RefinanceForm() {
   }, [zipFromUrl]);
 
   useEffect(() => {
-    const zip = fd.PROP_ZIP;
-    if (!zip || zip.length !== 5) { setCityName(""); return; }
-    let cancelled = false;
-    fetch(`/api/zip-to-city?zip=${zip}`)
-      .then((r) => r.json())
-      .then((d) => { if (!cancelled && d?.city) setCityName(String(d.city).trim()); })
-      .catch(() => {});
-    return () => { cancelled = true; };
-  }, [fd.PROP_ZIP]);
-
-  useEffect(() => {
     if (currentStep === 15) {
       autocompleteRef.current = null;
       setTimeout(initAutocomplete, 100);
     }
   }, [currentStep, initAutocomplete]);
 
-  useEffect(() => {
-    const cap = SNAP_POINTS.filter((p) => p <= fd._estSnap);
-    const maxAllowed = cap[cap.length - 1] ?? fd._estSnap;
-    let nextBal = fd._balSnap;
-    if (!fd._balTouched) nextBal = snapToNearest(Math.round(fd._estSnap * 0.7), cap);
-    else if (fd._balSnap > maxAllowed) nextBal = maxAllowed;
-    update({
-      _balSnap: nextBal,
-      EST_VAL: getAverageValue(fd._estSnap),
-      BAL_ONE: getAverageValue(nextBal, cap),
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fd._estSnap, fd._balTouched, fd._balSnap]);
 
   // ── Computed ───────────────────────────────────────────────────────────────
   const bal2Pts = useMemo(() => SNAP_POINTS_WITH_ZERO.filter((p) => p <= 3_000_000), []);
@@ -516,7 +549,7 @@ function RefinanceForm() {
   const shouldSkip6_7 = fd.MTG_TWO !== "YES";
   // Skip ADD_CASH when there is no room left (total balance already at or above 87.5% LTV cap)
   const addCashMax = useMemo(() => Math.max(0, Math.round(fd.EST_VAL * 0.875) - totalBalance), [fd.EST_VAL, totalBalance]);
-  const shouldSkip8   = addCashMax <= 0;
+  const noEquity = addCashMax <= 0;
 
   const addCashPts = useMemo(() => {
     if (addCashMax <= 0) return [0];
@@ -539,12 +572,10 @@ function RefinanceForm() {
   function getNextStep(cur: number): number {
     let n = cur + 1;
     if (n === 6 && shouldSkip6_7) n = 8;
-    if (n === 8 && shouldSkip8) n = 9;
     return Math.min(n, TOTAL_STEPS);
   }
   function getPrevStep(cur: number): number {
     let n = cur - 1;
-    if (n === 8 && shouldSkip8) n = 7;
     if ((n === 7 || n === 6) && shouldSkip6_7) n = 5;
     return Math.max(n, 1);
   }
@@ -552,14 +583,12 @@ function RefinanceForm() {
   const applicableSteps = useMemo(() => {
     const s = [1, 2, 3, 4, 5];
     if (!shouldSkip6_7) s.push(6, 7);
-    if (!shouldSkip8) s.push(8);
-    s.push(9, 10, 11, 12, 13, 14, 15, 16);
+    s.push(8, 9, 10, 11, 12, 13, 14, 15, 16);
     return s;
-  }, [shouldSkip6_7, shouldSkip8]);
+  }, [shouldSkip6_7]);
 
   const progressCurrent = applicableSteps.indexOf(currentStep) + 1;
   const progressTotal   = applicableSteps.length;
-  const displayCity     = cityName || "Your area";
   const isLastStep      = currentStep === TOTAL_STEPS;
 
   // ── Auto-advance helper ────────────────────────────────────────────────────
@@ -572,16 +601,16 @@ function RefinanceForm() {
   // ── Validation ─────────────────────────────────────────────────────────────
   const isStepValid = (): boolean => {
     switch (currentStep) {
-      case 1:  return fd._estSnap >= 50_000 && fd._balSnap >= 50_000 && fd._balSnap <= fd._estSnap;
-      case 2:  return fd.PROP_DESC !== "";
-      case 3:  return fd.PROP_PURP !== "";
+      case 1:  return fd.PROP_DESC !== "";
+      case 2:  return fd._estValLabel !== "" && fd._balLabel !== "";
+      case 3:  return fd.CRED_GRADE !== "";
       case 4:  return fd.MTG_ONE_INT >= 3;
       case 5:  return fd.MTG_TWO !== "";
       case 6:  return true;
       case 7:  return true;
       case 8:  return true;
       case 9:  return fd.LOAN_TYPE !== "";
-      case 10: return fd.CRED_GRADE !== "";
+      case 10: return fd.PROP_PURP !== "";
       case 11: return fd.VA_STATUS !== "";
       case 12: return fd.FHA_BANK_FORECLOSURE !== "";
       case 13: return fd.ANNUAL_VERIFIABLE_INCOME !== "";
@@ -601,7 +630,7 @@ function RefinanceForm() {
     if (!isStepValid()) return;
 
     if (currentStep === 6) update({ BAL_TWO: bal2Avg });
-    if (currentStep === 8) update({ ADD_CASH: getAverageValue(fd._cashSnap, addCashPts.length > 0 ? addCashPts : [0]) });
+    if (currentStep === 8) update({ ADD_CASH: noEquity ? 0 : getAverageValue(fd._cashSnap, addCashPts) });
 
     if (isLastStep) {
       setIsSubmitting(true);
@@ -679,8 +708,8 @@ function RefinanceForm() {
       <div className="mb-6">
         <ProgressBar
           type="1" currentStep={progressCurrent} totalSteps={progressTotal}
-          foregroundColor="#3498DB" backgroundColor="#dbeafe"
-          icon={<DollarSign size={18} className="text-[#3498DB]" />}
+          foregroundColor="#941F32" backgroundColor="#fce7ea"
+          icon={<DollarSign size={18} className="text-[#941F32]" />}
         />
       </div>
 
@@ -699,35 +728,12 @@ function RefinanceForm() {
       <form onSubmit={(e) => e.preventDefault()} className="rounded-lg bg-white border border-gray-200 shadow-sm p-6 md:p-8">
         <TrustedForm />
 
-        {/* ── 1 · EST_VAL + BAL_ONE ── */}
+        {/* ── 1 · PROP_DESC (auto-advance) ── */}
         {currentStep === 1 && (
-          <div className="space-y-8">
-            <h2 className={STEP_HEADING_CLS}>
-              How much can you Cash Out?
-            </h2>
-            <MortgageSlider
-              id="estVal"
-              label="What is the value of your home?"
-              value={fd._estSnap}
-              onChange={(v) => update({ _estSnap: v })}
-            />
-            <div className="border-t border-gray-100" />
-            <MortgageSlider
-              id="balOne"
-              label="What is your mortgage balance?"
-              value={fd._balSnap}
-              onChange={(v) => update({ _balSnap: v, _balTouched: true })}
-              maxSnap={fd._estSnap}
-            />
-          </div>
-        )}
-
-        {/* ── 2 · PROP_DESC (auto-advance) ── */}
-        {currentStep === 2 && (
           <div className="space-y-6">
             <div className="space-y-1">
               <h2 className={STEP_HEADING_CLS}>
-                <span className="text-[#3498DB]">{displayCity}</span> homeowners may qualify for new programs in 2026.
+                Ordinary homeowners may qualify for new programs in 2026.
                 <InfoTip text="We use your property type to match you with the best available refinancing programs in your area." />
               </h2>
               <p className="text-sm font-semibold text-[#1C2833] font-inter">
@@ -735,24 +741,69 @@ function RefinanceForm() {
               </p>
             </div>
             <RadioButtonGroup
-              name="propDesc" options={PROP_DESC_OPTS} value={fd.PROP_DESC}
-              onChange={(v) => { update({ PROP_DESC: v }); autoAdvance(2); }}
-              type="1" layout="column"
+              name="propDesc"
+              options={PROP_DESC_OPTS}
+              value={fd.PROP_DESC}
+              onChange={(v) => { update({ PROP_DESC: v }); autoAdvance(1); }}
+              type="1"
+              layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
 
-        {/* ── 3 · PROP_PURP (auto-advance) ── */}
+        {/* ── 2 · EST_VAL + BAL_ONE ── */}
+        {currentStep === 2 && (
+          <div className="space-y-6">
+            <SelectInput
+              label="Estimated Property Value:"
+              options={PROP_VALUE_OPTS.map((o) => ({ value: o, label: o }))}
+              value={fd._estValLabel}
+              onChange={(val) => update({ _estValLabel: val, EST_VAL: parseLabelToMidpoint(val) })}
+              searchable
+              searchPlaceholder="Search value range..."
+              selectClassName="h-12 text-sm font-inter"
+            />
+
+            <SelectInput
+              label="Estimated Mortgage Balance:"
+              options={BALANCE_OPTS.map((o) => ({ value: o, label: o }))}
+              value={fd._balLabel}
+              onChange={(val) => update({ _balLabel: val, BAL_ONE: parseLabelToMidpoint(val) })}
+              searchable
+              searchPlaceholder="Search balance range..."
+              selectClassName="h-12 text-sm font-inter"
+            />
+
+            <div className="rounded-lg bg-[#fdf2f4] border border-[#941F32]/20 p-4 space-y-1.5">
+              <p className="text-sm font-semibold text-[#941F32] flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#941F32] shrink-0" />
+                Complete 2–3 additional questions to view updated rates.
+              </p>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Note: If you abandon this form and rates rise tomorrow, you&apos;ll lose access to today&apos;s lower estimate.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* ── 3 · CRED_GRADE (auto-advance) ── */}
         {currentStep === 3 && (
           <div className="space-y-6">
-            <h2 className={STEP_HEADING_CLS}>
-              How do you use this property?
-              <InfoTip text="The way you use this property determines which loan programs and rates are available to you." />
-            </h2>
+            <div>
+              <h2 className={STEP_HEADING_CLS}>
+                How would you rate your credit?
+                <InfoTip text="Excellent: 720+, Good: 680-719, Fair: 640-679, Poor: 639 or less. Choose your best estimate; we will not run a credit check on this step." />
+              </h2>
+              <p className={STEP_SUBTEXT_CLS}>This helps us find the best rates for your situation.</p>
+            </div>
             <RadioButtonGroup
-              name="propPurp" options={PROP_PURP_OPTS} value={fd.PROP_PURP}
-              onChange={(v) => { update({ PROP_PURP: v }); autoAdvance(3); }}
+              name="credGrade" options={CRED_GRADE_OPTS} value={fd.CRED_GRADE}
+              onChange={(v) => { update({ CRED_GRADE: v }); autoAdvance(3); }}
               type="1" layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
@@ -787,13 +838,13 @@ function RefinanceForm() {
                 setTimeout(() => {
                   if (currentStepRef.current !== stepWhenScheduled) return;
                   const willSkip6_7 = v !== "YES";
-                  let next = 6;
-                  if (willSkip6_7) next = 8;
-                  if (next === 8 && shouldSkip8) next = 9;
+                  const next = willSkip6_7 ? 8 : 6;
                   setCurrentStep(next);
                 }, 200);
               }}
               type="1" layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
@@ -828,18 +879,28 @@ function RefinanceForm() {
           </div>
         )}
 
-        {/* ── 8 · ADD_CASH (conditional) ── */}
+        {/* ── 8 · ADD_CASH ── */}
         {currentStep === 8 && (
           <div className="space-y-6">
             <h2 className={STEP_HEADING_CLS}>
-              How much additional cash do you wish to borrow?
+              Would you like to borrow additional cash?
               <InfoTip text="Additional cash you'd like beyond paying off your existing mortgage(s). Limited to keep your total loan around 87.5% of your home's value." />
             </h2>
-            <MortgageSlider
-              id="addCash" label="" value={fd._cashSnap || addCashDefault}
-              onChange={(v) => update({ _cashSnap: v })}
-              customPoints={addCashPts.length > 0 ? addCashPts : [0]}
-            />
+
+            {noEquity ? (
+              <div className="space-y-4">
+                <p className="text-center text-sm font-semibold text-[#941F32]">
+                  There is no equity/cash in your home to borrow
+                </p>
+                <p className="text-center text-xl font-extrabold text-[#1C2833]">$0 (No Cash)</p>
+              </div>
+            ) : (
+              <MortgageSlider
+                id="addCash" label="" value={fd._cashSnap || addCashDefault}
+                onChange={(v) => update({ _cashSnap: v })}
+                customPoints={addCashPts}
+              />
+            )}
           </div>
         )}
 
@@ -854,24 +915,25 @@ function RefinanceForm() {
               name="loanType" options={LOAN_TYPE_OPTS} value={fd.LOAN_TYPE}
               onChange={(v) => { update({ LOAN_TYPE: v }); autoAdvance(9); }}
               type="1" layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
 
-        {/* ── 10 · CRED_GRADE (auto-advance) ── */}
+        {/* ── 10 · PROP_PURP (auto-advance) ── */}
         {currentStep === 10 && (
           <div className="space-y-6">
-            <div>
-              <h2 className={STEP_HEADING_CLS}>
-                How would you rate your credit?
-                <InfoTip text="Excellent: 680+, Good: 640-679, Fair: 560-599, Poor: below 560. Select your best estimate -- we won't run a credit check." />
-              </h2>
-              <p className={STEP_SUBTEXT_CLS}>This helps us find the best rates for your situation.</p>
-            </div>
+            <h2 className={STEP_HEADING_CLS}>
+              How do you use this property?
+              <InfoTip text="The way you use this property determines which loan programs and rates are available to you." />
+            </h2>
             <RadioButtonGroup
-              name="credGrade" options={CRED_GRADE_OPTS} value={fd.CRED_GRADE}
-              onChange={(v) => { update({ CRED_GRADE: v }); autoAdvance(10); }}
+              name="propPurp" options={PROP_PURP_OPTS} value={fd.PROP_PURP}
+              onChange={(v) => { update({ PROP_PURP: v }); autoAdvance(10); }}
               type="1" layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
@@ -887,6 +949,8 @@ function RefinanceForm() {
               name="vaStatus" options={YES_NO_OPTS} value={fd.VA_STATUS}
               onChange={(v) => { update({ VA_STATUS: v }); autoAdvance(11); }}
               type="1" layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
@@ -905,6 +969,8 @@ function RefinanceForm() {
               name="fha" options={YES_NO_OPTS} value={fd.FHA_BANK_FORECLOSURE}
               onChange={(v) => { update({ FHA_BANK_FORECLOSURE: v }); autoAdvance(12); }}
               type="1" layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
@@ -923,6 +989,8 @@ function RefinanceForm() {
               name="income" options={YES_NO_OPTS} value={fd.ANNUAL_VERIFIABLE_INCOME}
               onChange={(v) => { update({ ANNUAL_VERIFIABLE_INCOME: v }); autoAdvance(13); }}
               type="1" layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
@@ -941,6 +1009,8 @@ function RefinanceForm() {
               name="lates" options={LATES_OPTS} value={fd.NUM_MORTGAGE_LATES}
               onChange={(v) => { update({ NUM_MORTGAGE_LATES: v }); autoAdvance(14); }}
               type="1" layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
@@ -1041,7 +1111,7 @@ function RefinanceForm() {
           {currentStep > 1 && (
             <button
               type="button" onClick={handleBack}
-              className="flex items-center gap-2 px-5 py-3 rounded-md font-semibold text-sm border-2 border-gray-200 text-gray-600 hover:border-[#3498DB] hover:text-[#3498DB] transition-all duration-200"
+              className="flex items-center gap-2 px-5 py-3 rounded-md font-semibold text-sm border-2 border-gray-200 text-gray-600 hover:border-[#941F32] hover:text-[#941F32] transition-all duration-200"
             >
               <ArrowLeft size={17} /> Back
             </button>
@@ -1052,7 +1122,7 @@ function RefinanceForm() {
             className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-md font-semibold text-sm transition-all duration-200
               ${isSubmitting || !isStepValid()
                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                : "bg-[#3498DB] text-white hover:bg-[#246a99] shadow-md hover:shadow-lg"}`}
+                : "bg-[#941F32] text-white hover:bg-[#7F1A2A] shadow-md hover:shadow-lg"}`}
           >
             {isSubmitting ? (<><Loader2 size={17} className="animate-spin" /> Submitting...</>)
               : isLastStep ? "Submit Details" : "Continue"}
@@ -1063,9 +1133,9 @@ function RefinanceForm() {
       {isLastStep && (
         <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">
           By clicking Submit Details, you agree to: (1) our{" "}
-          <a href="/terms-of-use" target="_blank" className="underline hover:text-gray-600">TERMS OF USE</a>,
+          <a href="#" target="_blank" className="underline hover:text-gray-600">TERMS OF USE</a>,
           {" "}which include a Class Waiver and Mandatory Arbitration Agreement, (2) our{" "}
-          <a href="/privacy-policy" target="_blank" className="underline hover:text-gray-600">PRIVACY POLICY</a>,
+          <a href="#" target="_blank" className="underline hover:text-gray-600">PRIVACY POLICY</a>,
           {" "}and (3) receive notices and other COMMUNICATIONS ELECTRONICALLY. By clicking Submit Details, you: (a) provide your
           express written consent and binding signature under the ESIGN Act for Leadpoint, Inc. dba SecureRights, a Delaware
           corporation, to share your information with up to four (4) of its PREMIER PARTNERS and/or third parties acting on their
@@ -1082,18 +1152,6 @@ function RefinanceForm() {
           <a href="tel:8443263442" className="underline hover:text-gray-600">(844) 326-3442</a>.
           {" "}Leadpoint, Inc. NMLS 3175.
         </p>
-      )}
-
-      {currentStep === 1 && (
-        <div className="mt-4">
-          <button
-            type="button"
-            onClick={() => router.push(fd.PROP_ZIP ? `/form/buy-home?zip=${fd.PROP_ZIP}` : "/form/buy-home")}
-            className="w-full py-4 rounded-md font-semibold text-sm border-2 border-[#1e3a5f] text-[#1e3a5f] bg-white hover:bg-[#1e3a5f] hover:text-white transition-all duration-200"
-          >
-            Looking to buy a home instead?
-          </button>
-        </div>
       )}
 
       <Script

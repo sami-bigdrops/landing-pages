@@ -102,7 +102,7 @@ export const FORM_CONTENT = {
     },
   },
   button: "Unlock My Car's Protection Value",
-  disclaimer: "By Clicking \"Get Your Free Quote\" You Agree That Assuritii May Contact You At The Number And Email Provided With Calls, Texts, Or Prerecorded/Artificial Voice Messages About Or Products/Services. Consent Is Not A Condition Of Purchase. Message/Data Rates Apply. You Can Withdraw Consent Anytime.",
+  disclaimer: 'By Clicking "Get Your Free Quote" You Agree That Assuritii or the Marketing Partner American Dream Warranty May Contact You At The Number And Email Provided With Calls, Texts, Or Prerecorded/Artificial Voice Messages About Our Products/Services. Consent Is Not A Condition Of Purchase. Message/Data Rates Apply. You Can Withdraw Consent Anytime.',
 } as const
 
 
@@ -209,7 +209,7 @@ export const REVIEW_CONTENT = {
      id: 1,
       quote: "When my transmission failed, Assuritii saved me over $2,000. The process was simple & there were no surprise charges.",
       customer: {
-        name: "Linda Matthews",
+        name: "Linda",
         status: "Verified Customer",
         image: {
           src: "/profile-1.svg",
@@ -221,7 +221,7 @@ export const REVIEW_CONTENT = {
       id: 2,
       quote: "I liked that everything was explained clearly before I signed up. No confusing terms and no pressure calls at all.",
       customer: {
-        name: "David Lawson",
+        name: "David",
         status: "Verified Customer",
         image: {
           src: "/profile-2.svg",
@@ -234,7 +234,7 @@ export const REVIEW_CONTENT = {
       id: 3,
       quote: "Paying monthly is much easier than facing a huge repair bill at once. It gave me real peace of mind while driving.",
       customer: {
-        name: "Susan Roberts",
+        name: "Susan",
         status: "Verified Customer",
         image: {
           src: "/profile-3.svg",
@@ -281,7 +281,7 @@ export const FOOTER_CONTENT = {
   ],
   copyrightText: "Copyright © 2026 Assuritii. All Rights Reserved.",
   disclaimer:
-    'A Vehicle Service Contract (VSC) is often referred to as an "auto warranty" or an "extended car warranty," but it is not a warranty. A VSC does, however, provide repair coverage for your vehicle after the manufacturer\'s car warranty expires. A VSC is a contract between you and a VSC provider or administrator that states what is a covered repair and what is not.',
+    'Vehicle Protection Coverage and offer is not available in all states and is void when prohibited by law. Vehicle coverage may vary based on manufacturer, model, and year of the vehicle. Pre-existing conditions are not covered.',
 } as const
 
 export interface ThankYouType2FeatureCard {
