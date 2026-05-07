@@ -3,7 +3,7 @@
 export const HERO_CONTENT = {
   headline: "How Much Can You Cash Out?",
   subtitle: "Get a real-time equity estimate for your home in",
-  ctaButton: "Calculate My Cash Out",
+  ctaButton: "See Savings",
   image: {
     src: "/hero-img.webp",
     alt: "Modern home"
@@ -73,65 +73,11 @@ export const OPTIONS_CONTENT = {
   ],
 } as const
 
-export const REVIEW_CONTENT = {
-  header: "See how others found savings",
-  verifiedBadge: {
-    src: "/review-vector.svg",
-    alt: "Verified",
-    label: "Verified Customer",
-  },
-  reviews: [
-    {
-     id: 1,
-      quote: "The check was quick and surprisingly clear. I wasn't ready to refinance yet, but it helped me understand my options.",
-      customer: {
-        name: "Ada Barrows",
-        location: "Phoenix, AZ",
-        status: "Verified Customer",
-        image: {
-          src: "/person-1.svg",
-          alt: "Ada Barrows",
-        },
-      },
-    },
-    {
-      id: 2,
-      quote: "I assumed refinancing would be complicated. This showed me potential savings in minutes without any paperwork.",
-      customer: {
-        name: "Aurthur Upton",
-        location: "Charlotte, NC",
-        status: "Verified Customer",
-        image: {
-          src: "/person-2.svg",
-          alt: "Aurthur Upton",
-        },
-      },
-    },
-    {
-     
-      id: 3,
-      quote: "It was helpful just to confirm I wasn't missing out. The estimate gave me confidence to explore next steps.",
-      customer: {
-        name: "Donald Ryan",
-        location: "Denver, CO",
-        status: "Verified Customer",
-        image: {
-          src: "/person-3.svg",
-          alt: "Donald Ryan",
-        },
-      },
-    },
-  ],
-} as const
-
-
-
 export const FOOTER_CONTENT = {
   description: "The Smart Way to Shop For Insurance.",
   links: [
-    { text: "Privacy Policy", href: "/privacy-policy" },
-    { text: "Terms of Use", href: "/terms-of-use" },
-    { text: "Contact ", href: "/contact" },
+    { text: "Privacy Policy", href: "#" },
+    { text: "Terms of Use", href: "#" },
   ],
   disclaimer:
   "For quality control purposes, your activity on this site may be monitored or recorded by Govt Mortgage Options or its service providers.",

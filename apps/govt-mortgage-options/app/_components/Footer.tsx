@@ -9,8 +9,8 @@ export default function Footer() {
     <FooterUI
       type="long"
       bgColor="#F0F6FF"
-      className="[&_a]:text-[#1F3A5F] [&_a:hover]:text-[#16324F] [&>div:last-child]:border-[#1F3A5F]/20 [&>div:last-child>p]:text-[#1F3A5F]"
-      logo={<Image src="/gov-mortgage-logo.svg" alt="Govt Mortgage Options" width={120} height={40} className="w-40 h-auto object-contain" />}
+      className="[&_a]:text-[#941F32] [&_a:hover]:text-[#7F1A2A] [&>div:last-child]:border-[#941F32]/20 [&>div:last-child>p]:text-[#941F32]"
+      logo={<Image src="/gov-mortgage-logo.svg" alt="Govt Mortgage Options" width={120} height={40} className="w-58 h-auto object-contain" />}
       links={[...FOOTER_CONTENT.links]}
       disclaimer={FOOTER_CONTENT.disclaimer}
       disclaimerClassName="max-w-4xl font-inter"

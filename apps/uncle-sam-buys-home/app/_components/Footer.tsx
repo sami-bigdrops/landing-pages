@@ -8,12 +8,11 @@ export default function Footer() {
   return (
     <FooterUI
       type="long"
-      bgColor="#0F2440"
-      logo={<Image src="/assuritii-white.svg" alt="Assuritii" width={120} height={40} className="w-28 h-auto object-contain" />}
-      description={FOOTER_CONTENT.description}
-      descriptionClassName="max-w-3/4"
+      bgColor="#102E50"
+     
       linkHeader={FOOTER_CONTENT.linkHeader}
       links={[...FOOTER_CONTENT.links]}
+      
       copyrightText={FOOTER_CONTENT.copyrightText}
       disclaimer={FOOTER_CONTENT.disclaimer}
       disclaimerClassName="max-w-5xl"

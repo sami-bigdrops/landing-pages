@@ -27,7 +27,7 @@ export default function InterestSlider({
     <div className="space-y-2">
       <p className="text-sm font-semibold text-[#1C2833] font-inter">{label}</p>
       <div className="flex items-baseline justify-center gap-1 py-1">
-        <span className="text-[2rem] font-extrabold text-[#3498DB] font-inter leading-none">
+        <span className="text-[2rem] font-extrabold text-[#941F32] font-inter leading-none">
           {display}
         </span>
       </div>
@@ -40,13 +40,13 @@ export default function InterestSlider({
           #${id}::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 22px; width: 22px; border-radius: 50%;
-            background: #3498DB; border: 3px solid white;
+            background: #941F32; border: 3px solid white;
             box-shadow: 0 1px 6px rgba(52,152,219,0.45); cursor: pointer;
             transition: transform 0.15s ease;
           }
           #${id}::-moz-range-thumb {
             height: 22px; width: 22px; border-radius: 50%;
-            background: #3498DB; border: 3px solid white;
+            background: #941F32; border: 3px solid white;
             box-shadow: 0 1px 6px rgba(52,152,219,0.45); cursor: pointer;
             transition: transform 0.15s ease;
           }
@@ -67,8 +67,8 @@ export default function InterestSlider({
           step={step}
           value={value}
           onChange={(e) => onChange(parseFloat(e.target.value))}
-          className="w-full h-2 sm:h-2 min-h-[44px] sm:min-h-0 rounded-full appearance-none cursor-pointer outline-none accent-[#3498DB]"
-          style={{ background: `linear-gradient(to right, #3498DB ${pct}%, #dbeafe ${pct}%)` }}
+          className="w-full h-2 sm:h-2 min-h-[44px] sm:min-h-0 rounded-full appearance-none cursor-pointer outline-none accent-[#941F32]"
+          style={{ background: `linear-gradient(to right, #941F32 ${pct}%, #fce7ea ${pct}%)` }}
         />
       </div>
       <div className="flex justify-between text-[11px] text-gray-400 font-inter px-1">

@@ -13,10 +13,10 @@ export default function Navbar() {
             <Link href="/" className="block">
                 <Image
                 src="/gov-mortgage-logo.svg"
-                alt="Govt Mortgage Options"
+                alt="Gov Mortgage Options"
                 width={128}
                 height={40}
-                className="w-36 lg:w-40 xl:w-54 h-auto object-contain"
+                className="w-36 lg:w-40 xl:w-64 h-auto object-contain"
                 priority
                 />
             </Link>
