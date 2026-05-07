@@ -173,6 +173,15 @@ function FormPage() {
     if (currentStep === 2) {
       return formData.zipCode.length === 5
     }
+    if (currentStep === 9) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      return (
+        formData.first_name.trim() !== "" &&
+        formData.last_name.trim() !== "" &&
+        formData.email.trim() !== "" &&
+        emailRegex.test(formData.email.trim())
+      )
+    }
     return true
   }
 
@@ -191,7 +200,7 @@ function FormPage() {
     if (currentStep !== TOTAL_STEPS) {
       if (currentStep === 2 && isStepValid()) {
         handleNext()
-      } else if (currentStep === 9) {
+      } else if (currentStep === 9 && isStepValid()) {
         handleNext()
       }
       return
@@ -200,16 +209,20 @@ function FormPage() {
     setSubmitError("")
 
     const zip = formData.zipCode.trim()
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const email = formData.email.trim()
+
     if (
       !formData.first_name.trim() ||
       !formData.last_name.trim() ||
       !formData.street_address.trim() ||
-      !formData.email.trim() ||
+      !email ||
+      !emailRegex.test(email) ||
       !formData.phone_number.trim() ||
       !zip
     ) {
       setSubmitStatus("error")
-      setSubmitError("Please complete all required fields.")
+      setSubmitError("Please complete all required fields with valid details.")
       return
     }
 
@@ -307,7 +320,9 @@ function FormPage() {
                         setCurrentStep(2)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                 
+                 
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -337,7 +352,7 @@ function FormPage() {
                   label="Zip Code"
                   value={formData.zipCode}
                   onChange={(v) => handleInputChange("zipCode", v)}
-                  placeholder="Please enter zip code"
+                  placeholder="Please Enter Zip Code"
                   containerClassName="w-full md:max-w-[270px] lg:max-w-[320px] "
                   labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
                   className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
@@ -376,7 +391,7 @@ function FormPage() {
                         setCurrentStep(4)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -417,7 +432,7 @@ function FormPage() {
                         setCurrentStep(5)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-7 xl:px-6 xl:py-10"
+                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-7 xl:px-6 xl:py-10"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -457,7 +472,7 @@ function FormPage() {
                         setCurrentStep(6)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -497,7 +512,7 @@ function FormPage() {
                         setCurrentStep(7)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -538,7 +553,7 @@ function FormPage() {
                         setCurrentStep(8)
                       }}
                       aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#EAF8F5] md:px-4 md:py-6 xl:px-6 xl:py-8"
+                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
                     >
                       <span className="flex shrink-0 items-center justify-center">
                         <Image
@@ -568,7 +583,7 @@ function FormPage() {
                 <h2 className=" text-base xl:text-xl font-medium text-[#1C1C1C]">
                   Estimate House Value
                 </h2>
-                <p className=" text-xl font-medium text-[#182542] md:text-2xl xl:text-3xl">
+                <p className=" text-xl font-medium text-[#182542] md:text-2xl xl:text-3xl xl:mb-3">
                   {HOUSE_VALUE_RANGES[houseValueIndex]?.label ?? ""}
                 </p>
                 <div className="mb-2 w-full md:max-w-lg lg:max-w-xl xl:max-w-3xl">
@@ -621,7 +636,7 @@ function FormPage() {
                     label="First Name"
                     value={formData.first_name}
                     onChange={(e) => handleInputChange("first_name", e.target.value)}
-                    placeholder="enter First Name"
+                    placeholder="Enter First Name"
                     labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
                     className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
                   />
@@ -630,7 +645,7 @@ function FormPage() {
                     label="Last Name"
                     value={formData.last_name}
                     onChange={(e) => handleInputChange("last_name", e.target.value)}
-                    placeholder="enter Last Name"
+                    placeholder="Enter Last Name"
                     labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
                     className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
                   />
@@ -641,7 +656,7 @@ function FormPage() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
-                    placeholder="enter Email Address"
+                    placeholder="Enter Email Address"
                     labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
                     className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
                   />
@@ -661,18 +676,22 @@ function FormPage() {
           {currentStep === TOTAL_STEPS && (
             <>
               <div className="w-full  md:max-w-sm xl:max-w-xl flex flex-col justify-center items-center gap-5 xl:gap-6">
-                <div className="w-full md:max-w-xs xl:max-w-sm space-y-3 lg:space-y-3 xl:space-y-4.5 text-left mb-3">
+                <div className="w-full md:max-w-xs xl:max-w-sm space-y-3 lg:space-y-3 xl:space-y-5 text-left mb-3 ">
+                  <div className="w-full ">
                   <TextInput
                     id="propertyAddress"
                     label="Street Address"
                     value={formData.street_address}
                     onChange={(e) => handleInputChange("street_address", e.target.value)}
-                    placeholder="enter Street Address"
+                    placeholder="Enter Street Address"
                     labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
                     className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
+
+                    
                   />
-                  <div className="w-full ">
-                    <p className="text-[0.7rem] mb-1 font-medium text-left text-[#1C1C1C]">NEW YORK, NY, 10001</p>
+                  <div className="w-full mt-3 md:mt-2.5 ">
+                    <p className="text-[0.7rem] xl:text-[0.8rem] mb-1 font-medium text-left text-[#1C1C1C]">NEW YORK, NY, 10001</p>
+                  </div>
                   </div>
 
                   <PhoneNumberInput
@@ -680,13 +699,13 @@ function FormPage() {
                     label="Phone Number"
                     value={formData.phone_number}
                     onChange={(v) => handleInputChange("phone_number", v)}
-                    placeholder="enter Phone Number"
+                    placeholder="Enter Phone Number"
                     labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
                     className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
                   />
            
-                  <div className="w-full mt-6 flex flex-col items-center justify-center gap-5">
-                  <p className="text-xs font-normal text-left text-[#343434]" style={{lineHeight: "1.5"}}>
+                  <div className="w-full mt-6 xl:mt-7 flex flex-col items-center justify-center gap-5 xl:gap-7">
+                  <p className="text-xs xl:text-[0.85rem] font-normal text-left text-[#343434]" style={{lineHeight: "1.6"}}>
                     By clicking the button below, you acknowledge, consent, and agree to our terms at the bottom of this page.
                   </p>
 
@@ -699,12 +718,12 @@ function FormPage() {
                   <button
                     type="submit"
                     disabled={submitStatus === "loading"}
-                    className="w-full h-13  rounded-[10px] bg-[#C12026] cursor-pointer py-3 text-sm xl:text-[1.05rem] font-medium uppercase text-white transition-all duration-300 md:py-3.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full h-13 xl:h-15  rounded-[10px] bg-[#C12026] cursor-pointer py-3 text-sm xl:text-lg font-medium uppercase text-white transition-all duration-300 md:py-3.5 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
                   </button>
 
-                  <p className="text-xs mb-1 font-normal text-left text-[#343434]" style={{lineHeight: "1.6"}}>
+                  <p className="text-xs xl:text-[0.85rem] mb-1 font-normal text-left text-[#343434]" style={{lineHeight: "1.6"}}>
                     By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to  <strong>2 partners</strong>; that you are providing your prior express written consent for those <strong>partners</strong> to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our <a href="/terms-of-use" className="text-[#343434] font-bold " target="_blank" rel="noopener noreferrer">Terms of Use</a>, including its <strong>Arbitration provision</strong>, and <a href="/privacy-policy" className="text-[#343434] font-bold " target="_blank" rel="noopener noreferrer">Privacy Policy</a>; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email consent@unclesambuyshome.com and you can revoke your consent at any time by emailing us
                   </p>
                   </div>

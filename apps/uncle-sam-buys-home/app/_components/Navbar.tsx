@@ -1,6 +1,7 @@
 "use client"
 
 import { Navbar as NavbarUI } from "@workspace/ui/components/navbar"
+import Image from "next/image"
 
 
 
@@ -9,18 +10,18 @@ export default function Navbar() {
     <NavbarUI
       variant="default"
       type="2"
-      className="mx-auto w-full  px-4 py-6 sm:px-6 lg:px-8"
+      className="mx-auto w-full  px-4 py-6 sm:px-6 lg:px-8 border-none"
       logo={
         <>
-          {/* <Image
-            src="/assuritii.svg"
-            alt="Assuritii"
+          <Image
+            src="/logo.svg"
+            alt="Uncle Sam Buys Homes"
             width={128}
             height={40}
-            className="w-32 h-10 object-contain"
+            className="w-32 h-10 xl:w-40 xl:h-12 object-contain"
             priority
-          /> */}
-          <span className="text-2xl font-bold text-[#44BF7C]">Uncle Sam Buys Homes</span>
+          />
+          
         </>
       }
     />
