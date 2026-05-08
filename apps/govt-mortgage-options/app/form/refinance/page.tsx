@@ -885,7 +885,8 @@ function RefinanceForm() {
           <div className="space-y-6">
             <h2 className={STEP_HEADING_CLS}>
               Is your mortgage FHA?
-              <InfoTip text="VA loans offer exclusive benefits including no down payment, no private mortgage insurance, and competitive rates for eligible veterans, active-duty military, and surviving spouses." />
+              <InfoTip text="An FHA loan is a mortgage issued by an FHA-approved lender and insured by the Federal Housing Administration (FHA). Designed for low-to-moderate income borrowers, FHA loans require a lower minimum down payment and credit scores than many conventional loans." />
+         
             </h2>
             <RadioButtonGroup
               name="vaStatus" options={YES_NO_OPTS} value={fd.VA_STATUS}
@@ -949,6 +950,8 @@ function RefinanceForm() {
 
            
           </div>
+
+          
         )}
 
        
@@ -1068,6 +1071,12 @@ function RefinanceForm() {
           </button>
         </div>
       </form>
+
+      {currentStep === 8 && (
+        <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">
+        By clicking "Continue" above, I authorize LendingTree & <a href="#" target="_blank" className="underline hover:text-gray-600">LendingTree's Partners</a>, to obtain my consumer report, credit profile, or other credit information associated with me from any consumer reporting agency for purposes of my inquiry, as well as for marketing purposes and to provide me with information and recommendations on financial products and services that may be of interest to me.
+        </p>
+      )}
 
       {isLastStep && (
         <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">
