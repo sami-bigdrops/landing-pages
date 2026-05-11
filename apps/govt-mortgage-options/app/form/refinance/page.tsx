@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useMemo, Suspense, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Script from "next/script";
+import confetti from "canvas-confetti";
 import { ArrowLeft, DollarSign, Loader2, Info, Lock } from "lucide-react";
 import { ProgressBar } from "@workspace/ui/components/progress-bar";
 import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group";
@@ -490,6 +491,7 @@ function RefinanceForm() {
 
   const addressInputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const confettiCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const initAutocomplete = useCallback(() => {
     if (!addressInputRef.current || autocompleteRef.current) return;
@@ -567,6 +569,47 @@ function RefinanceForm() {
       setTimeout(initAutocomplete, 100);
     }
   }, [currentStep, initAutocomplete]);
+
+  useEffect(() => {
+    if (currentStep !== 8 || !confettiCanvasRef.current) return;
+
+    const fireConfetti = confetti.create(confettiCanvasRef.current, {
+      resize: true,
+      useWorker: true,
+    });
+    const colors = ["#941F32", "#1E3A8A", "#F59E0B", "#10B981", "#FDF2F4"];
+    const bursts = [
+      { origin: { x: 0.05, y: 0.9 }, angle: 55, spread: 130, particleCount: 70 },
+      { origin: { x: 0.25, y: 0.95 }, angle: 75, spread: 150, particleCount: 70 },
+      { origin: { x: 0.5, y: 0.95 }, angle: 90, spread: 170, particleCount: 80 },
+      { origin: { x: 0.75, y: 0.95 }, angle: 105, spread: 150, particleCount: 70 },
+      { origin: { x: 0.95, y: 0.9 }, angle: 125, spread: 130, particleCount: 70 },
+      { origin: { x: 0, y: 0.45 }, angle: 35, spread: 110, particleCount: 55 },
+      { origin: { x: 1, y: 0.45 }, angle: 145, spread: 110, particleCount: 55 },
+    ];
+    const fire = () => {
+      bursts.forEach(({ origin, angle, spread, particleCount }) => {
+        fireConfetti({
+          particleCount,
+          angle,
+          spread,
+          startVelocity: 48,
+          scalar: 0.9,
+          ticks: 260,
+          origin,
+          colors,
+        });
+      });
+    };
+
+    fire();
+    const timers = [window.setTimeout(fire, 500), window.setTimeout(fire, 1000)];
+
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      fireConfetti.reset();
+    };
+  }, [currentStep]);
 
 
   // ── Computed ───────────────────────────────────────────────────────────────
@@ -722,6 +765,14 @@ function RefinanceForm() {
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="w-full max-w-2xl mx-auto">
+      {currentStep === 8 && (
+        <canvas
+          ref={confettiCanvasRef}
+          className="pointer-events-none fixed inset-0 z-[9999] h-screen w-screen"
+          aria-hidden="true"
+        />
+      )}
+
       <div className="mb-3">
         <MotivationalQuote step={currentStep} formType="refinance" />
       </div>
