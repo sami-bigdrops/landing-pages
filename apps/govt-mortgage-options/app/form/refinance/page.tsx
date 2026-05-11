@@ -546,7 +546,7 @@ function RefinanceForm() {
       _bal2Snap: 50_000, MTG_TWO_INT: 6, BAL_TWO: getAverageValue(50_000),
       _cashSnap: 0, ADD_CASH: 0,
       LOAN_TYPE: "FIXED", CRED_GRADE: "",
-      VA_STATUS: "NO",
+      FHA_STATUS: "", VA_STATUS: "",
       FHA_BANK_FORECLOSURE: "NO", ANNUAL_VERIFIABLE_INCOME: "YES", NUM_MORTGAGE_LATES: "NONE",
       DOB: "",
       EMAIL: "", FNAME: "", LNAME: "",
@@ -668,7 +668,7 @@ function RefinanceForm() {
       case 3: return fd.CRED_GRADE !== "";
       case 4: return true;
       case 5: return fd.EMPLOYMENT_STATUS !== "";
-      case 6: return fd.VA_STATUS !== "";
+      case 6: return fd.FHA_STATUS !== "";
       case 7: return fd.VA_STATUS !== "";
       case 8: return fd.DOB.replace(/\D/g, "").length === 8 && validateDobValue(fd.DOB) === "";
       case 9: return fd.ADDRESS.trim() !== "" && fd.CITY.trim() !== "" && fd.STATE !== "" && /^\d{5}$/.test(fd.ZIP);
@@ -703,7 +703,7 @@ function RefinanceForm() {
           BAL_TWO: fd.MTG_TWO === "YES" ? fd.BAL_TWO : 0,
           MTG_TWO_INT: fd.MTG_TWO === "YES" ? fd.MTG_TWO_INT : 0,
           ADD_CASH: fd.ADD_CASH,
-          LOAN_TYPE: fd.LOAN_TYPE, VA_STATUS: fd.VA_STATUS,
+          LOAN_TYPE: fd.LOAN_TYPE, FHA_STATUS: fd.FHA_STATUS, VA_STATUS: fd.VA_STATUS,
           FHA_BANK_FORECLOSURE: fd.FHA_BANK_FORECLOSURE,
           ANNUAL_VERIFIABLE_INCOME: fd.ANNUAL_VERIFIABLE_INCOME,
           NUM_MORTGAGE_LATES: fd.NUM_MORTGAGE_LATES,
@@ -906,9 +906,8 @@ function RefinanceForm() {
             <div>
               <h2 className={STEP_HEADING_CLS}>
                 What is your employment status?
-
+                <InfoTip text="We use this to match you with loan programs and streamline your application. Select the option that best describes your current employment situation." />
               </h2>
-
             </div>
             <RadioButtonGroup
               name="employmentStatus" options={EMPLOYMENT_STATUS_OPTS} value={fd.EMPLOYMENT_STATUS}
@@ -919,6 +918,7 @@ function RefinanceForm() {
             />
           </div>
         )}
+  
 
         {/* ── 6 · fhaStatus (conditional) ── */}
         {currentStep === 6 && (
@@ -930,8 +930,8 @@ function RefinanceForm() {
          
             </h2>
             <RadioButtonGroup
-              name="vaStatus" options={YES_NO_OPTS} value={fd.VA_STATUS}
-              onChange={(v) => { update({ VA_STATUS: v }); autoAdvance(6); }}
+              name="fhaStatus" options={YES_NO_OPTS} value={fd.FHA_STATUS}
+              onChange={(v) => { update({ FHA_STATUS: v }); autoAdvance(6); }}
               type="1" layout="column"
               selectedOptionBackgroundColor="#fdf2f4"
               selectedOptionBorderColor="#941F32"
@@ -943,18 +943,20 @@ function RefinanceForm() {
         {/* ── 7 · vaStatus (conditional) ── */}
         {currentStep === 7 && (
           <div className="space-y-6">
-          <h2 className={STEP_HEADING_CLS}>
-          Are you a veteran or active military?
-          </h2>
-          <RadioButtonGroup
-            name="vaStatus" options={YES_NO_OPTS} value={fd.VA_STATUS}
-            onChange={(v) => { update({ VA_STATUS: v }); autoAdvance(7); }}
-            type="1" layout="column"
-            selectedOptionBackgroundColor="#fdf2f4"
-            selectedOptionBorderColor="#941F32"
-          />
-        </div>
+            <h2 className={STEP_HEADING_CLS}>
+              Are you a veteran or active military?
+              <InfoTip text="This question helps us determine your eligibility for VA loan programs, which can offer lower rates and flexible terms for veterans and active service members." />
+            </h2>
+            <RadioButtonGroup
+              name="vaStatus" options={YES_NO_OPTS} value={fd.VA_STATUS}
+              onChange={(v) => { update({ VA_STATUS: v }); autoAdvance(7); }}
+              type="1" layout="column"
+              selectedOptionBackgroundColor="#fdf2f4"
+              selectedOptionBorderColor="#941F32"
+            />
+          </div>
         )}
+  
 
         {/* ── 8 · dob ── */}
         {currentStep === 8 && (
@@ -962,6 +964,7 @@ function RefinanceForm() {
             <div>
               <h2 className={STEP_HEADING_CLS}>
                 When were you born?
+                <InfoTip text="We use this to confirm your age and match you with the best available rates." />
               </h2>
               <p className={STEP_SUBTEXT_CLS}>
               Confirm age now — today’s rate update is ready
