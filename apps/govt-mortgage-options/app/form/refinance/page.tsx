@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useRef, useMemo, Suspense, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Script from "next/script";
-import { ArrowLeft, DollarSign, Loader2, Info } from "lucide-react";
+import confetti from "canvas-confetti";
+import { ArrowLeft, DollarSign, Loader2, Info, Lock } from "lucide-react";
 import { ProgressBar } from "@workspace/ui/components/progress-bar";
 import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group";
 import { SelectInput } from "@workspace/ui/components/select-input";
@@ -42,20 +43,20 @@ import { TrustedForm, useUtmParams } from "@workspace/lp-core";
 //  16 ADDRESS + CITY + STATE + ZIP + PRI_PHON
 // ────────────────────────────────────────────────────────────────────────────
 
-const TOTAL_STEPS = 16;
+const TOTAL_STEPS = 10;
 
 const INPUT_CLS =
-  "w-full px-4 py-3 rounded-md border border-gray-200 text-sm font-inter focus:outline-none focus:ring-2 focus:ring-[#941F32]/20 focus:border-[#941F32] transition-colors";
-const LABEL_CLS = "text-sm font-semibold text-[#1C2833] font-inter";
+  "w-full px-4 py-3  rounded-md border border-gray-200 text-sm font-inter focus:outline-none focus:ring-2 focus:ring-[#941F32]/20 focus:border-[#941F32] transition-colors";
+const LABEL_CLS = "text-sm  font-semibold text-[#1C2833] font-inter";
 const STEP_HEADING_CLS = "text-xl md:text-2xl font-extrabold text-[#1C2833] font-inter leading-snug";
 const STEP_SUBTEXT_CLS = "text-sm text-gray-500 font-inter mt-1";
 const ERROR_TEXT_CLS = "text-xs text-red-500 mt-1";
 
 const US_STATES = [
-  "AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN",
-  "IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH",
-  "NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT",
-  "VT","VA","WA","WV","WI","WY",
+  "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
+  "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
+  "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
+  "VT", "VA", "WA", "WV", "WI", "WY",
 ];
 
 const PROP_DESC_OPTS = [
@@ -64,70 +65,67 @@ const PROP_DESC_OPTS = [
   { value: "CONDO", label: "Condominium" },
   { value: "MOBILEHOME", label: "Mobile Home" },
 ];
-const PROP_PURP_OPTS  = [
-  { value: "PRIMARY",          label: "Primary Residence" },
-  { value: "SECONDARY_VACTN",  label: "Vacation Home" },
-  { value: "INVESTMENT",       label: "Investment Home" },
-];
-const CRED_GRADE_OPTS = [
-  { value: "EXCELLENT", label: "Excellent (720+)" },
-  { value: "GOOD",      label: "Good (680-719)" },
-  { value: "FAIR",      label: "Fair (640-679)" },
-  { value: "POOR",      label: "Poor (639 or less)" },
-];
-const YES_NO_OPTS     = [{ value: "YES", label: "Yes" }, { value: "NO", label: "No" }];
-const LOAN_TYPE_OPTS  = [
-  { value: "FIXED",               label: "Fixed" },
-  { value: "ADJUSTABLE",          label: "Adjustable" },
-  { value: "FIXED_OR_ADJUSTABLE", label: "Don't Know" },
-];
-const LATES_OPTS = [
-  { value: "NONE",        label: "None" },
-  { value: "ONE",         label: "One" },
-  { value: "TWO_OR_MORE", label: "Two or More" },
+
+const EMPLOYMENT_STATUS_OPTS = [
+  { value: "EMPLOYED", label: "Employed" },
+  { value: "SELF_EMPLOYED", label: "Self-Employed" },
+  { value: "RETIRED", label: "Retired" },
+  { value: "OTHER", label: "Other" },
 ];
 
+
+
+const CRED_GRADE_OPTS = [
+  { value: "EXCELLENT", label: "Excellent (720+)" },
+  { value: "GOOD", label: "Good (680-719)" },
+  { value: "FAIR", label: "Fair (640-679)" },
+  { value: "POOR", label: "Poor (639 or less)" },
+];
+
+const YES_NO_OPTS = [{ value: "YES", label: "Yes" }, { value: "NO", label: "No" }];
+
+
 const PROP_VALUE_OPTS = [
-  "$90,001 - $105,000","$75,000 - $90,000","$105,001 - $120,000","$120,001 - $135,000",
-  "$135,001 - $150,000","$150,001 - $165,000","$165,001 - $180,000","$180,001 - $195,000",
-  "$195,001 - $210,000","$210,001 - $225,000","$225,001 - $240,000","$240,001 - $255,000",
-  "$255,001 - $270,000","$270,001 - $285,000","$285,001 - $300,000","$300,001 - $315,000",
-  "$315,001 - $330,000","$330,001 - $345,000","$345,001 - $360,000","$360,001 - $375,000",
-  "$375,001 - $390,000","$390,001 - $405,000","$405,001 - $420,000","$420,001 - $435,000",
-  "$435,001 - $450,000","$450,001 - $465,000","$465,001 - $480,000","$480,001 - $495,000",
-  "$495,001 - $510,000","$510,001 - $525,000","$525,001 - $540,000","$540,001 - $555,000",
-  "$555,001 - $570,000","$570,001 - $585,000","$585,001 - $600,000","$600,001 - $615,000",
-  "$615,001 - $630,000","$630,001 - $645,000","$645,001 - $660,000","$660,001 - $675,000",
-  "$675,001 - $690,000","$690,001 - $705,000","$705,001 - $720,000","$720,001 - $735,000",
-  "$735,001 - $750,000","$750,001 - $765,000","$765,001 - $780,000","$780,001 - $795,000",
-  "$795,001 - $810,000","$810,001 - $825,000","$825,001 - $840,000","$840,001 - $855,000",
-  "$855,001 - $870,000","$870,001 - $885,000","$885,001 - $900,000","$900,001 - $915,000",
-  "$915,001 - $930,000","$930,001 - $945,000","$945,001 - $960,000","$960,001 - $975,000",
-  "$975,001 - $990,000","$990,001 - $1,000,000",
-  "$1.0M - $1.1M","$1.11M - $1.2M","$1.21M - $1.3M","$1.31M - $1.4M","$1.41M - $1.5M",
-  "$1.51M - $1.6M","$1.61M - $1.7M","$1.71M - $1.8M","$1.81M - $1.9M","$1.91M - $2.0M",
+  "$90,001 - $105,000", "$75,000 - $90,000", "$105,001 - $120,000", "$120,001 - $135,000",
+  "$135,001 - $150,000", "$150,001 - $165,000", "$165,001 - $180,000", "$180,001 - $195,000",
+  "$195,001 - $210,000", "$210,001 - $225,000", "$225,001 - $240,000", "$240,001 - $255,000",
+  "$255,001 - $270,000", "$270,001 - $285,000", "$285,001 - $300,000", "$300,001 - $315,000",
+  "$315,001 - $330,000", "$330,001 - $345,000", "$345,001 - $360,000", "$360,001 - $375,000",
+  "$375,001 - $390,000", "$390,001 - $405,000", "$405,001 - $420,000", "$420,001 - $435,000",
+  "$435,001 - $450,000", "$450,001 - $465,000", "$465,001 - $480,000", "$480,001 - $495,000",
+  "$495,001 - $510,000", "$510,001 - $525,000", "$525,001 - $540,000", "$540,001 - $555,000",
+  "$555,001 - $570,000", "$570,001 - $585,000", "$585,001 - $600,000", "$600,001 - $615,000",
+  "$615,001 - $630,000", "$630,001 - $645,000", "$645,001 - $660,000", "$660,001 - $675,000",
+  "$675,001 - $690,000", "$690,001 - $705,000", "$705,001 - $720,000", "$720,001 - $735,000",
+  "$735,001 - $750,000", "$750,001 - $765,000", "$765,001 - $780,000", "$780,001 - $795,000",
+  "$795,001 - $810,000", "$810,001 - $825,000", "$825,001 - $840,000", "$840,001 - $855,000",
+  "$855,001 - $870,000", "$870,001 - $885,000", "$885,001 - $900,000", "$900,001 - $915,000",
+  "$915,001 - $930,000", "$930,001 - $945,000", "$945,001 - $960,000", "$960,001 - $975,000",
+  "$975,001 - $990,000", "$990,001 - $1,000,000",
+  "$1.0M - $1.1M", "$1.11M - $1.2M", "$1.21M - $1.3M", "$1.31M - $1.4M", "$1.41M - $1.5M",
+  "$1.51M - $1.6M", "$1.61M - $1.7M", "$1.71M - $1.8M", "$1.81M - $1.9M", "$1.91M - $2.0M",
   "$2.0M or more",
 ];
 
 const BALANCE_OPTS = [
-  "$50,000 - $59,999","$60,000 - $79,999","$80,000 - $89,999","$90,000 - $99,999",
-  "$100,000 - $120,000","$120,001 - $135,000","$135,001 - $150,000","$150,001 - $165,000",
-  "$165,001 - $180,000","$180,001 - $195,000","$195,001 - $210,000","$210,001 - $225,000",
-  "$225,001 - $240,000","$240,001 - $255,000","$255,001 - $270,000","$270,001 - $285,000",
-  "$285,001 - $300,000","$300,001 - $315,000","$315,001 - $330,000","$330,001 - $345,000",
-  "$345,001 - $360,000","$360,001 - $375,000","$375,001 - $390,000","$390,001 - $405,000",
-  "$405,001 - $420,000","$420,001 - $435,000","$435,001 - $450,000","$450,001 - $465,000",
-  "$465,001 - $480,000","$480,001 - $495,000","$495,001 - $510,000","$510,001 - $525,000",
-  "$525,001 - $540,000","$540,001 - $555,000","$555,001 - $570,000","$570,001 - $585,000",
-  "$585,001 - $600,000","$600,001 - $615,000","$615,001 - $630,000","$630,001 - $645,000",
-  "$645,001 - $660,000","$660,001 - $675,000","$675,001 - $690,000","$690,001 - $705,000",
-  "$705,001 - $720,000","$720,001 - $735,000","$735,001 - $750,000","$750,001 - $765,000",
-  "$765,001 - $780,000","$780,001 - $795,000","$795,001 - $810,000","$810,001 - $825,000",
-  "$825,001 - $840,000","$840,001 - $855,000","$855,001 - $870,000","$870,001 - $885,000",
-  "$885,001 - $900,000","$900,001 - $915,000","$915,001 - $930,000","$930,001 - $945,000",
-  "$945,001 - $960,000","$960,001 - $975,000","$975,001 - $990,000","$990,001 - $1,000,000",
-  "$1.0M - $1.1M","$1.11M - $1.2M","$1.21M - $1.3M","$1.31M - $1.4M","$1.41M - $1.5M",
-  "$1.51M - $1.6M","$1.61M - $1.7M","$1.71M - $1.8M","$1.81M - $1.9M","$1.91M - $2.0M",
+  "$50,000 - $59,999", "$60,000 - $79,999", "$80,000 - $89,999", "$90,000 - $99,999",
+  "$100,000 - $120,000", "$120,001 - $135,000", "$135,001 - $150,000", "$150,001 - $165,000",
+  "$165,001 - $180,000", "$180,001 - $195,000", "$195,001 - $210,000", "$210,001 - $225,000",
+  "$225,001 - $240,000", "$240,001 - $255,000", "$255,001 - $270,000", "$270,001 - $285,000",
+  "$285,001 - $300,000", "$300,001 - $315,000", "$315,001 - $330,000", "$330,001 - $345,000",
+  "$345,001 - $360,000", "$360,001 - $375,000", "$375,001 - $390,000", "$390,001 - $405,000",
+  "$405,001 - $420,000", "$420,001 - $435,000", "$435,001 - $450,000", "$450,001 - $465,000",
+  "$465,001 - $480,000", "$480,001 - $495,000", "$495,001 - $510,000", "$510,001 - $525,000",
+  "$525,001 - $540,000", "$540,001 - $555,000", "$555,001 - $570,000", "$570,001 - $585,000",
+  "$585,001 - $600,000", "$600,001 - $615,000", "$615,001 - $630,000", "$630,001 - $645,000",
+  "$645,001 - $660,000", "$660,001 - $675,000", "$675,001 - $690,000", "$690,001 - $705,000",
+  "$705,001 - $720,000", "$720,001 - $735,000", "$735,001 - $750,000", "$750,001 - $765,000",
+  "$765,001 - $780,000", "$780,001 - $795,000", "$795,001 - $810,000", "$810,001 - $825,000",
+  "$825,001 - $840,000", "$840,001 - $855,000", "$855,001 - $870,000", "$870,001 - $885,000",
+  "$885,001 - $900,000", "$900,001 - $915,000", "$915,001 - $930,000", "$930,001 - $945,000",
+  "$945,001 - $960,000", "$960,001 - $975,000", "$975,001 - $990,000", "$990,001 - $1,000,000",
+  "$1.0M - $1.1M", "$1.11M - $1.2M", "$1.21M - $1.3M", "$1.31M - $1.4M", "$1.41M - $1.5M",
+  "$1.51M - $1.6M", "$1.61M - $1.7M", "$1.71M - $1.8M", "$1.81M - $1.9M", "$1.91M - $2.0M",
   "$2.0M or more",
 ];
 
@@ -169,6 +167,34 @@ function checkPhoneValidity(digits: string): string {
   if (exchange === "555" && parseInt(digits.slice(6)) >= 100 && parseInt(digits.slice(6)) <= 199) {
     return "Please enter a real phone number.";
   }
+  return "";
+}
+
+function formatDobInput(raw: string): string {
+  const digits = raw.replace(/\D/g, "").slice(0, 8);
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+}
+
+function validateDobValue(value: string): string {
+  const digits = value.replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.length !== 8) {
+    return "Enter DOB in MM/DD/YYYY format.";
+  }
+
+  const mm = Number(digits.slice(0, 2));
+  const dd = Number(digits.slice(2, 4));
+  const yyyy = Number(digits.slice(4, 8));
+  const birthDate = new Date(yyyy, mm - 1, dd);
+  const validDate =
+    birthDate.getFullYear() === yyyy &&
+    birthDate.getMonth() === mm - 1 &&
+    birthDate.getDate() === dd;
+
+  if (!validDate) return "Enter a valid date of birth.";
+  if (yyyy < 1925 || yyyy > 2007) return "Year must be between 1925 and 2007";
   return "";
 }
 
@@ -221,16 +247,16 @@ function StateSelect({ value, onChange }: { value: string; onChange: (v: string)
   const searchRef = useRef<HTMLInputElement>(null);
 
   const US_STATE_LABELS: Record<string, string> = {
-    AL:"Alabama", AK:"Alaska", AZ:"Arizona", AR:"Arkansas", CA:"California",
-    CO:"Colorado", CT:"Connecticut", DE:"Delaware", DC:"Washington D.C.", FL:"Florida",
-    GA:"Georgia", HI:"Hawaii", ID:"Idaho", IL:"Illinois", IN:"Indiana",
-    IA:"Iowa", KS:"Kansas", KY:"Kentucky", LA:"Louisiana", ME:"Maine",
-    MD:"Maryland", MA:"Massachusetts", MI:"Michigan", MN:"Minnesota", MS:"Mississippi",
-    MO:"Missouri", MT:"Montana", NE:"Nebraska", NV:"Nevada", NH:"New Hampshire",
-    NJ:"New Jersey", NM:"New Mexico", NY:"New York", NC:"North Carolina", ND:"North Dakota",
-    OH:"Ohio", OK:"Oklahoma", OR:"Oregon", PA:"Pennsylvania", RI:"Rhode Island",
-    SC:"South Carolina", SD:"South Dakota", TN:"Tennessee", TX:"Texas", UT:"Utah",
-    VT:"Vermont", VA:"Virginia", WA:"Washington", WV:"West Virginia", WI:"Wisconsin", WY:"Wyoming",
+    AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
+    CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "Washington D.C.", FL: "Florida",
+    GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana",
+    IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine",
+    MD: "Maryland", MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi",
+    MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire",
+    NJ: "New Jersey", NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota",
+    OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island",
+    SC: "South Carolina", SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah",
+    VT: "Vermont", VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
   };
 
   const filtered = Object.entries(US_STATE_LABELS).filter(([abbr, name]) =>
@@ -327,8 +353,8 @@ function EmailInput({
     const matched = afterAt === ""
       ? EMAIL_DOMAINS.map((d) => `${localPart}${d}`)
       : EMAIL_DOMAINS
-          .filter((d) => d.startsWith(afterAt) && d !== afterAt)
-          .map((d) => `${localPart}${d}`);
+        .filter((d) => d.startsWith(afterAt) && d !== afterAt)
+        .map((d) => `${localPart}${d}`);
     setSuggestions(matched.slice(0, 5));
     setActiveSug(-1);
   };
@@ -465,6 +491,7 @@ function RefinanceForm() {
 
   const addressInputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const confettiCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const initAutocomplete = useCallback(() => {
     if (!addressInputRef.current || autocompleteRef.current) return;
@@ -500,7 +527,7 @@ function RefinanceForm() {
         ZIP: zip,
       }));
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => { currentStepRef.current = currentStep; }, [currentStep]);
@@ -515,11 +542,13 @@ function RefinanceForm() {
       BAL_ONE: 172_500,
       PROP_DESC: "", PROP_PURP: "PRIMARY",
       MTG_ONE_INT: 5.25, MTG_TWO: "NO",
+      EMPLOYMENT_STATUS: "",
       _bal2Snap: 50_000, MTG_TWO_INT: 6, BAL_TWO: getAverageValue(50_000),
       _cashSnap: 0, ADD_CASH: 0,
       LOAN_TYPE: "FIXED", CRED_GRADE: "",
-      VA_STATUS: "NO",
+      FHA_STATUS: "", VA_STATUS: "",
       FHA_BANK_FORECLOSURE: "NO", ANNUAL_VERIFIABLE_INCOME: "YES", NUM_MORTGAGE_LATES: "NONE",
+      DOB: "",
       EMAIL: "", FNAME: "", LNAME: "",
       ADDRESS: "", CITY: "", STATE: "", ZIP: "", PRI_PHON: "",
     };
@@ -531,22 +560,62 @@ function RefinanceForm() {
   useEffect(() => {
     const z = zipFromUrl.replace(/\D/g, "").slice(0, 5);
     if (z.length === 5) update({ PROP_ZIP: z, ZIP: z });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [zipFromUrl]);
 
   useEffect(() => {
-    if (currentStep === 15) {
+    if (currentStep === 9) {
       autocompleteRef.current = null;
       setTimeout(initAutocomplete, 100);
     }
   }, [currentStep, initAutocomplete]);
+
+  useEffect(() => {
+    if (currentStep !== 8 || !confettiCanvasRef.current) return;
+
+    const fireConfetti = confetti.create(confettiCanvasRef.current, {
+      resize: true,
+      useWorker: true,
+    });
+    const colors = ["#941F32", "#1E3A8A", "#F59E0B", "#10B981", "#FDF2F4"];
+    const bursts = [
+      { origin: { x: 0.05, y: 0.9 }, angle: 55, spread: 130, particleCount: 70 },
+      { origin: { x: 0.25, y: 0.95 }, angle: 75, spread: 150, particleCount: 70 },
+      { origin: { x: 0.5, y: 0.95 }, angle: 90, spread: 170, particleCount: 80 },
+      { origin: { x: 0.75, y: 0.95 }, angle: 105, spread: 150, particleCount: 70 },
+      { origin: { x: 0.95, y: 0.9 }, angle: 125, spread: 130, particleCount: 70 },
+      { origin: { x: 0, y: 0.45 }, angle: 35, spread: 110, particleCount: 55 },
+      { origin: { x: 1, y: 0.45 }, angle: 145, spread: 110, particleCount: 55 },
+    ];
+    const fire = () => {
+      bursts.forEach(({ origin, angle, spread, particleCount }) => {
+        fireConfetti({
+          particleCount,
+          angle,
+          spread,
+          startVelocity: 48,
+          scalar: 0.9,
+          ticks: 260,
+          origin,
+          colors,
+        });
+      });
+    };
+
+    fire();
+    const timers = [window.setTimeout(fire, 500), window.setTimeout(fire, 1000)];
+
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      fireConfetti.reset();
+    };
+  }, [currentStep]);
 
 
   // ── Computed ───────────────────────────────────────────────────────────────
   const bal2Pts = useMemo(() => SNAP_POINTS_WITH_ZERO.filter((p) => p <= 3_000_000), []);
   const bal2Avg = getAverageValue(fd._bal2Snap, bal2Pts);
   const totalBalance = fd.BAL_ONE + (fd.MTG_TWO === "YES" ? bal2Avg : 0);
-  const shouldSkip6_7 = fd.MTG_TWO !== "YES";
   // Skip ADD_CASH when there is no room left (total balance already at or above 87.5% LTV cap)
   const addCashMax = useMemo(() => Math.max(0, Math.round(fd.EST_VAL * 0.875) - totalBalance), [fd.EST_VAL, totalBalance]);
   const noEquity = addCashMax <= 0;
@@ -570,26 +639,19 @@ function RefinanceForm() {
 
   // ── Navigation helpers ─────────────────────────────────────────────────────
   function getNextStep(cur: number): number {
-    let n = cur + 1;
-    if (n === 6 && shouldSkip6_7) n = 8;
-    return Math.min(n, TOTAL_STEPS);
+    return Math.min(cur + 1, TOTAL_STEPS);
   }
   function getPrevStep(cur: number): number {
-    let n = cur - 1;
-    if ((n === 7 || n === 6) && shouldSkip6_7) n = 5;
-    return Math.max(n, 1);
+    return Math.max(cur - 1, 1);
   }
 
   const applicableSteps = useMemo(() => {
-    const s = [1, 2, 3, 4, 5];
-    if (!shouldSkip6_7) s.push(6, 7);
-    s.push(8, 9, 10, 11, 12, 13, 14, 15, 16);
-    return s;
-  }, [shouldSkip6_7]);
+    return Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1);
+  }, []);
 
   const progressCurrent = applicableSteps.indexOf(currentStep) + 1;
-  const progressTotal   = applicableSteps.length;
-  const isLastStep      = currentStep === TOTAL_STEPS;
+  const progressTotal = applicableSteps.length;
+  const isLastStep = currentStep === TOTAL_STEPS;
 
   // ── Auto-advance helper ────────────────────────────────────────────────────
   const autoAdvance = (fromStep: number) => {
@@ -601,22 +663,16 @@ function RefinanceForm() {
   // ── Validation ─────────────────────────────────────────────────────────────
   const isStepValid = (): boolean => {
     switch (currentStep) {
-      case 1:  return fd.PROP_DESC !== "";
-      case 2:  return fd._estValLabel !== "" && fd._balLabel !== "";
-      case 3:  return fd.CRED_GRADE !== "";
-      case 4:  return fd.MTG_ONE_INT >= 3;
-      case 5:  return fd.MTG_TWO !== "";
-      case 6:  return true;
-      case 7:  return true;
-      case 8:  return true;
-      case 9:  return fd.LOAN_TYPE !== "";
-      case 10: return fd.PROP_PURP !== "";
-      case 11: return fd.VA_STATUS !== "";
-      case 12: return fd.FHA_BANK_FORECLOSURE !== "";
-      case 13: return fd.ANNUAL_VERIFIABLE_INCOME !== "";
-      case 14: return fd.NUM_MORTGAGE_LATES !== "";
-      case 15: return fd.ADDRESS.trim() !== "" && fd.CITY.trim() !== "" && fd.STATE !== "" && /^\d{5}$/.test(fd.ZIP);
-      case 16: {
+      case 1: return fd.PROP_DESC !== "";
+      case 2: return fd._estValLabel !== "" && fd._balLabel !== "";
+      case 3: return fd.CRED_GRADE !== "";
+      case 4: return true;
+      case 5: return fd.EMPLOYMENT_STATUS !== "";
+      case 6: return fd.FHA_STATUS !== "";
+      case 7: return fd.VA_STATUS !== "";
+      case 8: return fd.DOB.replace(/\D/g, "").length === 8 && validateDobValue(fd.DOB) === "";
+      case 9: return fd.ADDRESS.trim() !== "" && fd.CITY.trim() !== "" && fd.STATE !== "" && /^\d{5}$/.test(fd.ZIP);
+      case 10: {
         const fnOk = fd.FNAME.trim().length >= 2 && /^[A-Za-z\s'\-\.]+$/.test(fd.FNAME.trim()) && !/^(.)\1+$/.test(fd.FNAME.trim().replace(/\s/g, "")) && !/^(test|fake|asdf|qwerty|xxxx|aaaa|bbbb|cccc|name|user|admin|none|null|n\/a)$/i.test(fd.FNAME.trim());
         const lnOk = fd.LNAME.trim().length >= 2 && /^[A-Za-z\s'\-\.]+$/.test(fd.LNAME.trim()) && !/^(.)\1+$/.test(fd.LNAME.trim().replace(/\s/g, "")) && !/^(test|fake|asdf|qwerty|xxxx|aaaa|bbbb|cccc|name|user|admin|none|null|n\/a)$/i.test(fd.LNAME.trim());
         return fnOk && lnOk && fd.EMAIL.includes("@") && fd.EMAIL.includes(".") && checkPhoneValidity(fd.PRI_PHON.replace(/\D/g, "")) === "";
@@ -629,8 +685,7 @@ function RefinanceForm() {
   const handleNext = async () => {
     if (!isStepValid()) return;
 
-    if (currentStep === 6) update({ BAL_TWO: bal2Avg });
-    if (currentStep === 8) update({ ADD_CASH: noEquity ? 0 : getAverageValue(fd._cashSnap, addCashPts) });
+    if (currentStep === 4) update({ ADD_CASH: noEquity ? 0 : getAverageValue(fd._cashSnap, addCashPts) });
 
     if (isLastStep) {
       setIsSubmitting(true);
@@ -644,13 +699,15 @@ function RefinanceForm() {
           PROP_ZIP: fd.PROP_ZIP, PROP_DESC: fd.PROP_DESC, PROP_PURP: fd.PROP_PURP,
           CRED_GRADE: fd.CRED_GRADE, EST_VAL: fd.EST_VAL, BAL_ONE: fd.BAL_ONE,
           MTG_ONE_INT: fd.MTG_ONE_INT, MTG_TWO: fd.MTG_TWO,
+          EMPLOYMENT_STATUS: fd.EMPLOYMENT_STATUS,
           BAL_TWO: fd.MTG_TWO === "YES" ? fd.BAL_TWO : 0,
           MTG_TWO_INT: fd.MTG_TWO === "YES" ? fd.MTG_TWO_INT : 0,
           ADD_CASH: fd.ADD_CASH,
-          LOAN_TYPE: fd.LOAN_TYPE, VA_STATUS: fd.VA_STATUS,
+          LOAN_TYPE: fd.LOAN_TYPE, FHA_STATUS: fd.FHA_STATUS, VA_STATUS: fd.VA_STATUS,
           FHA_BANK_FORECLOSURE: fd.FHA_BANK_FORECLOSURE,
           ANNUAL_VERIFIABLE_INCOME: fd.ANNUAL_VERIFIABLE_INCOME,
           NUM_MORTGAGE_LATES: fd.NUM_MORTGAGE_LATES,
+          DOB: fd.DOB.trim(),
           EMAIL: fd.EMAIL.trim(), FNAME: fd.FNAME.trim(), LNAME: fd.LNAME.trim(),
           ADDRESS: fd.ADDRESS.trim(), CITY: fd.CITY.trim(), STATE: fd.STATE,
           ZIP: fd.ZIP, PRI_PHON: fd.PRI_PHON.replace(/\D/g, ""),
@@ -673,7 +730,7 @@ function RefinanceForm() {
 
   const handleBack = () => setCurrentStep(getPrevStep(currentStep));
   const clearError = (f: string) => setErrors((p) => { const n = { ...p }; delete n[f]; return n; });
-  const setError   = (f: string, m: string) => setErrors((p) => ({ ...p, [f]: m }));
+  const setError = (f: string, m: string) => setErrors((p) => ({ ...p, [f]: m }));
   const validateName = (field: "FNAME" | "LNAME", value: string) => {
     const v = value.trim();
     const label = field === "FNAME" ? "First name" : "Last name";
@@ -699,9 +756,23 @@ function RefinanceForm() {
     else clearError("PRI_PHON");
   };
 
+  const validateDob = () => {
+    const msg = validateDobValue(fd.DOB);
+    if (msg) setError("DOB", msg);
+    else clearError("DOB");
+  };
+
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="w-full max-w-2xl mx-auto">
+      {currentStep === 8 && (
+        <canvas
+          ref={confettiCanvasRef}
+          className="pointer-events-none fixed inset-0 z-[9999] h-screen w-screen"
+          aria-hidden="true"
+        />
+      )}
+
       <div className="mb-3">
         <MotivationalQuote step={currentStep} formType="refinance" />
       </div>
@@ -713,17 +784,7 @@ function RefinanceForm() {
         />
       </div>
 
-      {(progressTotal - progressCurrent) === 3 && (
-        <div className="mb-5 flex gap-2 rounded-lg border border-[#dc2626]/20 bg-[#fef2f2]/80 p-3 text-left">
-          <span className="mt-0.5 flex h-4 w-4 shrink-0 rounded-full bg-[#dc2626]" aria-hidden />
-          <div>
-            <p className="text-sm font-bold text-[#b91c1c]">Complete 2-3 additional questions to view updated rates.</p>
-            <p className="mt-0.5 text-xs text-[#991b1b]/90">
-              Note: If you abandon this form and rates rise tomorrow, you&apos;ll lose access to today&apos;s lower estimate.
-            </p>
-          </div>
-        </div>
-      )}
+     
 
       <form onSubmit={(e) => e.preventDefault()} className="rounded-lg bg-white border border-gray-200 shadow-sm p-6 md:p-8">
         <TrustedForm />
@@ -808,79 +869,9 @@ function RefinanceForm() {
           </div>
         )}
 
-        {/* ── 4 · MTG_ONE_INT ── */}
+        {/* ── 4 · addCash (conditional) ── */}
         {currentStep === 4 && (
-          <div className="space-y-6">
-            <h2 className={STEP_HEADING_CLS}>
-              What is your current mortgage interest rate?
-              <InfoTip text="Your current primary mortgage interest rate. You can find this on your latest statement or by contacting your lender." />
-            </h2>
-            <InterestSlider
-              id="mtgOneInt" label="" value={fd.MTG_ONE_INT}
-              onChange={(v) => update({ MTG_ONE_INT: v })}
-              min={3} max={24} step={0.25}
-            />
-          </div>
-        )}
 
-        {/* ── 5 · MTG_TWO (auto-advance) ── */}
-        {currentStep === 5 && (
-          <div className="space-y-6">
-            <h2 className={STEP_HEADING_CLS}>
-              Do you have a 2nd mortgage?
-              <InfoTip text="This includes any second mortgage, HELOC, or home equity loan on this property." />
-            </h2>
-            <RadioButtonGroup
-              name="mtgTwo" options={YES_NO_OPTS} value={fd.MTG_TWO}
-              onChange={(v) => {
-                update({ MTG_TWO: v });
-                const stepWhenScheduled = 5;
-                setTimeout(() => {
-                  if (currentStepRef.current !== stepWhenScheduled) return;
-                  const willSkip6_7 = v !== "YES";
-                  const next = willSkip6_7 ? 8 : 6;
-                  setCurrentStep(next);
-                }, 200);
-              }}
-              type="1" layout="column"
-              selectedOptionBackgroundColor="#fdf2f4"
-              selectedOptionBorderColor="#941F32"
-            />
-          </div>
-        )}
-
-        {/* ── 6 · BAL_TWO (conditional) ── */}
-        {currentStep === 6 && (
-          <div className="space-y-6">
-            <h2 className={STEP_HEADING_CLS}>
-              What is your 2nd mortgage balance?
-              <InfoTip text="The remaining balance on your second mortgage, HELOC, or home equity loan." />
-            </h2>
-            <MortgageSlider
-              id="balTwo" label="" value={fd._bal2Snap}
-              onChange={(v) => update({ _bal2Snap: v })}
-              customPoints={bal2Pts}
-            />
-          </div>
-        )}
-
-        {/* ── 7 · MTG_TWO_INT (conditional) ── */}
-        {currentStep === 7 && (
-          <div className="space-y-6">
-            <h2 className={STEP_HEADING_CLS}>
-              What is your 2nd mortgage interest rate?
-              <InfoTip text="The interest rate on your second mortgage, HELOC, or home equity loan. Check your statement if unsure." />
-            </h2>
-            <InterestSlider
-              id="mtgTwoInt" label="" value={fd.MTG_TWO_INT}
-              onChange={(v) => update({ MTG_TWO_INT: v })}
-              min={0} max={24} step={0.25}
-            />
-          </div>
-        )}
-
-        {/* ── 8 · ADD_CASH ── */}
-        {currentStep === 8 && (
           <div className="space-y-6">
             <h2 className={STEP_HEADING_CLS}>
               Would you like to borrow additional cash?
@@ -902,121 +893,116 @@ function RefinanceForm() {
               />
             )}
           </div>
+
+
+
+
+
         )}
 
-        {/* ── 9 · LOAN_TYPE (auto-advance) ── */}
-        {currentStep === 9 && (
+        {/* ── 5 · employmentStatus (auto-advance) ── */}
+        {currentStep === 5 && (
           <div className="space-y-6">
-            <h2 className={STEP_HEADING_CLS}>
-              What type of interest rate do you prefer?
-              <InfoTip text="Fixed rates stay the same for the life of the loan. Adjustable rates may start lower but can change over time. Choose 'Don't Know' if you're unsure." />
-            </h2>
+            <div>
+              <h2 className={STEP_HEADING_CLS}>
+                What is your employment status?
+                <InfoTip text="We use this to match you with loan programs and streamline your application. Select the option that best describes your current employment situation." />
+              </h2>
+            </div>
             <RadioButtonGroup
-              name="loanType" options={LOAN_TYPE_OPTS} value={fd.LOAN_TYPE}
-              onChange={(v) => { update({ LOAN_TYPE: v }); autoAdvance(9); }}
+              name="employmentStatus" options={EMPLOYMENT_STATUS_OPTS} value={fd.EMPLOYMENT_STATUS}
+              onChange={(v) => { update({ EMPLOYMENT_STATUS: v }); autoAdvance(5); }}
               type="1" layout="column"
               selectedOptionBackgroundColor="#fdf2f4"
               selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
+  
 
-        {/* ── 10 · PROP_PURP (auto-advance) ── */}
-        {currentStep === 10 && (
+        {/* ── 6 · fhaStatus (conditional) ── */}
+        {currentStep === 6 && (
+
           <div className="space-y-6">
             <h2 className={STEP_HEADING_CLS}>
-              How do you use this property?
-              <InfoTip text="The way you use this property determines which loan programs and rates are available to you." />
+              Is your mortgage FHA?
+              <InfoTip text="An FHA loan is a mortgage issued by an FHA-approved lender and insured by the Federal Housing Administration (FHA). Designed for low-to-moderate income borrowers, FHA loans require a lower minimum down payment and credit scores than many conventional loans." />
+         
             </h2>
             <RadioButtonGroup
-              name="propPurp" options={PROP_PURP_OPTS} value={fd.PROP_PURP}
-              onChange={(v) => { update({ PROP_PURP: v }); autoAdvance(10); }}
+              name="fhaStatus" options={YES_NO_OPTS} value={fd.FHA_STATUS}
+              onChange={(v) => { update({ FHA_STATUS: v }); autoAdvance(6); }}
               type="1" layout="column"
               selectedOptionBackgroundColor="#fdf2f4"
               selectedOptionBorderColor="#941F32"
             />
           </div>
+
         )}
 
-        {/* ── 11 · VA_STATUS (auto-advance) ── */}
-        {currentStep === 11 && (
+        {/* ── 7 · vaStatus (conditional) ── */}
+        {currentStep === 7 && (
           <div className="space-y-6">
             <h2 className={STEP_HEADING_CLS}>
-              Are you or your spouse a servicemember or veteran?
-              <InfoTip text="VA loans offer exclusive benefits including no down payment, no private mortgage insurance, and competitive rates for eligible veterans, active-duty military, and surviving spouses." />
+              Are you a veteran or active military?
+              <InfoTip text="This question helps us determine your eligibility for VA loan programs, which can offer lower rates and flexible terms for veterans and active service members." />
             </h2>
             <RadioButtonGroup
               name="vaStatus" options={YES_NO_OPTS} value={fd.VA_STATUS}
-              onChange={(v) => { update({ VA_STATUS: v }); autoAdvance(11); }}
+              onChange={(v) => { update({ VA_STATUS: v }); autoAdvance(7); }}
               type="1" layout="column"
               selectedOptionBackgroundColor="#fdf2f4"
               selectedOptionBorderColor="#941F32"
             />
           </div>
         )}
+  
 
-        {/* ── 12 · FHA_BANK_FORECLOSURE (auto-advance) ── */}
-        {currentStep === 12 && (
+        {/* ── 8 · dob ── */}
+        {currentStep === 8 && (
           <div className="space-y-6">
             <div>
               <h2 className={STEP_HEADING_CLS}>
-                Have you had a bankruptcy or foreclosure in the past 3 years?
-                <InfoTip text="This helps determine eligibility for certain loan programs. A past event won't necessarily disqualify you -- many programs are available." />
+                When were you born?
+                <InfoTip text="We use this to confirm your age and match you with the best available rates." />
               </h2>
-              <p className={STEP_SUBTEXT_CLS}>This won't disqualify you -- we have options for every situation.</p>
+              <p className={STEP_SUBTEXT_CLS}>
+              Confirm age now — today’s rate update is ready
+              </p>
             </div>
-            <RadioButtonGroup
-              name="fha" options={YES_NO_OPTS} value={fd.FHA_BANK_FORECLOSURE}
-              onChange={(v) => { update({ FHA_BANK_FORECLOSURE: v }); autoAdvance(12); }}
-              type="1" layout="column"
-              selectedOptionBackgroundColor="#fdf2f4"
-              selectedOptionBorderColor="#941F32"
-            />
+
+            <div className="space-y-2">
+              <label htmlFor="dob" className={LABEL_CLS}>Date of Birth</label>
+              <input
+                id="dob"
+                value={fd.DOB}
+                onChange={(e) => {
+                  const nextDob = formatDobInput(e.target.value);
+                  update({ DOB: nextDob });
+                  const msg = validateDobValue(nextDob);
+                  if (msg) setError("DOB", msg);
+                  else clearError("DOB");
+                }}
+                onBlur={validateDob}
+                placeholder="MM/DD/YYYY"
+                className={`${INPUT_CLS} h-12 text-sm font-inter ${errors.DOB ? "border-red-400 focus:border-red-400 focus:ring-red-200" : ""}`}
+                inputMode="numeric"
+                maxLength={10}
+              />
+              {errors.DOB && <p className={ERROR_TEXT_CLS}>{errors.DOB}</p>}
+            </div>
+
+           
           </div>
+
+          
         )}
 
-        {/* ── 13 · ANNUAL_VERIFIABLE_INCOME (auto-advance) ── */}
-        {currentStep === 13 && (
-          <div className="space-y-6">
-            <div>
-              <h2 className={STEP_HEADING_CLS}>
-                Are you currently employed?
-                <InfoTip text="Verifiable income helps qualify for more loan programs with better rates. Self-employment and other income sources also count." />
-              </h2>
-              <p className={STEP_SUBTEXT_CLS}>This helps us match you with the right programs.</p>
-            </div>
-            <RadioButtonGroup
-              name="income" options={YES_NO_OPTS} value={fd.ANNUAL_VERIFIABLE_INCOME}
-              onChange={(v) => { update({ ANNUAL_VERIFIABLE_INCOME: v }); autoAdvance(13); }}
-              type="1" layout="column"
-              selectedOptionBackgroundColor="#fdf2f4"
-              selectedOptionBorderColor="#941F32"
-            />
-          </div>
-        )}
+       
 
-        {/* ── 14 · NUM_MORTGAGE_LATES (auto-advance) ── */}
-        {currentStep === 14 && (
-          <div className="space-y-6">
-            <div>
-              <h2 className={STEP_HEADING_CLS}>
-                Any late mortgage payments in the past year?
-                <InfoTip text="Recent payment history is a key factor in determining your eligibility and rate options." />
-              </h2>
-              <p className={STEP_SUBTEXT_CLS}>Your recent history helps determine your best options.</p>
-            </div>
-            <RadioButtonGroup
-              name="lates" options={LATES_OPTS} value={fd.NUM_MORTGAGE_LATES}
-              onChange={(v) => { update({ NUM_MORTGAGE_LATES: v }); autoAdvance(14); }}
-              type="1" layout="column"
-              selectedOptionBackgroundColor="#fdf2f4"
-              selectedOptionBorderColor="#941F32"
-            />
-          </div>
-        )}
-
-        {/* ── 15 · Address + Phone ── */}
-        {currentStep === 15 && (
+       
+        {/* ── 9 · Address + Phone ── */}
+        {currentStep === 9 && (
           <div className="space-y-6">
             <style>{PLACES_STYLES}</style>
             <h2 className={STEP_HEADING_CLS}>
@@ -1051,8 +1037,8 @@ function RefinanceForm() {
           </div>
         )}
 
-        {/* ── 16 · Contact info ── */}
-        {currentStep === 16 && (
+        {/* ── 10 · Contact info ── */}
+        {currentStep === 10 && (
           <div className="space-y-5">
             <h2 className={STEP_HEADING_CLS}>
               Almost there! Your contact information
@@ -1129,6 +1115,12 @@ function RefinanceForm() {
           </button>
         </div>
       </form>
+
+      {currentStep === 8 && (
+        <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">
+        By clicking "Continue" above, I authorize LendingTree & <a href="#" target="_blank" className="underline hover:text-gray-600">LendingTree's Partners</a>, to obtain my consumer report, credit profile, or other credit information associated with me from any consumer reporting agency for purposes of my inquiry, as well as for marketing purposes and to provide me with information and recommendations on financial products and services that may be of interest to me.
+        </p>
+      )}
 
       {isLastStep && (
         <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">

@@ -13,11 +13,13 @@
     "fetch-vehicles": "tsx scripts/fetch-vehicles.ts"
   },
   "dependencies": {
+    "@types/canvas-confetti": "^1.9.0",
     "@vercel/analytics": "^1.4.1",
     "@workspace/bdmg-component": "workspace:*",
     "@workspace/lp-core": "workspace:*",
     "@workspace/ui": "workspace:*",
     "axios": "^1.13.5",
+    "canvas-confetti": "^1.9.4",
     "lucide-react": "^0.475.0",
     "motion": "^12.34.0",
     "next": "16.0.10",

@@ -207,7 +207,7 @@ export const REVIEW_CONTENT = {
   reviews: [
     {
      id: 1,
-      quote: "When my transmission failed, Assuritii saved me over $2,000. The process was simple & there were no surprise charges.",
+      quote: "When my transmission failed, American Dream Auto Protect saved me over $2,000. The process was simple & there were no surprise charges.",
       customer: {
         name: "Linda",
         status: "Verified Customer",
