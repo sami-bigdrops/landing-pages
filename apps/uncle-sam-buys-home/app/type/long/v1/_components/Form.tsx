@@ -7,6 +7,7 @@ import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
+import CashOfferCard from "./Card"
 
 
 const HOME_TYPE_OPTIONS = [
@@ -733,6 +734,8 @@ function FormPage() {
               </div>
             </>
           )}
+
+          <CashOfferCard />
         </form>
       </div>
     </div>
