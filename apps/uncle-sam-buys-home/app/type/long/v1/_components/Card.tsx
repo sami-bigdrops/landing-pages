@@ -44,9 +44,9 @@ export default function CashOfferCard() {
   return (
     <aside
       aria-label="Estimated cash offer preview"
-      className="w-full  md:max-w-[300px] mt-2 md:mt-4 rounded-[18px] border border-[#F04E55] bg-[#182542] p-4.5 text-white shadow-[0_14px_28px_rgba(16,34,56,0.24)] "
+      className="w-full  md:max-w-[300px] mt-2 md:mt-4 rounded-[18px] bg-[#182542] p-4.5 text-white shadow-[0_14px_28px_rgba(16,34,56,0.24)] "
     >
-      <h3 className="text-center text-[0.9rem] md:text-base font-semibold text-[#F04E55] ">
+      <h3 className="text-center text-[0.9rem] md:text-base font-semibold text-[#22C55E] ">
         Your Estimated Cash Offer
       </h3>
 
@@ -78,10 +78,10 @@ export default function CashOfferCard() {
       <div className="my-5 h-px w-full bg-[rgba(255,255,255,0.06)] " />
 
       <div className="grid grid-cols-[1fr_auto] items-center gap-3">
-        <p className="text-sm font-medium text-[#F04E55] ">
+        <p className="text-sm font-medium text-[#22C55E] ">
           You Get
         </p>
-        <BlurredValue className="text-sm font-medium text-[#F04E55]" useDefaultTextStyle={false}>
+        <BlurredValue className="text-sm font-medium text-[#22C55E]" useDefaultTextStyle={false}>
           $447,317
         </BlurredValue>
       </div>
