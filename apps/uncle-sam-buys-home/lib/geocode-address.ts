@@ -38,12 +38,17 @@ export async function geocodeAddress(address: string, zipCode: string): Promise<
 
     const data = (await res.json()) as GeocodeResponse
 
-    if (data.status !== "OK" || !data.results.length) {
+    if (data.status !== "OK" || data.results.length === 0) {
       console.warn("[geocode] No results for address. Status:", data.status)
       return { city: "", state: "" }
     }
 
-    const components = data.results[0].address_components
+    const firstResult = data.results[0]
+    if (!firstResult) {
+      return { city: "", state: "" }
+    }
+
+    const components = firstResult.address_components
     let city = ""
     let state = ""
 
