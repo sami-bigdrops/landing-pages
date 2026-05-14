@@ -1,3 +1,9 @@
+export const SITE_BRAND = {
+  name: "Uncle Sam Buys Homes",
+  description:
+    "Sell your house fast for a fair cash offer. Request a no-obligation instant cash offer from Uncle Sam Buys Homes—no repairs, fees, or long delays.",
+} as const
+
 export const COLORS_CONSTANTS = {
   white: "#FFFFFF",
   heading: "#111827",
@@ -22,7 +28,7 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: "Need Cash Fast? Get an Instant Cash Offer on Your Home Today!",
+  headline: "Need Cash Fast? Get an Instant Cash Offer with Uncle Sam Buys Homes Today!",
   
   partners: [
     
@@ -48,10 +54,10 @@ export const HERO_CONTENT = {
 
 
 export const FORM_CONTENT = {
-  header: "Receive Your FREE Vehicle Protection Quote",
+  header: "Get Your Free Cash Offer on Your Home",
   tabs: {
-    vehicleDetails: "VEHICLE DETAILS",
-    personalDetails: "PERSONAL DETAILS",
+    vehicleDetails: "PROPERTY DETAILS",
+    personalDetails: "YOUR CONTACT INFO",
   },
   fields: {
     carYear: {
@@ -91,8 +97,9 @@ export const FORM_CONTENT = {
       placeholder: "Enter Zip Code",
     },
   },
-  button: "Unlock My Car's Protection Value",
-  disclaimer: "By Clicking \"Get Your Free Quote\" You Agree That Assuritii May Contact You At The Number And Email Provided With Calls, Texts, Or Prerecorded/Artificial Voice Messages About Or Products/Services. Consent Is Not A Condition Of Purchase. Message/Data Rates Apply. You Can Withdraw Consent Anytime.",
+  button: "See My Cash Offer",
+  disclaimer:
+    'By clicking "See My Cash Offer" you agree that Uncle Sam Buys Homes may contact you at the phone number and email you provided about your request and related services. Consent is not a condition of purchase. Message and data rates may apply. You can withdraw consent anytime.',
 } as const
 
 export const WORK_CONTENT = {
@@ -100,18 +107,18 @@ export const WORK_CONTENT = {
   steps: [
     {
       number: "01",
-      title: "Enter your ZIP",
-      description: "See which insurance options are available where you live.",
+      title: "Tell us about your property",
+      description: "Share your address, timeline, and a few details so we can understand your situation.",
     },
     {
       number: "02",
-      title: "Answer a few quick questions",
-      description: "Tell us about your vehicle and the cover level you want.",
+      title: "Get a cash offer path",
+      description: "We review your information and connect you with buyers interested in homes like yours.",
     },
     {
       number: "03",
-      title: "View matched quotes",
-      description: "See prices and details, then choose the option that suits your budget.",
+      title: "Move forward on your terms",
+      description: "If there is a fit, you can explore a no-obligation cash offer without listing fees or repairs.",
     },
   ],
   workImage: [
@@ -123,29 +130,29 @@ export const WORK_CONTENT = {
 } as const
 
 export const ABOUT_CONTENT = {
-  header: "So, what does a home warranty actually do?",
-  description: "A home warranty helps when everyday home systems or appliances stop working from normal wear and tear.",
+  header: "Why sell your home for cash?",
+  description:
+    "Uncle Sam Buys Homes helps homeowners explore a faster sale without open houses, agent commissions, or months of uncertainty.",
   features: [
     {
-      title: "Helps cover home systems and appliances",
-     
+      title: "Skip the traditional listing grind",
       image: {
         src: "/about-1.svg",
-        alt: "Cars today cost more to repair",
+        alt: "Homeowners reviewing a simpler sale option",
       },
     },
     {
-      title: "Works alongside homeowners insurance",
+      title: "Talk timelines that fit your move",
       image: {
         src: "/about-2.svg",
-        alt: "Unexpected repair costs",
+        alt: "Planning a move on your schedule",
       },
     },
     {
-      title: "Simple member support when things break",
+      title: "Understand your options in plain language",
       image: {
         src: "/about-3.svg",
-        alt: "Breakdowns disrupt daily life",
+        alt: "Clear next steps for selling your home",
       },
     },
   ],
@@ -153,34 +160,34 @@ export const ABOUT_CONTENT = {
 
 
 export const FEATURES_CONTENT = {
-  header: "What's Not Covered in Home Warranty",
+  header: "Questions worth asking any buyer",
   features: [
     {
-      title: "Pre-existing conditions",
+      title: "How is the offer price determined?",
       image: {
         src: "/feature-icon.svg",
-        alt: "Cars today cost more to repair",
+        alt: "Offer price discussion",
       },
     },
     {
-      title: "Cosmetic damage",
+      title: "What fees or deductions apply at closing?",
       image: {
         src: "/feature-icon.svg",
-        alt: "Unexpected repair costs",
+        alt: "Closing costs and fees",
       },
     },
     {
-      title: "Improper maintenance",
+      title: "What inspections or walkthroughs are required?",
       image: {
         src: "/feature-icon.svg",
-        alt: "Breakdowns disrupt daily life",
+        alt: "Property inspection timeline",
       },
     },
     {
-      title: "Items not listed in plan",
+      title: "Can you choose your closing date?",
       image: {
         src: "/feature-icon.svg",
-        alt: "Items not listed in plan",
+        alt: "Choosing a closing date",
       },
     },
   ],
@@ -256,7 +263,7 @@ export const COVER_CONTENT = {
     additionalText: "And More...",
   },
   callToAction: {
-    buttonText: "Get Your FREE Quote",
+    buttonText: "Call for help with your request",
     contactText: "Or give us a call",
     phoneNumber: "1-855-916-3700",
     phoneHref: "tel:+18559163700",
@@ -282,7 +289,8 @@ export const REVIEW_CONTENT = {
   reviews: [
     {
      id: 1,
-      quote: "Our AC stopped working unexpectedly, and I was worried about the cost. Submitting a request was easy, and a technician was scheduled quickly. It really helped us avoid a big repair bill.",
+      quote:
+        "We needed to move quickly for a job relocation. The process was straightforward, and we avoided months of showings while we figured out our next step.",
       customer: {
         name: "Sarah Matthews",
         status: "Dallas, TX",
@@ -294,7 +302,8 @@ export const REVIEW_CONTENT = {
     },
     {
       id: 2,
-      quote: "As a new homeowner, I wasn’t sure what to expect when our refrigerator broke down. Everything was explained clearly, and the repair process was simple from start to finish",
+      quote:
+        "Inherited a property that needed work. We wanted clarity on options without committing to a long listing. Getting a cash path explained upfront made the decision easier.",
       customer: {
         name: "David Martinez",
         status: "Orlando, FL",
@@ -307,7 +316,8 @@ export const REVIEW_CONTENT = {
     {
      
       id: 3,
-      quote: "Having coverage made a stressful situation much easier. Our water heater needed repairs, and the whole experience was smooth and straightforward.",
+      quote:
+        "We were behind on payments and stressed about timelines. Having someone walk through a simple next step—without pressure—helped us breathe again.",
       customer: {
         name: "Monica Patel",
         status: "Phoenix, AZ",
@@ -326,29 +336,33 @@ export const FAQ_CONTENT = {
   faqs: [
     {
       id: 1,
-      question: "Q1. What does a home warranty help cover?",
-      answer: "It helps with covered repairs for home systems and appliances that fail from normal wear and tear.",
+      question: "What is a cash offer on my home?",
+      answer:
+        "It is a buyer’s proposal to purchase your property for an agreed price, often with a simpler timeline and fewer traditional sale steps than a retail listing.",
     },
     {
       id: 2,
-      question: "Q2. What do I pay when I request service?",
-      answer: "You pay the service fee when you request help; covered repair or replacement costs are handled by your plan.",
+      question: "Does requesting an offer cost anything?",
+      answer:
+        "Submitting your information through Uncle Sam Buys Homes does not charge you a fee. Any offer or agreement would come from the buyer you choose to work with.",
     },
     {
       id: 3,
-      question: "Q3. Is this the same as homeowners insurance?",
-      answer: "No. Homeowners insurance covers sudden events like fire or storms; a home warranty covers breakdowns of covered items.",
+      question: "Do I have to make repairs first?",
+      answer:
+        "Many cash paths focus on buying as-is. Specific expectations depend on the buyer and your property, which is why we collect a few details up front.",
     },
     {
       id: 4,
-      question: "Q4. Can I cancel or change my plan later?",
-      answer: "Yes. You can cancel or switch plans based on terms; your options are shown clearly before you enrol.",
+      question: "Am I obligated if I submit the form?",
+      answer:
+        "No. Sharing your information helps us route you to interested buyers. You decide whether to move forward after you learn more.",
     },
   ],
 } as const
 
 export const FOOTER_CONTENT = {
-  description: "Affordable coverage for unexpected home repairs.",
+  description: SITE_BRAND.description,
   linkHeader: "Company",
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
@@ -356,21 +370,18 @@ export const FOOTER_CONTENT = {
   ],
   copyrightText: "Copyright © 2026 Uncle Sam Buys Homes. All Rights Reserved.",
   disclaimer:
-    'Uncle Sam Buys Home is a marketing platform that connects homeowners with companies involved in real estate transactions. The information you submit on this website is shared in real time with our network of partner companies. If your details match what a partner is looking for, they may contact you directly. In some cases, we may use SMS to help connect you with a provider or facilitate a call. We may receive compensation from these providers when they contact you or offer their services. You are not charged for using our platform. We do not guarantee that you will receive an offer, that any provider will accept your request, or that their services will meet your specific needs. The products or services offered may not always be the best available in the market. Submitting your information does not obligate you to purchase any service or product, and it does not obligate any provider to offer you a service. This website is intended for U.S. citizens only. We do not accept submissions from individuals outside the United States, including Canada and countries in the European Union.',
+    "Uncle Sam Buys Homes is a marketing platform that connects homeowners with companies involved in real estate transactions. The information you submit on this website is shared in real time with our network of partner companies. If your details match what a partner is looking for, they may contact you directly. In some cases, we may use SMS to help connect you with a provider or facilitate a call. We may receive compensation from these providers when they contact you or offer their services. You are not charged for using our platform. We do not guarantee that you will receive an offer, that any provider will accept your request, or that their services will meet your specific needs. The products or services offered may not always be the best available in the market. Submitting your information does not obligate you to purchase any service or product, and it does not obligate any provider to offer you a service. This website is intended for U.S. citizens only. We do not accept submissions from individuals outside the United States, including Canada and countries in the European Union.",
 } as const
 
 
 export const THANKYOU_CONTENT = {
   title: "Thank you!",
   subtitle:
-    "Thank you for requesting information from Assuritii. A Customer Specialist will contact you shortly.",
+    "Thank you for connecting with Uncle Sam Buys Homes. A specialist will contact you shortly about your property.",
   confirmationTitle:
     "A confirmation message has been sent to your email address.",
   confirmationDescription:
-    "The message contains next steps and how to get your quote. Please check your spam folder if you don't see it in your inbox.",
-  contactTitle: "Need help now?",
-  contactPhoneLabel: "1-855-916-3700",
-  contactPhoneHref: "tel:+18559163700",
+    "The message contains next steps for your cash-offer request. Please check your spam folder if you don't see it in your inbox.",
 } as const
 
 export interface ThankYouType2FeatureCard {
@@ -392,39 +403,39 @@ export interface ThankYouType2Content {
 
 export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
   title: "Thank you!",
-  partnerName: "First Premier Home Warranty",
-  partnerLogo: { src: "/first-premier.png", alt: "First Premier Home Warranty" },
+  partnerName: SITE_BRAND.name,
+  partnerLogo: { src: "/logo.svg", alt: `${SITE_BRAND.name} logo` },
   confirmationMessage:
-    "You're matched with First Premier Home Warranty. A specialist will contact you soon.",
+    "We received your information. A member of our team will reach out soon to discuss a potential cash offer for your home.",
   emailConfirmationNotice:
     "We've sent a confirmation email to your inbox. If you don't see it within a few minutes, check your spam or junk folder.",
-  aboutSectionTitle: "Why Choose First Premier Home Warranty",
+  aboutSectionTitle: `Why homeowners choose ${SITE_BRAND.name}`,
   featureCards: [
     {
-      title: "Our Mission: Budget-friendly Plans",
+      title: "Speed and simplicity",
       icon: "shield",
       bulletPoints: [
-        "Getting the best home warranty should not mean stretching your finances.",
-        "Plans priced so every homeowner can access solid, reliable coverage.",
-        "Whether you are a first-time buyer or a long-time homeowner, there is a plan built for your situation.",
+        "Share a few details online instead of juggling endless back-and-forth before you know if there is interest.",
+        "Explore a path designed for homeowners who want clarity without a long listing process.",
+        "Get routed to buyers who are actively looking for properties like yours.",
       ],
     },
     {
-      title: "Wide Network of Technicians",
+      title: "Sell as-is conversations",
       icon: "building",
       bulletPoints: [
-        "When things go wrong, we connect you with experienced contractors.",
-        "From diagnosis to repair, with efficiency and care your home deserves.",
-        "Less stress finding help when you need it most.",
+        "Many investors buy with repair needs in mind—ask questions early so expectations stay clear.",
+        "Compare a cash-style timeline with what a traditional sale might require for prep and showings.",
+        "Understand options before you commit to staging, repairs, or open houses.",
       ],
     },
     {
-      title: "Nationwide Coverage",
+      title: "No pressure next steps",
       icon: "check",
       bulletPoints: [
-        "Wherever you own a home, we work to keep you protected.",
-        "Coverage options that fit different households, budgets, and needs.",
-        "Dependable protection so you can focus on living in your home, not stressing over repairs.",
+        "Submitting the form does not lock you into an agreement.",
+        "You choose whether to continue after you hear what is possible for your address and situation.",
+        "Our goal is to make the first step easy so you can decide what fits your goals.",
       ],
     },
   ],
@@ -440,5 +451,5 @@ export const REJECTED_PAGE_CONTENT = {
     1013:
       "The lead was rejected by our partner. You may have submitted recently, or your details could not be verified. Please review your information and try again.",
   } as Record<number, string>,
-  partnerLogo: { src: "/first-premier.png", alt: "First Premier Home Warranty" },
+  partnerLogo: { src: "/logo.svg", alt: `${SITE_BRAND.name} logo` },
 }

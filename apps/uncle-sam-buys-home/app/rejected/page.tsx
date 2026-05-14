@@ -4,10 +4,11 @@ import type { Metadata } from "next"
 import Navbar from "@/app/_components/Navbar"
 import Footer from "@/app/_components/Footer"
 import { RejectedContent } from "@/app/_components/RejectedContent"
+import { SITE_BRAND } from "@/lib/constant"
 
 export const metadata: Metadata = {
   title: "Submission not accepted",
-  description: "We could not complete your request. Please review your details and try again.",
+  description: `${SITE_BRAND.name} could not complete this submission. Please review your details and try again.`,
 }
 
 function RejectedLoading() {

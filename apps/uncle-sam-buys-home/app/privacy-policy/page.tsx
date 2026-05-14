@@ -2,11 +2,11 @@ import { Metadata } from "next"
 import Navbar from "@/app/_components/Navbar"
 import PrivacyPolicy from "@/app/_components/PrivacyPolicy"
 import Footer from "@/app/_components/Footer"
+import { SITE_BRAND } from "@/lib/constant"
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description:
-    "Assuritii privacy policy. Learn how we collect, use, and protect your personal information.",
+  description: `Privacy policy for ${SITE_BRAND.name}: how we collect, use, and protect your personal information.`,
 }
 
 export default function PrivacyPolicyPage() {

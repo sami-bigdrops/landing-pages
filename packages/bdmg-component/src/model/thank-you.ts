@@ -23,6 +23,7 @@ export interface ThankYouContentProps {
   contactTitle?: string
   contactPhoneLabel?: string
   contactPhoneHref?: string
+  showContact?: boolean
   redirectPath?: string
   sendWelcomeEmail?: boolean
   sendEmailApiPath?: string

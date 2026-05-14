@@ -297,7 +297,7 @@ const CREDIT_OPTIONS = [
 const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
 const STEP_SHELL_WIDE = "mx-auto flex w-full max-w-6xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
 const STEP_SHELL_VALUE = "mx-auto flex w-full max-w-5xl flex-col items-center gap-6 text-center md:gap-7 xl:gap-8"
-const STEP_SHELL_FIELDS = "mx-auto flex w-full max-w-2xl flex-col gap-5 md:gap-6"
+const STEP_SHELL_FIELDS = "mx-auto flex w-full max-w-3xl flex-col gap-5 md:gap-6"
 const STEP_TITLE = "text-center text-base font-medium text-[#1C1C1C] xl:text-xl"
 const GRID_2 = "grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-5"
 const GRID_SELL = "grid w-full grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3 xl:gap-5"
@@ -380,7 +380,7 @@ function FormNavigation({
   onBack,
 }: FormNavigationProps) {
   return (
-    <nav className="flex w-full max-w-xl flex-col items-center gap-4 md:max-w-2xl md:gap-5">
+    <nav className="flex w-full max-w-lg flex-col items-center gap-4 md:gap-5">
       {showNext ? (
         <button
           type="button"
@@ -561,7 +561,7 @@ function FormPage() {
   return (
     <section className="flex w-full min-h-[400px] flex-col items-center gap-8 md:min-h-[460px] md:gap-10 xl:min-h-[580px] xl:gap-12">
       <h2 className="max-w-5xl text-center text-xl font-bold text-[#182542] lg:text-2xl xl:text-3xl">
-        Need to Sell Quickly? Get a Cash Offer Now for Your Home Today!
+        Need to Sell Quickly? Uncle Sam Buys Homes — Get a Cash Offer for Your Home Today!
       </h2>
 
       <form
@@ -613,7 +613,7 @@ function FormPage() {
               value={formData.zipCode}
               onChange={(v) => handleInputChange("zipCode", v)}
               placeholder="Please Enter Zip Code"
-              containerClassName="w-full max-w-md"
+              containerClassName="w-full max-w-lg"
               labelClassName={LABEL_CLASS}
               className={INPUT_FIELD}
             />
@@ -810,43 +810,45 @@ function FormPage() {
         ) : null}
 
         {currentStep === 9 ? (
-          <section className={`${STEP_SHELL_FIELDS} text-left`}>
-            <TextInput
-              id="step6FirstName"
-              label="First Name"
-              value={formData.first_name}
-              onChange={(e) => handleInputChange("first_name", e.target.value)}
-              placeholder="Enter First Name"
-              labelClassName={LABEL_CLASS}
-              className={INPUT_FIELD}
-            />
-            <TextInput
-              id="step6LastName"
-              label="Last Name"
-              value={formData.last_name}
-              onChange={(e) => handleInputChange("last_name", e.target.value)}
-              placeholder="Enter Last Name"
-              labelClassName={LABEL_CLASS}
-              className={INPUT_FIELD}
-            />
-            <TextInput
-              id="email"
-              label="Email Address"
-              type="email"
-              value={formData.email}
-              onChange={(e) => {
-                handleInputChange("email", e.target.value)
-                if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
-              }}
-              placeholder="Enter Email Address"
-              labelClassName={LABEL_CLASS}
-              className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus:border-red-500" : ""}`}
-            />
-            {fieldErrors.email ? (
-              <p className="text-xs text-red-600" role="alert">
-                {fieldErrors.email}
-              </p>
-            ) : null}
+          <section className={`${STEP_SHELL_FIELDS} items-center`}>
+            <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
+              <TextInput
+                id="step6FirstName"
+                label="First Name"
+                value={formData.first_name}
+                onChange={(e) => handleInputChange("first_name", e.target.value)}
+                placeholder="Enter First Name"
+                labelClassName={LABEL_CLASS}
+                className={INPUT_FIELD}
+              />
+              <TextInput
+                id="step6LastName"
+                label="Last Name"
+                value={formData.last_name}
+                onChange={(e) => handleInputChange("last_name", e.target.value)}
+                placeholder="Enter Last Name"
+                labelClassName={LABEL_CLASS}
+                className={INPUT_FIELD}
+              />
+              <TextInput
+                id="email"
+                label="Email Address"
+                type="email"
+                value={formData.email}
+                onChange={(e) => {
+                  handleInputChange("email", e.target.value)
+                  if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
+                }}
+                placeholder="Enter Email Address"
+                labelClassName={LABEL_CLASS}
+                className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus:border-red-500" : ""}`}
+              />
+              {fieldErrors.email ? (
+                <p className="text-xs text-red-600" role="alert">
+                  {fieldErrors.email}
+                </p>
+              ) : null}
+            </div>
             <FormNavigation
               showBack
               showNext
@@ -858,83 +860,85 @@ function FormPage() {
         ) : null}
 
         {currentStep === TOTAL_STEPS ? (
-          <section className={`${STEP_SHELL_FIELDS} text-left`}>
-            <AddressAutocomplete
-              label="Street Address"
-              value={formData.street_address}
-              city={formData.city}
-              state={formData.state}
-              onChange={(v) => {
-                handleInputChange("street_address", v)
-                if (!v) {
-                  handleInputChange("city", "")
-                  handleInputChange("state", "")
-                }
-              }}
-              onSelect={(result) => {
-                setFormData((prev) => ({
-                  ...prev,
-                  street_address: result.streetAddress,
-                  city: result.city,
-                  state: result.state,
-                  ...(result.zipCode ? { zipCode: result.zipCode } : {}),
-                }))
-              }}
-              placeholder="Enter Street Address"
-              labelClassName={LABEL_CLASS}
-              className={INPUT_FIELD}
-            />
-            <PhoneNumberInput
-              id="phoneNumber"
-              label="Phone Number"
-              value={formData.phone_number}
-              onChange={(v) => {
-                handleInputChange("phone_number", v)
-                if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
-              }}
-              placeholder="Enter Phone Number"
-              labelClassName={LABEL_CLASS}
-              className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus:border-red-500" : ""}`}
-            />
-            {fieldErrors.phone ? (
-              <p className="text-xs text-red-600" role="alert">
-                {fieldErrors.phone}
+          <section className={`${STEP_SHELL_FIELDS} items-center`}>
+            <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
+              <AddressAutocomplete
+                label="Street Address"
+                value={formData.street_address}
+                city={formData.city}
+                state={formData.state}
+                onChange={(v) => {
+                  handleInputChange("street_address", v)
+                  if (!v) {
+                    handleInputChange("city", "")
+                    handleInputChange("state", "")
+                  }
+                }}
+                onSelect={(result) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    street_address: result.streetAddress,
+                    city: result.city,
+                    state: result.state,
+                    ...(result.zipCode ? { zipCode: result.zipCode } : {}),
+                  }))
+                }}
+                placeholder="Enter Street Address"
+                labelClassName={LABEL_CLASS}
+                className={INPUT_FIELD}
+              />
+              <PhoneNumberInput
+                id="phoneNumber"
+                label="Phone Number"
+                value={formData.phone_number}
+                onChange={(v) => {
+                  handleInputChange("phone_number", v)
+                  if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
+                }}
+                placeholder="Enter Phone Number"
+                labelClassName={LABEL_CLASS}
+                className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus:border-red-500" : ""}`}
+              />
+              {fieldErrors.phone ? (
+                <p className="text-xs text-red-600" role="alert">
+                  {fieldErrors.phone}
+                </p>
+              ) : null}
+
+              <p className="text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
+                By clicking the button below, you acknowledge, consent, and agree to our terms at the bottom of this page.
               </p>
-            ) : null}
 
-            <p className="text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
-              By clicking the button below, you acknowledge, consent, and agree to our terms at the bottom of this page.
-            </p>
+              {submitStatus === "error" && submitError ? (
+                <p className="text-sm text-red-600" role="alert">
+                  {submitError}
+                </p>
+              ) : null}
 
-            {submitStatus === "error" && submitError ? (
-              <p className="text-sm text-red-600" role="alert">
-                {submitError}
+              <button
+                type="submit"
+                disabled={submitStatus === "loading"}
+                className="h-13 w-full cursor-pointer rounded-[10px] bg-[#C12026] py-3 text-sm font-medium uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:h-15 xl:text-lg"
+              >
+                {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
+              </button>
+
+              <p className="text-justify text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
+                By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree to our{" "}
+                <a href="/terms-of-use" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
+                  Terms and Conditions
+                </a>{" "}
+                and{" "}
+                <a href="/privacy-policy" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
+                  Privacy Policy
+                </a>
+                . Your consent, and e-signature, is not a condition of accessing our services. You may revoke your consent at any time by emailing{" "}
+                <a href="mailto:consent@unclesambuyshome.com" className="font-bold text-[#343434]">
+                  consent@unclesambuyshome.com
+                </a>
+                .
               </p>
-            ) : null}
-
-            <button
-              type="submit"
-              disabled={submitStatus === "loading"}
-              className="h-13 w-full cursor-pointer rounded-[10px] bg-[#C12026] py-3 text-sm font-medium uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:h-15 xl:text-lg"
-            >
-              {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
-            </button>
-
-            <p className="text-justify text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
-              By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree to our{" "}
-              <a href="/terms-of-use" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
-                Terms and Conditions
-              </a>{" "}
-              and{" "}
-              <a href="/privacy-policy" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
-                Privacy Policy
-              </a>
-              . Your consent, and e-signature, is not a condition of accessing our services. You may revoke your consent at any time by emailing{" "}
-              <a href="mailto:consent@unclesambuyshome.com" className="font-bold text-[#343434]">
-                consent@unclesambuyshome.com
-              </a>
-              .
-            </p>
+            </div>
 
             <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
           </section>

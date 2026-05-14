@@ -40,6 +40,7 @@ export function ThankYouContent({
   contactTitle = "For immediate assistance",
   contactPhoneLabel = "(1800) 123 - 4567",
   contactPhoneHref = "tel:+18001234567",
+  showContact = true,
   redirectPath = "/",
   sendWelcomeEmail = false,
   sendEmailApiPath = "/api/send-email",
@@ -347,9 +348,10 @@ export function ThankYouContent({
                 </div>
               )}
 
+              {(sendWelcomeEmail || showContact) && (
               <div className="mt-8 flex flex-col gap-4 sm:mt-10 sm:gap-5">
                 {sendWelcomeEmail && (
-                  <div className="rounded-xl border border-[#a7f3d0] bg-[#ecfdf5] px-5 py-4 text-left sm:px-6 sm:py-5">
+                  <div className="rounded-xl border border-[#a7f3d0] bg-[#ecfdf5] px-5 py-4 text-center sm:px-6 sm:py-5">
                     <p className="text-[0.9375rem] font-semibold text-[#065f46]">
                       {confirmationTitle}
                     </p>
@@ -359,6 +361,7 @@ export function ThankYouContent({
                   </div>
                 )}
 
+                {showContact && (
                 <div className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-5 py-4 text-left sm:px-6 sm:py-5">
                   <h2 className="text-[0.9375rem] font-semibold text-[#0f172a] text-center">
                     {contactTitle}
@@ -373,7 +376,9 @@ export function ThankYouContent({
                     </a>
                   </p>
                 </div>
+                )}
               </div>
+              )}
             </div>
           </div>
         </div>

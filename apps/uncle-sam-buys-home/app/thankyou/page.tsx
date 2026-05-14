@@ -1,24 +1,24 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
-import { THANKYOU_TYPE2_CONTENT } from "@/lib/constant"
+import { ThankYouContent, type ThankYouAd } from "@workspace/bdmg-component"
+import { SITE_BRAND, THANKYOU_CONTENT } from "@/lib/constant"
 import Navbar from "@/app/_components/Navbar"
 import Footer from "@/app/_components/Footer"
-import { ThankYouType2, type ThankYouAd } from "@/app/_components/ThankYouType2"
 
 const THANKYOU_ADS: ThankYouAd[] = [
   {
     image: "/2.png",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=115&sub1=pwe_${utm_source}&sub2=${utm_id}",
+    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=115&sub1=pwe_{{utm_source}}&sub2={{utm_id}}",
   },
   {
     image: "/3.jpg",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=113&sub1=pwe_${utm_source}&sub2=${utm_id}",
+    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=113&sub1=pwe_{{utm_source}}&sub2={{utm_id}}",
   },
 ]
 
 export const metadata: Metadata = {
   title: "Thank You",
-  description: "Your request has been received. A specialist will contact you shortly.",
+  description: `Your request to ${SITE_BRAND.name} was received. A specialist will contact you shortly about your property.`,
 }
 
 function ThankYouLoading() {
@@ -37,10 +37,17 @@ export default function ThankYouPage() {
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <Suspense fallback={<ThankYouLoading />}>
-        <ThankYouType2
-          content={THANKYOU_TYPE2_CONTENT}
-          ads={THANKYOU_ADS}
+        <ThankYouContent
+          variant="1"
+          title={THANKYOU_CONTENT.title}
+          subtitle={THANKYOU_CONTENT.subtitle}
+          showBuyerLogo={false}
+          showContact={false}
+          confirmationTitle={THANKYOU_CONTENT.confirmationTitle}
+          confirmationDescription={THANKYOU_CONTENT.confirmationDescription}
           redirectPath="/"
+          sendWelcomeEmail
+          ads={THANKYOU_ADS}
           loadingFallback={<ThankYouLoading />}
         />
       </Suspense>

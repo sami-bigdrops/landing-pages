@@ -198,7 +198,7 @@ export async function POST(request: NextRequest) {
         money: money,
         credit: credit,
         house_value_range: houseValueRange,
-        tcpa_text: "By Clicking The Button Below, You Consent To Receive Email At The Email Address You Provided, As Well As Prerecorded Messages, Auto-Dialed Phone Calls, And Text Messages At The Phone Number You Provided, From Assuritii And Its Marketing Partner. You Can View The Full List Of Our Marketing Partners Here You Understand That Your Consent Is Not A Condition Of Purchase. View Privacy Policy And Terms Of Use.",
+        tcpa_text: 'By clicking "SEE MY INSTANT CASH OFFER" you electronically sign (pursuant to the ESIGN Act) and agree to our Terms and Conditions and Privacy Policy. Your consent, and e-signature, is not a condition of accessing our services. You may revoke your consent at any time by emailing consent@unclesambuyshome.com.',
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",

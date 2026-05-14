@@ -1,6 +1,6 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
-import { COVER_CONTENT, THANKYOU_TYPE2_CONTENT } from "@/lib/constant";
+import { COVER_CONTENT, SITE_BRAND, THANKYOU_TYPE2_CONTENT } from "@/lib/constant";
 
 const region = process.env.AWS_REGION || "us-east-1";
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
@@ -29,7 +29,7 @@ function escapeHtml(s: string): string {
 function getSesFromSource(): string | null {
   const addr = process.env.AWS_SES_FROM_EMAIL?.trim();
   if (!addr) return null;
-  return `Assuritii <${addr}>`;
+  return `${SITE_BRAND.name} <${addr}>`;
 }
 
 export interface SubmissionEmailParams {
@@ -55,11 +55,10 @@ export async function sendSubmissionConfirmationEmail(
   }
 
   const firstName = params.firstName?.trim() || "there";
-  const partnerName = THANKYOU_TYPE2_CONTENT.partnerName;
   const { confirmationMessage, emailConfirmationNotice } =
     THANKYOU_TYPE2_CONTENT;
   const phone = COVER_CONTENT.callToAction;
-  const subject = "Thank you for your response!";
+  const subject = `Thank you — ${SITE_BRAND.name}`;
 
   const htmlBody = `
 <!DOCTYPE html>
@@ -67,7 +66,7 @@ export async function sendSubmissionConfirmationEmail(
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(partnerName)}</title>
+  <title>${escapeHtml(SITE_BRAND.name)}</title>
   <style>
     body {
       margin: 0;
@@ -102,16 +101,6 @@ export async function sendSubmissionConfirmationEmail(
       padding: 0;
       text-align: center;
       vertical-align: top;
-    }
-    .email-banner-img {
-      border: 0;
-      outline: none;
-      text-decoration: none;
-      display: block;
-      width: 100%;
-      max-width: 600px;
-      height: auto;
-      margin: 0 auto;
     }
     .headline {
       padding: 28px 24px 12px;
@@ -171,30 +160,24 @@ export async function sendSubmissionConfirmationEmail(
     <div class="email-container">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="layout" style="width:100%;max-width:600px;border-collapse:collapse;margin:0 auto;">
       <tr>
-        <td style="padding:0;line-height:0;font-size:0;">
-          <img class="email-banner-img" src="https://www.home.assuritii.com/email/content-1.png" alt="Thank you for choosing First Premier Home Warranty" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
-        </td>
+        <td class="headline">Thank you, ${escapeHtml(firstName)}!</td>
       </tr>
       <tr>
-        <td style="padding:0;line-height:0;font-size:0;">
-          <a href="tel:+18559163700" style="display:block;line-height:0;">
-            <img class="email-banner-img" src="https://www.home.assuritii.com/email/content-2.png" alt="Call to speak with a specialist" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
-          </a>
-        </td>
+        <td class="body-text">${escapeHtml(confirmationMessage)}<br><br>${escapeHtml(emailConfirmationNotice ?? "")}</td>
       </tr>
       <tr>
-        <td style="padding:0;line-height:0;font-size:0;">
-          <img class="email-banner-img" src="https://www.home.assuritii.com/email/content-3.png" alt="First Premier Home Warranty" width="600" style="display:block;width:100%;max-width:600px;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
+        <td class="cta-wrap">
+          <a class="cta-phone" href="${escapeHtml(phone.phoneHref)}">${escapeHtml(phone.phoneNumber)}</a>
         </td>
       </tr>
       <tr>
         <td class="footer-text">
-          <p>This is an automated confirmation to let you know we've received your request.</p>
+          <p>This is an automated confirmation that we received your request.</p>
         </td>
       </tr>
       <tr>
         <td class="footer-text">
-          <p><a href="https://www.home.assuritii.com">home.assuritii.com</a> | 12540 SW Leveton Dr, #P2150 Tualatin, OR, 97062</p>
+          <p><a href="mailto:contact@unclesambuyshomes.com">contact@unclesambuyshomes.com</a>${process.env.SES_EMAIL_FOOTER_ADDRESS?.trim() ? ` | ${escapeHtml(process.env.SES_EMAIL_FOOTER_ADDRESS.trim())}` : ""}</p>
         </td>
       </tr>
     </table>
@@ -205,7 +188,7 @@ export async function sendSubmissionConfirmationEmail(
 `.trim();
 
   const textBody = `
-Thank you for ${partnerName}
+Thank you — ${SITE_BRAND.name}
 
 Hi ${firstName},
 
@@ -216,10 +199,10 @@ ${emailConfirmationNotice ?? ""}
 ${phone.contactText}: ${phone.phoneNumber}
 ${phone.phoneHref}
 
-This is an automated confirmation that we received your quote request.
+This is an automated confirmation that we received your request.
 ${process.env.SES_EMAIL_UNSUBSCRIBE_URL?.trim() ? `Unsubscribe: ${process.env.SES_EMAIL_UNSUBSCRIBE_URL.trim()}` : ""}
 
-assuritii.com${process.env.SES_EMAIL_FOOTER_ADDRESS?.trim() ? ` | ${process.env.SES_EMAIL_FOOTER_ADDRESS.trim()}` : ""}
+contact@unclesambuyshomes.com${process.env.SES_EMAIL_FOOTER_ADDRESS?.trim() ? ` | ${process.env.SES_EMAIL_FOOTER_ADDRESS.trim()}` : ""}
 `.trim();
 
   try {

@@ -4,6 +4,7 @@ import { Metadata } from "next"
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
+import { SITE_BRAND } from "@/lib/constant"
 
 const fontPoppins = Poppins({
   subsets: ["latin"],
@@ -14,11 +15,10 @@ const fontPoppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "Assuritii - Home Warranty",
-    template: "%s | Assuritii",
+    default: SITE_BRAND.name,
+    template: `%s | ${SITE_BRAND.name}`,
   },
-  description:
-    "Protect your home and your wallet from expensive repair bills. Get a free home warranty quote from Assuritii.",
+  description: SITE_BRAND.description,
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
