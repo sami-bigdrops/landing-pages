@@ -3,7 +3,6 @@
 
 import { useUtmParams } from "@workspace/lp-core"
 import FormPage from "@/app/type/long/v1/_components/Form"
-import { HERO_CONTENT } from "@/lib/constant"
 
 
 export default function Hero() {

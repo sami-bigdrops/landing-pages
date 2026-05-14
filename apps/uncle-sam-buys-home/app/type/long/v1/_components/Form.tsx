@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useState, type FormEvent } from "react"
+import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent } from "react"
 import Image from "next/image"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
@@ -10,6 +10,248 @@ import { TrustedForm, getCookie } from "@workspace/lp-core"
 import CashOfferCard from "./Card"
 
 
+// --- Google Maps Places types (minimal) ---
+type GMapsPlacePrediction = {
+  place_id: string
+  description: string
+  structured_formatting: {
+    main_text: string
+    secondary_text: string
+  }
+}
+
+type GMapsAddressComponent = {
+  long_name: string
+  short_name: string
+  types: string[]
+}
+
+type GMapsPlaceResult = {
+  address_components?: GMapsAddressComponent[]
+}
+
+type GMapsAutocompleteService = {
+  getPlacePredictions(
+    req: { input: string; types: string[]; componentRestrictions: { country: string } },
+    cb: (predictions: GMapsPlacePrediction[] | null, status: string) => void
+  ): void
+}
+
+type GMapsPlacesService = {
+  getDetails(
+    req: { placeId: string; fields: string[] },
+    cb: (result: GMapsPlaceResult | null, status: string) => void
+  ): void
+}
+
+type GMapsWindow = {
+  google?: {
+    maps?: {
+      places?: {
+        AutocompleteService: new () => GMapsAutocompleteService
+        PlacesService: new (el: HTMLElement) => GMapsPlacesService
+        PlacesServiceStatus: { OK: string }
+      }
+    }
+  }
+}
+
+type AddressResult = {
+  streetAddress: string
+  city: string
+  state: string
+  zipCode: string
+}
+
+let googleMapsLoadPromise: Promise<void> | null = null
+
+function loadGoogleMaps(apiKey: string): Promise<void> {
+  if (googleMapsLoadPromise) return googleMapsLoadPromise
+  const win = window as unknown as GMapsWindow
+  if (win.google?.maps?.places) {
+    googleMapsLoadPromise = Promise.resolve()
+    return googleMapsLoadPromise
+  }
+  googleMapsLoadPromise = new Promise((resolve) => {
+    const script = document.createElement("script")
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`
+    script.async = true
+    script.onload = () => resolve()
+    document.head.appendChild(script)
+  })
+  return googleMapsLoadPromise
+}
+
+// --- Google Places Autocomplete Component ---
+function AddressAutocomplete({
+  value,
+  city,
+  state,
+  onChange,
+  onSelect,
+  label,
+  placeholder,
+  labelClassName,
+  className,
+}: {
+  value: string
+  city: string
+  state: string
+  onChange: (v: string) => void
+  onSelect: (result: AddressResult) => void
+  label: string
+  placeholder: string
+  labelClassName?: string
+  className?: string
+}) {
+  const [predictions, setPredictions] = useState<GMapsPlacePrediction[]>([])
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [isFetching, setIsFetching] = useState(false)
+  const [mapsReady, setMapsReady] = useState(false)
+  const autocompleteRef = useRef<GMapsAutocompleteService | null>(null)
+  const placesRef = useRef<GMapsPlacesService | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const hiddenDivRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
+    if (!apiKey) return
+    loadGoogleMaps(apiKey).then(() => {
+      const win = window as unknown as GMapsWindow
+      const places = win.google?.maps?.places
+      if (!places) return
+      autocompleteRef.current = new places.AutocompleteService()
+      if (!hiddenDivRef.current) {
+        hiddenDivRef.current = document.createElement("div")
+      }
+      placesRef.current = new places.PlacesService(hiddenDivRef.current)
+      setMapsReady(true)
+    })
+  }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const fetchPredictions = useCallback(
+    (input: string) => {
+      if (!autocompleteRef.current || !mapsReady) return
+      setIsFetching(true)
+      autocompleteRef.current.getPlacePredictions(
+        { input, types: ["address"], componentRestrictions: { country: "us" } },
+        (preds, status) => {
+          setIsFetching(false)
+          const win = window as unknown as GMapsWindow
+          const OK = win.google?.maps?.places?.PlacesServiceStatus?.OK ?? "OK"
+          if (status === OK && preds) {
+            setPredictions(preds)
+            setShowDropdown(true)
+          } else {
+            setPredictions([])
+            setShowDropdown(false)
+          }
+        }
+      )
+    },
+    [mapsReady]
+  )
+
+  const handleInputChange = (inputValue: string) => {
+    onChange(inputValue)
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    if (!inputValue.trim() || inputValue.length < 3) {
+      setPredictions([])
+      setShowDropdown(false)
+      return
+    }
+    debounceRef.current = setTimeout(() => fetchPredictions(inputValue), 300)
+  }
+
+  const handleSelect = (pred: GMapsPlacePrediction) => {
+    setShowDropdown(false)
+    setPredictions([])
+    onChange(pred.structured_formatting.main_text)
+    if (!placesRef.current) return
+    placesRef.current.getDetails(
+      { placeId: pred.place_id, fields: ["address_components"] },
+      (place) => {
+        if (!place?.address_components) return
+        let streetNumber = ""
+        let route = ""
+        let parsedCity = ""
+        let parsedState = ""
+        let parsedZip = ""
+        for (const c of place.address_components) {
+          if (c.types.includes("street_number")) streetNumber = c.long_name
+          if (c.types.includes("route")) route = c.long_name
+          if (c.types.includes("locality")) parsedCity = c.long_name
+          if (c.types.includes("sublocality_level_1") && !parsedCity) parsedCity = c.long_name
+          if (c.types.includes("administrative_area_level_1")) parsedState = c.short_name
+          if (c.types.includes("postal_code")) parsedZip = c.long_name
+        }
+        const streetAddress = streetNumber ? `${streetNumber} ${route}` : route
+        onChange(streetAddress)
+        onSelect({ streetAddress, city: parsedCity, state: parsedState, zipCode: parsedZip })
+      }
+    )
+  }
+
+  return (
+    <div className="w-full relative" ref={containerRef}>
+      <label className={labelClassName}>{label}</label>
+      <div className="relative">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => handleInputChange(e.target.value)}
+          onFocus={() => {
+            if (predictions.length > 0) setShowDropdown(true)
+          }}
+          placeholder={placeholder}
+          className={className}
+          autoComplete="off"
+        />
+        {isFetching ? (
+          <span className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 rounded-full border-2 border-[#102E50] border-t-transparent animate-spin" aria-hidden />
+        ) : null}
+      </div>
+
+      {showDropdown && predictions.length > 0 && (
+        <div className="absolute z-50 w-full mt-1 bg-white border border-[#102E50] rounded-[5px] shadow-lg overflow-hidden">
+          {predictions.map((pred) => (
+            <button
+              key={pred.place_id}
+              type="button"
+              onMouseDown={(e) => {
+                e.preventDefault()
+                handleSelect(pred)
+              }}
+              className="w-full text-left px-4 py-3 hover:bg-[#fde9ea] transition-colors border-b border-gray-100 last:border-b-0 cursor-pointer"
+            >
+              <p className="text-sm font-medium text-[#111827] truncate">{pred.structured_formatting.main_text}</p>
+              <p className="text-xs text-[#6B7280] mt-0.5 truncate">{pred.structured_formatting.secondary_text}</p>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {city && state && (
+        <p className="text-[0.7rem] xl:text-[0.8rem] mt-2 font-medium text-left text-[#1C1C1C]">
+          {city}, {state}
+        </p>
+      )}
+    </div>
+  )
+}
+
+// --- Form Options ---
 const HOME_TYPE_OPTIONS = [
   { id: "single_family", label: "Single Family Home", Icon: "/family.svg" },
   { id: "condominium", label: "Condominium / Townhome", Icon: "/mall.svg" },
@@ -52,7 +294,22 @@ const CREDIT_OPTIONS = [
   { id: "excellent", label: "Excellent (701+)", Icon: "/excellant.svg" }
 ] as const
 
-
+const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
+const STEP_SHELL_WIDE = "mx-auto flex w-full max-w-6xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
+const STEP_SHELL_VALUE = "mx-auto flex w-full max-w-5xl flex-col items-center gap-6 text-center md:gap-7 xl:gap-8"
+const STEP_SHELL_FIELDS = "mx-auto flex w-full max-w-2xl flex-col gap-5 md:gap-6"
+const STEP_TITLE = "text-center text-base font-medium text-[#1C1C1C] xl:text-xl"
+const GRID_2 = "grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-5"
+const GRID_SELL = "grid w-full grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3 xl:gap-5"
+const CHOICE_BTN =
+  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-6 xl:px-6 xl:py-8"
+const CHOICE_BTN_MLS =
+  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-7 xl:px-6 xl:py-10"
+const CHOICE_ICON = "h-9.5 w-9.5 shrink-0 object-contain md:h-10 md:w-10 xl:h-14 xl:w-14"
+const CHOICE_LABEL = "text-[0.85rem] font-semibold leading-normal text-[#343434] xl:text-base"
+const INPUT_FIELD =
+  "mt-2 h-14 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base"
+const LABEL_CLASS = "text-sm font-medium text-[#1C1C1C] xl:text-base"
 
 type HomeTypeId = (typeof HOME_TYPE_OPTIONS)[number]["id"]
 type PropertyTypeId = (typeof PROPERTY_TYPE_OPTIONS)[number]["id"]
@@ -101,6 +358,8 @@ const defaultFormData = {
   phone_number: "",
   email: "",
   street_address: "",
+  city: "",
+  state: "",
 }
 
 type FormNavigationProps = {
@@ -121,34 +380,32 @@ function FormNavigation({
   onBack,
 }: FormNavigationProps) {
   return (
-    <div className="flex w-full max-w-2xl flex-col items-center justify-center gap-4 md:gap-5 ">
-      {showNext && (
+    <nav className="flex w-full max-w-xl flex-col items-center gap-4 md:max-w-2xl md:gap-5">
+      {showNext ? (
         <button
           type="button"
           onClick={onNext}
           disabled={isNextDisabled}
-          className="w-full max-w-[270px] md:max-w-[180px] xl:max-w-[190px] rounded-[10px] bg-[#C12026] cursor-pointer py-3 text-base xl:text-[1.05rem] font-medium text-white transition-all duration-300 md:py-3.5 "
-
-
+          className="w-full rounded-[10px] bg-[#C12026] py-3 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
         >
           {nextLabel}
         </button>
-      )}
-      {showBack && (
+      ) : null}
+      {showBack ? (
         <button
           type="button"
           onClick={onBack}
-          className="flex items-center gap-1.5 text-[0.9rem] xl:text-base cursor-pointer font-semibold text-[#47514F] transition-colors hover:text-[#374151]"
+          className="flex cursor-pointer items-center gap-1.5 text-[0.9rem] font-semibold text-[#47514F] transition-colors hover:text-[#374151] xl:text-base"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 16 16" fill="none" className="w-4 h-4 lg:w-4.5 lg:h-4.5 xl:w-5 xl:h-5 text-[#47514F]">
+          <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-[#47514F] lg:h-4.5 lg:w-4.5 xl:h-5 xl:w-5">
             <path d="M6.66667 4.66669C6.66667 4.86669 6.6 5.00002 6.46667 5.13335L3.13333 8.46669C2.86667 8.73335 2.46667 8.73335 2.2 8.46669C1.93333 8.20002 1.93333 7.80002 2.2 7.53335L5.53333 4.20002C5.8 3.93335 6.2 3.93335 6.46667 4.20002C6.6 4.33335 6.66667 4.46669 6.66667 4.66669Z" fill="#47514F" />
             <path d="M6.66667 11.3333C6.66667 11.5333 6.6 11.6667 6.46667 11.8C6.2 12.0667 5.8 12.0667 5.53333 11.8L2.2 8.46667C1.93333 8.2 1.93333 7.8 2.2 7.53333C2.46667 7.26667 2.86667 7.26667 3.13333 7.53333L6.46667 10.8667C6.6 11 6.66667 11.1333 6.66667 11.3333Z" fill="#47514F" />
             <path d="M14 8.00002C14 8.40002 13.7333 8.66669 13.3333 8.66669H2.66667C2.26667 8.66669 2 8.40002 2 8.00002C2 7.60002 2.26667 7.33335 2.66667 7.33335H13.3333C13.7333 7.33335 14 7.60002 14 8.00002Z" fill="#47514F" />
-          </svg> Back
-
+          </svg>
+          Back
         </button>
-      )}
-    </div>
+      ) : null}
+    </nav>
   )
 }
 
@@ -162,6 +419,7 @@ function FormPage() {
 
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
+  const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     if (field === "zipCode") {
@@ -208,6 +466,7 @@ function FormPage() {
     }
 
     setSubmitError("")
+    setFieldErrors({})
 
     const zip = formData.zipCode.trim()
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -234,15 +493,21 @@ function FormPage() {
     const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
     const payload = {
+      homeType: formData.homeType,
+      zipCode: zip,
+      propertyType: formData.propertyType,
+      propertyList: formData.propertyList,
+      sell: formData.sell,
+      money: formData.money,
+      credit: formData.credit,
+      houseValueRange: formData.houseValueRange,
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
       address: formData.street_address.trim(),
-      city: "",
-      state: "",
+      city: formData.city.trim(),
+      state: formData.state.trim(),
       email: formData.email.trim(),
       phoneNumber: formData.phone_number.trim(),
-      zipCode: zip,
-      isHomeowner: "",
       subid1: getCookie("subid1") ?? "",
       subid2: getCookie("subid2") ?? "",
       subid3: getCookie("subid3") ?? "",
@@ -264,8 +529,20 @@ function FormPage() {
       }
 
       if (!res.ok) {
-        setSubmitStatus("error")
-        setSubmitError(typeof data.error === "string" ? data.error : "Submission failed")
+        const errorMsg = typeof data.error === "string" ? data.error : "Submission failed"
+        const fieldHint = (data as { field?: string }).field
+        if (fieldHint === "email" || (data as { invalidField?: string }).invalidField === "email") {
+          setFieldErrors({ email: errorMsg })
+          setSubmitStatus("error")
+          setSubmitError(errorMsg)
+        } else if (fieldHint === "phoneNumber") {
+          setFieldErrors({ phone: errorMsg })
+          setSubmitStatus("error")
+          setSubmitError(errorMsg)
+        } else {
+          setSubmitStatus("error")
+          setSubmitError(errorMsg)
+        }
         return
       }
 
@@ -282,463 +559,390 @@ function FormPage() {
   }
 
   return (
-    <div className="w-full min-h-[400px] lg:min-h-[460px] xl:min-h-[580px] flex flex-col items-center justify-center gap-10 md:gap-10 xl:gap-13">
-      <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#182542]  text-center">
+    <section className="flex w-full min-h-[400px] flex-col items-center gap-8 md:min-h-[460px] md:gap-10 xl:min-h-[580px] xl:gap-12">
+      <h2 className="max-w-5xl text-center text-xl font-bold text-[#182542] lg:text-2xl xl:text-3xl">
         Need to Sell Quickly? Get a Cash Offer Now for Your Home Today!
       </h2>
-      <div className="flex w-full flex-col justify-center items-center gap-3">
-        <div className="w-full md:max-w-lg xl:max-w-[610px] flex justify-center items-center">
-          <ProgressBar
-            type="8"
-            currentStep={currentStep}
-            totalSteps={TOTAL_STEPS}
-            backgroundColor="#C1202633"
 
-            foregroundColor="#C12026"
-          />
-        </div>
-        <form
-          onSubmit={handleLeadSubmit}
-          className="w-full flex flex-col justify-center items-center gap-6 xl:gap-8"
-          noValidate
-        >
-          <TrustedForm />
-          {currentStep === 1 && (
-            <>
-              <h2 className="text-center text-base xl:text-xl font-medium text-[#1C1C1C] ">
-                Confirm Your Home Type
-              </h2>
+      <form
+        onSubmit={handleLeadSubmit}
+        noValidate
+        className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 xl:gap-8"
+      >
+        <ProgressBar
+          type="8"
+          className="w-full"
+          currentStep={currentStep}
+          totalSteps={TOTAL_STEPS}
+          backgroundColor="#C1202633"
+          foregroundColor="#C12026"
+        />
+        <TrustedForm />
 
-              <div className="grid grid-cols-2 gap-3 md:gap-4 xl:gap-5 md:max-w-lg xl:max-w-2xl">
-                {HOME_TYPE_OPTIONS.map(({ id, label, Icon }) => {
-                  const selected = formData.homeType === id
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, homeType: id }))
-                        setCurrentStep(2)
-                      }}
-                      aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
-                 
-                 
-                    >
-                      <span className="flex shrink-0 items-center justify-center">
-                        <Image
-                          src={Icon}
-                          alt=""
-                          width={48}
-                          height={48}
-                          aria-hidden
-                          className="h-9.5 w-9.5 md:h-10 md:w-10 xl:h-14 xl:w-14 object-contain"
-                        />
-                      </span>
-                      <span className="text-[0.85rem] xl:text-base font-semibold leading-normal text-[#343434]">
-                        {label}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-            </>
-          )}
-
-          {currentStep === 2 && (
-            <>
-              <div className="w-full  md:max-w-sm xl:max-w-xl flex flex-col justify-center items-center gap-5 md:gap-6">
-                <ZipCodeInput
-                  id="zipCode"
-                  label="Zip Code"
-                  value={formData.zipCode}
-                  onChange={(v) => handleInputChange("zipCode", v)}
-                  placeholder="Please Enter Zip Code"
-                  containerClassName="w-full md:max-w-[270px] lg:max-w-[320px] "
-                  labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                  className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
-
-
-                />
-
-                <FormNavigation
-                  showBack
-                  showNext
-                  isNextDisabled={!isStepValid()}
-                  onNext={handleNext}
-                  onBack={handleBack}
-                />
-              </div>
-
-
-            </>
-          )}
-
-          {currentStep === 3 && (
-            <>
-              <h2 className="text-center text-base xl:text-xl font-medium text-[#1C1C1C] ">
-                Tell Us About Your Property!
-              </h2>
-
-              <div className="w-full grid grid-cols-2 gap-3 md:gap-4 xl:gap-5 md:max-w-lg xl:max-w-[610px]">
-                {PROPERTY_TYPE_OPTIONS.map(({ id, label, Icon }) => {
-                  const selected = formData.propertyType === id
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, propertyType: id }))
-                        setCurrentStep(4)
-                      }}
-                      aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
-                    >
-                      <span className="flex shrink-0 items-center justify-center">
-                        <Image
-                          src={Icon}
-                          alt=""
-                          width={48}
-                          height={48}
-                          aria-hidden
-                          className="h-9.5 w-9.5 md:h-10 md:w-10 xl:h-14 xl:w-14 object-contain"
-                        />
-                      </span>
-                      <span className="text-[0.85rem] xl:text-base font-semibold leading-normal text-[#343434]">
-                        {label}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-              <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-            </>
-          )}
-
-          {currentStep === 4 && (
-            <>
-              <h2 className="text-center text-base xl:text-xl font-medium text-[#1C1C1C] ">
-                Is Your House Already Listed on the MLS?
-              </h2>
-
-              <div className="w-full grid grid-cols-2 gap-3 md:gap-4 xl:gap-5 md:max-w-md xl:max-w-[610px]">
-                {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
-                  const selected = formData.propertyList === id
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, propertyList: id }))
-                        setCurrentStep(5)
-                      }}
-                      aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-center gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-7 xl:px-6 xl:py-10"
-                    >
-                      <span className="flex shrink-0 items-center justify-center">
-                        <Image
-                          src={Icon}
-                          alt=""
-                          width={48}
-                          height={48}
-                          aria-hidden
-                          className="h-5 w-5 xl:h-7 xl:w-7 object-contain"
-                        />
-                      </span>
-                      <span className="text-[0.85rem] lg:text-base xl:text-lg font-semibold leading-normal text-[#343434]">
-                        {label}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-              <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-            </>
-          )}
-          {currentStep === 5 && (
-            <>
-              <h2 className="text-center text-base xl:text-xl font-medium text-[#1C1C1C] ">
-                Why Do You Want To Sell?
-              </h2>
-
-              <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 xl:gap-5 md:max-w-lg lg:max-w-2xl xl:max-w-5xl">
-                {SELL_OPTIONS.map(({ id, label, Icon }) => {
-                  const selected = formData.sell === id
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, sell: id }))
-                        setCurrentStep(6)
-                      }}
-                      aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
-                    >
-                      <span className="flex shrink-0 items-center justify-center">
-                        <Image
-                          src={Icon}
-                          alt=""
-                          width={48}
-                          height={48}
-                          aria-hidden
-                          className="h-9.5 w-9.5 md:h-10 md:w-10 xl:h-14 xl:w-14 object-contain"
-                        />
-                      </span>
-                      <span className="text-[0.85rem] xl:text-base font-semibold leading-normal text-[#343434]">
-                        {label}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-              <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-            </>
-          )}
-          {currentStep === 6 && (
-            <>
-              <h2 className="text-center text-base xl:text-xl font-medium text-[#1C1C1C] ">
-                How Soon Do You Want Your Money?
-              </h2>
-
-              <div className="w-full grid grid-cols-2 gap-3 md:gap-4 xl:gap-5 md:max-w-lg xl:max-w-[610px]">
-                {MONEY_OPTIONS.map(({ id, label, Icon }) => {
-                  const selected = formData.money === id
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, money: id }))
-                        setCurrentStep(7)
-                      }}
-                      aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
-                    >
-                      <span className="flex shrink-0 items-center justify-center">
-                        <Image
-                          src={Icon}
-                          alt=""
-                          width={48}
-                          height={48}
-                          aria-hidden
-                          className="h-9.5 w-9.5 md:h-10 md:w-10 xl:h-14 xl:w-14 object-contain"
-                        />
-                      </span>
-                      <span className="text-[0.85rem] xl:text-base font-semibold leading-normal text-[#343434]">
-                        {label}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-              <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-            </>
-          )}
-
-          {currentStep === 7 && (
-            <>
-              <h2 className="text-center text-base xl:text-xl font-medium text-[#1C1C1C] ">
-                How Would You Rate Your Credit?
-              </h2>
-
-              <div className="w-full grid grid-cols-2 gap-3 md:gap-4 xl:gap-5 md:max-w-lg xl:max-w-[610px]">
-                {CREDIT_OPTIONS.map(({ id, label, Icon }) => {
-                  const selected = formData.credit === id
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, credit: id }))
-                        setCurrentStep(8)
-                      }}
-                      aria-pressed={selected}
-                      className="cursor-pointer flex flex-col items-center justify-start gap-4 xl:gap-5 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:px-4 md:py-6 xl:px-6 xl:py-8"
-                    >
-                      <span className="flex shrink-0 items-center justify-center">
-                        <Image
-                          src={Icon}
-                          alt=""
-                          width={48}
-                          height={48}
-                          aria-hidden
-                          className="h-9.5 w-9.5 md:h-10 md:w-10 xl:h-14 xl:w-14 object-contain"
-                        />
-                      </span>
-                      <span className="text-[0.85rem] xl:text-base font-semibold leading-normal text-[#343434]">
-                        {label}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-              <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-            </>
-          )}
-
-
-          {currentStep === 8 && (
-            <>
-              <div className="flex w-full flex-col items-center justify-center text-center gap-5 md:gap-6 xl:gap-8 mb-3 lg:mb-4 xl:mb-6">
-                <h2 className=" text-base xl:text-xl font-medium text-[#1C1C1C]">
-                  Estimate House Value
-                </h2>
-                <p className=" text-xl font-medium text-[#182542] md:text-2xl xl:text-3xl xl:mb-3">
-                  {HOUSE_VALUE_RANGES[houseValueIndex]?.label ?? ""}
-                </p>
-                <div className="mb-2 w-full md:max-w-lg lg:max-w-xl xl:max-w-3xl">
-                  <input
-                    type="range"
-                    min={0}
-                    max={HOUSE_VALUE_RANGES.length - 1}
-                    step={1}
-                    value={houseValueIndex}
-                    aria-label="Estimated house value range"
-                    onChange={(e) => {
-                      const idx = Number(e.target.value)
-                      setHouseValueIndex(idx)
-                      const v = HOUSE_VALUE_RANGES[idx]?.value ?? ""
-                      setFormData((prev) => ({ ...prev, houseValueRange: v }))
-                    }}
-                    className="h-2 xl:h-2.5 w-full cursor-pointer appearance-none rounded-full bg-[#E5E7EB] accent-[#182542] [&::-webkit-slider-thumb]:size-5.5 xl:[&::-webkit-slider-thumb]:size-7 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-3 xl:[&::-webkit-slider-thumb]:border-3.5 [&::-webkit-slider-thumb]:border-[#182542] [&::-webkit-slider-thumb]:bg-white [&::-moz-range-thumb]:size-5.5 xl:[&::-moz-range-thumb]:size-7 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-3 xl:[&::-moz-range-thumb]:border-3.5 [&::-moz-range-thumb]:border-[#182542] [&::-moz-range-thumb]:bg-white"
-                    style={{
-                      background:
-                        HOUSE_VALUE_RANGES.length <= 1
-                          ? "#102E50"
-                          : `linear-gradient(to right, #102E50 0%, #102E50 ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB 100%)`,
-                    }}
-                  />
-                  <div className="mt-2 flex w-full justify-between text-xs font-medium text-[#343434] xl:text-sm">
-                    <span>Under $100K</span>
-                    <span>$1.5M+</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-6 md:max-w-sm xl:max-w-xl">
-                <FormNavigation
-                  showBack
-                  showNext
-                  isNextDisabled={!isStepValid()}
-                  onNext={handleNext}
-                  onBack={handleBack}
-                />
-              </div>
-            </>
-          )}
-
-          {currentStep === 9 && (
-            <>
-              <div className="w-full  md:max-w-sm xl:max-w-xl flex flex-col justify-center items-center gap-5 xl:gap-6">
-                <div className="w-full md:max-w-xs xl:max-w-sm space-y-2.5 lg:space-y-3 xl:space-y-4.5  text-left mb-3">
-                  <TextInput
-                    id="step6FirstName"
-                    label="First Name"
-                    value={formData.first_name}
-                    onChange={(e) => handleInputChange("first_name", e.target.value)}
-                    placeholder="Enter First Name"
-                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
-                  />
-                  <TextInput
-                    id="step6LastName"
-                    label="Last Name"
-                    value={formData.last_name}
-                    onChange={(e) => handleInputChange("last_name", e.target.value)}
-                    placeholder="Enter Last Name"
-                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
-                  />
-
-                  <TextInput
-                    id="email"
-                    label="Email Address"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
-                    placeholder="Enter Email Address"
-                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
-                  />
-                </div>
-
-                <FormNavigation
-                  showBack
-                  showNext
-                  isNextDisabled={!isStepValid()}
-                  onNext={handleNext}
-                  onBack={handleBack}
-                />
-              </div>
-            </>
-          )}
-
-          {currentStep === TOTAL_STEPS && (
-            <>
-              <div className="w-full  md:max-w-sm xl:max-w-xl flex flex-col justify-center items-center gap-5 xl:gap-6">
-                <div className="w-full md:max-w-xs xl:max-w-sm space-y-3 lg:space-y-3 xl:space-y-5 text-left mb-3 ">
-                  <div className="w-full ">
-                  <TextInput
-                    id="propertyAddress"
-                    label="Street Address"
-                    value={formData.street_address}
-                    onChange={(e) => handleInputChange("street_address", e.target.value)}
-                    placeholder="Enter Street Address"
-                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
-
-                    
-                  />
-                  <div className="w-full mt-3 md:mt-2.5 ">
-                    <p className="text-[0.7rem] xl:text-[0.8rem] mb-1 font-medium text-left text-[#1C1C1C]">NEW YORK, NY, 10001</p>
-                  </div>
-                  </div>
-
-                  <PhoneNumberInput
-                    id="phoneNumber"
-                    label="Phone Number"
-                    value={formData.phone_number}
-                    onChange={(v) => handleInputChange("phone_number", v)}
-                    placeholder="Enter Phone Number"
-                    labelClassName="text-sm xl:text-base font-medium text-[#1C1C1C]"
-                    className="h-14 xl:h-15 mt-2 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm xl:text-base text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none"
-                  />
-           
-                  <div className="w-full mt-6 xl:mt-7 flex flex-col items-center justify-center gap-5 xl:gap-7">
-                  <p className="text-xs xl:text-[0.85rem] font-normal text-left text-[#343434]" style={{lineHeight: "1.6"}}>
-                    By clicking the button below, you acknowledge, consent, and agree to our terms at the bottom of this page.
-                  </p>
-
-                  {submitStatus === "error" && submitError ? (
-                    <p className="text-sm text-red-600" role="alert">
-                      {submitError}
-                    </p>
-                  ) : null}
-
+        {currentStep === 1 ? (
+          <section className={STEP_SHELL}>
+            <h3 className={STEP_TITLE}>Confirm Your Home Type</h3>
+            <div className={GRID_2}>
+              {HOME_TYPE_OPTIONS.map(({ id, label, Icon }) => {
+                const selected = formData.homeType === id
+                return (
                   <button
-                    type="submit"
-                    disabled={submitStatus === "loading"}
-                    className="w-full h-13 xl:h-15  rounded-[10px] bg-[#C12026] cursor-pointer py-3 text-sm xl:text-lg font-medium uppercase text-white transition-all duration-300 md:py-3.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      setFormData((prev) => ({ ...prev, homeType: id }))
+                      setCurrentStep(2)
+                    }}
+                    aria-pressed={selected}
+                    className={CHOICE_BTN}
                   >
-                    {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
+                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <span className={CHOICE_LABEL}>{label}</span>
                   </button>
+                )
+              })}
+            </div>
+          </section>
+        ) : null}
 
-                  <p className="text-xs xl:text-[0.85rem] mb-1 font-normal text-left text-[#343434]" style={{lineHeight: "1.6"}}>
-                    By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to  <strong>2 partners</strong>; that you are providing your prior express written consent for those <strong>partners</strong> to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our <a href="/terms-of-use" className="text-[#343434] font-bold " target="_blank" rel="noopener noreferrer">Terms of Use</a>, including its <strong>Arbitration provision</strong>, and <a href="/privacy-policy" className="text-[#343434] font-bold " target="_blank" rel="noopener noreferrer">Privacy Policy</a>; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email consent@unclesambuyshome.com and you can revoke your consent at any time by emailing us
-                  </p>
-                  </div>
-                </div>
+        {currentStep === 2 ? (
+          <section className={`${STEP_SHELL_FIELDS} items-center text-center`}>
+            <ZipCodeInput
+              id="zipCode"
+              label="Zip Code"
+              value={formData.zipCode}
+              onChange={(v) => handleInputChange("zipCode", v)}
+              placeholder="Please Enter Zip Code"
+              containerClassName="w-full max-w-md"
+              labelClassName={LABEL_CLASS}
+              className={INPUT_FIELD}
+            />
+            <FormNavigation
+              showBack
+              showNext
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
 
-                <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-              </div>
-            </>
-          )}
+        {currentStep === 3 ? (
+          <section className={STEP_SHELL}>
+            <h3 className={STEP_TITLE}>Tell Us About Your Property!</h3>
+            <div className={GRID_2}>
+              {PROPERTY_TYPE_OPTIONS.map(({ id, label, Icon }) => {
+                const selected = formData.propertyType === id
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      setFormData((prev) => ({ ...prev, propertyType: id }))
+                      setCurrentStep(4)
+                    }}
+                    aria-pressed={selected}
+                    className={CHOICE_BTN}
+                  >
+                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <span className={CHOICE_LABEL}>{label}</span>
+                  </button>
+                )
+              })}
+            </div>
+            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
+          </section>
+        ) : null}
 
-          <CashOfferCard />
-        </form>
-      </div>
-    </div>
+        {currentStep === 4 ? (
+          <section className={STEP_SHELL}>
+            <h3 className={STEP_TITLE}>Is Your House Already Listed on the MLS?</h3>
+            <div className={GRID_2}>
+              {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
+                const selected = formData.propertyList === id
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      setFormData((prev) => ({ ...prev, propertyList: id }))
+                      setCurrentStep(5)
+                    }}
+                    aria-pressed={selected}
+                    className={CHOICE_BTN_MLS}
+                  >
+                    <Image
+                      src={Icon}
+                      alt=""
+                      width={48}
+                      height={48}
+                      aria-hidden
+                      className="h-5 w-5 shrink-0 object-contain xl:h-7 xl:w-7"
+                    />
+                    <span className={`${CHOICE_LABEL} lg:text-base xl:text-lg`}>{label}</span>
+                  </button>
+                )
+              })}
+            </div>
+            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
+          </section>
+        ) : null}
+        {currentStep === 5 ? (
+          <section className={STEP_SHELL_WIDE}>
+            <h3 className={STEP_TITLE}>Why Do You Want To Sell?</h3>
+            <div className={GRID_SELL}>
+              {SELL_OPTIONS.map(({ id, label, Icon }) => {
+                const selected = formData.sell === id
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      setFormData((prev) => ({ ...prev, sell: id }))
+                      setCurrentStep(6)
+                    }}
+                    aria-pressed={selected}
+                    className={CHOICE_BTN}
+                  >
+                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <span className={CHOICE_LABEL}>{label}</span>
+                  </button>
+                )
+              })}
+            </div>
+            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
+          </section>
+        ) : null}
+
+        {currentStep === 6 ? (
+          <section className={STEP_SHELL}>
+            <h3 className={STEP_TITLE}>How Soon Do You Want Your Money?</h3>
+            <div className={GRID_2}>
+              {MONEY_OPTIONS.map(({ id, label, Icon }) => {
+                const selected = formData.money === id
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      setFormData((prev) => ({ ...prev, money: id }))
+                      setCurrentStep(7)
+                    }}
+                    aria-pressed={selected}
+                    className={CHOICE_BTN}
+                  >
+                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <span className={CHOICE_LABEL}>{label}</span>
+                  </button>
+                )
+              })}
+            </div>
+            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
+          </section>
+        ) : null}
+
+        {currentStep === 7 ? (
+          <section className={STEP_SHELL}>
+            <h3 className={STEP_TITLE}>How Would You Rate Your Credit?</h3>
+            <div className={GRID_2}>
+              {CREDIT_OPTIONS.map(({ id, label, Icon }) => {
+                const selected = formData.credit === id
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      setFormData((prev) => ({ ...prev, credit: id }))
+                      setCurrentStep(8)
+                    }}
+                    aria-pressed={selected}
+                    className={CHOICE_BTN}
+                  >
+                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <span className={CHOICE_LABEL}>{label}</span>
+                  </button>
+                )
+              })}
+            </div>
+            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
+          </section>
+        ) : null}
+
+        {currentStep === 8 ? (
+          <section className={STEP_SHELL_VALUE}>
+            <h3 className={STEP_TITLE}>Estimate House Value</h3>
+            <p className="text-xl font-medium text-[#182542] md:text-2xl xl:text-3xl">
+              {HOUSE_VALUE_RANGES[houseValueIndex]?.label ?? ""}
+            </p>
+            <input
+              type="range"
+              min={0}
+              max={HOUSE_VALUE_RANGES.length - 1}
+              step={1}
+              value={houseValueIndex}
+              aria-label="Estimated house value range"
+              onChange={(e) => {
+                const idx = Number(e.target.value)
+                setHouseValueIndex(idx)
+                const v = HOUSE_VALUE_RANGES[idx]?.value ?? ""
+                setFormData((prev) => ({ ...prev, houseValueRange: v }))
+              }}
+              className="h-2 w-full max-w-4xl cursor-pointer appearance-none rounded-full bg-[#E5E7EB] accent-[#182542] xl:h-2.5 [&::-moz-range-thumb]:size-5.5 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-3 [&::-moz-range-thumb]:border-[#182542] [&::-moz-range-thumb]:bg-white xl:[&::-moz-range-thumb]:size-7 xl:[&::-moz-range-thumb]:border-3.5 [&::-webkit-slider-thumb]:size-5.5 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-3 [&::-webkit-slider-thumb]:border-[#182542] [&::-webkit-slider-thumb]:bg-white xl:[&::-webkit-slider-thumb]:size-7 xl:[&::-webkit-slider-thumb]:border-3.5"
+              style={{
+                background:
+                  HOUSE_VALUE_RANGES.length <= 1
+                    ? "#102E50"
+                    : `linear-gradient(to right, #102E50 0%, #102E50 ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB 100%)`,
+              }}
+            />
+            <div className="flex w-full max-w-4xl justify-between text-xs font-medium text-[#343434] xl:text-sm">
+              <span>Under $100K</span>
+              <span>$1.5M+</span>
+            </div>
+            <FormNavigation
+              showBack
+              showNext
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 9 ? (
+          <section className={`${STEP_SHELL_FIELDS} text-left`}>
+            <TextInput
+              id="step6FirstName"
+              label="First Name"
+              value={formData.first_name}
+              onChange={(e) => handleInputChange("first_name", e.target.value)}
+              placeholder="Enter First Name"
+              labelClassName={LABEL_CLASS}
+              className={INPUT_FIELD}
+            />
+            <TextInput
+              id="step6LastName"
+              label="Last Name"
+              value={formData.last_name}
+              onChange={(e) => handleInputChange("last_name", e.target.value)}
+              placeholder="Enter Last Name"
+              labelClassName={LABEL_CLASS}
+              className={INPUT_FIELD}
+            />
+            <TextInput
+              id="email"
+              label="Email Address"
+              type="email"
+              value={formData.email}
+              onChange={(e) => {
+                handleInputChange("email", e.target.value)
+                if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
+              }}
+              placeholder="Enter Email Address"
+              labelClassName={LABEL_CLASS}
+              className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus:border-red-500" : ""}`}
+            />
+            {fieldErrors.email ? (
+              <p className="text-xs text-red-600" role="alert">
+                {fieldErrors.email}
+              </p>
+            ) : null}
+            <FormNavigation
+              showBack
+              showNext
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === TOTAL_STEPS ? (
+          <section className={`${STEP_SHELL_FIELDS} text-left`}>
+            <AddressAutocomplete
+              label="Street Address"
+              value={formData.street_address}
+              city={formData.city}
+              state={formData.state}
+              onChange={(v) => {
+                handleInputChange("street_address", v)
+                if (!v) {
+                  handleInputChange("city", "")
+                  handleInputChange("state", "")
+                }
+              }}
+              onSelect={(result) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  street_address: result.streetAddress,
+                  city: result.city,
+                  state: result.state,
+                  ...(result.zipCode ? { zipCode: result.zipCode } : {}),
+                }))
+              }}
+              placeholder="Enter Street Address"
+              labelClassName={LABEL_CLASS}
+              className={INPUT_FIELD}
+            />
+            <PhoneNumberInput
+              id="phoneNumber"
+              label="Phone Number"
+              value={formData.phone_number}
+              onChange={(v) => {
+                handleInputChange("phone_number", v)
+                if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
+              }}
+              placeholder="Enter Phone Number"
+              labelClassName={LABEL_CLASS}
+              className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus:border-red-500" : ""}`}
+            />
+            {fieldErrors.phone ? (
+              <p className="text-xs text-red-600" role="alert">
+                {fieldErrors.phone}
+              </p>
+            ) : null}
+
+            <p className="text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
+              By clicking the button below, you acknowledge, consent, and agree to our terms at the bottom of this page.
+            </p>
+
+            {submitStatus === "error" && submitError ? (
+              <p className="text-sm text-red-600" role="alert">
+                {submitError}
+              </p>
+            ) : null}
+
+            <button
+              type="submit"
+              disabled={submitStatus === "loading"}
+              className="h-13 w-full cursor-pointer rounded-[10px] bg-[#C12026] py-3 text-sm font-medium uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:h-15 xl:text-lg"
+            >
+              {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
+            </button>
+
+            <p className="text-justify text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
+              By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree to our{" "}
+              <a href="/terms-of-use" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
+                Terms and Conditions
+              </a>{" "}
+              and{" "}
+              <a href="/privacy-policy" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
+                Privacy Policy
+              </a>
+              . Your consent, and e-signature, is not a condition of accessing our services. You may revoke your consent at any time by emailing{" "}
+              <a href="mailto:consent@unclesambuyshome.com" className="font-bold text-[#343434]">
+                consent@unclesambuyshome.com
+              </a>
+              .
+            </p>
+
+            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
+          </section>
+        ) : null}
+
+        <CashOfferCard />
+      </form>
+    </section>
   )
 }
 

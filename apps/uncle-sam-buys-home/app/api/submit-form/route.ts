@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
 
 import { sendSubmissionConfirmationEmail } from "@/lib/send-submission-email"
+import { verifyEmailWithHunter } from "@/lib/hunter-verify-email"
+import { geocodeAddress } from "@/lib/geocode-address"
 
 const REQUIRED_FIELDS = [
+  "homeType",
+  "propertyType",
+  "propertyList",
+  "sell",
+  "money",
+  "credit",
+  "houseValueRange",
   "firstName",
   "lastName",
   "address",
@@ -63,11 +72,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
 
     const {
+      homeType,
+      propertyType,
+      propertyList,
+      sell,
+      money,
+      credit,
+      houseValueRange,
       firstName,
       lastName,
       address,
-      city,
-      state,
       email,
       phoneNumber,
       zipCode,
@@ -75,7 +89,6 @@ export async function POST(request: NextRequest) {
       subid2,
       subid3,
       xxTrustedFormCertUrl,
-      isHomeowner,
     } = body
 
     const missingFields = REQUIRED_FIELDS.filter((field) => !body[field]?.trim?.())
@@ -86,9 +99,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const stateVal = typeof state === "string" ? state : ""
     const zipVal = typeof zipCode === "string" ? zipCode : String(zipCode ?? "")
-    if (isCaliforniaLead(stateVal, zipVal)) {
+
+    // Geocode city/state from the address on the server side
+    const geocoded = await geocodeAddress(String(address).trim(), zipVal)
+    const resolvedCity = geocoded.city || (typeof body.city === "string" ? body.city : "")
+    const resolvedState = geocoded.state || (typeof body.state === "string" ? body.state : "")
+    console.log("[submit-form] geocoded:", { city: resolvedCity, state: resolvedState })
+
+    if (isCaliforniaLead(resolvedState, zipVal)) {
       console.log("[submit-form] Rejected: California")
       return NextResponse.json(
         {
@@ -97,6 +116,15 @@ export async function POST(request: NextRequest) {
           redirectUrl: "/rejected",
         },
         { status: 200 }
+      )
+    }
+
+    const emailTrimmed = String(email).trim()
+    const hunterResult = await verifyEmailWithHunter(emailTrimmed)
+    if (!hunterResult.ok) {
+      return NextResponse.json(
+        { error: hunterResult.message, field: "email" as const },
+        { status: 422 }
       )
     }
 
@@ -121,12 +149,18 @@ export async function POST(request: NextRequest) {
       firstName,
       lastName,
       address,
-      city: city ?? "",
-      state: state ?? "",
-      email,
+      city: resolvedCity,
+      state: resolvedState,
+      email: emailTrimmed,
       phoneNumber,
       zipCode,
-      isHomeowner,
+      homeType,
+      propertyType,
+      propertyList,
+      sell,
+      money,
+      credit,
+      houseValueRange,
       subid1: subid1 ?? "",
       subid2: subid2 ?? "",
       subid3: subid3 ?? "",
@@ -151,13 +185,19 @@ export async function POST(request: NextRequest) {
         lp_subid3: subid3 ?? "",
         first_name: String(firstName).trim(),
         last_name: String(lastName).trim(),
-        email: String(email).trim(),
+        email: emailTrimmed,
         phone: leadProsperPhoneDigits(String(phoneNumber)),
         zip_code: String(zipCode).trim(),
         address: String(address).trim(),
-        city: String(city ?? "").trim(),
-        state: String(state ?? "").trim(),
-        homeowner: String(isHomeowner ?? "").trim(),
+        city: resolvedCity,
+        state: resolvedState,
+        home_type: homeType,
+        property_type: propertyType,
+        property_list: propertyList,
+        sell: sell,
+        money: money,
+        credit: credit,
+        house_value_range: houseValueRange,
         tcpa_text: "By Clicking The Button Below, You Consent To Receive Email At The Email Address You Provided, As Well As Prerecorded Messages, Auto-Dialed Phone Calls, And Text Messages At The Phone Number You Provided, From Assuritii And Its Marketing Partner. You Can View The Full List Of Our Marketing Partners Here You Understand That Your Consent Is Not A Condition Of Purchase. View Privacy Policy And Terms Of Use.",
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
@@ -224,7 +264,7 @@ export async function POST(request: NextRequest) {
     }
 
     const sent = await sendSubmissionConfirmationEmail({
-      to: String(email).trim(),
+      to: emailTrimmed,
       firstName: String(firstName).trim(),
       lastName: String(lastName).trim(),
     })
@@ -241,7 +281,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "Form submitted successfully",
-        redirectUrl: `/thankyou?email=${encodeURIComponent(String(email).trim())}`,
+        redirectUrl: `/thankyou?email=${encodeURIComponent(emailTrimmed)}`,
         accessToken,
         expiresAt,
       },

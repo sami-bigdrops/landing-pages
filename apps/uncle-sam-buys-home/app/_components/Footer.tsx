@@ -1,7 +1,6 @@
 "use client"
 
 import { Footer as FooterUI } from "@workspace/ui/components/footer"
-import Image from "next/image"
 import { FOOTER_CONTENT } from "@/lib/constant"
 
 export default function Footer() {

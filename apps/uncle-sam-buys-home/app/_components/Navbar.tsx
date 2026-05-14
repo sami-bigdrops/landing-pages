@@ -18,7 +18,7 @@ export default function Navbar() {
             alt="Uncle Sam Buys Homes"
             width={128}
             height={40}
-            className="w-32 h-10 xl:w-40 xl:h-12 object-contain"
+            className="w-auto h-14 xl:h-16 object-contain"
             priority
           />
           
