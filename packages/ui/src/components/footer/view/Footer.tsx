@@ -10,6 +10,8 @@ function Footer({
   logo,
   description,
   copyrightText,
+  belowCopyright,
+  belowCopyrightClassName,
   disclaimer,
   bgColor,
   descriptionClassName,
@@ -57,6 +59,16 @@ function Footer({
       <div className="border-t border-white/20 pt-6 md:pt-8 flex flex-col gap-4 text-center">
         {copyrightText != null && (
           <p className="text-xs text-white/80">{copyrightText}</p>
+        )}
+        {belowCopyright != null && (
+          <p
+            className={cn(
+              "text-[10px] leading-snug text-white/65 max-w-3xl mx-auto",
+              belowCopyrightClassName
+            )}
+          >
+            {belowCopyright}
+          </p>
         )}
         {disclaimer != null && (
           <p

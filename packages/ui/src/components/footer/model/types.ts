@@ -15,6 +15,8 @@ export interface FooterProps
   logo?: React.ReactNode
   description?: React.ReactNode
   copyrightText?: string
+  belowCopyright?: React.ReactNode
+  belowCopyrightClassName?: string
   disclaimer?: React.ReactNode
   bgColor?: string
   descriptionClassName?: string

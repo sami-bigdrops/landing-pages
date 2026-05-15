@@ -280,6 +280,8 @@ export const FOOTER_CONTENT = {
     { text: "Terms of Use", href: "/terms-of-use" },
   ],
   copyrightText: "Copyright © 2026 Assuritii. All Rights Reserved.",
+  floridaConsentUrl:
+    "https://ti2mvdhg4z8yemzw.public.blob.vercel-storage.com/Final%20Consent%20Order%20-%20Fully%20Exec.%202.4.26-1.pdf",
   disclaimer:
     'Vehicle Protection Coverage and offer is not available in all states and is void when prohibited by law. Vehicle coverage may vary based on manufacturer, model, and year of the vehicle. Pre-existing conditions are not covered.',
 } as const

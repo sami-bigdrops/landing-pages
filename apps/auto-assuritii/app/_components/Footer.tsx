@@ -15,6 +15,21 @@ export default function Footer() {
       linkHeader={FOOTER_CONTENT.linkHeader}
       links={[...FOOTER_CONTENT.links]}
       copyrightText={FOOTER_CONTENT.copyrightText}
+      belowCopyright={
+        <>
+          American Dream Auto Protect Inc operates within Florida under License# G306152.
+          Special information for Florida customers,{" "}
+          <a
+            href={FOOTER_CONTENT.floridaConsentUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 hover:text-white/90"
+          >
+            click here
+          </a>
+          .
+        </>
+      }
       disclaimer={FOOTER_CONTENT.disclaimer}
       disclaimerClassName="max-w-5xl"
     />
