@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 function FormRedirect() {
   const router = useRouter();
@@ -19,5 +19,9 @@ function FormRedirect() {
 }
 
 export default function FormPage() {
-  return <FormRedirect />;
+  return (
+    <Suspense fallback={null}>
+      <FormRedirect />
+    </Suspense>
+  );
 }
