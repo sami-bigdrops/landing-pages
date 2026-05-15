@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Navbar from '@/app/_components/Navbar'
 import Footer from '@/app/_components/Footer'
 import { Send, Mail, MapPin, AlertCircle } from 'lucide-react'
+import { SITE_BRAND } from '@/lib/constant'
 
 interface FormErrors {
   firstName?: string
@@ -232,7 +233,7 @@ const Contact = () => {
               Get in Touch
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Have questions about our auto insurance services? We&apos;d love to hear from you. 
+              Have questions about mortgage or refinance options? We&apos;d love to hear from you.
               Send us a message and we&apos;ll respond as soon as possible.
             </p>
           </div>
@@ -243,7 +244,7 @@ const Contact = () => {
               <div>
                 <h2 className="text-2xl font-bold text-[#1E3A8A] mb-4">Contact Information</h2>
                 <p className="text-gray-600 mb-6">
-                  Reach out to us through any of the following channels. We&apos;re here to help you find the best auto insurance coverage.
+                  Reach out to us through any of the following channels. We&apos;re here to help you explore mortgage and refinance options.
                 </p>
               </div>
 
@@ -256,7 +257,12 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-base font-semibold text-gray-900">Email</h3>
-                    <p className="text-sm text-gray-600">contact@govmortgageoptions.com</p>
+                    <a
+                      href={`mailto:${SITE_BRAND.email}`}
+                      className="text-sm text-gray-600 hover:text-[#1E3A8A] hover:underline"
+                    >
+                      {SITE_BRAND.email}
+                    </a>
                   </div>
                 </div>
 

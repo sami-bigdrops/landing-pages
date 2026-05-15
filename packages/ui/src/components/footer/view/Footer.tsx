@@ -30,14 +30,14 @@ function Footer({
       <div className="flex flex-col items-center text-center gap-6">
         {logo != null && <div className="shrink-0">{logo}</div>}
         {description != null && (
-          <p
+          <div
             className={cn(
-              "text-sm text-white/90 max-w-md leading-relaxed",
+              "w-full text-sm text-white/90 max-w-md leading-relaxed",
               descriptionClassName
             )}
           >
             {description}
-          </p>
+          </div>
         )}
         {links.length > 0 && (
           <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1">

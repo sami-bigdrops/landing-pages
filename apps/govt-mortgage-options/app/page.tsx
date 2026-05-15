@@ -1,10 +1,10 @@
 import { Metadata } from "next"
 import HomeContent from "@/app/_components/HomeContent"
+import { SITE_BRAND } from "@/lib/constant"
 
 export const metadata: Metadata = {
-  title: "Gov Mortgage Options",
-  description:
-    "Gov Mortgage Options provides top-quality mortgage services across the USA. We offer mortgage, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+  title: SITE_BRAND.name,
+  description: SITE_BRAND.description,
 }
 
 export default function Page() {

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useMemo, Suspense, useCallback } fr
 import { useSearchParams, useRouter } from "next/navigation";
 import Script from "next/script";
 import confetti from "canvas-confetti";
-import { ArrowLeft, DollarSign, Loader2, Info, Lock } from "lucide-react";
+import { ArrowLeft, DollarSign, Loader2, Info } from "lucide-react";
 import { ProgressBar } from "@workspace/ui/components/progress-bar";
 import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group";
 import { SelectInput } from "@workspace/ui/components/select-input";
@@ -14,34 +14,7 @@ import MortgageSlider, {
   snapToNearest,
   getAverageValue,
 } from "./_components/MortgageSlider";
-import InterestSlider from "./_components/InterestSlider";
 import { TrustedForm, useUtmParams } from "@workspace/lp-core";
-
-// ── Psychological step order ────────────────────────────────────────────────
-//  Property (easy, non-threatening start)
-//  1  PROP_DESC          Property type (radio, auto-advance)
-//  2  EST_VAL + BAL_ONE  Home value & mortgage balance (select inputs)
-//  3  CRED_GRADE         Credit rating (radio, auto-advance)
-//
-//  Financial details (engaged, momentum built)
-//  4  MTG_ONE_INT        Current mortgage rate slider
-//  5  MTG_TWO            2nd mortgage? (radio, auto-advance)
-//  6  BAL_TWO            2nd mortgage balance (conditional: MTG_TWO=YES)
-//  7  MTG_TWO_INT        2nd mortgage rate (conditional: MTG_TWO=YES)
-//  8  ADD_CASH           Additional cash slider (conditional: balance < EST_VAL)
-//
-//  Preferences & qualifications (invested, ask harder questions)
-//  9  LOAN_TYPE          Loan type (radio, auto-advance)
-//  10 PROP_PURP          Property purpose (radio, auto-advance)
-//  11 VA_STATUS          Veteran? (radio, auto-advance)
-//  12 FHA_BANK_FORECLOSURE   (radio, auto-advance)
-//  13 ANNUAL_VERIFIABLE_INCOME (radio, auto-advance)
-//  14 NUM_MORTGAGE_LATES (radio, auto-advance)
-//
-//  Personal info (last — maximum commitment)
-//  15 FNAME + LNAME + EMAIL
-//  16 ADDRESS + CITY + STATE + ZIP + PRI_PHON
-// ────────────────────────────────────────────────────────────────────────────
 
 const TOTAL_STEPS = 10;
 
@@ -51,13 +24,6 @@ const LABEL_CLS = "text-sm  font-semibold text-[#1C2833] font-inter";
 const STEP_HEADING_CLS = "text-xl md:text-2xl font-extrabold text-[#1C2833] font-inter leading-snug";
 const STEP_SUBTEXT_CLS = "text-sm text-gray-500 font-inter mt-1";
 const ERROR_TEXT_CLS = "text-xs text-red-500 mt-1";
-
-const US_STATES = [
-  "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
-  "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
-  "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
-  "VT", "VA", "WA", "WV", "WI", "WY",
-];
 
 const PROP_DESC_OPTS = [
   { value: "SINGLE_FAM", label: "Single Family Home" },
@@ -527,7 +493,6 @@ function RefinanceForm() {
         ZIP: zip,
       }));
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => { currentStepRef.current = currentStep; }, [currentStep]);
@@ -673,8 +638,8 @@ function RefinanceForm() {
       case 8: return fd.DOB.replace(/\D/g, "").length === 8 && validateDobValue(fd.DOB) === "";
       case 9: return fd.ADDRESS.trim() !== "" && fd.CITY.trim() !== "" && fd.STATE !== "" && /^\d{5}$/.test(fd.ZIP);
       case 10: {
-        const fnOk = fd.FNAME.trim().length >= 2 && /^[A-Za-z\s'\-\.]+$/.test(fd.FNAME.trim()) && !/^(.)\1+$/.test(fd.FNAME.trim().replace(/\s/g, "")) && !/^(test|fake|asdf|qwerty|xxxx|aaaa|bbbb|cccc|name|user|admin|none|null|n\/a)$/i.test(fd.FNAME.trim());
-        const lnOk = fd.LNAME.trim().length >= 2 && /^[A-Za-z\s'\-\.]+$/.test(fd.LNAME.trim()) && !/^(.)\1+$/.test(fd.LNAME.trim().replace(/\s/g, "")) && !/^(test|fake|asdf|qwerty|xxxx|aaaa|bbbb|cccc|name|user|admin|none|null|n\/a)$/i.test(fd.LNAME.trim());
+        const fnOk = fd.FNAME.trim().length >= 2 && /^[A-Za-z\s'.-]+$/.test(fd.FNAME.trim()) && !/^(.)\1+$/.test(fd.FNAME.trim().replace(/\s/g, "")) && !/^(test|fake|asdf|qwerty|xxxx|aaaa|bbbb|cccc|name|user|admin|none|null|n\/a)$/i.test(fd.FNAME.trim());
+        const lnOk = fd.LNAME.trim().length >= 2 && /^[A-Za-z\s'.-]+$/.test(fd.LNAME.trim()) && !/^(.)\1+$/.test(fd.LNAME.trim().replace(/\s/g, "")) && !/^(test|fake|asdf|qwerty|xxxx|aaaa|bbbb|cccc|name|user|admin|none|null|n\/a)$/i.test(fd.LNAME.trim());
         return fnOk && lnOk && fd.EMAIL.includes("@") && fd.EMAIL.includes(".") && checkPhoneValidity(fd.PRI_PHON.replace(/\D/g, "")) === "";
       }
       default: return false;
@@ -696,21 +661,33 @@ function RefinanceForm() {
         );
         const payload = {
           PRODUCT: "PP_REFI",
-          PROP_ZIP: fd.PROP_ZIP, PROP_DESC: fd.PROP_DESC, PROP_PURP: fd.PROP_PURP,
-          CRED_GRADE: fd.CRED_GRADE, EST_VAL: fd.EST_VAL, BAL_ONE: fd.BAL_ONE,
-          MTG_ONE_INT: fd.MTG_ONE_INT, MTG_TWO: fd.MTG_TWO,
+          PROP_ZIP: fd.PROP_ZIP, 
+          PROP_DESC: fd.PROP_DESC, 
+          PROP_PURP: fd.PROP_PURP,
+          CRED_GRADE: fd.CRED_GRADE, 
+          EST_VAL: fd.EST_VAL, 
+          BAL_ONE: fd.BAL_ONE,
+          MTG_ONE_INT: fd.MTG_ONE_INT, 
+          MTG_TWO: fd.MTG_TWO,
           EMPLOYMENT_STATUS: fd.EMPLOYMENT_STATUS,
           BAL_TWO: fd.MTG_TWO === "YES" ? fd.BAL_TWO : 0,
           MTG_TWO_INT: fd.MTG_TWO === "YES" ? fd.MTG_TWO_INT : 0,
           ADD_CASH: fd.ADD_CASH,
-          LOAN_TYPE: fd.LOAN_TYPE, FHA_STATUS: fd.FHA_STATUS, VA_STATUS: fd.VA_STATUS,
+          LOAN_TYPE: fd.LOAN_TYPE, 
+          FHA_STATUS: fd.FHA_STATUS, 
+          VA_STATUS: fd.VA_STATUS,
           FHA_BANK_FORECLOSURE: fd.FHA_BANK_FORECLOSURE,
           ANNUAL_VERIFIABLE_INCOME: fd.ANNUAL_VERIFIABLE_INCOME,
           NUM_MORTGAGE_LATES: fd.NUM_MORTGAGE_LATES,
           DOB: fd.DOB.trim(),
-          EMAIL: fd.EMAIL.trim(), FNAME: fd.FNAME.trim(), LNAME: fd.LNAME.trim(),
-          ADDRESS: fd.ADDRESS.trim(), CITY: fd.CITY.trim(), STATE: fd.STATE,
-          ZIP: fd.ZIP, PRI_PHON: fd.PRI_PHON.replace(/\D/g, ""),
+          EMAIL: fd.EMAIL.trim(), 
+          FNAME: fd.FNAME.trim(), 
+          LNAME: fd.LNAME.trim(),
+          ADDRESS: fd.ADDRESS.trim(), 
+          CITY: fd.CITY.trim(), 
+          STATE: fd.STATE,
+          ZIP: fd.ZIP, 
+          PRI_PHON: fd.PRI_PHON.replace(/\D/g, ""),
           trustedformCertUrl: certEl || "",
         };
         const res = await fetch("/api/submit-refinance", {
@@ -736,7 +713,7 @@ function RefinanceForm() {
     const label = field === "FNAME" ? "First name" : "Last name";
     if (v.length < 2) { setError(field, `${label} must be at least 2 characters.`); return; }
     if (v.length > 50) { setError(field, `${label} is too long.`); return; }
-    if (!/^[A-Za-z\s'\-\.]+$/.test(v)) { setError(field, `${label} contains invalid characters.`); return; }
+    if (!/^[A-Za-z\s'.-]+$/.test(v)) { setError(field, `${label} contains invalid characters.`); return; }
     if (/^(.)\1+$/.test(v.replace(/\s/g, ""))) { setError(field, `Enter a real ${label.toLowerCase()}.`); return; }
     if (/^(test|fake|asdf|qwerty|xxxx|aaaa|bbbb|cccc|name|user|admin|none|null|n\/a)$/i.test(v)) {
       setError(field, `Enter a real ${label.toLowerCase()}.`); return;
@@ -1118,7 +1095,7 @@ function RefinanceForm() {
 
       {currentStep === 8 && (
         <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">
-        By clicking "Continue" above, I authorize LendingTree & <a href="#" target="_blank" className="underline hover:text-gray-600">LendingTree's Partners</a>, to obtain my consumer report, credit profile, or other credit information associated with me from any consumer reporting agency for purposes of my inquiry, as well as for marketing purposes and to provide me with information and recommendations on financial products and services that may be of interest to me.
+        By clicking &quot;Continue&quot; above, I authorize GovMortgageOptions.com & <a href="/partners" target="_blank" className="underline hover:text-gray-600">GovMortgageOptions.com&apos;s Partners</a>, to obtain my consumer report, credit profile, or other credit information associated with me from any consumer reporting agency for purposes of my inquiry, as well as for marketing purposes and to provide me with information and recommendations on financial products and services that may be of interest to me.
         </p>
       )}
 
@@ -1139,10 +1116,7 @@ function RefinanceForm() {
           authority to consent; (d) understand your consent is not required in order to obtain any good or service; (e) represent
           that you have received and reviewed the MORTGAGE BROKER DISCLOSURES for your state; and (f) provide your consent under
           the Fair Credit Reporting Act for SecureRights and/or its PREMIER PARTNERS to obtain information from your personal
-          credit profile to prequalify you for credit options and connect you with an appropriate partner. You may choose to speak
-          with an individual service provider by dialing{" "}
-          <a href="tel:8443263442" className="underline hover:text-gray-600">(844) 326-3442</a>.
-          {" "}Leadpoint, Inc. NMLS 3175.
+          credit profile to prequalify you for credit options and connect you with an appropriate partner.
         </p>
       )}
 

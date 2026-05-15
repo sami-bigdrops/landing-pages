@@ -15,7 +15,7 @@ export default function TermsOfUse() {
               </p>
               
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                Welcome to Govt Mortgage Options (hereinafter referred to as &quot;Company&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). Before you begin to use the Website, please take a moment to review these Terms of Use (&quot;TOU&quot; or the &quot;Agreement&quot;) which is a legal agreement. By submitting any information on this Website, you agree to be bound by the TOU. The Agreement describes the terms and conditions which govern your use of the Website and the products and services provided through or in connection with the Website (collectively, &quot;Service&quot;), which may be updated by us from time to time without notice to you. We may also offer other services that are governed by different terms and conditions. You must read and agree with all of the terms and conditions contained in this Agreement and the posted Privacy Policy then in effect (&quot;Privacy Policy&quot;), which is incorporated by reference, before you use the Service. If you do not agree to be bound by this Agreement, you may not use or access the Service.
+                Welcome to Gov Mortgage Options (hereinafter referred to as &quot;Company&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). Before you begin to use the Website, please take a moment to review these Terms of Use (&quot;TOU&quot; or the &quot;Agreement&quot;) which is a legal agreement. By submitting any information on this Website, you agree to be bound by the TOU. The Agreement describes the terms and conditions which govern your use of the Website and the products and services provided through or in connection with the Website (collectively, &quot;Service&quot;), which may be updated by us from time to time without notice to you. We may also offer other services that are governed by different terms and conditions. You must read and agree with all of the terms and conditions contained in this Agreement and the posted Privacy Policy then in effect (&quot;Privacy Policy&quot;), which is incorporated by reference, before you use the Service. If you do not agree to be bound by this Agreement, you may not use or access the Service.
               </p>
             </section>
             <section>
@@ -121,10 +121,10 @@ export default function TermsOfUse() {
             <section>
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1E3A8A] mb-3 sm:mb-4">10. ELECTRONIC COMMUNICATIONS/NOTICES AND INFORMATION DELIVERED ELECTRONICALLY.</h2>
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-4">
-                Govt Mortgage Options and Providers may choose to electronically deliver all information related to its services and your requests. Govt Mortgage Options and Providers electronic communications to you may transmit or convey information about action taken on your request, portions of your request that may be incomplete or require additional explanation, any notices required under applicable law, which may include any Federal Truth-in-Lending disclosures, State disclosures, other terms, conditions and documents, and the privacy policies of Govt Mortgage Options and Providers.
+                Gov Mortgage Options and Providers may choose to electronically deliver all information related to its services and your requests. Gov Mortgage Options and Providers electronic communications to you may transmit or convey information about action taken on your request, portions of your request that may be incomplete or require additional explanation, any notices required under applicable law, which may include any Federal Truth-in-Lending disclosures, State disclosures, other terms, conditions and documents, and the privacy policies of Gov Mortgage Options and Providers.
               </p>
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-4">
-                You agree to receive all current and future notices, disclosures, communications and information, and to do business electronically with Govt Mortgage Options and Providers. This means that Govt Mortgage Options and Providers may communicate with you by sending a message to the email address you provided or at another address that may be associated with you that we receive from Providers or other parties. You agree that you meet the below technical requirements and are able to access and retain copies of notices and information sent or made available electronically.
+                You agree to receive all current and future notices, disclosures, communications and information, and to do business electronically with Gov Mortgage Options and Providers. This means that Gov Mortgage Options and Providers may communicate with you by sending a message to the email address you provided or at another address that may be associated with you that we receive from Providers or other parties. You agree that you meet the below technical requirements and are able to access and retain copies of notices and information sent or made available electronically.
               </p>
               
               <div className="mb-4">
@@ -141,7 +141,7 @@ export default function TermsOfUse() {
               </div>
               
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                You have the right to receive any document in non-electronic form and to withdraw your consent to electronic delivery at any time by contacting Govt Mortgage Options at <a href="mailto:contact@govmortgageoptions.com" className="text-[#1E3A8A] hover:underline font-medium">contact@govmortgageoptions.com</a>.
+                You have the right to receive any document in non-electronic form and to withdraw your consent to electronic delivery at any time by contacting Gov Mortgage Options at <a href="mailto:contact@govmortgageoptions.com" className="text-[#1E3A8A] hover:underline font-medium">contact@govmortgageoptions.com</a>.
               </p>
             </section>
 

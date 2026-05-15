@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
+import { SITE_BRAND } from "@/lib/constant"
 
 export const metadata: Metadata = {
-  title: "Contact Us | Govt Mortgage Options",
-  description: "Get in touch with Govt Mortgage Options for questions about our mortgage services. Contact us via email, phone, or our contact form.",
-};
+  title: `Contact Us | ${SITE_BRAND.name}`,
+  description: `Get in touch with ${SITE_BRAND.name} for questions about mortgage and refinance options. Email us at ${SITE_BRAND.email} or use our contact form.`,
+}
 
 export default function ContactLayout({
   children,

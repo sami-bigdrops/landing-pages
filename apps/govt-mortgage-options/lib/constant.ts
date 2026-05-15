@@ -1,3 +1,10 @@
+export const SITE_BRAND = {
+  name: "Gov Mortgage Options",
+  description:
+    "Gov Mortgage Options helps homeowners explore mortgage and refinance options. Compare rates, see if you could save, and connect with licensed professionals.",
+  email: "contact@govmortgageoptions.com",
+} as const
+
 //  sections constants
 
 export const HERO_CONTENT = {
@@ -73,25 +80,30 @@ export const OPTIONS_CONTENT = {
   ],
 } as const
 
+export const FOOTER_AP_NEWS = {
+  label: "APNEWS",
+  href: "https://apnews.com/article/trump-economy-inflation-interest-rates-borrowing-6ef86392b080ca963ec633546009409b",
+  headline: "Trump demands interest rates come down",
+} as const
+
+export const FOOTER_MARKETING_DISCLAIMER =
+  "GovLoanOptions.com provides marketing services for various companies involved in mortgage refinance. The information you provide to us is provided to these companies in real time. If the information you provide to us matches the criteria they are seeking, they will contact you directly. In many cases we may deploy SMS to you to facilitate an inbound call to the service or product provider. We are paid by such providers for each consumer they contact directly and/or provide services or products. You are not charged for our services. We do not guarantee that a provider will accept your request or that their products or services will meet your needs. Their services and products may or may not be the best product or service available on the market. Completing our forms does not obligate you to purchase a service or product nor does it obligate a product or service provider to provide you with any particular service about which you may have inquired. We only accept referrals for U.S. Citizens on this Website and we specifically exclude all other countries including but not limited to Canadian and European Union Member Citizens referrals."
+
 export const FOOTER_CONTENT = {
-  description: "The Smart Way to Shop For Insurance.",
   links: [
-    { text: "Privacy Policy", href: "#" },
-    { text: "Terms of Use", href: "#" },
+    { text: "Privacy Policy", href: "/privacy-policy" },
+    { text: "Terms of Use", href: "/terms-of-use" },
   ],
-  disclaimer:
-  "For quality control purposes, your activity on this site may be monitored or recorded by Govt Mortgage Options or its service providers.",
-  copyrightText: "Copyright © 2026 Govt Mortgage Options. All Rights Reserved.",
+  copyrightText: "Copyright © 2026 GovMortgageOptions.com. All Rights Reserved.",
 } as const
 
 export const THANKYOU_CONTENT = {
   title: "Thank you!",
-  subtitle:
-    "Your request has been received. A vehicle protection specialist will contact you shortly with your quote.",
+  subtitle: `Your request has been received. A ${SITE_BRAND.name} specialist will contact you shortly about your mortgage options.`,
   confirmationTitle:
     "A confirmation message has been sent to your email address.",
   confirmationDescription:
-    "The message contains next steps and how to get your quote. Please check your spam folder if you don't see it in your inbox.",
+    "The message contains next steps for your request. Please check your spam folder if you don't see it in your inbox.",
   contactTitle: "For immediate assistance",
   contactPhoneLabel: "(1800) 123 - 4567",
   contactPhoneHref: "tel:+18001234567",
@@ -125,30 +137,30 @@ export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
   aboutSectionTitle: "",
   featureCards: [
     {
-      title: "Trusted Excellence",
+      title: "Compare your options",
       icon: "shield",
       bulletPoints: [
-        "Division of Andersen Corporation",
-        "Decades of craftsmanship",
-        "Nationwide reliability",
+        "See whether refinancing could lower your payment",
+        "Explore cash-out and rate-and-term paths",
+        "Free to check with no obligation",
       ],
     },
     {
-      title: "Custom Solutions",
+      title: "Licensed professionals",
       icon: "building",
       bulletPoints: [
-        "Custom-made windows & doors",
-        "Energy efficient design",
-        "Enhanced curb appeal",
+        "Connect with mortgage specialists in our network",
+        "Get clear answers about rates and next steps",
+        "Designed for U.S. homeowners",
       ],
     },
     {
-      title: "Premium Service",
+      title: "Straightforward process",
       icon: "check",
       bulletPoints: [
-        "Full-service approach",
-        "Premium materials",
-        "Industry-leading warranties",
+        "Share a few details to get started",
+        "We follow up within 24 hours on business days",
+        "Questions? Email us anytime",
       ],
     },
   ],

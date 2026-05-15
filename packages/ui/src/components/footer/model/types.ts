@@ -13,9 +13,9 @@ export interface FooterProps
   linkHeader?: string
   links?: FooterLink[]
   logo?: React.ReactNode
-  description?: string
+  description?: React.ReactNode
   copyrightText?: string
-  disclaimer?: string
+  disclaimer?: React.ReactNode
   bgColor?: string
   descriptionClassName?: string
   disclaimerClassName?: string

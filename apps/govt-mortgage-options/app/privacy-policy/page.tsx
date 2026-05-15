@@ -2,11 +2,11 @@ import { Metadata } from "next"
 import Navbar from "@/app/_components/Navbar"
 import PrivacyPolicy from "@/app/_components/PrivacyPolicy"
 import Footer from "@/app/_components/Footer"
+import { SITE_BRAND } from "@/lib/constant"
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description:
-    "Govt Mortgage Options privacy policy. Learn how we collect, use, and protect your personal information.",
+  description: `${SITE_BRAND.name} privacy policy. Learn how we collect, use, and protect your personal information.`,
 }
 
 export default function PrivacyPolicyPage() {

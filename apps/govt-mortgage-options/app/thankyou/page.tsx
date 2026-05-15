@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
-import { THANKYOU_TYPE2_CONTENT } from "@/lib/constant"
+import { SITE_BRAND, THANKYOU_TYPE2_CONTENT } from "@/lib/constant"
 import Navbar from "@/app/_components/Navbar"
 import Footer from "@/app/_components/Footer"
 import { ThankYouType2, type ThankYouAd } from "@/app/_components/ThankYouType2"
@@ -22,7 +22,7 @@ const THANKYOU_ADS: ThankYouAd[] = [
 
 export const metadata: Metadata = {
   title: "Thank You",
-  description: "Your request has been received. A specialist will contact you shortly.",
+  description: `Your request to ${SITE_BRAND.name} was received. A specialist will contact you shortly. Questions? Email ${SITE_BRAND.email}.`,
 }
 
 function ThankYouLoading() {

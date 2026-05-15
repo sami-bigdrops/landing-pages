@@ -5,6 +5,7 @@ import "@workspace/ui/globals.css"
 import "./styles.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
+import { SITE_BRAND } from "@/lib/constant"
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -14,11 +15,10 @@ const fontSans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Gov Mortgage Options",
-    template: "%s | Gov Mortgage Options",
+    default: SITE_BRAND.name,
+    template: `%s | ${SITE_BRAND.name}`,
   },
-  description:
-    "Gov Mortgage Options provides top-quality mortgage services across the USA. We offer mortgage, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+  description: SITE_BRAND.description,
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },
