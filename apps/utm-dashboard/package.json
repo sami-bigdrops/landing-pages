@@ -14,7 +14,9 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:migrate:utm-product": "tsx scripts/ensure-utm-product-id-column.ts"
+    "db:migrate:utm-product": "tsx scripts/ensure-utm-product-id-column.ts",
+    "db:migrate:brand-id": "tsx scripts/ensure-brand-id-column.ts",
+    "db:seed:insurlii": "tsx scripts/seed-insurlii-admin.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

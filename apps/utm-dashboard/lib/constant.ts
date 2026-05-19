@@ -1,9 +1,11 @@
 export { BRANDS, getBrandByHostname, getBrandById } from "./brand-config"
 export type { BrandDefinition, BrandColors } from "./brand-config"
 export {
-  UTM_PRODUCT_TABS,
-  DEFAULT_UTM_PRODUCT_ID,
+  UTM_PRODUCTS_BY_BRAND,
+  getUtmProductTabsForBrand,
+  getDefaultUtmProductId,
   parseUtmProductIdParam,
-  isUtmProductId,
+  isUtmProductIdForBrand,
+  filterUtmRowsForProductDisplay,
 } from "./utm-products"
-export type { UtmProductId } from "./utm-products"
+export type { UtmProductTab } from "./utm-products"

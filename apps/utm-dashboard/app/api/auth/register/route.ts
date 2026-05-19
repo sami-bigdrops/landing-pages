@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
 import { AUTH_COOKIE, createSession, createUser, findUserByUsername } from "@/lib/auth"
+import { resolveBrandIdFromRequest } from "@/lib/resolve-brand-id"
 
 function validate(username: string, password: string): string | null {
   if (!username || !password) return "Username and password are required."
@@ -33,7 +34,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const user = await createUser(username, password)
+    const brandId = await resolveBrandIdFromRequest()
+    const user = await createUser(username, password, brandId)
     const sessionToken = await createSession(user.id)
 
     const response = NextResponse.json({

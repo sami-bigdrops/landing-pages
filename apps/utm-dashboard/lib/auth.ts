@@ -38,11 +38,16 @@ export async function findUserByUsername(username: string): Promise<UserRow | un
   })
 }
 
-export async function createUser(username: string, password: string): Promise<UserRow> {
+export async function createUser(
+  username: string,
+  password: string,
+  brandId: string
+): Promise<UserRow> {
   const inserted = await db
     .insert(users)
     .values({
       username: normalizeUsername(username),
+      brandId,
       passwordHash: hashPassword(password),
     })
     .returning()

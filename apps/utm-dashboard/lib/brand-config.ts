@@ -29,6 +29,18 @@ export const BRANDS: readonly BrandDefinition[] = [
     hosts: ["dashboard.quotifii.com", "localhost"],
   },
   {
+    id: "insurlii",
+    brandName: "Insurlii",
+    logo: "/logos/insurlii-logo.svg",
+    favicon: "/favicons/insurlii-favicon.png",
+    colors: {
+      primary: "#1D4ED8",
+      secondary: "#0F172A",
+      accent: "#FF5715",
+    },
+    hosts: ["dashboard.insurlii.com"],
+  },
+  {
     id: "assurerates",
     brandName: "Assurerates",
     logo: "/logos/assurerates-logo.svg",

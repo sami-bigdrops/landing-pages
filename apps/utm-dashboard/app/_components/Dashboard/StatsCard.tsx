@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 
 import MetricCard from "@/components/dashboard/MetricCard"
-import { filterUtmRowsForProductDisplay, type UtmProductId } from "@/lib/utm-products"
+import { filterUtmRowsForProductDisplay } from "@/lib/utm-products"
 
 type ParamStatus = "active" | "blocked"
 
@@ -14,7 +14,7 @@ type ApiItem = {
 }
 
 type Props = {
-  productId: UtmProductId
+  productId: string
   productLabel: string
 }
 

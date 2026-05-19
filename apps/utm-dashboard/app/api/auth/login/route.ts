@@ -6,6 +6,7 @@ import {
   findUserByUsername,
   verifyPassword,
 } from "@/lib/auth"
+import { resolveBrandIdFromRequest } from "@/lib/resolve-brand-id"
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,8 +21,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const brandId = await resolveBrandIdFromRequest()
     const user = await findUserByUsername(username)
-    if (!user || !verifyPassword(password, user.passwordHash)) {
+    if (
+      !user ||
+      user.brandId !== brandId ||
+      !verifyPassword(password, user.passwordHash)
+    ) {
       return NextResponse.json(
         { success: false, error: "Invalid username or password." },
         { status: 401 }

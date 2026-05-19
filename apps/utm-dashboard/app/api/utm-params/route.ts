@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { and, asc, eq, inArray } from "drizzle-orm"
-import { headers } from "next/headers"
-
 import { db } from "@/lib/db"
-import { getBrandByHostname } from "@/lib/brand-config"
 import { utmParams } from "@/lib/db/schema"
 import { getCurrentUser } from "@/lib/auth"
-import { isUtmProductId, parseUtmProductIdParam } from "@/lib/utm-products"
+import { isUtmProductIdForBrand, parseUtmProductIdParam } from "@/lib/utm-products"
 
 type ParamStatus = "active" | "blocked"
 
@@ -16,14 +13,6 @@ type ParamPayload = {
   status: ParamStatus
 }
 
-async function resolveBrandIdForRequest() {
-  const h = await headers()
-  const forwarded = h.get("x-forwarded-host")
-  const host = forwarded?.split(",")[0]?.trim() ?? h.get("host") ?? ""
-  const brand = getBrandByHostname(host)
-  return brand.id
-}
-
 export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser()
@@ -31,8 +20,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
     }
 
-    const brandId = await resolveBrandIdForRequest()
-    const productId = parseUtmProductIdParam(request.nextUrl.searchParams.get("productId"))
+    const brandId = user.brandId
+    const productId = parseUtmProductIdParam(
+      brandId,
+      request.nextUrl.searchParams.get("productId")
+    )
 
     const rows = await db
       .select({
@@ -58,15 +50,15 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
     }
 
-    const brandId = await resolveBrandIdForRequest()
+    const brandId = user.brandId
     const body = (await request.json()) as { items?: ParamPayload[]; productId?: string }
     const items = body.items ?? []
 
     const rawProduct = body.productId
-    if (rawProduct !== undefined && !isUtmProductId(rawProduct)) {
+    if (rawProduct !== undefined && !isUtmProductIdForBrand(brandId, rawProduct)) {
       return NextResponse.json({ success: false, error: "Invalid productId" }, { status: 400 })
     }
-    const productId = parseUtmProductIdParam(rawProduct ?? null)
+    const productId = parseUtmProductIdParam(brandId, rawProduct ?? null)
 
     const valid = items.filter(
       (item) =>

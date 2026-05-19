@@ -4,9 +4,13 @@ import { redirect } from "next/navigation"
 import Navbar from "./_components/Navbar"
 import UtmProductShell from "./_components/Dashboard/UtmProductShell"
 import { getCurrentUser } from "@/lib/auth"
+import { getBrandForRequest } from "@/lib/get-brand-for-request"
 
-export const metadata: Metadata = {
-  title: "Dashboard - Quotifii",
+export async function generateMetadata(): Promise<Metadata> {
+  const brand = await getBrandForRequest()
+  return {
+    title: `Dashboard - ${brand.brandName}`,
+  }
 }
 
 export default async function Page() {

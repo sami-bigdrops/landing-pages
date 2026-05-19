@@ -6,10 +6,9 @@ import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 
 import {
-  UTM_PRODUCT_TABS,
   filterUtmRowsForProductDisplay,
+  getUtmProductTabsForBrand,
 } from "@/lib/utm-products"
-import type { UtmProductId } from "@/lib/utm-products"
 
 type UTMParam = {
   key: string
@@ -232,10 +231,11 @@ function ParamsPanel({
 }
 
 type Props = {
-  productId: UtmProductId
+  brandId: string
+  productId: string
 }
 
-export default function UtmParamsColumns({ productId }: Props) {
+export default function UtmParamsColumns({ brandId, productId }: Props) {
   const [activeItems, setActiveItems] = useState<UTMParam[]>([])
   const [blockedItems, setBlockedItems] = useState<UTMParam[]>([])
   const [cardFilter, setCardFilter] = useState<CardFilter>("all")
@@ -288,7 +288,8 @@ export default function UtmParamsColumns({ productId }: Props) {
     return blockedItems.filter((item) => item.key === "utm_s1")
   }, [blockedItems, cardFilter])
 
-  const productLabel = UTM_PRODUCT_TABS.find((t) => t.id === productId)?.label ?? ""
+  const productLabel =
+    getUtmProductTabsForBrand(brandId).find((t) => t.id === productId)?.label ?? ""
 
   const loadParams = useCallback(async () => {
     try {
