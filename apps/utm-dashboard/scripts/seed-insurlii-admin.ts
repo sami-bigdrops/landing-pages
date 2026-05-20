@@ -11,7 +11,7 @@ import { db } from "../lib/db/index"
 import { users } from "../lib/db/schema"
 
 const USERNAME = "admin-insurlii"
-const PASSWORD = "Admin123"
+const PASSWORD = "Admin@Insurl11"
 const BRAND_ID = "insurlii"
 
 async function main() {

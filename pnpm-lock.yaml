@@ -236,6 +236,9 @@ importers:
 
   apps/auto-insurance-insurlii:
     dependencies:
+      '@neondatabase/serverless':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@vercel/analytics':
         specifier: ^1.4.1
         version: 1.6.1(next@16.0.10(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
@@ -251,6 +254,9 @@ importers:
       axios:
         specifier: ^1.13.5
         version: 1.13.5
+      drizzle-orm:
+        specifier: ^0.45.1
+        version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)
       lucide-react:
         specifier: ^0.475.0
         version: 0.475.0(react@19.2.1)
@@ -294,9 +300,15 @@ importers:
       dotenv:
         specifier: ^17.2.4
         version: 17.2.4
+      drizzle-kit:
+        specifier: ^0.31.10
+        version: 0.31.10
       eslint:
         specifier: ^9.39.1
         version: 9.39.1(jiti@2.6.1)
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
       typescript:
         specifier: ^5.9.3
         version: 5.9.3

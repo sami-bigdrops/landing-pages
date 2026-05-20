@@ -1,18 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUtmParams, setCookie } from "@workspace/lp-core";
+import { useUtmParams, setCookie, getCookie } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { HERO_CONTENT } from "@/lib/constant";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const REDIRECT_HREF = "#";
-// const BASE_URL = "https://auto-quote.insurlii.com";
+const BASE_URL = "#";
 
 export default function Hero() {
   useUtmParams(30);
@@ -51,21 +49,21 @@ export default function Hero() {
 
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
 
-    // const utmSource = getCookie("subid1") || "";
-    // const utmId = getCookie("subid2") || "";
-    // const utmS1 = getCookie("subid3") || "";
-    // const params = new URLSearchParams();
-    // params.set("tid", utmId);
-    // params.set("uid", utmId);
-    // params.set("sid", utmSource);
-    // params.set("sub1", utmS1);
-    // params.set("zip", trimmed);
-    // const redirectUrl = `${BASE_URL}/?${params.toString()}`;
+    const utmSource = getCookie("subid1") || "";
+    const utmId = getCookie("subid2") || "";
+    const utmS1 = getCookie("subid3") || "";
+    const params = new URLSearchParams();
+    params.set("tid", utmId);
+    params.set("uid", utmId);
+    params.set("sid", utmSource);
+    params.set("sub1", utmS1);
+    params.set("zip", trimmed);
+    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
 
     setIsRedirecting(true);
-    window.location.href = REDIRECT_HREF;
+    window.location.href = redirectUrl;
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

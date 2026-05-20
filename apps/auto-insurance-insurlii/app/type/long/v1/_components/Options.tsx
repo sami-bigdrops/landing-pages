@@ -5,16 +5,15 @@ import { OPTIONS_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import { useState, useEffect } from "react";
-import { setCookie } from "@workspace/lp-core";
+import { useUtmParams, setCookie, getCookie } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const REDIRECT_HREF = "#";
-// const REDIRECT_BASE_URL = "https://auto.assurerates.com";
-// const REFERRER = "quotes.assurerates.com";
+const BASE_URL = "https://auto-quote.insurlii.com";
 
 export default function Options() {
+  useUtmParams(30);
   const [zipCode, setZipCode] = useState("");
   const [cityName, setCityName] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -45,23 +44,21 @@ export default function Options() {
 
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
 
-    // const utmSource = getCookie("subid1") || "";
-    // const utmId = getCookie("subid2") || "";
-    // const utmS1 = getCookie("subid3") || "";
-    // const params = new URLSearchParams({
-    //   zip_code: trimmed,
-    //   referrer: REFERRER,
-    //   tid: "3286",
-    // });
-    // if (utmSource) params.set("subid", utmSource);
-    // if (utmId) params.set("subid2", utmId);
-    // if (utmS1) params.set("c1", utmS1);
-    // const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
+    const utmSource = getCookie("subid1") || "";
+    const utmId = getCookie("subid2") || "";
+    const utmS1 = getCookie("subid3") || "";
+    const params = new URLSearchParams();
+    params.set("tid", utmId);
+    params.set("uid", utmId);
+    params.set("sid", utmSource);
+    params.set("sub1", utmS1);
+    params.set("zip", trimmed);
+    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
 
     setIsRedirecting(true);
-    window.location.href = REDIRECT_HREF;
+    window.location.href = redirectUrl;
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
