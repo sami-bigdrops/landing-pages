@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
 
-import { isThankYouPartnerSlug, type ThankYouPartnerSlug } from "@/lib/constant"
+import {
+  FORM_TCPA_TEXT,
+  isThankYouPartnerSlug,
+  type ThankYouPartnerSlug,
+} from "@/lib/constant"
 import { sendSubmissionConfirmationEmail } from "@/lib/send-submission-email"
 
 const REQUIRED_FIELDS = [
@@ -140,7 +144,7 @@ export async function POST(request: NextRequest) {
         city: String(city ?? "").trim(),
         state: String(state ?? "").trim(),
         homeowner: String(isHomeowner ?? "").trim(),
-        tcpa_text: "By Clicking The Button Below, You Consent To Receive Email At The Email Address You Provided, As Well As Prerecorded Messages, Auto-Dialed Phone Calls, And Text Messages At The Phone Number You Provided, From Assuritii And Its Marketing Partner. You Can View The Full List Of Our Marketing Partners Here You Understand That Your Consent Is Not A Condition Of Purchase. View Privacy Policy",
+        tcpa_text: FORM_TCPA_TEXT,
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",

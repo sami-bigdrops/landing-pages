@@ -26,7 +26,7 @@ export default function Hero() {
       <div className={cn(pageSectionInner)}>
         <div className="flex w-full flex-col items-stretch justify-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10 lg:gap-12 xl:gap-14">
           <div className="left flex min-w-0 flex-1 flex-col items-center justify-center gap-4 md:items-start md:justify-center md:gap-5 lg:gap-6">
-            <h1 className="max-w-[22rem] text-center text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:max-w-xl sm:text-4xl md:text-left md:text-4xl lg:max-w-[26rem] lg:text-5xl xl:max-w-[28rem]">
+            <h1 className="max-w-3xl text-center text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:max-w-4xl sm:text-4xl md:text-left md:text-4xl lg:max-w-[36rem] lg:text-5xl xl:max-w-[42rem]">
               {HERO_CONTENT.headline}
             </h1>
             <p className="max-w-xl text-center text-base font-normal leading-relaxed text-white/90 sm:text-lg md:text-left md:text-lg lg:text-xl">

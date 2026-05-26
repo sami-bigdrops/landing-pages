@@ -22,7 +22,7 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: "Your Home Isn’t As Safe As You Think",
+  headline: "Your Home May Not Be As Safe As You Think",
   description:
     "Check what home security options are available in your area and get matched with trusted providers.",
   badges: [
@@ -69,7 +69,7 @@ export const PARTNERS_CONTENT = {
 
 
 export const ABOUT_CONTENT = {
-  header: "Break-ins happen when you least expect them.",
+  header: "Break-ins can happen when you least expect them.",
   description:
     "When you’re at work.\nOn vacation.\nOr asleep inside your own home.\n\nWithout a security system,\nyou wouldn’t even know until it’s too\nlate.",
 
@@ -81,7 +81,7 @@ export const ABOUT_CONTENT = {
 
 
 export const FEATURES_CONTENT = {
-  header: "How Modern Home Security Protects You",
+  header: "How Modern Home Security Can Help Protect You",
   features: [
     {
       icon: "/feature-1.svg",
@@ -97,7 +97,7 @@ export const FEATURES_CONTENT = {
     },
     {
       icon: "/feature-4.svg",
-      text: "24/7 monitoring ready to\nrespond instantly",
+      text: "24/7 professional monitoring",
     },
   ],
   image: {
@@ -126,7 +126,7 @@ export const WORKS_CONTENT = {
       title: "Answer a few quick questions",
       description: "Tell us about your home and needs",
       image: {
-        src: "/sp-3.svg" ,
+        src: "/sp-2.svg" ,
         alt: "Answer a few quick questions"
       },
     },
@@ -136,7 +136,7 @@ export const WORKS_CONTENT = {
       title: "Get matched instantly",
       description: "Compare offers from trusted brands",
       image: {
-        src: "/sp-2.svg",
+        src: "/sp-3.svg",
         alt: "New roof installation with workers"
       },
     },
@@ -150,7 +150,7 @@ export const WORKS_CONTENT = {
 }
 
 export const TRUST_CONTENT = {
-  headline: "Get Matched with Trusted Home Security Providers",
+  headline: "Get Matched with a Trusted Home Security Provider",
    
   providers: [
     {
@@ -159,6 +159,10 @@ export const TRUST_CONTENT = {
         src: "/trust-1.svg",
         alt: "ADT logo",
       },
+      width: 140,
+      height: 56,
+      imageClassName:
+        "h-11 w-auto max-w-[9rem] object-contain md:h-12 md:max-w-[10rem] lg:h-13 lg:max-w-[11rem] xl:h-15 xl:max-w-[13rem]",
     },
     {
       name: "Vivint",
@@ -166,6 +170,10 @@ export const TRUST_CONTENT = {
         src: "/trust-2.svg",
         alt: "Vivint logo",
       },
+      width: 120,
+      height: 40,
+      imageClassName:
+        "h-6 w-auto max-w-[7rem] object-contain md:h-8 md:max-w-[8rem] lg:h-9 lg:max-w-[9rem] xl:h-10 xl:max-w-[10rem]",
     },
     {
       name: "Brinks Home",
@@ -173,6 +181,10 @@ export const TRUST_CONTENT = {
         src: "/trust-3.svg",
         alt: "Brinks Home logo",
       },
+      width: 200,
+      height: 56,
+      imageClassName:
+        "h-9 w-auto max-w-[11rem] object-contain md:h-10 md:max-w-[12rem] lg:h-11 lg:max-w-[13rem] xl:h-12 xl:max-w-[16rem]",
     },
   ],
   description:
@@ -209,10 +221,15 @@ export const CHOOSE_CONTENT = {
         src: "/protect-4.svg",
         alt: "Home icon",
       },
-      title: "Protect what matters most",
+      title: "Help protect what matters most",
     }
   ],
 } as const
+
+export const FORM_TCPA_TEXT_BEFORE_PRIVACY =
+  'By clicking the "Get Your FREE Quote" button, you authorize Assuritii Home Security and their associated providers, such as ADT, Vivint, and other similar home security providers, to contact you at the phone number and/or email address you provided. This may include phone calls, text messages, and/or emails using automated technology for marketing or informational purposes. Your consent is not required to purchase any products or services. Your information is collected and used in accordance with our '
+
+export const FORM_TCPA_TEXT = `${FORM_TCPA_TEXT_BEFORE_PRIVACY}Privacy Policy.`
 
 export const INFO_CONTENT = {
   headline: "See If Your Home Qualifies For Security Options Near You",

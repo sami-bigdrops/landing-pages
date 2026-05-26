@@ -8,6 +8,8 @@ import { Button as ButtonUI } from "@workspace/ui/components/button"
 import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 import { useFormModalClose } from "@/app/type/long/v1/_components/FormPopupModal"
+import Link from "next/link"
+import { FORM_TCPA_TEXT_BEFORE_PRIVACY } from "@/lib/constant"
 
 type FormProps = {
   embedInModal?: boolean
@@ -224,7 +226,20 @@ export default function Form({ embedInModal, phonePlaceholder = "Phone Number", 
             </div>
           </div>
 
-          <div className={`w-full flex flex-col ${compact ? "gap-4" : "gap-5"}`}>
+          <div className={`w-full flex flex-col ${compact ? "gap-3" : "gap-4"}`}>
+            <p className={`text-[#374151] text-left leading-relaxed ${compact ? "text-[0.6rem] xl:text-[0.65rem]" : "text-[0.65rem] lg:text-[0.7rem] xl:text-[0.75rem]"}`}>
+              {FORM_TCPA_TEXT_BEFORE_PRIVACY}
+              <Link
+                href="/privacy-policy"
+                className="text-[#3498DB] hover:underline font-medium"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+
             {submitStatus === "error" && submitError && (
               <p className="w-full text-sm text-red-600 text-center" role="alert">
                 {submitError}
@@ -240,10 +255,6 @@ export default function Form({ embedInModal, phonePlaceholder = "Phone Number", 
             >
               {submitStatus === "loading" ? "Submitting..." : "GET YOUR FREE QUOTE"}
             </ButtonUI>
-
-            <p className={`text-[#374151] text-left md:text-left leading-relaxed ${compact ? "text-[0.6rem] xl:text-[0.65rem]" : "text-[0.65rem] lg:text-[0.7rem] xl:text-[0.75rem]"}`}>
-            By clicking the “Get Your FREE Quote" button, you agree that Brinks Home may contact you at the phone number and/or email address provided by you via phone calls, text messages, and/or emails, using automated technology, for sales/marketing purposes or any other informational purposes. Your information is collected and used in accordance with our Privacy Policy. Your consent is not required to purchase any products or services.
-            </p>
           </div>
         </form>
       </div>
