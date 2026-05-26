@@ -3,7 +3,7 @@ export const HERO_CONTENT = {
     description: "Licensed, insured and straightforward. Book a free roof inspection and find out if your home is ready for a stronger roofing system.",
     image: {
       src: "/V2/hero-bg.webp",
-      alt: "Roof"
+      alt: "Roof",
     },
     
    
@@ -13,7 +13,7 @@ export const HERO_CONTENT = {
     header: "Signs Your Roof May Need Attention",
     description: "Small roofing issues can become expensive problems when left unchecked.",
   
-    workSteps: [
+    featuresSteps: [
       {
         number: 1,
         title: "Curled / Missing Shingles",
