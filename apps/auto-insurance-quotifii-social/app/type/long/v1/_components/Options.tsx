@@ -1,5 +1,9 @@
 "use client";
 
+import Image from "next/image";
+import { OPTIONS_CONTENT } from "@/lib/constant";
+import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
+import { Button } from "@workspace/ui/components/button";
 import { useState, useEffect } from "react";
 import {
   useUtmParams,
@@ -8,16 +12,15 @@ import {
   QUOTIFII_EXTENDED_UTM_OPTIONS,
 } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
-import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
-import { Button } from "@workspace/ui/components/button";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://auto-quote.quotifii.com";
+const REDIRECT_BASE_URL = "https://auto.assurerates.com";
+const REFERRER = "quotes.assurerates.com";
+const TID = "3286";
 
-export default function Hero() {
+export default function Options() {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
 
   const [zipCode, setZipCode] = useState("");
@@ -41,10 +44,6 @@ export default function Hero() {
     return () => { cancelled = true };
   }, []);
 
-  const headlineText = cityName
-    ? `Let's Drop Your Rate in  ${cityName} Today!`
-    : "Let's Drop Your Rate in Your Area Today!";
-
   const handleContinue = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
     if (!/^\d{5}$/.test(trimmed)) {
@@ -57,15 +56,23 @@ export default function Hero() {
     const utmSource = getCookie("subid1") || "";
     const utmId = getCookie("subid2") || "";
     const utmS1 = getCookie("subid3") || "";
+    const utmMedium = getCookie("utm_medium") || "";
+    const utmTerm = getCookie("utm_term") || "";
+    const utmCampaign = getCookie("utm_campaign") || "";
 
-    const params = new URLSearchParams();
-    params.set("tid", utmId);
-    params.set("uid", utmId);
-    params.set("sid", utmSource);
-    params.set("sub1", utmS1);
-    params.set("zip", trimmed);
+    const params = new URLSearchParams({
+      zip_code: trimmed,
+      referrer: REFERRER,
+      tid: TID,
+    });
+    if (utmSource) params.set("subid", utmSource);
+    if (utmId) params.set("subid2", utmId);
+    if (utmS1) params.set("c1", utmS1);
+    if (utmMedium) params.set("utm_medium", utmMedium);
+    if (utmTerm) params.set("utm_term", utmTerm);
+    if (utmCampaign) params.set("utm_campaign", utmCampaign);
 
-    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
+    const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
 
@@ -80,41 +87,34 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="relative w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[510px]">
-      <div
-        className="absolute inset-0 w-full h-full"
-        style={{
-          backgroundImage: "url('/hero-bg.webp')",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "left"
-        }}
-      />
-      <div
-        className="absolute inset-0 w-full h-full bg-black/40"
-        aria-hidden
-      />
-      <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-8 py-10 md:py-15 md:px-8 lg:py-20 xl:px-23 xl:py-33 2xl:py-38">
-        <div className="container mx-auto ">
-          <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-4 md:gap-8 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
-            <div className="w-full flex flex-col items-center  md:items-start gap-3 xl:gap-4">
-              <h1
-                className="text-[1.45rem] md:text-[1.35rem] lg:text-[1.4rem] xl:text-[1.9rem] 2xl:text-[2.1rem] font-extrabold text-white text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-sans"
-                style={{
-                  lineHeight: "1.3",
-                  textShadow: "0 1px 3px rgba(0,0,0,0.5), 0 2px 12px rgba(0,0,0,0.4), 0 0 1px rgba(0,0,0,0.8)",
-                }}
-              >
-                {headlineText}
-              </h1>
+    <div
+      className="options relative w-full h-full overflow-visible px-4 py-8 md:px-6 md:py-10 lg:px-14 lg:py-12 xl:px-20 xl:py-25"
+      style={{
+        background: "linear-gradient(0deg, #EBF4FF 36.53%, #FFF 100%)"
+      }}
+    >
+      <div className="container mx-auto relative">
+        <div className="options-content relative w-full flex flex-col md:flex-row items-center justify-center md:justify-end gap-6 md:gap-0">
+          <div className="hidden md:block absolute left-0 md:-bottom-65 md:-left-10 lg:-bottom-74 lg:-left-1 xl:-bottom-100 xl:-left-2 z-0 w-[38%] h-auto md:w-[360px]  lg:w-[420px] xl:w-[500px] pointer-events-none">
+            <Image
+              src={OPTIONS_CONTENT.image.src}
+              alt={OPTIONS_CONTENT.image.alt}
+              width={500}
+              height={500}
+              className="w-full h-full object-contain object-left-bottom"
+              style={{ objectPosition: "left bottom" }}
+            />
+          </div>
+          <div className="w-full md:w-[58%] lg:w-[52%] xl:w-[59%]  md:pl-4 flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-5 xl:gap-9 relative z-[1]">
+            <div className="flex flex-col items-center justify-center md:justify-start md:items-start gap-3 md:gap-4  xl:gap-5">
+              <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl font-bold text-[#1A1A1A] md:max-w-[320px] lg:max-w-[400px] xl:max-w-full md:text-left text-center font-sans leading-tight tracking-tight">
+                {OPTIONS_CONTENT.header}
+              </h2>
+              <p className="text-sm lg:text-base xl:text-xl text-[#4B5563] md:text-left text-center font-sans leading-tight tracking-tight">
+                {OPTIONS_CONTENT.description}
+              </p>
             </div>
-            <div className="flex-1 w-full flex flex-col md:flex-row  bg-[#FFFFFF] px-5 py-7 md:py-6 xl:px-8 xl:py-9   md:max-w-[450px] lg:max-w-[500px] xl:max-w-[680px] rounded-none justify-center items-center md:justify-center lg:items-center">
-              <div className="w-full flex flex-col items-center md:items-start gap-4 md:gap-4 lg:gap-5 xl:gap-7  ">
-                <p className="text-black font-semibold text-lg xl:text-xl  font-sans">
-                  What is your ZIP Code?
-                </p>
-
-                <div className="w-full space-y-4 sm:space-y-0 lg:max-w-[490px] xl:max-w-full">
+            <div className="w-full space-y-4 sm:space-y-0 lg:max-w-[490px] xl:max-w-full">
                   {/* Mobile */}
                   <div className="block sm:hidden space-y-4">
                     <div className="relative w-full">
@@ -153,7 +153,7 @@ export default function Hero() {
 
                   {/* Desktop */}
 
-                  <div className="hidden sm:block relative w-full">
+                  <div className="hidden sm:block relative w-full xl:max-w-[640px]">
                     <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                       <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
                     </div>
@@ -186,10 +186,6 @@ export default function Hero() {
                     </Button>
                   </div>
                 </div>
-              </div>
-            </div>
-
-
           </div>
         </div>
       </div>

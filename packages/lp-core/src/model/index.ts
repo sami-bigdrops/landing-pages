@@ -16,4 +16,12 @@ export type {
   UseUtmParamsOptions,
   UtmParamsResult,
 } from './utm-params';
-export { UTM_COOKIE_NAMES, UTM_URL_PARAM_KEYS, DEFAULT_UTM_COOKIE_DAYS } from './utm-params';
+export {
+  UTM_COOKIE_NAMES,
+  UTM_URL_PARAM_KEYS,
+  DEFAULT_UTM_COOKIE_DAYS,
+  QUOTIFII_TRACKING_QUERY_KEYS,
+  TRACKING_QUERY_COOKIE_ALIASES,
+  QUOTIFII_EXTENDED_UTM_OPTIONS,
+} from './utm-params';
+export type { QuotifiiTrackingQueryKey } from './utm-params';

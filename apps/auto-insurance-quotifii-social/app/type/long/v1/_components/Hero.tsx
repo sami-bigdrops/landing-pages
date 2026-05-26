@@ -15,7 +15,7 @@ import { ArrowRight } from "lucide-react";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://auto-quote.quotifii.com";
+const BASE_URL = "https://form.quotifii.com";
 
 export default function Hero() {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
@@ -57,6 +57,9 @@ export default function Hero() {
     const utmSource = getCookie("subid1") || "";
     const utmId = getCookie("subid2") || "";
     const utmS1 = getCookie("subid3") || "";
+    const utmMedium = getCookie("utm_medium") || "";
+    const utmTerm = getCookie("utm_term") || "";
+    const utmCampaign = getCookie("utm_campaign") || "";
 
     const params = new URLSearchParams();
     params.set("tid", utmId);
@@ -64,6 +67,9 @@ export default function Hero() {
     params.set("sid", utmSource);
     params.set("sub1", utmS1);
     params.set("zip", trimmed);
+    if (utmMedium) params.set("utm_medium", utmMedium);
+    if (utmTerm) params.set("utm_term", utmTerm);
+    if (utmCampaign) params.set("utm_campaign", utmCampaign);
 
     const redirectUrl = `${BASE_URL}/?${params.toString()}`;
 
