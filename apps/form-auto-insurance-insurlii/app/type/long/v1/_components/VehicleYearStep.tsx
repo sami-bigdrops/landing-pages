@@ -107,7 +107,7 @@ export function VehicleYearStep({ value, onChange }: VehicleYearStepProps) {
               aria-checked={isSelected}
               onClick={() => onChange(yearValue)}
               className={cn(
-                "flex items-center justify-between gap-2 rounded-lg border px-4 py-3.5 text-left transition-colors duration-200",
+                "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-5 xl:px-6.5 py-3.5 text-left transition-colors duration-200",
                 !isSelected && "bg-white hover:border-gray-300"
               )}
               style={
@@ -120,14 +120,14 @@ export function VehicleYearStep({ value, onChange }: VehicleYearStepProps) {
               }
             >
               <span
-                className="text-base md:text-lg font-semibold tabular-nums"
+                className="text-sm md:text-lg font-semibold tabular-nums"
                 style={{ color: FORM_PRIMARY_COLOR }}
               >
                 {option.year}
               </span>
               <span
                 className={cn(
-                  "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                  "flex w-3.5 h-3.5 md:h-4.5 md:w-4.5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
                   !isSelected && "border-gray-300 bg-white"
                 )}
                 style={
@@ -154,11 +154,12 @@ export function VehicleYearStep({ value, onChange }: VehicleYearStepProps) {
           <button
             type="button"
             onClick={() => setShowAllYears(true)}
-            className="inline-flex items-center gap-1.5 font-bold text-base hover:underline"
+            className="inline-flex items-center gap-1.5 font-bold text-sm lg:text-base hover:underline"
             style={{ color: FORM_PRIMARY_COLOR }}
           >
-            <Plus className="h-4 w-4" strokeWidth={2.5} />
+          
             Show More Years
+            <Plus className="h-4 w-4" strokeWidth={2.5} />
           </button>
         </div>
       ) : null}

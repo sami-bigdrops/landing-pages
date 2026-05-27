@@ -100,7 +100,7 @@ export function VehicleModelStep({
       </h2>
 
       <div
-        className="grid grid-cols-2 gap-3 md:gap-4"
+        className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"
         role="radiogroup"
         aria-label="Vehicle model"
       >
@@ -115,7 +115,7 @@ export function VehicleModelStep({
               aria-checked={isSelected}
               onClick={() => onChange(option.name)}
               className={cn(
-                "flex items-center justify-between gap-2 rounded-lg border px-4 py-3.5 text-left transition-colors duration-200",
+                "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-5 xl:px-6.5 py-3.5 text-left transition-colors duration-200",
                 !isSelected && "bg-white hover:border-gray-300"
               )}
               style={
@@ -128,14 +128,14 @@ export function VehicleModelStep({
               }
             >
               <span
-                className="text-base md:text-lg font-semibold uppercase"
+                className="text-sm lg:text-base xl:text-lg font-semibold uppercase"
                 style={{ color: FORM_PRIMARY_COLOR }}
               >
                 {option.name}
               </span>
               <span
                 className={cn(
-                  "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                  "flex w-3.5 h-3.5 md:h-4.5 md:w-4.5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
                   !isSelected && "border-gray-300 bg-white"
                 )}
                 style={

@@ -23,13 +23,13 @@ export function FormProgressHeader({
   const carOffset = Math.min(Math.max(percentage, 0), 100)
 
   return (
-    <div className="mb-8 text-center">
-      <h2 className="text-base font-bold text-[#051850] leading-snug mb-6 px-2">
+    <div className="w-full mb-8 text-center ">
+      <h2 className="text-sm md:text-base xl:text-lg font-semibold text-[#051850] leading-snug mb-5 xl:mb-6 px-2">
         Drivers in {cityName} can save up to ${FORM_SAVINGS_AMOUNT} per year!
       </h2>
 
       <div
-        className="relative w-full rounded-full h-2.5 mb-3"
+        className="relative w-full rounded-full h-2.5 xl:h-3 mb-5 xl:mb-6"
         style={{ backgroundColor: PROGRESS_TRACK }}
         role="progressbar"
         aria-valuenow={percentage}
@@ -56,7 +56,7 @@ export function FormProgressHeader({
         </div>
       </div>
 
-      <p className="text-sm md:text-base text-gray-500 font-medium">
+      <p className="text-sm md:text-base xl:text-lg text-gray-700 font-medium">
         Progress: {percentage}%
       </p>
     </div>

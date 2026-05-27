@@ -14,7 +14,7 @@ export default function Navbar({ className }: NavbarProps) {
         variant="default"
         type="2"
         className={cn(
-          "container mx-auto border-b border-gray-200 py-4 px-4 xl:px-0",
+          "container mx-auto border-b border-gray-200 py-4.5 px-4.5 xl:py-7 xl:px-7 xl:px-0",
           className
         )}
         logo={
@@ -24,7 +24,7 @@ export default function Navbar({ className }: NavbarProps) {
                 alt="Insurlii"
                 width={128}
                 height={40}
-                className="w-36 lg:w-40 xl:w-48 h-auto object-contain"
+                className="w-34 lg:w-36 xl:w-42 h-auto object-contain"
                 priority
                 />
             </Link>

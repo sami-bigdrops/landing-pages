@@ -161,16 +161,17 @@ export function VehicleMakeStep({
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-6 md:mb-8"
+        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
         style={{ color: FORM_PRIMARY_COLOR }}
       >
         What is your vehicle make?
       </h2>
 
       <div
-        className="mb-6 md:mb-8 grid grid-cols-2 gap-3"
+        className="w-full md:max-w-lg xl:max-w-2xl mx-auto mb-6 md:mb-8 p-1.5 md:p-2 overflow-hidden border border-gray-200 rounded-xl grid grid-cols-2 gap-1.5 md:gap-3"
         role="group"
         aria-label="Vehicle type"
+        style={{ borderColor: "#D1D5DB" }} // fallback for border
       >
         {(
           [
@@ -185,21 +186,22 @@ export function VehicleMakeStep({
               type="button"
               onClick={() => onVehicleTypeChange(type)}
               className={cn(
-                "flex items-center justify-center gap-2 rounded-lg border px-4 py-3.5 font-semibold transition-colors",
+                "flex items-center justify-center gap-1.5 xl:gap-2.5 rounded-lg border px-2 xl:px-3 py-3.5 font-semibold transition-colors",
                 !isSelected && "bg-white hover:border-gray-300"
               )}
               style={isSelected ? selectedCardStyle : defaultCardStyle}
             >
               <Icon
-                className="h-5 w-5 shrink-0"
+                className="w-4 h-4 xl:w-6 xl:h-6 shrink-0"
                 style={{ color: FORM_PRIMARY_COLOR }}
                 strokeWidth={2}
               />
-              <span style={{ color: FORM_PRIMARY_COLOR }}>{label}</span>
+              <span className="text-sm lg:text-base xl:text-lg font-semibold leading-tight line-clamp-2" style={{ color: FORM_PRIMARY_COLOR }}>{label}</span>
             </button>
           )
         })}
       </div>
+
 
       {loading ? (
         <div className="py-12 text-center text-gray-500 font-medium">
@@ -235,14 +237,14 @@ export function VehicleMakeStep({
                     aria-checked={isSelected}
                     onClick={() => onChange(make.name)}
                     className={cn(
-                      "flex items-center gap-2 rounded-lg border px-3 py-3 text-left transition-colors min-h-[56px]",
+                      "flex flex-col  items-center gap-2 rounded-lg border px-3 py-3 text-left transition-colors min-h-[56px]",
                       !isSelected && "hover:border-gray-300"
                     )}
                     style={isSelected ? selectedCardStyle : defaultCardStyle}
                   >
                     <MakeLogo name={make.name} logoUrl={make.logoUrl} />
                     <span
-                      className="text-sm font-semibold leading-tight line-clamp-2"
+                      className="text-sm lg:text-base xl:text-lg font-semibold  text-center leading-tight line-clamp-2"
                       style={{ color: FORM_PRIMARY_COLOR }}
                     >
                       {formatMakeLabel(make.name)}
@@ -261,8 +263,8 @@ export function VehicleMakeStep({
               onChange={onChange}
               searchable
               searchPlaceholder="Search makes..."
-              className="rounded-lg border border-[#E5E7EB] bg-white px-3 py-3 h-12 text-base shadow-none"
-              selectClassName="text-[#12266D] font-medium"
+              className="rounded-lg border border-[#E5E7EB] bg-white px-3 py-3 xl:px-6 xl:py-4 h-12 xl:h-16 text-sm lg:text-base xl:text-lg shadow-none"
+              selectClassName="text-[#12266D] text-sm lg:text-base xl:text-lg font-medium"
             />
           ) : null}
         </>
