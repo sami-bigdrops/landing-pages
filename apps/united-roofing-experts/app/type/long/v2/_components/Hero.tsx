@@ -38,7 +38,7 @@ export default function Hero() {
             <h1 className="text-2xl md:text-3xl xl:text-5xl  md:max-w-[500px] lg:max-w-[550px] xl:max-w-[740px] font-extrabold  text-[#111827] text-center font-sans " style={{ lineHeight: "1.3" }}>
               {HERO_CONTENT.headline}
             </h1>
-            <p className="text-[#475467] text-center font-sans text-[0.85rem] lg:text-sm xl:text-lg font-normal  md:max-w-[550px] xl:max-w-[730px]" style={{ lineHeight: "1.6" }}>
+            <p className="text-[#475467] text-center font-sans text-[0.85rem] lg:text-sm xl:text-lg font-medium  md:max-w-[550px] xl:max-w-[730px]" style={{ lineHeight: "1.6" }}>
               {HERO_CONTENT.description}
             </p>
 

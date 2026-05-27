@@ -53,3 +53,49 @@ export const HERO_CONTENT = {
       },
     ]
   } as const
+
+
+  export const ROOF_CONTENT = {
+    headline: "Ready for Your Free Roof Inspection?",
+
+    image: {
+      src: "V2/roof-bg.webp",
+      alt: "Roof",
+    },
+     
+    providers: [
+      {
+        
+        logo: {
+          src: "V2/partner-1.svg",
+          alt: "ADT logo",
+        },
+        width: 140,
+        height: 56,
+        imageClassName:
+          "h-11 w-auto max-w-[9rem] object-contain md:h-12 md:max-w-[10rem] lg:h-13 lg:max-w-[11rem] xl:h-15 xl:max-w-[13rem]",
+      },
+      {
+        logo: {
+          src: "V2/partner-2.svg",
+          alt: "Vivint logo",
+        },
+        width: 120,
+        height: 40,
+        imageClassName:
+          "h-6 w-auto max-w-[7rem] object-contain md:h-8 md:max-w-[8rem] lg:h-9 lg:max-w-[9rem] xl:h-10 xl:max-w-[10rem]",
+      },
+      {
+        logo: {
+          src: "V2/partner-3.svg",
+          alt: "Brinks Home logo",
+        },
+        width: 200,
+        height: 56,
+        imageClassName:
+          "h-9 w-auto max-w-[11rem] object-contain md:h-10 md:max-w-[12rem] lg:h-11 lg:max-w-[13rem] xl:h-12 xl:max-w-[16rem]",
+      },
+    ],
+    
+  } as const
+  
