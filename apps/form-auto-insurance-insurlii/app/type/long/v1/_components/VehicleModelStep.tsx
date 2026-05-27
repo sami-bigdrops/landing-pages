@@ -1,0 +1,161 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { cn } from "@workspace/ui/lib/utils"
+import {
+  FORM_PRIMARY_COLOR,
+  FORM_SELECTED_BG,
+  FORM_SELECTED_BORDER,
+  type FormVehicleType,
+} from "@/lib/constant"
+
+interface VehicleModelStepProps {
+  year: string
+  make: string
+  vehicleType: FormVehicleType
+  value: string
+  onChange: (model: string) => void
+}
+
+interface VehicleModelOption {
+  name: string
+}
+
+export function VehicleModelStep({
+  year,
+  make,
+  vehicleType,
+  value,
+  onChange,
+}: VehicleModelStepProps) {
+  const [models, setModels] = useState<VehicleModelOption[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    setLoading(true)
+    setError(null)
+
+    const params = new URLSearchParams({
+      year,
+      make,
+      type: vehicleType,
+    })
+
+    fetch(`/api/vehicle-models?${params}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load models")
+        return res.json()
+      })
+      .then((data: VehicleModelOption[]) => {
+        if (cancelled) return
+        setModels(Array.isArray(data) ? data : [])
+        setError(null)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setModels([])
+          setError("Unable to load vehicle models. Please try again.")
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [year, make, vehicleType])
+
+  const makeLabel = make.trim().toUpperCase()
+
+  if (loading) {
+    return (
+      <div className="py-12 text-center text-gray-500 font-medium">Loading models...</div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="py-8 text-center text-red-600 font-medium">{error}</div>
+    )
+  }
+
+  if (models.length === 0) {
+    return (
+      <div className="py-8 text-center text-gray-500 font-medium">
+        No models found for this make.
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <h2
+        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
+        style={{ color: FORM_PRIMARY_COLOR }}
+      >
+        What is the model of your {makeLabel}?
+      </h2>
+
+      <div
+        className="grid grid-cols-2 gap-3 md:gap-4"
+        role="radiogroup"
+        aria-label="Vehicle model"
+      >
+        {models.map((option) => {
+          const isSelected = value === option.name
+
+          return (
+            <button
+              key={option.name}
+              type="button"
+              role="radio"
+              aria-checked={isSelected}
+              onClick={() => onChange(option.name)}
+              className={cn(
+                "flex items-center justify-between gap-2 rounded-lg border px-4 py-3.5 text-left transition-colors duration-200",
+                !isSelected && "bg-white hover:border-gray-300"
+              )}
+              style={
+                isSelected
+                  ? {
+                      borderColor: FORM_SELECTED_BORDER,
+                      backgroundColor: FORM_SELECTED_BG,
+                    }
+                  : { borderColor: "#E5E7EB", backgroundColor: "#FFFFFF" }
+              }
+            >
+              <span
+                className="text-base md:text-lg font-semibold uppercase"
+                style={{ color: FORM_PRIMARY_COLOR }}
+              >
+                {option.name}
+              </span>
+              <span
+                className={cn(
+                  "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                  !isSelected && "border-gray-300 bg-white"
+                )}
+                style={
+                  isSelected
+                    ? {
+                        borderColor: FORM_SELECTED_BORDER,
+                        backgroundColor: FORM_SELECTED_BORDER,
+                      }
+                    : undefined
+                }
+                aria-hidden
+              >
+                {isSelected ? (
+                  <span className="h-2 w-2 rounded-full bg-white" />
+                ) : null}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}

@@ -1,19 +1,27 @@
 "use client"
 import { Navbar as NavbarUI } from "@workspace/ui/components/navbar"
+import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 
-export default function Navbar() {
+interface NavbarProps {
+  className?: string
+}
+
+export default function Navbar({ className }: NavbarProps) {
     return (
         <NavbarUI
         variant="default"
         type="2"
-        className="container mx-auto py-4 px-4 xl:px-0 border-b border-gray-200"
+        className={cn(
+          "container mx-auto border-b border-gray-200 py-4 px-4 xl:px-0",
+          className
+        )}
         logo={
             <Link href="/" className="block">
                 <Image
-                src="/pwe-logo.svg"
-                alt="Platinum Window Experts"
+                src="/insurlii-logo.svg"
+                alt="Insurlii"
                 width={128}
                 height={40}
                 className="w-36 lg:w-40 xl:w-48 h-auto object-contain"
