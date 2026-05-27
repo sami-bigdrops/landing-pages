@@ -73,7 +73,7 @@ export const HERO_CONTENT = {
         width: 140,
         height: 56,
         imageClassName:
-          "h-11 w-auto max-w-[9rem] object-contain md:h-12 md:max-w-[10rem] lg:h-13 lg:max-w-[11rem] xl:h-15 xl:max-w-[13rem]",
+          "h-9.5 w-auto max-w-[8rem] object-contain  lg:h-10 lg:max-w-[11rem] xl:h-14 xl:max-w-[14rem]",
       },
       {
         logo: {
@@ -83,7 +83,7 @@ export const HERO_CONTENT = {
         width: 120,
         height: 40,
         imageClassName:
-          "h-6 w-auto max-w-[7rem] object-contain md:h-8 md:max-w-[8rem] lg:h-9 lg:max-w-[9rem] xl:h-10 xl:max-w-[10rem]",
+          "h-9.5 w-auto max-w-[7rem] object-contain  lg:h-10 lg:max-w-[9rem] xl:h-13 xl:max-w-[10rem]",
       },
       {
         logo: {
@@ -93,7 +93,7 @@ export const HERO_CONTENT = {
         width: 200,
         height: 56,
         imageClassName:
-          "h-9 w-auto max-w-[11rem] object-contain md:h-10 md:max-w-[12rem] lg:h-11 lg:max-w-[13rem] xl:h-12 xl:max-w-[16rem]",
+          "h-8 w-auto max-w-[10rem] object-contain md:max-w-[9rem]  lg:h-10 lg:max-w-[10rem]  xl:max-w-[12rem]",
       },
     ],
     

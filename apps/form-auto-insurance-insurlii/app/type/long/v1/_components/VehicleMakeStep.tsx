@@ -242,7 +242,7 @@ export function VehicleMakeStep({
                     )}
                     style={isSelected ? selectedCardStyle : defaultCardStyle}
                   >
-                    <MakeLogo name={make.name} logoUrl={make.logoUrl} />
+                    <MakeLogo name={make.name} logoUrl={make.logoUrl || ""} />
                     <span
                       className="text-sm lg:text-base xl:text-lg font-semibold  text-center leading-tight line-clamp-2"
                       style={{ color: FORM_PRIMARY_COLOR }}
