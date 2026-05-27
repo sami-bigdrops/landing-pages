@@ -1,0 +1,49 @@
+"use client"
+
+import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+
+interface StepDOBProps {
+  value: string
+  onChange: (v: string) => void
+  onNext: () => void
+}
+
+export function StepDOB({ value, onChange, onNext }: StepDOBProps) {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (value) onNext()
+  }
+
+  return (
+    <div>
+      <h2
+        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
+        style={{ color: FORM_PRIMARY_COLOR }}
+      >
+        What is your date of birth?
+      </h2>
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          type="date"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          max={new Date().toISOString().split("T")[0]}
+          required
+          className="w-full rounded-lg border border-[#E5E7EB] bg-white px-4 py-3.5 text-sm lg:text-base font-medium outline-none transition-colors focus:border-[#205BB9] focus:ring-2 focus:ring-[#E2F1FD]"
+          style={{ color: FORM_PRIMARY_COLOR }}
+          aria-label="Date of birth"
+        />
+
+        <button
+          type="submit"
+          disabled={!value}
+          className="w-full rounded-lg px-6 py-3.5 text-sm lg:text-base font-bold text-white transition-opacity disabled:opacity-50"
+          style={{ backgroundColor: FORM_PRIMARY_COLOR }}
+        >
+          Continue
+        </button>
+      </form>
+    </div>
+  )
+}
