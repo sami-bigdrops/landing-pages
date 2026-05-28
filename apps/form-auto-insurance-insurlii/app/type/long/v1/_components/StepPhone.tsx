@@ -41,7 +41,7 @@ export function StepPhone({ value, onChange, onSubmit }: StepPhoneProps) {
           type="tel"
           value={value}
           onChange={handleChange}
-          placeholder="(555) 000-0000"
+          placeholder="e.g. (555) 000-1234"
           required
           autoComplete="tel"
           className="w-full rounded-lg border border-[#E5E7EB] bg-white px-4 py-3.5 text-sm lg:text-base font-medium outline-none transition-colors focus:border-[#205BB9] focus:ring-2 focus:ring-[#E2F1FD]"

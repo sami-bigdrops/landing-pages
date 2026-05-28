@@ -2,7 +2,7 @@ export const DEFAULT_FALLBACK_CITY = "New York"
 
 export const FORM_SAVINGS_AMOUNT = 610
 
-export const FORM_TOTAL_STEPS = 65
+export const FORM_TOTAL_STEPS = 68
 
 export const FORM_YEAR_INITIAL_VISIBLE = 28
 

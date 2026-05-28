@@ -10,12 +10,14 @@ interface FormProgressHeaderProps {
   cityName: string
   currentStep: number
   totalSteps: number
+  tagline?: string
 }
 
 export function FormProgressHeader({
   cityName,
   currentStep,
   totalSteps,
+  tagline,
 }: FormProgressHeaderProps) {
   const safeTotal = totalSteps > 0 ? totalSteps : 1
   const safeStep = Math.max(0, Math.min(currentStep, safeTotal))
@@ -25,7 +27,7 @@ export function FormProgressHeader({
   return (
     <div className="w-full mb-8 text-center ">
       <h2 className="text-sm md:text-base xl:text-lg font-semibold text-[#051850] leading-snug mb-5 xl:mb-6 px-2">
-        Drivers in {cityName} can save up to ${FORM_SAVINGS_AMOUNT} per year!
+        {tagline ?? `Drivers in ${cityName} can save up to $${FORM_SAVINGS_AMOUNT} per year!`}
       </h2>
 
       <div

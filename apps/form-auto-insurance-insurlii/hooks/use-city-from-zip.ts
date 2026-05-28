@@ -7,14 +7,16 @@ function normalizeZip(zip: string | null | undefined): string {
   return (zip ?? "").replace(/\D/g, "").slice(0, 5)
 }
 
-export function useCityFromZip(zipParam: string | null | undefined): string {
-  const [cityName, setCityName] = useState(DEFAULT_FALLBACK_CITY)
+export function useCityFromZip(zipParam: string | null | undefined): { city: string; state: string } {
+  const [city, setCity] = useState(DEFAULT_FALLBACK_CITY)
+  const [state, setState] = useState("")
 
   useEffect(() => {
     const zip = normalizeZip(zipParam)
 
     if (zip.length !== 5) {
-      setCityName(DEFAULT_FALLBACK_CITY)
+      setCity(DEFAULT_FALLBACK_CITY)
+      setState("")
       return
     }
 
@@ -22,13 +24,14 @@ export function useCityFromZip(zipParam: string | null | undefined): string {
 
     fetch(`/api/zip-to-city?zip=${encodeURIComponent(zip)}`)
       .then((res) => res.json())
-      .then((data: { city?: string | null }) => {
+      .then((data: { city?: string | null; state?: string | null }) => {
         if (cancelled) return
-        const city = data?.city?.trim()
-        setCityName(city && city.length > 0 ? city : DEFAULT_FALLBACK_CITY)
+        const cityVal = data?.city?.trim()
+        setCity(cityVal && cityVal.length > 0 ? cityVal : DEFAULT_FALLBACK_CITY)
+        setState(data?.state?.trim() ?? "")
       })
       .catch(() => {
-        if (!cancelled) setCityName(DEFAULT_FALLBACK_CITY)
+        if (!cancelled) { setCity(DEFAULT_FALLBACK_CITY); setState("") }
       })
 
     return () => {
@@ -36,5 +39,5 @@ export function useCityFromZip(zipParam: string | null | undefined): string {
     }
   }, [zipParam])
 
-  return cityName
+  return { city, state }
 }

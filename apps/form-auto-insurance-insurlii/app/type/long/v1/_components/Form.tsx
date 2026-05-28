@@ -50,12 +50,17 @@ import { StepDriver3DOB } from "./StepDriver3DOB"
 import { StepHomeowner } from "./StepHomeowner"
 import { StepHomeDiscount } from "./StepHomeDiscount"
 import { StepDOB } from "./StepDOB"
-import { StepZipCode } from "./StepZipCode"
 import { StepAddress } from "./StepAddress"
-import { StepName } from "./StepName"
 import { StepEmail } from "./StepEmail"
 import { StepPhone } from "./StepPhone"
+import { StepRentersDiscount } from "./StepRentersDiscount"
+import { StepMilitaryService } from "./StepMilitaryService"
+import { StepHelpGoal } from "./StepHelpGoal"
+import { StepAARP } from "./StepAARP"
+import { StepDriverNames } from "./StepDriverNames"
 import { StepCarMakeSelect } from "./StepCarMakeSelect"
+import { StepLoading } from "./StepLoading"
+import { StepResults } from "./StepResults"
 
 // ── Step number constants ────────────────────────────────────────────
 const S_YEAR      = 1
@@ -115,19 +120,27 @@ const S_D3_TKT   = 54
 const S_D3_DUI   = 55
 const S_D3_SUS   = 56
 const S_D3_DOB   = 57
-const S_HOMEOWN  = 58
-const S_HM_DISC  = 59
-const S_DOB      = 60
-const S_ZIP      = 61
-const S_ADDR     = 62
-const S_NAME     = 63
-const S_EMAIL    = 64
-const S_PHONE    = 65
+const S_HOMEOWN   = 58
+const S_HM_DISC   = 59
+const S_RNT_DISC  = 60
+const S_MILITARY  = 61
+const S_HELP      = 62
+const S_DOB       = 63
+const S_AARP      = 64
+const S_DRV_NAMES = 65
+const S_ADDR      = 66
+const S_EMAIL     = 67
+const S_PHONE     = 68
+const S_LOADING   = 69
+const S_RESULTS   = 70
 
 function FormPage() {
   const searchParams = useSearchParams()
   const zipFromUrl = searchParams.get("zip")
-  const cityName = useCityFromZip(zipFromUrl)
+
+  // zip is user-editable in the address step; drives city/state lookup
+  const [zip, setZip] = useState((zipFromUrl ?? "").replace(/\D/g, "").slice(0, 5))
+  const { city: cityName, state: cityState } = useCityFromZip(zip)
 
   // ── Routing ──────────────────────────────────────────────────────────
   const [currentStep, setCurrentStep] = useState(S_YEAR)
@@ -210,14 +223,25 @@ function FormPage() {
   const [isHomeowner, setIsHomeowner]         = useState<boolean | null>(null)
   const [wantsHomeDiscount, setWantsHomeDiscount] = useState<boolean | null>(null)
 
+  // ── Discount / Goal ──────────────────────────────────────────────────
+  const [wantsRentersDiscount, setWantsRentersDiscount] = useState<boolean | null>(null)
+  const [servedMilitary, setServedMilitary]             = useState<boolean | null>(null)
+  const [helpGoal, setHelpGoal]                         = useState("")
+  const [belongsToAARP, setBelongsToAARP]               = useState<boolean | null>(null)
+
+  // ── Driver names ──────────────────────────────────────────────────────
+  const [d1FirstName, setD1FirstName]   = useState("")
+  const [d1LastName, setD1LastName]     = useState("")
+  const [d2FirstName, setD2FirstName]   = useState("")
+  const [d2LastName, setD2LastName]     = useState("")
+  const [d3FirstName, setD3FirstName]   = useState("")
+  const [d3LastName, setD3LastName]     = useState("")
+
   // ── Contact ──────────────────────────────────────────────────────────
-  const [dob, setDob]                   = useState("")
-  const [zipCode, setZipCode]           = useState("")
+  const [dob, setDob]                     = useState("")
   const [streetAddress, setStreetAddress] = useState("")
-  const [firstName, setFirstName]       = useState("")
-  const [lastName, setLastName]         = useState("")
-  const [email, setEmail]               = useState("")
-  const [phone, setPhone]               = useState("")
+  const [email, setEmail]                 = useState("")
+  const [phone, setPhone]                 = useState("")
 
   // ── Vehicle 1 handlers (steps 1-3 routing unchanged) ─────────────────
   const handleYearChange = (year: string) => {
@@ -350,18 +374,46 @@ function FormPage() {
   // ── Property handlers ─────────────────────────────────────────────────
   const handleHomeowner = (v: boolean) => {
     setIsHomeowner(v)
-    setCurrentStep(v ? S_HM_DISC : S_DOB)
+    setCurrentStep(v ? S_HM_DISC : S_RNT_DISC)
   }
-  const handleHomeDiscount = (v: boolean) => { setWantsHomeDiscount(v); setCurrentStep(S_DOB) }
+  const handleHomeDiscount    = (v: boolean) => { setWantsHomeDiscount(v);    setCurrentStep(S_MILITARY) }
+  const handleRentersDiscount = (v: boolean) => { setWantsRentersDiscount(v); setCurrentStep(S_MILITARY) }
+  const handleMilitary        = (v: boolean) => { setServedMilitary(v);       setCurrentStep(S_HELP) }
+  const handleHelp            = (v: string)  => { setHelpGoal(v);             setCurrentStep(S_DOB) }
 
   // ── Contact handlers ──────────────────────────────────────────────────
-  const handleDobNext     = () => setCurrentStep(S_ZIP)
-  const handleZipNext     = () => setCurrentStep(S_ADDR)
-  const handleAddrNext    = () => setCurrentStep(S_NAME)
-  const handleNameNext    = () => setCurrentStep(S_EMAIL)
-  const handleEmailNext   = () => setCurrentStep(S_PHONE)
-  const handlePhoneSubmit = () => {
-    // TODO: submit form data
+  const handleDobNext          = () => setCurrentStep(S_AARP)
+  const handleAARP             = (v: boolean) => { setBelongsToAARP(v); setCurrentStep(S_DRV_NAMES) }
+  const handleDriverNamesNext  = () => setCurrentStep(S_ADDR)
+  const handleAddrNext         = () => setCurrentStep(S_EMAIL)
+  const handleEmailNext        = () => setCurrentStep(S_PHONE)
+  const handlePhoneSubmit = () => setCurrentStep(S_LOADING)
+
+  const vehicleCount = 1 + (addVehicle2 === true ? 1 : 0) + (addVehicle3 === true ? 1 : 0)
+
+  // ── Post-form screens (full-page takeover) ────────────────────────────
+  if (currentStep === S_LOADING) {
+    return (
+      <div className="flex-1 flex items-center justify-center p-6">
+        <StepLoading
+          firstName={d1FirstName || "there"}
+          cityName={cityName}
+          onComplete={() => setCurrentStep(S_RESULTS)}
+        />
+      </div>
+    )
+  }
+
+  if (currentStep === S_RESULTS) {
+    return (
+      <StepResults
+        firstName={d1FirstName || "there"}
+        cityName={cityName}
+        cityState={cityState}
+        vehicleCount={vehicleCount}
+        driverCount={driverCount}
+      />
+    )
   }
 
   return (
@@ -372,6 +424,7 @@ function FormPage() {
             cityName={cityName}
             currentStep={currentStep}
             totalSteps={FORM_TOTAL_STEPS}
+            tagline={currentStep === S_EMAIL && d1FirstName ? `${d1FirstName}, you're almost done!` : undefined}
           />
 
           {/* ── Vehicle 1: Year / Make / Model (existing steps 1-3) ── */}
@@ -612,24 +665,52 @@ function FormPage() {
           {currentStep === S_HM_DISC && (
             <StepHomeDiscount value={wantsHomeDiscount} onChange={handleHomeDiscount} />
           )}
+          {currentStep === S_RNT_DISC && (
+            <StepRentersDiscount value={wantsRentersDiscount} onChange={handleRentersDiscount} />
+          )}
+
+          {/* ── Post-homeowner questions ── */}
+          {currentStep === S_MILITARY && (
+            <StepMilitaryService value={servedMilitary} onChange={handleMilitary} />
+          )}
+          {currentStep === S_HELP && (
+            <StepHelpGoal value={helpGoal} onChange={handleHelp} />
+          )}
 
           {/* ── Contact ── */}
           {currentStep === S_DOB && (
             <StepDOB value={dob} onChange={setDob} onNext={handleDobNext} />
           )}
-          {currentStep === S_ZIP && (
-            <StepZipCode value={zipCode} onChange={setZipCode} onNext={handleZipNext} />
+          {currentStep === S_AARP && (
+            <StepAARP value={belongsToAARP} onChange={handleAARP} />
+          )}
+          {currentStep === S_DRV_NAMES && (
+            <StepDriverNames
+              driverCount={driverCount}
+              d1FirstName={d1FirstName}
+              d1LastName={d1LastName}
+              onD1FirstName={setD1FirstName}
+              onD1LastName={setD1LastName}
+              d2FirstName={d2FirstName}
+              d2LastName={d2LastName}
+              onD2FirstName={setD2FirstName}
+              onD2LastName={setD2LastName}
+              d3FirstName={d3FirstName}
+              d3LastName={d3LastName}
+              onD3FirstName={setD3FirstName}
+              onD3LastName={setD3LastName}
+              onNext={handleDriverNamesNext}
+            />
           )}
           {currentStep === S_ADDR && (
-            <StepAddress value={streetAddress} onChange={setStreetAddress} onNext={handleAddrNext} />
-          )}
-          {currentStep === S_NAME && (
-            <StepName
-              firstName={firstName}
-              lastName={lastName}
-              onFirstNameChange={setFirstName}
-              onLastNameChange={setLastName}
-              onNext={handleNameNext}
+            <StepAddress
+              zip={zip}
+              onZipChange={setZip}
+              cityName={cityName}
+              cityState={cityState}
+              streetAddress={streetAddress}
+              onStreetAddressChange={setStreetAddress}
+              onNext={handleAddrNext}
             />
           )}
           {currentStep === S_EMAIL && (

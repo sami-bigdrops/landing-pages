@@ -11,7 +11,8 @@ export async function GET(request: NextRequest) {
     if (zippoRes.ok) {
       const zippo = await zippoRes.json().catch(() => null)
       const placeName = zippo?.places?.[0]?.["place name"]
-      if (placeName) return NextResponse.json({ city: String(placeName) })
+      const stateAbbr = zippo?.places?.[0]?.["state abbreviation"] ?? null
+      if (placeName) return NextResponse.json({ city: String(placeName), state: stateAbbr ? String(stateAbbr) : null })
     }
   } catch {
     // fallback below
