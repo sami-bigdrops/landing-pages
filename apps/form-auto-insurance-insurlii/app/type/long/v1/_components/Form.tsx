@@ -30,6 +30,23 @@ import { StepDriver2Relation } from "./StepDriver2Relation"
 import { StepDriver2Gender } from "./StepDriver2Gender"
 import { StepDriver2Married } from "./StepDriver2Married"
 import { StepDriver2Education } from "./StepDriver2Education"
+import { StepDriver2Occupation } from "./StepDriver2Occupation"
+import { StepDriver2CreditScore } from "./StepDriver2CreditScore"
+import { StepDriver2Accidents } from "./StepDriver2Accidents"
+import { StepDriver2Tickets } from "./StepDriver2Tickets"
+import { StepDriver2DUI } from "./StepDriver2DUI"
+import { StepDriver2LicenseSuspended } from "./StepDriver2LicenseSuspended"
+import { StepDriver3Relation } from "./StepDriver3Relation"
+import { StepDriver3Gender } from "./StepDriver3Gender"
+import { StepDriver3Married } from "./StepDriver3Married"
+import { StepDriver3Education } from "./StepDriver3Education"
+import { StepDriver3Occupation } from "./StepDriver3Occupation"
+import { StepDriver3Accidents } from "./StepDriver3Accidents"
+import { StepDriver3Tickets } from "./StepDriver3Tickets"
+import { StepDriver3DUI } from "./StepDriver3DUI"
+import { StepDriver3LicenseSuspended } from "./StepDriver3LicenseSuspended"
+import { StepDriver2DOB } from "./StepDriver2DOB"
+import { StepDriver3DOB } from "./StepDriver3DOB"
 import { StepHomeowner } from "./StepHomeowner"
 import { StepHomeDiscount } from "./StepHomeDiscount"
 import { StepDOB } from "./StepDOB"
@@ -38,6 +55,7 @@ import { StepAddress } from "./StepAddress"
 import { StepName } from "./StepName"
 import { StepEmail } from "./StepEmail"
 import { StepPhone } from "./StepPhone"
+import { StepCarMakeSelect } from "./StepCarMakeSelect"
 
 // ── Step number constants ────────────────────────────────────────────
 const S_YEAR      = 1
@@ -80,14 +98,31 @@ const S_D2_REL   = 37
 const S_D2_GEN   = 38
 const S_D2_MAR   = 39
 const S_D2_EDU   = 40
-const S_HOMEOWN  = 41
-const S_HM_DISC  = 42
-const S_DOB      = 43
-const S_ZIP      = 44
-const S_ADDR     = 45
-const S_NAME     = 46
-const S_EMAIL    = 47
-const S_PHONE    = 48
+const S_D2_OCC   = 41
+const S_D2_CRD   = 42
+const S_D2_ACC   = 43
+const S_D2_TKT   = 44
+const S_D2_DUI   = 45
+const S_D2_SUS   = 46
+const S_D2_DOB   = 47
+const S_D3_REL   = 48
+const S_D3_GEN   = 49
+const S_D3_MAR   = 50
+const S_D3_EDU   = 51
+const S_D3_OCC   = 52
+const S_D3_ACC   = 53
+const S_D3_TKT   = 54
+const S_D3_DUI   = 55
+const S_D3_SUS   = 56
+const S_D3_DOB   = 57
+const S_HOMEOWN  = 58
+const S_HM_DISC  = 59
+const S_DOB      = 60
+const S_ZIP      = 61
+const S_ADDR     = 62
+const S_NAME     = 63
+const S_EMAIL    = 64
+const S_PHONE    = 65
 
 function FormPage() {
   const searchParams = useSearchParams()
@@ -110,8 +145,8 @@ function FormPage() {
   // ── Vehicle 2 ────────────────────────────────────────────────────────
   const [addVehicle2, setAddVehicle2]   = useState<boolean | null>(null)
   const [v2Year, setV2Year]             = useState("")
-  const [v2VehicleType, setV2VehicleType] = useState<FormVehicleType>("car")
   const [v2Make, setV2Make]             = useState("")
+  const [v2VehicleType, setV2VehicleType] = useState<FormVehicleType>("car")
   const [v2Model, setV2Model]           = useState("")
   const [v2Ownership, setV2Ownership]   = useState("")
   const [v2PrimaryUse, setV2PrimaryUse] = useState("")
@@ -121,8 +156,8 @@ function FormPage() {
   // ── Vehicle 3 ────────────────────────────────────────────────────────
   const [addVehicle3, setAddVehicle3]   = useState<boolean | null>(null)
   const [v3Year, setV3Year]             = useState("")
-  const [v3VehicleType, setV3VehicleType] = useState<FormVehicleType>("car")
   const [v3Make, setV3Make]             = useState("")
+  const [v3VehicleType, setV3VehicleType] = useState<FormVehicleType>("car")
   const [v3Model, setV3Model]           = useState("")
   const [v3Ownership, setV3Ownership]   = useState("")
   const [v3PrimaryUse, setV3PrimaryUse] = useState("")
@@ -147,10 +182,29 @@ function FormPage() {
   const [d1Suspended, setD1Suspended]       = useState<boolean | null>(null)
 
   // ── Driver 2 ─────────────────────────────────────────────────────────
-  const [d2Relation, setD2Relation]   = useState("")
-  const [d2Gender, setD2Gender]       = useState("")
-  const [d2Married, setD2Married]     = useState<boolean | null>(null)
-  const [d2Education, setD2Education] = useState("")
+  const [d2Relation, setD2Relation]       = useState("")
+  const [d2Gender, setD2Gender]           = useState("")
+  const [d2Married, setD2Married]         = useState<boolean | null>(null)
+  const [d2Education, setD2Education]     = useState("")
+  const [d2Occupation, setD2Occupation]   = useState("")
+  const [d2CreditScore, setD2CreditScore] = useState("")
+  const [d2Accidents, setD2Accidents]     = useState("")
+  const [d2Tickets, setD2Tickets]         = useState("")
+  const [d2DUI, setD2DUI]                 = useState<boolean | null>(null)
+  const [d2Suspended, setD2Suspended]     = useState<boolean | null>(null)
+  const [d2DOB, setD2DOB]                 = useState("")
+
+  // ── Driver 3 ─────────────────────────────────────────────────────────
+  const [d3Relation, setD3Relation]       = useState("")
+  const [d3Gender, setD3Gender]           = useState("")
+  const [d3Married, setD3Married]         = useState<boolean | null>(null)
+  const [d3Education, setD3Education]     = useState("")
+  const [d3Occupation, setD3Occupation]   = useState("")
+  const [d3Accidents, setD3Accidents]     = useState("")
+  const [d3Tickets, setD3Tickets]         = useState("")
+  const [d3DUI, setD3DUI]                 = useState<boolean | null>(null)
+  const [d3Suspended, setD3Suspended]     = useState<boolean | null>(null)
+  const [d3DOB, setD3DOB]                 = useState("")
 
   // ── Property ─────────────────────────────────────────────────────────
   const [isHomeowner, setIsHomeowner]         = useState<boolean | null>(null)
@@ -199,6 +253,15 @@ function FormPage() {
   // ── Add vehicle 2 ─────────────────────────────────────────────────────
   const handleAddV2 = (add: boolean) => {
     setAddVehicle2(add)
+    if (!add) {
+      // clear any previously entered V2 data
+      setV2Year(""); setV2Make(""); setV2Model("")
+      setV2Ownership(""); setV2PrimaryUse(""); setV2Miles(""); setV2Coverage("")
+      // also clear V3 since it depends on V2
+      setAddVehicle3(null)
+      setV3Year(""); setV3Make(""); setV3Model("")
+      setV3Ownership(""); setV3PrimaryUse(""); setV3Miles(""); setV3Coverage("")
+    }
     setCurrentStep(add ? S_V2_YEAR : S_HAD_INS)
   }
 
@@ -206,9 +269,6 @@ function FormPage() {
   const handleV2Year = (year: string) => {
     setV2Year(year); setV2Make(""); setV2Model("")
     setCurrentStep(S_V2_MAKE)
-  }
-  const handleV2VehicleType = (type: FormVehicleType) => {
-    setV2VehicleType(type); setV2Make(""); setV2Model("")
   }
   const handleV2Make  = (make: string)  => { setV2Make(make);  setV2Model(""); setCurrentStep(S_V2_MODEL) }
   const handleV2Model = (model: string) => { setV2Model(model); setCurrentStep(S_V2_OWN) }
@@ -220,6 +280,10 @@ function FormPage() {
   // ── Add vehicle 3 ─────────────────────────────────────────────────────
   const handleAddV3 = (add: boolean) => {
     setAddVehicle3(add)
+    if (!add) {
+      setV3Year(""); setV3Make(""); setV3Model("")
+      setV3Ownership(""); setV3PrimaryUse(""); setV3Miles(""); setV3Coverage("")
+    }
     setCurrentStep(add ? S_V3_YEAR : S_HAD_INS)
   }
 
@@ -227,9 +291,6 @@ function FormPage() {
   const handleV3Year = (year: string) => {
     setV3Year(year); setV3Make(""); setV3Model("")
     setCurrentStep(S_V3_MAKE)
-  }
-  const handleV3VehicleType = (type: FormVehicleType) => {
-    setV3VehicleType(type); setV3Make(""); setV3Model("")
   }
   const handleV3Make  = (make: string)  => { setV3Make(make);  setV3Model(""); setCurrentStep(S_V3_MODEL) }
   const handleV3Model = (model: string) => { setV3Model(model); setCurrentStep(S_V3_OWN) }
@@ -262,10 +323,29 @@ function FormPage() {
   }
 
   // ── Driver 2 handlers ─────────────────────────────────────────────────
-  const handleD2Relation  = (v: string)  => { setD2Relation(v);  setCurrentStep(S_D2_GEN) }
-  const handleD2Gender    = (v: string)  => { setD2Gender(v);    setCurrentStep(S_D2_MAR) }
-  const handleD2Married   = (v: boolean) => { setD2Married(v);   setCurrentStep(S_D2_EDU) }
-  const handleD2Education = (v: string)  => { setD2Education(v); setCurrentStep(S_HOMEOWN) }
+  const handleD2Relation   = (v: string)  => { setD2Relation(v);   setCurrentStep(S_D2_GEN) }
+  const handleD2Gender     = (v: string)  => { setD2Gender(v);     setCurrentStep(S_D2_MAR) }
+  const handleD2Married    = (v: boolean) => { setD2Married(v);    setCurrentStep(S_D2_EDU) }
+  const handleD2Education  = (v: string)  => { setD2Education(v);  setCurrentStep(S_D2_OCC) }
+  const handleD2Occupation = (v: string)  => { setD2Occupation(v); setCurrentStep(S_D2_CRD) }
+  const handleD2Credit     = (v: string)  => { setD2CreditScore(v); setCurrentStep(S_D2_ACC) }
+  const handleD2Accidents  = (v: string)  => { setD2Accidents(v);  setCurrentStep(S_D2_TKT) }
+  const handleD2Tickets    = (v: string)  => { setD2Tickets(v);    setCurrentStep(S_D2_DUI) }
+  const handleD2DUI        = (v: boolean) => { setD2DUI(v);        setCurrentStep(S_D2_SUS) }
+  const handleD2Suspended  = (v: boolean) => { setD2Suspended(v);  setCurrentStep(S_D2_DOB) }
+  const handleD2DOBNext    = ()           => { setCurrentStep(driverCount >= 3 ? S_D3_REL : S_HOMEOWN) }
+
+  // ── Driver 3 handlers ─────────────────────────────────────────────────
+  const handleD3Relation   = (v: string)  => { setD3Relation(v);   setCurrentStep(S_D3_GEN) }
+  const handleD3Gender     = (v: string)  => { setD3Gender(v);     setCurrentStep(S_D3_MAR) }
+  const handleD3Married    = (v: boolean) => { setD3Married(v);    setCurrentStep(S_D3_EDU) }
+  const handleD3Education  = (v: string)  => { setD3Education(v);  setCurrentStep(S_D3_OCC) }
+  const handleD3Occupation = (v: string)  => { setD3Occupation(v); setCurrentStep(S_D3_ACC) }
+  const handleD3Accidents  = (v: string)  => { setD3Accidents(v);  setCurrentStep(S_D3_TKT) }
+  const handleD3Tickets    = (v: string)  => { setD3Tickets(v);    setCurrentStep(S_D3_DUI) }
+  const handleD3DUI        = (v: boolean) => { setD3DUI(v);        setCurrentStep(S_D3_SUS) }
+  const handleD3Suspended  = (v: boolean) => { setD3Suspended(v);  setCurrentStep(S_D3_DOB) }
+  const handleD3DOBNext    = ()           => { setCurrentStep(S_HOMEOWN) }
 
   // ── Property handlers ─────────────────────────────────────────────────
   const handleHomeowner = (v: boolean) => {
@@ -339,19 +419,18 @@ function FormPage() {
           )}
 
           {/* ── Vehicle 2: Year / Make / Model ── */}
-          {currentStep === S_V2_YEAR && (
+          {addVehicle2 === true && currentStep === S_V2_YEAR && (
             <VehicleYearStep value={v2Year} onChange={handleV2Year} />
           )}
-          {currentStep === S_V2_MAKE && v2Year && (
-            <VehicleMakeStep
+          {addVehicle2 === true && currentStep === S_V2_MAKE && v2Year && (
+            <StepCarMakeSelect
               year={v2Year}
-              vehicleType={v2VehicleType}
-              onVehicleTypeChange={handleV2VehicleType}
+              title="What make is your second vehicle?"
               value={v2Make}
               onChange={handleV2Make}
             />
           )}
-          {currentStep === S_V2_MODEL && v2Year && v2Make && (
+          {addVehicle2 === true && currentStep === S_V2_MODEL && v2Year && v2Make && (
             <VehicleModelStep
               year={v2Year}
               make={v2Make}
@@ -362,38 +441,37 @@ function FormPage() {
           )}
 
           {/* ── Vehicle 2: Car flow ── */}
-          {currentStep === S_V2_OWN && (
+          {addVehicle2 === true && currentStep === S_V2_OWN && (
             <StepCarOwnership make={v2Make} model={v2Model} value={v2Ownership} onChange={handleV2Own} />
           )}
-          {currentStep === S_V2_USE && (
+          {addVehicle2 === true && currentStep === S_V2_USE && (
             <StepCarPrimaryUse make={v2Make} model={v2Model} value={v2PrimaryUse} onChange={handleV2Use} />
           )}
-          {currentStep === S_V2_MILES && (
+          {addVehicle2 === true && currentStep === S_V2_MILES && (
             <StepCarMilesPerDay make={v2Make} model={v2Model} value={v2Miles} onChange={handleV2Miles} />
           )}
-          {currentStep === S_V2_COV && (
+          {addVehicle2 === true && currentStep === S_V2_COV && (
             <StepCarCoverageLevel value={v2Coverage} onChange={handleV2Cov} />
           )}
 
-          {/* ── Add vehicle 3 ── */}
-          {currentStep === S_ADD_V3 && (
+          {/* ── Add vehicle 3 (only shown when V2 was added) ── */}
+          {addVehicle2 === true && currentStep === S_ADD_V3 && (
             <StepAddVehicle vehicleNumber={3} value={addVehicle3} onChange={handleAddV3} />
           )}
 
           {/* ── Vehicle 3: Year / Make / Model ── */}
-          {currentStep === S_V3_YEAR && (
+          {addVehicle2 === true && addVehicle3 === true && currentStep === S_V3_YEAR && (
             <VehicleYearStep value={v3Year} onChange={handleV3Year} />
           )}
-          {currentStep === S_V3_MAKE && v3Year && (
-            <VehicleMakeStep
+          {addVehicle2 === true && addVehicle3 === true && currentStep === S_V3_MAKE && v3Year && (
+            <StepCarMakeSelect
               year={v3Year}
-              vehicleType={v3VehicleType}
-              onVehicleTypeChange={handleV3VehicleType}
+              title="What make is your third vehicle?"
               value={v3Make}
               onChange={handleV3Make}
             />
           )}
-          {currentStep === S_V3_MODEL && v3Year && v3Make && (
+          {addVehicle2 === true && addVehicle3 === true && currentStep === S_V3_MODEL && v3Year && v3Make && (
             <VehicleModelStep
               year={v3Year}
               make={v3Make}
@@ -404,16 +482,16 @@ function FormPage() {
           )}
 
           {/* ── Vehicle 3: Car flow ── */}
-          {currentStep === S_V3_OWN && (
+          {addVehicle2 === true && addVehicle3 === true && currentStep === S_V3_OWN && (
             <StepCarOwnership make={v3Make} model={v3Model} value={v3Ownership} onChange={handleV3Own} />
           )}
-          {currentStep === S_V3_USE && (
+          {addVehicle2 === true && addVehicle3 === true && currentStep === S_V3_USE && (
             <StepCarPrimaryUse make={v3Make} model={v3Model} value={v3PrimaryUse} onChange={handleV3Use} />
           )}
-          {currentStep === S_V3_MILES && (
+          {addVehicle2 === true && addVehicle3 === true && currentStep === S_V3_MILES && (
             <StepCarMilesPerDay make={v3Make} model={v3Model} value={v3Miles} onChange={handleV3Miles} />
           )}
-          {currentStep === S_V3_COV && (
+          {addVehicle2 === true && addVehicle3 === true && currentStep === S_V3_COV && (
             <StepCarCoverageLevel value={v3Coverage} onChange={handleV3Cov} />
           )}
 
@@ -472,6 +550,59 @@ function FormPage() {
           )}
           {currentStep === S_D2_EDU && (
             <StepDriver2Education value={d2Education} onChange={handleD2Education} />
+          )}
+          {currentStep === S_D2_OCC && (
+            <StepDriver2Occupation value={d2Occupation} onChange={handleD2Occupation} />
+          )}
+          {currentStep === S_D2_CRD && (
+            <StepDriver2CreditScore value={d2CreditScore} onChange={handleD2Credit} />
+          )}
+          {currentStep === S_D2_ACC && (
+            <StepDriver2Accidents value={d2Accidents} onChange={handleD2Accidents} />
+          )}
+          {currentStep === S_D2_TKT && (
+            <StepDriver2Tickets value={d2Tickets} onChange={handleD2Tickets} />
+          )}
+          {currentStep === S_D2_DUI && (
+            <StepDriver2DUI value={d2DUI} onChange={handleD2DUI} />
+          )}
+          {currentStep === S_D2_SUS && (
+            <StepDriver2LicenseSuspended value={d2Suspended} onChange={handleD2Suspended} />
+          )}
+          {currentStep === S_D2_DOB && (
+            <StepDriver2DOB value={d2DOB} onChange={setD2DOB} onNext={handleD2DOBNext} />
+          )}
+
+          {/* ── Driver 3 (conditional on driverCount === 3) ── */}
+          {driverCount >= 3 && currentStep === S_D3_REL && (
+            <StepDriver3Relation value={d3Relation} onChange={handleD3Relation} />
+          )}
+          {driverCount >= 3 && currentStep === S_D3_GEN && (
+            <StepDriver3Gender value={d3Gender} onChange={handleD3Gender} />
+          )}
+          {driverCount >= 3 && currentStep === S_D3_MAR && (
+            <StepDriver3Married value={d3Married} onChange={handleD3Married} />
+          )}
+          {driverCount >= 3 && currentStep === S_D3_EDU && (
+            <StepDriver3Education value={d3Education} onChange={handleD3Education} />
+          )}
+          {driverCount >= 3 && currentStep === S_D3_OCC && (
+            <StepDriver3Occupation value={d3Occupation} onChange={handleD3Occupation} />
+          )}
+          {driverCount >= 3 && currentStep === S_D3_ACC && (
+            <StepDriver3Accidents value={d3Accidents} onChange={handleD3Accidents} />
+          )}
+          {driverCount >= 3 && currentStep === S_D3_TKT && (
+            <StepDriver3Tickets value={d3Tickets} onChange={handleD3Tickets} />
+          )}
+          {driverCount >= 3 && currentStep === S_D3_DUI && (
+            <StepDriver3DUI value={d3DUI} onChange={handleD3DUI} />
+          )}
+          {driverCount >= 3 && currentStep === S_D3_SUS && (
+            <StepDriver3LicenseSuspended value={d3Suspended} onChange={handleD3Suspended} />
+          )}
+          {driverCount >= 3 && currentStep === S_D3_DOB && (
+            <StepDriver3DOB value={d3DOB} onChange={setD3DOB} onNext={handleD3DOBNext} />
           )}
 
           {/* ── Property ── */}
