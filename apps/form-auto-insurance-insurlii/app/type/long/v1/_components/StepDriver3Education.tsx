@@ -51,7 +51,7 @@ export function StepDriver3Education({ value, onChange }: StepDriver3EducationPr
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(option)}
-              className={formOptionButtonClasses(isSelected, "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-4 py-3.5 text-left transition-colors duration-200")}
+              className={formOptionButtonClasses(isSelected, "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-5 xl:px-6.5 py-3.5 text-left transition-colors duration-200")}
             >
               <span className="text-sm lg:text-base xl:text-lg font-semibold leading-tight" style={{ color: FORM_PRIMARY_COLOR }}>
                 {option}
