@@ -31,7 +31,6 @@ import { StepDriver2Gender } from "./StepDriver2Gender"
 import { StepDriver2Married } from "./StepDriver2Married"
 import { StepDriver2Education } from "./StepDriver2Education"
 import { StepDriver2Occupation } from "./StepDriver2Occupation"
-import { StepDriver2CreditScore } from "./StepDriver2CreditScore"
 import { StepDriver2Accidents } from "./StepDriver2Accidents"
 import { StepDriver2Tickets } from "./StepDriver2Tickets"
 import { StepDriver2DUI } from "./StepDriver2DUI"
@@ -104,7 +103,6 @@ const S_D2_GEN   = 38
 const S_D2_MAR   = 39
 const S_D2_EDU   = 40
 const S_D2_OCC   = 41
-const S_D2_CRD   = 42
 const S_D2_ACC   = 43
 const S_D2_TKT   = 44
 const S_D2_DUI   = 45
@@ -200,7 +198,6 @@ function FormPage() {
   const [d2Married, setD2Married]         = useState<boolean | null>(null)
   const [d2Education, setD2Education]     = useState("")
   const [d2Occupation, setD2Occupation]   = useState("")
-  const [d2CreditScore, setD2CreditScore] = useState("")
   const [d2Accidents, setD2Accidents]     = useState("")
   const [d2Tickets, setD2Tickets]         = useState("")
   const [d2DUI, setD2DUI]                 = useState<boolean | null>(null)
@@ -351,8 +348,7 @@ function FormPage() {
   const handleD2Gender     = (v: string)  => { setD2Gender(v);     setCurrentStep(S_D2_MAR) }
   const handleD2Married    = (v: boolean) => { setD2Married(v);    setCurrentStep(S_D2_EDU) }
   const handleD2Education  = (v: string)  => { setD2Education(v);  setCurrentStep(S_D2_OCC) }
-  const handleD2Occupation = (v: string)  => { setD2Occupation(v); setCurrentStep(S_D2_CRD) }
-  const handleD2Credit     = (v: string)  => { setD2CreditScore(v); setCurrentStep(S_D2_ACC) }
+  const handleD2Occupation = (v: string)  => { setD2Occupation(v); setCurrentStep(S_D2_ACC) }
   const handleD2Accidents  = (v: string)  => { setD2Accidents(v);  setCurrentStep(S_D2_TKT) }
   const handleD2Tickets    = (v: string)  => { setD2Tickets(v);    setCurrentStep(S_D2_DUI) }
   const handleD2DUI        = (v: boolean) => { setD2DUI(v);        setCurrentStep(S_D2_SUS) }
@@ -606,9 +602,6 @@ function FormPage() {
           )}
           {currentStep === S_D2_OCC && (
             <StepDriver2Occupation value={d2Occupation} onChange={handleD2Occupation} />
-          )}
-          {currentStep === S_D2_CRD && (
-            <StepDriver2CreditScore value={d2CreditScore} onChange={handleD2Credit} />
           )}
           {currentStep === S_D2_ACC && (
             <StepDriver2Accidents value={d2Accidents} onChange={handleD2Accidents} />

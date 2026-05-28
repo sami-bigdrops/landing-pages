@@ -1,7 +1,7 @@
 "use client"
 
-import { cn } from "@workspace/ui/lib/utils"
-import { FORM_PRIMARY_COLOR, FORM_SELECTED_BG, FORM_SELECTED_BORDER } from "@/lib/constant"
+import { formOptionButtonClasses } from "@/lib/form-input-styles"
+import { FORM_PRIMARY_COLOR } from "@/lib/constant"
 
 interface StepCurrentInsurerProps {
   value: string
@@ -43,15 +43,7 @@ export function StepCurrentInsurer({ value, onChange }: StepCurrentInsurerProps)
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(name)}
-              className={cn(
-                "flex flex-col items-center justify-center gap-2 rounded-lg border px-3 py-5 transition-colors duration-200 min-h-[100px]",
-                !isSelected && "bg-white hover:border-gray-300"
-              )}
-              style={
-                isSelected
-                  ? { borderColor: FORM_SELECTED_BORDER, backgroundColor: FORM_SELECTED_BG }
-                  : { borderColor: "#E5E7EB", backgroundColor: "#FFFFFF" }
-              }
+              className={formOptionButtonClasses(isSelected, "flex flex-col items-center justify-center gap-2 rounded-lg border px-3 py-5 transition-colors duration-200 min-h-[100px]")}
             >
               <img
                 src={logo}
@@ -77,15 +69,7 @@ export function StepCurrentInsurer({ value, onChange }: StepCurrentInsurerProps)
           role="radio"
           aria-checked={value === "Other"}
           onClick={() => onChange("Other")}
-          className={cn(
-            "col-span-3 flex items-center justify-center rounded-lg border px-3 py-4 transition-colors duration-200 min-h-[56px]",
-            value !== "Other" && "bg-white hover:border-gray-300"
-          )}
-          style={
-            value === "Other"
-              ? { borderColor: FORM_SELECTED_BORDER, backgroundColor: FORM_SELECTED_BG }
-              : { borderColor: "#E5E7EB", backgroundColor: "#FFFFFF" }
-          }
+          className={formOptionButtonClasses(value === "Other", "col-span-3 flex items-center justify-center rounded-lg border px-3 py-4 transition-colors duration-200 min-h-[56px]")}
         >
           <span
             className="text-sm font-semibold"

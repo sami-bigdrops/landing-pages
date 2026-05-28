@@ -4,14 +4,8 @@ import { useEffect, useMemo, useState, type SyntheticEvent } from "react"
 import { Bike, Car } from "lucide-react"
 import { SelectInput } from "@workspace/ui/components/select-input"
 import { cn } from "@workspace/ui/lib/utils"
-import {
-  FORM_POPULAR_CAR_MAKES,
-  FORM_POPULAR_MOTORCYCLE_MAKES,
-  FORM_PRIMARY_COLOR,
-  FORM_SELECTED_BG,
-  FORM_SELECTED_BORDER,
-  type FormVehicleType,
-} from "@/lib/constant"
+import { formOptionButtonClasses, FORM_FIELD_SELECT_INPUT_CLASSNAME } from "@/lib/form-input-styles"
+import { FORM_POPULAR_CAR_MAKES, FORM_POPULAR_MOTORCYCLE_MAKES, FORM_PRIMARY_COLOR, type FormVehicleType } from "@/lib/constant"
 
 export interface VehicleMakeOption {
   name: string
@@ -147,18 +141,7 @@ export function VehicleMakeStep({
       })),
     [otherMakes]
   )
-
-  const selectedCardStyle = {
-    borderColor: FORM_SELECTED_BORDER,
-    backgroundColor: FORM_SELECTED_BG,
-  }
-
-  const defaultCardStyle = {
-    borderColor: "#E5E7EB",
-    backgroundColor: "#FFFFFF",
-  }
-
-  return (
+return (
     <div>
       <h2
         className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
@@ -185,11 +168,7 @@ export function VehicleMakeStep({
               key={type}
               type="button"
               onClick={() => onVehicleTypeChange(type)}
-              className={cn(
-                "flex items-center justify-center gap-1.5 xl:gap-2.5 rounded-lg border px-2 xl:px-3 py-3.5 font-semibold transition-colors",
-                !isSelected && "bg-white hover:border-gray-300"
-              )}
-              style={isSelected ? selectedCardStyle : defaultCardStyle}
+              className={formOptionButtonClasses(isSelected, "flex items-center justify-center gap-1.5 xl:gap-2.5 rounded-lg border px-2 xl:px-3 py-3.5 font-semibold transition-colors")}
             >
               <Icon
                 className="w-4 h-4 xl:w-6 xl:h-6 shrink-0"
@@ -236,11 +215,7 @@ export function VehicleMakeStep({
                     role="radio"
                     aria-checked={isSelected}
                     onClick={() => onChange(make.name)}
-                    className={cn(
-                      "flex flex-col  items-center gap-2 rounded-lg border px-3 py-3 text-left transition-colors min-h-[56px]",
-                      !isSelected && "hover:border-gray-300"
-                    )}
-                    style={isSelected ? selectedCardStyle : defaultCardStyle}
+                    className={formOptionButtonClasses(isSelected, "flex flex-col  items-center gap-2 rounded-lg border px-3 py-3 text-left transition-colors min-h-[56px]")}
                   >
                     <MakeLogo name={make.name} logoUrl={make.logoUrl || ""} />
                     <span
@@ -263,7 +238,7 @@ export function VehicleMakeStep({
               onChange={onChange}
               searchable
               searchPlaceholder="Search makes..."
-              className="rounded-lg border border-[#E5E7EB] bg-white px-3 py-3 xl:px-6 xl:py-4 h-12 xl:h-16 text-sm lg:text-base xl:text-lg shadow-none"
+              className={FORM_FIELD_SELECT_INPUT_CLASSNAME}
               selectClassName="text-[#12266D] text-sm lg:text-base xl:text-lg font-medium"
             />
           ) : null}

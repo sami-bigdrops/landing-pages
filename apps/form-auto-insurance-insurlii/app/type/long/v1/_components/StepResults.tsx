@@ -8,7 +8,7 @@ interface StepResultsProps {
   cityState: string
   vehicleCount: number
   driverCount: number
-  city: string
+  city?: string
 }
 
 function CheckIcon({ color = "#1976D2" }: { color?: string }) {

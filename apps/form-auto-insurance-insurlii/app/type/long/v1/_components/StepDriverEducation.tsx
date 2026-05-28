@@ -1,8 +1,9 @@
 "use client"
 
-import { cn } from "@workspace/ui/lib/utils"
+import { FormRadioIndicator } from "./FormRadioIndicator"
 import { SelectInput } from "@workspace/ui/components/select-input"
-import { FORM_PRIMARY_COLOR, FORM_SELECTED_BG, FORM_SELECTED_BORDER } from "@/lib/constant"
+import { formOptionButtonClasses, FORM_FIELD_SELECT_INPUT_CLASSNAME } from "@/lib/form-input-styles"
+import { FORM_PRIMARY_COLOR } from "@/lib/constant"
 
 interface StepDriverEducationProps {
   value: string
@@ -50,36 +51,15 @@ export function StepDriverEducation({ value, onChange }: StepDriverEducationProp
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(option)}
-              className={cn(
-                "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-4 py-3.5 text-left transition-colors duration-200",
-                !isSelected && "bg-white hover:border-gray-300"
-              )}
-              style={
-                isSelected
-                  ? { borderColor: FORM_SELECTED_BORDER, backgroundColor: FORM_SELECTED_BG }
-                  : { borderColor: "#E5E7EB", backgroundColor: "#FFFFFF" }
-              }
+              className={formOptionButtonClasses(isSelected, "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-4 py-3.5 text-left transition-colors duration-200")}
             >
               <span
-                className="text-sm font-semibold leading-tight"
+                className="text-sm lg:text-base xl:text-lg font-semibold leading-tight"
                 style={{ color: FORM_PRIMARY_COLOR }}
               >
                 {option}
               </span>
-              <span
-                className={cn(
-                  "flex w-3.5 h-3.5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
-                  !isSelected && "border-gray-300 bg-white"
-                )}
-                style={
-                  isSelected
-                    ? { borderColor: FORM_SELECTED_BORDER, backgroundColor: FORM_SELECTED_BORDER }
-                    : undefined
-                }
-                aria-hidden
-              >
-                {isSelected ? <span className="h-2 w-2 rounded-full bg-white" /> : null}
-              </span>
+              <FormRadioIndicator isSelected={isSelected} className="w-3.5 h-3.5 md:h-4.5 md:w-4.5" />
             </button>
           )
         })}
@@ -90,7 +70,7 @@ export function StepDriverEducation({ value, onChange }: StepDriverEducationProp
         options={MORE_OPTIONS}
         value={isMoreOption ? value : ""}
         onChange={onChange}
-        className="rounded-lg border border-[#E5E7EB] bg-white px-3 py-3 xl:px-6 xl:py-4 h-12 xl:h-16 text-sm lg:text-base xl:text-lg shadow-none"
+        className={FORM_FIELD_SELECT_INPUT_CLASSNAME}
         selectClassName="text-[#12266D] text-sm lg:text-base xl:text-lg font-medium"
       />
     </div>

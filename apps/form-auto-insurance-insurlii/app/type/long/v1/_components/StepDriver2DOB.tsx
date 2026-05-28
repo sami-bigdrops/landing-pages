@@ -1,6 +1,7 @@
 "use client"
 
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_FIELD_TEXT_INPUT_CLASSNAME } from "@/lib/form-input-styles"
 import { ArrowRightIcon } from "lucide-react"
 
 interface StepDriver2DOBProps {
@@ -31,7 +32,7 @@ export function StepDriver2DOB({ value, onChange, onNext }: StepDriver2DOBProps)
           onChange={(e) => onChange(e.target.value)}
           max={new Date().toISOString().split("T")[0]}
           required
-          className="w-full rounded-lg border border-[#E5E7EB] bg-white px-4 py-3.5 text-sm lg:text-base font-medium outline-none transition-colors focus:border-[#205BB9] focus:ring-2 focus:ring-[#E2F1FD]"
+          className={FORM_FIELD_TEXT_INPUT_CLASSNAME}
           style={{ color: FORM_PRIMARY_COLOR }}
           aria-label="Second driver date of birth"
         />

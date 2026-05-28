@@ -2,13 +2,8 @@
 
 import { useEffect, useMemo, useState, type SyntheticEvent } from "react"
 import { SelectInput } from "@workspace/ui/components/select-input"
-import { cn } from "@workspace/ui/lib/utils"
-import {
-  FORM_POPULAR_CAR_MAKES,
-  FORM_PRIMARY_COLOR,
-  FORM_SELECTED_BG,
-  FORM_SELECTED_BORDER,
-} from "@/lib/constant"
+import { formOptionButtonClasses, FORM_FIELD_SELECT_INPUT_CLASSNAME } from "@/lib/form-input-styles"
+import { FORM_POPULAR_CAR_MAKES, FORM_PRIMARY_COLOR } from "@/lib/constant"
 
 interface MakeOption {
   name: string
@@ -121,11 +116,7 @@ export function StepCarMakeSelect({ year, title, value, onChange }: StepCarMakeS
     () => otherMakes.map((m) => ({ value: m.name, label: formatMakeLabel(m.name) })),
     [otherMakes]
   )
-
-  const selectedCardStyle = { borderColor: FORM_SELECTED_BORDER, backgroundColor: FORM_SELECTED_BG }
-  const defaultCardStyle  = { borderColor: "#E5E7EB", backgroundColor: "#FFFFFF" }
-
-  return (
+return (
     <div>
       <h2
         className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
@@ -163,11 +154,7 @@ export function StepCarMakeSelect({ year, title, value, onChange }: StepCarMakeS
                     role="radio"
                     aria-checked={isSelected}
                     onClick={() => onChange(make.name)}
-                    className={cn(
-                      "flex flex-col items-center gap-2 rounded-lg border px-3 py-3 text-left transition-colors min-h-[56px]",
-                      !isSelected && "hover:border-gray-300"
-                    )}
-                    style={isSelected ? selectedCardStyle : defaultCardStyle}
+                    className={formOptionButtonClasses(isSelected, "flex flex-col items-center gap-2 rounded-lg border px-3 py-3 text-left transition-colors min-h-[56px]")}
                   >
                     <MakeLogo name={make.name} logoUrl={make.logoUrl || ""} />
                     <span
@@ -190,7 +177,7 @@ export function StepCarMakeSelect({ year, title, value, onChange }: StepCarMakeS
               onChange={onChange}
               searchable
               searchPlaceholder="Search makes..."
-              className="rounded-lg border border-[#E5E7EB] bg-white px-3 py-3 xl:px-6 xl:py-4 h-12 xl:h-16 text-sm lg:text-base xl:text-lg shadow-none"
+              className={FORM_FIELD_SELECT_INPUT_CLASSNAME}
               selectClassName="text-[#12266D] text-sm lg:text-base xl:text-lg font-medium"
             />
           ) : null}

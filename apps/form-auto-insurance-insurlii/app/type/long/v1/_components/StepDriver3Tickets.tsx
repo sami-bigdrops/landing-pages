@@ -1,7 +1,7 @@
 "use client"
 
-import { cn } from "@workspace/ui/lib/utils"
-import { FORM_PRIMARY_COLOR, FORM_SELECTED_BG, FORM_SELECTED_BORDER } from "@/lib/constant"
+import { formOptionButtonClasses } from "@/lib/form-input-styles"
+import { FORM_PRIMARY_COLOR } from "@/lib/constant"
 
 interface StepDriver3TicketsProps {
   value: string
@@ -30,15 +30,7 @@ export function StepDriver3Tickets({ value, onChange }: StepDriver3TicketsProps)
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(option)}
-              className={cn(
-                "flex flex-col items-center justify-center gap-1 rounded-lg border px-4 py-4 lg:py-5 xl:py-6 transition-colors duration-200",
-                !isSelected && "bg-white hover:border-gray-300"
-              )}
-              style={
-                isSelected
-                  ? { borderColor: FORM_SELECTED_BORDER, backgroundColor: FORM_SELECTED_BG }
-                  : { borderColor: "#E5E7EB", backgroundColor: "#FFFFFF" }
-              }
+              className={formOptionButtonClasses(isSelected, "flex flex-col items-center justify-center gap-1 rounded-lg border px-4 py-4 lg:py-5 xl:py-6 transition-colors duration-200")}
             >
               <span className="text-xl md:text-xl lg:text-2xl  xl:text-2xl font-bold tabular-nums" style={{ color: FORM_PRIMARY_COLOR }}>
                 {option}
