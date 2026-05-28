@@ -1,6 +1,7 @@
 "use client"
 
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { ArrowRightIcon } from "lucide-react"
 
 interface StepDriver2DOBProps {
   value: string
@@ -41,7 +42,8 @@ export function StepDriver2DOB({ value, onChange, onNext }: StepDriver2DOBProps)
           className="w-full rounded-lg px-6 py-3.5 text-sm lg:text-base font-bold text-white transition-opacity disabled:opacity-50"
           style={{ backgroundColor: "#F97316" }}
         >
-          Continue →
+          Continue
+          <ArrowRightIcon className="w-4.5 h-4.5 xl:w-5 xl:h-5 inline-block ml-2" />
         </button>
       </form>
     </div>

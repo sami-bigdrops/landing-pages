@@ -104,10 +104,7 @@ export function StepLoading({ firstName, cityName, onComplete }: StepLoadingProp
             <span className="text-gray-400 text-[10px]">an Allstate company</span>
           </div>
 
-          <div className="text-center border border-gray-300 px-2 py-0.5 rounded">
-            <span className="text-gray-900 font-black text-[10px] tracking-widest block">DAIRYLAND</span>
-            <span className="text-gray-900 font-black text-[10px] tracking-widest">AUTO</span>
-          </div>
+          
         </div>
       </div>
     </>

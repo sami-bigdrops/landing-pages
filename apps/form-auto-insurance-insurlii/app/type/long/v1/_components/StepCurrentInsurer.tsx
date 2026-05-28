@@ -62,7 +62,7 @@ export function StepCurrentInsurer({ value, onChange }: StepCurrentInsurerProps)
                 }}
               />
               <span
-                className="text-xs lg:text-sm font-semibold text-center leading-tight"
+                className="text-[0.7rem] md:text-sm lg:text-base xl:text-lg font-semibold text-center leading-tight"
                 style={{ color: FORM_PRIMARY_COLOR }}
               >
                 {name}

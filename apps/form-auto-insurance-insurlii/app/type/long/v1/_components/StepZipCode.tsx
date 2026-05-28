@@ -1,6 +1,7 @@
 "use client"
 
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { ArrowRightIcon } from "lucide-react"
 
 interface StepZipCodeProps {
   value: string
@@ -46,9 +47,10 @@ export function StepZipCode({ value, onChange, onNext }: StepZipCodeProps) {
           type="submit"
           disabled={value.length !== 5}
           className="w-full rounded-lg px-6 py-3.5 text-sm lg:text-base font-bold text-white transition-opacity disabled:opacity-50"
-          style={{ backgroundColor: FORM_PRIMARY_COLOR }}
+          style={{ backgroundColor: "#F97316" }}
         >
           Continue
+          
         </button>
       </form>
     </div>
