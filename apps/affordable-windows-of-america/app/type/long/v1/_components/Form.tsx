@@ -15,7 +15,8 @@ import { TrustedForm, getCookie } from "@workspace/lp-core"
 import { AddressAutocomplete } from "./AddressAutocomplete"
 import PartnerModal from "./Partners-model"
 
-
+const THEME_ORANGE = "rgb(249,115,22)"
+const THEME_ORANGE_BG = "rgba(249,115,22,0.08)"
 
 const TOTAL_STEPS = 7
 
@@ -56,12 +57,15 @@ const defaultFormData = {
   zipCode: "",
 }
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 function FormPage() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [trustedFormCertUrl, setTrustedFormCertUrl] = useState("")
   const [cityName, setCityName] = useState("")
+  const [showErrors, setShowErrors] = useState(false)
   const [homeownerCount] = useState(() => Math.floor(Math.random() * 3) + 3)
   const [minutesText] = useState(() => {
     const options = [5, 10, 15, 20]
@@ -202,15 +206,13 @@ function FormPage() {
         return formData.windowCount !== ""
       case 4:
         return formData.workDone !== ""
-      case 5: {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      case 5:
         return (
           formData.firstName?.trim() !== "" &&
           formData.lastName?.trim() !== "" &&
           formData.email !== "" &&
           emailRegex.test(formData.email)
         )
-      }
       case 6:
         return (
           formData.address.trim() !== "" &&
@@ -226,7 +228,11 @@ function FormPage() {
   }
 
   const handleNext = async () => {
-    if (!isStepValid()) return
+    if (!isStepValid()) {
+      setShowErrors(true)
+      return
+    }
+    setShowErrors(false)
     if (currentStep === TOTAL_STEPS) {
       setIsSubmitting(true)
       try {
@@ -289,7 +295,15 @@ function FormPage() {
     }
   }
 
-  const handleBack = () => setCurrentStep((p) => p - 1)
+  const handleBack = () => {
+    setShowErrors(false)
+    setCurrentStep((p) => p - 1)
+  }
+
+  const radioWrapperStyle = {
+    "--primary": THEME_ORANGE,
+    "--primary-foreground": "#ffffff",
+  } as React.CSSProperties
 
   return (
     <div className="min-h-screen bg-white px-4 pt-8 pb-8">
@@ -314,7 +328,7 @@ function FormPage() {
           totalSteps={TOTAL_STEPS}
           className="mb-6"
           backgroundColor="#B8CFE8"
-          foregroundColor="#DD2525"
+          foregroundColor={THEME_ORANGE}
         />
         <form
           onSubmit={(e) => {
@@ -334,35 +348,42 @@ function FormPage() {
             {currentStep === 1 && (
               <>
                 <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">Are you a homeowner?</h2>
-                <RadioButtonGroup
-                  type="1"
-                  name="homeowner"
-                  label="Select an Option"
-                  labelClassName="text-base font-semibold text-[#1A1A1A]"
-                  options={homeownerOptions}
-                  value={formData.homeowner}
-                  onChange={(value) => handleInputChange("homeowner", value, true)}
-                  className="mb-8"
-                  selectedOptionBackgroundColor="#D5E4FB"
-                  selectedOptionBorderColor="#0F2A44"
-                />
+                <div style={radioWrapperStyle}>
+                  <RadioButtonGroup
+                    type="1"
+                    layout="row"
+                    name="homeowner"
+                    label="Select an Option"
+                    labelClassName="text-base font-semibold text-[#1A1A1A]"
+                    options={homeownerOptions}
+                    value={formData.homeowner}
+                    onChange={(value) => handleInputChange("homeowner", value, true)}
+                    className="mb-8"
+                    optionClassName="flex-row-reverse justify-between flex-1"
+                    selectedOptionBackgroundColor={THEME_ORANGE_BG}
+                    selectedOptionBorderColor={THEME_ORANGE}
+                  />
+                </div>
               </>
             )}
 
             {currentStep === 2 && (
               <>
                 <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">What is the nature of this project?</h2>
-                <RadioButtonGroup
-                  name="projectNature"
-                  label="Select an Option"
-                  labelClassName="text-base font-semibold text-[#1A1A1A]"
-                  options={projectNatureOptions}
-                  value={formData.projectNature}
-                  onChange={(value) => handleInputChange("projectNature", value, true)}
-                  className="mb-8"
-                  selectedOptionBackgroundColor="#D5E4FB"
-                  selectedOptionBorderColor="#0F2A44"
-                />
+                <div style={radioWrapperStyle}>
+                  <RadioButtonGroup
+                    name="projectNature"
+                    label="Select an Option"
+                    labelClassName="text-base font-semibold text-[#1A1A1A]"
+                    options={projectNatureOptions}
+                    value={formData.projectNature}
+                    onChange={(value) => handleInputChange("projectNature", value, true)}
+                    className="mb-8"
+                    optionClassName="flex-row-reverse justify-between"
+                    selectedOptionBackgroundColor={THEME_ORANGE_BG}
+                    selectedOptionBorderColor={THEME_ORANGE}
+                  />
+                </div>
               </>
             )}
 
@@ -371,34 +392,40 @@ function FormPage() {
                 <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">
                   {formData.projectNature === "home_window_replacement" ? "How many windows do you need to install?" : "How many windows do you need to repair?"}
                 </h2>
-                <RadioButtonGroup
-                  name="windowCount"
-                  label="Select an Option"
-                  labelClassName="text-base font-semibold text-[#1A1A1A]"
-                  options={windowCountOptions}
-                  value={formData.windowCount}
-                  onChange={(value) => handleInputChange("windowCount", value, true)}
-                  className="mb-8"
-                  selectedOptionBackgroundColor="#D5E4FB"
-                  selectedOptionBorderColor="#0F2A44"
-                />
+                <div style={radioWrapperStyle}>
+                  <RadioButtonGroup
+                    name="windowCount"
+                    label="Select an Option"
+                    labelClassName="text-base font-semibold text-[#1A1A1A]"
+                    options={windowCountOptions}
+                    value={formData.windowCount}
+                    onChange={(value) => handleInputChange("windowCount", value, true)}
+                    className="mb-8"
+                    optionClassName="flex-row-reverse justify-between"
+                    selectedOptionBackgroundColor={THEME_ORANGE_BG}
+                    selectedOptionBorderColor={THEME_ORANGE}
+                  />
+                </div>
               </>
             )}
 
             {currentStep === 4 && (
               <>
                 <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">When do you need this work done?</h2>
-                <RadioButtonGroup
-                  name="workDone"
-                  label="Select an Option"
-                  labelClassName="text-base font-semibold text-[#1A1A1A]"
-                  options={workDoneOptions}
-                  value={formData.workDone}
-                  onChange={(value) => handleInputChange("workDone", value, true)}
-                  className="mb-8"
-                  selectedOptionBackgroundColor="#D5E4FB"
-                  selectedOptionBorderColor="#0F2A44"
-                />
+                <div style={radioWrapperStyle}>
+                  <RadioButtonGroup
+                    name="workDone"
+                    label="Select an Option"
+                    labelClassName="text-base font-semibold text-[#1A1A1A]"
+                    options={workDoneOptions}
+                    value={formData.workDone}
+                    onChange={(value) => handleInputChange("workDone", value, true)}
+                    className="mb-8"
+                    optionClassName="flex-row-reverse justify-between"
+                    selectedOptionBackgroundColor={THEME_ORANGE_BG}
+                    selectedOptionBorderColor={THEME_ORANGE}
+                  />
+                </div>
               </>
             )}
 
@@ -415,6 +442,7 @@ function FormPage() {
                       placeholder="John"
                       labelClassName="text-base font-semibold text-[#1A1A1A]"
                       className="h-12 text-base font-normal"
+                      error={showErrors && !formData.firstName?.trim() ? "First name is required" : undefined}
                     />
                     <TextInput
                       id="lastName"
@@ -424,6 +452,7 @@ function FormPage() {
                       placeholder="Doe"
                       labelClassName="text-base font-semibold text-[#1A1A1A]"
                       className="h-12 text-base font-normal"
+                      error={showErrors && !formData.lastName?.trim() ? "Last name is required" : undefined}
                     />
                   </div>
                   <TextInput
@@ -435,6 +464,15 @@ function FormPage() {
                     placeholder="example@email.com"
                     labelClassName="text-base font-semibold text-[#1A1A1A]"
                     className="h-12 text-base font-normal"
+                    error={
+                      showErrors
+                        ? !formData.email
+                          ? "Email address is required"
+                          : !emailRegex.test(formData.email)
+                          ? "Please enter a valid email address"
+                          : undefined
+                        : undefined
+                    }
                   />
                 </div>
               </>
@@ -444,25 +482,30 @@ function FormPage() {
               <>
                 <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight mb-8 md:mb-10">Address Information</h2>
                 <div className="mb-8 space-y-6">
-                  <AddressAutocomplete
-                    id="address"
-                    label="Address"
-                    value={formData.address}
-                    onChange={(v) => handleInputChange("address", v)}
-                    onPlaceSelect={(details) => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        address: details.address,
-                        city: details.city,
-                        state: details.state,
-                        zipCode: details.zipCode,
-                      }))
-                    }}
-                    placeholder="Start typing your address..."
-                    labelClassName="text-base font-semibold text-[#1A1A1A]"
-                    className="h-12 text-base font-normal"
-                    googleReady={googlePlacesReady}
-                  />
+                  <div>
+                    <AddressAutocomplete
+                      id="address"
+                      label="Address"
+                      value={formData.address}
+                      onChange={(v) => handleInputChange("address", v)}
+                      onPlaceSelect={(details) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          address: details.address,
+                          city: details.city,
+                          state: details.state,
+                          zipCode: details.zipCode,
+                        }))
+                      }}
+                      placeholder="Start typing your address..."
+                      labelClassName="text-base font-semibold text-[#1A1A1A]"
+                      className="h-12 text-base font-normal"
+                      googleReady={googlePlacesReady}
+                    />
+                    {showErrors && !formData.address.trim() && (
+                      <p className="mt-1 text-sm text-destructive" role="alert">Address is required</p>
+                    )}
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <TextInput
                       id="city"
@@ -472,6 +515,7 @@ function FormPage() {
                       placeholder="City"
                       labelClassName="text-base font-semibold text-[#1A1A1A]"
                       className="h-12 text-base font-normal"
+                      error={showErrors && !formData.city.trim() ? "City is required" : undefined}
                     />
                     <TextInput
                       id="state"
@@ -482,6 +526,7 @@ function FormPage() {
                       maxLength={2}
                       labelClassName="text-base font-semibold text-[#1A1A1A]"
                       className="h-12 text-base font-normal"
+                      error={showErrors && !formData.state.trim() ? "State is required (2-letter code)" : undefined}
                     />
                   </div>
                   <ZipCodeInput
@@ -492,6 +537,7 @@ function FormPage() {
                     placeholder="12345"
                     labelClassName="text-base font-semibold text-[#1A1A1A]"
                     className="h-12 text-base font-normal"
+                    error={showErrors && formData.zipCode.length !== 5 ? "Please enter a valid 5-digit zip code" : undefined}
                   />
                 </div>
               </>
@@ -508,6 +554,7 @@ function FormPage() {
                     onChange={(v) => handleInputChange("phoneNumber", v)}
                     labelClassName="text-base font-semibold text-[#1A1A1A]"
                     className="h-12 text-base font-normal"
+                    error={showErrors && formData.phoneNumber.replace(/\D/g, "").length !== 10 ? "Please enter a valid 10-digit phone number" : undefined}
                   />
                 </div>
               </>
@@ -530,7 +577,7 @@ function FormPage() {
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="flex items-center gap-2 rounded-[10px] border-2 border-[#BBB] px-6 py-4 text-base font-semibold text-[#1A1A1A] transition-all duration-300 hover:border-[#0F2A44] hover:text-[#0F2A44] hover:shadow-[0_0_10px_0_rgba(0,0,0,0.1)] md:text-lg"
+                  className="flex items-center gap-2 rounded-[10px] border-2 border-[#BBB] px-6 py-4 text-base font-semibold text-[#1A1A1A] transition-all duration-300 hover:border-[rgb(249,115,22)] hover:text-[rgb(249,115,22)] hover:shadow-[0_0_10px_0_rgba(0,0,0,0.1)] md:text-lg"
                 >
                   <ArrowLeft size={20} />
                   Back
@@ -539,11 +586,11 @@ function FormPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                disabled={!isStepValid() || isSubmitting}
+                disabled={isSubmitting}
                 className={`${currentStep > 1 ? "flex-1" : "w-full"} flex cursor-pointer items-center justify-center gap-2 rounded-[6px] py-4 text-base font-semibold uppercase transition-all duration-300 shadow-[0_0_4px_0_rgba(0,0,0,0.25)] md:text-lg ${
-                  !isStepValid() || isSubmitting
+                  isSubmitting
                     ? "cursor-not-allowed bg-gray-300 text-gray-500"
-                    : "bg-[#DD2525] text-white hover:bg-[#DD2525]"
+                    : "bg-[rgb(249,115,22)] text-white hover:bg-[rgb(229,95,2)]"
                 }`}
               >
                 {isSubmitting ? (
@@ -563,11 +610,11 @@ function FormPage() {
               <div className="mt-6 rounded-[10px] border border-[#BBB] bg-[#F8F9FB] p-4">
                 <p className="text-xs font-medium leading-relaxed text-[#1A1A1A]">
                   By submitting this form, I agree to the Affordable Windows of America{" "}
-                  <a href="/terms-of-use" className="text-[#0F2A44] underline hover:text-[#DD2525]" target="_blank" rel="noopener noreferrer">
+                  <a href="/terms-of-use" className="text-[#0F2A44] underline hover:text-[rgb(249,115,22)]" target="_blank" rel="noopener noreferrer">
                     Terms of Use
                   </a>{" "}
                   and{" "}
-                  <a href="/privacy-policy" className="text-[#0F2A44] underline hover:text-[#DD2525]" target="_blank" rel="noopener noreferrer">
+                  <a href="/privacy-policy" className="text-[#0F2A44] underline hover:text-[rgb(249,115,22)]" target="_blank" rel="noopener noreferrer">
                     Privacy Policy
                   </a>
                   . I authorize Affordable Windows of America and its{" "}
@@ -577,7 +624,7 @@ function FormPage() {
                       e.preventDefault()
                       setIsPartnerModalOpen(true)
                     }}
-                    className="cursor-pointer text-[#0F2A44] underline hover:text-[#DD2525]"
+                    className="cursor-pointer text-[#0F2A44] underline hover:text-[rgb(249,115,22)]"
                   >
                     partners
                   </button>{" "}
