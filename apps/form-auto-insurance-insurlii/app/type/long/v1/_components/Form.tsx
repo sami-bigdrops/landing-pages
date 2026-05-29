@@ -57,7 +57,6 @@ import { StepMilitaryService } from "./StepMilitaryService"
 import { StepHelpGoal } from "./StepHelpGoal"
 import { StepAARP } from "./StepAARP"
 import { StepDriverNames } from "./StepDriverNames"
-import { StepCarMakeSelect } from "./StepCarMakeSelect"
 import { StepLoading } from "./StepLoading"
 import { StepResults } from "./StepResults"
 
@@ -262,7 +261,7 @@ function FormPage() {
 
   const handleModelChange = (model: string) => {
     setVehicleModel(model)
-    if (vehicleType === "car") setCurrentStep(S_V1_OWN)
+    setCurrentStep(S_V1_OWN)
   }
 
   // ── Vehicle 1 car-flow handlers ───────────────────────────────────────
@@ -274,11 +273,11 @@ function FormPage() {
   // ── Add vehicle 2 ─────────────────────────────────────────────────────
   const handleAddV2 = (add: boolean) => {
     setAddVehicle2(add)
-    if (!add) {
-      // clear any previously entered V2 data
+    if (add) {
+      setV2VehicleType(vehicleType)
+    } else {
       setV2Year(""); setV2Make(""); setV2Model("")
       setV2Ownership(""); setV2PrimaryUse(""); setV2Miles(""); setV2Coverage("")
-      // also clear V3 since it depends on V2
       setAddVehicle3(null)
       setV3Year(""); setV3Make(""); setV3Model("")
       setV3Ownership(""); setV3PrimaryUse(""); setV3Miles(""); setV3Coverage("")
@@ -287,6 +286,10 @@ function FormPage() {
   }
 
   // ── Vehicle 2 handlers ────────────────────────────────────────────────
+  const handleV2VehicleTypeChange = (type: FormVehicleType) => {
+    setV2VehicleType(type); setV2Make(""); setV2Model("")
+  }
+
   const handleV2Year = (year: string) => {
     setV2Year(year); setV2Make(""); setV2Model("")
     setCurrentStep(S_V2_MAKE)
@@ -301,7 +304,9 @@ function FormPage() {
   // ── Add vehicle 3 ─────────────────────────────────────────────────────
   const handleAddV3 = (add: boolean) => {
     setAddVehicle3(add)
-    if (!add) {
+    if (add) {
+      setV3VehicleType(vehicleType)
+    } else {
       setV3Year(""); setV3Make(""); setV3Model("")
       setV3Ownership(""); setV3PrimaryUse(""); setV3Miles(""); setV3Coverage("")
     }
@@ -309,6 +314,10 @@ function FormPage() {
   }
 
   // ── Vehicle 3 handlers ────────────────────────────────────────────────
+  const handleV3VehicleTypeChange = (type: FormVehicleType) => {
+    setV3VehicleType(type); setV3Make(""); setV3Model("")
+  }
+
   const handleV3Year = (year: string) => {
     setV3Year(year); setV3Make(""); setV3Model("")
     setCurrentStep(S_V3_MAKE)
@@ -472,9 +481,12 @@ function FormPage() {
             <VehicleYearStep value={v2Year} onChange={handleV2Year} />
           )}
           {addVehicle2 === true && currentStep === S_V2_MAKE && v2Year && (
-            <StepCarMakeSelect
+            <VehicleMakeStep
               year={v2Year}
               title="What make is your second vehicle?"
+              vehicleType={v2VehicleType}
+              onVehicleTypeChange={handleV2VehicleTypeChange}
+              showTypeToggle={false}
               value={v2Make}
               onChange={handleV2Make}
             />
@@ -513,9 +525,12 @@ function FormPage() {
             <VehicleYearStep value={v3Year} onChange={handleV3Year} />
           )}
           {addVehicle2 === true && addVehicle3 === true && currentStep === S_V3_MAKE && v3Year && (
-            <StepCarMakeSelect
+            <VehicleMakeStep
               year={v3Year}
               title="What make is your third vehicle?"
+              vehicleType={v3VehicleType}
+              onVehicleTypeChange={handleV3VehicleTypeChange}
+              showTypeToggle={false}
               value={v3Make}
               onChange={handleV3Make}
             />

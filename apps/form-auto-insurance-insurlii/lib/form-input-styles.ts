@@ -16,7 +16,7 @@ export function formOptionButtonClasses(isSelected: boolean, className?: string)
   return cn(
     "rounded-lg border transition-colors duration-200",
     isSelected
-      ? "border-[#7FB2F0] bg-[#EBF5FF]"
+      ? "border-[#205BB9] bg-[#C8DEFF]"
       : "border-[#E5E7EB] bg-white hover:border-[#7FB2F0] hover:bg-[#EBF5FF]",
     className
   )

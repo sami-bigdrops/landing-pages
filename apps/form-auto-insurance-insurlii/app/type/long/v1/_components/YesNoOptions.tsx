@@ -2,6 +2,7 @@
 
 import { formOptionButtonClasses } from "@/lib/form-input-styles"
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FormRadioIndicator } from "./FormRadioIndicator"
 
 interface YesNoOptionsProps {
   value: boolean | null
@@ -26,14 +27,15 @@ export function YesNoOptions({ value, onChange, ariaLabel }: YesNoOptionsProps) 
             role="radio"
             aria-checked={isSelected}
             onClick={() => onChange(bool)}
-            className={formOptionButtonClasses(isSelected, "flex flex-col items-center justify-center gap-2 rounded-lg border px-2 py-4 md:py-5 xl:py-6 transition-colors duration-200")}
+            className={formOptionButtonClasses(isSelected, "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-5 xl:px-6.5 py-3.5 transition-colors duration-200")}
           >
             <span
-              className="text-base md:text-lg lg:text-xl xl:text-xl font-semibold"
+              className="text-sm lg:text-base xl:text-lg font-semibold"
               style={{ color: FORM_PRIMARY_COLOR }}
             >
               {label}
             </span>
+            <FormRadioIndicator isSelected={isSelected} className="w-3.5 h-3.5 md:h-4.5 md:w-4.5" />
           </button>
         )
       })}

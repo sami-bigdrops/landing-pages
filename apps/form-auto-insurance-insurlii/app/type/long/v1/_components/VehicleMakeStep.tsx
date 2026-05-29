@@ -18,6 +18,8 @@ interface VehicleMakeStepProps {
   onVehicleTypeChange: (type: FormVehicleType) => void
   value: string
   onChange: (make: string) => void
+  title?: string
+  showTypeToggle?: boolean
 }
 
 function normalizeMakeKey(name: string) {
@@ -37,7 +39,7 @@ function formatMakeLabel(name: string) {
 function MakeLogoFallback({ name }: { name: string }) {
   return (
     <span
-      className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-gray-100 text-xs font-bold text-gray-500"
+      className="flex h-12 w-12 shrink-0 items-center justify-center rounded bg-gray-100 text-sm font-bold text-gray-500"
       aria-hidden
     >
       {name.charAt(0)}
@@ -61,7 +63,7 @@ function MakeLogo({ name, logoUrl }: { name: string; logoUrl: string }) {
     <img
       src={logoUrl}
       alt=""
-      className="h-8 w-8 shrink-0 object-contain"
+      className="h-26 w-26 shrink-0 object-contain"
       loading="lazy"
       onError={handleError}
     />
@@ -74,6 +76,8 @@ export function VehicleMakeStep({
   onVehicleTypeChange,
   value,
   onChange,
+  title,
+  showTypeToggle = true,
 }: VehicleMakeStepProps) {
   const [makes, setMakes] = useState<VehicleMakeOption[]>([])
   const [loading, setLoading] = useState(true)
@@ -147,39 +151,41 @@ return (
         className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
         style={{ color: FORM_PRIMARY_COLOR }}
       >
-        What is your vehicle make?
+        {title ?? "What is your vehicle make?"}
       </h2>
 
-      <div
-        className="w-full md:max-w-lg xl:max-w-2xl mx-auto mb-6 md:mb-8 p-1.5 md:p-2 overflow-hidden border border-gray-200 rounded-xl grid grid-cols-2 gap-1.5 md:gap-3"
-        role="group"
-        aria-label="Vehicle type"
-        style={{ borderColor: "#D1D5DB" }} // fallback for border
-      >
-        {(
-          [
-            { type: "car" as const, label: "Car", Icon: Car },
-            { type: "motorcycle" as const, label: "Motorcycle", Icon: Bike },
-          ] as const
-        ).map(({ type, label, Icon }) => {
-          const isSelected = vehicleType === type
-          return (
-            <button
-              key={type}
-              type="button"
-              onClick={() => onVehicleTypeChange(type)}
-              className={formOptionButtonClasses(isSelected, "flex items-center justify-center gap-1.5 xl:gap-2.5 rounded-lg border px-2 xl:px-3 py-3.5 font-semibold transition-colors")}
-            >
-              <Icon
-                className="w-4 h-4 xl:w-6 xl:h-6 shrink-0"
-                style={{ color: FORM_PRIMARY_COLOR }}
-                strokeWidth={2}
-              />
-              <span className="text-sm lg:text-base xl:text-lg font-semibold leading-tight line-clamp-2" style={{ color: FORM_PRIMARY_COLOR }}>{label}</span>
-            </button>
-          )
-        })}
-      </div>
+      {showTypeToggle && (
+        <div
+          className="w-full md:max-w-lg xl:max-w-2xl mx-auto mb-6 md:mb-8 p-1.5 md:p-2 overflow-hidden border border-gray-200 rounded-xl grid grid-cols-2 gap-1.5 md:gap-3"
+          role="group"
+          aria-label="Vehicle type"
+          style={{ borderColor: "#D1D5DB" }}
+        >
+          {(
+            [
+              { type: "car" as const, label: "Car", Icon: Car },
+              { type: "motorcycle" as const, label: "Motorcycle", Icon: Bike },
+            ] as const
+          ).map(({ type, label, Icon }) => {
+            const isSelected = vehicleType === type
+            return (
+              <button
+                key={type}
+                type="button"
+                onClick={() => onVehicleTypeChange(type)}
+                className={formOptionButtonClasses(isSelected, "flex items-center justify-center gap-1.5 xl:gap-2.5 rounded-lg border px-2 xl:px-3 py-3.5 font-semibold transition-colors")}
+              >
+                <Icon
+                  className="w-4 h-4 xl:w-6 xl:h-6 shrink-0"
+                  style={{ color: FORM_PRIMARY_COLOR }}
+                  strokeWidth={2}
+                />
+                <span className="text-sm lg:text-base xl:text-lg font-semibold leading-tight line-clamp-2" style={{ color: FORM_PRIMARY_COLOR }}>{label}</span>
+              </button>
+            )
+          })}
+        </div>
+      )}
 
 
       {loading ? (
@@ -215,7 +221,7 @@ return (
                     role="radio"
                     aria-checked={isSelected}
                     onClick={() => onChange(make.name)}
-                    className={formOptionButtonClasses(isSelected, "flex flex-col  items-center gap-2 rounded-lg border px-3 py-3 text-left transition-colors min-h-[56px]")}
+                    className={formOptionButtonClasses(isSelected, "flex flex-col items-center gap-2 rounded-lg border px-3 py-4 text-left transition-colors min-h-[96px]")}
                   >
                     <MakeLogo name={make.name} logoUrl={make.logoUrl || ""} />
                     <span
