@@ -205,6 +205,9 @@ export default function Form() {
     const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
     const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
+    const carMakeName =
+      makeOptions.find((o) => o.value === carMake)?.label ?? carMake.trim()
+
     const payload = {
       firstName: firstName.trim(),
       lastName: lastName.trim(),
@@ -212,7 +215,7 @@ export default function Form() {
       phoneNumber: phoneNumber.trim(),
       zipCode: zipCode.trim(),
       carYear,
-      carMake,
+      carMake: carMakeName,
       carModel,
       currentMileage: currentMileage.trim(),
       subid1: getCookie("subid1") ?? "",

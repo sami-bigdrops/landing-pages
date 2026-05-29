@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
+import { eq } from "drizzle-orm"
+import { db } from "@/lib/db"
+import { vehicleMakes } from "@/lib/db/schema"
 import { verifyEmailWithHunter } from "@/lib/hunter-verify-email"
 import { verifyPhone } from "@/lib/veriphone-verify-phone"
 
@@ -13,6 +16,21 @@ const REQUIRED_FIELDS = [
   "carModel",
   "currentMileage",
 ] as const
+
+async function resolveVehicleMakeName(carMake: unknown): Promise<string> {
+  const trimmed = String(carMake ?? "").trim()
+  if (!trimmed) return trimmed
+  if (!/^\d+$/.test(trimmed)) return trimmed
+
+  const makeId = parseInt(trimmed, 10)
+  const [row] = await db
+    .select({ name: vehicleMakes.name })
+    .from(vehicleMakes)
+    .where(eq(vehicleMakes.id, makeId))
+    .limit(1)
+
+  return row?.name ?? trimmed
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -72,6 +90,8 @@ export async function POST(request: NextRequest) {
       ? firstForwarded.trim()
       : request.headers.get("x-real-ip") || "unknown"
 
+    const vehicleMakeName = await resolveVehicleMakeName(carMake)
+
     const submittedPayload = {
       firstName,
       lastName,
@@ -79,7 +99,7 @@ export async function POST(request: NextRequest) {
       phoneNumber: phoneTrimmed,
       zipCode,
       carYear,
-      carMake,
+      carMake: vehicleMakeName,
       carModel,
       currentMileage,
       subid1: subid1 ?? "",
@@ -109,7 +129,7 @@ export async function POST(request: NextRequest) {
         phone: phoneTrimmed.replace(/\D/g, ""),
         zip_code: String(zipCode).trim(),
         Vehicle_Year: String(carYear).trim(),
-        Vehicle_Make: String(carMake).trim(),
+        Vehicle_Make: vehicleMakeName,
         Vehicle_Model: String(carModel).trim(),
         Expected_Mileage: String(currentMileage).trim(),
         ip_address: ip,
