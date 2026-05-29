@@ -6,6 +6,7 @@ import { Button } from "@workspace/ui/components/button";
 
 import { useRouter } from "next/navigation";
 
+
 const heroBackgroundImage = `linear-gradient(0deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.10) 100%), linear-gradient(180deg, rgba(255, 255, 255, 0.20) 31.48%, rgba(0, 0, 0, 0.20) 60.31%), url(${HERO_CONTENT.image.src})`;
 
 const heroBackgroundBaseStyle = {
@@ -18,6 +19,10 @@ const heroBackgroundBaseStyle = {
 export default function Hero() {
   useUtmParams(30);
   const router = useRouter();
+
+  const handleCheckMyEligibility = () => {
+    router.push("/form");
+  };
   return (
     <div className="relative w-full h-full  md:min-h-[370px] lg:min-h-[410px] xl:min-h-[570px] overflow-hidden px-6 py-8 pb-22 md:px-6 md:py-12 lg:px-14 lg:py-15 xl:px-20 xl:py-21">
       <div
@@ -49,7 +54,7 @@ export default function Hero() {
             <Button
               type="1"
               variant="default"
-              onClick={() => router.push("/form")}
+              onClick={handleCheckMyEligibility}
               className="flex h-12 xl:h-16.5 px-5  cursor-pointer items-center justify-center gap-2 rounded-[10px] font-semibold bg-[#E56A2E] text-[0.75rem] md:text-[0.8rem] xl:text-[1.05rem] font-inherit text-white shadow-[0_0_12px_0_rgba(0,0,0,0.20)] transition-all duration-300 hover:bg-[#E56A2E] disabled:cursor-not-allowed disabled:opacity-90 md:w-[210px] xl:w-[276px] "
             >
               <>Book a FREE Roof Inspection </>
