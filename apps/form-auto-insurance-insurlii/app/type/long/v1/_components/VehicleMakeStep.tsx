@@ -63,7 +63,9 @@ function MakeLogo({ name, logoUrl }: { name: string; logoUrl: string }) {
     <img
       src={logoUrl}
       alt=""
-      className="h-26 w-26 shrink-0 object-contain"
+      width={100}
+      height={120}
+      className="h-15 w-35 lg:w-40 lg:h-16 xl:w-45 shrink-0 object-contain"
       loading="lazy"
       onError={handleError}
     />
@@ -221,7 +223,7 @@ return (
                     role="radio"
                     aria-checked={isSelected}
                     onClick={() => onChange(make.name)}
-                    className={formOptionButtonClasses(isSelected, "flex flex-col items-center gap-2 rounded-lg border px-3 py-4 text-left transition-colors min-h-[96px]")}
+                    className={formOptionButtonClasses(isSelected, "flex flex-col items-center gap-2 lg:gap-3 rounded-lg border px-3 py-4 text-left transition-colors min-h-[96px]")}
                   >
                     <MakeLogo name={make.name} logoUrl={make.logoUrl || ""} />
                     <span

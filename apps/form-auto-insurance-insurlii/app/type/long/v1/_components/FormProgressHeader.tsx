@@ -25,7 +25,7 @@ export function FormProgressHeader({
   const carOffset = Math.min(Math.max(percentage, 0), 100)
 
   return (
-    <div className="w-full mb-8 text-center ">
+    <div className="w-full mb-8  text-center ">
       <h2 className="text-sm md:text-base xl:text-lg font-semibold text-[#051850] leading-snug mb-5 xl:mb-6 px-2">
         {tagline ?? `Drivers in ${cityName} can save up to $${FORM_SAVINGS_AMOUNT} per year!`}
       </h2>

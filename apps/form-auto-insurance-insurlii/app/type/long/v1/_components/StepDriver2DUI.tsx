@@ -15,7 +15,7 @@ export function StepDriver2DUI({ value, onChange }: StepDriver2DUIProps) {
         className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
         style={{ color: FORM_PRIMARY_COLOR }}
       >
-        Has your second driver had a DUI conviction in the past three (3) years or need an SR-22 form?
+        Has your second driver had a DUI conviction in the past three (3) years ?
       </h2>
 
       <YesNoOptions value={value} onChange={onChange} ariaLabel="Second driver DUI conviction" />

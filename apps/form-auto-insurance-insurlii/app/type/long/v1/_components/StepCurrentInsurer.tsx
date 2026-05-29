@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { formOptionButtonClasses } from "@/lib/form-input-styles"
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
 
@@ -9,18 +10,18 @@ interface StepCurrentInsurerProps {
 }
 
 const INSURERS = [
-  { name: "AAA",           logo: "https://logo.clearbit.com/aaa.com" },
-  { name: "Allstate",      logo: "https://logo.clearbit.com/allstate.com" },
-  { name: "Farm Bureau",   logo: "https://logo.clearbit.com/fbfs.com" },
-  { name: "Farmers",       logo: "https://logo.clearbit.com/farmers.com" },
-  { name: "GEICO",         logo: "https://logo.clearbit.com/geico.com" },
-  { name: "Liberty Mutual",logo: "https://logo.clearbit.com/libertymutual.com" },
-  { name: "Nationwide",    logo: "https://logo.clearbit.com/nationwide.com" },
-  { name: "Progressive",   logo: "https://logo.clearbit.com/progressive.com" },
-  { name: "Safeco",        logo: "https://logo.clearbit.com/safeco.com" },
-  { name: "State Farm",    logo: "https://logo.clearbit.com/statefarm.com" },
-  { name: "The Hartford",  logo: "https://logo.clearbit.com/thehartford.com" },
-  { name: "USAA",          logo: "https://logo.clearbit.com/usaa.com" },
+  { name: "AAA",            logo: "/AAA.svg" },
+  { name: "Allstate",       logo: "/allstate.svg" },
+  { name: "Farm Bureau",    logo: "/farmersBureau.svg" },
+  { name: "Farmers",        logo: "/farmersInsurance.svg" },
+  { name: "GEICO",          logo: "/geico.svg" },
+  { name: "Liberty Mutual", logo: "/libertyMutual.svg" },
+  { name: "Nationwide",     logo: "/nationwide.svg" },
+  { name: "Progressive",    logo: "/progressive.svg" },
+  { name: "Safeco",         logo: "/safeco.svg" },
+  { name: "State Farm",     logo: "/stateFarm.svg" },
+  { name: "The Hartford",   logo: "/theHartford.svg" },
+  { name: "USAA",           logo: "/USAA.svg" },
 ]
 
 export function StepCurrentInsurer({ value, onChange }: StepCurrentInsurerProps) {
@@ -33,46 +34,52 @@ export function StepCurrentInsurer({ value, onChange }: StepCurrentInsurerProps)
         Who is your current insurer?
       </h2>
 
-      <div className="grid grid-cols-3 gap-3 md:gap-4" role="radiogroup" aria-label="Current insurer">
-        {INSURERS.map(({ name, logo }) => {
-          const isSelected = value === name
-          return (
-            <button
-              key={name}
-              type="button"
-              role="radio"
-              aria-checked={isSelected}
-              onClick={() => onChange(name)}
-              className={formOptionButtonClasses(isSelected, "flex flex-col items-center justify-center gap-2 rounded-lg border px-3 py-5 transition-colors duration-200 min-h-[100px]")}
-            >
-              <img
-                src={logo}
-                alt={name}
-                className="h-10 w-auto max-w-[100px] object-contain"
-                onError={(e) => {
-                  ;(e.currentTarget as HTMLImageElement).style.display = "none"
-                }}
-              />
-              <span
-                className="text-[0.7rem] md:text-sm lg:text-base xl:text-lg font-semibold text-center leading-tight"
-                style={{ color: FORM_PRIMARY_COLOR }}
+      <div className="flex flex-col items-center justify-center gap-3 md:gap-4 w-full">
+        <div
+          className="w-full grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4"
+          role="radiogroup"
+          aria-label="Current insurer"
+        >
+          {INSURERS.map(({ name, logo }) => {
+            const isSelected = value === name
+            return (
+              <button
+                key={name}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                onClick={() => onChange(name)}
+                className={formOptionButtonClasses(isSelected, "w-full flex flex-col items-center justify-center gap-2 md:gap-3 rounded-lg border px-3 py-5 transition-colors duration-200 min-h-[100px]")}
               >
-                {name}
-              </span>
-            </button>
-          )
-        })}
+                <div className="flex h-12 md:h-14 xl:h-16 w-full max-w-[100px] xl:max-w-[120px] shrink-0 items-center justify-center">
+                  <Image
+                    src={logo}
+                    alt=""
+                    width={100}
+                    height={120}
+                    className="max-h-12 md:max-h-14 xl:max-h-16 w-full object-contain"
+                  />
+                </div>
+                <span
+                  className="text-sm lg:text-base xl:text-lg font-semibold text-center leading-tight"
+                  style={{ color: FORM_PRIMARY_COLOR }}
+                >
+                  {name}
+                </span>
+              </button>
+            )
+          })}
+        </div>
 
-        {/* Other — full width */}
         <button
           type="button"
           role="radio"
           aria-checked={value === "Other"}
           onClick={() => onChange("Other")}
-          className={formOptionButtonClasses(value === "Other", "col-span-3 flex items-center justify-center rounded-lg border px-3 py-4 transition-colors duration-200 min-h-[56px]")}
+          className={formOptionButtonClasses(value === "Other", "w-full flex  items-center justify-center  rounded-lg border px-3 py-4 transition-colors duration-200 min-h-[56px]")}
         >
           <span
-            className="text-sm font-semibold"
+            className="text-sm lg:text-base xl:text-lg font-semibold"
             style={{ color: FORM_PRIMARY_COLOR }}
           >
             Other
