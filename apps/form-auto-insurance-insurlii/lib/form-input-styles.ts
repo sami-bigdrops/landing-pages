@@ -18,6 +18,12 @@ export const FORM_FIELD_TEXT_INPUT_CLASSNAME =
 export const FORM_FIELD_SELECT_INPUT_CLASSNAME =
   "rounded-lg border border-[#E5E7EB] bg-white px-3 py-3 xl:px-6 xl:py-4 h-12 xl:h-16 text-sm lg:text-base xl:text-lg shadow-none transition-[border-color,box-shadow] duration-200 hover:border-[#7FB2F0] focus-within:border-[#7FB2F0] focus-within:ring-2 focus-within:ring-[#EBF5FF]"
 
+export const FORM_SELECT_OPTION_CLASSNAME =
+  "text-sm lg:text-base xl:text-lg font-medium py-3"
+
+export const FORM_SELECT_SEARCH_CLASSNAME =
+  "text-sm lg:text-base xl:text-lg"
+
 export function formOptionButtonClasses(isSelected: boolean, className?: string) {
   return cn(
     "rounded-lg border transition-colors duration-200",

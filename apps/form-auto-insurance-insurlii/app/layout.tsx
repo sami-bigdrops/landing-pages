@@ -4,8 +4,13 @@ import { Metadata } from "next"
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
+import {
+  BRAND_DESCRIPTION,
+  BRAND_METADATA_TITLE,
+  BRAND_METADATA_TITLE_TEMPLATE,
+} from "@/lib/constant"
 
-  const fontSans = Montserrat({
+const fontSans = Montserrat({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -13,15 +18,12 @@ import { Providers } from "@/components/providers"
 
 export const metadata: Metadata = {
   title: {
-    default: "Platinum Window Experts - Window Replacement",
-    template: "%s | Platinum Window Experts",
+    default: BRAND_METADATA_TITLE,
+    template: BRAND_METADATA_TITLE_TEMPLATE,
   },
-  description:
-    "Platinum Window Experts provides top-quality window replacement services across the USA. We offer energy-efficient windows, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+  description: BRAND_DESCRIPTION,
   icons: {
-    icon: [
-      { url: "/favicon.png", type: "image/png" },
-    ],
+    icon: [{ url: "/favicon.png", type: "image/png" }],
   },
 }
 
@@ -33,7 +35,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-      <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0132/1582.js" async={true}></script>
+        <script
+          type="text/javascript"
+          src="//script.crazyegg.com/pages/scripts/0132/1582.js"
+          async={true}
+        />
       </head>
       <body
         className={`${fontSans.variable} font-sans antialiased overflow-x-hidden overflow-y-auto`}

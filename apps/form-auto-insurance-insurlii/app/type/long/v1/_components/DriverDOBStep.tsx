@@ -31,8 +31,7 @@ export function DriverDOBStep({
     if (error) setError(null)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleContinue = () => {
     const validationError = validateDriverDOB(value)
     if (validationError) {
       setError(validationError)
@@ -50,7 +49,7 @@ export function DriverDOBStep({
         {title}
       </h2>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
           <input
             type="date"
@@ -75,15 +74,16 @@ export function DriverDOBStep({
         </div>
 
         <button
-          type="submit"
+          type="button"
           disabled={!value}
+          onClick={handleContinue}
           className="w-full rounded-lg px-6 py-3.5 text-sm lg:text-base font-bold text-white transition-opacity disabled:opacity-50"
           style={{ backgroundColor: "#F97316" }}
         >
           Continue
           <ArrowRightIcon className="w-4.5 h-4.5 xl:w-5 xl:h-5 inline-block ml-2" />
         </button>
-      </form>
+      </div>
     </div>
   )
 }

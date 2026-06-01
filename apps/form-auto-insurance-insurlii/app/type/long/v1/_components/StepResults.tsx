@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { BRAND_DOMAIN, BRAND_LEGAL_FOOTER, BRAND_NAME } from "@/lib/constant"
 
 interface StepResultsProps {
   firstName: string
@@ -51,7 +52,7 @@ export function StepResults({
       <div className="flex flex-shrink-0 items-center justify-center border-b border-gray-200 bg-white p-4 shadow-sm ">
         <Image
           src="/insurlii-logo.svg"
-          alt="Insurlii"
+          alt={BRAND_NAME}
           width={130}
           height={42}
           className="h-8 w-auto xl:h-10"
@@ -149,9 +150,7 @@ export function StepResults({
 
       <footer className="flex-shrink-0 border-t border-gray-100 bg-white px-4 py-4 sm:py-5">
         <p className="mx-auto max-w-3xl text-center text-[10px] leading-relaxed text-gray-400 sm:text-xs">
-          © 2026 Insurlii.com. All rights reserved. Insurlii.com is a digital insurance comparison engine,
-          providing real-time rates and insurance services in all 50 states through its relationships with
-          carrier and agency partners.{" "}
+          © 2026 {BRAND_DOMAIN}. All rights reserved. {BRAND_LEGAL_FOOTER}{" "}
           <span className="inline-flex flex-wrap items-center justify-center gap-x-1 gap-y-0.5">
             <a href="/privacy-policy" className="underline hover:text-gray-600">Privacy Policy</a>
             <span aria-hidden="true">|</span>

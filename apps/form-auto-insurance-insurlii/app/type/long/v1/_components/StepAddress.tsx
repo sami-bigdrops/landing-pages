@@ -3,6 +3,7 @@
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
 import { FORM_FIELD_TEXT_INPUT_CLASSNAME } from "@/lib/form-input-styles"
 import { ArrowRightIcon } from "lucide-react"
+import { AddressAutocomplete } from "./AddressAutocomplete"
 
 interface StepAddressProps {
   zip: string
@@ -11,6 +12,7 @@ interface StepAddressProps {
   cityState: string
   streetAddress: string
   onStreetAddressChange: (v: string) => void
+  googleReady: boolean
   onNext: () => void
 }
 
@@ -23,12 +25,12 @@ export function StepAddress({
   cityState,
   streetAddress,
   onStreetAddressChange,
+  googleReady,
   onNext,
 }: StepAddressProps) {
   const canContinue = zip.length === 5 && streetAddress.trim().length > 0
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleContinue = () => {
     if (canContinue) onNext()
   }
 
@@ -43,7 +45,7 @@ export function StepAddress({
         What is your street address?
       </h2>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-semibold" style={{ color: FORM_PRIMARY_COLOR }}>
             ZIP Code
@@ -63,19 +65,20 @@ export function StepAddress({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-semibold" style={{ color: FORM_PRIMARY_COLOR }}>
-            Street Address
-          </label>
-          <input
-            type="text"
+          <AddressAutocomplete
+            id="streetAddress"
+            label="Street Address"
             value={streetAddress}
-            onChange={(e) => onStreetAddressChange(e.target.value)}
-            placeholder="e.g. 3 Main Street"
-            required
-            autoComplete="street-address"
+            onChange={onStreetAddressChange}
+            onPlaceSelect={(details) => {
+              onStreetAddressChange(details.address)
+              if (details.zipCode) onZipChange(details.zipCode)
+            }}
+            placeholder="Start typing your address..."
+            labelClassName="text-sm font-semibold"
+            labelStyle={{ color: FORM_PRIMARY_COLOR }}
             className={inputClass}
-            style={{ color: FORM_PRIMARY_COLOR }}
-            aria-label="Street address"
+            googleReady={googleReady}
           />
           {cityDisplay && (
             <p className="text-sm text-gray-500">{cityDisplay}</p>
@@ -83,15 +86,16 @@ export function StepAddress({
         </div>
 
         <button
-          type="submit"
+          type="button"
           disabled={!canContinue}
+          onClick={handleContinue}
           className="w-full rounded-lg px-6 py-3.5 text-sm lg:text-base font-bold text-white transition-opacity disabled:opacity-50"
           style={{ backgroundColor: "#F97316" }}
         >
           Continue
           <ArrowRightIcon className="w-4.5 h-4.5 xl:w-5 xl:h-5 inline-block ml-2" />
         </button>
-      </form>
+      </div>
     </div>
   )
 }

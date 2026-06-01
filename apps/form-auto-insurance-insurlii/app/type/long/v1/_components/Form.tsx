@@ -1,8 +1,13 @@
 "use client"
 
-import { Suspense, useState } from "react"
+import { Suspense, useEffect, useRef, useState, type FormEvent } from "react"
+import Script from "next/script"
+import { TrustedForm } from "@workspace/lp-core"
 import { useSearchParams } from "next/navigation"
 import { useCityFromZip } from "@/hooks/use-city-from-zip"
+import { useInsurliiTracking } from "@/hooks/use-insurlii-tracking"
+import { buildFormSubmitPayload } from "@/lib/form-submit-payload"
+import { normalizeTrackingZip } from "@/lib/tracking-params"
 import { FORM_TOTAL_STEPS, type FormVehicleType } from "@/lib/constant"
 import { FormProgressHeader } from "./FormProgressHeader"
 import { VehicleMakeStep } from "./VehicleMakeStep"
@@ -134,12 +139,25 @@ const S_RESULTS   = 70
 function FormPage() {
   const searchParams = useSearchParams()
   const zipFromUrl = searchParams.get("zip")
+  const tracking = useInsurliiTracking()
 
-  // zip is user-editable in the address step; drives city/state lookup
-  const [zip, setZip] = useState((zipFromUrl ?? "").replace(/\D/g, "").slice(0, 5))
+  const initialZip = normalizeTrackingZip(
+    zipFromUrl ?? tracking.zip
+  )
+
+  const [zip, setZip] = useState(initialZip)
   const { city: cityName, state: cityState } = useCityFromZip(zip)
 
+  useEffect(() => {
+    const resolved = normalizeTrackingZip(zipFromUrl ?? tracking.zip)
+    if (resolved.length === 5) {
+      setZip(resolved)
+    }
+  }, [zipFromUrl, tracking.zip])
+
   // ── Routing ──────────────────────────────────────────────────────────
+  const formRef = useRef<HTMLFormElement>(null)
+  const trustedFormRef = useRef({ certUrl: "", token: "" })
   const [currentStep, setCurrentStep] = useState(S_YEAR)
 
   // ── Vehicle 1 ────────────────────────────────────────────────────────
@@ -238,6 +256,10 @@ function FormPage() {
   const [streetAddress, setStreetAddress] = useState("")
   const [email, setEmail]                 = useState("")
   const [phone, setPhone]                 = useState("")
+  const [googlePlacesReady, setGooglePlacesReady] = useState(false)
+  const [emailSubmitError, setEmailSubmitError] = useState<string | null>(null)
+
+  const googlePlacesApiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
 
   // ── Vehicle 1 handlers (steps 1-3 routing unchanged) ─────────────────
   const handleYearChange = (year: string) => {
@@ -391,8 +413,139 @@ function FormPage() {
   const handleAARP             = (v: boolean) => { setBelongsToAARP(v); setCurrentStep(S_DRV_NAMES) }
   const handleDriverNamesNext  = () => setCurrentStep(S_ADDR)
   const handleAddrNext         = () => setCurrentStep(S_EMAIL)
-  const handleEmailNext        = () => setCurrentStep(S_PHONE)
-  const handlePhoneSubmit = () => setCurrentStep(S_LOADING)
+  const handleEmailNext = () => {
+    setEmailSubmitError(null)
+    setCurrentStep(S_PHONE)
+  }
+
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+  }
+
+  const handlePhoneSubmit = async () => {
+    const form = formRef.current
+    const certInput = form?.elements.namedItem(
+      "xxTrustedFormCertUrl"
+    ) as HTMLInputElement | null
+    const tokenInput = form?.elements.namedItem(
+      "xxTrustedFormToken"
+    ) as HTMLInputElement | null
+
+    trustedFormRef.current = {
+      certUrl: certInput?.value ?? "",
+      token: tokenInput?.value ?? "",
+    }
+
+    const payload = buildFormSubmitPayload({
+      zip,
+      email: email.trim(),
+      phone: phone.trim(),
+      streetAddress: streetAddress.trim(),
+      dob: dob.trim(),
+      city: cityName.trim(),
+      state: cityState.trim(),
+      d1FirstName,
+      d1LastName,
+      d2FirstName,
+      d2LastName,
+      d3FirstName,
+      d3LastName,
+      vehicleYear,
+      vehicleType,
+      vehicleMake,
+      vehicleModel,
+      v1Ownership,
+      v1PrimaryUse,
+      v1Miles,
+      v1Coverage,
+      addVehicle2,
+      v2Year,
+      v2Make,
+      v2VehicleType,
+      v2Model,
+      v2Ownership,
+      v2PrimaryUse,
+      v2Miles,
+      v2Coverage,
+      addVehicle3,
+      v3Year,
+      v3Make,
+      v3VehicleType,
+      v3Model,
+      v3Ownership,
+      v3PrimaryUse,
+      v3Miles,
+      v3Coverage,
+      hadInsurance,
+      currentInsurer,
+      yearsInsured,
+      driverCount,
+      d1Gender,
+      d1Married,
+      d1Education,
+      d1Occupation,
+      d1CreditScore,
+      d1Accidents,
+      d1Tickets,
+      d1DUI,
+      d1Suspended,
+      d2Relation,
+      d2Gender,
+      d2Married,
+      d2Education,
+      d2Occupation,
+      d2Accidents,
+      d2Tickets,
+      d2DUI,
+      d2Suspended,
+      d2DOB,
+      d3Relation,
+      d3Gender,
+      d3Married,
+      d3Education,
+      d3Occupation,
+      d3Accidents,
+      d3Tickets,
+      d3DUI,
+      d3Suspended,
+      d3DOB,
+      isHomeowner,
+      wantsHomeDiscount,
+      wantsRentersDiscount,
+      servedMilitary,
+      helpGoal,
+      belongsToAARP,
+      xxTrustedFormCertUrl: trustedFormRef.current.certUrl,
+      xxTrustedFormToken: trustedFormRef.current.token,
+    })
+
+    const res = await fetch("/api/submit-form", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+    const data = (await res.json().catch(() => ({}))) as {
+      error?: string
+      invalidField?: "email"
+      field?: "phoneNumber"
+      success?: boolean
+    }
+
+    if (!res.ok) {
+      const message = data.error ?? "Submission failed. Please try again."
+      if (data.invalidField === "email") {
+        setEmailSubmitError(message)
+        setCurrentStep(S_EMAIL)
+        return
+      }
+      if (data.field === "phoneNumber") {
+        throw new Error(message)
+      }
+      throw new Error(message)
+    }
+
+    setCurrentStep(S_LOADING)
+  }
 
   const vehicleCount = 1 + (addVehicle2 === true ? 1 : 0) + (addVehicle3 === true ? 1 : 0)
 
@@ -423,8 +576,21 @@ function FormPage() {
 
   return (
     <div className="min-h-screen flex-1 p-6">
+      {googlePlacesApiKey && (
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${googlePlacesApiKey}&libraries=places`}
+          strategy="lazyOnload"
+          onLoad={() => setGooglePlacesReady(true)}
+        />
+      )}
       <div className="w-full max-w-4xl mx-auto">
-        <div className="flex flex-col gap-4">
+        <form
+          ref={formRef}
+          onSubmit={handleFormSubmit}
+          className="flex flex-col gap-4"
+          noValidate
+        >
+          <TrustedForm />
           <FormProgressHeader
             cityName={cityName}
             currentStep={currentStep}
@@ -718,16 +884,29 @@ function FormPage() {
               cityState={cityState}
               streetAddress={streetAddress}
               onStreetAddressChange={setStreetAddress}
+              googleReady={googlePlacesReady}
               onNext={handleAddrNext}
             />
           )}
           {currentStep === S_EMAIL && (
-            <StepEmail value={email} onChange={setEmail} onNext={handleEmailNext} />
+            <StepEmail
+              value={email}
+              onChange={(v) => {
+                setEmail(v)
+                if (emailSubmitError) setEmailSubmitError(null)
+              }}
+              onNext={handleEmailNext}
+              submitError={emailSubmitError}
+            />
           )}
           {currentStep === S_PHONE && (
-            <StepPhone value={phone} onChange={setPhone} onSubmit={handlePhoneSubmit} />
+            <StepPhone
+              value={phone}
+              onChange={setPhone}
+              onSubmit={handlePhoneSubmit}
+            />
           )}
-        </div>
+        </form>
       </div>
     </div>
   )

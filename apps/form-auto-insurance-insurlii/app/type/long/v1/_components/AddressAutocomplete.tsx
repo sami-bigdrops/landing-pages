@@ -34,6 +34,7 @@ export interface AddressAutocompleteProps {
   onPlaceSelect: (details: { address: string; city: string; state: string; zipCode: string }) => void
   placeholder?: string
   labelClassName?: string
+  labelStyle?: React.CSSProperties
   className?: string
   googleReady: boolean
 }
@@ -56,6 +57,7 @@ export function AddressAutocomplete({
   onPlaceSelect,
   placeholder = "Start typing your address...",
   labelClassName,
+  labelStyle,
   className,
   googleReady,
 }: AddressAutocompleteProps) {
@@ -99,6 +101,7 @@ export function AddressAutocomplete({
         <label
           htmlFor={id}
           className={cn("text-sm font-medium text-foreground leading-none", labelClassName)}
+          style={labelStyle}
         >
           {label}
         </label>

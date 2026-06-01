@@ -1,3 +1,26 @@
+export const BRAND_NAME = "Insurlii"
+
+export const BRAND_FULL_NAME = "Insurlii Auto Insurance"
+
+export const BRAND_DOMAIN = "Insurlii.com"
+
+export const BRAND_DESCRIPTION =
+  "Insurlii helps drivers compare auto insurance quotes from trusted carriers in minutes. Find competitive rates, explore coverage options, and connect with licensed partners across all 50 states."
+
+export const BRAND_METADATA_TITLE = "Insurlii Auto Insurance - Compare Quotes & Save"
+
+export const BRAND_METADATA_TITLE_TEMPLATE = "%s | Insurlii Auto Insurance"
+
+export const BRAND_FORM_PAGE_TITLE = "Get Your Auto Insurance Quote"
+
+export const BRAND_TCPA_DISCLAIMER =
+  "By submitting this form, I agree to the Insurlii Terms of Use and Privacy Policy. I authorize Insurlii and its partners to send me marketing text messages or phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. Opt-out anytime by replying STOP or using the unsubscribe link."
+
+export const BRAND_LEGAL_FOOTER =
+  "Insurlii.com is a digital insurance comparison engine, providing real-time rates and insurance services in all 50 states through its relationships with carrier and agency partners."
+
+export const BRAND_PARTNERS_MODAL_TITLE = "Insurlii Insurance Partners"
+
 export const DEFAULT_FALLBACK_CITY = "New York"
 
 export const FORM_SAVINGS_AMOUNT = 610
@@ -64,5 +87,5 @@ export const FOOTER_CONTENT = {
     { text: "Contact ", href: "/contact" },
   ],
 
-  copyrightText: "Copyright © 2026 Insurlii. All Rights Reserved.",
+  copyrightText: `Copyright © 2026 ${BRAND_NAME}. All Rights Reserved.`,
 } as const

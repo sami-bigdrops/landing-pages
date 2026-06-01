@@ -1,10 +1,13 @@
 import { Metadata } from "next"
 import HomeContent from "@/app/_components/HomeContent"
+import {
+  BRAND_DESCRIPTION,
+  BRAND_METADATA_TITLE,
+} from "@/lib/constant"
 
 export const metadata: Metadata = {
-  title: "Platinum Window Experts",
-  description:
-    "Platinum Window Experts provides top-quality window replacement services across the USA. We offer energy-efficient windows, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+  title: BRAND_METADATA_TITLE,
+  description: BRAND_DESCRIPTION,
 }
 
 export default function Page() {

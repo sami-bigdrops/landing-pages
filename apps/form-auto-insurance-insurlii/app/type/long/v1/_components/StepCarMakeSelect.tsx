@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useState, type SyntheticEvent } from "react"
 import { SelectInput } from "@workspace/ui/components/select-input"
-import { formOptionButtonClasses, FORM_FIELD_SELECT_INPUT_CLASSNAME } from "@/lib/form-input-styles"
+import {
+  formOptionButtonClasses,
+  FORM_FIELD_SELECT_INPUT_CLASSNAME,
+  FORM_SELECT_OPTION_CLASSNAME,
+  FORM_SELECT_SEARCH_CLASSNAME,
+} from "@/lib/form-input-styles"
 import { FORM_POPULAR_CAR_MAKES, FORM_PRIMARY_COLOR } from "@/lib/constant"
 
 interface MakeOption {
@@ -179,6 +184,8 @@ return (
               searchPlaceholder="Search makes..."
               className={FORM_FIELD_SELECT_INPUT_CLASSNAME}
               selectClassName="text-[#12266D] text-sm lg:text-base xl:text-lg font-medium"
+              optionClassName={FORM_SELECT_OPTION_CLASSNAME}
+              searchClassName={FORM_SELECT_SEARCH_CLASSNAME}
             />
           ) : null}
         </>

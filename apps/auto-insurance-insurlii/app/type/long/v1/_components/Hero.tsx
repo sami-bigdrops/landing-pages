@@ -10,7 +10,7 @@ import { HERO_CONTENT } from "@/lib/constant";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "#";
+const BASE_URL = "https://autocoverage.insurlii.com";
 
 export default function Hero() {
   useUtmParams(30);

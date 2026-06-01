@@ -23,27 +23,41 @@ export function VehicleYearStep({ value, onChange }: VehicleYearStepProps) {
   const [showAllYears, setShowAllYears] = useState(false)
 
   useEffect(() => {
-    let cancelled = false
+    let unmounted = false
+    const controller = new AbortController()
+    const timeoutId = window.setTimeout(() => controller.abort(), 20_000)
 
-    fetch("/api/years")
+    setLoading(true)
+    setError(null)
+
+    fetch("/api/years", { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load years")
         return res.json()
       })
       .then((data: { years?: VehicleYearOption[] }) => {
-        if (cancelled) return
+        if (unmounted) return
         setAllYears(Array.isArray(data.years) ? data.years : [])
         setError(null)
       })
-      .catch(() => {
-        if (!cancelled) setError("Unable to load vehicle years. Please try again.")
+      .catch((err: unknown) => {
+        if (unmounted) return
+        const isAbort = err instanceof DOMException && err.name === "AbortError"
+        setError(
+          isAbort
+            ? "Loading years is taking too long. Please refresh and try again."
+            : "Unable to load vehicle years. Please try again."
+        )
       })
       .finally(() => {
-        if (!cancelled) setLoading(false)
+        window.clearTimeout(timeoutId)
+        setLoading(false)
       })
 
     return () => {
-      cancelled = true
+      unmounted = true
+      window.clearTimeout(timeoutId)
+      controller.abort()
     }
   }, [])
 

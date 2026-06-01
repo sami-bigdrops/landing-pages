@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
+import { BRAND_PARTNERS_MODAL_TITLE } from "@/lib/constant"
 
 interface PartnerModalProps {
   isOpen: boolean
@@ -89,7 +90,7 @@ export default function PartnerModal({ isOpen, onClose }: PartnerModalProps) {
         >
           <div className="px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 md:pt-8 pb-3 sm:pb-4 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white z-10">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1e1e1e]">
-              Our Partners
+              {BRAND_PARTNERS_MODAL_TITLE}
             </h2>
             <button
               onClick={onClose}

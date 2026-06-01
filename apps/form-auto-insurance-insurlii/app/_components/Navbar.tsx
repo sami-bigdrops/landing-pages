@@ -3,6 +3,7 @@ import { Navbar as NavbarUI } from "@workspace/ui/components/navbar"
 import { cn } from "@workspace/ui/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
+import { BRAND_FULL_NAME } from "@/lib/constant"
 
 interface NavbarProps {
   className?: string
@@ -21,7 +22,7 @@ export default function Navbar({ className }: NavbarProps) {
             <Link href="/" className="block">
                 <Image
                 src="/insurlii-logo.svg"
-                alt="Insurlii"
+                alt={BRAND_FULL_NAME}
                 width={128}
                 height={40}
                 className="w-34 lg:w-36 xl:w-42 h-auto object-contain"

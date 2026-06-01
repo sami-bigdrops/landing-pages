@@ -21,4 +21,6 @@ export interface SelectInputProps
   searchPlaceholder?: string
   containerClassName?: string
   selectClassName?: string
+  optionClassName?: string
+  searchClassName?: string
 }

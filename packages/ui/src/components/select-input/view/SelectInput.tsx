@@ -34,6 +34,8 @@ function SelectInput({
   searchPlaceholder = "Search...",
   containerClassName,
   selectClassName,
+  optionClassName,
+  searchClassName,
   id: idProp,
   className,
   disabled,
@@ -129,7 +131,7 @@ function SelectInput({
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.stopPropagation()}
                   placeholder={searchPlaceholder}
-                  className={cn(searchInputBase, "rounded-lg")}
+                  className={cn(searchInputBase, "rounded-lg", searchClassName)}
                   aria-label={searchPlaceholder}
                 />
               </div>
@@ -147,10 +149,11 @@ function SelectInput({
                     role="option"
                     aria-selected={value === opt.value}
                     className={cn(
-                      "w-full rounded-md px-3 py-2 text-left text-sm transition-colors",
+                      "w-full rounded-md px-3 py-2.5 text-left text-sm transition-colors",
                       value === opt.value
                         ? "bg-primary text-primary-foreground"
-                        : "text-foreground hover:bg-accent hover:text-accent-foreground"
+                        : "text-foreground hover:bg-accent hover:text-accent-foreground",
+                      optionClassName
                     )}
                     onClick={() => {
                       onChange?.(opt.value)

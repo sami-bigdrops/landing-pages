@@ -44,8 +44,7 @@ export function StepDriverNames({
   const d3Valid = driverCount < 3 || (d3FirstName.trim() && d3LastName.trim())
   const canContinue = d1Valid && d2Valid && d3Valid
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleContinue = () => {
     if (canContinue) onNext()
   }
 
@@ -58,7 +57,7 @@ export function StepDriverNames({
         Who are your drivers?
       </h2>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6">
         {/* Driver 1 */}
         <div className="flex flex-col gap-3">
           <p className="text-sm font-semibold" style={{ color: FORM_PRIMARY_COLOR }}>
@@ -147,15 +146,16 @@ export function StepDriverNames({
         )}
 
         <button
-          type="submit"
+          type="button"
           disabled={!canContinue}
+          onClick={handleContinue}
           className="w-full rounded-lg px-6 py-3.5 text-sm lg:text-base font-bold text-white transition-opacity disabled:opacity-50"
           style={{ backgroundColor: "#F97316" }}
         >
           Continue
           <ArrowRightIcon className="w-4.5 h-4.5 xl:w-5 xl:h-5 inline-block ml-2" />
         </button>
-      </form>
+      </div>
     </div>
   )
 }
