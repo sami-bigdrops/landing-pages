@@ -2,7 +2,7 @@
 
 import { Footer as FooterUI } from "@workspace/ui/components/footer"
 import Image from "next/image"
-import { FOOTER_CONTENT } from "@/lib/constant"
+import { FOOTER_CONTENT_FORM } from "@/lib/constant_v2"
 
 export default function Footer() {
   return (
@@ -10,8 +10,8 @@ export default function Footer() {
       type="long"
       bgColor="#0F172A"
       logo={<Image src="V2/ure-logo.svg" alt="United Roofing Experts" width={120} height={40} className="w-40 h-auto object-contain" />}
-      links={[...FOOTER_CONTENT.links]}
-      copyrightText={FOOTER_CONTENT.copyrightText}
+      links={[...FOOTER_CONTENT_FORM.links]}
+      copyrightText={FOOTER_CONTENT_FORM.copyrightText}
     />
   )
 }

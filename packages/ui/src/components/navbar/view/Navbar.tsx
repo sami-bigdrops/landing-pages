@@ -39,7 +39,7 @@ function Navbar({
         logo != null ? <div className="shrink-0">{logo}</div> : null
       ) : (
         <>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 w-full">
             {logo != null ? <div className="shrink-0">{logo}</div> : null}
           </div>
           <div className="shrink-0 flex items-center gap-2">

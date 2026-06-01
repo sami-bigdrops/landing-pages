@@ -8,11 +8,12 @@ export default function Navbar() {
         <NavbarUI
         variant="default"
         type="2"
-        className="container w-full h-full py-4 px-4 xl:px-0 "
+        className="mx-auto w-full max-w-none py-5 xl:py-7 px-4 sm:px-6 lg:px-8 xl:px-20 border-b border-gray-200 bg-white shadow-[0_1px_10px_0_rgba(0,0,0,0.12)]"
+   
         logo={
             <Link href="/" className="block">
                 <Image
-                src="/URE-logo.svg"
+                src="V2/ure-logo.svg"
                 alt="United Roofing Experts"
                 width={128}
                 height={40}

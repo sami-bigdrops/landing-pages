@@ -98,4 +98,24 @@ export const HERO_CONTENT = {
     ],
     
   } as const
+
+
+  export const FOOTER_CONTENT = {
+    links: [
+      { text: "Privacy Policy", href: "/privacy-policy" },
+      { text: "Terms of Use", href: "/terms-of-use" },
+    ],
+    description: "Premium Roofing Built For Long-Term Protection",
+    copyrightText: "Copyright © 2026 United Roofing Experts. All Rights Reserved.",
+  } as const
+
+  export const FOOTER_CONTENT_FORM = {
+    links: [
+      { text: "Privacy Policy", href: "/privacy-policy" },
+      { text: "Terms of Use", href: "/terms-of-use" },
+    ],
+
+    copyrightText: " © 2026 United Roofing Experts. All Rights Reserved.",
+  } as const
+  
   
