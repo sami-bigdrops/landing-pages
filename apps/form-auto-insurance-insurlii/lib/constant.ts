@@ -84,8 +84,13 @@ export const FOOTER_CONTENT = {
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },
-    { text: "Contact ", href: "/contact" },
   ],
 
   copyrightText: `Copyright © 2026 ${BRAND_NAME}. All Rights Reserved.`,
+} as const
+
+export const THANKYOU_PAGE = {
+  title: "Thank you!",
+  message:
+    "We've received your information. A licensed insurance specialist may contact you shortly with quote options tailored to your needs.",
 } as const

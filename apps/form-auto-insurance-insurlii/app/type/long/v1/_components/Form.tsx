@@ -529,6 +529,7 @@ function FormPage() {
       invalidField?: "email"
       field?: "phoneNumber"
       success?: boolean
+      redirectUrl?: string
     }
 
     if (!res.ok) {
@@ -542,6 +543,11 @@ function FormPage() {
         throw new Error(message)
       }
       throw new Error(message)
+    }
+
+    if (data.success && data.redirectUrl) {
+      window.location.href = data.redirectUrl
+      return
     }
 
     setCurrentStep(S_LOADING)
