@@ -84,6 +84,8 @@ export const FOOTER_CONTENT = {
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },
+    { text: "Contact", href: "/contact" },
+    { text: "Do Not Sell My Info", href: "/opt-out" },
   ],
 
   copyrightText: `Copyright © 2026 ${BRAND_NAME}. All Rights Reserved.`,

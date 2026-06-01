@@ -42,8 +42,8 @@ export default function Hero() {
   }, []);
 
   const headlineText = cityName
-    ? `Compare Auto Insurance in   ${cityName} `
-    : "Compare Auto Insurance in Your Area";
+    ? `Let's drop your rate in ${cityName} today!`
+    : "Let's drop your rate in your area today!";
 
   const handleContinue = () => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
