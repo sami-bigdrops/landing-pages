@@ -232,7 +232,10 @@ export default function TermsOfUse() {
                     You acknowledge that You have read and understand these Terms, and that these Terms have the same force and effect as a signed agreement. These Terms shall confer no rights upon any other party other than the parties hereto.
                   </p>
 
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
+                  <h2
+                    id="e-sign-consent"
+                    className="scroll-mt-28 text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter"
+                  >
                     22. E-Sign Consent
                   </h2>
                   <div className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">

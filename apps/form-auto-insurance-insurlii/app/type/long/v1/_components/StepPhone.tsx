@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react"
 import { ArrowRightIcon, Loader2 } from "lucide-react"
-import { BRAND_NAME, FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { BRAND_DOMAIN, BRAND_NAME, FORM_PRIMARY_COLOR } from "@/lib/constant"
 import {
   FORM_FIELD_TEXT_INPUT_CLASSNAME,
   FORM_TEXT_INPUT_ERROR_CLASSNAME,
@@ -27,6 +27,7 @@ export function StepPhone({ value, onChange, onSubmit }: StepPhoneProps) {
   const [error, setError] = useState<string | null>(null)
   const [verifying, setVerifying] = useState(false)
   const digits = value.replace(/\D/g, "")
+  const phoneDisplay = digits.length === 10 ? formatPhone(value) : "[Phone_Number]"
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(formatPhone(e.target.value))
@@ -122,10 +123,15 @@ export function StepPhone({ value, onChange, onSubmit }: StepPhoneProps) {
           style={{ lineHeight: "1.5" }}
         >
           By clicking Finish &amp; Get Quotes and submitting this form, I am providing express written consent to being contacted by you,{" "}
-          <a href="https://www.everquote.com/marketing-partners/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-700">
-            EverQuote Marketing Partners
+          <a
+            href="https://www.insurlii.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-gray-700"
+          >
+            {BRAND_DOMAIN}
           </a>
-          , or by one or more agents or brokers or your partners which companies I agree may reach me to discuss my interest, including offers of insurance, at the phone number and/or email address I have provided to you in submitting this form and/or additional information obtained. I consent by electronic signature to being contacted by telephone (via call and/or text) for marketing/telemarketing purposes at the phone number I provided in this form, even if my phone number is listed on a Do Not Call Registry, and I agree that such contact may be made using an automatic telephone dialing system and/or an artificial or prerecorded voice (standard call, text message, and data rates apply). I can revoke my consent at any time. I also understand that my agreement to be contacted is not a condition of purchasing any property, goods or services, and that I may call 1-855-940-1377 to speak with someone about obtaining an insurance quote. By clicking Finish &amp; Get Quotes and submitting this form, I affirm that I have read and agree to {BRAND_NAME}&apos;s{" "}
+          , or by one or more agents or brokers or your partners which companies I agree may reach me to discuss my interest, including offers of insurance, at {phoneDisplay} and/or the email address I have provided to you in submitting this form and/or additional information obtained. I consent by electronic signature to being contacted by telephone (via call and/or text) for marketing/telemarketing purposes at {phoneDisplay}, even if my phone number is listed on a Do Not Call Registry, and I agree that such contact may be made using an automatic telephone dialing system and/or an artificial or prerecorded voice (standard call, text message, and data rates apply). I can revoke my consent at any time. I also understand that my agreement to be contacted is not a condition of purchasing any property, goods or services. By clicking Finish &amp; Get Quotes and submitting this form, I affirm that I have read and agree to {BRAND_NAME}&apos;s{" "}
           <a href="/privacy-policy" className="underline hover:text-gray-700">
             Privacy Policy
           </a>
@@ -134,7 +140,7 @@ export function StepPhone({ value, onChange, onSubmit }: StepPhoneProps) {
             Terms of Use
           </a>
           {" "}including the arbitration provision and the{" "}
-          <a href="https://www.everquote.com/legal/esign-consent/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-700">
+          <a href="/terms-of-use#e-sign-consent" className="underline hover:text-gray-700">
             E-SIGN Consent
           </a>
           .

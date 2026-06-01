@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import Navbar from "@/app/_components/Navbar"
 import TermsAndConditions from "@/app/_components/TermsAndConditions"
+import { TermsHashScroll } from "@/app/_components/TermsHashScroll"
 import Footer from "@/app/_components/Footer"
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 export default function TermsOfUsePage() {
   return (
     <div className="flex flex-col min-h-screen">
+      <TermsHashScroll />
       <Navbar />
       <TermsAndConditions />
       <Footer />

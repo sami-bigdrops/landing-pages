@@ -1,4 +1,4 @@
-import { Montserrat } from "next/font/google"
+import { Mulish } from "next/font/google"
 import { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
@@ -10,7 +10,7 @@ import {
   BRAND_METADATA_TITLE_TEMPLATE,
 } from "@/lib/constant"
 
-const fontSans = Montserrat({
+const fontSans = Mulish({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <head>
         <script
           type="text/javascript"
