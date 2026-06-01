@@ -8,7 +8,7 @@ export default function Navbar() {
         <NavbarUI
         variant="default"
         type="2"
-        className="container mx-auto py-4 px-4 xl:px-0 "
+        className="container w-full h-full py-4 px-4 xl:px-0 "
         logo={
             <Link href="/" className="block">
                 <Image

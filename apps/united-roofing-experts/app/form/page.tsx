@@ -4,7 +4,7 @@ import Footer from "../_components/Footer"
 
 export default function FormRoute() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="w-full h-full flex flex-col min-h-screen">
       <Navbar />
       <FormPageWrapper />
       <Footer />

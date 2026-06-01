@@ -251,107 +251,58 @@ function AddressAutocomplete({
 }
 
 // --- Form Options ---
-const HOME_TYPE_OPTIONS = [
-  { id: "single_family", label: "Single Family Home", Icon: "/family.svg" },
-  { id: "condominium", label: "Condominium / Townhome", Icon: "/mall.svg" },
-  { id: "mobile", label: "Mobile / Manufactured Home", Icon: "/car.svg" },
-  { id: "vacant_land", label: "Vacant Land", Icon: "/land.svg" },
+
+
+const ROOF_TYPE_OPTIONS = [
+  { id: "SHINGLES", label: "Asphalt Shingles", Icon: "V2/roof-1.svg" },
+  { id: "METAL", label: "Metal", Icon: "V2/roof-2.svg" },
+  { id: "TILE_CLAY", label: "Tile/Clay", Icon: "V2/roof-3.svg" },
+  { id: "OTHER_UNKNOWN", label: "Other/Unknown", Icon: "V2/roof-4.svg" },
 ] as const
 
-const PROPERTY_TYPE_OPTIONS = [
-  { id: "needs_work", label: "Needs Work", Icon: "/house.svg" },
-  { id: "fair", label: "Fair", Icon: "/broken-home.svg" },
-  { id: "good", label: "Good", Icon: "/home-renovation.svg" },
-  { id: "excellent", label: "Excellent", Icon: "/happy-house.svg" },
+const HOMEOWNER_OPTIONS = [
+  { id: "yes", label: "Yes", Icon: "V2/yes.svg" },
+  { id: "no", label: "No", Icon: "V2/no.svg" },
 ] as const
 
-const PROPERTY_LIST_OPTIONS = [
-  { id: "yes", label: "Yes", Icon: "/yes.svg" },
-  { id: "no", label: "No", Icon: "/no.svg" },
+
+
+const HOME_SIZE_OPTIONS = [
+  { id: "under_1500_", label: "Under 1500 sq. ft.", Icon: "V2/under.svg" },
+  { id: "1500_3000_", label: "1500-3000 sq. ft.", Icon: "V2/mid.svg" },
+  { id: "over_3500", label: "Over 3500 sq. ft.", Icon: "V2/over.svg" },
+  
 ] as const
 
-const SELL_OPTIONS = [
-  { id: "late", label: "Behind on Mortgage Payments", Icon: "/mortgage.svg" },
-  { id: "job", label: "Job / Income Loss", Icon: "/briefcase.svg" },
-  { id: "cash", label: "Need to Access Cash", Icon: "/cash.svg" },
-  { id: "repairs", label: "Property Needs Repairs", Icon: "/house-repair.svg" },
-  { id: "move", label: "Downsizing / Relocating", Icon: "/property-exchange.svg" },
-  { id: "metrics", label: "Research Home Metrics", Icon: "/house-price.svg" }
-] as const
 
-const MONEY_OPTIONS = [
-  { id: "asap", label: "ASAP", Icon: "/coming-soon.svg" },
-  { id: "2_3_months", label: "2-3 Months", Icon: "/calendar-charge.svg" },
-  { id: "6_months", label: "6 Months", Icon: "/clock-with-calendar.svg" },
-  { id: "no_rush", label: "I Am In No Rush", Icon: "/calendar.svg" }
-] as const
-
-const CREDIT_OPTIONS = [
-  { id: "poor", label: "Poor (559 Or Less)", Icon: "/poor.svg" },
-  { id: "fair", label: "Fair (560–639)", Icon: "/fair.svg" },
-  { id: "good", label: "Good (640–700)", Icon: "/good.svg" },
-  { id: "excellent", label: "Excellent (701+)", Icon: "/excellant.svg" }
-] as const
 
 const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
 const STEP_SHELL_WIDE = "mx-auto flex w-full max-w-6xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
-const STEP_SHELL_VALUE = "mx-auto flex w-full max-w-5xl flex-col items-center gap-6 text-center md:gap-7 xl:gap-8"
 const STEP_SHELL_FIELDS = "mx-auto flex w-full max-w-3xl flex-col gap-5 md:gap-6"
-const STEP_TITLE = "text-center text-base font-medium text-[#1C1C1C] xl:text-xl"
-const GRID_2 = "grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-5"
-const GRID_SELL = "grid w-full grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3 xl:gap-5"
+const STEP_TITLE = "text-center text-base font-bold text-[#111827] xl:text-xl"
+const GRID_HOMEOWNER = "grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-5"
+const GRID_2 = "grid w-full grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 xl:gap-5"
+const GRID_SELL = "grid w-full grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 lg:grid-cols-3 xl:gap-5"
 const CHOICE_BTN =
-  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-6 xl:px-6 xl:py-8"
-const CHOICE_BTN_MLS =
-  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-7 xl:px-6 xl:py-10"
+  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#D1D5DB] bg-[#F8FAFC] hover:border-[#0D74BA]  hover:bg-[#EDF4FA] px-3 py-5 text-center transition-colors  md:gap-5 md:px-4 md:py-6 xl:px-6 xl:py-8"
 const CHOICE_ICON = "h-9.5 w-9.5 shrink-0 object-contain md:h-10 md:w-10 xl:h-14 xl:w-14"
 const CHOICE_LABEL = "text-[0.85rem] font-semibold leading-normal text-[#343434] xl:text-base"
 const INPUT_FIELD =
   "mt-2 h-14 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base"
 const LABEL_CLASS = "text-sm font-medium text-[#1C1C1C] xl:text-base"
 
-type HomeTypeId = (typeof HOME_TYPE_OPTIONS)[number]["id"]
-type PropertyTypeId = (typeof PROPERTY_TYPE_OPTIONS)[number]["id"]
-type PropertyListTypeId = (typeof PROPERTY_LIST_OPTIONS)[number]["id"]
-type SellTypeId = (typeof SELL_OPTIONS)[number]["id"]
-type MoneyTypeId = (typeof MONEY_OPTIONS)[number]["id"]
-type CreditTypeId = (typeof CREDIT_OPTIONS)[number]["id"]
+type HomeownerTypeId = (typeof HOMEOWNER_OPTIONS)[number]["id"]
+type RoofTypeId = (typeof ROOF_TYPE_OPTIONS)[number]["id"]
+type HomeSizeTypeId = (typeof HOME_SIZE_OPTIONS)[number]["id"]
 
-const HOUSE_VALUE_RANGES: { value: string; label: string }[] = [
-  { value: "u100", label: "Under $100K" },
-  { value: "100_150", label: "$100K to $150K" },
-  { value: "150_200", label: "$150K to $200K" },
-  { value: "200_250", label: "$200K to $250K" },
-  { value: "250_300", label: "$250K to $300K" },
-  { value: "300_350", label: "$300K to $350K" },
-  { value: "350_400", label: "$350K to $400K" },
-  { value: "400_450", label: "$400K to $450K" },
-  { value: "450_500", label: "$450K to $500K" },
-  { value: "500_550", label: "$500K to $550K" },
-  { value: "550_600", label: "$550K to $600K" },
-  { value: "600_700", label: "$600K to $700K" },
-  { value: "700_800", label: "$700K to $800K" },
-  { value: "800_900", label: "$800K to $900K" },
-  { value: "900k_1m", label: "$900K to $1M" },
-  { value: "1m_1_1", label: "$1M to $1.1M" },
-  { value: "1_1_1_2", label: "$1.1M to $1.2M" },
-  { value: "1_2_1_3", label: "$1.2M to $1.3M" },
-  { value: "1_3_1_4", label: "$1.3M to $1.4M" },
-  { value: "1_4_1_5", label: "$1.4M to $1.5M" },
-  { value: "1_5m_plus", label: "$1.5M+" },
-]
 
-const TOTAL_STEPS = 10
+const TOTAL_STEPS = 7
 
 const defaultFormData = {
-  homeType: "condominium" as HomeTypeId,
   zipCode: "",
-  propertyType: "needs_work" as PropertyTypeId,
-  propertyList: "yes" as PropertyListTypeId,
-  sell: "late" as SellTypeId,
-  money: "asap" as MoneyTypeId,
-  credit: "poor" as CreditTypeId,
-  houseValueRange: "500_550",
+  roofType: "SHINGLES" as RoofTypeId,
+  homeSize: "under_1500_" as HomeSizeTypeId,
+  homeowner: "no" as HomeownerTypeId,
   first_name: "",
   last_name: "",
   phone_number: "",
@@ -411,10 +362,6 @@ function FormNavigation({
 function FormPage() {
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState(defaultFormData)
-  const [houseValueIndex, setHouseValueIndex] = useState(() => {
-    const idx = HOUSE_VALUE_RANGES.findIndex((r) => r.value === defaultFormData.houseValueRange)
-    return idx >= 0 ? idx : 9
-  })
 
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
@@ -429,16 +376,20 @@ function FormPage() {
 
   const isStepValid = () => {
     if (currentStep === 2) {
+      return Boolean(formData.homeSize)
+    }
+    if (currentStep === 3) {
+      return Boolean(formData.roofType)
+    }
+    if (currentStep === 4) {
       return formData.zipCode.length === 5
     }
-    if (currentStep === 9) {
+    if (currentStep === 5) {
+      return formData.first_name.trim() !== "" && formData.last_name.trim() !== ""
+    }
+    if (currentStep === 6) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      return (
-        formData.first_name.trim() !== "" &&
-        formData.last_name.trim() !== "" &&
-        formData.email.trim() !== "" &&
-        emailRegex.test(formData.email.trim())
-      )
+      return formData.email.trim() !== "" && emailRegex.test(formData.email.trim())
     }
     return true
   }
@@ -456,9 +407,9 @@ function FormPage() {
   const handleLeadSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (currentStep !== TOTAL_STEPS) {
-      if (currentStep === 2 && isStepValid()) {
+      if (currentStep === 4 && isStepValid()) {
         handleNext()
-      } else if (currentStep === 9 && isStepValid()) {
+      } else if (currentStep === 6 && isStepValid()) {
         handleNext()
       }
       return
@@ -492,14 +443,10 @@ function FormPage() {
     const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
     const payload = {
-      homeType: formData.homeType,
       zipCode: zip,
-      propertyType: formData.propertyType,
-      propertyList: formData.propertyList,
-      sell: formData.sell,
-      money: formData.money,
-      credit: formData.credit,
-      houseValueRange: formData.houseValueRange,
+      roofType: formData.roofType,
+      homeSize: formData.homeSize,
+      isHomeowner: formData.homeowner === "yes" ? "Yes" : formData.homeowner === "no" ? "No" : "",
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
       address: formData.street_address.trim(),
@@ -558,10 +505,8 @@ function FormPage() {
   }
 
   return (
-    <section className="flex w-full min-h-[400px] flex-col items-center gap-8 md:min-h-[460px] md:gap-10 xl:min-h-[580px] xl:gap-12">
-      <h2 className="max-w-5xl text-center text-xl font-bold text-[#182542] lg:text-2xl xl:text-3xl">
-        Need to Sell Quickly? Uncle Sam Buys Homes — Get a Cash Offer for Your Home Today!
-      </h2>
+    <section className="flex w-full min-h-[400px] flex-col items-center gap-8 md:min-h-[460px] md:gap-10 xl:min-h-[580px] xl:gap-12 w-full h-full px-6 py-8 md:px-6 md:py-10 lg:px-14 lg:py-10 xl:px-20 xl:py-14 ">
+      
 
       <form
         onSubmit={handleLeadSubmit}
@@ -569,75 +514,94 @@ function FormPage() {
         className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 xl:gap-8"
       >
         <ProgressBar
-          type="8"
+          type="1"
           className="w-full"
           currentStep={currentStep}
           totalSteps={TOTAL_STEPS}
-          backgroundColor="#C1202633"
-          foregroundColor="#C12026"
+          backgroundColor="#E56A2E33"
+          foregroundColor="#E56A2E"
         />
         <TrustedForm />
 
         {currentStep === 1 ? (
           <section className={STEP_SHELL}>
-            <h3 className={STEP_TITLE}>Confirm Your Home Type</h3>
-            <div className={GRID_2}>
-              {HOME_TYPE_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.homeType === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, homeType: id }))
-                      setCurrentStep(2)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN}
-                  >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
-                    <span className={CHOICE_LABEL}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </section>
+          <h3 className={STEP_TITLE}>Are you a homeowner?</h3>
+          <div className={GRID_HOMEOWNER}>
+            {HOMEOWNER_OPTIONS.map(({ id, label, Icon }) => {
+              const selected = formData.homeowner === id
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => {
+                    setFormData((prev) => ({ ...prev, homeowner: id }))
+                    setCurrentStep(2)
+                  }}
+                  aria-pressed={selected}
+                  className={CHOICE_BTN}
+                >
+                  <Image
+                    src={Icon}
+                    alt=""
+                    width={48}
+                    height={48}
+                    aria-hidden
+                    className="h-5 w-5 shrink-0 object-contain xl:h-7 xl:w-7"
+                  />
+                  <span className={`${CHOICE_LABEL} lg:text-base xl:text-lg`}>{label}</span>
+                </button>
+              )
+            })}
+          </div>
+          <FormNavigation showNext onNext={handleNext} onBack={handleBack} />
+        </section>
         ) : null}
 
         {currentStep === 2 ? (
-          <section className={`${STEP_SHELL_FIELDS} items-center text-center`}>
-            <ZipCodeInput
-              id="zipCode"
-              label="Zip Code"
-              value={formData.zipCode}
-              onChange={(v) => handleInputChange("zipCode", v)}
-              placeholder="Please Enter Zip Code"
-              containerClassName="w-full max-w-lg"
-              labelClassName={LABEL_CLASS}
-              className={INPUT_FIELD}
-            />
-            <FormNavigation
-              showBack
-              showNext
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          </section>
+          <section className={STEP_SHELL_WIDE}>
+          <h3 className={STEP_TITLE}>What is the size of your home?</h3>
+          <div className={GRID_SELL}>
+            {HOME_SIZE_OPTIONS.map(({ id, label, Icon }) => {
+              const selected = formData.homeSize === id
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => {
+                    setFormData((prev) => ({ ...prev, homeSize: id }))
+                    setCurrentStep(3)
+                  }}
+                  aria-pressed={selected}
+                  className={CHOICE_BTN}
+                >
+                  <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                  <span className={CHOICE_LABEL}>{label}</span>
+                </button>
+              )
+            })}
+          </div>
+          <FormNavigation
+            showBack
+            showNext
+            isNextDisabled={!isStepValid()}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        </section>
         ) : null}
 
         {currentStep === 3 ? (
           <section className={STEP_SHELL}>
-            <h3 className={STEP_TITLE}>Tell Us About Your Property!</h3>
+            <h3 className={STEP_TITLE}>What type of roof do you have now?</h3>
             <div className={GRID_2}>
-              {PROPERTY_TYPE_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.propertyType === id
+              {ROOF_TYPE_OPTIONS.map(({ id, label, Icon }) => {
+                const selected = formData.roofType === id
                 return (
                   <button
                     key={id}
                     type="button"
                     onClick={() => {
-                      setFormData((prev) => ({ ...prev, propertyType: id }))
+                      setFormData((prev) => ({ ...prev, roofType: id }))
                       setCurrentStep(4)
                     }}
                     aria-pressed={selected}
@@ -649,299 +613,152 @@ function FormPage() {
                 )
               })}
             </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
+            <FormNavigation showBack showNext={true} onNext={handleNext} onBack={handleBack} />
           </section>
         ) : null}
 
         {currentStep === 4 ? (
-          <section className={STEP_SHELL}>
-            <h3 className={STEP_TITLE}>Is Your House Already Listed on the MLS?</h3>
-            <div className={GRID_2}>
-              {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.propertyList === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, propertyList: id }))
-                      setCurrentStep(5)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN_MLS}
-                  >
-                    <Image
-                      src={Icon}
-                      alt=""
-                      width={48}
-                      height={48}
-                      aria-hidden
-                      className="h-5 w-5 shrink-0 object-contain xl:h-7 xl:w-7"
-                    />
-                    <span className={`${CHOICE_LABEL} lg:text-base xl:text-lg`}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-          </section>
+          <section className={`${STEP_SHELL_FIELDS} items-center text-center`}>
+            <h3 className={STEP_TITLE}>What is your ZIP code?</h3>
+          <ZipCodeInput
+            id="zipCode"
+            label="Zip Code"
+            value={formData.zipCode}
+            onChange={(v) => handleInputChange("zipCode", v)}
+            placeholder="Please Enter Zip Code"
+            containerClassName="w-full max-w-lg"
+            labelClassName={LABEL_CLASS}
+            className={INPUT_FIELD}
+          />
+          <FormNavigation
+            showBack
+            showNext
+            isNextDisabled={!isStepValid()}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        </section>
         ) : null}
         {currentStep === 5 ? (
-          <section className={STEP_SHELL_WIDE}>
-            <h3 className={STEP_TITLE}>Why Do You Want To Sell?</h3>
-            <div className={GRID_SELL}>
-              {SELL_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.sell === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, sell: id }))
-                      setCurrentStep(6)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN}
-                  >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
-                    <span className={CHOICE_LABEL}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-          </section>
+          <section className={`${STEP_SHELL_FIELDS} items-center`}>
+          <h3 className={STEP_TITLE}>Who should we prepare this FREE quote for?</h3>
+          <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
+            <TextInput
+              id="step6FirstName"
+              label="First Name"
+              value={formData.first_name}
+              onChange={(e) => handleInputChange("first_name", e.target.value)}
+              placeholder="Enter First Name"
+              labelClassName={LABEL_CLASS}
+              className={INPUT_FIELD}
+            />
+            <TextInput
+              id="step6LastName"
+              label="Last Name"
+              value={formData.last_name}
+              onChange={(e) => handleInputChange("last_name", e.target.value)}
+              placeholder="Enter Last Name"
+              labelClassName={LABEL_CLASS}
+              className={INPUT_FIELD}
+            />
+            
+            {fieldErrors.email ? (
+              <p className="text-xs text-red-600" role="alert">
+                {fieldErrors.email}
+              </p>
+            ) : null}
+          </div>
+          <FormNavigation
+            showBack
+            showNext
+            isNextDisabled={!isStepValid()}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        </section>
         ) : null}
 
         {currentStep === 6 ? (
-          <section className={STEP_SHELL}>
-            <h3 className={STEP_TITLE}>How Soon Do You Want Your Money?</h3>
-            <div className={GRID_2}>
-              {MONEY_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.money === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, money: id }))
-                      setCurrentStep(7)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN}
-                  >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
-                    <span className={CHOICE_LABEL}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-          </section>
-        ) : null}
-
-        {currentStep === 7 ? (
-          <section className={STEP_SHELL}>
-            <h3 className={STEP_TITLE}>How Would You Rate Your Credit?</h3>
-            <div className={GRID_2}>
-              {CREDIT_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.credit === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, credit: id }))
-                      setCurrentStep(8)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN}
-                  >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
-                    <span className={CHOICE_LABEL}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-          </section>
-        ) : null}
-
-        {currentStep === 8 ? (
-          <section className={STEP_SHELL_VALUE}>
-            <h3 className={STEP_TITLE}>Estimate House Value</h3>
-            <p className="text-xl font-medium text-[#182542] md:text-2xl xl:text-3xl">
-              {HOUSE_VALUE_RANGES[houseValueIndex]?.label ?? ""}
-            </p>
-            <input
-              type="range"
-              min={0}
-              max={HOUSE_VALUE_RANGES.length - 1}
-              step={1}
-              value={houseValueIndex}
-              aria-label="Estimated house value range"
-              onChange={(e) => {
-                const idx = Number(e.target.value)
-                setHouseValueIndex(idx)
-                const v = HOUSE_VALUE_RANGES[idx]?.value ?? ""
-                setFormData((prev) => ({ ...prev, houseValueRange: v }))
-              }}
-              className="h-2 w-full max-w-4xl cursor-pointer appearance-none rounded-full bg-[#E5E7EB] accent-[#182542] xl:h-2.5 [&::-moz-range-thumb]:size-5.5 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-3 [&::-moz-range-thumb]:border-[#182542] [&::-moz-range-thumb]:bg-white xl:[&::-moz-range-thumb]:size-7 xl:[&::-moz-range-thumb]:border-3.5 [&::-webkit-slider-thumb]:size-5.5 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-3 [&::-webkit-slider-thumb]:border-[#182542] [&::-webkit-slider-thumb]:bg-white xl:[&::-webkit-slider-thumb]:size-7 xl:[&::-webkit-slider-thumb]:border-3.5"
-              style={{
-                background:
-                  HOUSE_VALUE_RANGES.length <= 1
-                    ? "#102E50"
-                    : `linear-gradient(to right, #102E50 0%, #102E50 ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB 100%)`,
-              }}
-            />
-            <div className="flex w-full max-w-4xl justify-between text-xs font-medium text-[#343434] xl:text-sm">
-              <span>Under $100K</span>
-              <span>$1.5M+</span>
-            </div>
-            <FormNavigation
-              showBack
-              showNext
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          </section>
-        ) : null}
-
-        {currentStep === 9 ? (
           <section className={`${STEP_SHELL_FIELDS} items-center`}>
-            <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
-              <TextInput
-                id="step6FirstName"
-                label="First Name"
-                value={formData.first_name}
-                onChange={(e) => handleInputChange("first_name", e.target.value)}
-                placeholder="Enter First Name"
-                labelClassName={LABEL_CLASS}
-                className={INPUT_FIELD}
-              />
-              <TextInput
-                id="step6LastName"
-                label="Last Name"
-                value={formData.last_name}
-                onChange={(e) => handleInputChange("last_name", e.target.value)}
-                placeholder="Enter Last Name"
-                labelClassName={LABEL_CLASS}
-                className={INPUT_FIELD}
-              />
-              <TextInput
-                id="email"
-                label="Email Address"
-                type="email"
-                value={formData.email}
-                onChange={(e) => {
-                  handleInputChange("email", e.target.value)
-                  if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
-                }}
-                placeholder="Enter Email Address"
-                labelClassName={LABEL_CLASS}
-                className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus:border-red-500" : ""}`}
-              />
-              {fieldErrors.email ? (
-                <p className="text-xs text-red-600" role="alert">
-                  {fieldErrors.email}
-                </p>
-              ) : null}
-            </div>
-            <FormNavigation
-              showBack
-              showNext
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
+          <h3 className={STEP_TITLE}>Where should we send your information?</h3>
+          <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
+            
+            <TextInput
+              id="email"
+              label="Email Address"
+              type="email"
+              value={formData.email}
+              onChange={(e) => {
+                handleInputChange("email", e.target.value)
+                if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
+              }}
+              placeholder="Enter Email Address"
+              labelClassName={LABEL_CLASS}
+              className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus:border-red-500" : ""}`}
             />
-          </section>
+            {fieldErrors.email ? (
+              <p className="text-xs text-red-600" role="alert">
+                {fieldErrors.email}
+              </p>
+            ) : null}
+          </div>
+          <FormNavigation
+            showBack
+            showNext
+            isNextDisabled={!isStepValid()}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        </section>
         ) : null}
 
         {currentStep === TOTAL_STEPS ? (
           <section className={`${STEP_SHELL_FIELDS} items-center`}>
-            <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
-              <AddressAutocomplete
-                label="Street Address"
-                value={formData.street_address}
-                city={formData.city}
-                state={formData.state}
-                onChange={(v) => {
-                  handleInputChange("street_address", v)
-                  if (!v) {
-                    handleInputChange("city", "")
-                    handleInputChange("state", "")
-                  }
-                }}
-                onSelect={(result) => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    street_address: result.streetAddress,
-                    city: result.city,
-                    state: result.state,
-                    ...(result.zipCode ? { zipCode: result.zipCode } : {}),
-                  }))
-                }}
-                placeholder="Enter Street Address"
-                labelClassName={LABEL_CLASS}
-                className={INPUT_FIELD}
-              />
-              <PhoneNumberInput
-                id="phoneNumber"
-                label="Phone Number"
-                value={formData.phone_number}
-                onChange={(v) => {
-                  handleInputChange("phone_number", v)
-                  if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
-                }}
-                placeholder="Enter Phone Number"
-                labelClassName={LABEL_CLASS}
-                className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus:border-red-500" : ""}`}
-              />
-              {fieldErrors.phone ? (
-                <p className="text-xs text-red-600" role="alert">
-                  {fieldErrors.phone}
-                </p>
-              ) : null}
-
-              <p className="text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
-                By clicking the button below, you acknowledge, consent, and agree to our terms at the bottom of this page.
+          <h3 className={STEP_TITLE}>Before we prepare your FREE quote, we need to confirm your information and check availability in your area. It only takes a minute!</h3>
+          <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
+            
+            <PhoneNumberInput
+              id="phoneNumber"
+              label="Phone Number"
+              value={formData.phone_number}
+              onChange={(v) => {
+                handleInputChange("phone_number", v)
+                if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
+              }}
+              placeholder="Enter Phone Number"
+              labelClassName={LABEL_CLASS}
+              className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus:border-red-500" : ""}`}
+            />
+            {fieldErrors.phone ? (
+              <p className="text-xs text-red-600" role="alert">
+                {fieldErrors.phone}
               </p>
+            ) : null}
 
-              {submitStatus === "error" && submitError ? (
-                <p className="text-sm text-red-600" role="alert">
-                  {submitError}
-                </p>
-              ) : null}
+           
 
-              <button
-                type="submit"
-                disabled={submitStatus === "loading"}
-                className="h-13 w-full cursor-pointer rounded-[10px] bg-[#C12026] py-3 text-sm font-medium uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:h-15 xl:text-lg"
-              >
-                {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
-              </button>
-
-              <p className="text-justify text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
-                By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree to our{" "}
-                <a href="/terms-of-use" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
-                  Terms and Conditions
-                </a>{" "}
-                and{" "}
-                <a href="/privacy-policy" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
-                  Privacy Policy
-                </a>
-                . Your consent, and e-signature, is not a condition of accessing our services. You may revoke your consent at any time by emailing{" "}
-                <a href="mailto:consent@unclesambuyshome.com" className="font-bold text-[#343434]">
-                  consent@unclesambuyshome.com
-                </a>
-                .
+            {submitStatus === "error" && submitError ? (
+              <p className="text-sm text-red-600" role="alert">
+                {submitError}
               </p>
-            </div>
+            ) : null}
 
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-          </section>
+            {/* <button
+              type="submit"
+              disabled={submitStatus === "loading"}
+              className="h-13 w-full cursor-pointer rounded-[10px] bg-[#C12026] py-3 text-sm font-medium uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:h-15 xl:text-lg"
+            >
+              {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
+            </button> */}
+
+          
+          </div>
+
+          <FormNavigation showBack showNext={true} onNext={handleNext} onBack={handleBack} />
+        </section>
         ) : null}
+
+      
       </form>
     </section>
   )
