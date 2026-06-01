@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUtmParams, setCookie, getCookie } from "@workspace/lp-core";
+import {
+  useUtmParams,
+  setCookie,
+  getCookie,
+  QUOTIFII_EXTENDED_UTM_OPTIONS,
+} from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
@@ -13,7 +18,7 @@ const ZIP_COOKIE_DAYS = 30;
 const BASE_URL = "https://autocoverage.insurlii.com";
 
 export default function Hero() {
-  useUtmParams(30);
+  useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
 
   const [zipCode, setZipCode] = useState("");
   const [cityName, setCityName] = useState("");

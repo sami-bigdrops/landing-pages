@@ -1,40 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import { and, eq } from "drizzle-orm"
 
+import { collectTrackingParams } from "@/lib/collect-tracking-params"
 import { db } from "@/lib/db"
 import { utmParams } from "@/lib/db/schema"
 
 const BRAND_ID = "insurlii"
 const UTM_PRODUCT_ID = "auto_insurance_insurlii"
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 90
-const ALLOWED_UTM_KEYS = new Set(["utm_source", "utm_s1"])
-
-function collectUtmParams(request: NextRequest): Map<string, string> {
-  const collected = new Map<string, string>()
-
-  for (const [key, value] of request.nextUrl.searchParams.entries()) {
-    const normalizedKey = key.toLowerCase()
-    if (ALLOWED_UTM_KEYS.has(normalizedKey) && value.trim()) {
-      collected.set(normalizedKey, value.trim())
-    }
-  }
-
-  const cookieKeyAliases: Record<string, string> = {
-    subid1: "utm_source",
-    subid3: "utm_s1",
-  }
-
-  for (const cookie of request.cookies.getAll()) {
-    const normalizedKey =
-      cookieKeyAliases[cookie.name.toLowerCase()] ?? cookie.name.toLowerCase()
-    if (!ALLOWED_UTM_KEYS.has(normalizedKey)) continue
-    if (collected.has(normalizedKey)) continue
-    if (!cookie.value.trim()) continue
-    collected.set(normalizedKey, cookie.value.trim())
-  }
-
-  return collected
-}
 
 function applyUtmCookies(response: NextResponse, utmMap: Map<string, string>) {
   for (const [key, value] of utmMap) {
@@ -58,7 +31,7 @@ export async function proxy(request: NextRequest) {
   const response = NextResponse.next()
   if (request.method !== "GET") return response
 
-  const utmMap = collectUtmParams(request)
+  const utmMap = collectTrackingParams(request)
   if (utmMap.size === 0) return response
 
   applyUtmCookies(response, utmMap)
