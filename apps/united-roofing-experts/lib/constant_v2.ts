@@ -109,13 +109,5 @@ export const HERO_CONTENT = {
     copyrightText: "© 2026 United Roofing Experts. All Rights Reserved.",
   } as const
 
-  export const FOOTER_CONTENT_FORM = {
-    links: [
-      { text: "Privacy Policy", href: "/privacy-policy" },
-      { text: "Terms of Use", href: "/terms-of-use" },
-    ],
-
-    copyrightText: "© 2026 United Roofing Experts. All Rights Reserved.",
-  } as const
-  
+ 
   

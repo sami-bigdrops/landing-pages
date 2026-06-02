@@ -1,13 +1,15 @@
 import FormPageWrapper from "@/app/type/long/v2/_components/Form"
 import Navbar from "../_components/Navbar"
-import Footer from "../_components/Footer-v2"
+import FormFooter from "../type/long/v2/_components/Form-footer"
 
 export default function FormRoute() {
   return (
-    <div className="w-full h-full flex flex-col min-h-screen">
+    <div className="flex min-h-dvh w-full flex-col">
       <Navbar />
-      <FormPageWrapper />
-      <Footer />
+      <div className="flex min-h-0 flex-1 flex-col">
+        <FormPageWrapper />
+      </div>
+      <FormFooter />
     </div>
   )
 }

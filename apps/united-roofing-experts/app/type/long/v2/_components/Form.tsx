@@ -515,7 +515,7 @@ function FormPage() {
   }
 
   return (
-    <section className="flex w-full min-h-[400px] flex-col items-center gap-8 md:min-h-[460px] md:gap-10 xl:min-h-[580px] xl:gap-12 w-full h-full px-6 py-8 md:px-6 md:py-10 lg:px-14 lg:py-10 xl:px-20 xl:py-14 ">
+    <section className="flex w-full min-h-0 flex-1 flex-col items-center  gap-8 px-6 py-8 md:min-h-[460px] md:gap-10 md:px-6 md:py-10 lg:px-14 lg:py-10 xl:min-h-[500px] xl:gap-12 xl:px-20 xl:py-14">
 
 
       <form
@@ -778,7 +778,7 @@ export default function Form() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-white">
+        <div className="flex flex-1 min-h-0 items-center justify-center bg-white">
           <div className="text-base font-semibold text-[#102E50] md:text-lg">Loading...</div>
         </div>
       }
