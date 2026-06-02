@@ -5,6 +5,8 @@ export const footerVariants = cva("w-full", {
     type: {
       long:
         "flex flex-col gap-8 md:gap-10 px-4 py-8 md:px-6 md:py-10 lg:px-14 lg:py-12 xl:px-20 xl:py-14",
+      "type-1":
+        "flex flex-col gap-8 md:gap-10 px-4 py-8 md:px-6 md:py-10 lg:px-14 lg:py-12 xl:px-20 xl:py-14",
     },
   },
   defaultVariants: {

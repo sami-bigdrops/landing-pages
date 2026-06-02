@@ -106,7 +106,7 @@ export const HERO_CONTENT = {
       { text: "Terms of Use", href: "/terms-of-use" },
     ],
     description: "Premium Roofing Built For Long-Term Protection",
-    copyrightText: "Copyright © 2026 United Roofing Experts. All Rights Reserved.",
+    copyrightText: "© 2026 United Roofing Experts. All Rights Reserved.",
   } as const
 
   export const FOOTER_CONTENT_FORM = {
@@ -115,7 +115,7 @@ export const HERO_CONTENT = {
       { text: "Terms of Use", href: "/terms-of-use" },
     ],
 
-    copyrightText: " © 2026 United Roofing Experts. All Rights Reserved.",
+    copyrightText: "© 2026 United Roofing Experts. All Rights Reserved.",
   } as const
   
   
