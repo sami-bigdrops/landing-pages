@@ -90,10 +90,10 @@ export default function Hero() {
           backgroundPosition: "left"
         }}
       />
-      {/* <div
-        className="absolute inset-0 w-full h-full bg-black/40"
+      <div
+        className="absolute inset-0 w-full h-full bg-black/22"
         aria-hidden
-      /> */}
+      />
       <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-8 py-10 md:py-15 md:px-8 lg:py-20 xl:px-23 xl:py-33 2xl:py-38">
         <div className="container mx-auto ">
           <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-6.5 lg:gap-6.5 xl:gap-8.5 ">

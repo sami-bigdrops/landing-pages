@@ -35,6 +35,14 @@ export const OPTIONS_CONTENT = {
   header: "A Better Rate Could Be Waiting In Your ZIP",
   description: "Tell us the basics and we’ll line up options worth a look.",
 
+  badge: {
+    text: "Summer Rates Available",
+    image: {
+      src: "/Dollar.svg",
+      alt: "Summer Rates Available",
+    },
+  },
+
   image: {
     src: "/quokka.webp",
     alt: "Quokka Image",
