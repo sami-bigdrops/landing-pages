@@ -6,6 +6,14 @@ export const HERO_CONTENT = {
     src: "/hero.webp",
     alt: "Quotifii"
   },
+
+  badge: {
+    text: "Summer Savings",
+    image: {
+      src: "/Sun.svg",
+      alt: "Summer Savings",
+    },
+  },
  
   
 } as const
