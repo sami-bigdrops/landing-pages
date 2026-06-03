@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import Navbar from "@/app/_components/Navbar"
 import TermsAndConditions from "@/app/_components/TermsAndConditions"
-import Footer from "@/app/_components/Footer"
+import Footer from "@/app/_components/Footer-v2"
 
 export const metadata: Metadata = {
   title: "Terms of Use",

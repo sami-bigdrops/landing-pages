@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import Navbar from "@/app/_components/Navbar"
 import PrivacyPolicy from "@/app/_components/PrivacyPolicy"
-import Footer from "@/app/_components/Footer"
+import Footer from "@/app/_components/Footer-v2"
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
