@@ -3,6 +3,8 @@
 import Image from "next/image"
 import { formOptionButtonClasses } from "@/lib/form-input-styles"
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 
 interface StepCurrentInsurerProps {
   value: string
@@ -28,15 +30,15 @@ export function StepCurrentInsurer({ value, onChange }: StepCurrentInsurerProps)
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         Who is your current insurer?
       </h2>
 
-      <div className="flex flex-col items-center justify-center gap-3 md:gap-4 w-full">
+      <div className="flex flex-col items-center justify-center gap-4 w-full">
         <div
-          className="w-full grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4"
+          className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4"
           role="radiogroup"
           aria-label="Current insurer"
         >
@@ -62,7 +64,7 @@ export function StepCurrentInsurer({ value, onChange }: StepCurrentInsurerProps)
                 </div>
                 <span
                   className="text-sm lg:text-base xl:text-lg font-semibold text-center leading-tight"
-                  style={{ color: FORM_PRIMARY_COLOR }}
+                  style={FORM_STEP_TITLE_STYLE}
                 >
                   {name}
                 </span>
@@ -79,8 +81,8 @@ export function StepCurrentInsurer({ value, onChange }: StepCurrentInsurerProps)
           className={formOptionButtonClasses(value === "Other", "w-full flex  items-center justify-center  rounded-lg border px-3 py-4 transition-colors duration-200 min-h-[56px]")}
         >
           <span
-            className="text-sm lg:text-base xl:text-lg font-semibold"
-            style={{ color: FORM_PRIMARY_COLOR }}
+            className="text-base font-medium"
+            style={FORM_STEP_TITLE_STYLE}
           >
             Other
           </span>

@@ -1,6 +1,8 @@
 "use client"
 
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 import { FORM_FIELD_TEXT_INPUT_CLASSNAME } from "@/lib/form-input-styles"
 import { ArrowRightIcon } from "lucide-react"
 import { AddressAutocomplete } from "./AddressAutocomplete"
@@ -39,15 +41,15 @@ export function StepAddress({
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         What is your street address?
       </h2>
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-semibold" style={{ color: FORM_PRIMARY_COLOR }}>
+          <label className="text-sm font-semibold" style={FORM_STEP_TITLE_STYLE}>
             ZIP Code
           </label>
           <input
@@ -59,7 +61,7 @@ export function StepAddress({
             maxLength={5}
             required
             className={inputClass}
-            style={{ color: FORM_PRIMARY_COLOR }}
+            style={FORM_STEP_TITLE_STYLE}
             aria-label="ZIP Code"
           />
         </div>

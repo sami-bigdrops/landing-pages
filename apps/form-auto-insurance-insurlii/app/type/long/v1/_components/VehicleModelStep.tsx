@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import { formOptionButtonClasses } from "@/lib/form-input-styles"
 import { FORM_PRIMARY_COLOR, type FormVehicleType } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 import { FormRadioIndicator } from "./FormRadioIndicator"
 
 interface VehicleModelStepProps {
@@ -89,14 +91,14 @@ export function VehicleModelStep({
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         What is the model of your {makeLabel}?
       </h2>
 
       <div
-        className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
         role="radiogroup"
         aria-label="Vehicle model"
       >
@@ -110,11 +112,11 @@ export function VehicleModelStep({
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(option.name)}
-              className={formOptionButtonClasses(isSelected, "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-5 xl:px-6.5 py-3.5 text-left transition-colors duration-200")}
+              className={formOptionButtonClasses(isSelected)}
             >
               <span
                 className="text-sm lg:text-base xl:text-lg font-semibold uppercase"
-                style={{ color: FORM_PRIMARY_COLOR }}
+                style={FORM_STEP_TITLE_STYLE}
               >
                 {option.name}
               </span>

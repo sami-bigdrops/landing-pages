@@ -31,7 +31,9 @@ export const FORM_YEAR_INITIAL_VISIBLE = 28
 
 export const FORM_PRIMARY_COLOR = "#12266D"
 
-export const FORM_LIGHT_BG = "#F5F5F5"
+export const FORM_LIGHT_BG = "#FFFFFF"
+
+export const FORM_SECTION_BG = "#F9F9FB"
 
 export const FORM_INPUT_DEFAULT_BORDER = "#E5E7EB"
 

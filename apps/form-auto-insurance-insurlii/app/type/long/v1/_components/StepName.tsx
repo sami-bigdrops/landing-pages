@@ -1,6 +1,8 @@
 "use client"
 
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 import { FORM_FIELD_TEXT_INPUT_CLASSNAME } from "@/lib/form-input-styles"
 import { ArrowRightIcon } from "lucide-react"
 
@@ -27,8 +29,8 @@ export function StepName({
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         What is your name?
       </h2>
@@ -42,7 +44,7 @@ export function StepName({
           required
           autoComplete="given-name"
           className={FORM_FIELD_TEXT_INPUT_CLASSNAME}
-          style={{ color: FORM_PRIMARY_COLOR }}
+          style={FORM_STEP_TITLE_STYLE}
           aria-label="First name"
         />
 
@@ -54,7 +56,7 @@ export function StepName({
           required
           autoComplete="family-name"
           className={FORM_FIELD_TEXT_INPUT_CLASSNAME}
-          style={{ color: FORM_PRIMARY_COLOR }}
+          style={FORM_STEP_TITLE_STYLE}
           aria-label="Last name"
         />
 

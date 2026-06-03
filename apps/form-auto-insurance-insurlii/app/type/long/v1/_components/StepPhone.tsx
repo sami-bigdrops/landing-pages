@@ -3,6 +3,8 @@
 import { useId, useState } from "react"
 import { ArrowRightIcon, Loader2 } from "lucide-react"
 import { BRAND_DOMAIN, BRAND_NAME, FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 import {
   FORM_FIELD_TEXT_INPUT_CLASSNAME,
   FORM_TEXT_INPUT_ERROR_CLASSNAME,
@@ -66,8 +68,8 @@ export function StepPhone({ value, onChange, onSubmit }: StepPhoneProps) {
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         What is your phone number?
       </h2>
@@ -86,7 +88,7 @@ export function StepPhone({ value, onChange, onSubmit }: StepPhoneProps) {
               FORM_FIELD_TEXT_INPUT_CLASSNAME,
               error && FORM_TEXT_INPUT_ERROR_CLASSNAME
             )}
-            style={{ color: FORM_PRIMARY_COLOR }}
+            style={FORM_STEP_TITLE_STYLE}
             aria-label="Phone number"
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? errorId : undefined}

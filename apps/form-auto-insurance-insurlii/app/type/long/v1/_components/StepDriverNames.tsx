@@ -1,6 +1,8 @@
 "use client"
 
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 import { FORM_FIELD_TEXT_INPUT_CLASSNAME } from "@/lib/form-input-styles"
 import { ArrowRightIcon } from "lucide-react"
 
@@ -51,8 +53,8 @@ export function StepDriverNames({
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         Who are your drivers?
       </h2>
@@ -60,7 +62,7 @@ export function StepDriverNames({
       <div className="flex flex-col gap-6">
         {/* Driver 1 */}
         <div className="flex flex-col gap-3">
-          <p className="text-sm font-semibold" style={{ color: FORM_PRIMARY_COLOR }}>
+          <p className="text-sm font-semibold" style={FORM_STEP_TITLE_STYLE}>
             What is your name?
           </p>
           <input
@@ -71,7 +73,7 @@ export function StepDriverNames({
             required
             autoComplete="given-name"
             className={inputClass}
-            style={{ color: FORM_PRIMARY_COLOR }}
+            style={FORM_STEP_TITLE_STYLE}
             aria-label="First name"
           />
           <input
@@ -82,7 +84,7 @@ export function StepDriverNames({
             required
             autoComplete="family-name"
             className={inputClass}
-            style={{ color: FORM_PRIMARY_COLOR }}
+            style={FORM_STEP_TITLE_STYLE}
             aria-label="Last name"
           />
         </div>
@@ -90,7 +92,7 @@ export function StepDriverNames({
         {/* Driver 2 */}
         {driverCount >= 2 && (
           <div className="flex flex-col gap-3">
-            <p className="text-sm font-semibold" style={{ color: FORM_PRIMARY_COLOR }}>
+            <p className="text-sm font-semibold" style={FORM_STEP_TITLE_STYLE}>
               What is your second driver&apos;s name?
             </p>
             <input
@@ -100,7 +102,7 @@ export function StepDriverNames({
               placeholder="First name"
               required
               className={inputClass}
-              style={{ color: FORM_PRIMARY_COLOR }}
+              style={FORM_STEP_TITLE_STYLE}
               aria-label="Second driver first name"
             />
             <input
@@ -110,7 +112,7 @@ export function StepDriverNames({
               placeholder="Last name"
               required
               className={inputClass}
-              style={{ color: FORM_PRIMARY_COLOR }}
+              style={FORM_STEP_TITLE_STYLE}
               aria-label="Second driver last name"
             />
           </div>
@@ -119,7 +121,7 @@ export function StepDriverNames({
         {/* Driver 3 */}
         {driverCount >= 3 && (
           <div className="flex flex-col gap-3">
-            <p className="text-sm font-semibold" style={{ color: FORM_PRIMARY_COLOR }}>
+            <p className="text-sm font-semibold" style={FORM_STEP_TITLE_STYLE}>
               What is your third driver&apos;s name?
             </p>
             <input
@@ -129,7 +131,7 @@ export function StepDriverNames({
               placeholder="First name"
               required
               className={inputClass}
-              style={{ color: FORM_PRIMARY_COLOR }}
+              style={FORM_STEP_TITLE_STYLE}
               aria-label="Third driver first name"
             />
             <input
@@ -139,7 +141,7 @@ export function StepDriverNames({
               placeholder="Last name"
               required
               className={inputClass}
-              style={{ color: FORM_PRIMARY_COLOR }}
+              style={FORM_STEP_TITLE_STYLE}
               aria-label="Third driver last name"
             />
           </div>

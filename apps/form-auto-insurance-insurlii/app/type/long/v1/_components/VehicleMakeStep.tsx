@@ -11,6 +11,8 @@ import {
   FORM_SELECT_SEARCH_CLASSNAME,
 } from "@/lib/form-input-styles"
 import { FORM_POPULAR_CAR_MAKES, FORM_POPULAR_MOTORCYCLE_MAKES, FORM_PRIMARY_COLOR, type FormVehicleType } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 
 export interface VehicleMakeOption {
   name: string
@@ -155,8 +157,8 @@ export function VehicleMakeStep({
 return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         {title ?? "What is your vehicle make?"}
       </h2>
@@ -184,10 +186,10 @@ return (
               >
                 <Icon
                   className="w-4 h-4 xl:w-6 xl:h-6 shrink-0"
-                  style={{ color: FORM_PRIMARY_COLOR }}
+                  style={FORM_STEP_TITLE_STYLE}
                   strokeWidth={2}
                 />
-                <span className="text-sm lg:text-base xl:text-lg font-semibold leading-tight line-clamp-2" style={{ color: FORM_PRIMARY_COLOR }}>{label}</span>
+                <span className="text-sm lg:text-base xl:text-lg font-semibold leading-tight line-clamp-2" style={FORM_STEP_TITLE_STYLE}>{label}</span>
               </button>
             )
           })}
@@ -215,7 +217,7 @@ return (
         <>
           {gridMakes.length > 0 ? (
             <div
-              className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-6"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6"
               role="radiogroup"
               aria-label="Popular vehicle makes"
             >
@@ -233,7 +235,7 @@ return (
                     <MakeLogo name={make.name} logoUrl={make.logoUrl || ""} />
                     <span
                       className="text-sm lg:text-base xl:text-lg font-semibold  text-center leading-tight line-clamp-2"
-                      style={{ color: FORM_PRIMARY_COLOR }}
+                      style={FORM_STEP_TITLE_STYLE}
                     >
                       {formatMakeLabel(make.name)}
                     </span>

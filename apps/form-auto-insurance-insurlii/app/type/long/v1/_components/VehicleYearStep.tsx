@@ -3,7 +3,14 @@
 import { useEffect, useMemo, useState } from "react"
 import { Plus } from "lucide-react"
 import { formOptionButtonClasses } from "@/lib/form-input-styles"
-import { FORM_PRIMARY_COLOR, FORM_YEAR_INITIAL_VISIBLE } from "@/lib/constant"
+import {
+  FORM_OPTION_LABEL_CLASSNAME,
+  FORM_OPTIONS_GRID_4_CLASSNAME,
+  FORM_SHOW_MORE_LINK_CLASSNAME,
+  FORM_STEP_TITLE_CLASSNAME,
+  FORM_STEP_TITLE_STYLE,
+} from "@/lib/form-step-styles"
+import { FORM_YEAR_INITIAL_VISIBLE } from "@/lib/constant"
 import { FormRadioIndicator } from "./FormRadioIndicator"
 
 export interface VehicleYearOption {
@@ -93,15 +100,12 @@ export function VehicleYearStep({ value, onChange }: VehicleYearStepProps) {
 
   return (
     <div>
-      <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
-      >
+      <h2 className={FORM_STEP_TITLE_CLASSNAME} style={FORM_STEP_TITLE_STYLE}>
         What is your vehicle year?
       </h2>
 
       <div
-        className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4"
+        className={FORM_OPTIONS_GRID_4_CLASSNAME}
         role="radiogroup"
         aria-label="Vehicle year"
       >
@@ -116,12 +120,9 @@ export function VehicleYearStep({ value, onChange }: VehicleYearStepProps) {
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(yearValue)}
-              className={formOptionButtonClasses(isSelected, "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-5 xl:px-6.5 py-3.5 text-left transition-colors duration-200")}
+              className={formOptionButtonClasses(isSelected)}
             >
-              <span
-                className="text-sm md:text-lg font-semibold tabular-nums"
-                style={{ color: FORM_PRIMARY_COLOR }}
-              >
+              <span className={FORM_OPTION_LABEL_CLASSNAME} style={FORM_STEP_TITLE_STYLE}>
                 {option.year}
               </span>
               <FormRadioIndicator isSelected={isSelected} className="w-3.5 h-3.5 md:h-4.5 md:w-4.5" />
@@ -131,16 +132,16 @@ export function VehicleYearStep({ value, onChange }: VehicleYearStepProps) {
       </div>
 
       {hasMoreYears ? (
-        <div className="mt-8 text-center">
+        <div className="mt-6 pb-6 text-center md:pb-8">
           <button
             type="button"
             onClick={() => setShowAllYears(true)}
-            className="inline-flex items-center gap-1.5 font-bold text-sm lg:text-base hover:underline"
-            style={{ color: FORM_PRIMARY_COLOR }}
+            className={FORM_SHOW_MORE_LINK_CLASSNAME}
+            style={FORM_STEP_TITLE_STYLE}
           >
           
             Show More Years
-            <Plus className="h-4 w-4" strokeWidth={2.5} />
+            <Plus className="h-5 w-5" strokeWidth={2.5} />
           </button>
         </div>
       ) : null}

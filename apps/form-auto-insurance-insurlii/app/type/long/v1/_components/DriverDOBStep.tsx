@@ -2,10 +2,9 @@
 
 import { useId, useState } from "react"
 import { ArrowRightIcon } from "lucide-react"
-import { FORM_PRIMARY_COLOR } from "@/lib/constant"
-import { FORM_DOB_TEXT_INPUT_CLASSNAME, FORM_TEXT_INPUT_ERROR_CLASSNAME } from "@/lib/form-input-styles"
-import { cn } from "@workspace/ui/lib/utils"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
 import { getMaxDriverDOB, validateDriverDOB } from "@/lib/validate-dob"
+import { BirthdateInput } from "./BirthdateInput"
 
 interface DriverDOBStepProps {
   title: string
@@ -40,34 +39,25 @@ export function DriverDOBStep({
     onNext()
   }
 
+  const isComplete = /^\d{4}-\d{2}-\d{2}$/.test(value)
+
   return (
     <div>
-      <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
-      >
+      <h2 className={FORM_STEP_TITLE_CLASSNAME} style={FORM_STEP_TITLE_STYLE}>
         {title}
       </h2>
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <input
-            type="date"
+          <BirthdateInput
             value={value}
-            onChange={(e) => handleChange(e.target.value)}
-            max={maxDob}
-            required
-            className={cn(
-              FORM_DOB_TEXT_INPUT_CLASSNAME,
-              error && FORM_TEXT_INPUT_ERROR_CLASSNAME
-            )}
-            style={{ color: FORM_PRIMARY_COLOR }}
-            aria-label={ariaLabel}
-            aria-invalid={error ? true : undefined}
-            aria-describedby={error ? errorId : undefined}
+            onChange={handleChange}
+            maxIso={maxDob}
+            ariaLabel={ariaLabel}
+            hasError={!!error}
           />
           {error && (
-            <p id={errorId} className="text-sm  font-medium text-red-600" role="alert">
+            <p id={errorId} className="text-center text-sm font-medium text-red-600" role="alert">
               {error}
             </p>
           )}
@@ -75,7 +65,7 @@ export function DriverDOBStep({
 
         <button
           type="button"
-          disabled={!value}
+          disabled={!isComplete}
           onClick={handleContinue}
           className="w-full rounded-lg px-6 py-3.5 text-sm lg:text-base font-bold text-white transition-opacity disabled:opacity-50"
           style={{ backgroundColor: "#F97316" }}

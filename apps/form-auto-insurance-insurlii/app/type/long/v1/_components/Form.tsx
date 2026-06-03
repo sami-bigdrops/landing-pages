@@ -9,6 +9,7 @@ import { useInsurliiTracking } from "@/hooks/use-insurlii-tracking"
 import { buildFormSubmitPayload } from "@/lib/form-submit-payload"
 import { normalizeTrackingZip } from "@/lib/tracking-params"
 import { FORM_TOTAL_STEPS, type FormVehicleType } from "@/lib/constant"
+import { FORM_SECTION_BG } from "@/lib/constant"
 import { FormProgressHeader } from "./FormProgressHeader"
 import { VehicleMakeStep } from "./VehicleMakeStep"
 import { VehicleModelStep } from "./VehicleModelStep"
@@ -581,7 +582,7 @@ function FormPage() {
   }
 
   return (
-    <div className="min-h-screen flex-1 p-6">
+    <div className="flex min-h-0 flex-1 flex-col">
       {googlePlacesApiKey && (
         <Script
           src={`https://maps.googleapis.com/maps/api/js?key=${googlePlacesApiKey}&libraries=places`}
@@ -589,21 +590,27 @@ function FormPage() {
           onLoad={() => setGooglePlacesReady(true)}
         />
       )}
-      <div className="w-full max-w-4xl mx-auto">
-        <form
-          ref={formRef}
-          onSubmit={handleFormSubmit}
-          className="flex flex-col gap-4"
-          noValidate
-        >
-          <TrustedForm />
+      <form
+        ref={formRef}
+        onSubmit={handleFormSubmit}
+        className="flex min-h-0 flex-1 flex-col"
+        noValidate
+      >
+        <TrustedForm />
+        <div className="w-full bg-white pt-3">
           <FormProgressHeader
             cityName={cityName}
             currentStep={currentStep}
             totalSteps={FORM_TOTAL_STEPS}
             tagline={currentStep === S_EMAIL && d1FirstName ? `${d1FirstName}, you're almost done!` : undefined}
           />
+        </div>
 
+        <div
+          className="flex-1 w-full py-4"
+          style={{ backgroundColor: FORM_SECTION_BG }}
+        >
+          <div className="w-full max-w-4xl mx-auto px-4 md:px-6">
           {/* ── Vehicle 1: Year / Make / Model (existing steps 1-3) ── */}
           {currentStep === S_YEAR && (
             <VehicleYearStep value={vehicleYear} onChange={handleYearChange} />
@@ -912,8 +919,9 @@ function FormPage() {
               onSubmit={handlePhoneSubmit}
             />
           )}
-        </form>
-      </div>
+          </div>
+        </div>
+      </form>
     </div>
   )
 }

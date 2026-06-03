@@ -2,6 +2,8 @@
 
 import { formOptionButtonClasses } from "@/lib/form-input-styles"
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 
 interface StepDriverCountProps {
   value: 1 | 2 | 3 | null
@@ -14,14 +16,14 @@ export function StepDriverCount({ value, onChange }: StepDriverCountProps) {
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         How many drivers will be on your policy?
       </h2>
 
       <div
-        className="grid grid-cols-3 gap-3 md:gap-4 mb-4 lg:mb-6 "
+        className="grid grid-cols-3 gap-4 mb-4 lg:mb-6 "
         role="radiogroup"
         aria-label="Number of drivers"
       >
@@ -38,7 +40,7 @@ export function StepDriverCount({ value, onChange }: StepDriverCountProps) {
             >
               <span
                 className="text-xl md:text-xl lg:text-2xl  xl:text-2xl font-bold tabular-nums"
-                style={{ color: FORM_PRIMARY_COLOR }}
+                style={FORM_STEP_TITLE_STYLE}
               >
                 {count}
               </span>

@@ -1,6 +1,6 @@
 "use client"
 
-import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
 import { YesNoOptions } from "./YesNoOptions"
 
 interface StepAddVehicleProps {
@@ -14,13 +14,10 @@ export function StepAddVehicle({ vehicleNumber, value, onChange }: StepAddVehicl
 
   return (
     <div>
-      <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-3"
-        style={{ color: FORM_PRIMARY_COLOR }}
-      >
+      <h2 className={`${FORM_STEP_TITLE_CLASSNAME} mb-3`} style={FORM_STEP_TITLE_STYLE}>
         Add {ordinal} vehicle?
       </h2>
-      <p className="text-center text-sm lg:text-base font-medium text-gray-500 mb-8 md:mb-10">
+      <p className="text-center text-base font-medium text-gray-500 mb-6 md:mb-8">
         Save an additional 20%
       </p>
 

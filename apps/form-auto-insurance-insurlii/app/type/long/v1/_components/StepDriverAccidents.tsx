@@ -2,6 +2,8 @@
 
 import { formOptionButtonClasses } from "@/lib/form-input-styles"
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 
 interface StepDriverAccidentsProps {
   value: string
@@ -14,14 +16,14 @@ export function StepDriverAccidents({ value, onChange }: StepDriverAccidentsProp
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         How many at-fault accidents have you had in the past three (3) years?
       </h2>
 
       <div
-        className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
+        className="grid grid-cols-2 md:grid-cols-4 gap-4"
         role="radiogroup"
         aria-label="At-fault accidents"
       >
@@ -38,7 +40,7 @@ export function StepDriverAccidents({ value, onChange }: StepDriverAccidentsProp
             >
               <span
                 className="text-xl md:text-xl lg:text-2xl  xl:text-2xl font-bold tabular-nums"
-                style={{ color: FORM_PRIMARY_COLOR }}
+                style={FORM_STEP_TITLE_STYLE}
               >
                 {option}
               </span>

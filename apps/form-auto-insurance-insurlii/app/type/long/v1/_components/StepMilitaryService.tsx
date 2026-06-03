@@ -1,6 +1,8 @@
 "use client"
 
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 import { YesNoOptions } from "./YesNoOptions"
 
 interface StepMilitaryServiceProps {
@@ -12,8 +14,8 @@ export function StepMilitaryService({ value, onChange }: StepMilitaryServiceProp
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         Have you or your spouse ever honorably served in the U.S. military?
       </h2>

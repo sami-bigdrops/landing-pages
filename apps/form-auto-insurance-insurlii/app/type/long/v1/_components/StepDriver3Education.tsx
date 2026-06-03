@@ -8,6 +8,8 @@ import {
   FORM_SELECT_OPTION_CLASSNAME,
 } from "@/lib/form-input-styles"
 import { FORM_PRIMARY_COLOR } from "@/lib/constant"
+import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
+
 
 interface StepDriver3EducationProps {
   value: string
@@ -35,14 +37,14 @@ export function StepDriver3Education({ value, onChange }: StepDriver3EducationPr
   return (
     <div>
       <h2
-        className="text-2xl font-bold text-center tracking-tight leading-tight mb-8 md:mb-10"
-        style={{ color: FORM_PRIMARY_COLOR }}
+        className={FORM_STEP_TITLE_CLASSNAME}
+        style={FORM_STEP_TITLE_STYLE}
       >
         What is your third driver&apos;s education level?
       </h2>
 
       <div
-        className="grid grid-cols-2 gap-3 md:gap-4 mb-4"
+        className="grid grid-cols-2 gap-4 mb-4"
         role="radiogroup"
         aria-label="Third driver education level"
       >
@@ -55,9 +57,9 @@ export function StepDriver3Education({ value, onChange }: StepDriver3EducationPr
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(option)}
-              className={formOptionButtonClasses(isSelected, "flex items-center justify-between gap-2 rounded-lg border px-2.5 md:px-5 xl:px-6.5 py-3.5 text-left transition-colors duration-200")}
+              className={formOptionButtonClasses(isSelected)}
             >
-              <span className="text-sm lg:text-base xl:text-lg font-semibold leading-tight" style={{ color: FORM_PRIMARY_COLOR }}>
+              <span className="text-sm lg:text-base xl:text-lg font-semibold leading-tight" style={FORM_STEP_TITLE_STYLE}>
                 {option}
               </span>
               <FormRadioIndicator isSelected={isSelected} className="w-3.5 h-3.5 md:h-4.5 md:w-4.5" />
