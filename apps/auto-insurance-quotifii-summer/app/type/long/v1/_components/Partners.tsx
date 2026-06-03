@@ -6,14 +6,13 @@ import { PARTNERS_CONTENT } from "@/lib/constant"
 export default function Partners() {
   return (
     <div
-      className="partners w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 xl:px-23 xl:py-14"
-      style={{
-        background: "linear-gradient(180deg, #EBF4FF 0%, #FFF 64.52%)"
-      }}
+      className="partners w-full h-full px-4 py-6 md:px-6 md:py-8 lg:px-14  xl:px-23 xl:py-12" style={{ background: "rgba(255, 247, 236, 0.80)" }}
+ 
+     
     >
       <div className="container mx-auto">
-        <div className="partners-content w-full flex flex-col items-center justify-center gap-8 md:gap-8 xl:gap-14">
-          <h2 className="text-base lg:text-lg xl:text-xl font-semibold text-[#1A1A1A] text-center font-sans leading-tight tracking-tight">
+        <div className="partners-content w-full flex flex-col items-center justify-center gap-8 md:gap-8 xl:gap-12">
+          <h2 className="text-base lg:text-lg xl:text-xl font-semibold text-[#1A1A1A] text-center font-sans leading-tight tracking-normal">
             {PARTNERS_CONTENT.header}
           </h2>
 

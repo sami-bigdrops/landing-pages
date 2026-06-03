@@ -19,15 +19,15 @@ export const HERO_CONTENT = {
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "We partner with top providers",
+  header: "We Partner With Top Providers",
 
   partners: [
     { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
     { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
     { alt: "Partner 3", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-14 xl:w-19 overflow-hidden object-contain" },
+    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-14 lg:w-14 xl:w-19 overflow-hidden object-contain" },
     { alt: "Partner 5", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 6", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
+    { alt: "Partner 6", src: "/partner-6.svg", className: "w-27 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
   ],
 } as const
 
@@ -42,52 +42,19 @@ export const OPTIONS_CONTENT = {
   
 } as const
 
-export const REVIEW_CONTENT = {
-  header: "What Our Customers Say",
-  
-  reviews: [
-    {
-     id: 1,
-      quote: "I didn’t expect it to be this simple. I answered a few questions, compared options, and ended up switching to a better rate the same day. Having an agent walk me through everything really helped.",
-      customer: {
-        name: "Amanda Reynolds",
-        location: "San Diego, CA",
-        image: {
-          src: "/profile-1.svg",
-          alt: "Amanda Reynolds",
-        },
-      },
-    },
-    {
-      id: 2,
-      quote: "I liked that I could see different quotes in one place instead of jumping between websites. The process was quick, and I felt confident about the coverage I chose.",
-      customer: {
-        name: "Jason M.",
-        location: "Austin, TX",
-        image: {
-          src: "/profile-2.svg",
-          alt: "Jason M.",
-        },
-      },
-    },
-    {
-     
-      id: 3,
-      quote: "I was paying way more than I should have. Quotifii helped me find a more affordable option in minutes, and the agent explained everything clearly. Super easy experience.",
-      customer: {
-        name: "Priya S",
-        location: "Edison, NJ",
-        image: {
-          src: "/profile-3.svg",
-          alt: "Priya S",
-        },
-      },
-    },
-  ],
-} as const
+
 
 export const FEATURES_CONTENT = {
-  header: "A Smarter Way To Shop For Coverage",
+  header: "A Smarter Way To Shop For Cover",
+
+  badge: {
+    text: "Summer-Ready Coverage",
+    image: {
+      src: "/Sun.svg",
+      alt: "Summer-Ready Coverage",
+    },
+  },
+ 
   steps: [
     {
       number: 1,
@@ -110,7 +77,7 @@ export const FEATURES_CONTENT = {
     {
       number: 3,
       title: "24/7 Roadside Assistance",
-      description: "Flat tire, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
+      description: "Flat tyre, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
       image: {
         src: "/feature-3.svg",
         alt: "24/7 Roadside Assistance",
