@@ -5,6 +5,7 @@ import Script from "next/script"
 import { TrustedForm } from "@workspace/lp-core"
 import { useSearchParams } from "next/navigation"
 import { useCityFromZip } from "@/hooks/use-city-from-zip"
+import { useFormStepHistory } from "@/hooks/use-form-step-history"
 import { useInsurliiTracking } from "@/hooks/use-insurlii-tracking"
 import { buildFormSubmitPayload } from "@/lib/form-submit-payload"
 import { normalizeTrackingZip } from "@/lib/tracking-params"
@@ -159,7 +160,7 @@ function FormPage() {
   // ── Routing ──────────────────────────────────────────────────────────
   const formRef = useRef<HTMLFormElement>(null)
   const trustedFormRef = useRef({ certUrl: "", token: "" })
-  const [currentStep, setCurrentStep] = useState(S_YEAR)
+  const [currentStep, goToStep] = useFormStepHistory(S_YEAR)
 
   // ── Vehicle 1 ────────────────────────────────────────────────────────
   const [vehicleYear, setVehicleYear]   = useState("")
@@ -267,7 +268,7 @@ function FormPage() {
     setVehicleYear(year)
     setVehicleMake("")
     setVehicleModel("")
-    setCurrentStep(S_MAKE)
+    goToStep(S_MAKE)
   }
 
   const handleVehicleTypeChange = (type: FormVehicleType) => {
@@ -279,19 +280,19 @@ function FormPage() {
   const handleMakeChange = (make: string) => {
     setVehicleMake(make)
     setVehicleModel("")
-    setCurrentStep(S_MODEL)
+    goToStep(S_MODEL)
   }
 
   const handleModelChange = (model: string) => {
     setVehicleModel(model)
-    setCurrentStep(S_V1_OWN)
+    goToStep(S_V1_OWN)
   }
 
   // ── Vehicle 1 car-flow handlers ───────────────────────────────────────
-  const handleV1Own   = (v: string) => { setV1Ownership(v);  setCurrentStep(S_V1_USE) }
-  const handleV1Use   = (v: string) => { setV1PrimaryUse(v); setCurrentStep(S_V1_MILES) }
-  const handleV1Miles = (v: string) => { setV1Miles(v);      setCurrentStep(S_V1_COV) }
-  const handleV1Cov   = (v: string) => { setV1Coverage(v);   setCurrentStep(S_ADD_V2) }
+  const handleV1Own   = (v: string) => { setV1Ownership(v);  goToStep(S_V1_USE) }
+  const handleV1Use   = (v: string) => { setV1PrimaryUse(v); goToStep(S_V1_MILES) }
+  const handleV1Miles = (v: string) => { setV1Miles(v);      goToStep(S_V1_COV) }
+  const handleV1Cov   = (v: string) => { setV1Coverage(v);   goToStep(S_ADD_V2) }
 
   // ── Add vehicle 2 ─────────────────────────────────────────────────────
   const handleAddV2 = (add: boolean) => {
@@ -305,7 +306,7 @@ function FormPage() {
       setV3Year(""); setV3Make(""); setV3Model("")
       setV3Ownership(""); setV3PrimaryUse(""); setV3Miles(""); setV3Coverage("")
     }
-    setCurrentStep(add ? S_V2_YEAR : S_HAD_INS)
+    goToStep(add ? S_V2_YEAR : S_HAD_INS)
   }
 
   // ── Vehicle 2 handlers ────────────────────────────────────────────────
@@ -315,14 +316,14 @@ function FormPage() {
 
   const handleV2Year = (year: string) => {
     setV2Year(year); setV2Make(""); setV2Model("")
-    setCurrentStep(S_V2_MAKE)
+    goToStep(S_V2_MAKE)
   }
-  const handleV2Make  = (make: string)  => { setV2Make(make);  setV2Model(""); setCurrentStep(S_V2_MODEL) }
-  const handleV2Model = (model: string) => { setV2Model(model); setCurrentStep(S_V2_OWN) }
-  const handleV2Own   = (v: string) => { setV2Ownership(v);  setCurrentStep(S_V2_USE) }
-  const handleV2Use   = (v: string) => { setV2PrimaryUse(v); setCurrentStep(S_V2_MILES) }
-  const handleV2Miles = (v: string) => { setV2Miles(v);      setCurrentStep(S_V2_COV) }
-  const handleV2Cov   = (v: string) => { setV2Coverage(v);   setCurrentStep(S_ADD_V3) }
+  const handleV2Make  = (make: string)  => { setV2Make(make);  setV2Model(""); goToStep(S_V2_MODEL) }
+  const handleV2Model = (model: string) => { setV2Model(model); goToStep(S_V2_OWN) }
+  const handleV2Own   = (v: string) => { setV2Ownership(v);  goToStep(S_V2_USE) }
+  const handleV2Use   = (v: string) => { setV2PrimaryUse(v); goToStep(S_V2_MILES) }
+  const handleV2Miles = (v: string) => { setV2Miles(v);      goToStep(S_V2_COV) }
+  const handleV2Cov   = (v: string) => { setV2Coverage(v);   goToStep(S_ADD_V3) }
 
   // ── Add vehicle 3 ─────────────────────────────────────────────────────
   const handleAddV3 = (add: boolean) => {
@@ -333,7 +334,7 @@ function FormPage() {
       setV3Year(""); setV3Make(""); setV3Model("")
       setV3Ownership(""); setV3PrimaryUse(""); setV3Miles(""); setV3Coverage("")
     }
-    setCurrentStep(add ? S_V3_YEAR : S_HAD_INS)
+    goToStep(add ? S_V3_YEAR : S_HAD_INS)
   }
 
   // ── Vehicle 3 handlers ────────────────────────────────────────────────
@@ -343,80 +344,80 @@ function FormPage() {
 
   const handleV3Year = (year: string) => {
     setV3Year(year); setV3Make(""); setV3Model("")
-    setCurrentStep(S_V3_MAKE)
+    goToStep(S_V3_MAKE)
   }
-  const handleV3Make  = (make: string)  => { setV3Make(make);  setV3Model(""); setCurrentStep(S_V3_MODEL) }
-  const handleV3Model = (model: string) => { setV3Model(model); setCurrentStep(S_V3_OWN) }
-  const handleV3Own   = (v: string) => { setV3Ownership(v);  setCurrentStep(S_V3_USE) }
-  const handleV3Use   = (v: string) => { setV3PrimaryUse(v); setCurrentStep(S_V3_MILES) }
-  const handleV3Miles = (v: string) => { setV3Miles(v);      setCurrentStep(S_V3_COV) }
-  const handleV3Cov   = (v: string) => { setV3Coverage(v);   setCurrentStep(S_HAD_INS) }
+  const handleV3Make  = (make: string)  => { setV3Make(make);  setV3Model(""); goToStep(S_V3_MODEL) }
+  const handleV3Model = (model: string) => { setV3Model(model); goToStep(S_V3_OWN) }
+  const handleV3Own   = (v: string) => { setV3Ownership(v);  goToStep(S_V3_USE) }
+  const handleV3Use   = (v: string) => { setV3PrimaryUse(v); goToStep(S_V3_MILES) }
+  const handleV3Miles = (v: string) => { setV3Miles(v);      goToStep(S_V3_COV) }
+  const handleV3Cov   = (v: string) => { setV3Coverage(v);   goToStep(S_HAD_INS) }
 
   // ── Insurance handlers ────────────────────────────────────────────────
   const handleHadInsurance = (had: boolean) => {
     setHadInsurance(had)
-    setCurrentStep(had ? S_CUR_INS : S_DRV_CNT)
+    goToStep(had ? S_CUR_INS : S_DRV_CNT)
   }
-  const handleCurrentInsurer = (ins: string) => { setCurrentInsurer(ins); setCurrentStep(S_YRS_INS) }
-  const handleYearsInsured   = (v: string)   => { setYearsInsured(v);     setCurrentStep(S_DRV_CNT) }
+  const handleCurrentInsurer = (ins: string) => { setCurrentInsurer(ins); goToStep(S_YRS_INS) }
+  const handleYearsInsured   = (v: string)   => { setYearsInsured(v);     goToStep(S_DRV_CNT) }
 
   // ── Driver handlers ───────────────────────────────────────────────────
-  const handleDriverCount = (count: 1 | 2 | 3) => { setDriverCount(count); setCurrentStep(S_D1_GEN) }
-  const handleD1Gender    = (v: string)  => { setD1Gender(v);     setCurrentStep(S_D1_MAR) }
-  const handleD1Married   = (v: boolean) => { setD1Married(v);    setCurrentStep(S_D1_EDU) }
-  const handleD1Education = (v: string)  => { setD1Education(v);  setCurrentStep(S_D1_OCC) }
-  const handleD1Occupation = (v: string) => { setD1Occupation(v); setCurrentStep(S_D1_CRD) }
-  const handleD1Credit    = (v: string)  => { setD1CreditScore(v); setCurrentStep(S_D1_ACC) }
-  const handleD1Accidents = (v: string)  => { setD1Accidents(v);  setCurrentStep(S_D1_TKT) }
-  const handleD1Tickets   = (v: string)  => { setD1Tickets(v);    setCurrentStep(S_D1_DUI) }
-  const handleD1DUI       = (v: boolean) => { setD1DUI(v);        setCurrentStep(S_D1_SUS) }
+  const handleDriverCount = (count: 1 | 2 | 3) => { setDriverCount(count); goToStep(S_D1_GEN) }
+  const handleD1Gender    = (v: string)  => { setD1Gender(v);     goToStep(S_D1_MAR) }
+  const handleD1Married   = (v: boolean) => { setD1Married(v);    goToStep(S_D1_EDU) }
+  const handleD1Education = (v: string)  => { setD1Education(v);  goToStep(S_D1_OCC) }
+  const handleD1Occupation = (v: string) => { setD1Occupation(v); goToStep(S_D1_CRD) }
+  const handleD1Credit    = (v: string)  => { setD1CreditScore(v); goToStep(S_D1_ACC) }
+  const handleD1Accidents = (v: string)  => { setD1Accidents(v);  goToStep(S_D1_TKT) }
+  const handleD1Tickets   = (v: string)  => { setD1Tickets(v);    goToStep(S_D1_DUI) }
+  const handleD1DUI       = (v: boolean) => { setD1DUI(v);        goToStep(S_D1_SUS) }
   const handleD1Suspended = (v: boolean) => {
     setD1Suspended(v)
-    setCurrentStep(driverCount >= 2 ? S_D2_REL : S_HOMEOWN)
+    goToStep(driverCount >= 2 ? S_D2_REL : S_HOMEOWN)
   }
 
   // ── Driver 2 handlers ─────────────────────────────────────────────────
-  const handleD2Relation   = (v: string)  => { setD2Relation(v);   setCurrentStep(S_D2_GEN) }
-  const handleD2Gender     = (v: string)  => { setD2Gender(v);     setCurrentStep(S_D2_MAR) }
-  const handleD2Married    = (v: boolean) => { setD2Married(v);    setCurrentStep(S_D2_EDU) }
-  const handleD2Education  = (v: string)  => { setD2Education(v);  setCurrentStep(S_D2_OCC) }
-  const handleD2Occupation = (v: string)  => { setD2Occupation(v); setCurrentStep(S_D2_ACC) }
-  const handleD2Accidents  = (v: string)  => { setD2Accidents(v);  setCurrentStep(S_D2_TKT) }
-  const handleD2Tickets    = (v: string)  => { setD2Tickets(v);    setCurrentStep(S_D2_DUI) }
-  const handleD2DUI        = (v: boolean) => { setD2DUI(v);        setCurrentStep(S_D2_SUS) }
-  const handleD2Suspended  = (v: boolean) => { setD2Suspended(v);  setCurrentStep(S_D2_DOB) }
-  const handleD2DOBNext    = ()           => { setCurrentStep(driverCount >= 3 ? S_D3_REL : S_HOMEOWN) }
+  const handleD2Relation   = (v: string)  => { setD2Relation(v);   goToStep(S_D2_GEN) }
+  const handleD2Gender     = (v: string)  => { setD2Gender(v);     goToStep(S_D2_MAR) }
+  const handleD2Married    = (v: boolean) => { setD2Married(v);    goToStep(S_D2_EDU) }
+  const handleD2Education  = (v: string)  => { setD2Education(v);  goToStep(S_D2_OCC) }
+  const handleD2Occupation = (v: string)  => { setD2Occupation(v); goToStep(S_D2_ACC) }
+  const handleD2Accidents  = (v: string)  => { setD2Accidents(v);  goToStep(S_D2_TKT) }
+  const handleD2Tickets    = (v: string)  => { setD2Tickets(v);    goToStep(S_D2_DUI) }
+  const handleD2DUI        = (v: boolean) => { setD2DUI(v);        goToStep(S_D2_SUS) }
+  const handleD2Suspended  = (v: boolean) => { setD2Suspended(v);  goToStep(S_D2_DOB) }
+  const handleD2DOBNext    = ()           => { goToStep(driverCount >= 3 ? S_D3_REL : S_HOMEOWN) }
 
   // ── Driver 3 handlers ─────────────────────────────────────────────────
-  const handleD3Relation   = (v: string)  => { setD3Relation(v);   setCurrentStep(S_D3_GEN) }
-  const handleD3Gender     = (v: string)  => { setD3Gender(v);     setCurrentStep(S_D3_MAR) }
-  const handleD3Married    = (v: boolean) => { setD3Married(v);    setCurrentStep(S_D3_EDU) }
-  const handleD3Education  = (v: string)  => { setD3Education(v);  setCurrentStep(S_D3_OCC) }
-  const handleD3Occupation = (v: string)  => { setD3Occupation(v); setCurrentStep(S_D3_ACC) }
-  const handleD3Accidents  = (v: string)  => { setD3Accidents(v);  setCurrentStep(S_D3_TKT) }
-  const handleD3Tickets    = (v: string)  => { setD3Tickets(v);    setCurrentStep(S_D3_DUI) }
-  const handleD3DUI        = (v: boolean) => { setD3DUI(v);        setCurrentStep(S_D3_SUS) }
-  const handleD3Suspended  = (v: boolean) => { setD3Suspended(v);  setCurrentStep(S_D3_DOB) }
-  const handleD3DOBNext    = ()           => { setCurrentStep(S_HOMEOWN) }
+  const handleD3Relation   = (v: string)  => { setD3Relation(v);   goToStep(S_D3_GEN) }
+  const handleD3Gender     = (v: string)  => { setD3Gender(v);     goToStep(S_D3_MAR) }
+  const handleD3Married    = (v: boolean) => { setD3Married(v);    goToStep(S_D3_EDU) }
+  const handleD3Education  = (v: string)  => { setD3Education(v);  goToStep(S_D3_OCC) }
+  const handleD3Occupation = (v: string)  => { setD3Occupation(v); goToStep(S_D3_ACC) }
+  const handleD3Accidents  = (v: string)  => { setD3Accidents(v);  goToStep(S_D3_TKT) }
+  const handleD3Tickets    = (v: string)  => { setD3Tickets(v);    goToStep(S_D3_DUI) }
+  const handleD3DUI        = (v: boolean) => { setD3DUI(v);        goToStep(S_D3_SUS) }
+  const handleD3Suspended  = (v: boolean) => { setD3Suspended(v);  goToStep(S_D3_DOB) }
+  const handleD3DOBNext    = ()           => { goToStep(S_HOMEOWN) }
 
   // ── Property handlers ─────────────────────────────────────────────────
   const handleHomeowner = (v: boolean) => {
     setIsHomeowner(v)
-    setCurrentStep(v ? S_HM_DISC : S_RNT_DISC)
+    goToStep(v ? S_HM_DISC : S_RNT_DISC)
   }
-  const handleHomeDiscount    = (v: boolean) => { setWantsHomeDiscount(v);    setCurrentStep(S_MILITARY) }
-  const handleRentersDiscount = (v: boolean) => { setWantsRentersDiscount(v); setCurrentStep(S_MILITARY) }
-  const handleMilitary        = (v: boolean) => { setServedMilitary(v);       setCurrentStep(S_HELP) }
-  const handleHelp            = (v: string)  => { setHelpGoal(v);             setCurrentStep(S_DOB) }
+  const handleHomeDiscount    = (v: boolean) => { setWantsHomeDiscount(v);    goToStep(S_MILITARY) }
+  const handleRentersDiscount = (v: boolean) => { setWantsRentersDiscount(v); goToStep(S_MILITARY) }
+  const handleMilitary        = (v: boolean) => { setServedMilitary(v);       goToStep(S_HELP) }
+  const handleHelp            = (v: string)  => { setHelpGoal(v);             goToStep(S_DOB) }
 
   // ── Contact handlers ──────────────────────────────────────────────────
-  const handleDobNext          = () => setCurrentStep(S_AARP)
-  const handleAARP             = (v: boolean) => { setBelongsToAARP(v); setCurrentStep(S_DRV_NAMES) }
-  const handleDriverNamesNext  = () => setCurrentStep(S_ADDR)
-  const handleAddrNext         = () => setCurrentStep(S_EMAIL)
+  const handleDobNext          = () => goToStep(S_AARP)
+  const handleAARP             = (v: boolean) => { setBelongsToAARP(v); goToStep(S_DRV_NAMES) }
+  const handleDriverNamesNext  = () => goToStep(S_ADDR)
+  const handleAddrNext         = () => goToStep(S_EMAIL)
   const handleEmailNext = () => {
     setEmailSubmitError(null)
-    setCurrentStep(S_PHONE)
+    goToStep(S_PHONE)
   }
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -537,7 +538,7 @@ function FormPage() {
       const message = data.error ?? "Submission failed. Please try again."
       if (data.invalidField === "email") {
         setEmailSubmitError(message)
-        setCurrentStep(S_EMAIL)
+        goToStep(S_EMAIL)
         return
       }
       if (data.field === "phoneNumber") {
@@ -551,7 +552,7 @@ function FormPage() {
       return
     }
 
-    setCurrentStep(S_LOADING)
+    goToStep(S_LOADING)
   }
 
   const vehicleCount = 1 + (addVehicle2 === true ? 1 : 0) + (addVehicle3 === true ? 1 : 0)
@@ -563,7 +564,7 @@ function FormPage() {
         <StepLoading
           firstName={d1FirstName || "there"}
           cityName={cityName}
-          onComplete={() => setCurrentStep(S_RESULTS)}
+          onComplete={() => goToStep(S_RESULTS)}
         />
       </div>
     )

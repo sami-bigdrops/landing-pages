@@ -60,7 +60,7 @@ export function useInsurliiTracking(): InsurliiTrackingParams {
         "//" +
         window.location.host +
         window.location.pathname
-      window.history.replaceState({}, document.title, cleanUrl)
+      window.history.replaceState(window.history.state, document.title, cleanUrl)
     } else {
       Object.assign(next, readFromCookies())
     }
