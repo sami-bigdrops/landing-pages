@@ -46,7 +46,7 @@ export const OPTIONS_CONTENT = {
   },
 
   image: {
-    src: "/quokka.webp",
+    src: "/quokka.svg",
     alt: "Quokka Image",
   },
   

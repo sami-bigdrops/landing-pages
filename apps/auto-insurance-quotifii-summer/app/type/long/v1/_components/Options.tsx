@@ -75,11 +75,10 @@ export default function Options() {
 
   return (
     <div
-      className="options  w-full h-full  px-4 py-8 md:p-0"
+      className="options w-full h-full bg-cover bg-center bg-no-repeat px-4 py-8 md:p-0"
       style={{
-        background: "rgba(255, 247, 236, 0.80)"
+        backgroundImage: "url('/summer-bg.svg')",
       }}
-
     >
       <div className="mx-auto w-full max-w-[1280px]">
         <div className="options-content w-full flex flex-col md:flex-row-reverse items-center justify-center md:justify-end gap-0">
