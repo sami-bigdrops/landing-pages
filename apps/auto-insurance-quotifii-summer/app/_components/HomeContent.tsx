@@ -9,13 +9,14 @@ import Features from "@/app/type/long/v1/_components/Features"
 
 export default function HomeContent() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <Hero />
-      <Partners />
-      
+    <div className="flex flex-col">
+      <div className="flex h-svh min-h-0 flex-col">
+        <Navbar />
+        <Hero />
+        <Partners />
+      </div>
       <Features />
-      <Options /> 
+      <Options />
       <Footer />
     </div>
   )

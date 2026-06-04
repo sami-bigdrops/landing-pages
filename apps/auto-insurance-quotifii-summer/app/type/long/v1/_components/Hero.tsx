@@ -76,7 +76,7 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="relative w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[510px]">
+    <div className="relative flex min-h-0 flex-1 w-full overflow-hidden">
       <div
         className="absolute inset-0 w-full h-full"
         style={{
@@ -90,10 +90,10 @@ export default function Hero() {
         className="absolute inset-0 w-full h-full bg-black/22"
         aria-hidden
       />
-      <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-8 py-10 md:py-15 md:px-8 lg:py-20 xl:px-23 xl:py-33 2xl:py-38">
+      <div className="relative z-10 flex h-full min-h-0 w-full flex-col justify-center px-4 py-5 sm:px-6 sm:py-6 md:px-8 md:py-7 lg:py-8 xl:px-10 xl:py-10">
         <div className="mx-auto w-full max-w-[1280px]">
-          <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-6.5 lg:gap-6.5 xl:gap-8.5 ">
-            <div className="w-full flex flex-col items-center  md:items-start gap-4 xl:gap-5">
+          <div className="hero-content flex w-full min-h-0 flex-col items-center justify-center gap-4 md:items-start md:justify-center md:gap-5 lg:gap-6 xl:gap-7">
+            <div className="flex w-full flex-col items-center gap-3 md:items-start md:gap-3.5 xl:gap-4">
               <div
                 className="flex items-center gap-2 px-3.5 py-2 xl:px-4 xl:py-2.5 rounded-[50px] border border-[rgba(255,190,90,0.40)] bg-[rgba(255,255,255,0.84)] backdrop-blur-[2px]"
               >
@@ -121,9 +121,9 @@ export default function Hero() {
                 </p>
               </div>
             </div>
-            <div className="flex-1 w-full flex flex-col md:flex-row  bg-[#FFFFFF] px-5 py-7 md:py-6 xl:px-7.5 xl:py-9   md:max-w-[450px] lg:max-w-[500px] xl:max-w-[670px] rounded-none justify-center items-center md:justify-center lg:items-center">
-              <div className="w-full flex flex-col items-center md:items-start gap-4 md:gap-4 lg:gap-5 xl:gap-7  ">
-                <p className="text-[#1A1A1A] font-semibold text-lg xl:text-xl  font-sans">
+            <div className="w-full flex flex-col md:flex-row bg-[#FFFFFF] px-4 py-5 sm:px-5 sm:py-6 md:max-w-[450px] md:py-5 lg:max-w-[500px] xl:max-w-[670px] xl:px-7 xl:py-7 rounded-none justify-center items-center md:justify-center lg:items-center">
+              <div className="w-full flex flex-col items-center md:items-start gap-3 md:gap-3.5 lg:gap-4 xl:gap-5">
+                <p className="text-[#1A1A1A] font-semibold text-base sm:text-lg xl:text-xl font-sans">
                   What is your ZIP Code?
                 </p>
 

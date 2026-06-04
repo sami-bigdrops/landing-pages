@@ -5,12 +5,12 @@ import Link from "next/link"
 
 export default function Navbar() {
   return (
-    <div className="w-full bg-[#003599]">
+    <div className="w-full shrink-0 bg-[#003599]">
       <div className="mx-auto w-full max-w-[1280px]">
         <NavbarUI
           variant="default"
           type="2"
-          className="border-0 bg-transparent py-4 px-4 xl:px-0"
+          className="border-0 bg-transparent py-3 px-4 md:py-4 xl:px-0"
           logo={
             <Link href="/" className="block">
               <Image
