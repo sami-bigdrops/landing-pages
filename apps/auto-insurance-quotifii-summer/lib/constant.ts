@@ -1,7 +1,9 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Let's drop your rate in {city_name} today!",
+  headline: "SWITCH & SAVE ON AUTO",
+  subheadline: "$443 average savings could be yours.",
+  subheadlineFootnote: "*",
   image: {
     src: "/hero.webp",
     alt: "Quotifii"
@@ -97,7 +99,9 @@ export const FEATURES_CONTENT = {
 
 
 export const FOOTER_CONTENT = {
-  
+  savingsDisclaimer:
+    "*Potential savings vary by customer and may vary by state and product.",
+
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },

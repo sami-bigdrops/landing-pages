@@ -7,7 +7,7 @@ import { FEATURES_CONTENT } from '@/lib/constant'
 export default function Features() {
   return (
     <div className="steps bg-white w-full h-full px-4 py-8 md:px-6 md:py-8 lg:px-14 lg:py-10 lg:pb-14 xl:px-20 xl:py-14">
-      <div className="container mx-auto">
+      <div className="mx-auto w-full max-w-[1280px]">
         <div className="step-content w-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:gap-14 xl:gap-16 ">
           <div className="flex flex-col items-center justify-center gap-4 xl:gap-6">
             <div

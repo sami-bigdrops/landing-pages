@@ -81,8 +81,8 @@ export default function Options() {
       }}
 
     >
-      
-        <div className="options-content  w-full flex flex-col md:flex-row-reverse items-center justify-center md:justify-end gap-0 ">
+      <div className="mx-auto w-full max-w-[1280px]">
+        <div className="options-content w-full flex flex-col md:flex-row-reverse items-center justify-center md:justify-end gap-0">
 
           <div className="w-full md:w-[60%] lg:w-[59%] flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-5 xl:gap-9 md:px-8 md:py-7 lg:px-14 lg:py-10 xl:px-23 xl:py-16 2xl:px-24 2xl:py-17">
             <div className="flex flex-col items-center justify-center md:justify-start md:items-start gap-3 md:gap-4  xl:gap-5">
@@ -188,7 +188,7 @@ export default function Options() {
             aria-hidden
           />
         </div>
-      
+      </div>
     </div>
   );
 }

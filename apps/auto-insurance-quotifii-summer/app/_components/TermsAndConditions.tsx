@@ -6,7 +6,7 @@ export default function TermsOfUse() {
   return (
     <div>
       <section id="terms-of-use" className="p-5 md:p-8 lg:p-10 xl:px-16 2xl:px-20 bg-white">
-        <div className="container mx-auto max-w-4xl">
+        <div className="mx-auto w-full max-w-[1280px]">
           <div className="flex flex-col gap-8">
             <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
               <div className="text-center mb-8">

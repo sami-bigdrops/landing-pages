@@ -10,7 +10,7 @@ export default function Partners() {
  
      
     >
-      <div className="container mx-auto">
+      <div className="mx-auto w-full max-w-[1280px]">
         <div className="partners-content w-full flex flex-col items-center justify-center gap-8 md:gap-8 xl:gap-12">
           <h2 className="text-base lg:text-lg xl:text-xl font-semibold text-[#1A1A1A] text-center font-sans leading-tight tracking-normal">
             {PARTNERS_CONTENT.header}

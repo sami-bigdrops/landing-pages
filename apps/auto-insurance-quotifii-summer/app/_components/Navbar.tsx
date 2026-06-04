@@ -4,23 +4,27 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function Navbar() {
-    return (
+  return (
+    <div className="w-full bg-[#003599]">
+      <div className="mx-auto w-full max-w-[1280px]">
         <NavbarUI
-        variant="default"
-        type="2"
-        className="py-4 px-4 bg-[#003599] xl:px-0 "
-        logo={
+          variant="default"
+          type="2"
+          className="border-0 bg-transparent py-4 px-4 xl:px-0"
+          logo={
             <Link href="/" className="block">
-                <Image
+              <Image
                 src="/quotifii-logo.svg"
                 alt="Quotifii"
                 width={128}
                 height={40}
                 className="w-36 lg:w-40 xl:w-48 h-auto object-contain"
                 priority
-                />
+              />
             </Link>
-        }
+          }
         />
-    )
+      </div>
+    </div>
+  )
 }
