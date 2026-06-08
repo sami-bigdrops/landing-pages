@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { formOptionButtonClasses } from "@/lib/form-input-styles"
-import { FORM_PRIMARY_COLOR, type FormVehicleType } from "@/lib/constant"
+import { FORM_PRIMARY_COLOR } from "@/lib/constant"
 import { FORM_STEP_TITLE_CLASSNAME, FORM_STEP_TITLE_STYLE } from "@/lib/form-step-styles"
 
 import { FormRadioIndicator } from "./FormRadioIndicator"
@@ -10,7 +10,6 @@ import { FormRadioIndicator } from "./FormRadioIndicator"
 interface VehicleModelStepProps {
   year: string
   make: string
-  vehicleType: FormVehicleType
   value: string
   onChange: (model: string) => void
 }
@@ -22,7 +21,6 @@ interface VehicleModelOption {
 export function VehicleModelStep({
   year,
   make,
-  vehicleType,
   value,
   onChange,
 }: VehicleModelStepProps) {
@@ -38,7 +36,7 @@ export function VehicleModelStep({
     const params = new URLSearchParams({
       year,
       make,
-      type: vehicleType,
+      type: "car",
     })
 
     fetch(`/api/vehicle-models?${params}`)
@@ -64,7 +62,7 @@ export function VehicleModelStep({
     return () => {
       cancelled = true
     }
-  }, [year, make, vehicleType])
+  }, [year, make])
 
   const makeLabel = make.trim().toUpperCase()
 

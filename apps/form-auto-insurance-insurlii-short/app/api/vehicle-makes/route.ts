@@ -17,9 +17,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "year is required" }, { status: 400 })
   }
 
-  if (type !== "car" && type !== "motorcycle") {
+  if (type !== "car") {
     return NextResponse.json(
-      { error: "type must be car or motorcycle" },
+      { error: "type must be car" },
       { status: 400 }
     )
   }
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
 
     const makes = names.map((name) => ({
       name,
-      logoUrl: getEverquoteMakeLogoUrl(name, type),
+      logoUrl: getEverquoteMakeLogoUrl(name),
     }))
 
     return NextResponse.json(makes, {

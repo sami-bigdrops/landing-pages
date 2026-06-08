@@ -25,7 +25,7 @@ export const DEFAULT_FALLBACK_CITY = "New York"
 
 export const FORM_SAVINGS_AMOUNT = 610
 
-export const FORM_TOTAL_STEPS = 68
+export const FORM_TOTAL_STEPS = 22
 
 export const FORM_YEAR_INITIAL_VISIBLE = 28
 
@@ -68,18 +68,7 @@ export const FORM_POPULAR_CAR_MAKES = [
   "Toyota",
 ] as const
 
-export const FORM_POPULAR_MOTORCYCLE_MAKES = [
-  "Harley-Davidson",
-  "Honda",
-  "Indian",
-  "Kawasaki",
-  "Suzuki",
-  "Triumph",
-  "Yamaha",
-  "BMW",
-] as const
-
-export type FormVehicleType = "car" | "motorcycle"
+export type FormVehicleType = "car"
 
 export const FOOTER_CONTENT = {
   

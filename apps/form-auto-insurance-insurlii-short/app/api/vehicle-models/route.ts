@@ -19,9 +19,9 @@ export async function GET(request: NextRequest) {
     )
   }
 
-  if (type !== "car" && type !== "motorcycle") {
+  if (type !== "car") {
     return NextResponse.json(
-      { error: "type must be car or motorcycle" },
+      { error: "type must be car" },
       { status: 400 }
     )
   }
