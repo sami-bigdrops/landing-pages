@@ -27,7 +27,12 @@ export function DriverDOBStep({
 
   const handleChange = (nextValue: string) => {
     onChange(nextValue)
-    if (error) setError(null)
+    if (!nextValue) {
+      setError(null)
+      return
+    }
+    const validationError = validateDriverDOB(nextValue)
+    setError(validationError)
   }
 
   const handleContinue = () => {
