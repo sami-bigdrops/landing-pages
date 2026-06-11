@@ -19,6 +19,53 @@ export const HERO_CONTENT = {
   
 } as const
 
+export const WORKS_CONTENT = {
+  header: "Here's How It Works...",
+  steps: [
+    {
+      number: 1,
+      step: "Step 1:",
+      title: "Get Started Online",
+      description: "It only takes a minute to check availability in your area and schedule your FREE estimate.",
+
+      image: {
+        src: "/works-1.svg",
+        alt: "Multi-Vehicle Savings",
+      },
+    },
+    {
+      number: 2,
+      step: "Step 2:",
+      title: "Free Estimate",
+      description: "One of our friendly Metal Roofing Experts will inspect your roof, take measurements and give you a FREE, no-obligation estimate. Next-day appointments may be available!",
+      image: {
+        src: "/works-2.svg",
+        alt: "Free Estimate",
+      },
+    },
+    {
+      number: 3,
+      step: "Step 3:",
+      title: "Installation",
+      description: "Our expert installation teams can completely replace your roof (including clean-up!) in as little as ONE day.",
+      image: {
+        src: "/works-3.svg",
+        alt: "Installation",
+      },
+    },
+    {
+      number: 4,
+      step: "Step 4:",
+      title: "Peace of Mind",
+      description: "We offer some of the longest-lasting and most durable roofing products on the market. Our products are virtually maintenance-free and backed by transferrable limited lifetime warranties.",
+      image: {
+        src: "/works-4.svg",
+        alt: "Peace of Mind",
+      },
+    },
+  ],
+} as const
+
 export const RIBBON_CONTENT = {
   badges: [
     {
@@ -91,41 +138,7 @@ export const RATING_CONTENT = {
 
 
 
-export const WORKS_CONTENT = {
-  header: "How It Works",
-  steps: [
-    {
-      id: 1,
-      number: "01",
-      title: "Book Your Free Storm Inspection",
-      description: "Enter your ZIP and pick a slot. Same week inspections in many areas.",
-      image: {
-        src: "/step-1.webp",
-        alt: "Booking a free storm inspection on tablet"
-      },
-    },
-    {
-      id: 2,
-      number: "02",
-      title: "We Document Damage With Photos",
-      description: "We check shingles, flashing, and soft spots, then show you what we see.",
-      image: {
-        src: "/step-2.webp",
-        alt: "Roofers inspecting and taking notes"
-      },
-    },
-    {
-      id: 3,
-      number: "03",
-      title: "Get A Clear Plan And Timeline",
-      description: "You get a written estimate, repair options & a simple schedule to get it sorted.",
-      image: {
-        src: "/step-3.webp",
-        alt: "New roof installation with workers"
-      },
-    },
-  ],
-}
+
 
 export const OPTIONS_CONTENT = {
   header: "Ready for Your Free Roof Inspection?",
