@@ -66,26 +66,21 @@ export const WORKS_CONTENT = {
   ],
 } as const
 
-export const RIBBON_CONTENT = {
-  badges: [
-    {
-      icon: "/ribbon-1.svg",
-      label: "250+ Google Reviews",
-    },
-    {
-      icon: "/ribbon-2.svg",
-      label: "Licensed & Insured",
-    },
-    {
-      icon: "/ribbon-3.svg",
-      label: "Local Roofing Experts",
-    },
-    {
-      icon: "/ribbon-4.svg",
-      label: "Warranty Included",
-    },
-  ]
-}
+export const ROOF_CONTENT = {
+  headline: "Cut Out the Middleman!",
+  subheadline: "Full-Service Roof Replacement",
+  description: "Our goal is to make a complex process as fast, easy and affordable as possible! We furnish, sell, install, service and arrange financing for customers. We control every aspect of quality and cost, so you don't have the hassle, risk and added cost of dealing with various middlemen.",
+  
+  image: {
+    src: "/roof.webp", // Update with actual image asset path if different
+    alt: "Roof"
+  },
+
+  roofImage: {
+    src: "/roof-bg.webp", // Update with actual image asset path if different
+    alt: "Roof"
+  }
+} as const  
 
 export const RATING_CONTENT = {
   ratings: [
@@ -227,56 +222,6 @@ export const REVIEW_CONTENT = {
   ],
 } as const
 
-export const ROOF_CONTENT = { 
-  header: "COMMON SIGNS YOUR ROOF MAY NEED ATTENTION",
-  ctaButtonText: "Book a FREE Roof Inspection",
-  image: {
-    src: "/roof-bg.webp",
-    alt: "Roof",
-  },
-  signs: [
-    {
-      id: 1,
-      title: "Curled Shingles",
-      image: {
-        src: "/roofing-1.webp",
-        alt: "Curled shingles on roof",
-      },
-    },
-    {
-      id: 2,
-      title: "Cracked Shingles",
-      image: {
-        src: "/roofing-2.webp",
-        alt: "Cracked shingles",
-      },
-    },
-    {
-      id: 3,
-      title: "Moss growth",
-      image: {
-        src: "/roofing-3.webp",
-        alt: "Moss growth on shingles",
-      },
-    },
-    {
-      id: 4,
-      title: "Granules in the Gutters",
-      image: {
-        src: "/roofing-4.webp",
-        alt: "Granules in the gutters",
-      },
-    },
-    {
-      id: 5,
-      title: "Insects in attic",
-      image: {
-        src: "/roofing-5.webp",
-        alt: "Insects in attic",
-      },
-    },
-  ],
-} as const
 
 export const FOOTER_CONTENT = {
   links: [

@@ -2,13 +2,12 @@
 
 import Navbar from "@/app/_components/Navbar"
 import Hero from "@/app/type/long/v1/_components/Hero"
-import Review from "@/app/type/long/v1/_components/Review"
 import Footer from "@/app/_components/Footer"
 import Works from "@/app/type/long/v1/_components/Works"
-import Options from "@/app/type/long/v1/_components/Options"
 import { FormPopupProvider, useFormPopup } from "@/app/type/long/v1/_components/FormPopupContext"
 import { FormPopupModal } from "@/app/type/long/v1/_components/FormPopupModal"
 import FormPage from "@/app/type/long/v1/_components/Form"
+import Roof from "@/app/type/long/v1/_components/Roof"
 
 function FormPopupGate() {
   const { isOpen, closeFormPopup } = useFormPopup()
@@ -26,8 +25,8 @@ export default function HomeContent() {
         <Navbar />
         <Hero />
         <Works />
-        <Options />
-        <Review />
+        <Roof />
+        
         <Footer />
       </div>
       <FormPopupGate />
