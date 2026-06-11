@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import HomeContentV2 from "@/app/_components/HomeContentV2"
+import HomeContent from "@/app/_components/HomeContent"
 
 export const metadata: Metadata = {
   title: "United Roofing Experts",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <HomeContentV2 />
+  return <HomeContent />
 }

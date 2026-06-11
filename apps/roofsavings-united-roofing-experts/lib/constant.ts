@@ -1,28 +1,22 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Who Else Wants a Beautiful, Durable & Affordable Metal Roof?",
-  description: "It only takes a few seconds to get started online",
+  headline: "What Would a New Metal Roof Cost for Your Home?",
+  description: "(Answer the question below to get started!)",
+  subtitle: "Are you a homeowner?",
   image: {
     src: "/hero-bg.webp",
     alt: "Roof"
   },
+
+  heroImage: {
+    src: "/hero.webp",
+    alt: "Roof"
+  }
   
-  partners: [
-    {
-      alt: "Angi",
-      src: "/partner-1.svg",
-      width: 80,
-      className: "w-25 lg:w-30 xl:w-34 2xl:w-40 h-auto object-contain",
-    },
-    {
-      alt: "Houzz",
-      src: "/partner-2.svg",
-      width: 140,
-      className: "w-38 lg:w-40 xl:w-45 2xl:w-50 h-auto object-contain",
-    },
+ 
     
-  ],
+  
 } as const
 
 export const RIBBON_CONTENT = {
