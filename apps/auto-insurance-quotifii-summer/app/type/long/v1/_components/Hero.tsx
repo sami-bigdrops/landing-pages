@@ -104,16 +104,17 @@ export default function Hero() {
                 </p>
               </div>
               <div
-                className="flex flex-col items-center md:items-start gap-2 md:gap-2.5 max-w-[36rem] xl:max-w-[40rem] font-[family-name:var(--font-hero)]"
+                className="flex flex-col items-center md:items-start gap-2.5 md:gap-3 max-w-[40rem] xl:max-w-[44rem] font-[family-name:var(--font-hero)]"
               >
                 <h1
-                  className="w-full text-center md:text-left font-bold text-white text-[1.85rem] leading-[1.15] sm:text-[2.1rem] md:text-[2.35rem] lg:text-[2.6rem] xl:text-[2.75rem]"
+                  className="w-full text-center md:text-left font-bold text-white text-[2rem] leading-[1.12] sm:text-[2.25rem] md:text-[2.5rem] lg:text-[2.85rem] xl:text-[3.125rem]"
                   style={{ textShadow: "0 2px 12px rgba(0, 0, 0, 0.45)" }}
                 >
-                  {HERO_CONTENT.headline}
+                  {HERO_CONTENT.headlineLead}{" "}
+                  <span className="md:whitespace-nowrap">{HERO_CONTENT.headlineEmphasis}</span>
                 </h1>
                 <p
-                  className="w-full text-center md:text-left font-normal text-white/95 text-base leading-snug sm:text-lg md:text-xl xl:text-[1.35rem]"
+                  className="w-full text-center md:text-left font-normal text-white/95 text-lg leading-snug sm:text-xl md:text-2xl xl:text-[1.75rem]"
                   style={{ textShadow: "0 1px 8px rgba(0, 0, 0, 0.4)" }}
                 >
                   {HERO_CONTENT.subheadline}

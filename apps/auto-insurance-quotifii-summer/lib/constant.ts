@@ -1,8 +1,9 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Fast & Free Insurance Quotes.",
-  subheadline: "Compare Quotes & Save up to 50%",
+  headlineLead: "Save up to 50% on Your",
+  headlineEmphasis: "Car Insurance.",
+  subheadline: "Compare Auto Insurance Quotes Instantly.",
   image: {
     src: "/hero.webp",
     alt: "Quotifii"
