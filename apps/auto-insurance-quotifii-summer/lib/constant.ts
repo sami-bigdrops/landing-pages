@@ -1,9 +1,8 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "SWITCH & SAVE ON AUTO",
-  subheadline: "$443 average savings could be yours.",
-  subheadlineFootnote: "*",
+  headline: "Fast & Free Insurance Quotes.",
+  subheadline: "Compare Quotes & Save up to 50%",
   image: {
     src: "/hero.webp",
     alt: "Quotifii"

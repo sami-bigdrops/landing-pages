@@ -1,4 +1,4 @@
-import { Poppins } from "next/font/google"
+import { Baloo_Tamma_2, Poppins } from "next/font/google"
 import { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
@@ -10,6 +10,13 @@ const fontSans = Poppins({
   variable: "--font-sans",
   display: "swap",
   weight: ["400", "500", "600", "700"],
+})
+
+const fontHero = Baloo_Tamma_2({
+  subsets: ["latin"],
+  variable: "--font-hero",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 })
 
 export const metadata: Metadata = {
@@ -37,7 +44,7 @@ export default function RootLayout({
       <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0132/1582.js" async={true}></script>
       </head>
       <body
-        className={`${fontSans.variable} ${fontSans.className} antialiased overflow-x-hidden overflow-y-auto`}
+        className={`${fontSans.variable} ${fontHero.variable} ${fontSans.className} antialiased overflow-x-hidden overflow-y-auto`}
       >
         <Providers>{children}</Providers>
         <Analytics />

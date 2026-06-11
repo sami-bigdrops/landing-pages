@@ -103,21 +103,20 @@ export default function Hero() {
                   {HERO_CONTENT.badge.text}
                 </p>
               </div>
-              <div className="flex flex-col items-center md:items-start gap-1 md:gap-1.5 max-w-[34rem] xl:max-w-[36rem]">
+              <div
+                className="flex flex-col items-center md:items-start gap-2 md:gap-2.5 max-w-[36rem] xl:max-w-[40rem] font-[family-name:var(--font-hero)]"
+              >
                 <h1
-                  className="w-full text-center md:text-left font-sans font-medium uppercase tracking-[0.04em] text-white text-[1.65rem] leading-[1.2] sm:text-[1.85rem] md:text-[2rem] lg:text-[2.35rem] xl:text-[42px] xl:leading-[48px]"
+                  className="w-full text-center md:text-left font-bold text-white text-[1.85rem] leading-[1.15] sm:text-[2.1rem] md:text-[2.35rem] lg:text-[2.6rem] xl:text-[2.75rem]"
                   style={{ textShadow: "0 2px 12px rgba(0, 0, 0, 0.45)" }}
                 >
                   {HERO_CONTENT.headline}
                 </h1>
                 <p
-                  className="w-full text-center md:text-left font-sans font-bold text-white/95 text-[1.05rem] leading-[1.45] sm:text-[1.15rem] md:text-[1.25rem] xl:text-[26px] xl:leading-[40px]"
+                  className="w-full text-center md:text-left font-normal text-white/95 text-base leading-snug sm:text-lg md:text-xl xl:text-[1.35rem]"
                   style={{ textShadow: "0 1px 8px rgba(0, 0, 0, 0.4)" }}
                 >
                   {HERO_CONTENT.subheadline}
-                  <sup className="ml-0.5 text-[0.65em] font-bold align-super">
-                    {HERO_CONTENT.subheadlineFootnote}
-                  </sup>
                 </p>
               </div>
             </div>
