@@ -82,6 +82,22 @@ export const ROOF_CONTENT = {
   }
 } as const  
 
+export const SAVING_CONTENT = {
+  headline: "Potential Energy Bill Savings!",
+  subheadline: "With an Energy-Efficient Metal Roofing System",
+  description: "One of our metal roofs is more than just a durable steel roof, it's a complete, energy-efficient roofing system that can help lower your energy bills by keeping your home warmer in the winter and cooler in the summer.",
+  
+  image: {
+    src: "/save.webp", // Update with actual image asset path if different
+    alt: "Roof"
+  },
+
+  roofImage: {
+    src: "/save-bg.webp", // Update with actual image asset path if different
+    alt: "Roof"
+  }
+} as const  
+
 export const RATING_CONTENT = {
   ratings: [
     {
