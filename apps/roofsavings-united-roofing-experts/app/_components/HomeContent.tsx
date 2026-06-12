@@ -10,6 +10,10 @@ import FormPage from "@/app/type/long/v1/_components/Form"
 import Roof from "@/app/type/long/v1/_components/Roof"
 import Saving from "@/app/type/long/v1/_components/Saving"
 import Choose from "@/app/type/long/v1/_components/Choose"
+import Info from "@/app/type/long/v1/_components/Info"
+import Rating from "@/app/type/long/v1/_components/Rating"
+import Review from "@/app/type/long/v1/_components/Review"
+import RoofType from "@/app/type/long/v1/_components/Roof-type"
 
 function FormPopupGate() {
   const { isOpen, closeFormPopup } = useFormPopup()
@@ -30,6 +34,10 @@ export default function HomeContent() {
         <Roof />
         <Choose />
         <Saving />
+        <Rating />
+        <Review />
+        <Info />
+        <RoofType />
         
         <Footer />
       </div>

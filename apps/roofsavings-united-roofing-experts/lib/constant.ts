@@ -123,7 +123,33 @@ export const CHOOSE_CONTENT = {
   },
 } as const
 
+export const INFO_CONTENT = {
+  headline: "The Smart Financial Decision!",
 
+  description:
+    "Investing in an energy-saving, high-quality roofing system can payoff BIG in the long run. Our roofing system may help you:",
+  features: [
+    { label: "Significantly increase your home value" },
+    { label: "Lower home insurance premiums" },
+    { label: "Lower your energy bills" },
+    { label: "Eliminate future repair & replacement costs" },
+    
+  ],
+  featureIcon: {
+    src: "/choose-icon.svg",
+    alt: "Checkmark",
+  },
+  image: {
+    src: "/info.webp",
+    alt: "Stone coated metal roof on a home",
+  },
+  
+  
+  
+  
+
+  
+} as const 
 
 
 
@@ -136,143 +162,138 @@ export const CHOOSE_CONTENT = {
 
 
 export const RATING_CONTENT = {
-  ratings: [
+
+  headline: "Hear From Our Customers",
+  description: "With Over 100,000 Satisfied Customers and Thousands of 5-Star Reviews Online, We Are America's Roof Replacement Leader!",
+
+  starImage: {
+    src: "/star.svg",
+    alt: "Stone coated metal roof on a home",
+  },
+
+  RatingImage: {
+    src: "/rating.webp",
+    alt: "Stone coated metal roof on a home",
+  }
+
+
+
+  
+}
+
+
+export const ROOF_TYPE_CONTENT = {
+  headline: "How to Know If You Need a New Roof",
+  description:
+    "It may be difficult to spot potentially major problems caused by a faulty and failing roof. Don't let an outside problem become an inside problem! If you see any of these signs, or if you are noticing damage to the inside of your home, contact our Metal Roofing Experts right away for a FREE roof and attic inspection!",
+  backgroundImage: {
+    src: "/rooftype-bg.webp",
+    alt: "Roof shingles background",
+  },
+  signs: [
     {
       id: 1,
-      label: "RATING:",
-      value: "A+",
-      logo: {
-        src: "/BBB.svg",
-        alt: "BBB Accredited Business",
-        width: 80,
-        className: "w-26 lg:w-30 xl:w-32 h-auto object-contain"
+      title: "Curled Shingles",
+      image: {
+        src: "/roof-1.webp",
+        alt: "Curled shingles on roof",
       },
     },
     {
       id: 2,
-      label: "RATING:",
-      value: "4.9",
-      logo: {
-        src: "/facebook.svg",
-        alt: "Facebook",
-        width: 80,
-        className: "w-10 lg:w-12 xl:w-14  h-auto object-contain"
+      title: "Cracked Shingles",
+      image: {
+        src: "/roof-2.webp",
+        alt: "Cracked shingles on roof",
       },
     },
     {
       id: 3,
-      label: "RATING:",
-      value: "4.7",
-      logo: {
-        src: "/guild-quality.svg",
-        alt: "GuildQuality",
-        width: 80,
-        className: "w-37 lg:w-40 xl:w-44  h-auto object-contain"
+      title: "Missing Shingles",
+      image: {
+        src: "/roof-3.webp",
+        alt: "Missing shingles on roof",
       },
     },
     {
       id: 4,
-      label: "RATING:",
-      value: "4.8",
-      logo: {
-        src: "/google-icon.svg",
-        alt: "Google",
-        width: 80,
-        className: "w-25 lg:w-28 xl:w-30  h-auto object-contain"
+      title: "Granules in the Gutters",
+      image: {
+        src: "/roof-4.webp",
+        alt: "Granules in the gutters",
+      },
+    },
+    {
+      id: 5,
+      title: "Shingles in the Yard",
+      image: {
+        src: "/roof-5.webp",
+        alt: "Shingles in the yard",
+      },
+    },
+    {
+      id: 6,
+      title: "Moss",
+      image: {
+        src: "/roof-6.webp",
+        alt: "Moss on roof shingles",
+      },
+    },
+    {
+      id: 7,
+      title: "Dark Streaks",
+      image: {
+        src: "/roof-7.webp",
+        alt: "Dark streaks on roof",
+      },
+    },
+    {
+      id: 8,
+      title: "Insects",
+      image: {
+        src: "/roof-8.webp",
+        alt: "Insects on roof",
       },
     },
   ],
-}
-
-
-
-
-
-export const OPTIONS_CONTENT = {
-  header: "Ready for Your Free Roof Inspection?",
-  description: "Same week availability in most areas.",
-  buttonText: "Book a FREE Roof Inspection",
- 
-  
 } as const
 
 
 
 export const REVIEW_CONTENT = {
-  header: "Testimonials",
-
-
-  testimonialImages: [
+  
+  reviews: [
     {
-      id: 1,
-      testimonialImage: {
-        src: "/roof-1.webp",
-        alt: " roof"
-      },
-      
+      number: 1,
+      name: "Michael F.",
+      description:
+        "I am very pleased with my new roof. It was installed in a day and the crew did an excellent job of cleaning up after the job was done. I would highly recommend a metal roof, as it is the last roof you should ever need!",
     },
     {
-      id: 2,
-      testimonialImage: {
-        src: "/roof-2.webp",
-        alt: " roof"
-      },
+      number: 2,
+      name: "Francis C.",
+      description:
+        "A few of our neighbors made comments about how nice our new roof looked. They were surprised to learn that it was a metal roof since it looks exactly like a shingled roof.",
     },
     {
-      id: 3,
-      testimonialImage: {
-        src: "/roof-3.webp",
-        alt: "roof"
-      },
-    }
-
-
-  ],
-
-  reviewImages: [
-    {
-      id: 1,
-      testimonialImage: {
-        src: "/quote.svg",
-        alt: "Google Review"
-      },
-    },
-    {
-      id: 2,
-      testimonialImage: {
-        src: "/google-review.svg",
-        alt: "Quote"
-      },
+      number: 3,
+      name: "David B.",
+      description:
+        "Great company. Good product and reasonable prices. Very professional. As a construction worker myself it's nice to see a contractor that is on the ball. I would definitely hire them again!",
     },
     
   ],
 
-  testimonials: [
-    {
-      id: 1,
-      quote: "They came out the same week after our storm and showed us photos of the damage right away. Everything was explained clearly, and the crew finished on schedule. Our yard was spotless when they left.",
-      customer: {
-        name: "Mark Reynolds",
-        status: "Plano, TX",
-        image: {
-          src: "/profile-1.svg",
-          alt: "Mark Reynolds",
-        },
-      },
-    },
-    {
-      id: 2,
-      quote: "We weren’t sure if our roof needed repair or replacement. The inspection helped us understand our options, and there was zero pressure. The whole process was smooth from start to finish.",
-      customer: {
-        name: "Angela Morris",
-        status: "Tampa, FL",
-        image: {
-          src: "/profile-2.svg",
-          alt: "Angela Morris",
-        },
-      },
-    },
-  ],
+  starImage: {
+    src: "/star.svg",
+    alt: "Stone coated metal roof on a home",
+  },
+
+  image: {
+    src: "/review-bg.webp",
+    alt: "Review background",
+  }
+  
 } as const
 
 

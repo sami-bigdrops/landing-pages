@@ -55,11 +55,11 @@ export default function Choose() {
                                     {renderDescription(CHOOSE_CONTENT.description)}
                                 </p>
 
-                                <div className="w-full flex flex-col items-start justify-start gap-2">
+                                <div className="w-full flex flex-col items-start justify-start gap-2 ">
                                     {CHOOSE_CONTENT.features.map((feature) => (
-                                        <div key={feature.label} className="flex items-center justify-start gap-2">
+                                        <div key={feature.label} className="flex items-center justify-start gap-2 xl:gap-3">
                                             <Image src={CHOOSE_CONTENT.featureIcon.src} alt={CHOOSE_CONTENT.featureIcon.alt} width={20} height={20} 
-                                            className="w-4 h-4 object-cover object-center" />
+                                            className="w-4 h-4 xl:w-5 xl:h-5 object-cover object-center" />
                                             <p className="text-left font-sans text-[0.77rem]  font-normal text-[#000000]  xl:text-base  " style={{ lineHeight: 1.5 }}>{feature.label}</p>
                                         </div>  
                                     ))}
