@@ -98,6 +98,43 @@ export const SAVING_CONTENT = {
   }
 } as const  
 
+export const CHOOSE_CONTENT = {
+  headline: "Our \"Next-Generation\" Stone Coated Metal Roofing System",
+  description:
+    "The future of roofing is here! Our flagship metal roofing system comes in 3 beautiful designer styles (resembling shingle, tile and wood) and 25+ different colors to complement any home. Unlike most metal roofs that are easily dented by hail, our Next-Generation Metal Roofs have a unique stone coating that make them resistant to hail and extreme weather.",
+  features: [
+    { label: "Lifetime limited transferrable warranty" },
+    { label: "Wind-resistant up to 120MPH" },
+    { label: "Class 4 Impact Resistant (baseball-size hail!)" },
+    { label: "Fire resistant" },
+    { label: "100% recyclable" },
+  ],
+  featureIcon: {
+    src: "/choose-icon.svg",
+    alt: "Checkmark",
+  },
+  image: {
+    src: "/choose.webp",
+    alt: "Stone coated metal roof on a home",
+  },
+  bottomImage: {
+    src: "/choose-bottom.webp",
+    alt: "Roof background",
+  },
+} as const
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const RATING_CONTENT = {
   ratings: [
     {

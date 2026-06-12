@@ -9,6 +9,7 @@ import { FormPopupModal } from "@/app/type/long/v1/_components/FormPopupModal"
 import FormPage from "@/app/type/long/v1/_components/Form"
 import Roof from "@/app/type/long/v1/_components/Roof"
 import Saving from "@/app/type/long/v1/_components/Saving"
+import Choose from "@/app/type/long/v1/_components/Choose"
 
 function FormPopupGate() {
   const { isOpen, closeFormPopup } = useFormPopup()
@@ -27,6 +28,7 @@ export default function HomeContent() {
         <Hero />
         <Works />
         <Roof />
+        <Choose />
         <Saving />
         
         <Footer />
