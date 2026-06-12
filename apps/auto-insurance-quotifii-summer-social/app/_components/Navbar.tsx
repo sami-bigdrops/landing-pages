@@ -1,0 +1,30 @@
+"use client"
+import { Navbar as NavbarUI } from "@workspace/ui/components/navbar"
+import Image from "next/image"
+import Link from "next/link"
+
+export default function Navbar() {
+  return (
+    <div className="w-full shrink-0 bg-[#003599]">
+      <div className="mx-auto w-full max-w-[1280px]">
+        <NavbarUI
+          variant="default"
+          type="2"
+          className="border-0 bg-transparent py-3 px-4 md:py-4 xl:px-0"
+          logo={
+            <Link href="/" className="block">
+              <Image
+                src="/quotifii-logo.svg"
+                alt="Quotifii"
+                width={128}
+                height={40}
+                className="w-36 lg:w-40 xl:w-48 h-auto object-contain"
+                priority
+              />
+            </Link>
+          }
+        />
+      </div>
+    </div>
+  )
+}
