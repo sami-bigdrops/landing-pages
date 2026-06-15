@@ -13,7 +13,7 @@ export default function Navbar() {
         logo={
             <Link href="/" className="block">
                 <Image
-                src="V2/ure-logo.svg"
+                src="/ure-logo.svg"
                 alt="United Roofing Experts"
                 width={128}
                 height={40}

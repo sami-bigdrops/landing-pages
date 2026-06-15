@@ -300,9 +300,9 @@ export const REVIEW_CONTENT = {
 export const FOOTER_CONTENT = {
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
-    { text: "Terms of Use", href: "/terms-of-use" },
+    { text: "Terms and Conditions ", href: "/terms-of-use" },
   ],
-  copyrightText: "Copyright © 2026 United Roofing Experts. All Rights Reserved.",
+  copyrightText: "Copyright © MetalRoofingInnovations.com. All Rights Reserved. MetalRoofingInnovations.com is not responsible for the offers, products or services provided by Service Providers.",
 } as const
 
 export const THANKYOU_CONTENT = {

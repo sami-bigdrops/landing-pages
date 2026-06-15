@@ -25,30 +25,48 @@ export default function RoofType() {
     router.push("/form");
   };
   return (
-    <div className="steps bg-white w-full h-full px-6 py-6 md:px-6 md:py-8 lg:px-14 lg:py-10  xl:px-23 xl:py-11"
+    <div className="steps bg-white w-full h-full px-6 py-10 md:px-15 md:py-10 lg:px-32 lg:py-12  xl:px-35 xl:py-16"
     style={{
       backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.77), rgba(0, 0, 0, 0.77)), url(${ROOF_TYPE_CONTENT.backgroundImage.src})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
     }}>
-      <div className="container mx-auto xl:max-w-[1400px]">
-        <div className="step-content w-full flex flex-col items-center justify-center gap-5 md:gap-5 lg:gap-6 xl:gap-8 ">
-          <div className="flex flex-col items-center justify-center gap-2">
+      <div className="container mx-auto xl:max-w-[1150px]">
+        <div className="step-content w-full flex flex-col items-center justify-center gap-10 xl:gap-12  ">
+          <div className="flex flex-col items-center justify-center gap-4 xl:gap-5">
             <h2 className="text-2xl md:text-3xl xl:text-4xl   font-bold  text-[#FFFFFF] text-center font-sans " style={{ lineHeight: "1.3" }}>
               {ROOF_TYPE_CONTENT.headline}
             </h2>
-            <p className="text-center font-sans text-sm text-center font-normal text-[#FFFFFF]  xl:text-lg md:max-w-[440px] lg:max-w-[440px] xl:max-w-[550px] " style={{ lineHeight: 1.6 }}>
+            <p className="text-center font-sans text-[0.77rem] font-normal text-white xl:text-base md:max-w-[580px] lg:max-w-[700px] xl:max-w-[950px] " style={{ lineHeight: 1.6 }}>
               {renderDescription(ROOF_TYPE_CONTENT.description)}
             </p>
           </div>
 
-          <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4  xl:gap-6">
+          <div className="w-full grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-y-10 lg:gap-x-3">
+            {ROOF_TYPE_CONTENT.signs.map((sign, index) => (
+              <div
+                key={sign.id}
+                className={`flex flex-col items-center justify-center gap-2 ${
+                  index === 5
+                    ? "xl:col-start-2"
+                    : index === 6
+                      ? "xl:col-start-3"
+                      : index === 7
+                        ? "xl:col-start-4"
+                        : ""
+                }`}
+              >
+                <Image src={sign.image.src} alt={sign.image.alt} width={500} height={500} 
+                className="w-30 h-25 lg:w-35 lg:h-26 xl:w-42 xl:h-30 object-cover object-center" priority />
+                <p className="text-center font-sans text-[0.77rem] lg:text-[0.79rem] font-normal text-white  xl:text-[1.03rem]  " style={{ lineHeight: 1.6 }}>{sign.title}</p>
+              </div>
+            ))}
             
           </div>
     
 
-          <div className="flex flex-col items-center justify-center gap-2.5 mt-2 xl:mt-4">
+          <div className="flex flex-col items-center justify-center gap-2.5 ">
             <Button
               type="1"
               variant="default"

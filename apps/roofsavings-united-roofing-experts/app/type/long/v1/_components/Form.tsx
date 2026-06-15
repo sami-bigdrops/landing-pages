@@ -4,7 +4,6 @@ import React, { useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
-import PartnerModal from "./Partners-model";
 import { TextInput as TextInputUI } from "@workspace/ui/components/text-input"
 import { SelectInput as SelectInputUI } from "@workspace/ui/components/select-input"
 import { PhoneNumberInput as PhoneNumberInputUI } from "@workspace/ui/components/phone-number-input"
@@ -301,20 +300,12 @@ export default function FormPage({ onClose, embedInModal }: FormPageProps = {}) 
       </div>
   )
 
-  return (
-    <>
-      {embedInModal ? (
-        <>
-          {formCard}
-          <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
-        </>
-      ) : (
-        <div className="w-full h-full flex items-center md:justify-end justify-center">
-          {formCard}
-          <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
-        </div>
-      )}
-    </>
+  return embedInModal ? (
+    formCard
+  ) : (
+    <div className="w-full h-full flex items-center md:justify-end justify-center">
+      {formCard}
+    </div>
   )
 }
 
