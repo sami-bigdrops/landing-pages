@@ -36,14 +36,21 @@ export default function RootLayout({
       <head>
         <meta
           name="arohaa-verify"
-          content="RfawKozo7MhXK5KSjw43N877e8U2LoQr"
+          content="T03rnR6ZhV4MEqaeMrcWOUviXfkS1ZxZ"
         />
         <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "!function(w){if(w.arohaa)return;var a=function(){(a.q=a.q||[]).push(arguments)};a.q=[];a.l=Date.now();w.arohaa=a}(window);",
+          }}
+        />
+        <script
+          id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="e8b9a81b-fde8-49c4-83b8-1cc34e232b45"
+          data-wid="2550427e-6a1c-47a7-9d9b-dd1756af0d79"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_xYqi6ZRztubAklEw"
+          data-lp-id="lp_gpD0IbRv7QIE2wv5"
           data-page="autoinsurance.quotifii.com"
           data-formtype="zip"
         />
