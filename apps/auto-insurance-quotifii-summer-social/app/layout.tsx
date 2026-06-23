@@ -41,7 +41,29 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-      <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0132/1582.js" async={true}></script>
+        <meta
+          name="arohaa-verify"
+          content="JlUzIGhnLmtv-BDBL2S58efE4v96Offd"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `!function(w){if(w.arohaa)return;var a=function(){(a.q=a.q||[]).push(arguments)};a.q=[];a.l=Date.now();w.arohaa=a}(window);`,
+          }}
+        />
+        <script
+          src="https://cdn.arohaa.net/sdk.js"
+          async
+          data-wid="ab47ed75-83f0-4d0d-842c-9eb248361fc6"
+          data-api="https://api.arohaa.net"
+          data-lp-id="lp_lOUhev9pvwxNI3bF"
+          data-page="summerquotes.quotifii.com"
+          data-formtype="zip"
+        />
+        <script
+          type="text/javascript"
+          src="//script.crazyegg.com/pages/scripts/0132/1582.js"
+          async={true}
+        />
       </head>
       <body
         className={`${fontSans.variable} ${fontHero.variable} ${fontSans.className} antialiased overflow-x-hidden overflow-y-auto`}
