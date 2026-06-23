@@ -16,6 +16,7 @@ import { track } from "@vercel/analytics";
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
 const BASE_URL = "https://auto-quote.quotifii.com";
+const ANALYTICS_FLUSH_DELAY_MS = 300;
 
 export default function Options() {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
@@ -41,7 +42,8 @@ export default function Options() {
     return () => { cancelled = true };
   }, []);
 
-  const handleContinue = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
     if (!/^\d{5}$/.test(trimmed)) {
       alert("Please enter a valid 5-digit ZIP code");
@@ -66,11 +68,9 @@ export default function Options() {
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
 
     setIsRedirecting(true);
-    window.location.href = redirectUrl;
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleContinue();
+    window.setTimeout(() => {
+      window.location.href = redirectUrl;
+    }, ANALYTICS_FLUSH_DELAY_MS);
   };
 
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
@@ -96,16 +96,21 @@ export default function Options() {
             </div>
             <div className="w-full space-y-4 sm:space-y-0 lg:max-w-[490px] xl:max-w-full">
               {/* Mobile */}
-              <div className="block sm:hidden space-y-4">
+              <form
+                data-arohaa-zip-form
+                onSubmit={handleSubmit}
+                className="block sm:hidden space-y-4"
+              >
                 <div className="relative w-full">
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                     <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
                   </div>
                   <ZipCodeInput
-                    id="hero-zipcode-mobile"
+                    id="options-zipcode-mobile"
+                    name="zip"
+                    data-arohaa-zip
                     value={zipCode}
                     onChange={(value) => setZipCode(value)}
-                    onKeyDown={handleKeyPress}
                     placeholder="90001"
                     inputClassName="
                         h-14 pl-10 pr-2 text-[0.9rem] font-normal font-sans
@@ -123,26 +128,31 @@ export default function Options() {
                 <Button
                   type="1"
                   variant="default"
-                  onClick={handleContinue}
+                  htmlType="submit"
+                  data-arohaa-zip-submit
                   disabled={isRedirecting || !zipValid}
                   className="bg-[#F16601] h-14 w-full cursor-pointer text-white font-medium font-sans rounded-[10px] text-[0.9rem] px-8 py-4 flex items-center justify-center gap-2 transition-all duration-300 shadow-[0_0_6px_0_rgba(0,53,153,0.20)] hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed"
                 >
                   {isRedirecting ? "Redirecting..." : <>Request My Quotes </>}
                 </Button>
-              </div>
+              </form>
 
               {/* Desktop */}
-
-              <div className="hidden relative w-full sm:flex w-full flex-row items-center justify-center md:justify-start gap-2 xl:gap-3.5">
+              <form
+                data-arohaa-zip-form
+                onSubmit={handleSubmit}
+                className="hidden relative w-full sm:flex w-full flex-row items-center justify-center md:justify-start gap-2 xl:gap-3.5"
+              >
                 <div className="relative w-full max-w-[290px] md:max-w-[220px] lg:max-w-full min-w-0 shrink">
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                     <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
                   </div>
                   <ZipCodeInput
-                    id="hero-zipcode"
+                    id="options-zipcode"
+                    name="zip"
+                    data-arohaa-zip
                     value={zipCode}
                     onChange={(value) => setZipCode(value)}
-                    onKeyDown={handleKeyPress}
                     placeholder="90001"
                     inputClassName="
                         h-14 md:h-14.5 xl:h-18 pl-10 xl:pl-11 pr-2 text-[0.9rem] lg:text-[1.05rem] xl:text-xl font-normal font-poppins
@@ -160,13 +170,14 @@ export default function Options() {
                 <Button
                   type="1"
                   variant="default"
-                  onClick={handleContinue}
+                  htmlType="submit"
+                  data-arohaa-zip-submit
                   disabled={isRedirecting || !zipValid}
                   className="h-14 md:h-14.5 xl:h-18 w-[180px] md:w-[170px] lg:w-[178px] xl:w-[232px] shrink-0 rounded-[10px] cursor-pointer text-white font-medium font-poppins text-sm  xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-[0_0_6px_0_rgba(0,53,153,0.20)] hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed bg-[#F16601]"
                 >
                   {isRedirecting ? "Redirecting..." : <>Request My Quotes </>}
                 </Button>
-              </div>
+              </form>
               <div
               className="flex items-center justify-center md:justify-start gap-2 mt-6 md:mt-5 xl:mt-7 "
             >
