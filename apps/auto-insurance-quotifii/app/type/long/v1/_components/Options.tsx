@@ -8,13 +8,13 @@ import { useState, useEffect } from "react";
 import { setCookie, getCookie } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 import { ArrowRight } from "lucide-react";
-import { trackArohaa } from "@/lib/arohaa";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
 const REDIRECT_BASE_URL = "https://auto.assurerates.com";
 const REFERRER = "quotes.assurerates.com";
 const TID = "3286";
+const ANALYTICS_FLUSH_DELAY_MS = 300;
 
 export default function Options() {
   const [zipCode, setZipCode] = useState("");
@@ -64,10 +64,11 @@ export default function Options() {
     const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
-    trackArohaa("form_success");
 
     setIsRedirecting(true);
-    window.location.href = redirectUrl;
+    window.setTimeout(() => {
+      window.location.href = redirectUrl;
+    }, ANALYTICS_FLUSH_DELAY_MS);
   };
 
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));

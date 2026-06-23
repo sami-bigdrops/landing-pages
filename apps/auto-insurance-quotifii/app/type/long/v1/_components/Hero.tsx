@@ -12,11 +12,11 @@ import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { trackArohaa } from "@/lib/arohaa";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
 const BASE_URL = "https://auto-quote.quotifii.com";
+const ANALYTICS_FLUSH_DELAY_MS = 300;
 
 export default function Hero() {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
@@ -70,10 +70,11 @@ export default function Hero() {
     const redirectUrl = `${BASE_URL}/?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
-    trackArohaa("form_success");
 
     setIsRedirecting(true);
-    window.location.href = redirectUrl;
+    window.setTimeout(() => {
+      window.location.href = redirectUrl;
+    }, ANALYTICS_FLUSH_DELAY_MS);
   };
 
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
