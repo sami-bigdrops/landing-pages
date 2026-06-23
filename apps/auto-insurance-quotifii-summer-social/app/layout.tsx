@@ -51,6 +51,7 @@ export default function RootLayout({
           }}
         />
         <script
+          id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
           data-wid="ab47ed75-83f0-4d0d-842c-9eb248361fc6"
