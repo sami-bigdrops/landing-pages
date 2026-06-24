@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Shield, Building2, CheckCircle } from "lucide-react"
 import type { ThankYouType2Content } from "@/lib/constant"
+import { trackArohaa } from "@/lib/arohaa"
 
 const ICON_MAP = {
   shield: Shield,
@@ -67,6 +68,14 @@ export function ThankYouType2({
     const emailFromUrl = searchParams.get("email")
     if (emailFromUrl) {
       setIsAuthorized(true)
+      try {
+        if (sessionStorage.getItem("arohaa_assuritii_submitted") === "1") {
+          trackArohaa("form_success")
+          sessionStorage.removeItem("arohaa_assuritii_submitted")
+        }
+      } catch {
+        trackArohaa("form_success")
+      }
       setTimeout(() => {
         if (typeof window !== "undefined") {
           const cleanUrl =
