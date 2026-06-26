@@ -6,7 +6,7 @@ import { getDb } from "@/lib/db"
 import { utmParams } from "@/lib/db/schema"
 
 const BRAND_ID = "quotifii"
-const UTM_PRODUCT_ID = "auto_insurance_quotifii"
+const UTM_PRODUCT_ID = "auto_insurance_quotifii_summer_social"
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 90
 
 function applyUtmCookies(response: NextResponse, utmMap: Map<string, string>) {

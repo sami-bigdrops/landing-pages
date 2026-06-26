@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { and, eq } from "drizzle-orm"
+import { collectStoredUtmParams } from "@workspace/lp-core"
 
 import { db } from "@/lib/db"
 import { utmParams } from "@/lib/db/schema"
@@ -7,27 +8,12 @@ import { utmParams } from "@/lib/db/schema"
 const BRAND_ID = "quotifii"
 const UTM_PRODUCT_ID = "home_insurance_quotifii"
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 90
-const ALLOWED_UTM_KEYS = new Set(["utm_source", "utm_s1"])
 
 function collectUtmParams(request: NextRequest): Map<string, string> {
-  const collected = new Map<string, string>()
-
-  for (const [key, value] of request.nextUrl.searchParams.entries()) {
-    const normalizedKey = key.toLowerCase()
-    if (ALLOWED_UTM_KEYS.has(normalizedKey) && value.trim()) {
-      collected.set(normalizedKey, value.trim())
-    }
-  }
-
-  for (const cookie of request.cookies.getAll()) {
-    const normalizedKey = cookie.name.toLowerCase()
-    if (!ALLOWED_UTM_KEYS.has(normalizedKey)) continue
-    if (collected.has(normalizedKey)) continue
-    if (!cookie.value.trim()) continue
-    collected.set(normalizedKey, cookie.value.trim())
-  }
-
-  return collected
+  return collectStoredUtmParams({
+    getSearchParam: (key) => request.nextUrl.searchParams.get(key),
+    getCookie: (name) => request.cookies.get(name)?.value,
+  })
 }
 
 function applyUtmCookies(response: NextResponse, utmMap: Map<string, string>) {

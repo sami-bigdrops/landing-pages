@@ -20,8 +20,12 @@ export {
   UTM_COOKIE_NAMES,
   UTM_URL_PARAM_KEYS,
   DEFAULT_UTM_COOKIE_DAYS,
+  STORED_UTM_PARAM_KEYS,
+  STORED_UTM_COOKIE_ALIASES,
   QUOTIFII_TRACKING_QUERY_KEYS,
   TRACKING_QUERY_COOKIE_ALIASES,
   QUOTIFII_EXTENDED_UTM_OPTIONS,
+  sanitizeUtmParamValue,
+  isMalformedStoredUtmValue,
 } from './utm-params';
-export type { QuotifiiTrackingQueryKey } from './utm-params';
+export type { QuotifiiTrackingQueryKey, StoredUtmParamKey } from './utm-params';

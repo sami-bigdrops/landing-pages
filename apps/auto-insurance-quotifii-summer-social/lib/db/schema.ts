@@ -14,7 +14,7 @@ export const utmParams = pgTable(
   {
     id: serial("id").primaryKey(),
     brandId: text("brand_id").notNull(),
-    productId: text("product_id").notNull().default("auto_insurance_quotifii"),
+    productId: text("product_id").notNull().default("auto_insurance_quotifii_summer_social"),
     key: text("key").notNull(),
     value: text("value").notNull(),
     status: utmParamStatusEnum("status").notNull().default("active"),

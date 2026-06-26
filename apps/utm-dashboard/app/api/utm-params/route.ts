@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { and, asc, eq, inArray, notInArray } from "drizzle-orm"
+import { and, asc, eq, inArray, notInArray, or, like } from "drizzle-orm"
+import { sanitizeUtmParamValue } from "@workspace/lp-core"
 import { db } from "@/lib/db"
 import { utmParams } from "@/lib/db/schema"
 import { getCurrentUser } from "@/lib/auth"
@@ -30,6 +31,23 @@ async function purgeDisallowedUtmParams(brandId: string, productId: string) {
     )
 }
 
+async function purgeMalformedUtmParams(brandId: string, productId: string) {
+  await db
+    .delete(utmParams)
+    .where(
+      and(
+        eq(utmParams.brandId, brandId),
+        eq(utmParams.productId, productId),
+        inArray(utmParams.key, [...ALLOWED_UTM_PARAM_KEYS]),
+        or(
+          like(utmParams.value, "%&%"),
+          like(utmParams.value, "%?%"),
+          and(eq(utmParams.key, "utm_source"), like(utmParams.value, "%=%"))
+        )
+      )
+    )
+}
+
 export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser()
@@ -44,6 +62,7 @@ export async function GET(request: NextRequest) {
     )
 
     await purgeDisallowedUtmParams(brandId, productId)
+    await purgeMalformedUtmParams(brandId, productId)
 
     const rows = await db
       .select({
@@ -85,14 +104,23 @@ export async function PUT(request: NextRequest) {
     }
     const productId = parseUtmProductIdParam(brandId, rawProduct ?? null)
 
-    const valid = items.filter(
-      (item) =>
-        item &&
-        typeof item.key === "string" &&
-        typeof item.value === "string" &&
-        isAllowedUtmParamKey(item.key) &&
-        (item.status === "active" || item.status === "blocked")
-    )
+    const valid = items
+      .filter(
+        (item) =>
+          item &&
+          typeof item.key === "string" &&
+          typeof item.value === "string" &&
+          isAllowedUtmParamKey(item.key) &&
+          (item.status === "active" || item.status === "blocked")
+      )
+      .map((item) => ({
+        ...item,
+        value: sanitizeUtmParamValue(
+          item.key as "utm_source" | "utm_s1",
+          item.value
+        ),
+      }))
+      .filter((item) => item.value)
 
     if (valid.length === 0) {
       return NextResponse.json({ success: true, updated: 0 })

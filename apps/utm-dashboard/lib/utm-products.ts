@@ -6,6 +6,12 @@ export type UtmProductTab = {
 export const UTM_PRODUCTS_BY_BRAND: Record<string, readonly UtmProductTab[]> = {
   quotifii: [
     { id: "auto_insurance_quotifii", label: "Auto Insurance Quotifii" },
+    { id: "auto_insurance_quotifii_summer", label: "Auto Insurance Quotifii - Summer" },
+    {
+      id: "auto_insurance_quotifii_summer_social",
+      label: "Auto Insurance Quotifii - Summer - Social",
+    },
+    { id: "auto_insurance_quotifii_social", label: "Auto Insurance Quotifii - Social" },
     { id: "auto_veterans_quotifii", label: "Auto Veterans Quotifii" },
     { id: "home_insurance_quotifii", label: "Home Insurance Quotifii" },
   ],

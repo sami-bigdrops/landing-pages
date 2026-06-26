@@ -6,6 +6,7 @@ import {
   UTM_COOKIE_NAMES,
   UTM_URL_PARAM_KEYS,
   DEFAULT_UTM_COOKIE_DAYS,
+  sanitizeUtmParamValue,
 } from '../model/utm-params';
 import { getCookie, setCookie } from './cookie-utils';
 
@@ -45,6 +46,9 @@ export function useUtmParams(
     let utmId = urlParams.get(UTM_URL_PARAM_KEYS.subid2) ?? '';
     let utmS1 = urlParams.get(UTM_URL_PARAM_KEYS.subid3) ?? '';
 
+    utmSource = sanitizeUtmParamValue('utm_source', utmSource);
+    utmS1 = sanitizeUtmParamValue('utm_s1', utmS1);
+
     const extraValues: Record<string, string> = {};
     if (mappings?.length) {
       for (const { urlParam, cookieName } of mappings) {
@@ -81,6 +85,9 @@ export function useUtmParams(
       utmSource = getCookie(UTM_COOKIE_NAMES.subid1) ?? '';
       utmId = getCookie(UTM_COOKIE_NAMES.subid2) ?? '';
       utmS1 = getCookie(UTM_COOKIE_NAMES.subid3) ?? '';
+
+      utmSource = sanitizeUtmParamValue('utm_source', utmSource);
+      utmS1 = sanitizeUtmParamValue('utm_s1', utmS1);
 
       if (mappings?.length) {
         for (const { cookieName } of mappings) {
