@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server"
-import { and, asc, eq, inArray } from "drizzle-orm"
+import { and, asc, eq, inArray, notInArray } from "drizzle-orm"
 import { db } from "@/lib/db"
 import { utmParams } from "@/lib/db/schema"
 import { getCurrentUser } from "@/lib/auth"
-import { isUtmProductIdForBrand, parseUtmProductIdParam } from "@/lib/utm-products"
+import {
+  ALLOWED_UTM_PARAM_KEYS,
+  isAllowedUtmParamKey,
+  isUtmProductIdForBrand,
+  parseUtmProductIdParam,
+} from "@/lib/utm-products"
 
 type ParamStatus = "active" | "blocked"
 
@@ -11,6 +16,18 @@ type ParamPayload = {
   key: string
   value: string
   status: ParamStatus
+}
+
+async function purgeDisallowedUtmParams(brandId: string, productId: string) {
+  await db
+    .delete(utmParams)
+    .where(
+      and(
+        eq(utmParams.brandId, brandId),
+        eq(utmParams.productId, productId),
+        notInArray(utmParams.key, [...ALLOWED_UTM_PARAM_KEYS])
+      )
+    )
 }
 
 export async function GET(request: NextRequest) {
@@ -26,6 +43,8 @@ export async function GET(request: NextRequest) {
       request.nextUrl.searchParams.get("productId")
     )
 
+    await purgeDisallowedUtmParams(brandId, productId)
+
     const rows = await db
       .select({
         key: utmParams.key,
@@ -33,7 +52,13 @@ export async function GET(request: NextRequest) {
         status: utmParams.status,
       })
       .from(utmParams)
-      .where(and(eq(utmParams.brandId, brandId), eq(utmParams.productId, productId)))
+      .where(
+        and(
+          eq(utmParams.brandId, brandId),
+          eq(utmParams.productId, productId),
+          inArray(utmParams.key, [...ALLOWED_UTM_PARAM_KEYS])
+        )
+      )
       .orderBy(asc(utmParams.key), asc(utmParams.value))
 
     return NextResponse.json({ success: true, items: rows, productId })
@@ -65,6 +90,7 @@ export async function PUT(request: NextRequest) {
         item &&
         typeof item.key === "string" &&
         typeof item.value === "string" &&
+        isAllowedUtmParamKey(item.key) &&
         (item.status === "active" || item.status === "blocked")
     )
 

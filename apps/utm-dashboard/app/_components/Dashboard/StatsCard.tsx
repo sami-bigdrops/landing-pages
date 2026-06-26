@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 
 import MetricCard from "@/components/dashboard/MetricCard"
-import { filterUtmRowsForProductDisplay } from "@/lib/utm-products"
+import { filterAllowedUtmParams } from "@/lib/utm-products"
 
 type ParamStatus = "active" | "blocked"
 
@@ -32,7 +32,7 @@ export default function StatsCard({ productId, productLabel }: Props) {
         const data = (await response.json()) as { items?: ApiItem[] }
         if (!cancelled) {
           const raw = data.items ?? []
-          setItems(filterUtmRowsForProductDisplay(productId, raw))
+          setItems(filterAllowedUtmParams(raw))
         }
       } catch (error) {
         console.error("[utm-dashboard] failed to load UTM overview", error)

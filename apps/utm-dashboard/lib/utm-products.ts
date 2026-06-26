@@ -13,8 +13,22 @@ export const UTM_PRODUCTS_BY_BRAND: Record<string, readonly UtmProductTab[]> = {
   assurerates: [],
 }
 
-export const UTM_PARAM_KEYS_SHOWN_FOR_PRODUCT: Partial<Record<string, ReadonlySet<string>>> = {
-  home_insurance_quotifii: new Set(["utm_source", "utm_s1"]),
+export const ALLOWED_UTM_PARAM_KEYS = ["utm_source", "utm_s1"] as const
+
+export type AllowedUtmParamKey = (typeof ALLOWED_UTM_PARAM_KEYS)[number]
+
+export function isAllowedUtmParamKey(key: string): key is AllowedUtmParamKey {
+  return (ALLOWED_UTM_PARAM_KEYS as readonly string[]).includes(key)
+}
+
+export function filterAllowedUtmParams<T extends { key: string }>(rows: T[]): T[] {
+  return rows.filter((row) => isAllowedUtmParamKey(row.key))
+}
+
+export function getUtmParamLabel(key: string): string {
+  if (key === "utm_source") return "Source"
+  if (key === "utm_s1") return "S1"
+  return key
 }
 
 export function getUtmProductTabsForBrand(brandId: string): readonly UtmProductTab[] {
@@ -39,11 +53,3 @@ export function parseUtmProductIdParam(brandId: string, raw: string | null): str
   return getDefaultUtmProductId(brandId)
 }
 
-export function filterUtmRowsForProductDisplay<T extends { key: string }>(
-  productId: string,
-  rows: T[]
-): T[] {
-  const allowed = UTM_PARAM_KEYS_SHOWN_FOR_PRODUCT[productId]
-  if (!allowed) return rows
-  return rows.filter((row) => allowed.has(row.key))
-}

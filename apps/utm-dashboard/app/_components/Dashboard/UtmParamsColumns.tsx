@@ -6,7 +6,8 @@ import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 
 import {
-  filterUtmRowsForProductDisplay,
+  filterAllowedUtmParams,
+  getUtmParamLabel,
   getUtmProductTabsForBrand,
 } from "@/lib/utm-products"
 
@@ -101,11 +102,6 @@ function ParamsPanel({
     byKey.set(row.key, list)
   }
 
-  const knownKeySet = new Set<string>(PARAM_GROUPS.map((g) => g.key))
-  const unknownKeys = Array.from(byKey.keys())
-    .filter((k) => !knownKeySet.has(k))
-    .sort((a, b) => a.localeCompare(b))
-
   return (
     <section
       className={`flex flex-col rounded-2xl border bg-white shadow-sm transition-shadow hover:shadow-md ${toneStyles.border}`}
@@ -170,50 +166,7 @@ function ParamsPanel({
                         </span>
                         <span
                           className={`min-w-0 break-all text-sm font-medium ${toneStyles.valueText}`}
-                          title={`${item.key}=${item.value}`}
-                        >
-                          {item.value}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )
-            })}
-            {unknownKeys.map((keyName) => {
-              const rows = byKey.get(keyName) ?? []
-              if (rows.length === 0) return null
-              const keyShort =
-                keyName.length > 14 ? `${keyName.slice(0, 14)}…` : keyName
-              return (
-                <div key={keyName} className="border-b border-zinc-100 last:border-b-0">
-                  <div className="bg-amber-50/40 px-4 py-2 text-xs font-semibold text-amber-900 sm:px-5">
-                    <span className="font-mono">{keyName}</span>
-                    <span className="ml-2 tabular-nums font-normal text-amber-800">{rows.length}</span>
-                  </div>
-                  <ul className="divide-y divide-zinc-100">
-                    {rows.map((item) => (
-                      <li
-                        key={`${item.key}:${item.value}`}
-                        className={`grid grid-cols-1 gap-1 px-4 py-2.5 sm:grid-cols-[minmax(0,7rem)_1fr] sm:items-center sm:gap-4 sm:px-5 ${toneStyles.rowBg}`}
-                      >
-                        <div className="flex sm:hidden">
-                          <span
-                            className={`inline-flex max-w-full rounded-md px-2 py-0.5 font-mono text-xs font-semibold ${toneStyles.typeBadge}`}
-                            title={keyName}
-                          >
-                            {keyShort}
-                          </span>
-                        </div>
-                        <span
-                          className={`hidden font-mono text-xs font-semibold sm:inline ${toneStyles.typeBadge} rounded-md px-2 py-1 text-center`}
-                          title={keyName}
-                        >
-                          {keyShort}
-                        </span>
-                        <span
-                          className={`min-w-0 break-all text-sm font-medium ${toneStyles.valueText}`}
-                          title={`${item.key}=${item.value}`}
+                          title={item.value}
                         >
                           {item.value}
                         </span>
@@ -267,7 +220,7 @@ export default function UtmParamsColumns({ brandId, productId }: Props) {
       const searchMatch =
         !q ||
         item.value.toLowerCase().includes(q) ||
-        item.key.toLowerCase().includes(q)
+        getUtmParamLabel(item.key).toLowerCase().includes(q)
       return statusMatch && searchMatch
     })
   }, [draftItems, searchQuery, statusFilter])
@@ -300,7 +253,7 @@ export default function UtmParamsColumns({ brandId, productId }: Props) {
         items?: Array<{ key: string; value: string; status: ParamStatus }>
       }
       if (!data.items) return
-      const visible = filterUtmRowsForProductDisplay(productId, data.items)
+      const visible = filterAllowedUtmParams(data.items)
       const active = sortParamsByKeyThenValue(
         visible
           .filter((item) => item.status === "active")
@@ -525,12 +478,12 @@ export default function UtmParamsColumns({ brandId, productId }: Props) {
                 </span>
               </div>
               <p className="mt-1 text-sm text-zinc-600">
-                Search params and set each item as Active or Blocked.
+                Search by value or type (Source / S1) and set each item as Active or Blocked.
               </p>
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by key or value..."
+                placeholder="Search by value or type..."
                 className="mt-3 h-10 bg-white"
               />
               <div className="mt-3 flex flex-wrap gap-2">
@@ -578,7 +531,7 @@ export default function UtmParamsColumns({ brandId, productId }: Props) {
                 >
                   <div>
                     <p className="text-sm font-medium text-zinc-900">{item.value}</p>
-                    <p className="text-xs text-zinc-500">{item.key}</p>
+                    <p className="text-xs text-zinc-500">{getUtmParamLabel(item.key)}</p>
                   </div>
                   <div className="inline-flex rounded-lg border border-zinc-200 bg-white p-1">
                     <button
