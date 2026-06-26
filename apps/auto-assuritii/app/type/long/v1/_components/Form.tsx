@@ -10,6 +10,8 @@ import { CarTaxiFront, UserRoundPen } from "lucide-react"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 import { FORM_CONTENT } from "@/lib/constant"
 
+const ANALYTICS_FLUSH_DELAY_MS = 300
+
 type SelectOption = { value: string; label: string }
 
 export default function Form() {
@@ -250,7 +252,14 @@ export default function Form() {
       }
 
       if (data.success && data.redirectUrl) {
-        window.location.href = data.redirectUrl
+        try {
+          sessionStorage.setItem("arohaa_assuritii_submitted", "1")
+        } catch {
+          /* ignore */
+        }
+        window.setTimeout(() => {
+          window.location.href = data.redirectUrl as string
+        }, ANALYTICS_FLUSH_DELAY_MS)
         return
       }
       setSubmitStatus("idle")
@@ -275,6 +284,8 @@ export default function Form() {
   return (
     <div className="w-full max-w-4xl overflow-hidden rounded-[10px] border border-[#1F3A5F] shadow-[4px_4px_20px_0_rgba(17,24,39,0.20)]">
       <form
+        method="POST"
+        action="/api/submit-form"
         onSubmit={handleSubmit}
         className="form w-full flex flex-col items-center justify-center gap-4 font-sans"
       >
@@ -336,6 +347,8 @@ export default function Form() {
             <TextInputUI
               label={FORM_CONTENT.fields.currentMileage.label}
               placeholder={FORM_CONTENT.fields.currentMileage.placeholder}
+              name="currentMileage"
+              data-arohaa-field="currentMileage"
               value={currentMileage}
               onChange={(e) => {
                 setCurrentMileage(e.target.value)
@@ -358,6 +371,8 @@ export default function Form() {
             <TextInputUI
               label={FORM_CONTENT.fields.firstName.label}
               placeholder={FORM_CONTENT.fields.firstName.placeholder}
+              name="firstName"
+              data-arohaa-field="firstName"
               value={firstName}
               onChange={(e) => {
                 setFirstName(e.target.value)
@@ -369,6 +384,8 @@ export default function Form() {
             <TextInputUI
               label={FORM_CONTENT.fields.lastName.label}
               placeholder={FORM_CONTENT.fields.lastName.placeholder}
+              name="lastName"
+              data-arohaa-field="lastName"
               value={lastName}
               onChange={(e) => {
                 setLastName(e.target.value)
@@ -382,6 +399,8 @@ export default function Form() {
           <TextInputUI
             label={FORM_CONTENT.fields.email.label}
             placeholder={FORM_CONTENT.fields.email.placeholder}
+            name="email"
+            data-arohaa-field="email"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value)
@@ -395,6 +414,8 @@ export default function Form() {
           <div className="grid grid-cols-2 gap-3">
             <PhoneNumberInputUI
               label={FORM_CONTENT.fields.phoneNumber.label}
+              name="phoneNumber"
+              data-arohaa-field="phoneNumber"
               value={phoneNumber}
               placeholder={FORM_CONTENT.fields.phoneNumber.placeholder}
               onChange={(value) => {
@@ -407,6 +428,8 @@ export default function Form() {
             <ZipCodeInputUI
               label={FORM_CONTENT.fields.zipCode.label}
               placeholder="Enter Zip Code"
+              name="zip"
+              data-arohaa-field="zip"
               value={zipCode}
               onChange={(value) => {
                 setZipCode(value)

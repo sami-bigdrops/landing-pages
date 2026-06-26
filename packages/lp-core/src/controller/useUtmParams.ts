@@ -74,7 +74,9 @@ export function useUtmParams(
         '//' +
         window.location.host +
         window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
+      window.setTimeout(() => {
+        window.history.replaceState({}, document.title, cleanUrl);
+      }, 1500);
     } else {
       utmSource = getCookie(UTM_COOKIE_NAMES.subid1) ?? '';
       utmId = getCookie(UTM_COOKIE_NAMES.subid2) ?? '';

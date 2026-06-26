@@ -32,6 +32,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <meta
+          name="arohaa-verify"
+          content="fTLEtuXNQmdw-OmS73VhDo1GXxgQYkt4"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "!function(w){if(w.arohaa)return;var a=function(){(a.q=a.q||[]).push(arguments)};a.q=[];a.l=Date.now();w.arohaa=a}(window);",
+          }}
+        />
+        <script
+          id="arohaa-sdk"
+          src="https://cdn.arohaa.net/sdk.js"
+          async
+          data-wid="cec70acb-a704-4ff6-9749-532ab9c846c6"
+          data-api="https://api.arohaa.net"
+          data-lp-id="lp_KHxPbBF6vSFh-Zur"
+          data-page="auto.assuritii.com"
+          data-formtype="single"
+        />
+      </head>
       <body
         className={`${fontSans.variable} font-sans antialiased overflow-x-hidden overflow-y-auto`}
       >
