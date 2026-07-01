@@ -28,29 +28,30 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: "Need Cash Fast? Get an Instant Cash Offer with Uncle Sam Buys Homes Today!",
-  
-  partners: [
-    
-    {
-      alt: "Consumer Affairs",
-      src: "/partner-3.svg",
-      
-      
-    },
-    {
-      alt: "2025 Top Rated Consumers",
-      src: "/partner-2.svg",
-     
-    },
-  ],
-
-  // image: {
-  //   alt: "Hero Image",
-  //   src: "/family.webp",
-  // },
+  headline1: "Life Happens.",
+  headline2: "We Buy Houses",
+  headline3: "No Matter the Reason.",
+  description:
+    "Whether you're facing a divorce, job loss, foreclosure, or just need to move fast -- we're here to help, not judge. Get a fair cash offer on your terms, on your timeline.",
+    badges: [
+      {
+        icon: "/hero-1.svg",
+        text: "No Repairs Needed",
+      },
+      {
+        icon: "/hero-2.svg",
+        text: "Zero Fees",
+      },
+      {
+        icon: "/hero-3.svg",
+        text: "100% Confidential",
+      },
+    ],
+  image: {
+    alt: "A couple in a modern kitchen discussing their home",
+    src: "/hero.webp",
+  },
 } as const
-
 
 
 export const FORM_CONTENT = {

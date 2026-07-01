@@ -7,7 +7,7 @@ import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
-import CashOfferCard from "./Card.js"
+
 
 
 // --- Google Maps Places types (minimal) ---
@@ -944,7 +944,7 @@ function FormPage() {
           </section>
         ) : null}
 
-        <CashOfferCard />
+      
       </form>
     </section>
   )

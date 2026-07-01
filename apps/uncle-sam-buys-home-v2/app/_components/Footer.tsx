@@ -7,6 +7,7 @@ export default function Footer() {
   return (
     <FooterUI
       type="long"
+      className="mt-auto"
       bgColor="#102E50"
      
       linkHeader={FOOTER_CONTENT.linkHeader}
