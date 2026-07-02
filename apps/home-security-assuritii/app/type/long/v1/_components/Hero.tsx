@@ -14,16 +14,20 @@ export default function Hero() {
   useUtmParams(30)
 
   return (
-    <div
-      className="w-full min-h-0 py-8 md:py-10 lg:py-12"
-      style={{
-        backgroundImage: `url(${HERO_CONTENT.image.src})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <div className={cn(pageSectionInner)}>
+    <div className="relative w-full overflow-hidden py-8 md:py-10 lg:py-12">
+      <div
+        className={cn(
+          "absolute inset-0 bg-cover bg-no-repeat bg-[position:left_30%]",
+          "md:bg-[position:left_48%_center]",
+          "lg:bg-[position:left_32%_center]",
+          "xl:bg-[position:30%_center]",
+        )}
+        style={{
+          backgroundImage: `url(${HERO_CONTENT.image.src})`,
+        }}
+        aria-hidden
+      />
+      <div className={cn(pageSectionInner, "relative z-10")}>
         <div className="flex w-full flex-col items-stretch justify-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10 lg:gap-12 xl:gap-14">
           <div className="left flex min-w-0 flex-1 flex-col items-center justify-center gap-4 md:items-start md:justify-center md:gap-5 lg:gap-6">
             <h1 className="max-w-3xl text-center text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:max-w-4xl sm:text-4xl md:text-left md:text-4xl lg:max-w-[36rem] lg:text-5xl xl:max-w-[42rem]">
