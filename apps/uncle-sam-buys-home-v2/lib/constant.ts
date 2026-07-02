@@ -159,6 +159,83 @@ export const HELP_CONTENT = {
   
 } as const
 
+export const WORKS_CONTENT = {
+  headline: "What You Get When You Work With Us",
+  subtext:
+    "No matter what brought you here, we've seen it before — and we have a solution. There's no situation too complicated for a cash sale.",
+  steps: [
+    {
+      id: 1,
+      title: "Cash in Your Hands Fast",
+      description:
+        "No waiting on bank financing or buyer approvals. You get paid in cash, period.",
+      image: {
+        src: "/work-1.svg",
+        alt: "Cash in Your Hands Fast",
+      },
+    },
+    {
+      id: 2,
+      title: "Sell Completely As-Is",
+      description:
+        "Don’t spend a dollar on repairs, cleaning, or staging. We take it exactly as it is.",
+      image: {
+        src: "/work-2.svg",
+        alt: "Sell Completely As-Is",
+      },
+    },
+    {
+      id: 3,
+      title: "Close in as Little as 7 Days",
+      description:
+        "When time matters, we move fast. Or take more time if you need it — it’s your call.",
+      image: {
+        src: "/work-3.svg",
+        alt: "Close in as Little as 7 Days",
+      },
+    },
+    {
+      id: 4,
+      title: "Zero Fees or Commissions",
+      description:
+        "No agent fees. No closing costs charged to you. The offer you get is what you keep.",
+      image: {
+        src: "/work-4.svg",
+        alt: "Zero Fees or Commissions",
+      },
+    },
+    {
+      id: 5,
+      title: "100% Private & Confidential",
+      description:
+        "No open houses, no strangers walking through your home. The whole process is discreet.",
+      image: {
+        src: "/work-5.svg",
+        alt: "100% Private & Confidential",
+      },
+    },
+    {
+      id: 6,
+      title: "We Handle All the Paperwork",
+      description:
+        "Our team manages every detail of the transaction so you don’t have to worry about a thing.",
+      image: {
+        src: "/work-6.svg",
+        alt: "We Handle All the Paperwork",
+      },
+    },
+  ],
+} as const;
+
+
+
+
+
+
+
+
+
+
 export const ABOUT_CONTENT = {
   header: "Why sell your home for cash?",
   description:

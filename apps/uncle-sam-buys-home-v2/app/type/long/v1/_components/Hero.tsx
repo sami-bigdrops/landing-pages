@@ -55,7 +55,7 @@ export default function Hero({ onGetQuoteClick }: HeroProps) {
                 variant="default"
                 htmlType="button"
                 onClick={() => onGetQuoteClick?.()}
-                className="w-full bg-[#E71E26] text-white font-semibold h-14 xl:h-16 rounded-[10px] text-sm xl:text-lg shadow-[0_0_6px_0_rgba(0,0,0,0.15)]"
+                className="w-full bg-[#E71E26] text-white font-semibold h-14 xl:h-16 rounded-[10px] text-sm xl:text-lg shadow-[0_0_6px_0_rgba(0,0,0,0.15)] hover:bg-[#E71E26] cursor-pointer transition-all duration-300"
               >
                 GET MY FREE CASH OFFER
               </ButtonUI>
