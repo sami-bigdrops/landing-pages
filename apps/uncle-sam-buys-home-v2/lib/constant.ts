@@ -61,80 +61,102 @@ export const OFFER_CONTENT = {
 } as const
 
 
-export const FORM_CONTENT = {
-  header: "Get Your Free Cash Offer on Your Home",
-  tabs: {
-    vehicleDetails: "PROPERTY DETAILS",
-    personalDetails: "YOUR CONTACT INFO",
-  },
-  fields: {
-    carYear: {
-      label: "Car Year",
-      placeholder: "Select Year",
-    },
-    carMake: {
-      label: "Car Make",
-      placeholder: "Select Make",
-    },
-    carModel: {
-      label: "Car Model",
-      placeholder: "Select Model",
-    },
-    currentMileage: {
-      label: "Current Mileage",
-      placeholder: "Enter Mileage",
-    },
-    firstName: {
-      label: "First Name",
-      placeholder: "Enter First Name",
-    },
-    lastName: {
-      label: "Last Name",
-      placeholder: "Enter Last Name",
-    },
-    email: {
-      label: "Email",
-      placeholder: "Enter Email",
-    },
-    phoneNumber: {
-      label: "Phone Number",
-      placeholder: "(123) 4567-890",
-    },
-    zipCode: {
-      label: "Zip Code",
-      placeholder: "Enter Zip Code",
-    },
-  },
-  button: "See My Cash Offer",
-  disclaimer:
-    'By clicking "See My Cash Offer" you agree that Uncle Sam Buys Homes may contact you at the phone number and email you provided about your request and related services. Consent is not a condition of purchase. Message and data rates may apply. You can withdraw consent anytime.',
-} as const
-
-export const WORK_CONTENT = {
-  header: "How It Works",
+export const HELP_CONTENT = {
+  headline: "We Help Homeowners in Every Situation",
+  subtext: "No matter what brought you here, we've seen it before -- and we have a solution. There's no situation too complicated for a cash sale.",
   steps: [
     {
-      number: "01",
-      title: "Tell us about your property",
-      description: "Share your address, timeline, and a few details so we can understand your situation.",
+      id: 1,
+      title: "Divorce or Separation",
+      description:
+        "Selling quickly and fairly can help both parties move forward without the stress of a prolonged listing process.",
+      image: {
+        src: "/help-1.svg",
+        alt: "Divorce or Separation",
+      },
     },
     {
-      number: "02",
-      title: "Get a cash offer path",
-      description: "We review your information and connect you with buyers interested in homes like yours.",
+      id: 2,
+      title: "Financial Hardship or Debt",
+      description:
+        "Mounting bills, missed payments, or overwhelming debt -- a fast cash sale can give you the breathing room you need.",
+      image: {
+        src: "/help-2.svg",
+        alt: "Financial Hardship or Debt",
+      },
     },
     {
-      number: "03",
-      title: "Move forward on your terms",
-      description: "If there is a fit, you can explore a no-obligation cash offer without listing fees or repairs.",
+      id: 3,
+      title: "Relocating for Work or Family",
+      description:
+        "Don't let a house tie you down when life is calling you somewhere else. We can close on your schedule.",
+      image: {
+        src: "/help-3.svg",
+        alt: "Relocating for Work or Family",
+      },
+    },
+    {
+      id: 4,
+      title: "Foreclosure or Pre-Foreclosure",
+      description:
+        "We can move fast enough to help you avoid foreclosure and protect your credit -- before it's too late.",
+      image: {
+        src: "/help-4.svg",
+        alt: "Foreclosure or Pre-Foreclosure",
+      },
+    },
+    {
+      id: 5,
+      title: "Inherited Property",
+      description:
+        "Inherited a house you don't want to manage or maintain? We make it simple to convert it to cash quickly.",
+      image: {
+        src: "/help-5.svg",
+        alt: "Inherited Property",
+      },
+    },
+    {
+      id: 6,
+      title: "Property Needs Major Repairs",
+      description:
+        "We buy houses as-is -- no matter the condition. You don't need to fix a single thing before selling.",
+      image: {
+        src: "/help-6.svg",
+        alt: "Property Needs Major Repairs",
+      },
+    },
+    {
+      id: 7,
+      title: "Job Loss or Income Change",
+      description:
+        "A sudden change in income can make a mortgage unmanageable. A cash sale gives you options and stability.",
+      image: {
+        src: "/help-7.svg",
+        alt: "Job Loss or Income Change",
+      },
+    },
+    {
+      id: 8,
+      title: "Downsizing or Life Change",
+      description:
+        "Empty nesters, retirees, or anyone ready for a simpler life -- we make it easy to sell and move on.",
+      image: {
+        src: "/help-8.svg",
+        alt: "Downsizing or Life Change",
+      },
+    },
+    {
+      id: 9,
+      title: "Tired Landlord",
+      description:
+        "Done dealing with tenants, repairs, and vacancies? Sell your rental property fast for cash -- occupied or vacant.",
+      image: {
+        src: "/help-9.svg",
+        alt: "Tired Landlord",
+      },
     },
   ],
-  workImage: [
-    {
-      src: "/step-3.webp",
-      alt: "Couple in a modern kitchen discussing their home",
-    },
-  ],
+  
 } as const
 
 export const ABOUT_CONTENT = {
