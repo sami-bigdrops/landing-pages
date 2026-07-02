@@ -53,6 +53,13 @@ export const HERO_CONTENT = {
   },
 } as const
 
+export const OFFER_CONTENT = {
+  headline: "Get Your Free Cash Offer",
+  subtext: "Tell us about your property. We'll review it and send you a fair, no-obligation cash offer -- usually within 24 hours.",
+  subtitle: "Do you want to sell your house for cash?",
+  
+} as const
+
 
 export const FORM_CONTENT = {
   header: "Get Your Free Cash Offer on Your Home",
