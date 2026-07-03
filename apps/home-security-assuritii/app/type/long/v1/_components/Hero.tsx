@@ -49,7 +49,7 @@ export default function Hero() {
           <div className="left flex min-w-0 flex-1 flex-col items-center justify-end gap-3 sm:gap-3.5 md:gap-4 lg:items-start lg:gap-6">
             <h1
               className={cn(
-                "mx-auto max-w-[19rem] text-center text-[1.625rem] font-extrabold leading-[1.2] tracking-tight text-[#111827]",
+                "mx-auto text-center text-[1.625rem] font-extrabold leading-[1.2] tracking-tight text-[#111827]",
                 "sm:max-w-[22rem] sm:text-[1.875rem] sm:leading-[1.18]",
                 "md:max-w-[28rem] md:text-[2rem] md:leading-[1.2]",
                 "lg:mx-0 lg:max-w-[36rem] lg:text-left lg:text-5xl lg:leading-[1.12] lg:text-white xl:max-w-[42rem]",

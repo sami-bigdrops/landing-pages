@@ -22,7 +22,7 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: "Your Home May Not Be As Safe As You Think",
+  headline: "Your Home Needs Security to Keep Your Family Happy",
   description:
     "Check what home security options are available in your area and get matched with trusted providers.",
   badges: [
