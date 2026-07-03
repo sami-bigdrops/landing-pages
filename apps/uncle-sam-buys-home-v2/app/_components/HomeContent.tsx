@@ -6,6 +6,7 @@ import Footer from "@/app/_components/Footer"
 import Offer from "@/app/type/long/v1/_components/Offer"
 import Help from "@/app/type/long/v1/_components/Help"
 import Works from "@/app/type/long/v1/_components/Works"
+import Steps from "@/app/type/long/v1/_components/Steps"
 export default function HomeContent() {
   return (
     <>
@@ -14,6 +15,7 @@ export default function HomeContent() {
         <Hero />
         <Offer />
         <Help />
+        <Steps />
         <Works />
         <Footer />
       </div>

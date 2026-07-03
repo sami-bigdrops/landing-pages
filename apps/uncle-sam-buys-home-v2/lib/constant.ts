@@ -228,6 +228,39 @@ export const WORKS_CONTENT = {
 } as const;
 
 
+export const STEPS_CONTENT = {
+  headline: "Simple. Fast. Stress-Free.",
+  subtext:
+    "We've designed our process to be as easy as possible -- especially when life is already complicated enough.",
+  steps: [
+    {
+      id: 1,
+      number: "01",
+      title: "Tell Us About Your Home",
+      description: "Fill out the short form. It takes less than 2 minutes and there's zero obligation.",
+    },
+    {
+      id: 2,
+      number: "02",
+      title: "Receive a Fair Cash Offer",
+      description: "We review your property and deliver a no-obligation cash offer within 24 hours.",
+    },
+    {
+      id: 3,
+      number: "03",
+      title: "Choose Your Closing Date",
+      description: "Accept on your terms. We close on your timeline — as fast as 7 days if needed.",
+    },
+    {
+      id: 4,
+      number: "04",
+      title: "Walk Away With Cash",
+      description: "We handle all the paperwork. You get paid and get your fresh start.",
+    },
+  ],
+} as const;
+
+
 
 
 
