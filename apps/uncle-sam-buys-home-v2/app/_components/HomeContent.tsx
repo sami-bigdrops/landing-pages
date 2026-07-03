@@ -4,7 +4,8 @@ import Navbar from "@/app/_components/Navbar"
 import Hero from "@/app/type/long/v1/_components/Hero"
 import Footer from "@/app/_components/Footer"
 import Offer from "@/app/type/long/v1/_components/Offer"
-
+import Help from "@/app/type/long/v1/_components/Help"
+import Works from "@/app/type/long/v1/_components/Works"
 export default function HomeContent() {
   return (
     <>
@@ -12,6 +13,8 @@ export default function HomeContent() {
         <Navbar />
         <Hero />
         <Offer />
+        <Help />
+        <Works />
         <Footer />
       </div>
     </>
