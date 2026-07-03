@@ -260,246 +260,89 @@ export const STEPS_CONTENT = {
   ],
 } as const;
 
-
-
-
-
-
-
-
-
-
-export const ABOUT_CONTENT = {
-  header: "Why sell your home for cash?",
-  description:
-    "Uncle Sam Buys Homes helps homeowners explore a faster sale without open houses, agent commissions, or months of uncertainty.",
-  features: [
-    {
-      title: "Skip the traditional listing grind",
-      image: {
-        src: "/about-1.svg",
-        alt: "Homeowners reviewing a simpler sale option",
-      },
-    },
-    {
-      title: "Talk timelines that fit your move",
-      image: {
-        src: "/about-2.svg",
-        alt: "Planning a move on your schedule",
-      },
-    },
-    {
-      title: "Understand your options in plain language",
-      image: {
-        src: "/about-3.svg",
-        alt: "Clear next steps for selling your home",
-      },
-    },
-  ],
-} as const
-
-
-export const FEATURES_CONTENT = {
-  header: "Questions worth asking any buyer",
-  features: [
-    {
-      title: "How is the offer price determined?",
-      image: {
-        src: "/feature-icon.svg",
-        alt: "Offer price discussion",
-      },
-    },
-    {
-      title: "What fees or deductions apply at closing?",
-      image: {
-        src: "/feature-icon.svg",
-        alt: "Closing costs and fees",
-      },
-    },
-    {
-      title: "What inspections or walkthroughs are required?",
-      image: {
-        src: "/feature-icon.svg",
-        alt: "Property inspection timeline",
-      },
-    },
-    {
-      title: "Can you choose your closing date?",
-      image: {
-        src: "/feature-icon.svg",
-        alt: "Choosing a closing date",
-      },
-    },
-  ],
-} as const
-
-export const COVER_CONTENT = {
-  header: "What's Covered",
-  homeSystems: {
-    header: "HOME SYSTEMS",
-    items: [
-      {
-        title: "Heating And Air Conditioning Systems",
-        image: {
-          src: "/home-1.svg",
-          alt: "Heating And Air Conditioning Systems",
-        },
-      },
-      {
-        title: "Plumbing Systems And Accessories",
-        image: {
-          src: "/home-2.svg",
-          alt: "Plumbing Systems And Accessories",
-        },
-      },
-      {
-        title: "Electrical Systems And Accessories",
-        image: {
-          src: "/home-3.svg",
-          alt: "Electrical Systems And Accessories",
-        },
-      },
-      {
-        title: "Maintenance Services",
-        image: {
-          src: "/home-4.svg",
-          alt: "Maintenance Services",
-        },
-      },
-    ],
-  },
-  appliances: {
-    header: "APPLIANCES",
-    items: [
-      {
-        title: "Refrigerator",
-        image: {
-          src: "/appliances-1.svg",
-          alt: "Refrigerator",
-        },
-      },
-      {
-        title: "Oven",
-        image: {
-          src: "/appliances-2.svg",
-          alt: "Oven",
-        },
-      },
-      {
-        title: "Washer / Dryer",
-        image: {
-          src: "/appliances-3.svg",
-          alt: "Washer / Dryer",
-        },
-      },
-      {
-        title: "Water Heater",
-        image: {
-          src: "/appliances-4.svg",
-          alt: "Water Heater",
-        },
-      },
-    ],
-    additionalText: "And More...",
-  },
-  callToAction: {
-    buttonText: "Call for help with your request",
-    contactText: "Or give us a call",
-    phoneNumber: "1-855-916-3700",
-    phoneHref: "tel:+18559163700",
-  },
-} as const
-
-
-
-
-
 export const REVIEW_CONTENT = {
-  header: "See What Our Customers Have To Say",
+  header: "Real Homeowners. Real Situations. Real Results.",
+  subheader: "Here's what homeowners in difficult situations had to say after working with Liz.",
   rating: {
-    
+    value: 4.2,
+    scale: 5,
+    reviewCount: 4519,
+    reviewText: "4.2 / 5",
+    reviewSubtext: "4,519 Verified Reviews",
     image: {
-      src: "/review.svg",
-      alt: "Google Review Rating",
-    },
-    reviewText:"Based on 1,500+ reviews",
+      src: "/google-review.svg", // Make sure this path matches your Google logo asset
+      alt: "Google"
+    }
   },
-
-
   reviews: [
     {
-     id: 1,
-      quote:
-        "We needed to move quickly for a job relocation. The process was straightforward, and we avoided months of showings while we figured out our next step.",
-      customer: {
-        name: "Sarah Matthews",
-        status: "Dallas, TX",
-        image: {
-          src: "/profile-1.svg",
-          alt: "Sarah Matthews",
-        },
-      },
-    },
-    {
-      id: 2,
-      quote:
-        "Inherited a property that needed work. We wanted clarity on options without committing to a long listing. Getting a cash path explained upfront made the decision easier.",
-      customer: {
-        name: "David Martinez",
-        status: "Orlando, FL",
-        image: {
-          src: "/profile-2.svg",
-          alt: "David Martinez",
-        },
-      },
-    },
-    {
-     
-      id: 3,
-      quote:
-        "We were behind on payments and stressed about timelines. Having someone walk through a simple next step—without pressure—helped us breathe again.",
-      customer: {
-        name: "Monica Patel",
-        status: "Phoenix, AZ",
-        image: {
-          src: "/profile-3.svg",
-          alt: "Monica Patel",
-        },
-      },
-    },
-  ],
-} as const
-
-
-export const FAQ_CONTENT = {
-  header: "Frequently Asked Questions",
-  faqs: [
-    {
       id: 1,
-      question: "What is a cash offer on my home?",
-      answer:
-        "It is a buyer’s proposal to purchase your property for an agreed price, often with a simpler timeline and fewer traditional sale steps than a retail listing.",
+      quote: "The process was incredibly easy from start to finish. We received a fair cash offer within a day and closed much faster than we expected.",
+      customer: {
+        name: "Sarah M.",
+        location: "Dallas, TX",
+        image: {
+          src: "/review-1.svg",
+          alt: "Sarah K.",
+        }
+      }
     },
     {
       id: 2,
-      question: "Does requesting an offer cost anything?",
-      answer:
-        "Submitting your information through Uncle Sam Buys Homes does not charge you a fee. Any offer or agreement would come from the buyer you choose to work with.",
+      quote: "I needed to sell my house quickly after relocating for work. Uncle Sam Buys Home made everything simple, and there were no hidden surprises.",
+      customer: {
+        name: "James R.",
+        location: "Phoenix, AZ",
+        image: {
+          src: "/review-2.svg",
+          alt: "James R.",
+        }
+      }
     },
     {
       id: 3,
-      question: "Do I have to make repairs first?",
-      answer:
-        "Many cash paths focus on buying as-is. Specific expectations depend on the buyer and your property, which is why we collect a few details up front.",
-    },
-    {
-      id: 4,
-      question: "Am I obligated if I submit the form?",
-      answer:
-        "No. Sharing your information helps us route you to interested buyers. You decide whether to move forward after you learn more.",
+      quote: "Selling through a traditional realtor wasn’t the right option for me. I appreciated the straightforward process and excellent communication throughout.",
+      customer: {
+        name: "Linda T.",
+        location: "Orlando, FL",
+        image: {
+          src: "/review-3.svg",
+          alt: "Linda T.",
+        }
+      }
     },
   ],
 } as const
+
+
+export const INFO_CONTENT = {
+  headline: "Whatever Your Situation -- There Is a Way Forward.",
+  subtext: "You don't have to figure this out alone. Get a free, no-obligation cash offer and let us help you take the next step -- on your terms, at your pace.",
+  
+  badges: [
+    {
+      icon: "/hero-1.svg",
+      text: "No Repairs Needed",
+    },
+    {
+      icon: "/hero-2.svg",
+      text: "Zero Fees",
+    },
+    {
+      icon: "/hero-3.svg",
+      text: "100% Confidential",
+    },
+  ],
+
+  image: {
+    src: "/info.webp", // Update with actual image asset path if different
+    alt: "Family sitting on couch looking at tablet together"
+  }
+} as const
+
+
+
+
 
 export const FOOTER_CONTENT = {
   description: SITE_BRAND.description,
