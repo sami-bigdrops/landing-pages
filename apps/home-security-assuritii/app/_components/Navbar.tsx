@@ -27,7 +27,7 @@ export default function Navbar({ contactLabel = "1-855-916-3700", contactHref = 
         />
       }
       contactText="Give us a call"
-      contactTextClassName="text-lg text-zinc-900 font-semibold hidden md:inline"
+      contactTextClassName="text-lg text-zinc-900 font-semibold hidden lg:inline"
       showContactIcon={false}
       contactHref={contactHref}
       contactLabel={contactLabel}

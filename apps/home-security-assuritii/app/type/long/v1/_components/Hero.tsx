@@ -14,38 +14,69 @@ export default function Hero() {
   useUtmParams(30)
 
   return (
-    <div className="relative w-full overflow-hidden py-8 md:py-10 lg:py-12">
+    <div className="relative w-full overflow-hidden bg-[#EDF2F9] lg:bg-transparent lg:py-14 lg:min-h-[32rem] xl:min-h-[34rem]">
       <div
         className={cn(
-          "absolute inset-0 bg-cover bg-no-repeat bg-[position:left_30%]",
-          "md:bg-[position:left_48%_center]",
-          "lg:bg-[position:left_32%_center]",
-          "xl:bg-[position:30%_center]",
+          "absolute inset-0 z-0 hidden bg-cover bg-no-repeat lg:block",
+          "bg-[position:left_32%_center] xl:bg-[position:30%_center]",
         )}
         style={{
           backgroundImage: `url(${HERO_CONTENT.image.src})`,
         }}
         aria-hidden
       />
-      <div className={cn(pageSectionInner, "relative z-10")}>
-        <div className="flex w-full flex-col items-stretch justify-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10 lg:gap-12 xl:gap-14">
-          <div className="left flex min-w-0 flex-1 flex-col items-center justify-center gap-4 md:items-start md:justify-center md:gap-5 lg:gap-6">
-            <h1 className="max-w-3xl text-center text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:max-w-4xl sm:text-4xl md:text-left md:text-4xl lg:max-w-[36rem] lg:text-5xl xl:max-w-[42rem]">
+      <div className="absolute inset-0 z-[1] hidden bg-black/45 lg:block" aria-hidden />
+
+      <div className="relative z-10 w-full lg:hidden">
+        <Image
+          src={HERO_CONTENT.image.src}
+          alt={HERO_CONTENT.image.alt}
+          width={1200}
+          height={800}
+          priority
+          className="h-auto w-full object-contain"
+        />
+      </div>
+
+      <div
+        className={cn(
+          pageSectionInner,
+          "relative z-10 flex flex-col gap-8 pb-8 pt-6 sm:pt-8 md:pb-10 md:pt-10",
+          "lg:min-h-[inherit] lg:justify-end lg:pb-8 lg:pt-0",
+        )}
+      >
+        <div className="flex w-full flex-col items-stretch justify-end gap-6 sm:gap-7 md:gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12 xl:gap-14">
+          <div className="left flex min-w-0 flex-1 flex-col items-center justify-end gap-3 sm:gap-3.5 md:gap-4 lg:items-start lg:gap-6">
+            <h1
+              className={cn(
+                "mx-auto max-w-[19rem] text-center text-[1.625rem] font-extrabold leading-[1.2] tracking-tight text-[#111827]",
+                "sm:max-w-[22rem] sm:text-[1.875rem] sm:leading-[1.18]",
+                "md:max-w-[28rem] md:text-[2rem] md:leading-[1.2]",
+                "lg:mx-0 lg:max-w-[36rem] lg:text-left lg:text-5xl lg:leading-[1.12] lg:text-white xl:max-w-[42rem]",
+              )}
+            >
               {HERO_CONTENT.headline}
             </h1>
-            <p className="max-w-xl text-center text-base font-normal leading-relaxed text-white/90 sm:text-lg md:text-left md:text-lg lg:text-xl">
+            <p
+              className={cn(
+                "mx-auto max-w-[18rem] text-center text-sm font-normal leading-relaxed text-[#374151]",
+                "sm:max-w-[20rem] sm:text-[0.9375rem] sm:leading-relaxed",
+                "md:max-w-[26rem] md:text-base md:leading-relaxed",
+                "lg:mx-0 lg:max-w-xl lg:text-left lg:text-xl lg:text-white/90",
+              )}
+            >
               {HERO_CONTENT.description}
             </p>
 
-            <div className="mt-1 flex w-full flex-col items-center justify-center gap-2.5 md:mt-0 md:items-start md:justify-start md:gap-3">
+            <div className="hidden w-full flex-col items-start justify-start gap-3 lg:flex">
               {HERO_CONTENT.badges.map((badge, idx) => (
                 <div
                   key={idx}
                   className={cn(
-                    "flex w-full max-w-[240px] items-center gap-2.5 rounded-[10px] bg-[rgba(237,242,249,0.40)] px-3 py-2.5 shadow-none transition sm:max-w-[260px] md:w-fit md:max-w-none",
-                    idx === 0 && "md:min-w-[5.5rem]",
-                    idx === 1 && "md:min-w-[8.5rem]",
-                    idx === 2 && "md:min-w-[12rem]",
+                    "flex w-fit items-center gap-2.5 rounded-[10px] bg-[rgba(237,242,249,0.40)] px-3 py-2.5 shadow-none transition",
+                    idx === 0 && "min-w-[5.5rem]",
+                    idx === 1 && "min-w-[8.5rem]",
+                    idx === 2 && "min-w-[12rem]",
                   )}
                   style={{
                     boxShadow: "0 4px 20px 0 rgba(0,40,104,0.15)",
@@ -56,16 +87,16 @@ export default function Hero() {
                     alt={`${badge.label} icon`}
                     width={24}
                     height={24}
-                    className="h-4 w-4 shrink-0 object-contain sm:h-5 sm:w-5"
+                    className="h-5 w-5 shrink-0 object-contain"
                   />
-                  <span className="text-left text-xs font-medium text-white sm:text-sm">
+                  <span className="text-left text-sm font-medium text-white">
                     {badge.label}
                   </span>
                 </div>
               ))}
             </div>
           </div>
-          <div className="right flex w-full shrink-0 items-center rounded-[30px] bg-white p-2 shadow-[0_4px_20px_0_rgba(0,40,104,0.15)] md:max-w-[min(100%,24rem)] lg:max-w-[26rem] xl:max-w-sm">
+          <div className="right mx-auto flex w-full max-w-[min(100%,28rem)] shrink-0 items-center rounded-[30px] bg-white p-2 shadow-[0_4px_20px_0_rgba(0,40,104,0.15)] lg:mx-0 lg:max-w-[26rem] xl:max-w-sm">
             <Form />
           </div>
         </div>
