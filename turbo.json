@@ -18,7 +18,9 @@
     "NEXT_PUBLIC_SITE_URL",
     "SES_EMAIL_UNSUBSCRIBE_URL",
     "SES_EMAIL_FOOTER_ADDRESS",
-    "TEST_EMAIL"
+    "TEST_EMAIL",
+    "HUNTER_API_KEY",
+    "HUNTER_API_KEY_2"
   ],
   "tasks": {
     "build": {
@@ -51,7 +53,9 @@
         "SES_EMAIL_UNSUBSCRIBE_URL",
         "SES_EMAIL_FOOTER_ADDRESS",
         "TEST_EMAIL",
-        "DASHBOARD_BRAND_ID"
+        "DASHBOARD_BRAND_ID",
+        "HUNTER_API_KEY",
+        "HUNTER_API_KEY_2"
       ]
     },
     "lint": {

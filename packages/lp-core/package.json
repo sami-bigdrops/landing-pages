@@ -24,6 +24,7 @@
     ".": "./src/index.ts",
     "./model": "./src/model/index.ts",
     "./view": "./src/view/index.ts",
-    "./controller": "./src/controller/index.ts"
+    "./controller": "./src/controller/index.ts",
+    "./server": "./src/server/index.ts"
   }
 }
