@@ -17,7 +17,7 @@ export default function Review({ onGetQuoteClick }: ReviewProps) {
             <div className="container mx-auto max-w-[1280px]">
                 <div className="help-content w-full flex flex-col items-center justify-center gap-7 md:gap-11 lg:gap-14 xl:gap-16">
                     <div className="flex flex-col items-center justify-center gap-2.5 md:gap-3">
-                        <h2 className="text-2xl text-center  md:text-2xl xl:text-[2.2rem] md:max-w-[450px] xl:max-w-[650px] font-bold text-#182542] text-center font-sans " style={{ lineHeight: '1.3' }}>
+                        <h2 className="text-2xl text-center  md:text-2xl xl:text-[2.2rem] md:max-w-[450px] xl:max-w-[650px] font-bold text-[#182542] text-center font-sans " style={{ lineHeight: '1.3' }}>
                             {REVIEW_CONTENT.header}
                         </h2>
 

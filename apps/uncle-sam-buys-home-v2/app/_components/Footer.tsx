@@ -14,8 +14,9 @@ export default function Footer() {
       links={[...FOOTER_CONTENT.links]}
       
       copyrightText={FOOTER_CONTENT.copyrightText}
+      copyrightClassName="text-white text-left md:text-center leading-relaxed"
       disclaimer={FOOTER_CONTENT.disclaimer}
-      disclaimerClassName="max-w-5xl"
+      disclaimerClassName="max-w-5xl text-left"
     />
   )
 }

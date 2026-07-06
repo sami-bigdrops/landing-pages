@@ -348,12 +348,15 @@ export const FOOTER_CONTENT = {
   description: SITE_BRAND.description,
   linkHeader: "Company",
   links: [
-    { text: "Privacy Policy", href: "/privacy-policy" },
-    { text: "Terms of Use", href: "/terms-of-use" },
+    { text: "TERMS OF USE", href: "/terms-of-use" },
+    { text: "PRIVACY POLICY", href: "/privacy-policy" },
+    { text: "DO NOT SELL MY INFO", href: "/do-not-sell-my-info" },
+    { text: "OPT OUT", href: "/opt-out" },
+    
   ],
-  copyrightText: "Copyright © 2026 UncleSamBuysHomes.com. All Rights Reserved.",
+  copyrightText: "Copyright © 2026 Uncle Sam Buys Home. All Rights Reserved.",
   disclaimer:
-    "Uncle Sam Buys Homes is a marketing platform that connects homeowners with companies involved in real estate transactions. The information you submit on this website is shared in real time with our network of partner companies. If your details match what a partner is looking for, they may contact you directly. In some cases, we may use SMS to help connect you with a provider or facilitate a call. We may receive compensation from these providers when they contact you or offer their services. You are not charged for using our platform. We do not guarantee that you will receive an offer, that any provider will accept your request, or that their services will meet your specific needs. The products or services offered may not always be the best available in the market. Submitting your information does not obligate you to purchase any service or product, and it does not obligate any provider to offer you a service. This website is intended for U.S. citizens only. We do not accept submissions from individuals outside the United States, including Canada and countries in the European Union.",
+    "Uncle Sam Buys Home is a marketing platform that connects homeowners with companies involved in real estate transactions. The information you submit on this website is shared in real time with our network of partner companies. If your details match what a partner is looking for, they may contact you directly. In some cases, we may use SMS to help connect you with a provider or facilitate a call. We may receive compensation from these providers when they contact you or offer their services. You are not charged for using our platform. We do not guarantee that you will receive an offer, that any provider will accept your request, or that their services will meet your specific needs. The products or services offered may not always be the best available in the market. Submitting your information does not obligate you to purchase any service or product, and it does not obligate any provider to offer you a service. This website is intended for U.S. citizens only. We do not accept submissions from individuals outside the United States, including Canada and countries in the European Union.",
 } as const
 
 
