@@ -395,20 +395,7 @@ function FormNavigation({
         </button>
 
       ) : null}
-      {showBack ? (
-        <button
-          type="button"
-          onClick={onBack}
-          className="flex cursor-pointer items-center gap-1.5 text-[0.9rem] font-semibold text-[#47514F] transition-colors hover:text-[#374151] xl:text-base"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-[#47514F] lg:h-4.5 lg:w-4.5 xl:h-5 xl:w-5">
-            <path d="M6.66667 4.66669C6.66667 4.86669 6.6 5.00002 6.46667 5.13335L3.13333 8.46669C2.86667 8.73335 2.46667 8.73335 2.2 8.46669C1.93333 8.20002 1.93333 7.80002 2.2 7.53335L5.53333 4.20002C5.8 3.93335 6.2 3.93335 6.46667 4.20002C6.6 4.33335 6.66667 4.46669 6.66667 4.66669Z" fill="#47514F" />
-            <path d="M6.66667 11.3333C6.66667 11.5333 6.6 11.6667 6.46667 11.8C6.2 12.0667 5.8 12.0667 5.53333 11.8L2.2 8.46667C1.93333 8.2 1.93333 7.8 2.2 7.53333C2.46667 7.26667 2.86667 7.26667 3.13333 7.53333L6.46667 10.8667C6.6 11 6.66667 11.1333 6.66667 11.3333Z" fill="#47514F" />
-            <path d="M14 8.00002C14 8.40002 13.7333 8.66669 13.3333 8.66669H2.66667C2.26667 8.66669 2 8.40002 2 8.00002C2 7.60002 2.26667 7.33335 2.66667 7.33335H13.3333C13.7333 7.33335 14 7.60002 14 8.00002Z" fill="#47514F" />
-          </svg>
-          Back
-        </button>
-      ) : null}
+      
     </nav>
   )
 }
@@ -561,7 +548,7 @@ function FormPage() {
   }
 
   return (
-    <section className="flex w-full min-h-[200px] flex-col items-center gap-8 md:min-h-[460px] md:gap-10 xl:min-h-[580px] xl:gap-12">
+    <section className="flex w-full min-h-[220px] flex-col items-center gap-8 md:min-h-[190px] md:gap-10 xl:min-h-[250px] xl:gap-12">
 
 
       <form
@@ -840,78 +827,84 @@ function FormPage() {
         ) : null}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         {currentStep === TOTAL_STEPS ? (
-          <section className={`${STEP_SHELL_FIELDS} items-center`}>
-            <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
 
-              <PhoneNumberInput
-                id="phoneNumber"
-                label=""
-                containerClassName={INPUT_CONTAINER}
-                value={formData.phone_number}
-                onChange={(v) => {
-                  handleInputChange("phone_number", v)
-                  if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
-                }}
-                placeholder="Enter Phone Number"
-                labelClassName="sr-only"
-                className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
-              />
-              {fieldErrors.phone ? (
-                <p className="text-xs text-red-600" role="alert">
-                  {fieldErrors.phone}
+          <div className="mt-1 flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+            <section className={INPUT_CARD_SHELL}>
+
+              <p className={OFFER_CARD_TITLE}>Final Step - What is your phone number?</p>
+
+              <div className="mt-1 flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
+                <PhoneNumberInput
+                  id="phoneNumber"
+                  label=""
+                  containerClassName={INPUT_CONTAINER}
+                  value={formData.phone_number}
+                  onChange={(v) => {
+                    handleInputChange("phone_number", v)
+                    if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
+                  }}
+                  placeholder="Phone Number"
+                  labelClassName="sr-only"
+                  className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
+                />
+                {fieldErrors.phone ? (
+                  <p className="text-xs text-red-600" role="alert">
+                    {fieldErrors.phone}
+                  </p>
+                ) : null}
+
+
+                <p className="text-justify text-[0.7rem] font-normal leading-relaxed text-[#4B5563] xl:text-[0.85rem]">
+                  By clicking Submit, I provide my express written consent for Uncle Sam Buys Home or its{" "}
+                  <a
+                    href="/partners"
+                    className="font-normal text-[#3399FF] underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    partners
+                  </a>
+                  , to contact me at the number and email provided for any home-related matters. I agree to receive marketing calls and texts, including by auto dialer, prerecorded messages, artificial voice, and email. I acknowledge that my consent is not required as a condition to obtaining services from these parties. I further acknowledge that message and data rates may apply, and message frequency varies. I can text HELP for help. Text STOP to cancel. Finally, I agree to these{" "}
+                  <a
+                    href="/terms-of-use"
+                    className="font-normal text-[#3399FF] underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Terms &amp; Conditions
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="/privacy-policy"
+                    className="font-normal text-[#3399FF] underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Privacy Policy
+                  </a>
+                  .
                 </p>
-              ) : null}
+           
 
-              <p className="text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
-                By clicking the button below, you acknowledge, consent, and agree to our terms at the bottom of this page.
-              </p>
+                {submitStatus === "error" && submitError ? (
+                  <p className="text-sm text-red-600" role="alert">
+                    {submitError}
+                  </p>
+                ) : null}
 
-              {submitStatus === "error" && submitError ? (
-                <p className="text-sm text-red-600" role="alert">
-                  {submitError}
-                </p>
-              ) : null}
+                <button
+                  type="submit"
+                  disabled={submitStatus === "loading"}
+                  className="w-full md:w-45 xl:w-47 rounded-[10px] bg-[#102E50] py-3 xl:py-4 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
+                >
+                  {submitStatus === "loading" ? "Submitting..." : "Submit"}
+                </button>
+              </div>
+         
+            </section>
+          </div>
 
-              <button
-                type="submit"
-                disabled={submitStatus === "loading"}
-                className="h-13 w-full cursor-pointer rounded-[10px] bg-[#C12026] py-3 text-sm font-medium uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:h-15 xl:text-lg"
-              >
-                {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
-              </button>
-
-              <p className="text-justify text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
-                By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree to our{" "}
-                <a href="/terms-of-use" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
-                  Terms and Conditions
-                </a>{" "}
-                and{" "}
-                <a href="/privacy-policy" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
-                  Privacy Policy
-                </a>
-                . Your consent, and e-signature, is not a condition of accessing our services. You may revoke your consent at any time by emailing{" "}
-                <a href="mailto:consent@unclesambuyshome.com" className="font-bold text-[#343434]">
-                  consent@unclesambuyshome.com
-                </a>
-                .
-              </p>
-            </div>
-
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
-          </section>
         ) : null}
 
 
