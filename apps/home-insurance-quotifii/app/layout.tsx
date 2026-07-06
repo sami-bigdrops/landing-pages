@@ -37,7 +37,29 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-      <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0132/1582.js" async={true}></script>
+        <meta
+          name="arohaa-verify"
+          content="Ov27xAYSR8yrIogCaJcXAQ94H79ew2z9"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `!function(w){if(w.arohaa)return;var a=function(){(a.q=a.q||[]).push(arguments)};a.q=[];a.l=Date.now();w.arohaa=a}(window);`,
+          }}
+        />
+        <script
+          src="https://cdn.arohaa.net/sdk.js"
+          async
+          data-wid="f09f813b-3037-43a4-b644-99b23b378e61"
+          data-api="https://api.arohaa.net"
+          data-lp-id="lp_s0kAPiNsNkZX1pHU"
+          data-page="homequotes.quotifii.com"
+          data-formtype="zip"
+        />
+        <script
+          type="text/javascript"
+          src="//script.crazyegg.com/pages/scripts/0132/1582.js"
+          async={true}
+        />
       </head>
       <body
         className={`${fontPoppins.variable} ${fontPoppins.className} antialiased overflow-x-hidden overflow-y-auto`}
