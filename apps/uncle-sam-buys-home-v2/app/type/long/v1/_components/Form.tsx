@@ -294,67 +294,40 @@ const OFFER_CARD_SHELL =
 const INPUT_CARD_SHELL =
   "flex w-full flex-col items-center gap-4 md:gap-5  xl:gap-6 rounded-[10px] border border-[#E2E8F0] bg-[#ECF1FB] shadow-[0_0_6px_0_rgba(16,46,80,0.15)] px-5 py-6 md:py-8 md:px-9 lg:px-9 xl:px-11 xl:py-10"
 const OFFER_CARD_TITLE =
-  "text-center font-sans text-base  xl:text-xl font-semibold text-[#182542]"
+  "text-center font-sans text-base  xl:text-[1.4rem] font-semibold text-[#182542]"
 const OFFER_CARD_DESCRIPTION =
   "text-center font-sans text-[0.8rem]  text-[#4B5563] xl:text-[0.95rem]"
 const OFFER_CHOICE_BTN =
-  "w-full flex h-13 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[10px] px-5 py-0 font-semibold text-[0.85rem] font-inherit text-[#3E3E3F] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-90 md:h-14 md:py-3.5 md:flex-1 xl:h-18.5 xl:py-4 lg:text-sm xl:text-lg border border-[#C12026]"
+  "w-full flex h-14 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[10px] px-5 py-0 font-semibold text-[0.85rem] font-inherit text-[#3E3E3F] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-90 md:h-14 md:py-3.5 md:flex-1 xl:h-18.5 xl:py-4 lg:text-sm xl:text-lg border border-[#C12026]"
 
-const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
-const STEP_SHELL_WIDE = "mx-auto flex w-full max-w-6xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
-const STEP_SHELL_VALUE = "mx-auto flex w-full max-w-5xl flex-col items-center gap-6 text-center md:gap-7 xl:gap-8"
-const STEP_SHELL_FIELDS = "mx-auto flex w-full max-w-3xl flex-col gap-5 md:gap-6"
-const STEP_TITLE = "text-center text-base font-medium text-[#1C1C1C] xl:text-xl"
-const GRID_2 = "grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-5"
-const GRID_SELL = "grid w-full grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3 xl:gap-5"
+const OFFER_CHOICE_LABEL_WRAP =
+  "w-full px-0.5 text-center text-[0.85rem] lg:text-sm xl:text-lg font-semibold text-[#3E3E3F] whitespace-normal md:px-0  leading-snug"
+
+
 const CHOICE_BTN =
   "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-6 xl:px-6 xl:py-8"
 const CHOICE_BTN_MLS =
   "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-7 xl:px-6 xl:py-10"
-const CHOICE_ICON = "h-9.5 w-9.5 shrink-0 object-contain md:h-10 md:w-10 xl:h-14 xl:w-14"
-const CHOICE_LABEL = "text-[0.85rem] font-semibold leading-normal text-[#343434] xl:text-base"
 const INPUT_CONTAINER = "w-full"
 const INPUT_FIELD =
   "h-14 w-full min-w-0 rounded-[6px] border border-[#CCCCCF] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#102E50] focus-visible:ring-[3px] focus-visible:ring-[#102E50]/25 xl:h-15 xl:text-base"
 const LABEL_CLASS = "text-sm font-medium text-[#1C1C1C] xl:text-base"
 
-type HowSoonToSellTypeId = (typeof HOW_SOON_TO_SELL_OPTIONS)[number]["id"]
-type RepairsAndMaintenanceTypeId = (typeof REPAIRS_AND_MAINTENANCE_OPTIONS)[number]["id"]
+type HowSoonToSellTypeId = (typeof HOW_SOON_TO_SELL_OPTIONS)[number]["id"] | ""
+type RepairsAndMaintenanceTypeId = (typeof REPAIRS_AND_MAINTENANCE_OPTIONS)[number]["id"] | ""
 type SellHouseForCashTypeId = (typeof SELL_HOUSE_FOR_CASH_OPTIONS)[number]["id"]
-type SellHouseTypeId = (typeof SELL_HOUSE_OPTIONS)[number]["id"]
+type SellHouseTypeId = (typeof SELL_HOUSE_OPTIONS)[number]["id"] | ""
 
-const HOUSE_VALUE_RANGES: { value: string; label: string }[] = [
-  { value: "u100", label: "Under $100K" },
-  { value: "100_150", label: "$100K to $150K" },
-  { value: "150_200", label: "$150K to $200K" },
-  { value: "200_250", label: "$200K to $250K" },
-  { value: "250_300", label: "$250K to $300K" },
-  { value: "300_350", label: "$300K to $350K" },
-  { value: "350_400", label: "$350K to $400K" },
-  { value: "400_450", label: "$400K to $450K" },
-  { value: "450_500", label: "$450K to $500K" },
-  { value: "500_550", label: "$500K to $550K" },
-  { value: "550_600", label: "$550K to $600K" },
-  { value: "600_700", label: "$600K to $700K" },
-  { value: "700_800", label: "$700K to $800K" },
-  { value: "800_900", label: "$800K to $900K" },
-  { value: "900k_1m", label: "$900K to $1M" },
-  { value: "1m_1_1", label: "$1M to $1.1M" },
-  { value: "1_1_1_2", label: "$1.1M to $1.2M" },
-  { value: "1_2_1_3", label: "$1.2M to $1.3M" },
-  { value: "1_3_1_4", label: "$1.3M to $1.4M" },
-  { value: "1_4_1_5", label: "$1.4M to $1.5M" },
-  { value: "1_5m_plus", label: "$1.5M+" },
-]
+
 
 const TOTAL_STEPS = 8
 
 const defaultFormData = {
-  howSoonToSell: "asap" as HowSoonToSellTypeId,
+  howSoonToSell: "" as HowSoonToSellTypeId,
   zipCode: "",
   sellHouseForCash: "yes" as SellHouseForCashTypeId,
-  sellHouse: "structural_damage" as SellHouseTypeId,
-  repairsAndMaintenance: "full_gut" as RepairsAndMaintenanceTypeId,
+  sellHouse: "" as SellHouseTypeId,
+  repairsAndMaintenance: "" as RepairsAndMaintenanceTypeId,
   houseValueRange: "500_550",
   first_name: "",
   last_name: "",
@@ -389,7 +362,7 @@ function FormNavigation({
           type="button"
           onClick={onNext}
           disabled={isNextDisabled}
-          className="w-full md:w-45 xl:w-47 rounded-[10px] bg-[#102E50] py-3 xl:py-4 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
+          className="w-full md:w-45 xl:w-47 rounded-[10px] bg-[#102E50] cursor-pointer py-3 xl:py-4 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
         >
           {nextLabel}
         </button>
@@ -403,10 +376,6 @@ function FormNavigation({
 function FormPage() {
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState(defaultFormData)
-  const [houseValueIndex, setHouseValueIndex] = useState(() => {
-    const idx = HOUSE_VALUE_RANGES.findIndex((r) => r.value === defaultFormData.houseValueRange)
-    return idx >= 0 ? idx : 9
-  })
 
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
@@ -578,7 +547,7 @@ function FormPage() {
                         setCurrentStep(2)
                       }}
                       aria-pressed={selected}
-                      className={`${OFFER_CHOICE_BTN} ${isYes ? "" : "bg-white hover:bg-white hover:text-[#3E3E3F]"}`}
+                      className={`${OFFER_CHOICE_BTN} ${isYes ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
                       style={
                         isYes
                           ? {
@@ -601,7 +570,7 @@ function FormPage() {
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
             <section className={OFFER_CARD_SHELL}>
               <p className={OFFER_CARD_TITLE}>{HOW_SOON_TO_SELL_TITLE}</p>
-              <div className="flex w-full flex-col items-center justify-center gap-3">
+              <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
                 {HOW_SOON_TO_SELL_OPTIONS.map(({ id, label }) => {
                   const selected = formData.howSoonToSell === id
 
@@ -615,7 +584,7 @@ function FormPage() {
                         setCurrentStep(3)
                       }}
                       aria-pressed={selected}
-                      className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-white hover:text-[#3E3E3F]"}`}
+                      className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
                       style={
                         selected
                           ? {
@@ -638,7 +607,7 @@ function FormPage() {
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
             <section className={OFFER_CARD_SHELL}>
               <p className={OFFER_CARD_TITLE}>{REPAIRS_AND_MAINTENANCE_TITLE}</p>
-              <div className="flex w-full flex-col items-center justify-center gap-3">
+              <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
                 {REPAIRS_AND_MAINTENANCE_OPTIONS.map(({ id, label }) => {
                   const selected = formData.repairsAndMaintenance === id
 
@@ -652,7 +621,7 @@ function FormPage() {
                         setCurrentStep(4)
                       }}
                       aria-pressed={selected}
-                      className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-white hover:text-[#3E3E3F]"}`}
+                      className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
                       style={
                         selected
                           ? {
@@ -662,7 +631,7 @@ function FormPage() {
                           : undefined
                       }
                     >
-                      {label}
+                      <span className={OFFER_CHOICE_LABEL_WRAP}>{label}</span>
                     </Button>
                   )
                 })}
@@ -675,7 +644,7 @@ function FormPage() {
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
             <section className={OFFER_CARD_SHELL}>
               <p className={OFFER_CARD_TITLE}>{SELL_HOUSE_TITLE}</p>
-              <div className="flex w-full flex-col items-center justify-center gap-3">
+              <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
                 {SELL_HOUSE_OPTIONS.map(({ id, label }) => {
                   const selected = formData.sellHouse === id
 
@@ -689,7 +658,7 @@ function FormPage() {
                         setCurrentStep(5)
                       }}
                       aria-pressed={selected}
-                      className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-white hover:text-[#3E3E3F]"}`}
+                      className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
                       style={
                         selected
                           ? {
@@ -699,7 +668,7 @@ function FormPage() {
                           : undefined
                       }
                     >
-                      {label}
+                      <span className={OFFER_CHOICE_LABEL_WRAP}>{label}</span>
                     </Button>
                   )
                 })}
