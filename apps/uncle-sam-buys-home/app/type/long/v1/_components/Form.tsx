@@ -11,6 +11,8 @@ import CashOfferCard from "./Card"
 import { PartnersDialog } from "./PartnersDialog"
 import { SubmissionLoadingScreen } from "./SubmissionLoadingScreen"
 
+const ANALYTICS_FLUSH_DELAY_MS = 300
+
 
 // --- Google Maps Places types (minimal) ---
 type GMapsPlacePrediction = {
@@ -95,6 +97,8 @@ function AddressAutocomplete({
   placeholder,
   labelClassName,
   className,
+  inputName,
+  dataArohaaField,
 }: {
   value: string
   city: string
@@ -105,6 +109,8 @@ function AddressAutocomplete({
   placeholder: string
   labelClassName?: string
   className?: string
+  inputName?: string
+  dataArohaaField?: string
 }) {
   const [predictions, setPredictions] = useState<GMapsPlacePrediction[]>([])
   const [showDropdown, setShowDropdown] = useState(false)
@@ -211,6 +217,8 @@ function AddressAutocomplete({
       <div className="relative">
         <input
           type="text"
+          name={inputName}
+          data-arohaa-field={dataArohaaField}
           value={value}
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={() => {
@@ -432,7 +440,10 @@ function FormPage() {
 
   const tryRedirect = useCallback(() => {
     if (apiReadyRef.current && animationReadyRef.current && redirectUrlRef.current) {
-      window.location.href = redirectUrlRef.current
+      const url = redirectUrlRef.current
+      window.setTimeout(() => {
+        window.location.href = url
+      }, ANALYTICS_FLUSH_DELAY_MS)
     }
   }, [])
 
@@ -594,6 +605,9 @@ function FormPage() {
       </h2>
 
       <form
+        id="lead-form"
+        method="POST"
+        action="/api/submit-form"
         onSubmit={handleLeadSubmit}
         noValidate
         className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 xl:gap-8"
@@ -609,7 +623,11 @@ function FormPage() {
         <TrustedForm />
 
         {currentStep === 1 ? (
-          <section className={STEP_SHELL}>
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="1"
+            data-arohaa-step-name="Confirm Your Home Type"
+          >
             <h3 className={STEP_TITLE}>Confirm Your Home Type</h3>
             <div className={GRID_2}>
               {HOME_TYPE_OPTIONS.map(({ id, label, Icon }) => {
@@ -635,9 +653,15 @@ function FormPage() {
         ) : null}
 
         {currentStep === 2 ? (
-          <section className={`${STEP_SHELL_FIELDS} items-center text-center`}>
+          <section
+            className={`${STEP_SHELL_FIELDS} items-center text-center`}
+            data-arohaa-step="2"
+            data-arohaa-step-name="Zip Code"
+          >
             <ZipCodeInput
               id="zipCode"
+              name="zipCode"
+              data-arohaa-field="zipCode"
               label="Zip Code"
               value={formData.zipCode}
               onChange={(v) => handleInputChange("zipCode", v)}
@@ -657,7 +681,11 @@ function FormPage() {
         ) : null}
 
         {currentStep === 3 ? (
-          <section className={STEP_SHELL}>
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="3"
+            data-arohaa-step-name="Tell Us About Your Property"
+          >
             <h3 className={STEP_TITLE}>Tell Us About Your Property!</h3>
             <div className={GRID_2}>
               {PROPERTY_TYPE_OPTIONS.map(({ id, label, Icon }) => {
@@ -684,7 +712,11 @@ function FormPage() {
         ) : null}
 
         {currentStep === 4 ? (
-          <section className={STEP_SHELL}>
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="4"
+            data-arohaa-step-name="MLS Listing"
+          >
             <h3 className={STEP_TITLE}>Is Your House Already Listed on the MLS?</h3>
             <div className={GRID_2}>
               {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
@@ -717,7 +749,11 @@ function FormPage() {
           </section>
         ) : null}
         {currentStep === 5 ? (
-          <section className={STEP_SHELL_WIDE}>
+          <section
+            className={STEP_SHELL_WIDE}
+            data-arohaa-step="5"
+            data-arohaa-step-name="Why Do You Want To Sell"
+          >
             <h3 className={STEP_TITLE}>Why Do You Want To Sell?</h3>
             <div className={GRID_SELL}>
               {SELL_OPTIONS.map(({ id, label, Icon }) => {
@@ -744,7 +780,11 @@ function FormPage() {
         ) : null}
 
         {currentStep === 6 ? (
-          <section className={STEP_SHELL}>
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="6"
+            data-arohaa-step-name="Timeline"
+          >
             <h3 className={STEP_TITLE}>How Soon Do You Want Your Money?</h3>
             <div className={GRID_2}>
               {MONEY_OPTIONS.map(({ id, label, Icon }) => {
@@ -771,7 +811,11 @@ function FormPage() {
         ) : null}
 
         {currentStep === 7 ? (
-          <section className={STEP_SHELL}>
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="7"
+            data-arohaa-step-name="Credit Rating"
+          >
             <h3 className={STEP_TITLE}>How Would You Rate Your Credit?</h3>
             <div className={GRID_2}>
               {CREDIT_OPTIONS.map(({ id, label, Icon }) => {
@@ -798,13 +842,19 @@ function FormPage() {
         ) : null}
 
         {currentStep === 8 ? (
-          <section className={STEP_SHELL_VALUE}>
+          <section
+            className={STEP_SHELL_VALUE}
+            data-arohaa-step="8"
+            data-arohaa-step-name="Estimate House Value"
+          >
             <h3 className={STEP_TITLE}>Estimate House Value</h3>
             <p className="text-xl font-medium text-[#182542] md:text-2xl xl:text-3xl">
               {HOUSE_VALUE_RANGES[houseValueIndex]?.label ?? ""}
             </p>
             <input
               type="range"
+              name="houseValueRange"
+              data-arohaa-field="houseValueRange"
               min={0}
               max={HOUSE_VALUE_RANGES.length - 1}
               step={1}
@@ -839,10 +889,16 @@ function FormPage() {
         ) : null}
 
         {currentStep === 9 ? (
-          <section className={`${STEP_SHELL_FIELDS} items-center`}>
+          <section
+            className={`${STEP_SHELL_FIELDS} items-center`}
+            data-arohaa-step="9"
+            data-arohaa-step-name="Contact Information"
+          >
             <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
               <TextInput
                 id="step6FirstName"
+                name="firstName"
+                data-arohaa-field="firstName"
                 label="First Name"
                 value={formData.first_name}
                 onChange={(e) => handleInputChange("first_name", e.target.value)}
@@ -852,6 +908,8 @@ function FormPage() {
               />
               <TextInput
                 id="step6LastName"
+                name="lastName"
+                data-arohaa-field="lastName"
                 label="Last Name"
                 value={formData.last_name}
                 onChange={(e) => handleInputChange("last_name", e.target.value)}
@@ -861,6 +919,8 @@ function FormPage() {
               />
               <TextInput
                 id="email"
+                name="email"
+                data-arohaa-field="email"
                 label="Email Address"
                 type="email"
                 value={formData.email}
@@ -889,10 +949,16 @@ function FormPage() {
         ) : null}
 
         {currentStep === TOTAL_STEPS ? (
-          <section className={`${STEP_SHELL_FIELDS} items-center`}>
+          <section
+            className={`${STEP_SHELL_FIELDS} items-center`}
+            data-arohaa-step="10"
+            data-arohaa-step-name="Address and Phone"
+          >
             <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
               <AddressAutocomplete
                 label="Street Address"
+                inputName="address"
+                dataArohaaField="address"
                 value={formData.street_address}
                 city={formData.city}
                 state={formData.state}
@@ -918,6 +984,8 @@ function FormPage() {
               />
               <PhoneNumberInput
                 id="phoneNumber"
+                name="phoneNumber"
+                data-arohaa-field="phoneNumber"
                 label="Phone Number"
                 value={formData.phone_number}
                 onChange={(v) => {
