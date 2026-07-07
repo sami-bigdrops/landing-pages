@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     ],
   },
   other: {
-    "arohaa-verify": "UfPQM9JECAG3h59PAveHdpjzYpDtYwB3",
+    "arohaa-verify": "DYU1XydGlivBXRgaXkImckKISdyDlY5V",
   },
 }
 
@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="arohaa-verify" content="UfPQM9JECAG3h59PAveHdpjzYpDtYwB3" />
+        <meta name="arohaa-verify" content="DYU1XydGlivBXRgaXkImckKISdyDlY5V" />
         <script
           dangerouslySetInnerHTML={{
             __html:
@@ -49,9 +49,9 @@ export default function RootLayout({
           id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="462a497d-9779-4df0-bccb-57b92b3f942d"
+          data-wid="847e0468-905e-46e7-8e9e-11b6a693c3d2"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_PZX-YRhm9okxJxtr"
+          data-lp-id="lp_DYFFNOWZsCUsjCdp"
           data-page="www.unclesambuyshomes.com"
           data-formtype="multiple"
         />
