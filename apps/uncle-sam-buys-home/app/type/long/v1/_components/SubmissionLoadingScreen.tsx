@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Image from "next/image"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 
 const LOADING_STEPS = [
@@ -60,14 +59,6 @@ export function SubmissionLoadingScreen({ active, onComplete }: SubmissionLoadin
     <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#F3F6FA]/95 px-4 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-[20px] border border-[#E5E7EB] bg-white p-6 shadow-[0_20px_50px_rgba(24,37,66,0.12)] md:p-8">
         <div className="flex flex-col items-center text-center">
-          <div className="relative mb-6 flex h-20 w-20 items-center justify-center">
-            <div className="absolute inset-0 animate-ping rounded-full bg-[#C12026]/15" />
-            <div className="absolute inset-2 animate-pulse rounded-full bg-[#C12026]/10" />
-            <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#182542]">
-              <Image src="/logo.svg" alt="Uncle Sam Buys Homes" width={40} height={40} className="h-9 w-auto" />
-            </div>
-          </div>
-
           <h2 className="text-xl font-bold text-[#182542] md:text-2xl">Hang tight</h2>
           <p className="mt-3 min-h-[3.5rem] text-sm leading-relaxed text-[#4B5563] transition-opacity duration-300 md:text-base">
             {LOADING_STEPS[currentStep]?.message}
