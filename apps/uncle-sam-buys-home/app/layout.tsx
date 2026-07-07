@@ -14,6 +14,7 @@ const fontPoppins = Poppins({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.unclesambuyshomes.com"),
   title: {
     default: SITE_BRAND.name,
     template: `%s | ${SITE_BRAND.name}`,
@@ -23,6 +24,9 @@ export const metadata: Metadata = {
     icon: [
       { url: "/favicon.png", type: "image/png" },
     ],
+  },
+  other: {
+    "arohaa-verify": "UfPQM9JECAG3h59PAveHdpjzYpDtYwB3",
   },
 }
 
@@ -48,7 +52,7 @@ export default function RootLayout({
           data-wid="462a497d-9779-4df0-bccb-57b92b3f942d"
           data-api="https://api.arohaa.net"
           data-lp-id="lp_PZX-YRhm9okxJxtr"
-          data-page="unclesambuyshomes.com"
+          data-page="www.unclesambuyshomes.com"
           data-formtype="multiple"
         />
       </head>
