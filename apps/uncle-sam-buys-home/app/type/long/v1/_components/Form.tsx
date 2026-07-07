@@ -8,6 +8,8 @@ import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 import CashOfferCard from "./Card"
+import { PartnersDialog } from "./PartnersDialog"
+import { SubmissionLoadingScreen } from "./SubmissionLoadingScreen"
 
 
 // --- Google Maps Places types (minimal) ---
@@ -310,6 +312,8 @@ const CHOICE_LABEL = "text-[0.85rem] font-semibold leading-normal text-[#343434]
 const INPUT_FIELD =
   "mt-2 h-14 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base"
 const LABEL_CLASS = "text-sm font-medium text-[#1C1C1C] xl:text-base"
+const PARTNER_LINK_CLASS =
+  "inline cursor-pointer border-0 bg-transparent p-0 font-bold text-[#343434] underline"
 
 type HomeTypeId = (typeof HOME_TYPE_OPTIONS)[number]["id"]
 type PropertyTypeId = (typeof PROPERTY_TYPE_OPTIONS)[number]["id"]
@@ -420,6 +424,22 @@ function FormPage() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
+  const [partnersOpen, setPartnersOpen] = useState(false)
+  const [showSubmissionLoading, setShowSubmissionLoading] = useState(false)
+  const redirectUrlRef = useRef<string | null>(null)
+  const apiReadyRef = useRef(false)
+  const animationReadyRef = useRef(false)
+
+  const tryRedirect = useCallback(() => {
+    if (apiReadyRef.current && animationReadyRef.current && redirectUrlRef.current) {
+      window.location.href = redirectUrlRef.current
+    }
+  }, [])
+
+  const handleLoadingComplete = useCallback(() => {
+    animationReadyRef.current = true
+    tryRedirect()
+  }, [tryRedirect])
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     if (field === "zipCode") {
@@ -487,6 +507,10 @@ function FormPage() {
     }
 
     setSubmitStatus("loading")
+    setShowSubmissionLoading(true)
+    redirectUrlRef.current = null
+    apiReadyRef.current = false
+    animationReadyRef.current = false
 
     const form = e.currentTarget
     const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
@@ -531,6 +555,7 @@ function FormPage() {
       if (!res.ok) {
         const errorMsg = typeof data.error === "string" ? data.error : "Submission failed"
         const fieldHint = (data as { field?: string }).field
+        setShowSubmissionLoading(false)
         if (fieldHint === "email" || (data as { invalidField?: string }).invalidField === "email") {
           setFieldErrors({ email: errorMsg })
           setSubmitStatus("error")
@@ -547,12 +572,16 @@ function FormPage() {
       }
 
       if (data.success && typeof data.redirectUrl === "string") {
-        window.location.href = data.redirectUrl
+        redirectUrlRef.current = data.redirectUrl
+        apiReadyRef.current = true
+        tryRedirect()
         return
       }
 
+      setShowSubmissionLoading(false)
       setSubmitStatus("idle")
     } catch {
+      setShowSubmissionLoading(false)
       setSubmitStatus("error")
       setSubmitError("Something went wrong. Please try again.")
     }
@@ -905,10 +934,6 @@ function FormPage() {
                 </p>
               ) : null}
 
-              <p className="text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
-                By clicking the button below, you acknowledge, consent, and agree to our terms at the bottom of this page.
-              </p>
-
               {submitStatus === "error" && submitError ? (
                 <p className="text-sm text-red-600" role="alert">
                   {submitError}
@@ -924,19 +949,44 @@ function FormPage() {
               </button>
 
               <p className="text-justify text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
-                By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree to our{" "}
+                By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to{" "}
+                <button
+                  type="button"
+                  onClick={() => setPartnersOpen(true)}
+                  className={PARTNER_LINK_CLASS}
+                >
+                  2 partners
+                </button>
+                ; that you are providing your prior express written consent for those{" "}
+                <button
+                  type="button"
+                  onClick={() => setPartnersOpen(true)}
+                  className={PARTNER_LINK_CLASS}
+                >
+                  partners
+                </button>{" "}
+                to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our{" "}
                 <a href="/terms-of-use" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
-                  Terms and Conditions
-                </a>{" "}
-                and{" "}
+                  Terms of Use
+                </a>
+                , including its{" "}
+                <a
+                  href="/terms-of-use#dispute-resolution"
+                  className="font-bold text-[#343434]"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Arbitration provision
+                </a>
+                , and{" "}
                 <a href="/privacy-policy" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
                   Privacy Policy
                 </a>
-                . Your consent, and e-signature, is not a condition of accessing our services. You may revoke your consent at any time by emailing{" "}
-                <a href="mailto:consent@unclesambuyshome.com" className="font-bold text-[#343434]">
-                  consent@unclesambuyshome.com
-                </a>
-                .
+                ; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email{" "}
+                <a href="mailto:consent@unclesambuyshomes.com" className="font-bold text-[#343434]">
+                  consent@unclesambuyshomes.com
+                </a>{" "}
+                and you can revoke your consent at any time by emailing us.
               </p>
             </div>
 
@@ -946,6 +996,9 @@ function FormPage() {
 
         <CashOfferCard />
       </form>
+
+      <PartnersDialog isOpen={partnersOpen} onClose={() => setPartnersOpen(false)} />
+      <SubmissionLoadingScreen active={showSubmissionLoading} onComplete={handleLoadingComplete} />
     </section>
   )
 }

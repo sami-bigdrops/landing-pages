@@ -198,7 +198,7 @@ export async function POST(request: NextRequest) {
         money: money,
         credit: credit,
         house_value_range: houseValueRange,
-        tcpa_text: 'By clicking "SEE MY INSTANT CASH OFFER" you electronically sign (pursuant to the ESIGN Act) and agree to our Terms and Conditions and Privacy Policy. Your consent, and e-signature, is not a condition of accessing our services. You may revoke your consent at any time by emailing consent@unclesambuyshome.com.',
+        tcpa_text: 'By clicking "SEE MY INSTANT CASH OFFER" you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to 2 partners; that you are providing your prior express written consent for those partners to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our Terms of Use, including its Arbitration provision, and Privacy Policy; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email consent@unclesambuyshomes.com and you can revoke your consent at any time by emailing us.',
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",

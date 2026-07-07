@@ -1,20 +1,20 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
-import { ThankYouContent, type ThankYouAd } from "@workspace/bdmg-component"
+import { ThankYouContent } from "@workspace/bdmg-component"
 import { SITE_BRAND, THANKYOU_CONTENT } from "@/lib/constant"
 import Navbar from "@/app/_components/Navbar"
 import Footer from "@/app/_components/Footer"
 
-const THANKYOU_ADS: ThankYouAd[] = [
-  {
-    image: "/2.png",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=115&sub1=pwe_{{utm_source}}&sub2={{utm_id}}",
-  },
-  {
-    image: "/3.jpg",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=113&sub1=pwe_{{utm_source}}&sub2={{utm_id}}",
-  },
-]
+// const THANKYOU_ADS: ThankYouAd[] = [
+//   {
+//     image: "/2.png",
+//     link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=115&sub1=pwe_{{utm_source}}&sub2={{utm_id}}",
+//   },
+//   {
+//     image: "/3.jpg",
+//     link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=113&sub1=pwe_{{utm_source}}&sub2={{utm_id}}",
+//   },
+// ]
 
 export const metadata: Metadata = {
   title: "Thank You",
@@ -47,7 +47,7 @@ export default function ThankYouPage() {
           confirmationDescription={THANKYOU_CONTENT.confirmationDescription}
           redirectPath="/"
           sendWelcomeEmail
-          ads={THANKYOU_ADS}
+          // ads={THANKYOU_ADS}
           loadingFallback={<ThankYouLoading />}
         />
       </Suspense>
