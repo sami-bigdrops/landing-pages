@@ -1,25 +1,12 @@
 "use client"
 
-import Image from "next/image"
-import { cn } from "@workspace/ui/lib/utils"
 import { OFFER_CONTENT } from "@/lib/constant"
-import { useRouter } from "next/navigation"
-import { Button } from "@workspace/ui/components/button";
 import Form from "./Form"
 
-type InfoProps = {
-    onGetQuoteClick?: () => void
-}
-
-export default function Info({ onGetQuoteClick }: InfoProps) {
-    const router = useRouter();
-
-    const handleGetFreeCashOffer = () => {
-        router.push("/form");
-    };
+export default function Offer() {
     return (
         <div
-
+            id="offer-section"
             className="bg-white w-full h-full px-6 py-8 md:px-6 md:py-10 lg:px-14 lg:py-12  xl:px-20 xl:py-18"
         >
             <div className="container mx-auto max-w-[1280px]">
