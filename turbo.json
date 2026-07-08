@@ -20,7 +20,9 @@
     "SES_EMAIL_FOOTER_ADDRESS",
     "TEST_EMAIL",
     "HUNTER_API_KEY",
-    "HUNTER_API_KEY_2"
+    "HUNTER_API_KEY_2",
+    "SET_HUNTER",
+    "SET_VERIPHONE"
   ],
   "tasks": {
     "build": {
@@ -55,7 +57,9 @@
         "TEST_EMAIL",
         "DASHBOARD_BRAND_ID",
         "HUNTER_API_KEY",
-        "HUNTER_API_KEY_2"
+        "HUNTER_API_KEY_2",
+        "SET_HUNTER",
+        "SET_VERIPHONE"
       ]
     },
     "lint": {

@@ -20,6 +20,10 @@ const REQUIRED_FIELDS = [
   "zipCode",
 ] as const
 
+function isEnvEnabled(value: string | undefined): boolean {
+  return value?.trim().toLowerCase() === "true"
+}
+
 function toE164(phone: string, defaultCountry = "US"): string {
   const digits = String(phone).replace(/\D/g, "")
   if (defaultCountry === "US") {
@@ -120,22 +124,28 @@ export async function POST(request: NextRequest) {
     }
 
     const emailTrimmed = String(email).trim()
-    const hunterResult = await verifyEmailWithHunter(emailTrimmed)
-    if (!hunterResult.ok) {
-      return NextResponse.json(
-        { error: hunterResult.message, field: "email" as const },
-        { status: 422 }
-      )
+    if (isEnvEnabled(process.env.SET_HUNTER)) {
+      const hunterResult = await verifyEmailWithHunter(emailTrimmed)
+      if (!hunterResult.ok) {
+        return NextResponse.json(
+          { error: hunterResult.message, field: "email" as const },
+          { status: 422 }
+        )
+      }
     }
 
-    const veriphoneKey = process.env.VERIPHONE_API_KEY
-    if (veriphoneKey) {
-      const verification = await verifyPhone(String(phoneNumber).trim(), veriphoneKey, "US")
-      if (!verification.valid) {
-        return NextResponse.json(
-          { error: verification.error ?? "Invalid phone number", field: "phoneNumber" },
-          { status: 400 }
-        )
+    if (isEnvEnabled(process.env.SET_VERIPHONE)) {
+      const veriphoneKey = process.env.VERIPHONE_API_KEY
+      if (!veriphoneKey) {
+        console.warn("[submit-form] SET_VERIPHONE is true but VERIPHONE_API_KEY is not set; skipping phone verification")
+      } else {
+        const verification = await verifyPhone(String(phoneNumber).trim(), veriphoneKey, "US")
+        if (!verification.valid) {
+          return NextResponse.json(
+            { error: verification.error ?? "Invalid phone number", field: "phoneNumber" },
+            { status: 400 }
+          )
+        }
       }
     }
 
