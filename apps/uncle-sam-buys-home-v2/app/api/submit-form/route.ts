@@ -5,13 +5,10 @@ import { verifyEmailWithHunter } from "@/lib/hunter-verify-email"
 import { geocodeAddress } from "@/lib/geocode-address"
 
 const REQUIRED_FIELDS = [
-  "homeType",
-  "propertyType",
-  "propertyList",
-  "sell",
-  "money",
-  "credit",
-  "houseValueRange",
+  "howSoonToSell",
+  "sellHouseForCash",
+  "repairsAndMaintenance",
+  "sellHouse",
   "firstName",
   "lastName",
   "address",
@@ -19,6 +16,9 @@ const REQUIRED_FIELDS = [
   "phoneNumber",
   "zipCode",
 ] as const
+
+const TCPA_TEXT =
+  'By clicking "SEE MY INSTANT CASH OFFER" you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to 2 partners; that you are providing your prior express written consent for those partners to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our Terms of Use, including its Arbitration provision, and Privacy Policy; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email consent@unclesambuyshomes.com and you can revoke your consent at any time by emailing us.'
 
 function toE164(phone: string, defaultCountry = "US"): string {
   const digits = String(phone).replace(/\D/g, "")
@@ -72,16 +72,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
 
     const {
-      homeType,
-      propertyType,
-      propertyList,
-      sell,
-      money,
-      credit,
-      houseValueRange,
+      howSoonToSell,
+      sellHouseForCash,
+      repairsAndMaintenance,
+      sellHouse,
       firstName,
       lastName,
       address,
+      city,
+      state,
       email,
       phoneNumber,
       zipCode,
@@ -89,6 +88,7 @@ export async function POST(request: NextRequest) {
       subid2,
       subid3,
       xxTrustedFormCertUrl,
+      xxTrustedFormToken,
     } = body
 
     const missingFields = REQUIRED_FIELDS.filter((field) => !body[field]?.trim?.())
@@ -103,8 +103,8 @@ export async function POST(request: NextRequest) {
 
     // Geocode city/state from the address on the server side
     const geocoded = await geocodeAddress(String(address).trim(), zipVal)
-    const resolvedCity = geocoded.city || (typeof body.city === "string" ? body.city : "")
-    const resolvedState = geocoded.state || (typeof body.state === "string" ? body.state : "")
+    const resolvedCity = geocoded.city || (typeof city === "string" ? city : "")
+    const resolvedState = geocoded.state || (typeof state === "string" ? state : "")
     console.log("[submit-form] geocoded:", { city: resolvedCity, state: resolvedState })
 
     if (isCaliforniaLead(resolvedState, zipVal)) {
@@ -146,6 +146,10 @@ export async function POST(request: NextRequest) {
       : request.headers.get("x-real-ip") || "unknown"
 
     const submittedPayload = {
+      howSoonToSell,
+      sellHouseForCash,
+      repairsAndMaintenance,
+      sellHouse,
       firstName,
       lastName,
       address,
@@ -154,17 +158,11 @@ export async function POST(request: NextRequest) {
       email: emailTrimmed,
       phoneNumber,
       zipCode,
-      homeType,
-      propertyType,
-      propertyList,
-      sell,
-      money,
-      credit,
-      houseValueRange,
       subid1: subid1 ?? "",
       subid2: subid2 ?? "",
       subid3: subid3 ?? "",
       xxTrustedFormCertUrl,
+      xxTrustedFormToken: xxTrustedFormToken ?? "",
       ip,
     }
     console.log("[submit-form] submitted:", JSON.stringify(submittedPayload, null, 2))
@@ -191,18 +189,16 @@ export async function POST(request: NextRequest) {
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,
-        home_type: homeType,
-        property_type: propertyType,
-        property_list: propertyList,
-        sell: sell,
-        money: money,
-        credit: credit,
-        house_value_range: houseValueRange,
-        tcpa_text: 'By clicking "SEE MY INSTANT CASH OFFER" you electronically sign (pursuant to the ESIGN Act) and agree to our Terms and Conditions and Privacy Policy. Your consent, and e-signature, is not a condition of accessing our services. You may revoke your consent at any time by emailing consent@unclesambuyshome.com.',
+        how_soon_to_sell: howSoonToSell,
+        sell_house_for_cash: sellHouseForCash,
+        repairs_and_maintenance: repairsAndMaintenance,
+        sell_house: sellHouse,
+        tcpa_text: TCPA_TEXT,
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",
         trustedform_cert_url: xxTrustedFormCertUrl ?? "",
+        trustedform_token: xxTrustedFormToken ?? "",
       }
 
       const logPayload = { ...formData, lp_key: formData.lp_key ? "[REDACTED]" : "" }

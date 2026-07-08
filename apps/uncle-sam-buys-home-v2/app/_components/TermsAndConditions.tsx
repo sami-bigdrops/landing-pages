@@ -1,6 +1,31 @@
 "use client"
 
+import { useEffect } from "react"
+
 export default function TermsAndConditions() {
+  useEffect(() => {
+    const scrollToHash = () => {
+      const hash = window.location.hash
+      if (!hash) return
+
+      const el = document.getElementById(hash.slice(1))
+      if (!el) return
+
+      window.scrollTo({ top: 0, behavior: "auto" })
+      window.setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" })
+      }, 50)
+    }
+
+    const timer = window.setTimeout(scrollToHash, 100)
+    window.addEventListener("hashchange", scrollToHash)
+
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener("hashchange", scrollToHash)
+    }
+  }, [])
+
   return (
     <div className="terms-and-conditions bg-[#F3F6FA] w-full h-full p-4 md:p-6 lg:px-14 lg:py-10 xl:px-20 xl:py-16">
       <div className="container mx-auto">
@@ -165,7 +190,7 @@ export default function TermsAndConditions() {
               </p>
             </div>
 
-            <div className="terms-section mt-4 md:mt-6">
+            <div id="dispute-resolution" className="terms-section mt-4 md:mt-6 scroll-mt-24">
               <h3 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#111827] font-sans">19. DISPUTE RESOLUTION.</h3>
               <p className="text-sm lg:text-[0.95rem] xl:text-[1.05rem] text-[#374151] font-sans mt-3 md:mt-4" style={{ lineHeight: '1.6' }}>
                 This Agreement will be interpreted in accordance with the laws of the State of California, without regard to the conflicts of laws principles thereof. You agree that any and all disputes, claims or controversies arising out of or relating to your visit to this Website, your dealings with the Company or its partners (whose names you have accessed and read), or this Agreement, its interpretation, performance, or breach, that are not resolved by informal negotiation within thirty (30) days (or any mutually agreed extension of time), shall be submitted to final and binding arbitration before a single arbitrator of the JAMS in Los Angeles, California. Either party may commence the arbitration process called for herein if good faith negotiations have failed by submitting a written demand for arbitration with JAMS, and providing a copy to the other party. The arbitration will be conducted in accordance with the provisions of JAMS&apos; Comprehensive Arbitration Rules and Procedures in effect at the time of submission of the demand for arbitration. Each party will bear their own costs of arbitration and attorney&apos;s fees. The Arbitrator may not award attorney fees or costs to either party in such arbitration. Judgment on the award rendered by the arbitrator may be entered in the Superior Court of California, Los Angeles County, or the United States District Court for the Central District of California. Notwithstanding the foregoing, the following shall not be subject to arbitration and may be adjudicated only in the Superior Court of California, Los Angeles County, or the United States District Court for the Central District of California: any dispute, controversy, or claim relating to or contesting the validity of Company&apos; proprietary rights, including without limitation, trademarks, service marks, copyrights, or trade secrets. To the fullest extent permitted by applicable law, no arbitration under this Agreement shall be joined to an arbitration involving any other party subject to this Agreement, whether through class arbitration proceedings or otherwise. You waive any and all rights to bring any claim in another form other than individual form, including the right to bring a class action in any forum, arbitration or otherwise.

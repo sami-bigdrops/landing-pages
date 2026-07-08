@@ -1,21 +1,19 @@
 "use client"
 
 import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent } from "react"
-import Image from "next/image"
-import { ProgressBar } from "@workspace/ui/components/progress-bar"
-import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
+
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { Button } from "@workspace/ui/components/button"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 import { OFFER_CONTENT } from "@/lib/constant"
+import { PartnersDialog } from "./PartnersDialog"
 
 
 
 // --- Google Maps Places types (minimal) ---
 type GMapsPlacePrediction = {
   place_id: string
-  description: string
   structured_formatting: {
     main_text: string
     secondary_text: string
@@ -269,15 +267,15 @@ const REPAIRS_AND_MAINTENANCE_TITLE = "What kind of repairs and maintenance does
 const SELL_HOUSE_TITLE = "Why are you selling your house?"
 
 const REPAIRS_AND_MAINTENANCE_OPTIONS = [
-  { id: "full_gut", label: "Full Gut - Everything - $$$$", Icon: "/house.svg" },
-  { id: "remodel", label: "Remodel - Kitchen, Bathrooms, Roof - $$$", Icon: "/broken-home.svg" },
-  { id: "cosmetic", label: "Cosmetic - Flooring, Paint - $$", Icon: "/home-renovation.svg" },
-  { id: "none", label: "None - TV Commercial Ready - $", Icon: "/happy-house.svg" },
+  { id: "full_gut", label: "Full Gut - Everything - $$$$" },
+  { id: "remodel", label: "Remodel - Kitchen, Bathrooms, Roof - $$$" },
+  { id: "cosmetic", label: "Cosmetic - Flooring, Paint - $$" },
+  { id: "none", label: "None - TV Commercial Ready - $" },
 ] as const
 
 const SELL_HOUSE_FOR_CASH_OPTIONS = [
-  { id: "yes", label: "Yes", Icon: "/yes.svg" },
-  { id: "no", label: "No", Icon: "/no.svg" },
+  { id: "yes", label: "Yes" },
+  { id: "no", label: "No" },
 ] as const
 
 const SELL_HOUSE_OPTIONS = [
@@ -303,15 +301,9 @@ const OFFER_CHOICE_BTN =
 const OFFER_CHOICE_LABEL_WRAP =
   "w-full px-0.5 text-center text-[0.85rem] lg:text-sm xl:text-lg font-semibold text-[#3E3E3F] whitespace-normal md:px-0  leading-snug"
 
-
-const CHOICE_BTN =
-  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-6 xl:px-6 xl:py-8"
-const CHOICE_BTN_MLS =
-  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-7 xl:px-6 xl:py-10"
 const INPUT_CONTAINER = "w-full"
 const INPUT_FIELD =
   "h-14 w-full min-w-0 rounded-[6px] border border-[#CCCCCF] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#102E50] focus-visible:ring-[3px] focus-visible:ring-[#102E50]/25 xl:h-15 xl:text-base"
-const LABEL_CLASS = "text-sm font-medium text-[#1C1C1C] xl:text-base"
 
 type HowSoonToSellTypeId = (typeof HOW_SOON_TO_SELL_OPTIONS)[number]["id"] | ""
 type RepairsAndMaintenanceTypeId = (typeof REPAIRS_AND_MAINTENANCE_OPTIONS)[number]["id"] | ""
@@ -328,7 +320,6 @@ const defaultFormData = {
   sellHouseForCash: "yes" as SellHouseForCashTypeId,
   sellHouse: "" as SellHouseTypeId,
   repairsAndMaintenance: "" as RepairsAndMaintenanceTypeId,
-  houseValueRange: "500_550",
   first_name: "",
   last_name: "",
   phone_number: "",
@@ -339,21 +330,17 @@ const defaultFormData = {
 }
 
 type FormNavigationProps = {
-  showBack?: boolean
   showNext?: boolean
   isNextDisabled?: boolean
   nextLabel?: string
   onNext: () => void
-  onBack: () => void
 }
 
 function FormNavigation({
-  showBack = false,
   showNext = true,
   isNextDisabled = false,
   nextLabel = "Next",
   onNext,
-  onBack,
 }: FormNavigationProps) {
   return (
     <nav className="flex w-full max-w-lg flex-col items-center gap-4 md:gap-5">
@@ -380,11 +367,9 @@ function FormPage() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
+  const [partnersOpen, setPartnersOpen] = useState(false)
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
-    if (field === "zipCode") {
-      value = value.replace(/\D/g, "").slice(0, 5)
-    }
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
@@ -405,11 +390,6 @@ function FormPage() {
   const handleNext = () => {
     if (!isStepValid() || currentStep >= TOTAL_STEPS) return
     setCurrentStep((prev) => prev + 1)
-  }
-
-  const handleBack = () => {
-    if (currentStep <= 1) return
-    setCurrentStep((prev) => prev - 1)
   }
 
   const handleLeadSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -458,7 +438,6 @@ function FormPage() {
       sellHouseForCash: formData.sellHouseForCash,
       sellHouse: formData.sellHouse,
       repairsAndMaintenance: formData.repairsAndMaintenance,
-      houseValueRange: formData.houseValueRange,
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
       address: formData.street_address.trim(),
@@ -716,7 +695,6 @@ function FormPage() {
                   showNext
                   isNextDisabled={!isStepValid()}
                   onNext={handleNext}
-                  onBack={handleBack}
                 />
               </div>
             </section>
@@ -752,7 +730,6 @@ function FormPage() {
                   showNext
                   isNextDisabled={!isStepValid()}
                   onNext={handleNext}
-                  onBack={handleBack}
                 />
               </div>
             </section>
@@ -788,7 +765,6 @@ function FormPage() {
                   showNext
                   isNextDisabled={!isStepValid()}
                   onNext={handleNext}
-                  onBack={handleBack}
                 />
               </div>
             </section>
@@ -825,25 +801,39 @@ function FormPage() {
 
 
                 <p className="text-justify text-[0.7rem] font-normal leading-relaxed text-[#4B5563] xl:text-[0.85rem]">
-                  By clicking Submit, I provide my express written consent for Uncle Sam Buys Home or its{" "}
-                  <a
-                    href="/partners"
-                    className="font-normal text-[#3399FF] underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to{" "}
+                  <button
+                    type="button"
+                    onClick={() => setPartnersOpen(true)}
+                    className="inline cursor-pointer border-0 bg-transparent p-0 font-normal text-[#3399FF] underline"
+                  >
+                    2 partners
+                  </button>
+                  ; that you are providing your prior express written consent for those{" "}
+                  <button
+                    type="button"
+                    onClick={() => setPartnersOpen(true)}
+                    className="inline cursor-pointer border-0 bg-transparent p-0 font-normal text-[#3399FF] underline"
                   >
                     partners
-                  </a>
-                  , to contact me at the number and email provided for any home-related matters. I agree to receive marketing calls and texts, including by auto dialer, prerecorded messages, artificial voice, and email. I acknowledge that my consent is not required as a condition to obtaining services from these parties. I further acknowledge that message and data rates may apply, and message frequency varies. I can text HELP for help. Text STOP to cancel. Finally, I agree to these{" "}
+                  </button>{" "}
+                  to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our{" "}
                   <a
                     href="/terms-of-use"
                     className="font-normal text-[#3399FF] underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Terms &amp; Conditions
-                  </a>{" "}
-                  and{" "}
+                    Terms of Use
+                  </a>
+                  , including its{" "}
+                  <a
+                    href="/terms-of-use#dispute-resolution"
+                    className="font-normal text-[#3399FF] underline"
+                  >
+                    Arbitration provision
+                  </a>
+                  , and{" "}
                   <a
                     href="/privacy-policy"
                     className="font-normal text-[#3399FF] underline"
@@ -852,7 +842,14 @@ function FormPage() {
                   >
                     Privacy Policy
                   </a>
-                  .
+                  ; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email{" "}
+                  <a
+                    href="mailto:consent@unclesambuyshomes.com"
+                    className="font-normal text-[#3399FF] underline"
+                  >
+                    consent@unclesambuyshomes.com
+                  </a>{" "}
+                  and you can revoke your consent at any time by emailing us.
                 </p>
            
 
@@ -865,9 +862,9 @@ function FormPage() {
                 <button
                   type="submit"
                   disabled={submitStatus === "loading"}
-                  className="w-full md:w-45 xl:w-47 rounded-[10px] bg-[#102E50] py-3 xl:py-4 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
+                  className="w-full md:w-60 xl:w-70 rounded-[10px] bg-[#102E50] py-3 xl:py-4 text-sm font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
                 >
-                  {submitStatus === "loading" ? "Submitting..." : "Submit"}
+                  {submitStatus === "loading" ? "Submitting..." : "SEE MY INSTANT CASH OFFER"}
                 </button>
               </div>
          
@@ -878,6 +875,9 @@ function FormPage() {
 
 
       </form>
+
+      <PartnersDialog isOpen={partnersOpen} onClose={() => setPartnersOpen(false)} />
+      
     </section>
   )
 }
