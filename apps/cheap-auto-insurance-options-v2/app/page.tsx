@@ -2,9 +2,9 @@ import { Metadata } from "next"
 import HomeContent from "@/app/_components/HomeContent"
 
 export const metadata: Metadata = {
-  title: "Quotifii",
+  title: "Cheap Auto Insurance Options",
   description:
-    "Quotifii provides top-quality auto insurance services across the USA. We offer auto insurance, expert installation, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+    "Cheap Auto Insurance Options helps drivers find affordable auto insurance plans quickly and easily. Compare quotes and save on car insurance with trusted providers at cheapautoinsuranceoptions.com.",
 }
 
 export default function Page() {

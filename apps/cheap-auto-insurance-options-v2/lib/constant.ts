@@ -1,5 +1,14 @@
 //  sections constants
 
+export const TOP_NAV_CONTENT = {
+  headline: "Fast Insurance Quotes From the Nation’s Best Companies",
+} as const
+
+export const NAVBAR_CONTENT = {
+  contactPhoneLabel: "855-581-3316",
+  contactPhoneHref: "tel:+18555813316",
+} as const
+
 export const HERO_CONTENT = {
   headline: "Let's drop your rate in {city_name} today!",
   image: {

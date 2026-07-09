@@ -3,7 +3,7 @@ import { and, eq } from "drizzle-orm"
 import { getUtmBlockRedirect } from "@workspace/lp-core/middleware"
 
 import { collectTrackingParams } from "@/lib/collect-tracking-params"
-import { db } from "@/lib/db"
+import { getDb } from "@/lib/db"
 import { utmParams } from "@/lib/db/schema"
 
 const BRAND_ID = "quotifii"
@@ -47,6 +47,12 @@ export async function proxy(request: NextRequest) {
   if (utmMap.size === 0) return response
 
   applyUtmCookies(response, utmMap)
+
+  const db = getDb()
+  if (!db) {
+    console.warn("[utm-middleware] DATABASE_URL is not set; skipping UTM persistence")
+    return response
+  }
 
   try {
     for (const [key, value] of utmMap) {

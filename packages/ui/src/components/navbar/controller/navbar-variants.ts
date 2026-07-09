@@ -14,6 +14,8 @@ export const navbarVariants = cva(
           "min-h-14 px-4 sm:px-6 md:px-8 [&>div:first-child]:flex-1 [&>div:first-child]:gap-4 [&>div:last-child]:ml-auto",
         "2":
           "min-h-14 px-4 sm:px-6 md:px-8 justify-center [&>div]:!flex-none",
+        "3":
+          "relative min-h-14 px-4 sm:px-6 md:px-8 justify-center",
       },
     },
     defaultVariants: {
