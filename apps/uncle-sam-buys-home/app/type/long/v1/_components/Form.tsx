@@ -10,6 +10,7 @@ import { TrustedForm, getCookie } from "@workspace/lp-core"
 import CashOfferCard from "./Card"
 import { PartnersDialog } from "./PartnersDialog"
 import { SubmissionLoadingScreen } from "./SubmissionLoadingScreen"
+import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
 
 const ANALYTICS_FLUSH_DELAY_MS = 300
 
@@ -22,6 +23,7 @@ type GMapsPlacePrediction = {
     main_text: string
     secondary_text: string
   }
+  terms?: Array<{ offset: number; value: string }>
 }
 
 type GMapsAddressComponent = {
@@ -86,11 +88,47 @@ function loadGoogleMaps(apiKey: string): Promise<void> {
   return googleMapsLoadPromise
 }
 
+function normalizeZip(zip: string): string {
+  return zip.replace(/\D/g, "").slice(0, 5)
+}
+
+function predictionMatchesZip(pred: GMapsPlacePrediction, zipCode: string): boolean {
+  const zip = normalizeZip(zipCode)
+  if (zip.length !== 5) return false
+
+  const haystack = `${pred.description} ${pred.structured_formatting.secondary_text}`.toLowerCase()
+  if (haystack.includes(zip)) return true
+
+  return pred.terms?.some((term) => normalizeZip(term.value) === zip) ?? false
+}
+
+function verifyPredictionZip(
+  placesService: GMapsPlacesService,
+  placeId: string,
+  expectedZip: string
+): Promise<boolean> {
+  return new Promise((resolve) => {
+    placesService.getDetails(
+      { placeId, fields: ["address_components"] },
+      (place) => {
+        if (!place?.address_components) {
+          resolve(true)
+          return
+        }
+        const postal = place.address_components.find((c) => c.types.includes("postal_code"))
+        const zip = postal ? normalizeZip(postal.long_name) : ""
+        resolve(!zip || zip === expectedZip)
+      }
+    )
+  })
+}
+
 // --- Google Places Autocomplete Component ---
 function AddressAutocomplete({
   value,
   city,
   state,
+  zipCode,
   onChange,
   onSelect,
   label,
@@ -103,6 +141,7 @@ function AddressAutocomplete({
   value: string
   city: string
   state: string
+  zipCode: string
   onChange: (v: string) => void
   onSelect: (result: AddressResult) => void
   label: string
@@ -148,33 +187,71 @@ function AddressAutocomplete({
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    setPredictions([])
+    setShowDropdown(false)
+  }, [zipCode])
+
   const fetchPredictions = useCallback(
     (input: string) => {
-      if (!autocompleteRef.current || !mapsReady) return
+      const zip = normalizeZip(zipCode)
+      if (!autocompleteRef.current || !mapsReady || zip.length !== 5) return
       setIsFetching(true)
       autocompleteRef.current.getPlacePredictions(
-        { input, types: ["address"], componentRestrictions: { country: "us" } },
+        {
+          input: `${input}, ${zip}`,
+          types: ["address"],
+          componentRestrictions: { country: "us" },
+        },
         (preds, status) => {
           setIsFetching(false)
           const win = window as unknown as GMapsWindow
           const OK = win.google?.maps?.places?.PlacesServiceStatus?.OK ?? "OK"
-          if (status === OK && preds) {
-            setPredictions(preds)
-            setShowDropdown(true)
-          } else {
+          if (status !== OK || !preds) {
             setPredictions([])
             setShowDropdown(false)
+            return
           }
+
+          const textFiltered = preds.filter((pred) => predictionMatchesZip(pred, zip))
+          if (textFiltered.length > 0) {
+            setPredictions(textFiltered)
+            setShowDropdown(true)
+            return
+          }
+
+          if (!placesRef.current) {
+            setPredictions([])
+            setShowDropdown(false)
+            return
+          }
+
+          setIsFetching(true)
+          Promise.all(
+            preds.slice(0, 5).map(async (pred) => {
+              const matches = await verifyPredictionZip(placesRef.current!, pred.place_id, zip)
+              return matches ? pred : null
+            })
+          )
+            .then((verified) => {
+              const verifiedPreds = verified.filter((pred): pred is GMapsPlacePrediction => pred !== null)
+              setPredictions(verifiedPreds)
+              setShowDropdown(verifiedPreds.length > 0)
+            })
+            .finally(() => {
+              setIsFetching(false)
+            })
         }
       )
     },
-    [mapsReady]
+    [mapsReady, zipCode]
   )
 
   const handleInputChange = (inputValue: string) => {
     onChange(inputValue)
     if (debounceRef.current) clearTimeout(debounceRef.current)
-    if (!inputValue.trim() || inputValue.length < 3) {
+    const zip = normalizeZip(zipCode)
+    if (!inputValue.trim() || inputValue.length < 3 || zip.length !== 5) {
       setPredictions([])
       setShowDropdown(false)
       return
@@ -185,31 +262,70 @@ function AddressAutocomplete({
   const handleSelect = (pred: GMapsPlacePrediction) => {
     setShowDropdown(false)
     setPredictions([])
-    onChange(pred.structured_formatting.main_text)
-    if (!placesRef.current) return
+
+    const selectedMainText = pred.structured_formatting.main_text.trim()
+    const fallbackCityState = parseCityStateFromPrediction(pred)
+    const expectedZip = normalizeZip(zipCode)
+
+    onChange(selectedMainText)
+
+    const applySelection = (result: AddressResult) => {
+      onChange(result.streetAddress)
+      onSelect(result)
+    }
+
+    if (!placesRef.current) {
+      applySelection({
+        streetAddress: selectedMainText,
+        city: fallbackCityState.city,
+        state: fallbackCityState.state,
+        zipCode: expectedZip,
+      })
+      return
+    }
+
     placesRef.current.getDetails(
       { placeId: pred.place_id, fields: ["address_components"] },
       (place) => {
-        if (!place?.address_components) return
-        let streetNumber = ""
-        let route = ""
-        let parsedCity = ""
-        let parsedState = ""
-        let parsedZip = ""
-        for (const c of place.address_components) {
-          if (c.types.includes("street_number")) streetNumber = c.long_name
-          if (c.types.includes("route")) route = c.long_name
-          if (c.types.includes("locality")) parsedCity = c.long_name
-          if (c.types.includes("sublocality_level_1") && !parsedCity) parsedCity = c.long_name
-          if (c.types.includes("administrative_area_level_1")) parsedState = c.short_name
-          if (c.types.includes("postal_code")) parsedZip = c.long_name
+        if (!place?.address_components) {
+          applySelection({
+            streetAddress: selectedMainText,
+            city: fallbackCityState.city,
+            state: fallbackCityState.state,
+            zipCode: expectedZip,
+          })
+          return
         }
-        const streetAddress = streetNumber ? `${streetNumber} ${route}` : route
-        onChange(streetAddress)
-        onSelect({ streetAddress, city: parsedCity, state: parsedState, zipCode: parsedZip })
+
+        const { streetNumber, route, parsedCity, parsedState, parsedZip } = parseAddressComponents(
+          place.address_components
+        )
+        const parsedZipDigits = normalizeZip(parsedZip)
+
+        if (expectedZip.length === 5 && parsedZipDigits && parsedZipDigits !== expectedZip) {
+          applySelection({
+            streetAddress: selectedMainText,
+            city: fallbackCityState.city,
+            state: fallbackCityState.state,
+            zipCode: expectedZip,
+          })
+          return
+        }
+
+        const streetAddress =
+          (streetNumber ? `${streetNumber} ${route}`.trim() : route.trim()) || selectedMainText
+
+        applySelection({
+          streetAddress,
+          city: parsedCity || fallbackCityState.city,
+          state: parsedState || fallbackCityState.state,
+          zipCode: parsedZipDigits || expectedZip,
+        })
       }
     )
   }
+
+  const zipReady = normalizeZip(zipCode).length === 5
 
   return (
     <div className="w-full relative" ref={containerRef}>
@@ -224,9 +340,10 @@ function AddressAutocomplete({
           onFocus={() => {
             if (predictions.length > 0) setShowDropdown(true)
           }}
-          placeholder={placeholder}
+          placeholder={zipReady ? placeholder : "Enter a valid zip code first"}
           className={className}
           autoComplete="off"
+          disabled={!zipReady}
         />
         {isFetching ? (
           <span className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 rounded-full border-2 border-[#102E50] border-t-transparent animate-spin" aria-hidden />
@@ -455,6 +572,12 @@ function FormPage() {
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     if (field === "zipCode") {
       value = value.replace(/\D/g, "").slice(0, 5)
+      setFormData((prev) => ({
+        ...prev,
+        zipCode: value,
+        ...(prev.zipCode !== value ? { street_address: "", city: "", state: "" } : {}),
+      }))
+      return
     }
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
@@ -551,6 +674,7 @@ function FormPage() {
     }
 
     try {
+      console.log("[submit-form] Form data submitted:", payload)
       const res = await fetch("/api/submit-form", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -561,6 +685,22 @@ function FormPage() {
         success?: boolean
         redirectUrl?: string
         field?: string
+        leadProsper?: {
+          received: boolean
+          status?: string
+          reason?: string
+        }
+      }
+
+      if (data.leadProsper) {
+        const { received, status, reason } = data.leadProsper
+        if (received) {
+          console.log(`[submit-form] LeadProsper status: RECEIVED${status ? ` (${status})` : ""}`)
+        } else {
+          console.log(
+            `[submit-form] LeadProsper status: NOT RECEIVED${reason ? ` — ${reason}` : ""}${status ? ` (${status})` : ""}`
+          )
+        }
       }
 
       if (!res.ok) {
@@ -962,6 +1102,7 @@ function FormPage() {
                 value={formData.street_address}
                 city={formData.city}
                 state={formData.state}
+                zipCode={formData.zipCode}
                 onChange={(v) => {
                   handleInputChange("street_address", v)
                   if (!v) {
@@ -975,7 +1116,6 @@ function FormPage() {
                     street_address: result.streetAddress,
                     city: result.city,
                     state: result.state,
-                    ...(result.zipCode ? { zipCode: result.zipCode } : {}),
                   }))
                 }}
                 placeholder="Enter Street Address"

@@ -29,3 +29,15 @@ export {
   isMalformedStoredUtmValue,
 } from './utm-params';
 export type { QuotifiiTrackingQueryKey, StoredUtmParamKey } from './utm-params';
+
+export type {
+  BlockedUtmResponse,
+  BlockedUtmSets,
+} from './utm-block';
+export {
+  DEFAULT_UTM_DENIED_PATH,
+  isAccessDeniedPath,
+  isUtmBlocked,
+  normalizeDeniedPath,
+  toBlockedUtmSets,
+} from './utm-block';

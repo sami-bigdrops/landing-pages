@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { sendSubmissionConfirmationEmail } from "@/lib/send-submission-email"
 import { verifyEmailWithHunter } from "@/lib/hunter-verify-email"
 import { geocodeAddress } from "@/lib/geocode-address"
+import { pingLeadProsper, postLeadProsper } from "@/lib/leadprosper"
 
 const REQUIRED_FIELDS = [
   "homeType",
@@ -105,14 +106,16 @@ export async function POST(request: NextRequest) {
 
     const zipVal = typeof zipCode === "string" ? zipCode : String(zipCode ?? "")
 
-    // Geocode city/state from the address on the server side
+    // Resolve city/state from client payload, geocoding, or zip lookup fallback
     const geocoded = await geocodeAddress(String(address).trim(), zipVal)
-    const resolvedCity = geocoded.city || (typeof body.city === "string" ? body.city : "")
-    const resolvedState = geocoded.state || (typeof body.state === "string" ? body.state : "")
+    const bodyCity = typeof body.city === "string" ? body.city.trim() : ""
+    const bodyState = typeof body.state === "string" ? body.state.trim() : ""
+    const resolvedCity = bodyCity || geocoded.city
+    const resolvedState = bodyState || geocoded.state
     console.log("[submit-form] geocoded:", { city: resolvedCity, state: resolvedState })
 
     if (isCaliforniaLead(resolvedState, zipVal)) {
-      console.log("[submit-form] Rejected: California")
+      console.log("[submit-form] LeadProsper status: NOT SENT (lead rejected — California)")
       return NextResponse.json(
         {
           success: true,
@@ -124,6 +127,30 @@ export async function POST(request: NextRequest) {
     }
 
     const emailTrimmed = String(email).trim()
+
+    const submittedFormData = {
+      firstName,
+      lastName,
+      address,
+      city: resolvedCity,
+      state: resolvedState,
+      email: emailTrimmed,
+      phoneNumber,
+      zipCode: zipVal,
+      homeType,
+      propertyType,
+      propertyList,
+      sell,
+      money,
+      credit,
+      houseValueRange,
+      subid1: subid1 ?? "",
+      subid2: subid2 ?? "",
+      subid3: subid3 ?? "",
+      xxTrustedFormCertUrl: xxTrustedFormCertUrl ?? "",
+    }
+    console.log("[submit-form] Form data submitted:", JSON.stringify(submittedFormData, null, 2))
+
     if (isEnvEnabled(process.env.SET_HUNTER)) {
       const hunterResult = await verifyEmailWithHunter(emailTrimmed)
       if (!hunterResult.ok) {
@@ -155,41 +182,101 @@ export async function POST(request: NextRequest) {
       ? firstForwarded.trim()
       : request.headers.get("x-real-ip") || "unknown"
 
-    const submittedPayload = {
-      firstName,
-      lastName,
-      address,
-      city: resolvedCity,
-      state: resolvedState,
-      email: emailTrimmed,
-      phoneNumber,
-      zipCode,
-      homeType,
-      propertyType,
-      propertyList,
-      sell,
-      money,
-      credit,
-      houseValueRange,
-      subid1: subid1 ?? "",
-      subid2: subid2 ?? "",
-      subid3: subid3 ?? "",
-      xxTrustedFormCertUrl,
-      ip,
-    }
-    console.log("[submit-form] submitted:", JSON.stringify(submittedPayload, null, 2))
-
     const hasLeadProsper =
       process.env.LEADPROSPER_CAMPAIGN_ID &&
       process.env.LEADPROSPER_SUPPLIER_ID &&
       process.env.LEADPROSPER_API_KEY &&
       process.env.LEADPROSPER_API_URL
 
+    let leadProsperStatus: {
+      received: boolean
+      status?: string
+      reason?: string
+    } = {
+      received: false,
+      reason: "not_configured",
+    }
+
     if (hasLeadProsper) {
+      const campaignId = process.env.LEADPROSPER_CAMPAIGN_ID!
+      const supplierId = process.env.LEADPROSPER_SUPPLIER_ID!
+      const apiKey = process.env.LEADPROSPER_API_KEY!
+      const zip = String(zipCode).trim()
+
+      const pingResult = await pingLeadProsper({
+        campaignId,
+        supplierId,
+        apiKey,
+        zipCode: zip,
+        subid1: subid1 ?? "",
+        subid2: subid2 ?? "",
+      })
+
+      if (!pingResult.ok) {
+        console.error("[submit-form] LeadProsper PING status: NOT RECEIVED (invalid JSON response)")
+        if (pingResult.raw) {
+          console.error("[submit-form] LeadProsper PING invalid JSON:", pingResult.raw)
+        }
+        return NextResponse.json(
+          { success: false, error: "Lead submission failed", leadProsper: { received: false, reason: "invalid_ping_response" } },
+          { status: 400 }
+        )
+      }
+
+      const pingResponse = pingResult.data
+      if (pingResponse.status === "ERROR") {
+        leadProsperStatus = {
+          received: false,
+          status: pingResponse.status,
+          reason: pingResponse.message ?? "ping_error",
+        }
+        console.log(
+          `[submit-form] LeadProsper PING status: NOT RECEIVED (${pingResponse.status}${pingResponse.code != null ? `, code ${pingResponse.code}` : ""}${pingResponse.message ? ` — ${pingResponse.message}` : ""})`
+        )
+        const code = pingResponse.code
+        const qs =
+          typeof code === "number" && Number.isFinite(code)
+            ? `?code=${encodeURIComponent(String(code))}`
+            : ""
+        return NextResponse.json(
+          {
+            success: true,
+            rejected: true,
+            redirectUrl: `/rejected${qs}`,
+            leadProsper: leadProsperStatus,
+          },
+          { status: 200 }
+        )
+      }
+
+      if (pingResponse.status !== "ACCEPTED" || !pingResponse.ping_id) {
+        leadProsperStatus = {
+          received: false,
+          status: pingResponse.status,
+          reason: "ping_not_accepted",
+        }
+        console.log(
+          `[submit-form] LeadProsper PING status: NOT RECEIVED (unexpected status: ${pingResponse.status ?? "none"})`
+        )
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Lead submission failed",
+            leadProsper: leadProsperStatus,
+          },
+          { status: 400 }
+        )
+      }
+
+      console.log(
+        `[submit-form] LeadProsper PING status: ACCEPTED (ping_id: ${pingResponse.ping_id})`
+      )
+
       const formData = {
-        lp_campaign_id: process.env.LEADPROSPER_CAMPAIGN_ID,
-        lp_supplier_id: process.env.LEADPROSPER_SUPPLIER_ID,
-        lp_key: process.env.LEADPROSPER_API_KEY,
+        lp_campaign_id: campaignId,
+        lp_supplier_id: supplierId,
+        lp_key: apiKey,
+        lp_ping_id: pingResponse.ping_id,
         lp_subid1: subid1 ?? "",
         lp_subid2: subid2 ?? "",
         lp_subid3: subid3 ?? "",
@@ -197,7 +284,7 @@ export async function POST(request: NextRequest) {
         last_name: String(lastName).trim(),
         email: emailTrimmed,
         phone: leadProsperPhoneDigits(String(phoneNumber)),
-        zip_code: String(zipCode).trim(),
+        zip_code: zip,
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,
@@ -215,35 +302,29 @@ export async function POST(request: NextRequest) {
         trustedform_cert_url: xxTrustedFormCertUrl ?? "",
       }
 
-      const logPayload = { ...formData, lp_key: formData.lp_key ? "[REDACTED]" : "" }
-      console.log("[submit-form] formData:", JSON.stringify(logPayload, null, 2))
+      const postResult = await postLeadProsper(formData)
 
-      const apiResponse = await fetch(process.env.LEADPROSPER_API_URL!, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
-
-      const rawResponse = await apiResponse.text()
-      let result: { status?: string; code?: number; message?: string }
-      try {
-        result = JSON.parse(rawResponse)
-      } catch {
-        console.error("[submit-form] LeadProsper invalid JSON:", rawResponse.slice(0, 500))
+      if (!postResult.ok) {
+        console.error("[submit-form] LeadProsper POST status: NOT RECEIVED (invalid JSON response)")
+        if (postResult.raw) {
+          console.error("[submit-form] LeadProsper POST invalid JSON:", postResult.raw)
+        }
         return NextResponse.json(
-          { success: false, error: "Lead submission failed" },
+          { success: false, error: "Lead submission failed", leadProsper: { received: false, reason: "invalid_response" } },
           { status: 400 }
         )
       }
 
+      const result = postResult.data
+
       if (result.status === "ERROR") {
-        console.warn(
-          "[submit-form] LeadProsper ERROR:",
-          result.code,
-          result.message ?? rawResponse.slice(0, 200)
+        leadProsperStatus = {
+          received: false,
+          status: result.status,
+          reason: result.message ?? "error",
+        }
+        console.log(
+          `[submit-form] LeadProsper status: NOT RECEIVED (${result.status}${result.code != null ? `, code ${result.code}` : ""}${result.message ? ` — ${result.message}` : ""})`
         )
         const code = result.code
         const qs =
@@ -255,6 +336,7 @@ export async function POST(request: NextRequest) {
             success: true,
             rejected: true,
             redirectUrl: `/rejected${qs}`,
+            leadProsper: leadProsperStatus,
           },
           { status: 200 }
         )
@@ -262,15 +344,32 @@ export async function POST(request: NextRequest) {
 
       const acceptedStatuses = ["ACCEPTED", "DUPLICATED"]
       if (!result.status || !acceptedStatuses.includes(result.status)) {
+        leadProsperStatus = {
+          received: false,
+          status: result.status,
+          reason: "unexpected_status",
+        }
+        console.log(
+          `[submit-form] LeadProsper status: NOT RECEIVED (unexpected status: ${result.status ?? "none"})`
+        )
         return NextResponse.json(
           {
             success: false,
             error: "Lead submission failed",
             leadProsperStatus: result.status,
+            leadProsper: leadProsperStatus,
           },
           { status: 400 }
         )
       }
+
+      leadProsperStatus = {
+        received: true,
+        status: result.status,
+      }
+      console.log(`[submit-form] LeadProsper status: RECEIVED (${result.status})`)
+    } else {
+      console.log("[submit-form] LeadProsper status: NOT SENT (LeadProsper env not configured)")
     }
 
     const sent = await sendSubmissionConfirmationEmail({
@@ -294,6 +393,7 @@ export async function POST(request: NextRequest) {
         redirectUrl: `/thankyou?email=${encodeURIComponent(emailTrimmed)}`,
         accessToken,
         expiresAt,
+        leadProsper: leadProsperStatus,
       },
       { status: 200 }
     )

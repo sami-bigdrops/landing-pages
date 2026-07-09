@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { and, eq } from "drizzle-orm"
 import { collectStoredUtmParams } from "@workspace/lp-core"
+import { getUtmBlockRedirect } from "@workspace/lp-core/middleware"
 
 import { db } from "@/lib/db"
 import { utmParams } from "@/lib/db/schema"
@@ -8,6 +9,14 @@ import { utmParams } from "@/lib/db/schema"
 const BRAND_ID = "quotifii"
 const UTM_PRODUCT_ID = "auto_veterans_quotifii"
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 90
+const utmBlockConfig = {
+  wid: process.env.AROHAA_LANDING_PAGE_ID ?? process.env.NEXT_PUBLIC_AROHAA_WID ?? "",
+  apiBase:
+    process.env.AROHAA_INGEST_API_BASE ??
+    process.env.NEXT_PUBLIC_AROHAA_INGEST_API_BASE ??
+    "https://api.arohaa.net",
+  deniedPath: process.env.AROHAA_UTM_DENIED_PATH ?? "/access-denied",
+}
 
 function collectUtmParams(request: NextRequest): Map<string, string> {
   return collectStoredUtmParams({
@@ -28,8 +37,11 @@ function applyUtmCookies(response: NextResponse, utmMap: Map<string, string>) {
 }
 
 export async function middleware(request: NextRequest) {
-  const deniedPath = "/access-denied"
+  const deniedPath = utmBlockConfig.deniedPath ?? "/access-denied"
   const { pathname } = request.nextUrl
+
+  const utmRedirect = await getUtmBlockRedirect(request, utmBlockConfig)
+  if (utmRedirect) return utmRedirect
 
   if (pathname === deniedPath || pathname.includes(".")) {
     return NextResponse.next()
