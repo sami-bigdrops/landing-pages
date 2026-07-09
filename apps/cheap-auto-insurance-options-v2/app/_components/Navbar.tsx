@@ -10,7 +10,7 @@ export default function Navbar() {
     <NavbarUI
       variant="default"
       type="3"
-      className="border-b-0 bg-white py-5 px-4 lg:px-10 xl:px-22 xl:py-6 2xl:px-26"
+      className="border-b-0 bg-white py-5 px-4 lg:px-10 xl:px-22 xl:py-7 2xl:px-26"
       contactHref={NAVBAR_CONTENT.contactPhoneHref}
       contactLabel={NAVBAR_CONTENT.contactPhoneLabel}
       contactText="Call us"

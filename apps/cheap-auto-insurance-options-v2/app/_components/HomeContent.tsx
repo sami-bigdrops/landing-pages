@@ -15,7 +15,6 @@ export default function HomeContent() {
       <TopNav />
       <Navbar />
       <Hero />
-      <Partners />
       <Review />
       <Features />
       <Options /> 

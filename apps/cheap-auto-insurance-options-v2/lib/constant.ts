@@ -10,17 +10,15 @@ export const NAVBAR_CONTENT = {
 } as const
 
 export const HERO_CONTENT = {
-  headline: "Let's drop your rate in {city_name} today!",
-  image: {
-    src: "/hero.webp",
-    alt: "Quotifii"
-  },
+  headline: "Save up to 50% on Your Car Insurance.",
+  description: "Compare Auto Insurance Quotes Instantly.",
+ 
  
   
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "We partner with top providers",
+  header: "Fast Insurance Quotes From the Nation’s Best Companies",
 
   partners: [
     { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
