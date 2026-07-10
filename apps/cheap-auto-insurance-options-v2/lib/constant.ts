@@ -12,9 +12,9 @@ export const NAVBAR_CONTENT = {
 export const HERO_CONTENT = {
   headline: "Save up to 50% on Your Car Insurance.",
   description: "Compare Auto Insurance Quotes Instantly.",
- 
- 
-  
+
+
+
 } as const
 
 export const PARTNERS_CONTENT = {
@@ -30,98 +30,48 @@ export const PARTNERS_CONTENT = {
   ],
 } as const
 
-export const OPTIONS_CONTENT = {
-  header: "A Better Rate Could Be Waiting In Your ZIP",
-  description: "Tell us the basics and we’ll line up options worth a look.",
+export const HELP_CONTENT = {
+  header: "We’ve Helped Over 4 Million People Save Money on Their Insurance Since 2004",
+  features: [
+    {
+      title: "Compare Rates from #1 Top Rated Brands",
 
-  image: {
-    src: "/quokka.webp",
-    alt: "Quokka Image",
+      icon: "/tick.svg",
+    },
+    {
+      title: "100% Safe & Secure",
+
+      icon: "/tick.svg",
+    },
+    {
+      title: "Get Multiple Quotes for Free in Less than 3 minutes",
+
+      icon: "/tick.svg",
+    },
+    {
+      title: "Save up to 50% by comparing offers",
+
+      icon: "/tick.svg",
+    },
+  ],
+
+  phonePrompt: "Rather Get a Quote by Phone? Talk to an Agent",
+  phone: {
+    label: "855-581-3316",
+    href: "tel:+18555813316",
+    icon: "/help-call.svg",
+
   },
-  
+
 } as const
 
-export const REVIEW_CONTENT = {
-  header: "What Our Customers Say",
-  
-  reviews: [
-    {
-     id: 1,
-      quote: "I didn’t expect it to be this simple. I answered a few questions, compared options, and ended up switching to a better rate the same day. Having an agent walk me through everything really helped.",
-      customer: {
-        name: "Amanda Reynolds",
-        location: "San Diego, CA",
-        image: {
-          src: "/profile-1.svg",
-          alt: "Amanda Reynolds",
-        },
-      },
-    },
-    {
-      id: 2,
-      quote: "I liked that I could see different quotes in one place instead of jumping between websites. The process was quick, and I felt confident about the coverage I chose.",
-      customer: {
-        name: "Jason M.",
-        location: "Austin, TX",
-        image: {
-          src: "/profile-2.svg",
-          alt: "Jason M.",
-        },
-      },
-    },
-    {
-     
-      id: 3,
-      quote: "I was paying way more than I should have. Quotifii helped me find a more affordable option in minutes, and the agent explained everything clearly. Super easy experience.",
-      customer: {
-        name: "Priya S",
-        location: "Edison, NJ",
-        image: {
-          src: "/profile-3.svg",
-          alt: "Priya S",
-        },
-      },
-    },
-  ],
-} as const
 
-export const FEATURES_CONTENT = {
-  header: "A Smarter Way To Shop For Coverage",
-  steps: [
-    {
-      number: 1,
-      title: "Multi-Vehicle Savings",
-      description: "One household, more than one car? Bundle options in seconds and see what changes.",
-      image: {
-        src: "/feature-1.svg",
-        alt: "Multi-Vehicle Savings",
-      },
-    },
-    {
-      number: 2,
-      title: "Safe Driver Discounts",
-      description: "If you drive sensibly, your rate should notice. We help you spot discounts you may qualify for.",
-      image: {
-        src: "/feature-2.svg",
-        alt: "Safe Driver Discounts",
-      },
-    },
-    {
-      number: 3,
-      title: "24/7 Roadside Assistance",
-      description: "Flat tire, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
-      image: {
-        src: "/feature-3.svg",
-        alt: "24/7 Roadside Assistance",
-      },
-    },
-  ],
-} as const
+
 
 
 
 export const FOOTER_CONTENT = {
-  
+
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },

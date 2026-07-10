@@ -3,11 +3,9 @@
 import Navbar from "@/app/_components/Navbar"
 import TopNav from "@/app/type/long/v1/_components/Top-nav"
 import Hero from "@/app/type/long/v1/_components/Hero"
-import Review from "@/app/type/long/v1/_components/Review"
+import Help from "@/app/type/long/v1/_components/Help"
 import Footer from "@/app/_components/Footer"
-import Partners from "@/app/type/long/v1/_components/Partners"
-import Options from "@/app/type/long/v1/_components/Options"
-import Features from "@/app/type/long/v1/_components/Features"
+
 
 export default function HomeContent() {
   return (
@@ -15,9 +13,7 @@ export default function HomeContent() {
       <TopNav />
       <Navbar />
       <Hero />
-      <Review />
-      <Features />
-      <Options /> 
+      <Help />
       <Footer />
     </div>
   )
