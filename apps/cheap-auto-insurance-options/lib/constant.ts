@@ -1,10 +1,40 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Let's drop your rate in {city_name} today!",
+  headline: "Get Cheap Auto Insurance Quotes Instantly",
+  description:
+    "Compare trusted auto insurance quotes and find the right coverage at the right price.",
+    mobileBadges: [
+      {
+        icon: "/hero-1.svg",
+        text: "Free Quotes",
+      },
+      {
+        icon: "/hero-2.svg",
+        text: "Takes Just 2 Minutes",
+      },
+      {
+        icon: "/hero-3.svg",
+        text: "Compare Multiple Providers",
+      },
+    ],
+    desktopBadges: [
+      {
+        icon: "/hero-4.svg",
+        text: "Free Quotes",
+      },
+      {
+        icon: "/hero-5.svg",
+        text: "Compare Multiple Providers",
+      },
+      {
+        icon: "/hero-6.svg",
+        text: "Takes Just 2 Minutes",
+      },
+    ],
   image: {
+    alt: "A couple in a modern kitchen discussing their home",
     src: "/hero.webp",
-    alt: "Quotifii"
   },
  
   
