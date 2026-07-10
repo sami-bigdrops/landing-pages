@@ -39,7 +39,7 @@ export default function RootLayout({
       <head>
         <meta
           name="arohaa-verify"
-          content="Ov27xAYSR8yrIogCaJcXAQ94H79ew2z9"
+          content="R-C_hMNp3dhsayd_Hkgb9TLBNxOr-dIN"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -47,12 +47,13 @@ export default function RootLayout({
           }}
         />
         <script
+          id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="f09f813b-3037-43a4-b644-99b23b378e61"
+          data-wid="e67c1393-4b41-4b45-983d-95f7fa1e6cca"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_s0kAPiNsNkZX1pHU"
-          data-page="homequotes.quotifii.com"
+          data-lp-id="lp_mHzRY--jiuJRnV90"
+          data-page="homeinsurance.quotifii.com"
           data-formtype="zip"
         />
         <script
