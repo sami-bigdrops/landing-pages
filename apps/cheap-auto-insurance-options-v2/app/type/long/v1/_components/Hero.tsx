@@ -104,10 +104,10 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[510px]">
+    <div className="relative w-full h-full ">
 
 
-      <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-14 py-6 md:py-6 md:px-8 lg:py-7 xl:px-28 xl:py-10">
+      <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-14 py-6 md:py-6 md:px-8 lg:py-7 xl:px-28 xl:py-12">
         <div className="container mx-auto max-w-[1300px] ">
           <div className="hero-content w-full flex flex-col items-center justify-center  gap-5 md:gap-10 xl:gap-11 ">
             <div className="w-full flex flex-col items-center justify-center  gap-5 md:gap-7 xl:gap-9">

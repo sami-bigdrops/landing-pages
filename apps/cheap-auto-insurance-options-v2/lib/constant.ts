@@ -72,13 +72,25 @@ export const HELP_CONTENT = {
 
 export const FOOTER_CONTENT = {
 
-  links: [
-    { text: "Privacy Policy", href: "/privacy-policy" },
-    { text: "Terms of Use", href: "/terms-of-use" },
-    { text: "Contact ", href: "/contact" },
+  linkRows: [
+    [
+      { text: "Privacy Policy", href: "/privacy-policy" },
+      { text: "Terms of Use", href: "/terms-of-use" },
+      { text: "Do not sell my personal information", href: "/do-not-sell-my-personal-information" },
+      { text: "Contact us", href: "/contact" },
+      { text: "About us", href: "/about" },
+    ],
+    [
+      { text: "California Privacy Choices", href: "/california-privacy-choices" },
+      { text: "Cookies and Other Technology", href: "/cookies-and-other-technology" },
+    ],
   ],
 
-  copyrightText: "Copyright © 2026 Quotifii. All Rights Reserved.",
+  disclaimer: [
+    "Cheap Auto Insurance Options is a digital insurance comparison platform that helps consumers compare auto insurance options through its network of insurance carriers, agencies, and licensed partners across the United States. We may receive compensation from our partner providers when you are connected with their products or services. Cheap Auto Insurance Options is not affiliated with any federal, state, or government agency.",
+    "The lowest advertised rates may not be available from all insurance providers or in all locations. Rates and coverage options are based on the information you provide and may vary depending on factors such as your location, driving history, age, vehicle type, coverage selections, deductibles, discounts, and other underwriting criteria. Quotes displayed or advertised are for illustrative purposes only and do not guarantee availability or eligibility.",
+    "As part of our commitment to providing a quality user experience, Cheap Auto Insurance Options and its service providers may monitor, record, and retain activity on this website and its associated links for quality assurance, security, training, analytics, and service improvement purposes.",
+  ],
 } as const
 
 export const THANKYOU_CONTENT = {
