@@ -3,7 +3,15 @@ import { NextRequest, NextResponse } from "next/server"
 import { sendSubmissionConfirmationEmail } from "@/lib/send-submission-email"
 import { verifyEmailWithHunter } from "@/lib/hunter-verify-email"
 import { geocodeAddress } from "@/lib/geocode-address"
-import { pingLeadProsper, postLeadProsper } from "@/lib/leadprosper"
+import {
+  mapPropertyCondition,
+  mapPropertyType,
+  mapPropertyValue,
+  mapRealtorListing,
+  mapReasonForSelling,
+  mapTimeframe,
+  postLeadProsper,
+} from "@/lib/leadprosper"
 
 const REQUIRED_FIELDS = [
   "homeType",
@@ -202,115 +210,61 @@ export async function POST(request: NextRequest) {
       const supplierId = process.env.LEADPROSPER_SUPPLIER_ID!
       const apiKey = process.env.LEADPROSPER_API_KEY!
       const zip = String(zipCode).trim()
+      const trustedFormUrl =
+        typeof xxTrustedFormCertUrl === "string" ? xxTrustedFormCertUrl.trim() : ""
+      const propertyValue = mapPropertyValue(String(houseValueRange).trim())
 
-      const pingResult = await pingLeadProsper({
-        campaignId,
-        supplierId,
-        apiKey,
-        zipCode: zip,
-        subid1: subid1 ?? "",
-        subid2: subid2 ?? "",
-      })
-
-      if (!pingResult.ok) {
-        console.error("[submit-form] LeadProsper PING status: NOT RECEIVED (invalid JSON response)")
-        if (pingResult.raw) {
-          console.error("[submit-form] LeadProsper PING invalid JSON:", pingResult.raw)
-        }
-        return NextResponse.json(
-          { success: false, error: "Lead submission failed", leadProsper: { received: false, reason: "invalid_ping_response" } },
-          { status: 400 }
-        )
-      }
-
-      const pingResponse = pingResult.data
-      if (pingResponse.status === "ERROR") {
-        leadProsperStatus = {
-          received: false,
-          status: pingResponse.status,
-          reason: pingResponse.message ?? "ping_error",
-        }
-        console.log(
-          `[submit-form] LeadProsper PING status: NOT RECEIVED (${pingResponse.status}${pingResponse.code != null ? `, code ${pingResponse.code}` : ""}${pingResponse.message ? ` — ${pingResponse.message}` : ""})`
-        )
-        const code = pingResponse.code
-        const qs =
-          typeof code === "number" && Number.isFinite(code)
-            ? `?code=${encodeURIComponent(String(code))}`
-            : ""
-        return NextResponse.json(
-          {
-            success: true,
-            rejected: true,
-            redirectUrl: `/rejected${qs}`,
-            leadProsper: leadProsperStatus,
-          },
-          { status: 200 }
-        )
-      }
-
-      if (pingResponse.status !== "ACCEPTED" || !pingResponse.ping_id) {
-        leadProsperStatus = {
-          received: false,
-          status: pingResponse.status,
-          reason: "ping_not_accepted",
-        }
-        console.log(
-          `[submit-form] LeadProsper PING status: NOT RECEIVED (unexpected status: ${pingResponse.status ?? "none"})`
-        )
-        return NextResponse.json(
-          {
-            success: false,
-            error: "Lead submission failed",
-            leadProsper: leadProsperStatus,
-          },
-          { status: 400 }
-        )
-      }
-
-      console.log(
-        `[submit-form] LeadProsper PING status: ACCEPTED (ping_id: ${pingResponse.ping_id})`
-      )
-
-      const formData = {
+      const formData: Record<string, unknown> = {
         lp_campaign_id: campaignId,
         lp_supplier_id: supplierId,
         lp_key: apiKey,
-        lp_ping_id: pingResponse.ping_id,
+        lp_action: "",
         lp_subid1: subid1 ?? "",
         lp_subid2: subid2 ?? "",
-        lp_subid3: subid3 ?? "",
         first_name: String(firstName).trim(),
         last_name: String(lastName).trim(),
         email: emailTrimmed,
         phone: leadProsperPhoneDigits(String(phoneNumber)),
-        zip_code: zip,
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,
-        home_type: homeType,
-        property_type: propertyType,
-        property_list: propertyList,
-        sell: sell,
-        money: money,
-        credit: credit,
-        house_value_range: houseValueRange,
-        tcpa_text: 'By clicking "SEE MY INSTANT CASH OFFER" you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to 2 partners; that you are providing your prior express written consent for those partners to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our Terms of Use, including its Arbitration provision, and Privacy Policy; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email consent@unclesambuyshomes.com and you can revoke your consent at any time by emailing us.',
+        zip_code: zip,
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",
-        trustedform_cert_url: xxTrustedFormCertUrl ?? "",
+        trustedform_cert_url: trustedFormUrl,
+        trustedformtoken: trustedFormUrl,
+        tcpa_text:
+          'By clicking "SEE MY INSTANT CASH OFFER" you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to 2 partners; that you are providing your prior express written consent for those partners to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our Terms of Use, including its Arbitration provision, and Privacy Policy; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email consent@unclesambuyshomes.com and you can revoke your consent at any time by emailing us.',
+        propertytype: mapPropertyType(String(homeType).trim()),
+        propertycondition: mapPropertyCondition(String(propertyType).trim()),
+        reasonforselling: mapReasonForSelling(String(sell).trim()),
+        timeframe: mapTimeframe(String(money).trim()),
+        realtorldisting: mapRealtorListing(String(propertyList).trim()),
+      }
+
+      if (propertyValue != null) {
+        formData.propertyvalue = propertyValue
       }
 
       const postResult = await postLeadProsper(formData)
 
       if (!postResult.ok) {
-        console.error("[submit-form] LeadProsper POST status: NOT RECEIVED (invalid JSON response)")
+        console.error(
+          "[submit-form] LeadProsper DIRECT_POST status: NOT RECEIVED (invalid JSON response)"
+        )
         if (postResult.raw) {
-          console.error("[submit-form] LeadProsper POST invalid JSON:", postResult.raw)
+          console.error(
+            "[submit-form] LeadProsper DIRECT_POST invalid JSON:",
+            postResult.raw
+          )
         }
         return NextResponse.json(
-          { success: false, error: "Lead submission failed", leadProsper: { received: false, reason: "invalid_response" } },
+          {
+            success: false,
+            error: "Lead submission failed",
+            leadProsper: { received: false, reason: "invalid_response" },
+          },
           { status: 400 }
         )
       }
