@@ -36,6 +36,10 @@ export const HERO_CONTENT = {
     alt: "A couple in a modern kitchen discussing their home",
     src: "/hero.webp",
   },
+  imageMobile: {
+    alt: "A couple in a modern kitchen discussing their home",
+    src: "/hero-mobile.webp",
+  },
  
   
 } as const
