@@ -62,10 +62,11 @@ export function parseCityStateFromCommaSeparated(text: string): { city: string; 
   for (let i = 0; i < parts.length - 1; i++) {
     const cityCandidate = parts[i] ?? ""
     const stateMatch = parts[i + 1]?.match(/^([A-Z]{2})(?:\s+\d{5})?\b/i)
-    if (!stateMatch || !cityCandidate) continue
+    const stateCode = stateMatch?.[1]
+    if (!stateCode || !cityCandidate) continue
     if (/USA|United States/i.test(cityCandidate)) continue
     if (i === 0 && /\d/.test(cityCandidate)) continue
-    return { city: cityCandidate, state: stateMatch[1].toUpperCase() }
+    return { city: cityCandidate, state: stateCode.toUpperCase() }
   }
 
   if (parts.length >= 2) {
