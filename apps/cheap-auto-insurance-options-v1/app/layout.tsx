@@ -9,7 +9,7 @@ const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 })
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | Cheap Auto Insurance Options",
   },
   description:
-    "Cheap Auto Insurance Options provides affordable auto insurance quotes and outstanding customer care to drivers across the USA. Compare rates and find coverage that suits your needs and budget.",
+    "Cheap Auto Insurance Options helps drivers find affordable auto insurance plans quickly and easily. Compare quotes and save on car insurance with trusted providers at cheapautoinsuranceoptions.com.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },

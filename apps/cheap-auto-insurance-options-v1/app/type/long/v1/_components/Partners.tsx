@@ -6,12 +6,12 @@ import { PARTNERS_CONTENT } from "@/lib/constant"
 export default function Partners() {
   return (
     <div
-      className="partners bg-white w-full h-full px-6 py-8 md:px-8 md:py-8 lg:px-14 lg:py-10 xl:px-23 xl:py-10"
-     
+      className="partners w-full h-full "
+      
     >
-      <div className="container mx-auto max-w-[1400px]">
-        <div className="partners-content w-full flex flex-col items-center justify-center gap-8 md:gap-8 xl:gap-11">
-          <h2 className="text-base lg:text-lg xl:text-xl font-semibold text-[#102A43] text-center font-sans leading-tight tracking-relaxed">
+      <div className="container mx-auto">
+        <div className="partners-content w-full flex flex-col items-center justify-center gap-6 ">
+          <h2 className="md:hidden  text-base lg:text-lg xl:text-xl font-semibold text-[#102A43] text-center font-sans "style={{ lineHeight: "1.4" }}>
             {PARTNERS_CONTENT.header}
           </h2>
 
