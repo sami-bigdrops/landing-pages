@@ -39,7 +39,7 @@ export default function RootLayout({
       <head>
         <meta
           name="arohaa-verify"
-          content="Ov27xAYSR8yrIogCaJcXAQ94H79ew2z9"
+          content="QLKzYjW0UhdIHBmQY9TFdhCxMUvQtdr8"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -49,9 +49,9 @@ export default function RootLayout({
         <script
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="f09f813b-3037-43a4-b644-99b23b378e61"
+          data-wid="6614e93d-bdf3-4a78-b270-4e6723f57f46"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_s0kAPiNsNkZX1pHU"
+          data-lp-id="lp_QE7q5sMmJHfghdZb"
           data-page="homequotes.quotifii.com"
           data-formtype="zip"
         />
