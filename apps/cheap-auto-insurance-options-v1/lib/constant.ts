@@ -1,7 +1,7 @@
 //  sections constants
 
 export const TOP_NAV_CONTENT = {
-  headline: "Fast Insurance Quotes From the Nation’s Best Companies",
+  headline: "Cheap Insurance Quotes From the Nation's Best Companies",
 } as const
 
 export const NAVBAR_CONTENT = {
@@ -15,8 +15,6 @@ export const HERO_CONTENT = {
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "Fast Insurance Quotes From the Nation’s Best Companies",
-
   partners: [
     { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
     { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
@@ -28,7 +26,7 @@ export const PARTNERS_CONTENT = {
 } as const
 
 export const HELP_CONTENT = {
-  header: "We’ve Helped Over 4 Million People Save Money on Their Insurance Since 2004",
+  header: "We've Helped Over 4 Million People Save Money on Their Insurance",
   features: [
     {
       title: "Compare Rates from #1 Top Rated Brands",
