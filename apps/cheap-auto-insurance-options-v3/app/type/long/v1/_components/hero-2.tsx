@@ -207,3 +207,52 @@ export default function Hero() {
     </div>
   );
 }
+
+
+
+ {/* Desktop */}
+ <form
+ data-arohaa-zip-form
+ onSubmit={handleSubmit}
+ className="hidden sm:block relative w-full"
+>
+ <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
+   <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-4.5 h-4.5 xl:w-6 xl:h-6 " />
+ </div>
+ <ZipCodeInput
+   id="hero-zipcode"
+   value={zipCode}
+   onChange={(value) => setZipCode(value)}
+   onKeyDown={handleKeyPress}
+   placeholder="90001"
+   inputClassName="
+     h-14 pl-9.5 pr-2 text-[0.9rem] font-normal font-poppins
+     rounded-[10px]
+     border border-[#0752A0]
+     bg-white
+     w-full
+     shadow-[0_0_10px_0_rgba(31,58,95,0.10)]
+     placeholder:text-[#102A43]
+     focus-visible:ring-0 focus-visible:ring-offset-0
+   "
+   containerClassName="w-full"
+ />
+
+ <Button
+   type="1"
+   variant="default"
+   htmlType="submit"
+   data-arohaa-zip-submit
+   disabled={isRedirecting || !zipValid}
+   className="absolute right-0 top-0 flex h-13.5 w-full shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-tr-[10px] rounded-br-[10px] rounded-tl-none rounded-bl-none bg-[#F59E0B] px-4 font-poppins text-sm font-bold uppercase   text-[#102A43] shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#F59E0B] disabled:cursor-not-allowed disabled:opacity-90 md:h-13.5 md:w-[205px]  xl:h-17.5 xl:w-[260px] xl:text-lg"
+ >
+    {isRedirecting ? (
+       "Redirecting..."
+     ) : (
+       <>
+         Get My Free Quote
+         <QuoteArrowIcon />
+       </>
+     )}
+ </Button>
+</form>

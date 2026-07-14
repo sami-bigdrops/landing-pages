@@ -31,7 +31,7 @@ export const REVIEW_CONTENT = {
   badge: [
     {
       text: "Verified",
-      icon: "/tick.svg",
+      icon: "/badge.svg",
     },
   ],
 
