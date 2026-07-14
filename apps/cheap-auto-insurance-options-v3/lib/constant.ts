@@ -4,14 +4,14 @@ export const HERO_CONTENT = {
   headline: "Let's drop your rate in {city_name} today!",
   image: {
     src: "/hero.webp",
-    alt: "Quotifii"
+    alt: "Cheap Auto Insurance Options"
   },
  
   
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "We partner with top providers",
+  header: "Get quotes and offers from popular insurance companies",
 
   partners: [
     { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
@@ -23,93 +23,62 @@ export const PARTNERS_CONTENT = {
   ],
 } as const
 
-export const OPTIONS_CONTENT = {
-  header: "A Better Rate Could Be Waiting In Your ZIP",
-  description: "Tell us the basics and we’ll line up options worth a look.",
 
-  image: {
-    src: "/quokka.webp",
-    alt: "Quokka Image",
-  },
-  
-} as const
 
 export const REVIEW_CONTENT = {
-  header: "What Our Customers Say",
-  
+  header: "Helping Drivers Find Better Rates Every Day",
+
+  badge: [
+    {
+      text: "Verified",
+      icon: "/tick.svg",
+    },
+  ],
+
   reviews: [
     {
-     id: 1,
-      quote: "I didn’t expect it to be this simple. I answered a few questions, compared options, and ended up switching to a better rate the same day. Having an agent walk me through everything really helped.",
+      id: 1,
+      quote:
+        "Comparing quotes was much easier than calling different insurance companies one by one. I found a plan that fit my monthly budget in just a few minutes.",
       customer: {
-        name: "Amanda Reynolds",
-        location: "San Diego, CA",
+        name: "Sarah M.",
+        location: "Phoenix, AZ",
         image: {
           src: "/profile-1.svg",
-          alt: "Amanda Reynolds",
+          alt: "Sarah M.",
         },
       },
     },
     {
       id: 2,
-      quote: "I liked that I could see different quotes in one place instead of jumping between websites. The process was quick, and I felt confident about the coverage I chose.",
+      quote:
+        "The process was quick and simple. I could review different cover options in one place and choose the one that worked best for my family.",
       customer: {
-        name: "Jason M.",
-        location: "Austin, TX",
+        name: "Michael R.",
+        location: "Dallas, TX",
         image: {
           src: "/profile-2.svg",
-          alt: "Jason M.",
+          alt: "Michael R.",
         },
       },
     },
     {
-     
       id: 3,
-      quote: "I was paying way more than I should have. Quotifii helped me find a more affordable option in minutes, and the agent explained everything clearly. Super easy experience.",
+      quote:
+        "I liked being able to compare auto insurance quotes without feeling pressured. It saved me time and helped me find a better rate.",
       customer: {
-        name: "Priya S",
-        location: "Edison, NJ",
+        name: "Jessica L.",
+        location: "Orlando, FL",
         image: {
           src: "/profile-3.svg",
-          alt: "Priya S",
+          alt: "Jessica L.",
         },
       },
     },
   ],
 } as const
 
-export const FEATURES_CONTENT = {
-  header: "A Smarter Way To Shop For Coverage",
-  steps: [
-    {
-      number: 1,
-      title: "Multi-Vehicle Savings",
-      description: "One household, more than one car? Bundle options in seconds and see what changes.",
-      image: {
-        src: "/feature-1.svg",
-        alt: "Multi-Vehicle Savings",
-      },
-    },
-    {
-      number: 2,
-      title: "Safe Driver Discounts",
-      description: "If you drive sensibly, your rate should notice. We help you spot discounts you may qualify for.",
-      image: {
-        src: "/feature-2.svg",
-        alt: "Safe Driver Discounts",
-      },
-    },
-    {
-      number: 3,
-      title: "24/7 Roadside Assistance",
-      description: "Flat tire, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
-      image: {
-        src: "/feature-3.svg",
-        alt: "24/7 Roadside Assistance",
-      },
-    },
-  ],
-} as const
+
 
 
 

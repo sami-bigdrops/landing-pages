@@ -8,12 +8,12 @@ export default function Navbar() {
         <NavbarUI
         variant="default"
         type="2"
-        className="py-4 px-4 bg-[#003599] xl:px-0 "
+        className="py-4 px-4 bg-white xl:px-0 border-none"
         logo={
             <Link href="/" className="block">
                 <Image
-                src="/quotifii-logo.svg"
-                alt="Quotifii"
+                src="/logo.svg"
+                alt="Cheap Auto Insurance Options"
                 width={128}
                 height={40}
                 className="w-36 lg:w-40 xl:w-48 h-auto object-contain"

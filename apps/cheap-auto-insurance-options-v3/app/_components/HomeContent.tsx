@@ -15,8 +15,7 @@ export default function HomeContent() {
       <Hero />
       <Partners />
       <Review />
-      <Features />
-      <Options /> 
+      
       <Footer />
     </div>
   )
