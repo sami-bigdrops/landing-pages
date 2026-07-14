@@ -12,9 +12,6 @@ export const NAVBAR_CONTENT = {
 export const HERO_CONTENT = {
   headline: "Save up to 50% on Your Car Insurance.",
   description: "Compare Auto Insurance Quotes Instantly.",
-
-
-
 } as const
 
 export const PARTNERS_CONTENT = {
@@ -60,18 +57,120 @@ export const HELP_CONTENT = {
     label: "855-581-3316",
     href: "tel:+18555813316",
     icon: "/help-call.svg",
-
   },
-
 } as const
 
+export const FEATURES_CONTENT = {
+  headline: "Find Affordable Auto Insurance Without The Long Search",
 
+  steps: [
+    {
+      id: 1,
+      title: "Save More",
+      description:
+        "Compare quotes from multiple insurance providers and look for rates that suit your budget.",
+      image: {
+        src: "/feature-1.svg",
+        alt: "Cash in Your Hands Fast",
+      },
+    },
+    {
+      id: 2,
+      title: "Fast & Easy",
+      description:
+        "Share a few basic details and view personalized quote options in just a few minutes.",
+      image: {
+        src: "/feature-2.svg",
+        alt: "Sell Completely As-Is",
+      },
+    },
+    {
+      id: 3,
+      title: "Recognised Providers",
+      description:
+        "Review cover options from well-known insurance companies in one simple place.",
+      image: {
+        src: "/feature-3.svg",
+        alt: "Close in as Little as 7 Days",
+      },
+    },
+    {
+      id: 4,
+      title: "No Obligation",
+      description:
+        "Check your options freely, with no pressure to buy and no hidden commitment.",
+      image: {
+        src: "/feature-4.svg",
+        alt: "Zero Fees or Commissions",
+      },
+    },
+  ],
+} as const
 
+export const OPTIONS_CONTENT = {
+  header: "A Better Rate Could Be Waiting In Your ZIP",
+  description: "Tell us the basics and we'll line up options worth a look.",
 
+  image: {
+    src: "/quokka.webp",
+    alt: "Quokka Image",
+  },
+} as const
 
+export const REVIEW_CONTENT = {
+  header: "Helping Drivers Find Better Rates Every Day",
+
+  badge: [
+    {
+      text: "Verified",
+      icon: "/tick.svg",
+    },
+  ],
+
+  reviews: [
+    {
+      id: 1,
+      quote:
+        "Comparing quotes was much easier than calling different insurance companies one by one. I found a plan that fit my monthly budget in just a few minutes.",
+      customer: {
+        name: "Sarah M.",
+        location: "Phoenix, AZ",
+        image: {
+          src: "/profile-1.svg",
+          alt: "Sarah M.",
+        },
+      },
+    },
+    {
+      id: 2,
+      quote:
+        "The process was quick and simple. I could review different cover options in one place and choose the one that worked best for my family.",
+      customer: {
+        name: "Michael R.",
+        location: "Dallas, TX",
+        image: {
+          src: "/profile-2.svg",
+          alt: "Michael R.",
+        },
+      },
+    },
+    {
+      id: 3,
+      quote:
+        "I liked being able to compare auto insurance quotes without feeling pressured. It saved me time and helped me find a better rate.",
+      customer: {
+        name: "Jessica L.",
+        location: "Orlando, FL",
+        image: {
+          src: "/profile-3.svg",
+          alt: "Jessica L.",
+        },
+      },
+    },
+  ],
+} as const
 
 export const FOOTER_CONTENT = {
-
   linkRows: [
     [
       { text: "Privacy Policy", href: "/privacy-policy" },
