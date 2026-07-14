@@ -54,7 +54,7 @@ function FooterLinks({
     <div className={cn("w-full", linksContainerClassName)}>
       {hasMultipleRows ? (
         <>
-          <ul className="flex flex-wrap items-center justify-start gap-y-1 md:hidden">
+          <ul className="flex flex-wrap items-center justify-center gap-y-1 md:hidden">
             {renderLinkItems(flatLinks)}
           </ul>
           <div className="hidden w-full flex-col items-center gap-2 md:flex">
@@ -69,7 +69,7 @@ function FooterLinks({
           </div>
         </>
       ) : (
-        <ul className="flex flex-wrap items-center justify-start gap-y-1 md:justify-center">
+        <ul className="flex flex-wrap items-center justify-center gap-y-1 md:justify-center">
           {renderLinkItems(rows[0] ?? [])}
         </ul>
       )}
@@ -170,7 +170,7 @@ function Footer({
             </div>
           )}
           </div>
-          <div className="flex w-full flex-col items-start gap-4 text-left md:items-center md:text-center xl:gap-5">
+          <div className="flex w-full flex-col items-center justify-center gap-4 text-center md:items-center md:text-center xl:gap-5">
           <FooterLinks
             links={links}
             linkRows={linkRows}

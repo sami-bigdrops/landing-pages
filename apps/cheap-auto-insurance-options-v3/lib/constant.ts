@@ -83,14 +83,15 @@ export const REVIEW_CONTENT = {
 
 
 export const FOOTER_CONTENT = {
-  
-  links: [
-    { text: "Privacy Policy", href: "/privacy-policy" },
-    { text: "Terms of Use", href: "/terms-of-use" },
-    { text: "Contact ", href: "/contact" },
+  linkRows: [
+    [
+      { text: "Privacy Policy", href: "/privacy-policy" },
+      { text: "Terms of Use", href: "/terms-of-use" },
+      { text: "Contact ", href: "/contact" },
+    ],
   ],
 
-  copyrightText: "Copyright © 2026 Quotifii. All Rights Reserved.",
+  copyrightText: "Copyright © 2026 Cheap Auto Insurance Options. All Rights Reserved.",
 } as const
 
 export const THANKYOU_CONTENT = {
