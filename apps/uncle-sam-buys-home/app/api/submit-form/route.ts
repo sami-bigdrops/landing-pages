@@ -26,7 +26,6 @@ const REQUIRED_FIELDS = [
   "address",
   "email",
   "phoneNumber",
-  "zipCode",
 ] as const
 
 function isEnvEnabled(value: string | undefined): boolean {
@@ -48,15 +47,14 @@ function leadProsperPhoneDigits(phone: string): string {
   return d
 }
 
-function isCaliforniaLead(state: string, zipCode: string): boolean {
+function normalizeZip(zip: string): string {
+  return String(zip).replace(/\D/g, "").slice(0, 5)
+}
+
+function isCaliforniaLead(state: string): boolean {
   const s = String(state).trim()
   const upper = s.toUpperCase()
-  if (upper === "CA" || s.toLowerCase() === "california") return true
-  const digits = String(zipCode).replace(/\D/g, "").slice(0, 5)
-  if (digits.length !== 5) return false
-  const n = parseInt(digits, 10)
-  if (!Number.isFinite(n)) return false
-  return n >= 90001 && n <= 96162
+  return upper === "CA" || s.toLowerCase() === "california"
 }
 
 async function verifyPhone(phone: string, key: string, defaultCountry = "US"): Promise<{ valid: boolean; error?: string }> {
@@ -112,17 +110,34 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const zipVal = typeof zipCode === "string" ? zipCode : String(zipCode ?? "")
+    const zipHint =
+      typeof zipCode === "string" ? normalizeZip(zipCode) : normalizeZip(String(zipCode ?? ""))
 
-    // Resolve city/state from client payload, geocoding, or zip lookup fallback
-    const geocoded = await geocodeAddress(String(address).trim(), zipVal)
+    // Resolve city/state/zip from client payload or address geocoding
+    const geocoded = await geocodeAddress(String(address).trim(), zipHint)
     const bodyCity = typeof body.city === "string" ? body.city.trim() : ""
     const bodyState = typeof body.state === "string" ? body.state.trim() : ""
     const resolvedCity = bodyCity || geocoded.city
     const resolvedState = bodyState || geocoded.state
-    console.log("[submit-form] geocoded:", { city: resolvedCity, state: resolvedState })
+    const zipVal = zipHint.length === 5 ? zipHint : geocoded.zipCode
+    console.log("[submit-form] geocoded:", {
+      city: resolvedCity,
+      state: resolvedState,
+      zipCode: zipVal,
+    })
 
-    if (isCaliforniaLead(resolvedState, zipVal)) {
+    if (zipVal.length !== 5) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Could not determine ZIP code from the address. Please select a valid street address.",
+          field: "address",
+        },
+        { status: 400 }
+      )
+    }
+
+    if (isCaliforniaLead(resolvedState)) {
       console.log("[submit-form] LeadProsper status: NOT SENT (lead rejected — California)")
       return NextResponse.json(
         {
@@ -209,7 +224,6 @@ export async function POST(request: NextRequest) {
       const campaignId = process.env.LEADPROSPER_CAMPAIGN_ID!
       const supplierId = process.env.LEADPROSPER_SUPPLIER_ID!
       const apiKey = process.env.LEADPROSPER_API_KEY!
-      const zip = String(zipCode).trim()
       const trustedFormUrl =
         typeof xxTrustedFormCertUrl === "string" ? xxTrustedFormCertUrl.trim() : ""
       const propertyValue = mapPropertyValue(String(houseValueRange).trim())
@@ -218,7 +232,7 @@ export async function POST(request: NextRequest) {
         lp_campaign_id: campaignId,
         lp_supplier_id: supplierId,
         lp_key: apiKey,
-        lp_action: "",
+        lp_action: "test",
         lp_subid1: subid1 ?? "",
         lp_subid2: subid2 ?? "",
         first_name: String(firstName).trim(),
@@ -228,7 +242,7 @@ export async function POST(request: NextRequest) {
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,
-        zip_code: zip,
+        zip_code: zipVal,
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",
@@ -344,7 +358,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "Form submitted successfully",
-        redirectUrl: `/thankyou?email=${encodeURIComponent(emailTrimmed)}`,
+        redirectUrl: `/thankyou?email=${encodeURIComponent(emailTrimmed)}&firstName=${encodeURIComponent(String(firstName).trim())}`,
         accessToken,
         expiresAt,
         leadProsper: leadProsperStatus,

@@ -55,8 +55,7 @@ export async function sendSubmissionConfirmationEmail(
   }
 
   const firstName = params.firstName?.trim() || "there";
-  const { confirmationMessage, emailConfirmationNotice } =
-    THANKYOU_TYPE2_CONTENT;
+  const { confirmationMessage } = THANKYOU_TYPE2_CONTENT;
   const phone = COVER_CONTENT.callToAction;
   const subject = `Thank you — ${SITE_BRAND.name}`;
 
@@ -163,7 +162,7 @@ export async function sendSubmissionConfirmationEmail(
         <td class="headline">Thank you, ${escapeHtml(firstName)}!</td>
       </tr>
       <tr>
-        <td class="body-text">${escapeHtml(confirmationMessage)}<br><br>${escapeHtml(emailConfirmationNotice ?? "")}</td>
+        <td class="body-text">${escapeHtml(confirmationMessage)}</td>
       </tr>
       <tr>
         <td class="cta-wrap">
@@ -193,8 +192,6 @@ Thank you — ${SITE_BRAND.name}
 Hi ${firstName},
 
 ${confirmationMessage}
-
-${emailConfirmationNotice ?? ""}
 
 ${phone.contactText}: ${phone.phoneNumber}
 ${phone.phoneHref}

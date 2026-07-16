@@ -17,16 +17,25 @@ type GeocodeResponse = {
 export type GeocodedAddress = {
   city: string
   state: string
+  zipCode: string
 }
 
-export async function geocodeAddress(address: string, zipCode: string): Promise<GeocodedAddress> {
+function normalizeZip(zip: string): string {
+  return zip.replace(/\D/g, "").slice(0, 5)
+}
+
+export async function geocodeAddress(
+  address: string,
+  zipCode = ""
+): Promise<GeocodedAddress> {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
-  const zip = zipCode.trim()
+  const zipHint = normalizeZip(zipCode)
   let city = ""
   let state = ""
+  let resolvedZip = zipHint
 
   if (apiKey) {
-    const query = `${address.trim()}, ${zip}`
+    const query = zipHint ? `${address.trim()}, ${zipHint}` : address.trim()
     const url = new URL("https://maps.googleapis.com/maps/api/geocode/json")
     url.searchParams.set("address", query)
     url.searchParams.set("key", apiKey)
@@ -42,6 +51,8 @@ export async function geocodeAddress(address: string, zipCode: string): Promise<
             const parsed = parseAddressComponents(firstResult.address_components)
             city = parsed.parsedCity
             state = parsed.parsedState
+            const parsedZip = normalizeZip(parsed.parsedZip)
+            if (parsedZip.length === 5) resolvedZip = parsedZip
           }
         } else {
           console.warn("[geocode] No results for address. Status:", data.status)
@@ -56,11 +67,11 @@ export async function geocodeAddress(address: string, zipCode: string): Promise<
     console.warn("[geocode] NEXT_PUBLIC_GOOGLE_PLACES_API_KEY is not set; skipping geocoding")
   }
 
-  if (!city || !state) {
-    const fromZip = await lookupCityStateByZip(zip)
+  if ((!city || !state) && resolvedZip.length === 5) {
+    const fromZip = await lookupCityStateByZip(resolvedZip)
     city = city || fromZip.city
     state = state || fromZip.state
   }
 
-  return { city, state }
+  return { city, state, zipCode: resolvedZip }
 }

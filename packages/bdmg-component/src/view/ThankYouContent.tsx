@@ -252,7 +252,7 @@ export function ThankYouContent({
                 <h1 className="text-[1.875rem] xl:text-[2.125rem] font-bold tracking-tight text-[#1C2833]">
                   {title}
                 </h1>
-                <p className="mt-3 max-w-md text-[0.9375rem] xl:text-[1.0625rem] leading-[1.6] text-[#4A5568]">
+                <p className="mt-3 max-w-md whitespace-pre-line text-[0.9375rem] xl:text-[1.0625rem] leading-[1.6] text-[#4A5568]">
                   {subtitle}
                 </p>
               </div>
@@ -328,7 +328,7 @@ export function ThankYouContent({
                 <h1 className="text-[1.5rem] font-bold tracking-tight text-[#0f172a] sm:text-[1.75rem] md:text-[2rem]">
                   {title}
                 </h1>
-                <p className="mt-4 max-w-lg text-[0.9375rem] leading-[1.6] text-[#475569] sm:mt-5 sm:text-[1.0625rem] md:text-[1.125rem]">
+                <p className="mt-4 max-w-lg whitespace-pre-line text-[0.9375rem] leading-[1.6] text-[#475569] sm:mt-5 sm:text-[1.0625rem] md:text-[1.125rem]">
                   {subtitle}
                 </p>
               </div>

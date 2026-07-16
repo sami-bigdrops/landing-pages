@@ -1,9 +1,8 @@
 "use client"
 
-import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent } from "react"
+import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent } from "react"
 import Image from "next/image"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
-import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
@@ -92,37 +91,6 @@ function normalizeZip(zip: string): string {
   return zip.replace(/\D/g, "").slice(0, 5)
 }
 
-function predictionMatchesZip(pred: GMapsPlacePrediction, zipCode: string): boolean {
-  const zip = normalizeZip(zipCode)
-  if (zip.length !== 5) return false
-
-  const haystack = `${pred.description} ${pred.structured_formatting.secondary_text}`.toLowerCase()
-  if (haystack.includes(zip)) return true
-
-  return pred.terms?.some((term) => normalizeZip(term.value) === zip) ?? false
-}
-
-function verifyPredictionZip(
-  placesService: GMapsPlacesService,
-  placeId: string,
-  expectedZip: string
-): Promise<boolean> {
-  return new Promise((resolve) => {
-    placesService.getDetails(
-      { placeId, fields: ["address_components"] },
-      (place) => {
-        if (!place?.address_components) {
-          resolve(true)
-          return
-        }
-        const postal = place.address_components.find((c) => c.types.includes("postal_code"))
-        const zip = postal ? normalizeZip(postal.long_name) : ""
-        resolve(!zip || zip === expectedZip)
-      }
-    )
-  })
-}
-
 // --- Google Places Autocomplete Component ---
 function AddressAutocomplete({
   value,
@@ -187,19 +155,13 @@ function AddressAutocomplete({
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  useEffect(() => {
-    setPredictions([])
-    setShowDropdown(false)
-  }, [zipCode])
-
   const fetchPredictions = useCallback(
     (input: string) => {
-      const zip = normalizeZip(zipCode)
-      if (!autocompleteRef.current || !mapsReady || zip.length !== 5) return
+      if (!autocompleteRef.current || !mapsReady) return
       setIsFetching(true)
       autocompleteRef.current.getPlacePredictions(
         {
-          input: `${input}, ${zip}`,
+          input,
           types: ["address"],
           componentRestrictions: { country: "us" },
         },
@@ -212,46 +174,18 @@ function AddressAutocomplete({
             setShowDropdown(false)
             return
           }
-
-          const textFiltered = preds.filter((pred) => predictionMatchesZip(pred, zip))
-          if (textFiltered.length > 0) {
-            setPredictions(textFiltered)
-            setShowDropdown(true)
-            return
-          }
-
-          if (!placesRef.current) {
-            setPredictions([])
-            setShowDropdown(false)
-            return
-          }
-
-          setIsFetching(true)
-          Promise.all(
-            preds.slice(0, 5).map(async (pred) => {
-              const matches = await verifyPredictionZip(placesRef.current!, pred.place_id, zip)
-              return matches ? pred : null
-            })
-          )
-            .then((verified) => {
-              const verifiedPreds = verified.filter((pred): pred is GMapsPlacePrediction => pred !== null)
-              setPredictions(verifiedPreds)
-              setShowDropdown(verifiedPreds.length > 0)
-            })
-            .finally(() => {
-              setIsFetching(false)
-            })
+          setPredictions(preds)
+          setShowDropdown(preds.length > 0)
         }
       )
     },
-    [mapsReady, zipCode]
+    [mapsReady]
   )
 
   const handleInputChange = (inputValue: string) => {
     onChange(inputValue)
     if (debounceRef.current) clearTimeout(debounceRef.current)
-    const zip = normalizeZip(zipCode)
-    if (!inputValue.trim() || inputValue.length < 3 || zip.length !== 5) {
+    if (!inputValue.trim() || inputValue.length < 3) {
       setPredictions([])
       setShowDropdown(false)
       return
@@ -265,7 +199,6 @@ function AddressAutocomplete({
 
     const selectedMainText = pred.structured_formatting.main_text.trim()
     const fallbackCityState = parseCityStateFromPrediction(pred)
-    const expectedZip = normalizeZip(zipCode)
 
     onChange(selectedMainText)
 
@@ -279,7 +212,7 @@ function AddressAutocomplete({
         streetAddress: selectedMainText,
         city: fallbackCityState.city,
         state: fallbackCityState.state,
-        zipCode: expectedZip,
+        zipCode: "",
       })
       return
     }
@@ -292,7 +225,7 @@ function AddressAutocomplete({
             streetAddress: selectedMainText,
             city: fallbackCityState.city,
             state: fallbackCityState.state,
-            zipCode: expectedZip,
+            zipCode: "",
           })
           return
         }
@@ -300,18 +233,6 @@ function AddressAutocomplete({
         const { streetNumber, route, parsedCity, parsedState, parsedZip } = parseAddressComponents(
           place.address_components
         )
-        const parsedZipDigits = normalizeZip(parsedZip)
-
-        if (expectedZip.length === 5 && parsedZipDigits && parsedZipDigits !== expectedZip) {
-          applySelection({
-            streetAddress: selectedMainText,
-            city: fallbackCityState.city,
-            state: fallbackCityState.state,
-            zipCode: expectedZip,
-          })
-          return
-        }
-
         const streetAddress =
           (streetNumber ? `${streetNumber} ${route}`.trim() : route.trim()) || selectedMainText
 
@@ -319,13 +240,11 @@ function AddressAutocomplete({
           streetAddress,
           city: parsedCity || fallbackCityState.city,
           state: parsedState || fallbackCityState.state,
-          zipCode: parsedZipDigits || expectedZip,
+          zipCode: normalizeZip(parsedZip),
         })
       }
     )
   }
-
-  const zipReady = normalizeZip(zipCode).length === 5
 
   return (
     <div className="w-full relative" ref={containerRef}>
@@ -340,10 +259,9 @@ function AddressAutocomplete({
           onFocus={() => {
             if (predictions.length > 0) setShowDropdown(true)
           }}
-          placeholder={zipReady ? placeholder : "Enter a valid zip code first"}
+          placeholder={placeholder}
           className={className}
           autoComplete="off"
-          disabled={!zipReady}
         />
         {isFetching ? (
           <span className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 rounded-full border-2 border-[#102E50] border-t-transparent animate-spin" aria-hidden />
@@ -369,9 +287,10 @@ function AddressAutocomplete({
         </div>
       )}
 
-      {city && state && (
+      {(city || state || zipCode) && (
         <p className="text-[0.7rem] xl:text-[0.8rem] mt-2 font-medium text-left text-[#1C1C1C]">
-          {city}, {state}
+          {[city, state].filter(Boolean).join(", ")}
+          {zipCode ? ` ${zipCode}` : ""}
         </p>
       )}
     </div>
@@ -471,7 +390,7 @@ const HOUSE_VALUE_RANGES: { value: string; label: string }[] = [
   { value: "1_5m_plus", label: "$1.5M+" },
 ]
 
-const TOTAL_STEPS = 10
+const TOTAL_STEPS = 9
 
 const defaultFormData = {
   homeType: "condominium" as HomeTypeId,
@@ -492,48 +411,26 @@ const defaultFormData = {
 }
 
 type FormNavigationProps = {
-  showBack?: boolean
-  showNext?: boolean
   isNextDisabled?: boolean
   nextLabel?: string
   onNext: () => void
-  onBack: () => void
 }
 
 function FormNavigation({
-  showBack = false,
-  showNext = true,
   isNextDisabled = false,
   nextLabel = "Next",
   onNext,
-  onBack,
 }: FormNavigationProps) {
   return (
     <nav className="flex w-full max-w-lg flex-col items-center gap-4 md:gap-5">
-      {showNext ? (
-        <button
-          type="button"
-          onClick={onNext}
-          disabled={isNextDisabled}
-          className="w-full rounded-[10px] bg-[#C12026] py-3 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
-        >
-          {nextLabel}
-        </button>
-      ) : null}
-      {showBack ? (
-        <button
-          type="button"
-          onClick={onBack}
-          className="flex cursor-pointer items-center gap-1.5 text-[0.9rem] font-semibold text-[#47514F] transition-colors hover:text-[#374151] xl:text-base"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 16 16" fill="none" className="h-4 w-4 text-[#47514F] lg:h-4.5 lg:w-4.5 xl:h-5 xl:w-5">
-            <path d="M6.66667 4.66669C6.66667 4.86669 6.6 5.00002 6.46667 5.13335L3.13333 8.46669C2.86667 8.73335 2.46667 8.73335 2.2 8.46669C1.93333 8.20002 1.93333 7.80002 2.2 7.53335L5.53333 4.20002C5.8 3.93335 6.2 3.93335 6.46667 4.20002C6.6 4.33335 6.66667 4.46669 6.66667 4.66669Z" fill="#47514F" />
-            <path d="M6.66667 11.3333C6.66667 11.5333 6.6 11.6667 6.46667 11.8C6.2 12.0667 5.8 12.0667 5.53333 11.8L2.2 8.46667C1.93333 8.2 1.93333 7.8 2.2 7.53333C2.46667 7.26667 2.86667 7.26667 3.13333 7.53333L6.46667 10.8667C6.6 11 6.66667 11.1333 6.66667 11.3333Z" fill="#47514F" />
-            <path d="M14 8.00002C14 8.40002 13.7333 8.66669 13.3333 8.66669H2.66667C2.26667 8.66669 2 8.40002 2 8.00002C2 7.60002 2.26667 7.33335 2.66667 7.33335H13.3333C13.7333 7.33335 14 7.60002 14 8.00002Z" fill="#47514F" />
-          </svg>
-          Back
-        </button>
-      ) : null}
+      <button
+        type="button"
+        onClick={onNext}
+        disabled={isNextDisabled}
+        className="w-full rounded-[10px] bg-[#C12026] py-3 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
+      >
+        {nextLabel}
+      </button>
     </nav>
   )
 }
@@ -570,12 +467,11 @@ function FormPage() {
   }, [tryRedirect])
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
-    if (field === "zipCode") {
-      value = value.replace(/\D/g, "").slice(0, 5)
+    if (field === "street_address") {
       setFormData((prev) => ({
         ...prev,
-        zipCode: value,
-        ...(prev.zipCode !== value ? { street_address: "", city: "", state: "" } : {}),
+        street_address: value,
+        ...(value.trim() === "" ? { city: "", state: "", zipCode: "" } : {}),
       }))
       return
     }
@@ -583,16 +479,23 @@ function FormPage() {
   }
 
   const isStepValid = () => {
-    if (currentStep === 2) {
-      return formData.zipCode.length === 5
+    if (currentStep === 7) {
+      return formData.houseValueRange.trim() !== ""
     }
-    if (currentStep === 9) {
+    if (currentStep === 8) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       return (
         formData.first_name.trim() !== "" &&
         formData.last_name.trim() !== "" &&
         formData.email.trim() !== "" &&
         emailRegex.test(formData.email.trim())
+      )
+    }
+    if (currentStep === TOTAL_STEPS) {
+      return (
+        formData.street_address.trim() !== "" &&
+        formData.phone_number.trim() !== "" &&
+        normalizeZip(formData.zipCode).length === 5
       )
     }
     return true
@@ -603,17 +506,26 @@ function FormPage() {
     setCurrentStep((prev) => prev + 1)
   }
 
-  const handleBack = () => {
-    if (currentStep <= 1) return
-    setCurrentStep((prev) => prev - 1)
+  const handleFormKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key !== "Enter") return
+    const tag = (e.target as HTMLElement).tagName
+    if (tag === "TEXTAREA" || tag === "BUTTON") return
+
+    if (currentStep === TOTAL_STEPS) {
+      if (!isStepValid()) e.preventDefault()
+      return
+    }
+
+    e.preventDefault()
+    if ((currentStep === 7 || currentStep === 8) && isStepValid()) {
+      handleNext()
+    }
   }
 
   const handleLeadSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (currentStep !== TOTAL_STEPS) {
-      if (currentStep === 2 && isStepValid()) {
-        handleNext()
-      } else if (currentStep === 9 && isStepValid()) {
+      if ((currentStep === 7 || currentStep === 8) && isStepValid()) {
         handleNext()
       }
       return
@@ -622,7 +534,7 @@ function FormPage() {
     setSubmitError("")
     setFieldErrors({})
 
-    const zip = formData.zipCode.trim()
+    const zip = normalizeZip(formData.zipCode)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const email = formData.email.trim()
 
@@ -633,10 +545,14 @@ function FormPage() {
       !email ||
       !emailRegex.test(email) ||
       !formData.phone_number.trim() ||
-      !zip
+      zip.length !== 5
     ) {
       setSubmitStatus("error")
-      setSubmitError("Please complete all required fields with valid details.")
+      setSubmitError(
+        zip.length !== 5
+          ? "Please select a street address from the suggestions so we can detect your ZIP code."
+          : "Please complete all required fields with valid details."
+      )
       return
     }
 
@@ -749,6 +665,7 @@ function FormPage() {
         method="POST"
         action="/api/submit-form"
         onSubmit={handleLeadSubmit}
+        onKeyDown={handleFormKeyDown}
         noValidate
         className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 xl:gap-8"
       >
@@ -794,36 +711,8 @@ function FormPage() {
 
         {currentStep === 2 ? (
           <section
-            className={`${STEP_SHELL_FIELDS} items-center text-center`}
-            data-arohaa-step="2"
-            data-arohaa-step-name="Zip Code"
-          >
-            <ZipCodeInput
-              id="zipCode"
-              name="zipCode"
-              data-arohaa-field="zipCode"
-              label="Zip Code"
-              value={formData.zipCode}
-              onChange={(v) => handleInputChange("zipCode", v)}
-              placeholder="Please Enter Zip Code"
-              containerClassName="w-full max-w-lg"
-              labelClassName={LABEL_CLASS}
-              className={INPUT_FIELD}
-            />
-            <FormNavigation
-              showBack
-              showNext
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          </section>
-        ) : null}
-
-        {currentStep === 3 ? (
-          <section
             className={STEP_SHELL}
-            data-arohaa-step="3"
+            data-arohaa-step="2"
             data-arohaa-step-name="Tell Us About Your Property"
           >
             <h3 className={STEP_TITLE}>Tell Us About Your Property!</h3>
@@ -836,7 +725,7 @@ function FormPage() {
                     type="button"
                     onClick={() => {
                       setFormData((prev) => ({ ...prev, propertyType: id }))
-                      setCurrentStep(4)
+                      setCurrentStep(3)
                     }}
                     aria-pressed={selected}
                     className={CHOICE_BTN}
@@ -847,14 +736,13 @@ function FormPage() {
                 )
               })}
             </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
           </section>
         ) : null}
 
-        {currentStep === 4 ? (
+        {currentStep === 3 ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="4"
+            data-arohaa-step="3"
             data-arohaa-step-name="MLS Listing"
           >
             <h3 className={STEP_TITLE}>Is Your House Already Listed on the MLS?</h3>
@@ -867,7 +755,7 @@ function FormPage() {
                     type="button"
                     onClick={() => {
                       setFormData((prev) => ({ ...prev, propertyList: id }))
-                      setCurrentStep(5)
+                      setCurrentStep(4)
                     }}
                     aria-pressed={selected}
                     className={CHOICE_BTN_MLS}
@@ -885,13 +773,12 @@ function FormPage() {
                 )
               })}
             </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
           </section>
         ) : null}
-        {currentStep === 5 ? (
+        {currentStep === 4 ? (
           <section
             className={STEP_SHELL_WIDE}
-            data-arohaa-step="5"
+            data-arohaa-step="4"
             data-arohaa-step-name="Why Do You Want To Sell"
           >
             <h3 className={STEP_TITLE}>Why Do You Want To Sell?</h3>
@@ -904,7 +791,7 @@ function FormPage() {
                     type="button"
                     onClick={() => {
                       setFormData((prev) => ({ ...prev, sell: id }))
-                      setCurrentStep(6)
+                      setCurrentStep(5)
                     }}
                     aria-pressed={selected}
                     className={CHOICE_BTN}
@@ -915,14 +802,13 @@ function FormPage() {
                 )
               })}
             </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
           </section>
         ) : null}
 
-        {currentStep === 6 ? (
+        {currentStep === 5 ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="6"
+            data-arohaa-step="5"
             data-arohaa-step-name="Timeline"
           >
             <h3 className={STEP_TITLE}>How Soon Do You Want Your Money?</h3>
@@ -935,7 +821,7 @@ function FormPage() {
                     type="button"
                     onClick={() => {
                       setFormData((prev) => ({ ...prev, money: id }))
-                      setCurrentStep(7)
+                      setCurrentStep(6)
                     }}
                     aria-pressed={selected}
                     className={CHOICE_BTN}
@@ -946,14 +832,13 @@ function FormPage() {
                 )
               })}
             </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
           </section>
         ) : null}
 
-        {currentStep === 7 ? (
+        {currentStep === 6 ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="7"
+            data-arohaa-step="6"
             data-arohaa-step-name="Credit Rating"
           >
             <h3 className={STEP_TITLE}>How Would You Rate Your Credit?</h3>
@@ -966,7 +851,7 @@ function FormPage() {
                     type="button"
                     onClick={() => {
                       setFormData((prev) => ({ ...prev, credit: id }))
-                      setCurrentStep(8)
+                      setCurrentStep(7)
                     }}
                     aria-pressed={selected}
                     className={CHOICE_BTN}
@@ -977,14 +862,13 @@ function FormPage() {
                 )
               })}
             </div>
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
           </section>
         ) : null}
 
-        {currentStep === 8 ? (
+        {currentStep === 7 ? (
           <section
             className={STEP_SHELL_VALUE}
-            data-arohaa-step="8"
+            data-arohaa-step="7"
             data-arohaa-step-name="Estimate House Value"
           >
             <h3 className={STEP_TITLE}>Estimate House Value</h3>
@@ -1018,20 +902,14 @@ function FormPage() {
               <span>Under $100K</span>
               <span>$1.5M+</span>
             </div>
-            <FormNavigation
-              showBack
-              showNext
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
+            <FormNavigation isNextDisabled={!isStepValid()} onNext={handleNext} />
           </section>
         ) : null}
 
-        {currentStep === 9 ? (
+        {currentStep === 8 ? (
           <section
             className={`${STEP_SHELL_FIELDS} items-center`}
-            data-arohaa-step="9"
+            data-arohaa-step="8"
             data-arohaa-step-name="Contact Information"
           >
             <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
@@ -1078,20 +956,14 @@ function FormPage() {
                 </p>
               ) : null}
             </div>
-            <FormNavigation
-              showBack
-              showNext
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
+            <FormNavigation isNextDisabled={!isStepValid()} onNext={handleNext} />
           </section>
         ) : null}
 
         {currentStep === TOTAL_STEPS ? (
           <section
             className={`${STEP_SHELL_FIELDS} items-center`}
-            data-arohaa-step="10"
+            data-arohaa-step="9"
             data-arohaa-step-name="Address and Phone"
           >
             <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
@@ -1105,10 +977,6 @@ function FormPage() {
                 zipCode={formData.zipCode}
                 onChange={(v) => {
                   handleInputChange("street_address", v)
-                  if (!v) {
-                    handleInputChange("city", "")
-                    handleInputChange("state", "")
-                  }
                 }}
                 onSelect={(result) => {
                   setFormData((prev) => ({
@@ -1116,6 +984,7 @@ function FormPage() {
                     street_address: result.streetAddress,
                     city: result.city,
                     state: result.state,
+                    zipCode: result.zipCode,
                   }))
                 }}
                 placeholder="Enter Street Address"
@@ -1150,7 +1019,7 @@ function FormPage() {
 
               <button
                 type="submit"
-                disabled={submitStatus === "loading"}
+                disabled={!isStepValid() || submitStatus === "loading"}
                 className="h-13 w-full cursor-pointer rounded-[10px] bg-[#C12026] py-3 text-sm font-medium uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:h-15 xl:text-lg"
               >
                 {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
@@ -1197,8 +1066,6 @@ function FormPage() {
                 and you can revoke your consent at any time by emailing us.
               </p>
             </div>
-
-            <FormNavigation showBack showNext={false} onNext={handleNext} onBack={handleBack} />
           </section>
         ) : null}
 

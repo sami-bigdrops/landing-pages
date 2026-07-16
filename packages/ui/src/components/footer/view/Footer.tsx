@@ -54,14 +54,14 @@ function FooterLinks({
     <div className={cn("w-full", linksContainerClassName)}>
       {hasMultipleRows ? (
         <>
-          <ul className="flex flex-wrap items-center justify-center gap-y-1 md:hidden">
+          <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 md:hidden">
             {renderLinkItems(flatLinks)}
           </ul>
           <div className="hidden w-full flex-col items-center gap-2 md:flex">
             {rows.map((row, rowIndex) => (
               <ul
                 key={rowIndex}
-                className="flex flex-wrap items-center justify-center gap-y-1"
+                className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1"
               >
                 {renderLinkItems(row)}
               </ul>
@@ -69,7 +69,7 @@ function FooterLinks({
           </div>
         </>
       ) : (
-        <ul className="flex flex-wrap items-center justify-center gap-y-1 md:justify-center">
+        <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 md:justify-center">
           {renderLinkItems(rows[0] ?? [])}
         </ul>
       )}
