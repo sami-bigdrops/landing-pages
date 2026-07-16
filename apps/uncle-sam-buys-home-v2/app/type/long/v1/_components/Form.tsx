@@ -1,12 +1,13 @@
 "use client"
 
-import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent } from "react"
+import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent } from "react"
 
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { Button } from "@workspace/ui/components/button"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 import { OFFER_CONTENT } from "@/lib/constant"
+import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
 import { PartnersDialog } from "./PartnersDialog"
 
 
@@ -14,10 +15,12 @@ import { PartnersDialog } from "./PartnersDialog"
 // --- Google Maps Places types (minimal) ---
 type GMapsPlacePrediction = {
   place_id: string
+  description: string
   structured_formatting: {
     main_text: string
     secondary_text: string
   }
+  terms?: Array<{ offset: number; value: string }>
 }
 
 type GMapsAddressComponent = {
@@ -82,11 +85,16 @@ function loadGoogleMaps(apiKey: string): Promise<void> {
   return googleMapsLoadPromise
 }
 
+function normalizeZip(zip: string): string {
+  return zip.replace(/\D/g, "").slice(0, 5)
+}
+
 // --- Google Places Autocomplete Component ---
 function AddressAutocomplete({
   value,
   city,
   state,
+  zipCode,
   onChange,
   onSelect,
   label,
@@ -97,6 +105,7 @@ function AddressAutocomplete({
   value: string
   city: string
   state: string
+  zipCode: string
   onChange: (v: string) => void
   onSelect: (result: AddressResult) => void
   label: string
@@ -177,28 +186,52 @@ function AddressAutocomplete({
   const handleSelect = (pred: GMapsPlacePrediction) => {
     setShowDropdown(false)
     setPredictions([])
-    onChange(pred.structured_formatting.main_text)
-    if (!placesRef.current) return
+
+    const selectedMainText = pred.structured_formatting.main_text.trim()
+    const fallbackCityState = parseCityStateFromPrediction(pred)
+
+    onChange(selectedMainText)
+
+    const applySelection = (result: AddressResult) => {
+      onChange(result.streetAddress)
+      onSelect(result)
+    }
+
+    if (!placesRef.current) {
+      applySelection({
+        streetAddress: selectedMainText,
+        city: fallbackCityState.city,
+        state: fallbackCityState.state,
+        zipCode: "",
+      })
+      return
+    }
+
     placesRef.current.getDetails(
       { placeId: pred.place_id, fields: ["address_components"] },
       (place) => {
-        if (!place?.address_components) return
-        let streetNumber = ""
-        let route = ""
-        let parsedCity = ""
-        let parsedState = ""
-        let parsedZip = ""
-        for (const c of place.address_components) {
-          if (c.types.includes("street_number")) streetNumber = c.long_name
-          if (c.types.includes("route")) route = c.long_name
-          if (c.types.includes("locality")) parsedCity = c.long_name
-          if (c.types.includes("sublocality_level_1") && !parsedCity) parsedCity = c.long_name
-          if (c.types.includes("administrative_area_level_1")) parsedState = c.short_name
-          if (c.types.includes("postal_code")) parsedZip = c.long_name
+        if (!place?.address_components) {
+          applySelection({
+            streetAddress: selectedMainText,
+            city: fallbackCityState.city,
+            state: fallbackCityState.state,
+            zipCode: "",
+          })
+          return
         }
-        const streetAddress = streetNumber ? `${streetNumber} ${route}` : route
-        onChange(streetAddress)
-        onSelect({ streetAddress, city: parsedCity, state: parsedState, zipCode: parsedZip })
+
+        const { streetNumber, route, parsedCity, parsedState, parsedZip } = parseAddressComponents(
+          place.address_components
+        )
+        const streetAddress =
+          (streetNumber ? `${streetNumber} ${route}`.trim() : route.trim()) || selectedMainText
+
+        applySelection({
+          streetAddress,
+          city: parsedCity || fallbackCityState.city,
+          state: parsedState || fallbackCityState.state,
+          zipCode: normalizeZip(parsedZip),
+        })
       }
     )
   }
@@ -242,9 +275,10 @@ function AddressAutocomplete({
         </div>
       )}
 
-      {city && state && (
+      {(city || state || zipCode) && (
         <p className="text-[0.7rem] xl:text-[0.8rem] mt-2 font-medium text-left text-[#1C1C1C]">
-          {city}, {state}
+          {[city, state].filter(Boolean).join(", ")}
+          {zipCode ? ` ${zipCode}` : ""}
         </p>
       )}
     </div>
@@ -312,7 +346,7 @@ type SellHouseTypeId = (typeof SELL_HOUSE_OPTIONS)[number]["id"] | ""
 
 
 
-const TOTAL_STEPS = 8
+const TOTAL_STEPS = 7
 
 const defaultFormData = {
   howSoonToSell: "" as HowSoonToSellTypeId,
@@ -370,19 +404,35 @@ function FormPage() {
   const [partnersOpen, setPartnersOpen] = useState(false)
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
+    if (field === "street_address") {
+      setFormData((prev) => ({
+        ...prev,
+        street_address: value,
+        ...(value.trim() === "" ? { city: "", state: "", zipCode: "" } : {}),
+      }))
+      return
+    }
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
   const isStepValid = () => {
     if (currentStep === 5) {
-      return formData.street_address.trim() !== ""
+      return (
+        formData.street_address.trim() !== "" &&
+        normalizeZip(formData.zipCode).length === 5
+      )
     }
     if (currentStep === 6) {
-      return formData.first_name.trim() !== "" && formData.last_name.trim() !== ""
-    }
-    if (currentStep === 7) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      return formData.email.trim() !== "" && emailRegex.test(formData.email.trim())
+      return (
+        formData.first_name.trim() !== "" &&
+        formData.last_name.trim() !== "" &&
+        formData.email.trim() !== "" &&
+        emailRegex.test(formData.email.trim())
+      )
+    }
+    if (currentStep === TOTAL_STEPS) {
+      return formData.phone_number.trim() !== ""
     }
     return true
   }
@@ -392,14 +442,26 @@ function FormPage() {
     setCurrentStep((prev) => prev + 1)
   }
 
+  const handleFormKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key !== "Enter") return
+    const tag = (e.target as HTMLElement).tagName
+    if (tag === "TEXTAREA" || tag === "BUTTON") return
+
+    if (currentStep === TOTAL_STEPS) {
+      if (!isStepValid()) e.preventDefault()
+      return
+    }
+
+    e.preventDefault()
+    if ((currentStep === 5 || currentStep === 6) && isStepValid()) {
+      handleNext()
+    }
+  }
+
   const handleLeadSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (currentStep !== TOTAL_STEPS) {
-      if (currentStep === 5 && isStepValid()) {
-        handleNext()
-      } else if (currentStep === 6 && isStepValid()) {
-        handleNext()
-      } else if (currentStep === 7 && isStepValid()) {
+      if ((currentStep === 5 || currentStep === 6) && isStepValid()) {
         handleNext()
       }
       return
@@ -408,7 +470,7 @@ function FormPage() {
     setSubmitError("")
     setFieldErrors({})
 
-    const zip = formData.zipCode.trim()
+    const zip = normalizeZip(formData.zipCode)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const email = formData.email.trim()
 
@@ -419,10 +481,14 @@ function FormPage() {
       !email ||
       !emailRegex.test(email) ||
       !formData.phone_number.trim() ||
-      !zip
+      zip.length !== 5
     ) {
       setSubmitStatus("error")
-      setSubmitError("Please complete all required fields with valid details.")
+      setSubmitError(
+        zip.length !== 5
+          ? "Please select a street address from the suggestions so we can detect your ZIP code."
+          : "Please complete all required fields with valid details."
+      )
       return
     }
 
@@ -472,6 +538,7 @@ function FormPage() {
           setFieldErrors({ email: errorMsg })
           setSubmitStatus("error")
           setSubmitError(errorMsg)
+          setCurrentStep(6)
         } else if (fieldHint === "phoneNumber") {
           setFieldErrors({ phone: errorMsg })
           setSubmitStatus("error")
@@ -501,6 +568,7 @@ function FormPage() {
 
       <form
         onSubmit={handleLeadSubmit}
+        onKeyDown={handleFormKeyDown}
         noValidate
         className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 xl:gap-8"
       >
@@ -671,12 +739,9 @@ function FormPage() {
                   value={formData.street_address}
                   city={formData.city}
                   state={formData.state}
+                  zipCode={formData.zipCode}
                   onChange={(v) => {
                     handleInputChange("street_address", v)
-                    if (!v) {
-                      handleInputChange("city", "")
-                      handleInputChange("state", "")
-                    }
                   }}
                   onSelect={(result) => {
                     setFormData((prev) => ({
@@ -684,7 +749,7 @@ function FormPage() {
                       street_address: result.streetAddress,
                       city: result.city,
                       state: result.state,
-                      ...(result.zipCode ? { zipCode: result.zipCode } : {}),
+                      zipCode: result.zipCode,
                     }))
                   }}
                   placeholder="Property Address"
@@ -705,7 +770,7 @@ function FormPage() {
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
             <section className={INPUT_CARD_SHELL}>
 
-              <p className={OFFER_CARD_TITLE}>What is your name?</p>
+              <p className={OFFER_CARD_TITLE}>What is your name and email?</p>
 
               <div className="mt-1 flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
                 <div className="flex w-full flex-col gap-3">
@@ -725,6 +790,23 @@ function FormPage() {
                     placeholder="Last Name"
                     className={INPUT_FIELD}
                   />
+                  <TextInput
+                    id="email"
+                    type="email"
+                    containerClassName={INPUT_CONTAINER}
+                    value={formData.email}
+                    onChange={(e) => {
+                      handleInputChange("email", e.target.value)
+                      if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
+                    }}
+                    placeholder="Email"
+                    className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
+                  />
+                  {fieldErrors.email ? (
+                    <p className="text-xs text-red-600" role="alert">
+                      {fieldErrors.email}
+                    </p>
+                  ) : null}
                 </div>
                 <FormNavigation
                   showNext
@@ -735,42 +817,6 @@ function FormPage() {
             </section>
           </div>
         ) : null}
-
-
-        {currentStep === 7 ? (
-          <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section className={INPUT_CARD_SHELL}>
-
-              <p className={OFFER_CARD_TITLE}>What is your email address?</p>
-
-              <div className="mt-1 flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
-                <TextInput
-                  id="email"
-                  type="email"
-                  containerClassName={INPUT_CONTAINER}
-                  value={formData.email}
-                  onChange={(e) => {
-                    handleInputChange("email", e.target.value)
-                    if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
-                  }}
-                  placeholder="Email"
-                  className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
-                />
-                {fieldErrors.email ? (
-                  <p className="text-xs text-red-600" role="alert">
-                    {fieldErrors.email}
-                  </p>
-                ) : null}
-                <FormNavigation
-                  showNext
-                  isNextDisabled={!isStepValid()}
-                  onNext={handleNext}
-                />
-              </div>
-            </section>
-          </div>
-        ) : null}
-
 
         {currentStep === TOTAL_STEPS ? (
 
@@ -861,7 +907,7 @@ function FormPage() {
 
                 <button
                   type="submit"
-                  disabled={submitStatus === "loading"}
+                  disabled={!isStepValid() || submitStatus === "loading"}
                   className="w-full md:w-60 xl:w-70 rounded-[10px] bg-[#102E50] py-3 xl:py-4 text-sm font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
                 >
                   {submitStatus === "loading" ? "Submitting..." : "SEE MY INSTANT CASH OFFER"}

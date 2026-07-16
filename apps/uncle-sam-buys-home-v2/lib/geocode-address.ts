@@ -1,3 +1,6 @@
+import { lookupCityStateByZip } from "@/lib/lookup-zip"
+import { parseAddressComponents } from "@/lib/parse-place-address"
+
 type GeocodeAddressComponent = {
   long_name: string
   short_name: string
@@ -14,53 +17,61 @@ type GeocodeResponse = {
 export type GeocodedAddress = {
   city: string
   state: string
+  zipCode: string
 }
 
-export async function geocodeAddress(address: string, zipCode: string): Promise<GeocodedAddress> {
+function normalizeZip(zip: string): string {
+  return zip.replace(/\D/g, "").slice(0, 5)
+}
+
+export async function geocodeAddress(
+  address: string,
+  zipCode = ""
+): Promise<GeocodedAddress> {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
-  if (!apiKey) {
+  const zipHint = normalizeZip(zipCode)
+  let city = ""
+  let state = ""
+  let resolvedZip = zipHint
+
+  if (apiKey) {
+    const query = zipHint ? `${address.trim()}, ${zipHint}` : address.trim()
+    const url = new URL("https://maps.googleapis.com/maps/api/geocode/json")
+    url.searchParams.set("address", query)
+    url.searchParams.set("key", apiKey)
+    url.searchParams.set("components", "country:US")
+
+    try {
+      const res = await fetch(url.toString(), { method: "GET", cache: "no-store" })
+      if (res.ok) {
+        const data = (await res.json()) as GeocodeResponse
+        if (data.status === "OK" && data.results.length > 0) {
+          const firstResult = data.results[0]
+          if (firstResult) {
+            const parsed = parseAddressComponents(firstResult.address_components)
+            city = parsed.parsedCity
+            state = parsed.parsedState
+            const parsedZip = normalizeZip(parsed.parsedZip)
+            if (parsedZip.length === 5) resolvedZip = parsedZip
+          }
+        } else {
+          console.warn("[geocode] No results for address. Status:", data.status)
+        }
+      } else {
+        console.warn("[geocode] API HTTP error:", res.status)
+      }
+    } catch (e) {
+      console.error("[geocode] Fetch error:", e)
+    }
+  } else {
     console.warn("[geocode] NEXT_PUBLIC_GOOGLE_PLACES_API_KEY is not set; skipping geocoding")
-    return { city: "", state: "" }
   }
 
-  const query = `${address.trim()}, ${zipCode.trim()}`
-  const url = new URL("https://maps.googleapis.com/maps/api/geocode/json")
-  url.searchParams.set("address", query)
-  url.searchParams.set("key", apiKey)
-  url.searchParams.set("components", "country:US")
-
-  try {
-    const res = await fetch(url.toString(), { method: "GET", cache: "no-store" })
-    if (!res.ok) {
-      console.warn("[geocode] API HTTP error:", res.status)
-      return { city: "", state: "" }
-    }
-
-    const data = (await res.json()) as GeocodeResponse
-
-    if (data.status !== "OK" || data.results.length === 0) {
-      console.warn("[geocode] No results for address. Status:", data.status)
-      return { city: "", state: "" }
-    }
-
-    const firstResult = data.results[0]
-    if (!firstResult) {
-      return { city: "", state: "" }
-    }
-
-    const components = firstResult.address_components
-    let city = ""
-    let state = ""
-
-    for (const c of components) {
-      if (c.types.includes("locality")) city = c.long_name
-      if (c.types.includes("sublocality_level_1") && !city) city = c.long_name
-      if (c.types.includes("administrative_area_level_1")) state = c.short_name
-    }
-
-    return { city, state }
-  } catch (e) {
-    console.error("[geocode] Fetch error:", e)
-    return { city: "", state: "" }
+  if ((!city || !state) && resolvedZip.length === 5) {
+    const fromZip = await lookupCityStateByZip(resolvedZip)
+    city = city || fromZip.city
+    state = state || fromZip.state
   }
+
+  return { city, state, zipCode: resolvedZip }
 }

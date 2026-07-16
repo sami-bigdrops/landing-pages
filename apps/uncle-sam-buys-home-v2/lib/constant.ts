@@ -12,7 +12,7 @@ export const COLORS_CONSTANTS = {
 
 export const FONT = {
   inter: "Inter",
-  interVariable: "--font-sans",
+  interVariable: ",font-sans",
 } as const
 
 export const COLORS = {
@@ -32,7 +32,7 @@ export const HERO_CONTENT = {
   headline2: "We Buy Houses",
   headline3: "No Matter the Reason.",
   description:
-    "Whether you're facing a divorce, job loss, foreclosure, or just need to move fast -- we're here to help, not judge. Get a fair cash offer on your terms, on your timeline.",
+    "Whether you're facing a divorce, job loss, foreclosure, or just need to move fast , we're here to help, not judge. Get a fair cash offer on your terms, on your timeline.",
     badges: [
       {
         icon: "/hero-1.svg",
@@ -55,15 +55,22 @@ export const HERO_CONTENT = {
 
 export const OFFER_CONTENT = {
   headline: "Get Your Free Cash Offer",
-  subtext: "Tell us about your property. We'll review it and send you a fair, no-obligation cash offer -- usually within 24 hours.",
+  subtext: "Tell us about your property. We'll review it and send you a fair, no-obligation cash offer , usually within 24 hours.",
   subtitle: "Do you want to sell your house for cash?",
-  
+} as const
+
+export const COVER_CONTENT = {
+  callToAction: {
+    contactText: "Or give us a call",
+    phoneNumber: "1-855-916-3700",
+    phoneHref: "tel:+18559163700",
+  },
 } as const
 
 
 export const HELP_CONTENT = {
   headline: "We Help Homeowners in Every Situation",
-  subtext: "No matter what brought you here, we've seen it before -- and we have a solution. There's no situation too complicated for a cash sale.",
+  subtext: "No matter what brought you here, we've seen it before , and we have a solution. There's no situation too complicated for a cash sale.",
   steps: [
     {
       id: 1,
@@ -79,7 +86,7 @@ export const HELP_CONTENT = {
       id: 2,
       title: "Financial Hardship or Debt",
       description:
-        "Mounting bills, missed payments, or overwhelming debt -- a fast cash sale can give you the breathing room you need.",
+        "Mounting bills, missed payments, or overwhelming debt , a fast cash sale can give you the breathing room you need.",
       image: {
         src: "/help-2.svg",
         alt: "Financial Hardship or Debt",
@@ -99,7 +106,7 @@ export const HELP_CONTENT = {
       id: 4,
       title: "Foreclosure or Pre-Foreclosure",
       description:
-        "We can move fast enough to help you avoid foreclosure and protect your credit -- before it's too late.",
+        "We can move fast enough to help you avoid foreclosure and protect your credit , before it's too late.",
       image: {
         src: "/help-4.svg",
         alt: "Foreclosure or Pre-Foreclosure",
@@ -119,7 +126,7 @@ export const HELP_CONTENT = {
       id: 6,
       title: "Property Needs Major Repairs",
       description:
-        "We buy houses as-is -- no matter the condition. You don't need to fix a single thing before selling.",
+        "We buy houses as-is , no matter the condition. You don't need to fix a single thing before selling.",
       image: {
         src: "/help-6.svg",
         alt: "Property Needs Major Repairs",
@@ -139,7 +146,7 @@ export const HELP_CONTENT = {
       id: 8,
       title: "Downsizing or Life Change",
       description:
-        "Empty nesters, retirees, or anyone ready for a simpler life -- we make it easy to sell and move on.",
+        "Empty nesters, retirees, or anyone ready for a simpler life , we make it easy to sell and move on.",
       image: {
         src: "/help-8.svg",
         alt: "Downsizing or Life Change",
@@ -149,7 +156,7 @@ export const HELP_CONTENT = {
       id: 9,
       title: "Tired Landlord",
       description:
-        "Done dealing with tenants, repairs, and vacancies? Sell your rental property fast for cash -- occupied or vacant.",
+        "Done dealing with tenants, repairs, and vacancies? Sell your rental property fast for cash , occupied or vacant.",
       image: {
         src: "/help-9.svg",
         alt: "Tired Landlord",
@@ -231,7 +238,7 @@ export const WORKS_CONTENT = {
 export const STEPS_CONTENT = {
   headline: "Simple. Fast. Stress-Free.",
   subtext:
-    "We've designed our process to be as easy as possible -- especially when life is already complicated enough.",
+    "We've designed our process to be as easy as possible , especially when life is already complicated enough.",
   steps: [
     {
       id: 1,
@@ -316,8 +323,8 @@ export const REVIEW_CONTENT = {
 
 
 export const INFO_CONTENT = {
-  headline: "Whatever Your Situation -- There Is a Way Forward.",
-  subtext: "You don't have to figure this out alone. Get a free, no-obligation cash offer and let us help you take the next step -- on your terms, at your pace.",
+  headline: "Whatever Your Situation , There Is a Way Forward.",
+  subtext: "You don't have to figure this out alone. Get a free, no-obligation cash offer and let us help you take the next step , on your terms, at your pace.",
   
   badges: [
     {
@@ -467,9 +474,13 @@ export const FOOTER_CONTENT = {
 
 
 export const THANKYOU_CONTENT = {
-  title: "Thank you!",
+  title: "Thanks for your inquiry, {first_name}!",
+  titleFallback: "Thanks for your inquiry!",
   subtitle:
-    "Thank you for connecting with Uncle Sam Buys Homes. A specialist will contact you shortly about your property.",
+    "We're glad you're here.\nWe've matched you with PrimeStreet.\nYou can rest assured that here at PrimeStreet, we will match you with the best agent in your area for your needs, free of cost! No hassle, just great service!\n\nOne of our Customer Advocates will be reaching out to you soon to help you with your home needs or feel free to reach out to us first by calling or texting us at +14696208367.",
+  contactTitle: "Call or text us",
+  contactPhoneLabel: "+14696208367",
+  contactPhoneHref: "tel:+14696208367",
   confirmationTitle:
     "A confirmation message has been sent to your email address.",
   confirmationDescription:
@@ -487,61 +498,41 @@ export interface ThankYouType2Content {
   partnerName: string
   partnerLogo: { src: string; alt: string }
   confirmationMessage: string
-  /** Shown in a green notice below the main confirmation copy */
-  emailConfirmationNotice?: string
+  confirmationEmailSentNote?: string
+  contactPhoneLabel?: string
+  contactPhoneHref?: string
   aboutSectionTitle: string
   featureCards: ThankYouType2FeatureCard[]
 }
 
+export const THANKYOU_REQUIRE_EMAIL_IN_PARAMS = true
+
 export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
-  title: "Thank you!",
-  partnerName: SITE_BRAND.name,
-  partnerLogo: { src: "/logo.svg", alt: `${SITE_BRAND.name} logo` },
+  title: "Thanks for your inquiry!",
+  partnerName: "PrimeStreet",
+  partnerLogo: {
+    src: "/PrimeStreetLogo.svg",
+    alt: "PrimeStreet logo",
+  },
   confirmationMessage:
-    "We received your information. A member of our team will reach out soon to discuss a potential cash offer for your home.",
-  emailConfirmationNotice:
-    "We've sent a confirmation email to your inbox. If you don't see it within a few minutes, check your spam or junk folder.",
-  aboutSectionTitle: `Why homeowners choose ${SITE_BRAND.name}`,
-  featureCards: [
-    {
-      title: "Speed and simplicity",
-      icon: "shield",
-      bulletPoints: [
-        "Share a few details online instead of juggling endless back-and-forth before you know if there is interest.",
-        "Explore a path designed for homeowners who want clarity without a long listing process.",
-        "Get routed to buyers who are actively looking for properties like yours.",
-      ],
-    },
-    {
-      title: "Sell as-is conversations",
-      icon: "building",
-      bulletPoints: [
-        "Many investors buy with repair needs in mind—ask questions early so expectations stay clear.",
-        "Compare a cash-style timeline with what a traditional sale might require for prep and showings.",
-        "Understand options before you commit to staging, repairs, or open houses.",
-      ],
-    },
-    {
-      title: "No pressure next steps",
-      icon: "check",
-      bulletPoints: [
-        "Submitting the form does not lock you into an agreement.",
-        "You choose whether to continue after you hear what is possible for your address and situation.",
-        "Our goal is to make the first step easy so you can decide what fits your goals.",
-      ],
-    },
-  ],
+    "We're glad you're here.\nWe've matched you with PrimeStreet.\nYou can rest assured that here at PrimeStreet, we will match you with the best agent in your area for your needs, free of cost! No hassle, just great service!\n\nOne of our Customer Advocates will be reaching out to you soon to help you with your home needs or feel free to reach out to us first by calling or texting us at +14696208367.",
+  contactPhoneLabel: "+14696208367",
+  contactPhoneHref: "tel:+14696208367",
+  aboutSectionTitle: "",
+  featureCards: [],
 }
 
 export const REJECTED_PAGE_CONTENT = {
-  title: "We couldn’t complete your submission",
+  title: "We can't make an offer right now",
   leadMessage:
-    "Our verification partner wasn’t able to accept this submission. This can happen when information doesn’t pass their checks.",
+    "We weren't able to match your property with a buyer at this time.",
   defaultDetail:
-    "Please confirm your address and contact details are accurate, then try again. If you continue to see this message, try again later or use a different phone number.",
+    "Please double-check your details and try again later.",
   codeMessages: {
     1013:
-      "The lead was rejected by our partner. You may have submitted recently, or your details could not be verified. Please review your information and try again.",
+      "This request couldn't be verified. Please review your details and try again.",
+    1025:
+      "No buyer was available for this property right now. Please try again later.",
   } as Record<number, string>,
   partnerLogo: { src: "/logo.svg", alt: `${SITE_BRAND.name} logo` },
 }

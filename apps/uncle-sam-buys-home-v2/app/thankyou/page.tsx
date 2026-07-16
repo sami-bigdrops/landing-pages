@@ -1,20 +1,9 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
-import { ThankYouContent, type ThankYouAd } from "@workspace/bdmg-component"
-import { SITE_BRAND, THANKYOU_CONTENT } from "@/lib/constant"
+import { SITE_BRAND } from "@/lib/constant"
 import Navbar from "@/app/_components/Navbar"
 import Footer from "@/app/_components/Footer"
-
-const THANKYOU_ADS: ThankYouAd[] = [
-  {
-    image: "/2.png",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=115&sub1=pwe_{{utm_source}}&sub2={{utm_id}}",
-  },
-  {
-    image: "/3.jpg",
-    link: "https://www.platinum-home-track.com/28KL6/49FHNSP/?uid=113&sub1=pwe_{{utm_source}}&sub2={{utm_id}}",
-  },
-]
+import { ThankYouPageContent } from "@/app/_components/ThankYouPageContent"
 
 export const metadata: Metadata = {
   title: "Thank You",
@@ -37,19 +26,7 @@ export default function ThankYouPage() {
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <Suspense fallback={<ThankYouLoading />}>
-        <ThankYouContent
-          variant="1"
-          title={THANKYOU_CONTENT.title}
-          subtitle={THANKYOU_CONTENT.subtitle}
-          showBuyerLogo={false}
-          showContact={false}
-          confirmationTitle={THANKYOU_CONTENT.confirmationTitle}
-          confirmationDescription={THANKYOU_CONTENT.confirmationDescription}
-          redirectPath="/"
-          sendWelcomeEmail
-          ads={THANKYOU_ADS}
-          loadingFallback={<ThankYouLoading />}
-        />
+        <ThankYouPageContent loadingFallback={<ThankYouLoading />} />
       </Suspense>
       <Footer />
     </div>

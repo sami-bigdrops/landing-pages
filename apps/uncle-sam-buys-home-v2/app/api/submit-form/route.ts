@@ -14,7 +14,6 @@ const REQUIRED_FIELDS = [
   "address",
   "email",
   "phoneNumber",
-  "zipCode",
 ] as const
 
 const TCPA_TEXT =
@@ -35,15 +34,14 @@ function leadProsperPhoneDigits(phone: string): string {
   return d
 }
 
-function isCaliforniaLead(state: string, zipCode: string): boolean {
+function normalizeZip(zip: string): string {
+  return String(zip).replace(/\D/g, "").slice(0, 5)
+}
+
+function isCaliforniaLead(state: string): boolean {
   const s = String(state).trim()
   const upper = s.toUpperCase()
-  if (upper === "CA" || s.toLowerCase() === "california") return true
-  const digits = String(zipCode).replace(/\D/g, "").slice(0, 5)
-  if (digits.length !== 5) return false
-  const n = parseInt(digits, 10)
-  if (!Number.isFinite(n)) return false
-  return n >= 90001 && n <= 96162
+  return upper === "CA" || s.toLowerCase() === "california"
 }
 
 async function verifyPhone(phone: string, key: string, defaultCountry = "US"): Promise<{ valid: boolean; error?: string }> {
@@ -99,15 +97,33 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const zipVal = typeof zipCode === "string" ? zipCode : String(zipCode ?? "")
+    const zipHint =
+      typeof zipCode === "string" ? normalizeZip(zipCode) : normalizeZip(String(zipCode ?? ""))
 
-    // Geocode city/state from the address on the server side
-    const geocoded = await geocodeAddress(String(address).trim(), zipVal)
-    const resolvedCity = geocoded.city || (typeof city === "string" ? city : "")
-    const resolvedState = geocoded.state || (typeof state === "string" ? state : "")
-    console.log("[submit-form] geocoded:", { city: resolvedCity, state: resolvedState })
+    const geocoded = await geocodeAddress(String(address).trim(), zipHint)
+    const bodyCity = typeof city === "string" ? city.trim() : ""
+    const bodyState = typeof state === "string" ? state.trim() : ""
+    const resolvedCity = bodyCity || geocoded.city
+    const resolvedState = bodyState || geocoded.state
+    const zipVal = zipHint.length === 5 ? zipHint : geocoded.zipCode
+    console.log("[submit-form] geocoded:", {
+      city: resolvedCity,
+      state: resolvedState,
+      zipCode: zipVal,
+    })
 
-    if (isCaliforniaLead(resolvedState, zipVal)) {
+    if (zipVal.length !== 5) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Could not determine ZIP code from the address. Please select a valid street address.",
+          field: "address",
+        },
+        { status: 400 }
+      )
+    }
+
+    if (isCaliforniaLead(resolvedState)) {
       console.log("[submit-form] Rejected: California")
       return NextResponse.json(
         {
@@ -157,7 +173,7 @@ export async function POST(request: NextRequest) {
       state: resolvedState,
       email: emailTrimmed,
       phoneNumber,
-      zipCode,
+      zipCode: zipVal,
       subid1: subid1 ?? "",
       subid2: subid2 ?? "",
       subid3: subid3 ?? "",
@@ -185,7 +201,7 @@ export async function POST(request: NextRequest) {
         last_name: String(lastName).trim(),
         email: emailTrimmed,
         phone: leadProsperPhoneDigits(String(phoneNumber)),
-        zip_code: String(zipCode).trim(),
+        zip_code: zipVal,
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,
@@ -277,7 +293,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "Form submitted successfully",
-        redirectUrl: `/thankyou?email=${encodeURIComponent(emailTrimmed)}`,
+        redirectUrl: `/thankyou?email=${encodeURIComponent(emailTrimmed)}&firstName=${encodeURIComponent(String(firstName).trim())}`,
         accessToken,
         expiresAt,
       },
