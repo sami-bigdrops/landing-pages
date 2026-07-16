@@ -1,8 +1,6 @@
 //  sections constants
 
-export const TOP_NAV_CONTENT = {
-  headline: "Fast Insurance Quotes From the Nation’s Best Companies",
-} as const
+
 
 export const NAVBAR_CONTENT = {
   contactPhoneLabel: "855-581-3316",
@@ -10,15 +8,52 @@ export const NAVBAR_CONTENT = {
 } as const
 
 export const HERO_CONTENT = {
-  headline: "Save up to 50% on Your Car Insurance.",
-  description: "Compare Auto Insurance Quotes Instantly.",
-
-
-
+  headline: "Get Cheap Auto Insurance Quotes Instantly",
+  description:
+    "Compare trusted auto insurance quotes and find the right coverage at the right price.",
+    mobileBadges: [
+      {
+        icon: "/hero-1.svg",
+        text: "Free Quotes",
+      },
+      {
+        icon: "/hero-2.svg",
+        text: "Takes Just 2 Minutes",
+      },
+      {
+        icon: "/hero-3.svg",
+        text: "Compare Multiple Providers",
+      },
+    ],
+    desktopBadges: [
+      {
+        icon: "/hero-4.svg",
+        text: "Free Quotes",
+      },
+      {
+        icon: "/hero-5.svg",
+        text: "Compare Multiple Providers",
+      },
+      {
+        icon: "/hero-6.svg",
+        text: "Takes Just 2 Minutes",
+      },
+    ],
+  image: {
+    alt: "A couple in a modern kitchen discussing their home",
+    src: "/hero.webp",
+  },
+  imageMobile: {
+    alt: "A couple in a modern kitchen discussing their home",
+    src: "/hero-mobile.webp",
+  },
+ 
+  
 } as const
 
+
 export const PARTNERS_CONTENT = {
-  header: "Fast Insurance Quotes From the Nation’s Best Companies",
+  header: "Get quotes and offers from popular insurance companies",
 
   partners: [
     { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
@@ -30,39 +65,113 @@ export const PARTNERS_CONTENT = {
   ],
 } as const
 
-export const HELP_CONTENT = {
-  header: "We’ve Helped Over 4 Million People Save Money on Their Insurance Since 2004",
-  features: [
+export const FEATURES_CONTENT = {
+  headline: "Find Affordable Auto Insurance Without The Long Search",
+  
+  steps: [
     {
-      title: "Compare Rates from #1 Top Rated Brands",
-
-      icon: "/tick.svg",
+      id: 1,
+      title: "Save More",
+      description:
+        "Compare quotes from multiple insurance providers and look for rates that suit your budget.",
+      image: {
+        src: "/feature-1.svg",
+        alt: "Cash in Your Hands Fast",
+      },
     },
     {
-      title: "100% Safe & Secure",
-
-      icon: "/tick.svg",
+      id: 2,
+      title: "Fast & Easy",
+      description:
+        "Share a few basic details and view personalized quote options in just a few minutes.",
+      image: {
+        src: "/feature-2.svg",
+        alt: "Sell Completely As-Is",
+      },
     },
     {
-      title: "Get Multiple Quotes for Free in Less than 3 minutes",
-
-      icon: "/tick.svg",
+      id: 3,
+      title: "Recognised Providers",
+      description:
+        "Review cover options from well-known insurance companies in one simple place.",
+      image: {
+        src: "/feature-3.svg",
+        alt: "Close in as Little as 7 Days",
+      },
     },
     {
-      title: "Save up to 50% by comparing offers",
-
-      icon: "/tick.svg",
+      id: 4,
+      title: "No Obligation",
+      description:
+        "Check your options freely, with no pressure to buy and no hidden commitment.",
+      image: {
+        src: "/feature-4.svg",
+        alt: "Zero Fees or Commissions",
+      },
     },
+  ]
+} as const;
+
+export const OPTIONS_CONTENT = {
+  header: "A Better Rate Could Be Waiting In Your ZIP",
+  description: "Tell us the basics and we’ll line up options worth a look.",
+
+  image: {
+    src: "/quokka.webp",
+    alt: "Quokka Image",
+  },
+  
+} as const
+
+export const REVIEW_CONTENT = {
+  header: "Helping Drivers Find Better Rates Every Day",
+
+  badge: [
+    {
+      text: "Verified",
+      icon: "/badge.svg",
+    },
+    
   ],
 
-  phonePrompt: "Rather Get a Quote by Phone? Talk to an Agent",
-  phone: {
-    label: "855-581-3316",
-    href: "tel:+18555813316",
-    icon: "/help-call.svg",
-
-  },
-
+  reviews: [
+    {
+      id: 1,
+      quote: "Comparing quotes was much easier than calling different insurance companies one by one. I found a plan that fit my monthly budget in just a few minutes.",
+      customer: {
+        name: "Sarah M.",
+        location: "Phoenix, AZ",
+        image: {
+          src: "/profile-1.svg",
+          alt: "Sarah M.",
+        },
+      },
+    },
+    {
+      id: 2,
+      quote: "The process was quick and simple. I could review different cover options in one place and choose the one that worked best for my family.",
+      customer: {
+        name: "Michael R.",
+        location: "Dallas, TX",
+        image: {
+          src: "/profile-2.svg",
+          alt: "Michael R.",
+        },
+      },
+    },
+    {
+      id: 3,
+      quote: "I liked being able to compare auto insurance quotes without feeling pressured. It saved me time and helped me find a better rate.",
+      customer: {
+        name: "Jessica L.",
+        location: "Orlando, FL",
+        image: {
+          src: "/profile-3.svg",
+          alt: "Jessica L.",
+        },
+      },
+    },
+  ],
 } as const
 
 
@@ -71,27 +180,18 @@ export const HELP_CONTENT = {
 
 
 export const FOOTER_CONTENT = {
-
   linkRows: [
     [
       { text: "Privacy Policy", href: "/privacy-policy" },
       { text: "Terms of Use", href: "/terms-of-use" },
-      { text: "Do not sell my personal information", href: "/do-not-sell-my-personal-information" },
-      { text: "Contact us", href: "/contact" },
-      { text: "About us", href: "/about" },
-    ],
-    [
-      { text: "California Privacy Choices", href: "/california-privacy-choices" },
-      { text: "Cookies and Other Technology", href: "/cookies-and-other-technology" },
+      { text: "Contact ", href: "/contact" },
     ],
   ],
 
-  disclaimer: [
-    "Cheap Auto Insurance Options is a digital insurance comparison platform that helps consumers compare auto insurance options through its network of insurance carriers, agencies, and licensed partners across the United States. We may receive compensation from our partner providers when you are connected with their products or services. Cheap Auto Insurance Options is not affiliated with any federal, state, or government agency.",
-    "The lowest advertised rates may not be available from all insurance providers or in all locations. Rates and coverage options are based on the information you provide and may vary depending on factors such as your location, driving history, age, vehicle type, coverage selections, deductibles, discounts, and other underwriting criteria. Quotes displayed or advertised are for illustrative purposes only and do not guarantee availability or eligibility.",
-    "As part of our commitment to providing a quality user experience, Cheap Auto Insurance Options and its service providers may monitor, record, and retain activity on this website and its associated links for quality assurance, security, training, analytics, and service improvement purposes.",
-  ],
+  copyrightText: "Copyright © 2026 Cheap Auto Insurance Options. All Rights Reserved.",
 } as const
+
+ 
 
 export const THANKYOU_CONTENT = {
   title: "Thank you!",
