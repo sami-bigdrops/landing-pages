@@ -222,7 +222,31 @@ export const REVIEW_CONTENT = {
   ],
 } as const
 
-
+export const FAQ_CONTENT = {
+  header: "Frequently Asked Questions",
+  faqs: [
+    {
+      id: 1,
+      question: "Is it free to compare auto insurance quotes?",
+      answer: "Yes. Comparing quotes through our platform is free. There are no hidden charges or purchase obligations.",
+    },
+    {
+      id: 2,
+      question: "How long does it take to get my quotes?",
+      answer: "Most users can complete the process in just a few minutes after entering their ZIP code and basic details.",
+    },
+    {
+      id: 3,
+      question: "Will comparing quotes affect my credit score?",
+      answer: "No. Comparing quotes through our platform will not affect your credit score.",
+    },
+    {
+      id: 4,
+      question: "Am I required to purchase a policy?",
+      answer: "No. You can review your quote options freely and choose whether or not to move forward.",
+    },
+  ],
+} as const
 
 
 
