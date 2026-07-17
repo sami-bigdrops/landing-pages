@@ -183,7 +183,7 @@ export default function Hero() {
 
                     {/* Desktop */}
 
-                    <div className="hidden relative w-full sm:flex w-full flex-row items-center justify-start  ">
+                    <div className="hidden relative w-full sm:flex flex-row items-center justify-start  ">
                       <div className="relative w-full max-w-full lg:max-w-full xl:max-w-full min-w-0 shrink ">
                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                           <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-5 xl:h-5 " />

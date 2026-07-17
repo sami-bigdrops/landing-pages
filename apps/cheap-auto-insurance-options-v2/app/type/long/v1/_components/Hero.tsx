@@ -18,7 +18,7 @@ import { HERO_CONTENT } from "@/lib/constant"
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://auto-quote.quotifii.com";
+const BASE_URL = "https://quote.cheapautoinsuranceoptions.com";
 const ANALYTICS_FLUSH_DELAY_MS = 300;
 
 export default function Hero() {
