@@ -6,6 +6,8 @@ import Footer from "@/app/_components/Footer"
 import Partners from "@/app/type/long/v1/_components/Partners"
 import Features from "@/app/type/long/v1/_components/Features"
 import Review from "@/app/type/long/v1/_components/Review"
+import Steps from "@/app/type/long/v1/_components/Steps"
+import Options from "@/app/type/long/v1/_components/Options"
 
 
 export default function HomeContent() {
@@ -16,7 +18,9 @@ export default function HomeContent() {
       <Hero />
       <Partners />
       <Features />
+      <Steps />
       <Review />
+      <Options />
       
       <Footer />
     </div>

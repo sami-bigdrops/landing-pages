@@ -112,6 +112,43 @@ export const FEATURES_CONTENT = {
   ]
 } as const;
 
+export const STEPS_CONTENT = {
+  header: "Get Covered in 3 Simple Steps",
+
+  steps: [
+    {
+      number: 1,
+      numberText: "01.",
+      title: "Enter Your ZIP Code",
+      description: "Tell us where you live so we can help find auto insurance options available in your area.",
+      image: {
+        src: "/step-1.svg",
+        alt: "Enter Your ZIP Code",
+      },
+    },
+    {
+      number: 2,
+      numberText: "02.",
+      title: "Answer A Few Quick Questions",
+      description: "Share basic details about your vehicle, driving needs, and current cover preferences.",
+      image: {
+        src: "/step-2.svg",
+        alt: "Answer A Few Quick Questions",
+      },
+    },
+    {
+      number: 3,
+      numberText: "03.",
+      title: "Compare & Choose Your Quote",
+      description: "Review your quote options, compare benefits, and select the cover that works best for you.",
+      image: {
+        src: "/step-3.svg",
+        alt: "Compare & Choose Your Quote",
+      },
+    },
+  ],
+} as const
+
 export const OPTIONS_CONTENT = {
   header: "A Better Rate Could Be Waiting In Your ZIP",
   description: "Tell us the basics and we’ll line up options worth a look.",
