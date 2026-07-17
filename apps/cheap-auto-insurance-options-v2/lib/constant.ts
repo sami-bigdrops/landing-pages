@@ -150,15 +150,26 @@ export const STEPS_CONTENT = {
 } as const
 
 export const OPTIONS_CONTENT = {
-  header: "A Better Rate Could Be Waiting In Your ZIP",
-  description: "Tell us the basics and we’ll line up options worth a look.",
+  header: "Ready to Compare Auto Insurance Quotes?",
+  description: "Enter your ZIP code to compare personalized auto insurance options from recognized providers.",
 
-  image: {
-    src: "/quokka.webp",
-    alt: "Quokka Image",
-  },
+  badges: [
+    {
+      icon: "/hero-4.svg",
+      text: "Free Quotes",
+    },
+    {
+      icon: "/hero-5.svg",
+      text: "Takes Just 2 Minutes",
+    },
+    {
+      icon: "/hero-6.svg",
+      text: "Compare Multiple Providers",
+    },
+  ],
   
 } as const
+
 
 export const REVIEW_CONTENT = {
   header: "Helping Drivers Find Better Rates Every Day",
