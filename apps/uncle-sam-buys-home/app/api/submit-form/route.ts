@@ -232,7 +232,7 @@ export async function POST(request: NextRequest) {
         lp_campaign_id: campaignId,
         lp_supplier_id: supplierId,
         lp_key: apiKey,
-        lp_action: "test",
+        lp_action: "",
         lp_subid1: subid1 ?? "",
         lp_subid2: subid2 ?? "",
         first_name: String(firstName).trim(),
