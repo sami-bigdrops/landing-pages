@@ -36,7 +36,7 @@ export default function RootLayout({
       <head>
         <meta
           name="arohaa-verify"
-          content="T03rnR6ZhV4MEqaeMrcWOUviXfkS1ZxZ"
+          content="v-jM43ZmTwj4teHpsj4tnkBJzm4xY4S8"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -48,10 +48,10 @@ export default function RootLayout({
           id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="2550427e-6a1c-47a7-9d9b-dd1756af0d79"
+          data-wid="9b5448db-5321-4837-aa6a-d6a3e07aeb17"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_gpD0IbRv7QIE2wv5"
-          data-page="autoinsurance.quotifii.com"
+          data-lp-id="lp_EYSm8H5lSLsKE0a6"
+          data-page="autoquote.cheapautoinsuranceoptions.com"
           data-formtype="zip"
         />
         <script

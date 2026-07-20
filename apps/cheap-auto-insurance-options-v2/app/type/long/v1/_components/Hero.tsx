@@ -47,21 +47,15 @@ export default function Hero() {
   }, []);
 
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
-  };
-
-   const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
     if (!/^\d{5}$/.test(trimmed)) {
       alert("Please enter a valid 5-digit ZIP code");
       return;
     }
 
-
-      setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
+    setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
 
     const utmSource = getCookie("subid1") || "";
     const utmId = getCookie("subid2") || "";
@@ -164,16 +158,21 @@ export default function Hero() {
 
                   <div className="w-full space-y-4 sm:space-y-0  xl:max-w-full">
                     {/* Mobile */}
-                    <div className="block sm:hidden space-y-2.5">
+                    <form
+                      data-arohaa-zip-form
+                      onSubmit={handleSubmit}
+                      className="block sm:hidden space-y-2.5"
+                    >
                       <div className="relative w-full">
                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                           <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-4.5 h-4.5 xl:w-6 xl:h-6 " />
                         </div>
                         <ZipCodeInput
                           id="hero-zipcode-mobile"
+                          name="zip"
+                          data-arohaa-zip
                           value={zipCode}
                           onChange={(value) => setZipCode(value)}
-                          onKeyDown={handleKeyPress}
                           placeholder="90001"
                           inputClassName="
                           h-14 pl-9.5 pr-2 text-[0.9rem] font-normal font-poppins
@@ -192,7 +191,8 @@ export default function Hero() {
                       <Button
                         type="1"
                         variant="default"
-                        onClick={handleSubmit}
+                        htmlType="submit"
+                        data-arohaa-zip-submit
                         disabled={isRedirecting || !zipValid}
                         className="flex h-14 w-full cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#F59E0B] px-8 py-4 font-poppins text-[0.9rem] font-semibold uppercase  text-[#102A43] shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#F59E0B] disabled:cursor-not-allowed disabled:opacity-90"
                       >
@@ -205,7 +205,7 @@ export default function Hero() {
                           </>
                         )}
                       </Button>
-                    </div>
+                    </form>
 
 
 
@@ -260,16 +260,21 @@ export default function Hero() {
 
                   {/* Desktop */}
 
-                  <div className="hidden relative w-full sm:flex w-full flex-row items-start justify-start  gap-2 xl:gap-3">
+                  <form
+                    data-arohaa-zip-form
+                    onSubmit={handleSubmit}
+                    className="hidden relative w-full sm:flex w-full flex-row items-start justify-start  gap-2 xl:gap-3"
+                  >
                     <div className="relative w-full max-w-[160px] lg:max-w-[165px] xl:max-w-[212px] min-w-0 shrink ">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                         <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-5.5 xl:h-5.5 " />
                       </div>
                       <ZipCodeInput
                         id="hero-zipcode"
+                        name="zip"
+                        data-arohaa-zip
                         value={zipCode}
                         onChange={(value) => setZipCode(value)}
-                        onKeyDown={handleKeyPress}
                         placeholder="90001"
                         inputClassName="
                           h-14 md:h-13.5 xl:h-17.5 pl-10 xl:pl-10.5 pr-2 text-[0.9rem] lg:text-[0.95rem] xl:text-xl font-normal font-poppins
@@ -288,7 +293,8 @@ export default function Hero() {
                     <Button
                       type="1"
                       variant="default"
-                      onClick={handleSubmit}
+                      htmlType="submit"
+                      data-arohaa-zip-submit
                       disabled={isRedirecting || !zipValid}
                       className="flex h-14 w-[190px] shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#F59E0B] px-4 font-poppins text-[0.85rem] font-bold uppercase text-[#102A43] shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#F59E0B] disabled:cursor-not-allowed disabled:opacity-90 md:h-13.5 lg:w-[205px] xl:h-17.5 xl:w-[260px] xl:text-lg"
                     >
@@ -301,7 +307,7 @@ export default function Hero() {
                         </>
                       )}
                     </Button>
-                  </div>
+                  </form>
 
                   <div className="mt-1 flex w-full flex-col items-center gap-3 md:mt-1 lg:flex-row md:flex-nowrap md:items-start md:justify-start md:gap-y-3 xl:gap-4.5 ">
                     <div className="flex items-start justify-start gap-x-3.5 xl:gap-x-5 ">
