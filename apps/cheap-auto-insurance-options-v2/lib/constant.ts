@@ -256,7 +256,7 @@ export const FOOTER_CONTENT = {
     [
       { text: "Privacy Policy", href: "/privacy-policy" },
       { text: "Terms of Use", href: "/terms-of-use" },
-      { text: "Contact ", href: "/contact" },
+      { text: "Contact", href: "/contact" },
     ],
   ],
 

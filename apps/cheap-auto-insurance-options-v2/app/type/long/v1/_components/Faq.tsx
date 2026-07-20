@@ -21,7 +21,8 @@ export default function Faq() {
     return (
       <div
         key={faq.id}
-        className="w-full bg-white rounded-[10px] border border-[#CDD1D8] shadow-[2px_2px_15px_0_rgba(31,58,95,0.10)] overflow-hidden"
+        className="w-full bg-[#FFF] rounded-[10px] border border-[#CDD1D8]  overflow-hidden"
+   
       >
  
         <button
@@ -34,7 +35,7 @@ export default function Faq() {
           </h3>
           <div className="flex-shrink-0">
             <div
-              className="w-8 h-8 xl:w-10 xl:h-10 flex items-center justify-center rounded-full"
+              className="w-7.5 h-7.5 xl:w-10 xl:h-10 flex items-center justify-center rounded-full"
               style={{ background: '#F59E0B' }}
             >
               {isOpen ? (
@@ -71,21 +72,21 @@ export default function Faq() {
   }
 
   return (
-    <div id="faq" className="faq bg-white w-full h-full px-6 py-6 md:px-8 md:py-10 lg:px-14 lg:py-12  xl:px-23 xl:py-18">
+    <div id="faq" className="faq bg-white w-full h-full px-6 py-6 md:px-8 md:py-10 lg:px-14 lg:py-12  xl:px-23 xl:py-15 xl:pb-19">
       <div className="container mx-auto max-w-[1400px]">
-        <div className="faq-content w-full flex flex-col items-center justify-center gap-8 md:gap-8 lg:gap-10 xl:gap-16">
+        <div className="faq-content w-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:gap-12 xl:gap-16">
           <h2 className="text-[1.4rem] text-center  md:text-2xl xl:text-4xl md:max-w-[500px] lg:max-w-full font-bold text-[#102A43] text-center font-sans" style={{ lineHeight: 1.3 }}>
             {FAQ_CONTENT.header}
           </h2>
 
-          <div className="w-full flex flex-col md:flex-row md:items-start gap-4">
-            <div className="w-full md:w-[calc(50%-0.625rem)] flex flex-col gap-4">
+          <div className="w-full flex flex-col lg:flex-row lg:items-start gap-4 xl:gap-5">
+            <div className="w-full lg:w-[calc(50%-0.625rem)] flex flex-col gap-4 xl:gap-5">
               {FAQ_CONTENT.faqs
                 .filter((faq) => faq.id === 1 || faq.id === 3)
                 .map(faqItem)}
             </div>
 
-            <div className="w-full md:w-[calc(50%-0.625rem)] flex flex-col gap-4">
+            <div className="w-full lg:w-[calc(50%-0.625rem)] flex flex-col gap-4 xl:gap-5">
               {FAQ_CONTENT.faqs
                 .filter((faq) => faq.id === 2 || faq.id === 4)
                 .map(faqItem)}

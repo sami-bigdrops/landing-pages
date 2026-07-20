@@ -22,56 +22,62 @@ function FooterLinks({
   if (rows == null || rows.length === 0) return null
 
   const renderLinkItems = (rowLinks: FooterLink[]) =>
-    rowLinks.map((link, index) => (
-      <li key={link.href} className="flex items-center">
-        <a
-          href={link.href}
-          className={cn(
-            "text-sm text-white/80 hover:text-white transition-colors",
-            linksClassName
-          )}
-        >
-          {link.text}
-        </a>
-        {linksSeparator === true && index < rowLinks.length - 1 && (
-          <span
+    rowLinks.flatMap((link, index) => {
+      const items = [
+        <li key={link.href} className="inline-flex items-center">
+          <a
+            href={link.href}
             className={cn(
-              "mx-3 text-sm text-white/80 select-none",
+              "text-sm text-white/80 hover:text-white transition-colors whitespace-nowrap",
               linksClassName
             )}
+          >
+            {link.text}
+          </a>
+        </li>,
+      ]
+
+      if (linksSeparator === true && index < rowLinks.length - 1) {
+        items.push(
+          <li
+            key={`${link.href}-sep`}
+            className="inline-flex items-center self-center select-none"
             aria-hidden
           >
-            |
-          </span>
-        )}
-      </li>
-    ))
+            <span className="text-[0.8rem] xl:text-base leading-none text-current">
+              |
+            </span>
+          </li>
+        )
+      }
+
+      return items
+    })
 
   const hasMultipleRows = rows.length > 1
   const flatLinks = rows.flat()
+  const rowListClassName = cn(
+    "flex items-center justify-center gap-x-3",
+    linksSeparator ? "flex-nowrap" : "flex-wrap gap-y-1"
+  )
 
   return (
     <div className={cn("w-full", linksContainerClassName)}>
       {hasMultipleRows ? (
         <>
-          <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 md:hidden">
+          <ul className={cn(rowListClassName, "md:hidden")}>
             {renderLinkItems(flatLinks)}
           </ul>
           <div className="hidden w-full flex-col items-center gap-2 md:flex">
             {rows.map((row, rowIndex) => (
-              <ul
-                key={rowIndex}
-                className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1"
-              >
+              <ul key={rowIndex} className={rowListClassName}>
                 {renderLinkItems(row)}
               </ul>
             ))}
           </div>
         </>
       ) : (
-        <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 md:justify-center">
-          {renderLinkItems(rows[0] ?? [])}
-        </ul>
+        <ul className={rowListClassName}>{renderLinkItems(rows[0] ?? [])}</ul>
       )}
     </div>
   )

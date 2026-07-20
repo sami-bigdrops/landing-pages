@@ -6,7 +6,7 @@ import { REVIEW_CONTENT } from '@/lib/constant'
 
 export default function Review() {
   return (
-    <div className="review bg-white w-full h-full px-6 py-8 md:px-8 md:py-8 lg:px-14 lg:py-10 xl:px-23 xl:py-12">
+    <div className="review bg-white w-full h-full px-6 py-8 md:px-8 md:py-8 lg:px-14 lg:py-10 xl:px-23 xl:py-15">
       <div className="container mx-auto max-w-[1400px] ">
         <div className="review-content w-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:gap-12 xl:gap-15 xl:pb-5 ">
           <h2 className="text-[1.4rem] text-center  md:text-2xl xl:text-4xl  lg:max-w-full font-bold text-[#102A43] text-center font-sans "style={{
