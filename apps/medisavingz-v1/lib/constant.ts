@@ -8,45 +8,24 @@ export const NAVBAR_CONTENT = {
 } as const
 
 export const HERO_CONTENT = {
-  headline: "Get Cheap Auto Insurance Quotes Instantly",
+  headline: "Compare Medicare Options Around Your Doctors, Prescriptions, and Budget",
   description:
-    "Compare trusted auto insurance quotes and find the right coverage at the right price.",
-    mobileBadges: [
+    "We make it easier to compare Medicare options based on what actually affects your day-to-day life like your doctors, your medicines, your pharmacy, your monthly costs and the care you may need later.",
+
+    badge: [
       {
-        icon: "/hero-1.svg",
-        text: "Free Quotes",
+        text: "Trusted by 10k+ Beneficiaries",
+        icon: "/shield.svg",
       },
-      {
-        icon: "/hero-2.svg",
-        text: "Takes Just 2 Minutes",
-      },
-      {
-        icon: "/hero-3.svg",
-        text: "Compare Multiple Providers",
-      },
+      
     ],
-    desktopBadges: [
-      {
-        icon: "/hero-4.svg",
-        text: "Free Quotes",
-      },
-      {
-        icon: "/hero-5.svg",
-        text: "Compare Multiple Providers",
-      },
-      {
-        icon: "/hero-6.svg",
-        text: "Takes Just 2 Minutes",
-      },
-    ],
+    
+   
   image: {
-    alt: "A couple in a modern kitchen discussing their home",
-    src: "/hero.webp",
+    alt: "Seniors comparing Medicare options on a phone",
+    src: "/hero-medicare.webp",
   },
-  imageMobile: {
-    alt: "A couple in a modern kitchen discussing their home",
-    src: "/hero-mobile.webp",
-  },
+  
  
   
 } as const

@@ -6,7 +6,7 @@ import { PARTNERS_CONTENT } from "@/lib/constant"
 export default function Partners() {
   return (
     <div
-      className="partners bg-white w-full h-full px-6 py-8 md:px-8 md:py-8 lg:px-14 lg:py-10 xl:px-23 xl:py-10"
+      className="partners bg-red-500 w-full h-full px-6 py-8 md:px-8 md:py-8 lg:px-14 lg:py-10 xl:px-23 xl:py-10"
      
     >
       <div className="container mx-auto max-w-[1400px]">

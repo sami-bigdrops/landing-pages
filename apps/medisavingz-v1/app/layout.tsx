@@ -14,11 +14,11 @@ const fontSans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Cheap Auto Insurance Options",
-    template: "%s | Cheap Auto Insurance Options",
+    default: "MediSavingz",
+    template: "%s | MediSavingz",
   },
   description:
-    "Cheap Auto Insurance Options helps drivers find affordable auto insurance plans quickly and easily. Compare quotes and save on car insurance with trusted providers at cheapautoinsuranceoptions.com.",
+    "MediSavingz helps individuals and families discover ways to save on healthcare and insurance costs. Compare plans, explore affordable options, and access trustworthy resources to maximize your medical savings with MediSavingz.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },

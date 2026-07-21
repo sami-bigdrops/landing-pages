@@ -80,16 +80,16 @@ export default function Hero() {
 
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
-  
+
   function QuoteArrowIcon() {
     return (
-         <svg
+      <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="none"
         className="size-4 shrink-0  xl:size-5"
         aria-hidden
-     >
+      >
         <path
           d="M8 4.16669L15.5 11.8062L8 19.4442"
           stroke="#102A43"
@@ -100,46 +100,44 @@ export default function Hero() {
     );
   }
 
-   const renderBadge = (badge: (typeof HERO_CONTENT.mobileBadges | typeof HERO_CONTENT.desktopBadges)[number]) => (
-    <div key={badge.text} className="flex items-center gap-1 xl:gap-1.5">
-      <Image
-        src={badge.icon}
-        alt="badge icon"
-        width={18}
-        height={18}
-        className="size-[16px] xl:size-5 shrink-0 object-contain"
-      />
-      <span className=" text-[0.8rem] md:text-[0.75rem] xl:text-base font-normal leading-tight text-[#374151] md:text-white">
-        {badge.text}
-      </span>
-    </div>
-  )
+  
 
 
 
-   return (
-    <div className="relative bg-[#EAF3FD] w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[560px]">
-      <div className="pointer-events-none absolute inset-0 hidden md:block">
-        <Image
-          src={HERO_CONTENT.image.src}
-          alt={HERO_CONTENT.image.alt}
-          fill
-          priority
-          className="object-cover object-[75%_center] lg:object-[80%_top] xl:object-[85%_top] "
-          sizes="100vw"
-        />
-      </div>
+  return (
+    <div
+      className="relative w-full h-full  lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[560px]"
+      style={{
+        background: "linear-gradient(270deg, #F8FBFF 0%, #EEF5FF 100%)",
+      }}
+    >
 
-      <div className="relative z-10 w-full h-full px-6  py-8 md:px-8 md:py-12 md:px-8 lg:px-14 lg:py-16 xl:px-23 xl:py-24 2xl:py-28 2xl:px-25">
-        <div className="container mx-auto max-w-[1400px] ">
-          <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start md:gap-8 lg:gap-6.5 xl:gap-8  ">
+
+      <div className="relative z-10 w-full h-full px-6 py-8 pb-0 md:px-8 md:pt-10 md:pb-0 lg:px-14 lg:pt-14 xl:px-23 xl:pt-22 ">
+        <div className="container mx-auto max-w-[1280px] ">
+          <div className="hero-content relative flex w-full flex-col items-center justify-center gap-4 md:flex-row md:items-end md:justify-between ">
 
             {/* Mobile */}
 
-            <div className="w-full md:hidden flex flex-col items-center justify-center gap-5 md:gap-8 lg:gap-6.5 xl:gap-8 ">
-              <div className="w-full flex flex-col items-center  gap-2 xl:gap-3">
+            <div className="left md:pb-10 lg:pb-14 xl:pb-22 flex w-full h-full md:w-[58%] flex-col items-center justify-center gap-3 md:gap-1.5 md:items-start md:justify-center ">
+
+
+              {HERO_CONTENT.badge.map((badge) => (
+                <div
+                  key={badge.text}
+                  className="md:mb-1.5 flex items-center justify-center gap-1.5 rounded-full border border-[#C9E7D8] bg-[#F2FAF6] px-4 py-2.5  xl:py-3 "
+                >
+                  <Image src={badge.icon} alt={badge.text} width={20} height={20}
+                   className="w-4.5 h-4.5 xl:w-5 xl:h-5 object-cover"
+                   />
+                  <span className="text-[0.77rem] md:text-[0.77rem] xl:text-sm text-[#245C49] font-medium">{badge.text}</span>
+                </div>
+              ))}
+         
+
+              <div className="w-full flex flex-col items-center justify-center md:items-start  gap-2.5 xl:gap-3">
                 <h1
-                  className="text-2xl  md:text-3xl xl:text-5xl  md:max-w-[400px] lg:max-w-[400px] xl:max-w-[600px] font-extrabold text-[#102A43] text-center  font-sans"
+                  className="text-2xl md:text-[1.6rem]  lg:text-3xl xl:text-5xl  md:max-w-[550px] lg:max-w-[500px] xl:max-w-[650px] font-bold text-[#17212B] text-center md:text-left  font-sans"
                   style={{
                     lineHeight: "1.3",
 
@@ -147,12 +145,12 @@ export default function Hero() {
                 >
                   {HERO_CONTENT.headline}
                 </h1>
-                <p className="text-[#374151] text-center font-normal font-sans text-sm  xl:text-xl  md:max-w-full " style={{ lineHeight: "1.5" }}>
+                <p className="text-[#464F5B] text-center md:text-left font-normal font-sans text-sm  xl:text-[1.19rem]  md:max-w-[350px] lg:max-w-[430px] xl:max-w-[630px] " style={{ lineHeight: "1.6" }}>
                   {HERO_CONTENT.description}
                 </p>
               </div>
 
-              <div className="flex-1 w-full flex flex-col md:flex-row   justify-center items-center md:justify-center lg:items-center">
+              <div className="mt-2.5 md:mt-0 xl:mt-3 flex-1 w-full flex flex-col md:flex-row   justify-center items-center md:justify-center lg:items-center">
                 <div className="w-full flex flex-col items-center justify-center gap-3.5 md:gap-4 lg:gap-5 xl:gap-7  ">
 
 
@@ -176,11 +174,11 @@ export default function Hero() {
                           placeholder="90001"
                           inputClassName="
                           h-14 pl-9.5 pr-2 text-[0.9rem] font-normal font-poppins
-                          rounded-[6px]
-                          border border-[#0752A0]
+                          rounded-[10px]
+                          border border-[#CEDBEC]
                           bg-white
                           w-full
-                          shadow-[0_0_10px_0_rgba(31,58,95,0.10)]
+                          shadow-[0_0_2px_0_rgba(23,33,43,0.06)]
                           placeholder:text-[#102A43]
                           focus-visible:ring-0 focus-visible:ring-offset-0
                         "
@@ -194,14 +192,14 @@ export default function Hero() {
                         htmlType="submit"
                         data-arohaa-zip-submit
                         disabled={isRedirecting || !zipValid}
-                        className="flex h-14 w-full cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#F59E0B] px-8 py-4 font-poppins text-[0.9rem] font-semibold uppercase  text-[#102A43] shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#F59E0B] disabled:cursor-not-allowed disabled:opacity-90"
+                        className="flex h-14 w-full cursor-pointer items-center justify-center gap-1.5 rounded-[10px] bg-[#2F6FED] px-8 py-4 font-poppins text-[0.9rem] font-semibold   text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2F6FED] disabled:cursor-not-allowed disabled:opacity-90"
                       >
                         {isRedirecting ? (
                           "Redirecting..."
                         ) : (
                           <>
-                            Get My Free Quote
-                            <QuoteArrowIcon />
+                            Check My Medicare Options
+                         
                           </>
                         )}
                       </Button>
@@ -212,52 +210,6 @@ export default function Hero() {
 
                   </div>
 
-                  <div className="mt-1 flex w-full flex-col items-center gap-3 md:mt-1 md:flex-row md:flex-nowrap md:items-start md:justify-start md:gap-y-0 xl:gap-4.5 ">
-                    <div className="flex items-start justify-start gap-x-3.5 xl:gap-x-5 ">
-                      {HERO_CONTENT.mobileBadges.slice(0, 2).map(renderBadge)}
-                    </div>
-                    <div className="flex items-start justify-start ">
-                      {renderBadge(HERO_CONTENT.mobileBadges[2])}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="right flex items-center justify-center w-full h-full mt-4 ">
-                <Image src={HERO_CONTENT.imageMobile.src} alt={HERO_CONTENT.imageMobile.alt} width={500} height={500}
-                  className="w-full h-full object-cover object-center " />
-              </div>
-
-
-
-            </div>
-
-            {/* Desktop view */}
-
-            <div className="w-full hidden md:flex flex-col items-center justify-center md:justify-start md:items-start md:gap-7  xl:gap-10  ">
-
-              <div className="w-full flex flex-col items-center  md:items-start gap-2 xl:gap-4">
-                <h1
-                  className=" md:text-3xl  xl:text-5xl  font-extrabold text-white text-center md:text-left lg:text-left xl:text-left 2xl:text-left md:max-w-[450px] lg:max-w-[470px] xl:max-w-[650px]  font-sans"
-                  style={{
-                    lineHeight: "1.3",
-                  }}
-                >
-                  {HERO_CONTENT.headline}
-                </h1>
-                <p
-                  className="text-center md:text-left text-sm xl:text-[1.2rem] font-normal md:max-w-[350px] lg:max-w-[400px] xl:max-w-[610px]  text-white"
-                  style={{ lineHeight: "1.6" }}
-                >
-                 {HERO_CONTENT.description}
-                </p>
-              </div>
-
-              <div className="flex-1 w-full flex flex-col md:flex-row   justify-center items-center md:justify-center lg:items-center">
-                <div className="w-full flex flex-col items-center justify-center gap-4 md:gap-4 lg:gap-5 xl:gap-6  ">
-
-
-
-
                   {/* Desktop */}
 
                   <form
@@ -265,7 +217,7 @@ export default function Hero() {
                     onSubmit={handleSubmit}
                     className="hidden relative w-full sm:flex w-full flex-row items-start justify-start  gap-2 xl:gap-3"
                   >
-                    <div className="relative w-full max-w-[160px] lg:max-w-[165px] xl:max-w-[212px] min-w-0 shrink ">
+                    <div className="relative w-full max-w-[145px] lg:max-w-[190px] xl:max-w-[280px] min-w-0 shrink ">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                         <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-5.5 xl:h-5.5 " />
                       </div>
@@ -277,12 +229,12 @@ export default function Hero() {
                         onChange={(value) => setZipCode(value)}
                         placeholder="90001"
                         inputClassName="
-                          h-14 md:h-13.5 xl:h-17.5 pl-10 xl:pl-10.5 pr-2 text-[0.9rem] lg:text-[0.95rem] xl:text-xl font-normal font-poppins
-                          rounded-[6px]
-                          border border-[#0752A0]
+                          h-14 md:h-14 xl:h-17.5 pl-10 xl:pl-10.5 pr-2 text-[0.9rem] lg:text-[0.95rem] xl:text-xl font-normal font-poppins
+                          rounded-[10px]
+                          border border-[#CEDBEC]
                           bg-white
                           w-full
-                          shadow-[0_0_10px_0_rgba(31,58,95,0.10)]
+                          shadow-[0_0_2px_0_rgba(23,33,43,0.06)]
                           placeholder:text-[#102A43]
                           focus-visible:ring-0 focus-visible:ring-offset-0
                         "
@@ -296,46 +248,57 @@ export default function Hero() {
                       htmlType="submit"
                       data-arohaa-zip-submit
                       disabled={isRedirecting || !zipValid}
-                      className="flex h-14 w-[190px] shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#F59E0B] px-4 font-poppins text-[0.85rem] font-bold uppercase text-[#102A43] shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#F59E0B] disabled:cursor-not-allowed disabled:opacity-90 md:h-13.5 lg:w-[205px] xl:h-17.5 xl:w-[260px] xl:text-lg"
+                      className="flex h-14 w-[215px] shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] bg-[#2F6FED] px-4 font-poppins text-[0.85rem] font-semibold  text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2F6FED] disabled:cursor-not-allowed disabled:opacity-90 md:h-14 lg:w-[225px] xl:h-17.5 xl:w-[300px] xl:text-lg"
                     >
                       {isRedirecting ? (
                         "Redirecting..."
                       ) : (
                         <>
-                          Get My Free Quote
-                          <QuoteArrowIcon />
+                          Check My Medicare Options
+                          
                         </>
                       )}
                     </Button>
                   </form>
 
-                  <div className="mt-1 flex w-full flex-col items-center gap-3 md:mt-1 lg:flex-row md:flex-nowrap md:items-start md:justify-start md:gap-y-3 xl:gap-4.5 ">
-                    <div className="flex items-start justify-start gap-x-3.5 xl:gap-x-5 ">
-                      {HERO_CONTENT.desktopBadges.slice(0, 2).map(renderBadge)}
-                    </div>
-                    <div className="flex items-start justify-start ">
-                      {renderBadge(HERO_CONTENT.desktopBadges[2])}
-                    </div>
-                  </div>
+
                 </div>
               </div>
+
+
+
+
+            </div>
+            <div className="right flex w-full items-end justify-center md:absolute md:-right-7 xl:-right-13 md:bottom-0 md:w-[48%]">
+              <Image
+                src={HERO_CONTENT.image.src}
+                alt={HERO_CONTENT.image.alt}
+                width={860}
+                height={1080}
+                priority
+                className="h-auto w-full max-w-[320px] object-contain object-bottom md:max-w-none md:w-[350px] lg:w-[400px] xl:w-[550px]"
+              />
             </div>
 
 
 
 
-
           </div>
-
-
-
-
-
-
-
         </div>
       </div>
+
+
+
+
+
     </div>
-    )
-  
+
+
+
+
+
+
+
+
+  );
 }

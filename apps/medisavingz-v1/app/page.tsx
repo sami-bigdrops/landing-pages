@@ -2,9 +2,9 @@ import { Metadata } from "next"
 import HomeContent from "@/app/_components/HomeContent"
 
 export const metadata: Metadata = {
-  title: "Cheap Auto Insurance Options",
+  title: "MediSavingz",
   description:
-    "Cheap Auto Insurance Options helps drivers find affordable auto insurance plans quickly and easily. Compare quotes and save on car insurance with trusted providers at cheapautoinsuranceoptions.com.",
+    "MediSavingz helps individuals and families discover ways to save on healthcare and insurance costs. Compare plans, explore affordable options, and access trustworthy resources to maximize your medical savings with MediSavingz.",
 }
 
 export default function Page() {
