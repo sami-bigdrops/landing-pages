@@ -276,7 +276,7 @@ export default function Hero() {
                 width={860}
                 height={1080}
                 priority
-                className="h-auto w-full max-w-[320px] object-contain object-bottom md:max-w-none md:w-[350px] lg:w-[400px] xl:w-[550px]"
+                className="h-auto w-full max-w-[320px] object-contain object-bottom md:max-w-none md:w-[340px] lg:w-[400px] xl:w-[550px]"
               />
             </div>
 

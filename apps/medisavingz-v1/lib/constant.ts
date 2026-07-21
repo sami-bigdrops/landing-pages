@@ -30,19 +30,29 @@ export const HERO_CONTENT = {
   
 } as const
 
+export const RIBBON_CONTENT = {
+  badges: [
+    {
+      icon: "/ribbon-1.svg",
+      label: "Licensed Guidance",
+    },
+    {
+      icon: "/ribbon-2.svg",
+      label: "No-Pressure Review",
+    },
+    {
+      icon: "/ribbon-3.svg",
+      label: "Doctor And Prescription Check",
+    },
+    {
+      icon: "/ribbon-4.svg",
+      label: "Plan Availability Varies By Area",
+    },
+  ]
+}
 
-export const PARTNERS_CONTENT = {
-  header: "Get quotes and offers from popular insurance companies",
 
-  partners: [
-    { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 3", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-14 xl:w-19 overflow-hidden object-contain" },
-    { alt: "Partner 5", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 6", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
-  ],
-} as const
+
 
 export const FEATURES_CONTENT = {
   headline: "Find Affordable Auto Insurance Without The Long Search",
@@ -92,137 +102,131 @@ export const FEATURES_CONTENT = {
 } as const;
 
 export const STEPS_CONTENT = {
-  header: "Get Covered in 3 Simple Steps",
-
+  header: "Find Medicare Coverage That Fits Your Everyday Needs",
+  description: "Before comparing plans, we look at the care you already use, the prescriptions you take, the pharmacy you prefer and the budget you want to protect.",
   steps: [
     {
       number: 1,
-      numberText: "01.",
-      title: "Enter Your ZIP Code",
-      description: "Tell us where you live so we can help find auto insurance options available in your area.",
+      title: "Your Doctors",
+      description:
+        "Keep your care team in view. We help you check whether your doctors, specialists, hospitals and clinics may be included before you make a plan decision.",
       image: {
         src: "/step-1.svg",
-        alt: "Enter Your ZIP Code",
+        alt: "Your Doctors",
       },
     },
     {
       number: 2,
-      numberText: "02.",
-      title: "Answer A Few Quick Questions",
-      description: "Share basic details about your vehicle, driving needs, and current cover preferences.",
+      title: "Your Prescriptions",
+      description:
+        "One uncovered medicine can change the whole picture. We help review your medication list, drug tiers, pharmacy options and estimated yearly costs.",
       image: {
         src: "/step-2.svg",
-        alt: "Answer A Few Quick Questions",
+        alt: "Your Prescriptions",
       },
     },
     {
       number: 3,
-      numberText: "03.",
-      title: "Compare & Choose Your Quote",
-      description: "Review your quote options, compare benefits, and select the cover that works best for you.",
+      title: "Your Pharmacy",
+      description:
+        "Your plan and pharmacy need to work together. We help check preferred pharmacies, mail-order options and possible cost differences.",
       image: {
         src: "/step-3.svg",
-        alt: "Compare & Choose Your Quote",
+        alt: "Your Pharmacy",
+      },
+    },
+    {
+      number: 4,
+      title: "Your Budget",
+      description:
+        "A low premium is only one part of the story. We help you compare premiums, copays, deductibles, drug costs and possible out-of-pocket exposure.",
+      image: {
+        src: "/step-4.svg",
+        alt: "Your Budget",
       },
     },
   ],
 } as const
 
 export const OPTIONS_CONTENT = {
-  header: "Ready to Compare Auto Insurance Quotes?",
-  description: "Enter your ZIP code to compare personalized auto insurance options from recognized providers.",
-
+  headline: "Ready To Explore Medicare Options In Your Area?",
+  subtext: "We will help you compare available Medicare options with a calmer, clearer review - so you can make a decision that fits your health, your money and your peace of mind.",
+  
   badges: [
     {
-      icon: "/hero-4.svg",
-      text: "Free Quotes",
+      icon: "/option-1.svg",
+      text: "Licensed Guidance",
     },
     {
-      icon: "/hero-5.svg",
-      text: "Takes Just 2 Minutes",
+      icon: "/option-2.svg",
+      text: "No-pressure review",
     },
     {
-      icon: "/hero-6.svg",
-      text: "Compare Multiple Providers",
+      icon: "/option-3.svg",
+      text: "Plans Available By ZIP Code",
     },
   ],
-  
+
+  image: {
+    src: "/option.webp", // Update with actual image asset path if different
+    alt: "Family sitting on couch looking at tablet together"
+  }
 } as const
 
 
-export const REVIEW_CONTENT = {
-  header: "Helping Drivers Find Better Rates Every Day",
 
-  badge: [
-    {
-      text: "Verified",
-      icon: "/badge.svg",
-    },
-    
-  ],
-
-  reviews: [
-    {
-      id: 1,
-      quote: "Comparing quotes was much easier than calling different insurance companies one by one. I found a plan that fit my monthly budget in just a few minutes.",
-      customer: {
-        name: "Sarah M.",
-        location: "Phoenix, AZ",
-        image: {
-          src: "/profile-1.svg",
-          alt: "Sarah M.",
-        },
-      },
-    },
-    {
-      id: 2,
-      quote: "The process was quick and simple. I could review different cover options in one place and choose the one that worked best for my family.",
-      customer: {
-        name: "Michael R.",
-        location: "Dallas, TX",
-        image: {
-          src: "/profile-2.svg",
-          alt: "Michael R.",
-        },
-      },
-    },
-    {
-      id: 3,
-      quote: "I liked being able to compare auto insurance quotes without feeling pressured. It saved me time and helped me find a better rate.",
-      customer: {
-        name: "Jessica L.",
-        location: "Orlando, FL",
-        image: {
-          src: "/profile-3.svg",
-          alt: "Jessica L.",
-        },
-      },
-    },
-  ],
-} as const
 
 export const FAQ_CONTENT = {
   header: "Frequently Asked Questions",
+  subheader: "Get quick answers to some of the most common questions people have when comparing Medicare coverage options.",
   faqs: [
     {
       id: 1,
-      question: "Is it free to compare auto insurance quotes?",
-      answer: "Yes. Comparing quotes through our platform is free. There are no hidden charges or purchase obligations.",
+      question: "Is a Medicare Advantage plan really free?",
+      answer:
+        "Not always. Some Medicare Advantage plans have a $0 monthly premium, but that does not mean $0 healthcare costs. You may still pay Part B premiums, copays, coinsurance, drug costs, dental limits and other out-of-pocket expenses.",
     },
     {
       id: 2,
-      question: "How long does it take to get my quotes?",
-      answer: "Most users can complete the process in just a few minutes after entering their ZIP code and basic details.",
+      question: "Will my doctor be covered?",
+      answer:
+        "That depends on the plan. Some Medicare Advantage plans use provider networks, so your doctors, specialists, hospitals and pharmacies should be checked for authorization.",
     },
     {
       id: 3,
-      question: "Will comparing quotes affect my credit score?",
-      answer: "No. Comparing quotes through our platform will not affect your credit score.",
+      question: "What happens if my medicine is not covered?",
+      answer:
+        "Plans can change their drug lists each year. If your medicine is not covered, you might pay full cost, require prior authorization, or switch to an alternative. Talk with your plan or professional to ensure medicine is included before choosing a plan.",
     },
     {
       id: 4,
-      question: "Am I required to purchase a policy?",
-      answer: "No. You can review your quote options freely and choose whether or not to move forward.",
+      question: "What is the difference between Medicare Advantage and Medigap?",
+      answer:
+        "Medicare Advantage is an alternative way to receive Medicare coverage, often in a privately-run all-in-one health plan. It can include drug coverage, dental, vision, hearing, wellness, and more. Medigap (Medicare Supplement) helps pay for out-of-pocket costs after Medicare pays, like copays, coinsurance and deductibles.",
+    },
+    {
+      id: 5,
+      question: "Can I change Medicare plans later?",
+      answer:
+        "Yes. You can switch plans each year during certain periods. Timing matters because switching is only allowed at certain times. Review rules before you switch.",
+    },
+    {
+      id: 6,
+      question: "What is prior authorization?",
+      answer:
+        "Prior authorization means a plan may need to approve certain services, drugs or treatments before they’re covered and paid for. If your service or drug is refused without authorization, the plan may decline to cover it, so it should be checked before using.",
+    },
+    {
+      id: 7,
+      question: "Can my Medicare plan change next year?",
+      answer:
+        "Yes. Plans change networks, costs, covered medicines, drug formularies, pharmacy lists and extra benefits year to year. Always review your Annual Notice of Change or talk to your plan.",
+    },
+    {
+      id: 8,
+      question: "How do I avoid Medicare scams?",
+      answer:
+        "Only share personal information, like your Medicare ID, if you contact Medicare directly, or after verifying an agent’s credentials. Beware unsolicited calls, offers, or pressure tactics; report abuse or fraud as needed.",
     },
   ],
 } as const
