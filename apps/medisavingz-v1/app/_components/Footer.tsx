@@ -20,7 +20,7 @@ export default function Footer() {
       }
       description={FOOTER_CONTENT.description}
       descriptionClassName="max-w-[420px] whitespace-pre-line text-center text-[0.85rem] font-normal leading-relaxed text-white xl:max-w-[480px] xl:text-base"
-      className="relative z-10 px-6 py-10 md:px-8 md:py-12 lg:px-14 lg:py-14 xl:px-23 xl:py-16"
+      className="relative z-10 mt-auto px-6 py-10 md:px-8 md:py-12 lg:px-14 lg:py-14 xl:px-23 xl:py-16"
       linkRows={FOOTER_CONTENT.linkRows.map((row) => [...row])}
       linksSeparator
       linksClassName="text-white hover:text-white font-normal text-[0.85rem] xl:text-base leading-none"

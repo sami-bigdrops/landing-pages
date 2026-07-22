@@ -4,29 +4,28 @@ import { useState, useEffect } from "react";
 import {
   useUtmParams,
   setCookie,
-  getCookie,
   QUOTIFII_EXTENDED_UTM_OPTIONS,
 } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { HERO_CONTENT } from "@/lib/constant"
 
 
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://quote.cheapautoinsuranceoptions.com";
-const ANALYTICS_FLUSH_DELAY_MS = 300;
 
-export default function Hero() {
+type HeroProps = {
+  onZipSubmit?: (zip: string) => void
+}
+
+export default function Hero({ onZipSubmit }: HeroProps) {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
 
   const [zipCode, setZipCode] = useState("");
   const [cityName, setCityName] = useState("");
-  const [isRedirecting, setIsRedirecting] = useState(false);
 
 
   useEffect(() => {
@@ -56,53 +55,11 @@ export default function Hero() {
     }
 
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
-
-    const utmSource = getCookie("subid1") || "";
-    const utmId = getCookie("subid2") || "";
-    const utmS1 = getCookie("subid3") || "";
-
-    const params = new URLSearchParams();
-    params.set("tid", utmId);
-    params.set("uid", utmId);
-    params.set("sid", utmSource);
-    params.set("sub1", utmS1);
-    params.set("zip", trimmed);
-
-    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
-
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
-
-    setIsRedirecting(true);
-    window.setTimeout(() => {
-      window.location.href = redirectUrl;
-    }, ANALYTICS_FLUSH_DELAY_MS);
+    onZipSubmit?.(trimmed);
   };
 
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
-
-
-  function QuoteArrowIcon() {
-    return (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        className="size-4 shrink-0  xl:size-5"
-        aria-hidden
-      >
-        <path
-          d="M8 4.16669L15.5 11.8062L8 19.4442"
-          stroke="#102A43"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-        />
-      </svg>
-    );
-  }
-
-  
-
-
 
   return (
     <div
@@ -191,17 +148,10 @@ export default function Hero() {
                         variant="default"
                         htmlType="submit"
                         data-arohaa-zip-submit
-                        disabled={isRedirecting || !zipValid}
+                        disabled={!zipValid}
                         className="flex h-14 w-full cursor-pointer items-center justify-center gap-1.5 rounded-[10px] bg-[#2F6FED] px-8 py-4 font-poppins text-[0.9rem] font-semibold   text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2F6FED] disabled:cursor-not-allowed disabled:opacity-90"
                       >
-                        {isRedirecting ? (
-                          "Redirecting..."
-                        ) : (
-                          <>
-                            Check My Medicare Options
-                         
-                          </>
-                        )}
+                        Check My Medicare Options
                       </Button>
                     </form>
 
@@ -247,17 +197,10 @@ export default function Hero() {
                       variant="default"
                       htmlType="submit"
                       data-arohaa-zip-submit
-                      disabled={isRedirecting || !zipValid}
+                      disabled={!zipValid}
                       className="flex h-14 w-[215px] shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] bg-[#2F6FED] px-4 font-poppins text-[0.85rem] font-semibold  text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2F6FED] disabled:cursor-not-allowed disabled:opacity-90 md:h-14 lg:w-[225px] xl:h-17.5 xl:w-[300px] xl:text-lg"
                     >
-                      {isRedirecting ? (
-                        "Redirecting..."
-                      ) : (
-                        <>
-                          Check My Medicare Options
-                          
-                        </>
-                      )}
+                      Check My Medicare Options
                     </Button>
                   </form>
 

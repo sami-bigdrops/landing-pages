@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Check } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
 import type { ProgressBarProps } from "../model/types"
 import { progressBarVariants } from "../controller/progress-bar-variants"
@@ -13,6 +14,7 @@ const DEFAULT_BG = "var(--muted)"
 const DEFAULT_FG = "var(--primary)"
 const TYPE8_TRACK = "#d1e9e6"
 const TYPE8_FILL = "#26a69a"
+const TYPE9_TEAL = "#09A1A6"
 
 function getDefaultForeground(): string {
   return DEFAULT_FG
@@ -234,6 +236,47 @@ function ProgressBar({
                   </span>
                 </div>
               </React.Fragment>
+            )
+          })}
+        </div>
+      )}
+      {type === "9" && (
+        <div className="relative mx-auto flex w-full max-w-[210px] md:max-w-[225px] lg:max-w-[230px] xl:max-w-[275px] items-center justify-between ">
+          <div
+            className="absolute left-4 right-4 top-1/2 z-0 h-px md:h-[1.5px] xl:h-[2px] -translate-y-1/2 md:left-[18px] md:right-[18px]"
+            style={{ backgroundColor: foregroundColor ?? TYPE9_TEAL }}
+            aria-hidden
+          />
+          {Array.from({ length: totalSteps }, (_, i) => {
+            const stepNumber = i + 1
+            const completed = currentStep > stepNumber
+            const active = currentStep === stepNumber
+            const color = foregroundColor ?? TYPE9_TEAL
+            return (
+              <div
+                key={i}
+                className="relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full text-sm xl:text-base font-semibold transition-all duration-300 md:size-9 xl:size-11"
+                style={
+                  active
+                    ? {
+                        backgroundColor: color,
+                        color: "#ffffff",
+                        border: `1px solid ${color}`,
+                      }
+                    : {
+                        backgroundColor: "#ffffff",
+                        color: color,
+                        border: `1px solid ${color}`,
+                      }
+                }
+                aria-current={active ? "step" : undefined}
+              >
+                {completed ? (
+                  <Check className="size-4 stroke-[2.5] xl:size-4.5" style={{ color }} aria-hidden />
+                ) : (
+                  stepNumber
+                )}
+              </div>
             )
           })}
         </div>
