@@ -7,16 +7,26 @@ import Image from "next/image"
 export default function Footer() {
   return (
     <FooterUI
-      type="type-1"
+      type="long"
       bgColor="#215A4A"
-      logo={<Image src="/footer-logo.svg" alt="Medicare Savings Options" width={120} height={40} className="w-40 h-auto object-contain" />}
-      className="relative z-10 py-6 px-6 md:px-8 md:py-8 lg:px-10 lg:py-8 xl:px-28 xl:py-10 "
+      logo={
+        <Image
+          src="/footer-logo.svg"
+          alt="MediSavingz"
+          width={267}
+          height={42}
+          className="h-auto w-[180px] object-contain md:w-[200px] xl:w-[240px]"
+        />
+      }
+      description={FOOTER_CONTENT.description}
+      descriptionClassName="max-w-[420px] whitespace-pre-line text-center text-[0.85rem] font-normal leading-relaxed text-white xl:max-w-[480px] xl:text-base"
+      className="relative z-10 px-6 py-10 md:px-8 md:py-12 lg:px-14 lg:py-14 xl:px-23 xl:py-16"
       linkRows={FOOTER_CONTENT.linkRows.map((row) => [...row])}
       linksSeparator
-      linksClassName="text-[#102A43] mt-1 hover:text-[#102A43] font-medium text-[0.8rem] xl:text-base leading-none"
-      linksContainerClassName="text-[#102A43]"
+      linksClassName="text-white hover:text-white font-normal text-[0.85rem] xl:text-base leading-none"
+      linksContainerClassName="text-white"
       copyrightText={FOOTER_CONTENT.copyrightText}
-      copyrightClassName="text-[#102A43] mt-2 text-center font-medium text-[0.8rem] xl:text-base leading-relaxed whitespace-pre-line"
+      copyrightClassName="text-white/90 mt-0 text-center font-normal text-[0.75rem] xl:text-[0.9rem] leading-relaxed whitespace-pre-line max-w-[720px] xl:max-w-[860px] mx-auto"
     />
   )
 }

@@ -148,6 +148,36 @@ export const STEPS_CONTENT = {
   ],
 } as const
 
+export const WORKS_CONTENT = {
+  headline: "Guidance Designed Around Your Healthcare Needs",
+  paragraphs: [
+    "A Medicare plan can look great on paper and still miss something personal - your cardiologist, your insulin, your preferred pharmacy, your travel routine, your dental needs or your monthly budget.",
+    "That is why our review looks past the headline benefits. We help compare your plan options around the care you actually use, the costs you may face and the rules that could affect access later.",
+  ],
+  image: {
+    src: "/grandpa-son.webp",
+    alt: "Advisor helping a beneficiary review Medicare options on a laptop",
+  },
+  cards: [
+    {
+      title: "35M+",
+      description: "People were enrolled in Medicare Advantage as of February 2026.",
+    },
+    {
+      title: "No Pressure",
+      description: "Clear guidance designed to help you choose with confidence.",
+    },
+    {
+      title: "39",
+      description: "Average Medicare Advantage plan options available to beneficiaries in 2026.",
+    },
+    {
+      title: "$2,100",
+      description: "The 2026 out-of-pocket cap for covered Part D prescription drugs.",
+    },
+  ],
+} as const
+
 export const OPTIONS_CONTENT = {
   headline: "Ready To Explore Medicare Options In Your Area?",
   subtext: "We will help you compare available Medicare options with a calmer, clearer review - so you can make a decision that fits your health, your money and your peace of mind.",
@@ -329,15 +359,16 @@ export const FAQ_CONTENT = {
 
 
 export const FOOTER_CONTENT = {
+  description:
+    "Helping individuals compare Medicare coverage options\nwith confidence through clear, personalized guidance.",
   linkRows: [
     [
       { text: "Privacy Policy", href: "/privacy-policy" },
       { text: "Terms of Use", href: "/terms-of-use" },
-      { text: "Contact", href: "/contact" },
     ],
   ],
-
-  copyrightText: "Copyright © 2026 Cheap Auto Insurance Options. All Rights Reserved.",
+  copyrightText:
+    "Plan availability, benefits, costs and provider networks vary by area.\nThis service is not connected with or endorsed by the U.S. government or the federal Medicare programme.\nCopyright © 2026 MediSavingz. All rights reserved.",
 } as const
 
  
