@@ -174,6 +174,97 @@ export const OPTIONS_CONTENT = {
 } as const
 
 
+export const COVERAGE_CONTENT = {
+  badge: {
+    text: "Compare Your Medicare Options",
+    icon: "/shield.svg",
+  },
+  headline: "Find The Coverage Path That Fits Your Needs",
+  description:
+    "There is no one-size-fits-all Medicare answer. Some people want flexibility. Some want bundled benefits. Some need stronger prescription support. Some need coverage built around a health condition.",
+  cards: [
+    {
+      id: 1,
+      title: "Original Medicare",
+      badge: null,
+      bestFor:
+        "Best for people who want broad provider access and more flexibility when seeing doctors and hospitals.",
+      keyBenefits: [
+        "Visit providers across the U.S. that accept Medicare",
+        "No provider network restrictions",
+        "Ideal for frequent travelers",
+        "Flexibility in choosing specialists",
+      ],
+      considerations: [
+        "Does not include prescription drug coverage",
+        "Out-of-pocket costs can be less predictable",
+      ],
+    },
+    {
+      id: 2,
+      title: "Original Medicare + Part D + Medigap",
+      badge: {
+        text: "Most Flexible",
+        icon: "/star.svg",
+      },
+      bestFor:
+        "A path for people who want Original Medicare with added prescription coverage and help paying some out-of-pocket costs.",
+      keyBenefits: [
+        "Broad provider access nationwide",
+        "Prescription drug coverage included through Part D",
+        "Helps reduce out-of-pocket expenses",
+        "Greater cost predictability",
+      ],
+      considerations: [
+        "Higher monthly premiums",
+        "Multiple plans to manage",
+      ],
+    },
+    {
+      id: 3,
+      title: "Medicare Advantage",
+      badge: {
+        text: "All-In-One Coverage",
+        icon: "/star.svg",
+      },
+      bestFor:
+        "A private-plan option that combines hospital and medical coverage, often with prescription drug coverage and extra benefits like dental, vision, hearing or transport.",
+      keyBenefits: [
+        "Combines hospital and medical coverage",
+        "Most plans include prescription drug coverage",
+        "May offer dental, vision, and hearing benefits",
+        "Often lower monthly premiums",
+      ],
+      considerations: [
+        "Provider networks may apply",
+        "Some services may require prior authorization",
+      ],
+    },
+    {
+      id: 4,
+      title: "Special Needs Plans (SNPs)",
+      badge: null,
+      bestFor:
+        "Special Needs Plans are Medicare Advantage plans designed for certain groups, such as people with specific chronic conditions, those living in institutions, or people who qualify for both Medicare and Medicaid.",
+      keyBenefits: [
+        "Coverage tailored to specific health needs",
+        "Coordinated care and support",
+        "Prescription coverage included in most plans",
+        "Additional benefits for eligible members",
+      ],
+      considerations: [
+        "Eligibility requirements apply",
+        "Provider networks may be more limited",
+      ],
+    },
+  ],
+  cta: {
+    title: "Still Not Sure Which Option Fits You?",
+    description:
+      "Medicare should not feel like guessing with your healthcare. We help you compare the details that matter before you enrol.",
+    buttonText: "Start My Medicare Review",
+  },
+} as const
 
 
 export const FAQ_CONTENT = {
