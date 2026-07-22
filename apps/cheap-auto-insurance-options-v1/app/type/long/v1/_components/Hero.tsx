@@ -13,6 +13,7 @@ import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
 import { HERO_CONTENT } from "@/lib/constant";
 import Partners from "./Partners";
+import { fireBlutrckZipSubmitPixel } from "@/lib/blutrck";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
@@ -88,6 +89,7 @@ export default function Hero() {
     const redirectUrl = `${BASE_URL}/?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
+    fireBlutrckZipSubmitPixel(utmId);
 
     setIsRedirecting(true);
     window.setTimeout(() => {

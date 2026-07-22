@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { setCookie, getCookie } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 import { ArrowRight } from "lucide-react";
+import { fireBlutrckZipSubmitPixel } from "@/lib/blutrck";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
@@ -64,6 +65,7 @@ export default function Options() {
     const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
+    fireBlutrckZipSubmitPixel(utmId);
 
     setIsRedirecting(true);
     window.setTimeout(() => {

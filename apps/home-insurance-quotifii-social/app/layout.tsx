@@ -61,6 +61,12 @@ export default function RootLayout({
           src="//script.crazyegg.com/pages/scripts/0132/1582.js"
           async={true}
         />
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var tag=document.createElement('script');tag.src='https://tmpxl.com/pixel_container?api_token=a84f3c91d7e62b5080fa4d13c9b72e65&s1=b4d9f82a-6c31-4e7f-9ab5-1d83c6ef4029&s2={utm_id}&s3=nameofwebsite_{utm_source}';document.head.appendChild(tag);})();`,
+          }}
+        />
       </head>
       <body
         className={`${fontPoppins.variable} ${fontPoppins.className} antialiased overflow-x-hidden overflow-y-auto`}
