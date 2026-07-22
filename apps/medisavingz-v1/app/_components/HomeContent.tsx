@@ -8,7 +8,7 @@ import Steps from "@/app/type/long/v1/_components/Steps"
 import Options from "@/app/type/long/v1/_components/Options"
 import Faq from "@/app/type/long/v1/_components/Faq"
 import Ribbon from "@/app/type/long/v1/_components/Ribbon"
-
+import Coverage from "@/app/type/long/v1/_components/Coverage"
 
 export default function HomeContent() {
   return (
@@ -18,7 +18,7 @@ export default function HomeContent() {
       <Hero />
       <Ribbon />
       <Steps />
-     
+      <Coverage />
     
       
       <Faq />

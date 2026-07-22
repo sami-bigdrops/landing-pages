@@ -175,10 +175,13 @@ export const OPTIONS_CONTENT = {
 
 
 export const COVERAGE_CONTENT = {
-  badge: {
-    text: "Compare Your Medicare Options",
-    icon: "/shield.svg",
-  },
+  badge: [
+    {
+      text: "Compare Your Medicare Options",
+      icon: "/shield.svg",
+    },
+    
+  ],
   headline: "Find The Coverage Path That Fits Your Needs",
   description:
     "There is no one-size-fits-all Medicare answer. Some people want flexibility. Some want bundled benefits. Some need stronger prescription support. Some need coverage built around a health condition.",
@@ -262,7 +265,7 @@ export const COVERAGE_CONTENT = {
     title: "Still Not Sure Which Option Fits You?",
     description:
       "Medicare should not feel like guessing with your healthcare. We help you compare the details that matter before you enrol.",
-    buttonText: "Start My Medicare Review",
+    
   },
 } as const
 
