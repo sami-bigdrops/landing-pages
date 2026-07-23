@@ -1,11 +1,32 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Let's drop your rate in {city_name} today!",
+  headlineLead: "Shop Auto & Home Insurance The Easy Way",
+  
+  subheadline: "Explore coverage options from trusted providers and find a policy suited to your needs and budget.",
   image: {
     src: "/hero.webp",
-    alt: "Quotifii"
+    alt: "Hero Image"
   },
+
+  herobuttons: [
+    {
+      label: "Auto",
+      icon: "/auto.svg",
+      iconAlt: "Auto Insurance Icon",
+      arrow: "/auto-arrow.svg",
+      primary: true,
+      href: "https://auto-quote.quotifii.com",
+    },
+    {
+      label: "Home",
+      icon: "/home.svg",
+      iconAlt: "Home Insurance Icon",
+      arrow: "/home-arrow.svg",
+      primary: false,
+      href: "https://home.quotifii.com",
+    },
+  ],
  
   
 } as const
