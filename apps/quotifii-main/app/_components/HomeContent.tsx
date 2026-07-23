@@ -7,6 +7,7 @@ import Footer from "@/app/_components/Footer"
 import Partners from "@/app/type/long/v1/_components/Partners"
 import Options from "@/app/type/long/v1/_components/Options"
 import Features from "@/app/type/long/v1/_components/Features"
+import Faq from "@/app/type/long/v1/_components/Faq"
 
 export default function HomeContent() {
   return (
@@ -14,8 +15,9 @@ export default function HomeContent() {
       <Navbar />
       <Hero />
       <Partners />
-      <Review />
       <Features />
+      <Review />
+      <Faq />
       <Options /> 
       <Footer />
     </div>

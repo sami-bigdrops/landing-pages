@@ -112,9 +112,9 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-0 flex-1 w-full overflow-hidden xl:min-h-[590px] 2xl:min-h-[650px]">
+    <div className="relative flex items-center justify-center min-h-0 flex-1 w-full overflow-hidden xl:min-h-[590px] 2xl:min-h-[620px]">
       <div
-        className="absolute inset-0 w-full h-full bg-[url('/hero-bg.webp')] bg-cover bg-no-repeat bg-[position:left_42%] md:bg-[position:52%_32%] lg:bg-[position:38%_28%] xl:bg-[position:48%_24%]"
+        className="absolute inset-0 w-full h-full bg-[url('/hero-bg.webp')] bg-cover bg-no-repeat bg-[position:left_42%] md:bg-[position:52%_32%] lg:bg-[position:38%_28%] xl:bg-[position:48%_24%] 2xl:bg-[position:top_68%_right_38%]"
       />
 
       <div className="relative z-10 flex h-full min-h-0 w-full flex-col items-center justify-center p-4 py-6 md:px-8 md:py-12 lg:px-14 lg:py-18 xl:px-23 xl:py-25">

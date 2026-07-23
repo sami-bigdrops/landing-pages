@@ -32,7 +32,7 @@ export const HERO_CONTENT = {
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "We partner with top providers",
+  header: "We Work With Trusted Providers",
 
   partners: [
     { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
@@ -57,76 +57,131 @@ export const OPTIONS_CONTENT = {
 
 export const REVIEW_CONTENT = {
   header: "What Our Customers Say",
-  
+
+  badge: [
+    {
+      text: "Verified",
+      icon: "/badge.svg",
+    },
+    
+  ],
+
   reviews: [
     {
-     id: 1,
-      quote: "I didn’t expect it to be this simple. I answered a few questions, compared options, and ended up switching to a better rate the same day. Having an agent walk me through everything really helped.",
+      id: 1,
+      quote:
+        'Quotifii helped me find suitable coverage without visiting multiple websites. The entire process felt quick and straightforward.',
       customer: {
-        name: "Amanda Reynolds",
+        name: "Linda R.",
         location: "San Diego, CA",
         image: {
           src: "/profile-1.svg",
-          alt: "Amanda Reynolds",
+          alt: "Linda R.",
         },
       },
     },
     {
       id: 2,
-      quote: "I liked that I could see different quotes in one place instead of jumping between websites. The process was quick, and I felt confident about the coverage I chose.",
+      quote:
+        'The steps were clear, the options were easy to review and I found a policy that worked for my budget.',
       customer: {
-        name: "Jason M.",
+        name: "Marco W.",
         location: "Austin, TX",
         image: {
           src: "/profile-2.svg",
-          alt: "Jason M.",
+          alt: "Marco W.",
         },
       },
     },
     {
-     
       id: 3,
-      quote: "I was paying way more than I should have. Quotifii helped me find a more affordable option in minutes, and the agent explained everything clearly. Super easy experience.",
+      quote:
+        'I explored auto and home insurance options in one place and found the right coverage without feeling pressured.',
       customer: {
-        name: "Priya S",
+        name: "Camila S.",
         location: "Edison, NJ",
         image: {
           src: "/profile-3.svg",
-          alt: "Priya S",
+          alt: "Camila S.",
         },
       },
     },
   ],
 } as const
 
+export const FAQ_CONTENT = {
+  header: "Frequently Asked Questions",
+  faqs: [
+    {
+      id: 1,
+      question: "Is it free to receive insurance quotes?",
+      answer: "Yes. Quotifii lets you explore insurance quotes without any hidden fees or obligations.",
+    },
+    {
+      id: 2,
+      question: "How long does it take?",
+      answer: "Most users can complete the initial process in just a few minutes.",
+    },
+    {
+      id: 3,
+      question: "Which insurance companies do you work with?",
+      answer: "We partner with a network of trusted insurance providers offering reliable coverage and competitive rates.",
+    },
+    {
+      id: 4,
+      question: "Will requesting quotes affect my credit score?",
+      answer: "No. Exploring insurance quotes through Quotifii will not affect your credit score.",
+    },
+    {
+      id: 5,
+      question: "Can I explore both auto and home insurance?",
+      answer: "Yes. You can receive options for auto insurance, home insurance or both.",
+    },
+    {
+      id: 6,
+      question: "Am I required to purchase a policy?",
+      answer: "No. You are free to review your options without any obligation to purchase.",
+    },
+  ],
+} as const
+
 export const FEATURES_CONTENT = {
-  header: "A Smarter Way To Shop For Coverage",
+  header: "Why Compare Insurance With Quotifii?",
   steps: [
     {
       number: 1,
-      title: "Multi-Vehicle Savings",
-      description: "One household, more than one car? Bundle options in seconds and see what changes.",
+      title: "Save Time",
+      description: "View multiple insurance options in one convenient place.",
       image: {
         src: "/feature-1.svg",
-        alt: "Multi-Vehicle Savings",
+        alt: "Save Time Icon",
       },
     },
     {
       number: 2,
-      title: "Safe Driver Discounts",
-      description: "If you drive sensibly, your rate should notice. We help you spot discounts you may qualify for.",
+      title: "Trusted Partners",
+      description: "Access coverage options from recognized insurance companies.",
       image: {
         src: "/feature-2.svg",
-        alt: "Safe Driver Discounts",
+        alt: "Trusted Partners Icon",
       },
     },
     {
       number: 3,
-      title: "24/7 Roadside Assistance",
-      description: "Flat tire, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
+      title: "Quick & Easy",
+      description: "Share a few details and receive suitable policy options.",
       image: {
         src: "/feature-3.svg",
-        alt: "24/7 Roadside Assistance",
+        alt: "Quick & Easy Icon",
+      },
+    },
+    {
+      number: 4,
+      title: "Find Better Rates",
+      description: "Review available prices and coverage without the usual hassle.",
+      image: {
+        src: "/feature-4.svg",
+        alt: "Find Better Rates Icon",
       },
     },
   ],
