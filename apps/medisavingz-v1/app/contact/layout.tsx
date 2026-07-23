@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Us | AssureRates - Auto Insurance Quotes",
-  description: "Get in touch with AssureRates for questions about our auto insurance services. Contact us via email, phone, or our contact form.",
+  title: "Contact Us",
+  description:
+    "Contact MediSavingz for questions about comparing Medicare options, our website, or your privacy choices. Reach us by email at contact@medisavingz.com.",
 };
 
 export default function ContactLayout({

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   useUtmParams,
   setCookie,
@@ -17,15 +18,13 @@ import { HERO_CONTENT } from "@/lib/constant"
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
 
-type HeroProps = {
-  onZipSubmit?: (zip: string) => void
-}
-
-export default function Hero({ onZipSubmit }: HeroProps) {
+export default function Hero() {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
+  const router = useRouter();
 
   const [zipCode, setZipCode] = useState("");
   const [cityName, setCityName] = useState("");
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
 
   useEffect(() => {
@@ -56,7 +55,8 @@ export default function Hero({ onZipSubmit }: HeroProps) {
 
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
-    onZipSubmit?.(trimmed);
+    setIsRedirecting(true);
+    router.push("/form");
   };
 
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
@@ -148,7 +148,7 @@ export default function Hero({ onZipSubmit }: HeroProps) {
                         variant="default"
                         htmlType="submit"
                         data-arohaa-zip-submit
-                        disabled={!zipValid}
+                        disabled={isRedirecting || !zipValid}
                         className="flex h-14 w-full cursor-pointer items-center justify-center gap-1.5 rounded-[10px] bg-[#2F6FED] px-8 py-4 font-poppins text-[0.9rem] font-semibold   text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2F6FED] disabled:cursor-not-allowed disabled:opacity-90"
                       >
                         Check My Medicare Options
@@ -197,7 +197,7 @@ export default function Hero({ onZipSubmit }: HeroProps) {
                       variant="default"
                       htmlType="submit"
                       data-arohaa-zip-submit
-                      disabled={!zipValid}
+                      disabled={isRedirecting || !zipValid}
                       className="flex h-14 w-[215px] shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] bg-[#2F6FED] px-4 font-poppins text-[0.85rem] font-semibold  text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2F6FED] disabled:cursor-not-allowed disabled:opacity-90 md:h-14 lg:w-[225px] xl:h-17.5 xl:w-[300px] xl:text-lg"
                     >
                       Check My Medicare Options

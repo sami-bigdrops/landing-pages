@@ -2,13 +2,9 @@
 
 import Image from "next/image"
 import { COVERAGE_CONTENT } from "@/lib/constant"
-import { Button as ButtonUI } from "@workspace/ui/components/button"
+import ZipCtaForm from "./ZipCtaForm"
 
-type CoverageProps = {
-    onGetQuoteClick?: () => void
-}
-
-export default function Coverage({ onGetQuoteClick }: CoverageProps) {
+export default function Coverage() {
     return (
         <div className="w-full h-full bg-[#F3F8FF]  px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-23 xl:py-16">
             <div className="container mx-auto max-w-[1280px]">
@@ -152,16 +148,12 @@ export default function Coverage({ onGetQuoteClick }: CoverageProps) {
                                 {COVERAGE_CONTENT.cta.description}
                             </p>
                         </div>
-                        <div className="w-full md:w-[260px] xl:w-[300px] mt-1">
-                            <ButtonUI
-                                type="1"
-                                variant="default"
-                                htmlType="button"
-                                onClick={() => onGetQuoteClick?.()}
-                                className="w-full bg-[#2f6fed] text-white font-semibold h-14 xl:h-16 rounded-[10px] text-sm xl:text-lg shadow-[0_0_6px_0_rgba(0,0,0,0.15)] hover:bg-[#2f6fed] cursor-pointer transition-all duration-300"
-                            >
-                                Check My Medicare Options
-                            </ButtonUI>
+                        <div className="mt-1 w-full max-w-[420px] md:max-w-[480px] xl:max-w-[520px]">
+                            <ZipCtaForm
+                                idPrefix="coverage"
+                                buttonLabel="Check My Medicare Options"
+                                align="center"
+                            />
                         </div>
                     </div>
                 </div>

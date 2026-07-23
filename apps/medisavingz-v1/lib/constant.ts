@@ -376,14 +376,7 @@ export const FOOTER_CONTENT = {
 export const THANKYOU_CONTENT = {
   title: "Thank you!",
   subtitle:
-    "Your request has been received. A vehicle protection specialist will contact you shortly with your quote.",
-  confirmationTitle:
-    "A confirmation message has been sent to your email address.",
-  confirmationDescription:
-    "The message contains next steps and how to get your quote. Please check your spam folder if you don't see it in your inbox.",
-  contactTitle: "For immediate assistance",
-  contactPhoneLabel: "(1800) 123 - 4567",
-  contactPhoneHref: "tel:+18001234567",
+    "Your request has been received. A MediSavingz expert will contact you soon to help you review your Medicare options.",
 } as const
 
 export interface ThankYouType2FeatureCard {
@@ -399,44 +392,6 @@ export interface ThankYouType2Content {
   confirmationMessage: string
   aboutSectionTitle: string
   featureCards: ThankYouType2FeatureCard[]
-}
-
-export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
-  title: "Thank you!",
-  partnerName: "Renewal By Andersen",
-  partnerLogo: { src: "/rba.avif", alt: "RENEWAL by ANDERSEN" },
-  confirmationMessage:
-    "Congratulations! You have been matched with one of our partners, Renewal By Andersen. The Customer Specialist will be contacting you soon!",
-  aboutSectionTitle: "About Renewal by Andersen",
-  featureCards: [
-    {
-      title: "Trusted Excellence",
-      icon: "shield",
-      bulletPoints: [
-        "Division of Andersen Corporation",
-        "Decades of craftsmanship",
-        "Nationwide reliability",
-      ],
-    },
-    {
-      title: "Custom Solutions",
-      icon: "building",
-      bulletPoints: [
-        "Custom-made windows & doors",
-        "Energy efficient design",
-        "Enhanced curb appeal",
-      ],
-    },
-    {
-      title: "Premium Service",
-      icon: "check",
-      bulletPoints: [
-        "Full-service approach",
-        "Premium materials",
-        "Industry-leading warranties",
-      ],
-    },
-  ],
 }
 
 export const OFFER_CONTENT = {

@@ -2,283 +2,721 @@
 
 import Link from "next/link"
 
+const p = "mb-5 text-sm leading-relaxed text-[#1e1e1e] font-inter sm:text-base md:text-lg"
+const h2 = "mb-4 text-xl font-bold text-[#1e1e1e] font-inter sm:text-2xl md:text-3xl"
+const h3 = "mb-3 text-lg font-bold text-[#1e1e1e] font-inter sm:text-xl"
+const link = "font-bold text-blue-600 hover:text-blue-800 font-inter"
+
 export default function TermsOfUse() {
   return (
     <div>
-      <section id="terms-of-use" className="p-5 md:p-8 lg:p-10 xl:px-16 2xl:px-20 bg-white">
+      <section
+        id="terms-of-use"
+        className="bg-white p-5 md:p-8 lg:p-10 xl:px-16 2xl:px-20"
+      >
         <div className="container mx-auto max-w-4xl">
           <div className="flex flex-col gap-8">
-            <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-              <div className="text-center mb-8">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center text-[#1e1e1e] font-inter">
+            <div className="rounded-lg bg-white p-6 shadow-lg md:p-8">
+              <div className="mb-8 text-center">
+                <h1 className="font-inter text-center text-3xl font-bold text-[#1e1e1e] sm:text-4xl md:text-5xl lg:text-6xl">
                   Terms of Use
                 </h1>
+                <p className="mt-4 font-inter text-sm text-[#4B5563] md:text-base">
+                  Last updated: July 2026
+                </p>
               </div>
+
               <div className="flex flex-col gap-8">
                 <div>
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    PLEASE READ THESE TERMS AND CONDITIONS OF USE CAREFULLY BEFORE USING THIS SITE.
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    By accessing quotifii.com, using any of our services and/or accessing and using any other websites on which these Terms and Conditions reside (collectively also referred to herein as the &quot;Site&quot;), or any of the Sites&apos;s Content (as defined below), you acknowledge that you agree to and are subject to the following Terms and Conditions, including without limitation, binding arbitration (described in Section 2 below), the quotifii <Link href="/privacy-policy" className="text-blue-600 hover:text-blue-800 font-bold font-inter">Privacy Policy</Link>, E-Sign Consent, and any operating rules, policies, and procedures that may be published from time to time on this Site (collectively, the &quot;Terms&quot;). NOTE THAT THESE TERMS CONTAIN PROVISIONS THAT GOVERN THE RESOLUTION OF DISPUTES BETWEEN US AND YOU AND THAT LIMIT OUR LIABILITY TO YOU.
+                  <p className={p}>
+                    MediSavingz and/or its affiliated and subsidiary companies (individually and/or
+                    collectively, &quot;MediSavingz,&quot; &quot;we&quot; or &quot;us&quot; or
+                    &quot;our&quot;) owns and operates this website, and portions of other web pages
+                    and web content through which you have accessed these Terms of Use
+                    (collectively, the &quot;Site&quot;). By visiting, using and/or submitting
+                    information to the Site, you agree to be bound by these Terms of Use (this
+                    &quot;Agreement&quot;). We may collect or receive your personal information when
+                    you use this Site or our Services (defined below). Our collection, processing,
+                    and maintenance of this personal information is governed by our{" "}
+                    <Link href="/privacy-policy" className={link}>
+                      Privacy Policy
+                    </Link>{" "}
+                    (the &quot;Privacy Policy&quot;), which is incorporated herein by reference and
+                    made part of this Agreement. To the extent there is an inconsistency between
+                    this Agreement and the Privacy Policy, the Privacy Policy shall govern.
                   </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    If you do not agree to these Terms, you may not access or otherwise use the Site or the Content. The Terms constitute a legally binding agreement between you and us, quotifii.com, the operator of the Site (hereafter referred to as &quot;we&quot;, &quot;us&quot; or &quot;our&quot;). References in these Terms to &quot;Site operator,&quot; &quot;we&quot;, &quot;us&quot; and &quot;our&quot; include our affiliates (including, without limitation, quotifii, Inc.), agents, successors and assigns. The Site is available only to, and may only be used by, individuals who can form legally binding contracts under applicable law. Without limiting the foregoing, the Site is intended for and made available only to residents of the United States, age 18 or older. By accessing and using the Site, you accept and agree to, without qualification, the Terms and represent and warrant that you have the authority to bind the User (as defined below) to these Terms and that your use of the Site, including the provision or use of any Content, does not violate any applicable law.
+                  <p className={`${p} font-semibold uppercase`}>
+                    This Agreement contains an agreement to arbitrate all claims, a jury trial
+                    waiver, and a class action waiver that affects your rights. In arbitration,
+                    there is no judge or jury, and there is less discovery and appellate review
+                    than in court. This Agreement also includes disclaimers of warranties and
+                    liability that may affect your rights and ability to recover certain damages.
+                    Details are set forth below. Please review carefully.
+                  </p>
+                  <p className={p}>
+                    You acknowledge and agree that you understand MediSavingz is not an insurance
+                    company. Through the Site, we may help to connect you with independent third
+                    parties, such as insurance companies (&quot;Third Parties&quot; or each
+                    individually, a &quot;Third Party&quot;) that might provide you with insurance
+                    coverage if you choose to enroll in an insurance plan through the Site or
+                    through one of our licensed insurance agents (our &quot;Services&quot;). We do
+                    not, and will not, make any coverage or credit decision with any insurance
+                    company or Third Party referred to you. We do not issue insurance coverage or
+                    any other financial products.
+                  </p>
+                  <p className={p}>
+                    You represent that you have the capacity to be bound by this Agreement, or if
+                    you are acting on behalf of a company or other entity, you have the authority
+                    to bind such company or entity.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>The Site Is Not Intended for Minors</h2>
+                  <p className={p}>
+                    The Site is intended to be accessed and used only by adults and is not directed
+                    to minors. We do not knowingly collect personal information from anyone under
+                    the age of 18 and you should not provide us with any information regarding any
+                    individual under the age of 18.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Your Access and Use of the Site</h2>
+                  <p className={p}>
+                    Your right to access and use the Site is personal to you and is not transferable
+                    by you to any other person or entity. You are only entitled to access and use
+                    the Site for lawful purposes and pursuant to this Agreement. You agree not to
+                    use the Site in a way that violates any laws, infringes any individual or
+                    entity&apos;s rights, is inappropriate or offensive, or interferes with the Site
+                    or any features on the Site (including any technological measures we employ to
+                    enforce this Agreement). You acknowledge and agree that using our Site does not
+                    afford you any rights to the Content (defined below) you access. You may not
+                    use, copy, edit or distribute Content from our Site unless you obtain prior
+                    written approval from us.
+                  </p>
+                  <p className={p}>
+                    Any action by you that, in our sole discretion: (i) violates the terms set forth
+                    in this Agreement; (ii) restricts, inhibits or prevents any access, use or
+                    enjoyment of the Site; or (iii) through the use of the Site, defames, abuses,
+                    harasses, offends or threatens, shall not be permitted, and may result in your
+                    loss of the right to access and use the Site or access our Services. You shall
+                    not metatag, provide links to or frame the Site without our prior express
+                    written permission.
+                  </p>
+                  <p className={p}>
+                    Your access and use of the Site may be interrupted from time to time for any of
+                    several reasons, including, without limitation, the malfunction of equipment,
+                    periodic updating, maintenance or repair of the Site or other actions that we,
+                    in our sole discretion, may elect to take. We reserve the right to suspend or
+                    discontinue the availability of the Site and/or any portion or feature of the
+                    Site at any time in our sole discretion and without prior notice.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Your Access and Use of Our Services</h2>
+                  <p className={p}>
+                    Below are terms and conditions governing the Services made available to you via
+                    the Site.
+                  </p>
+                  <p className={p}>
+                    <span className="font-bold">
+                      You Must Maintain the Integrity of Your Information.
+                    </span>{" "}
+                    To use certain Services, you may be required to provide us with information
+                    about you (&quot;Your Information&quot;). If you provide Your Information to us
+                    then you agree to provide true, current, complete and accurate information, and
+                    not to misrepresent your identity. You also agree to keep Your Information
+                    current and to update Your Information if any of Your Information changes.
+                  </p>
+                  <p className={p}>
+                    <span className="font-bold">
+                      You Are Responsible for Your Financial and Insurance Decisions.
+                    </span>{" "}
+                    We, through the Site, provide a venue through which you can obtain information
+                    and request to be connected to licensed insurance agents and Third Parties based
+                    on Your Information provided to us. It is your responsibility to vet and select
+                    Third Parties. You acknowledge and agree that Third Parties are solely
+                    responsible for any services that they may provide to you and that we shall not
+                    be liable for any losses, costs, damages or claims in connection with, arising
+                    from or related to your use of a Third Party&apos;s products or services. We
+                    urge you to obtain the advice of financial advisors, insurance agents, brokers
+                    or other qualified professionals who are fully aware of your individual
+                    circumstances before you make any financial or insurance decisions. You
+                    acknowledge and agree that you rely on your own judgment in selecting any
+                    products or services offered by Third Parties.
+                  </p>
+                  <p className={p}>
+                    <span className="font-bold">You Do Not Pay Fees to Us.</span> MediSavingz does
+                    not charge consumers a fee to access the Site or Services. Third Parties,
+                    however, may pay us fees in order to be matched with consumers. MediSavingz is
+                    not involved with and is not responsible for any fee arrangement consumers and
+                    Third Parties may enter into. You acknowledge and agree to this compensation
+                    arrangement. You hereby release us of any and all losses, costs, damages or
+                    claims in connection with, arising from or related to your use of a Third
+                    Party&apos;s products or services, including any fees charged by a Third Party.
+                  </p>
+                  <p className={p}>
+                    <span className="font-bold">
+                      Applications and Requests for Quotes or Offers.
+                    </span>{" "}
+                    The Site may give you the opportunity to apply for an insurance plan (each, an
+                    &quot;Application&quot;) and/or to request to be contacted by and receive quotes
+                    or offers from licensed insurance agents to discuss insurance products offered
+                    by Third Parties (each, a &quot;Request&quot;). Portions of the Site providing
+                    this opportunity (the &quot;Request Areas&quot;) are only available to residents
+                    of the United States, and may not be available in all states.
+                  </p>
+                  <ul className="mb-5 list-disc space-y-3 pl-5">
+                    <li className={p.replace("mb-5 ", "")}>
+                      We make no guarantee that you will qualify for an insurance plan with a Third
+                      Party if you submit an Application, or that you will be contacted by a
+                      licensed insurance agent if you submit a Request.
+                    </li>
+                    <li className={p.replace("mb-5 ", "")}>
+                      You agree that any information that you provide in connection with your
+                      Application or Request may be used and disclosed as set forth in the Privacy
+                      Policy and/or as otherwise set forth at the time you provide such information.
+                      You authorize Third Parties, and their affiliates and service providers, to
+                      conduct all necessary research with your information, including checking your
+                      credit history, if applicable, for purposes of responding to your Application
+                      or Request. We are not responsible for the way a Third Party processes your
+                      personal information, and we encourage you to review the privacy practices of
+                      Third Parties you engage with.
+                    </li>
+                    <li className={p.replace("mb-5 ", "")}>
+                      If you make a Request, then you expressly authorize an insurance agent to
+                      contact you by telephone, text and email at the numbers and addresses provided
+                      in your Request, for purposes of providing you with the quotes, products and
+                      services indicated in your Request, each as applicable. You consent to receive
+                      telephone calls from insurance agents to discuss the products and services
+                      offered, even if the phone number that you provided on your Request is on any
+                      &quot;Do Not Call&quot; list. You also consent to the recording of such calls.
+                    </li>
+                    <li className={p.replace("mb-5 ", "")}>
+                      If you submit an Application, then you expressly authorize us and/or the
+                      applicable Third Party to contact you by telephone, text and email at the
+                      numbers and addresses provided in your Application, for purposes of processing
+                      your Application. You provide this consent to receive telephone calls from us
+                      or the applicable Third Party, even if the phone number that you provided on
+                      your Request is on any &quot;Do Not Call&quot; list. You also consent to the
+                      recording of such calls.
+                    </li>
+                    <li className={p.replace("mb-5 ", "")}>
+                      You are solely responsible for complying with applicable laws and regulations
+                      in connection with your use of any services offered by a Third Party,
+                      including a Third Party&apos;s terms of service.
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Our Intellectual Property Rights</h2>
+                  <p className={p}>
+                    Our names, graphics, logos, page headers, button icons, scripts, and service
+                    names are our trademarks or trade dress in the United States and/or other
+                    countries (collectively, the &quot;Proprietary Marks&quot;). You may not use the
+                    Proprietary Marks without our prior express written permission, which permission
+                    may be withheld in our sole discretion. MediSavingz makes no proprietary claim
+                    to any third-party names, trademarks or service marks appearing on the Site. Any
+                    third-party names, trademarks, and service marks are property of their
+                    respective owners.
+                  </p>
+                  <p className={p}>
+                    The information, advice, data, software and content viewable on, contained in,
+                    or downloadable from the Site (collectively, the &quot;Content&quot;), including,
+                    without limitation, all text, graphics, charts, pictures, photographs, images,
+                    line art, icons and renditions, are copyrighted by, or otherwise licensed to, us
+                    or third parties. We also own a copyright of a collective work in the selection,
+                    coordination, arrangement, presentation, display and enhancement of the Content
+                    (the &quot;Collective Work&quot;). All software used on the Site (the
+                    &quot;Software&quot;) is our property or property of our software vendors and is
+                    protected by United States and international copyright laws. Viewing, reading,
+                    printing, downloading or otherwise using the Content and/or the Collective Work
+                    does not entitle you to any ownership or intellectual property rights to the
+                    Content, the Collective Work or the Software.
+                  </p>
+                  <p className={p}>
+                    You shall be solely responsible for any damage resulting from your infringement
+                    of our or any third party&apos;s intellectual property rights regarding the
+                    Proprietary Marks, the Content, the Collective Work, the Software and/or any
+                    other harm incurred by us as a direct or indirect result of your copying,
+                    distributing, redistributing, transmitting, publishing or using the same for
+                    purposes that are contrary to the terms and conditions of this Agreement.
+                  </p>
+                  <p className={p}>
+                    We grant you a limited license to access, print, download or otherwise make
+                    personal use of the Content and the Collective Work in the form of: (i) one
+                    machine-readable copy; (ii) one backup copy; and (iii) one print copy, for your
+                    non-commercial use; provided, however, that you shall not delete any proprietary
+                    notices or materials with regard to the foregoing manifestations of the Content
+                    and the Collective Work. You may not modify the Content or the Collective Work
+                    or utilize them for any commercial purpose or any other public display,
+                    performance, sale, or rental, decompile, reverse engineer, or disassemble the
+                    Content or the Collective Work, or transfer the Content or the Collective Work
+                    to another person or entity.
+                  </p>
+                  <p className={p}>
+                    Except as otherwise permitted under the copyright laws of the United States, no
+                    other copying, distribution, redistribution, transmission, publication or use,
+                    other than the non-commercial use of the Content and the Collective Work as
+                    permitted by this Agreement, is permitted by you without our express prior
+                    written permission, which permission may be withheld in our sole discretion.
+                  </p>
+                  <p className={p}>
+                    You may not use any meta tags or any other &quot;hidden text&quot; utilizing our
+                    name or trademarks without express written permission, which permission may be
+                    withheld in our sole discretion.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Site Access and Interference</h2>
+                  <p className={p}>
+                    The Site contains robot exclusion headers. You agree that you will not use any
+                    robot, spider, scraper, deep link or other similar automated data gathering or
+                    extraction tools, program, algorithm or methodology to access, acquire, copy or
+                    monitor the Site or any portion of the Site or for any other purpose, except
+                    where permitted. Additionally, you agree that you will not: (i) take any action
+                    that imposes, or may impose in our sole discretion an unreasonable or
+                    disproportionately large data load on our infrastructure; (ii) copy, reproduce,
+                    modify, create derivative works from, distribute or publicly display any content
+                    (except for your personal information) from the Site without our prior written
+                    permission and the appropriate third party, as applicable; (iii) interfere or
+                    attempt to interfere with the proper working of the Site or any activities
+                    conducted on the Site; or (iv) bypass our robot exclusion headers or other
+                    measures we may use to prevent or restrict access to the Site. Notwithstanding
+                    the foregoing, we grant the operators of public search engines permission to use
+                    publicly available search indices of the materials on the Site, but not caches
+                    or archives of such materials. We reserve the right to revoke these exceptions
+                    either generally or in specific cases.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Electronic Communications</h2>
+                  <p className={p}>
+                    When you visit the Site or send email to us, you are communicating with us
+                    electronically. You consent to receive communications from us electronically.
+                    Although we may choose to communicate with you by regular mail, we may also
+                    choose to communicate with you by e-mail or by posting notices on the Site. You
+                    agree that all agreements, notices, disclosures and other communications that we
+                    provide to you electronically satisfy any legal requirement that such
+                    communications be in writing and do not constitute unsolicited electronic
+                    communications.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Your Responsibility for Equipment and Related Costs</h2>
+                  <p className={p}>
+                    You are responsible for obtaining and maintaining all telephone, computer
+                    hardware, Internet access services and other equipment or services needed to
+                    access and use the Site, and all costs and fees associated with Internet access
+                    or long-distance charges incurred with regard to your access and use of the
+                    Site.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Third Party Links</h2>
+                  <p className={p}>
+                    There may be provided on the Site links to other websites belonging to our
+                    advertisers, business partners, affiliates, Service Providers and/or other third
+                    parties. Such links do not constitute an endorsement by us of those websites,
+                    nor the products or services listed on those websites. We are not responsible
+                    for the activities or policies of those websites. We do not endorse or recommend
+                    the products of any particular advertiser, business partner, affiliate or other
+                    third party. We do not guarantee that the terms or rates offered by any
+                    particular advertiser, business partner, affiliate, Service Provider or other
+                    third party on the Site are the best terms or lowest rates available in the
+                    market.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Mobile Devices</h2>
+                  <p className={p}>
+                    If we provide aspects of the Site via an application for your mobile or other
+                    device, please be aware that your carrier&apos;s normal rates and fees may apply
+                    and that the terms of this Agreement and other agreements within the application
+                    apply to your use of such mobile application.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>No Representations or Warranties</h2>
+                  <p className={p}>
+                    The Content and all services and products associated with the Site are provided
+                    to you on an &quot;as-is&quot; and &quot;as available&quot; basis. We make no
+                    representations or warranties of any kind, express or implied, as to the
+                    operation of the Site or the information, content, materials, products or
+                    services included on or associated with the Site. You expressly agree that your
+                    use of the Site and all products and services included on or associated with the
+                    Site is at your sole risk.
+                  </p>
+                  <p className={p}>
+                    We do not make any representations, warranties or guarantees, express or
+                    implied, regarding the accuracy, correctness, or completeness of the Content or
+                    the services and products associated with the Site, nor the safety, reliability,
+                    title, timeliness, completeness, merchantability, conformity or fitness for a
+                    particular purpose of the Content or the services and products associated with
+                    the Site. It is your sole responsibility to independently evaluate the accuracy,
+                    correctness or completeness of the Content and the services and products
+                    associated with the Site. We make no representation, warranty or guarantee that
+                    the Content that may be available for downloading from the Site is free of
+                    infection from any viruses, worms, Trojan horses, trap doors, back doors, easter
+                    eggs, time bombs, cancelbots or other code or computer programming routines that
+                    contain contaminating or destructive properties or that are intended to damage,
+                    detrimentally interfere with, surreptitiously intercept or expropriate any
+                    system, data or personal information. We do not make any representations,
+                    warranties or guarantees, express or implied, regarding any quotes or offers
+                    provided on or through the Site.
+                  </p>
+                  <p className={p}>
+                    The Content is intended only to assist you with information related to financial
+                    decisions and is broad in scope and does not consider your personal financial
+                    situation. Your personal financial situation is unique and the information
+                    provided on this Site may not be appropriate for your situation. Accordingly,
+                    before making any final decisions or implementing any financial strategy, we
+                    recommend that you obtain additional information and advice of your accountant
+                    and other financial advisors who are fully aware of your individual
+                    circumstances. Nothing on our Site constitutes financial advice.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Limitations of Liability</h2>
+                  <p className={p}>
+                    To the fullest extent permitted by law, we, our members, managers, directors,
+                    officers, shareholders, employees, assigns, independent contractors,
+                    representatives, and agents, shall in no event be responsible to, or liable to,
+                    you, or any third party, for any damages, including, but not limited to,
+                    special, incidental, indirect or consequential damages that include, but are not
+                    limited to, damages for any loss of profit, revenue or business, as a direct or
+                    indirect result of: (i) your breach or violation of this Agreement; (ii) your
+                    access and use of the Site; (iii) your delay in accessing or inability to access
+                    or use the Site; (iv) your downloading of any of the Content or the Collective
+                    Work for your use; (v) your reliance upon or use of the Content or the
+                    Collective Work, or (vi) any information, software, products or services
+                    obtained through the Site, or otherwise arising out of the use of the Site.
+                  </p>
+                  <p className={`${p} font-semibold uppercase`}>
+                    This limitation of liability applies, in whole or in part, from breach of
+                    contract, tortious behavior, negligence, strict liability or otherwise.
+                    Notwithstanding the foregoing, we do not exclude liability for any condition or
+                    warranty that cannot be excluded by law. Our liability for the breach of such
+                    condition or warranty shall be limited to the greater of the cost of providing
+                    the affected service again and the sum equivalent to US $100, except where
+                    prohibited by local law.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Indemnification</h2>
+                  <p className={p}>
+                    You shall defend, indemnify and hold harmless Us and our members, managers,
+                    directors, officers, shareholders, employees, assigns, independent contractors,
+                    representatives, and agents from and against all claims and expenses, including,
+                    but not limited to, attorney&apos;s fees, arising out of, or attributable to:
+                    (i) any breach or violation of this Agreement by you; (ii) your failure to
+                    provide accurate, complete and current personally identifiable information
+                    requested or required by us; (iii) your access or use of the Site; (iv) access
+                    or use of the Site under any password that may be issued to you; and/or (v) any
+                    personal injury or property damage caused by you.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className={h2}>Governing Law</h2>
+                  <p className={p}>
+                    To the fullest extent allowed by law, all actions arising out of or relating to
+                    the Agreement will be governed by the laws of the State of New Jersey without
+                    giving effect to principles of conflict of laws. To the extent legally
+                    applicable, you agree that, notwithstanding any statute of limitation to the
+                    contrary, any claim or action you may wish to bring against us for any act or
+                    omission arising out of or relating to the Agreement must be brought within one
+                    (1) year from the date of the alleged act or omission giving rise to the claim
+                    or cause of action. Failure to bring such action within the permitted time shall
+                    act as a bar against all claims against us for such act or omission. You waive
+                    any and all claims or rights to have any other statute of limitation apply.
+                  </p>
+                  <p className={p}>
+                    In the event that any alleged act or omission giving rise to your claim is not
+                    subject to binding arbitration, or any issue of arbitrability arises as
+                    described in the below section, any such claim will be brought in the courts of
+                    record of Bergen County, New Jersey, or the United States District Court for the
+                    District of New Jersey, located in Newark, New Jersey. You consent to the
+                    jurisdiction of such courts and waive any objection to venue.
+                  </p>
+                </div>
+
+                <div id="dispute-resolution">
+                  <h2 className={h2}>Dispute Resolution; Arbitration</h2>
+                  <p className={`${p} font-semibold uppercase`}>
+                    Please read this section carefully, as it contains an arbitration agreement (the
+                    &quot;Arbitration Agreement&quot;) and may significantly affect your legal
+                    rights. This section also contains a waiver of any and all rights to proceed in
+                    a class, collective, consolidated, or representative action in arbitration or
+                    litigation, as well as a right to have a trial by jury.
+                  </p>
+                  <p className={p}>
+                    <span className="font-bold">Arbitration Agreement:</span> Unless you opt out as
+                    set forth below, any Dispute (defined below) between you and us, any of our
+                    parents, subsidiaries, affiliates, or independent contractors, or any of their
+                    members, managers, directors, officers, shareholders, employees, assigns, or
+                    representatives arising from or relating to the use of the Site shall be
+                    resolved by final and binding arbitration. The arbitrator shall decide what is
+                    subject to arbitration. MediSavingz&apos;s parents, subsidiaries, affiliates, or
+                    independent contractors, and any of their members, managers, directors,
+                    officers, shareholders, employees, assigns, or representatives are intended to
+                    be third-party beneficiaries of this Agreement.
+                  </p>
+                  <p className={p}>
+                    For purposes of this Section, &quot;Dispute&quot; shall include, but is not
+                    limited to, any claims or controversies between you and us that are related in
+                    any way to this Agreement, including, but not limited to, your use of the Site,
+                    sales, returns, refunds, cancellations, defects, policies, privacy, advertising,
+                    and/or any communications between you and us, whether occurring on the Site or
+                    otherwise, even if the Dispute arises after the termination of your relationship
+                    with us. &quot;Dispute&quot; also includes, without limitation, claims that: (a)
+                    you bring against us; (b) we bring against you; (c) in any way relate to or
+                    arise out of any aspect of the relationship between you and us, whether based in
+                    contract, tort, statute, fraud, misrepresentation, advertising claims, or any
+                    other legal theory; (d) arose before you entered into the Agreement or out of a
+                    prior agreement with us (including, without limitation, claims relating to
+                    advertising); (e) are subject to ongoing litigation where you are not a party or
+                    a member of a certified class; and/or (f) arise after the termination of the
+                    Agreement. &quot;Dispute,&quot; however, does not include disagreements or
+                    claims concerning patents, copyrights, trademarks, and trade secrets and claims
+                    of piracy or unauthorized use of intellectual property or claims for personal
+                    bodily injury, which shall not be subject to arbitration or the notice and
+                    informal process described below.
+                  </p>
+                  <p className={p}>
+                    The arbitrator shall decide all issues except for: (a) those that are
+                    specifically reserved for a court herein; (b) those issues relating to the
+                    scope, validity, and enforceability of the Arbitration Agreement or any of the
+                    provisions of this Section; (c) any issues arising from or relating to the
+                    arbitrability of any Dispute; and (d) whether the arbitration administrator
+                    cannot or will not administer the arbitration in accordance with this
+                    Arbitration Agreement—all of which are for a court of competent jurisdiction to
+                    decide.
+                  </p>
+                  <p className={p}>
+                    Notwithstanding this agreement to arbitrate, the parties agree that claims for
+                    only injunctive relief on an individual basis may be brought exclusively in
+                    either the United States District Court for the District of New Jersey or the
+                    state courts in Bergen County, New Jersey. The parties further agree that
+                    judgment on any award rendered by the arbitrator(s) may be entered in any court
+                    having jurisdiction thereof. This agreement to arbitrate shall survive any
+                    termination of parties&apos; respective relationship, including after you have
+                    stopped accessing or using the Site. This Arbitration Agreement does not in any
+                    way alter your ability to bring concerns to our attention, or to raise any
+                    concerns with federal, state, or local agencies.
+                  </p>
+                  <p className={p}>
+                    There is no judge or jury in arbitration, and court review of an arbitration
+                    award is limited. However, an arbitrator can award on an individual basis the
+                    same damages and relief as a court and must follow the terms of this Agreement
+                    as a court would.
                   </p>
 
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    1. Our Services
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    The Site acts as a portal to facilitate insurance agents, insurance companies, lead aggregators, home services, vehicle protection plans and other similar parties (each a &quot;Provider&quot;) to offer for sale and to sell, insurance and other products to potential consumers who have applied through the Site to receive insurance or other authorized quotations from a Provider (each, a &quot;Prospect&quot;), and all Prospects and potential Prospects that use the Site are collectively called the Site&apos;s &quot;Users&quot; (and hereafter may be referred to as &quot;you&quot; or &quot;your&quot;). We may, with a Prospect&apos;s authorization, collect certain information (a &quot;Lead&quot;) about a Prospect and sell the Lead to a Provider. We are not responsible for the legality, safety or quality of the products offered for sale by a Provider, the accuracy or veracity of the representations regarding the products, the ability of Providers to sell the products or the ability of Prospects to pay for the products. For all purposes we are an independent contractor. We do not issue insurance contracts or bind coverage of any kind. We are not responsible for, nor do we assume any financial or other liability whatsoever, for the conduct of any Prospect or Provider. We do not endorse or recommend any Providers or insurance policies or warranty or other related products offered by such Providers. We do not provide any type of insurance, tax, financial, legal, warranty or any other advice. We do not guarantee that any Providers to whom we send a Prospect&apos;s application will contact the Prospect or agree to provide the Prospect with the requested insurance coverage. If you would like personal advice or insurance specific policy recommendations, please consult with a qualified professional. Be advised that we do not offer or sell any insurance or other products shown on the Site.
+                  <h3 className={h3}>a. Pre-Dispute Notice</h3>
+                  <p className={p}>
+                    You and we agree to engage in good faith informal efforts to resolve a dispute
+                    before initiating any arbitration. The party raising a dispute, whether it be
+                    you or us, must first send a written notice to the other party providing a
+                    detailed description of the dispute, including: (1) the initiating party&apos;s
+                    name and contact information (address, telephone number, email address); (2) the
+                    nature and basis of the dispute and any claims; and (3) the nature and basis of
+                    the relief sought (including a calculation of damages). Your notice to us must
+                    be personally signed by you (and your attorney if you are represented by legal
+                    counsel). Our notice to you must be personally signed by us (through a company
+                    representative, and our attorney if we are represented by legal counsel). Your
+                    notice to us must be sent to{" "}
+                    <a href="mailto:contact@medisavingz.com" className={link}>
+                      contact@medisavingz.com
+                    </a>
+                    . Our notice to you must be sent to the most recent contact information that you
+                    have provided us.
+                  </p>
+                  <p className={p}>
+                    For a period of 60 days from the date of receipt of a completed notice from the
+                    other party, you and we will work together using reasonable efforts to try and
+                    resolve the Dispute. If the Dispute is not resolved within this 60-day period
+                    (which can be extended by agreement of the parties), you or we may commence
+                    arbitration consistent with the process set forth below. Compliance with this
+                    informal dispute resolution process is mandatory and a condition precedent to
+                    initiating arbitration.
+                  </p>
+                  <p className={p}>
+                    By signing a dispute notice, you and your counsel certify that to the best of
+                    your and your counsel&apos;s knowledge, information, and belief, formed after an
+                    inquiry reasonable under the circumstances, that: (1) the dispute notice is not
+                    being presented for any improper purpose, such as to harass, cause unnecessary
+                    delay, or needlessly increase the cost of dispute resolution; (2) the claims,
+                    defenses and other legal contentions are warranted and are made in good faith
+                    and are not frivolous; and (3) the factual and damages contentions have
+                    evidentiary support or, if specifically so identified, will likely have
+                    evidentiary support after a reasonable opportunity for further investigation or
+                    discovery. An arbitrator is expressly authorized to impose any sanctions or
+                    other relief available under Federal Rule of Civil Procedure 11 on represented
+                    parties and their counsel.
+                  </p>
+                  <p className={p}>
+                    Any applicable limitations period (including statutes of limitation) shall be
+                    tolled while the parties engage in the informal dispute resolution process
+                    referenced above.
                   </p>
 
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    2. Dispute Resolution By Binding Arbitration
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-semibold font-inter">
-                    PLEASE READ THIS CAREFULLY. IT AFFECTS YOUR RIGHTS.
+                  <h3 className={h3}>b. Arbitration Procedures</h3>
+                  <p className={p}>
+                    If the parties do not reach a solution during the pre-notice dispute resolution
+                    process referenced above, then, upon notice by either party to the other, all
+                    disputes, claims, questions, or differences, except as provided herein, shall be
+                    settled by binding arbitration. The arbitration will be administered by JAMS
+                    under its applicable rules, including the Streamlined Arbitration Rules &amp;
+                    Procedures, Comprehensive Arbitration Rules &amp; Procedures, and/or JAMS Mass
+                    Arbitration Procedures and Guidelines, as applicable (the &quot;JAMS
+                    Rules&quot;), as modified by this Agreement. The JAMS Rules are available at{" "}
+                    <a
+                      href="https://www.jamsadr.com/adr-rules-procedures"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={link}
+                    >
+                      https://www.jamsadr.com/adr-rules-procedures
+                    </a>
+                    . You will be responsible for up to $250 of the administration fees, or as
+                    otherwise provided by the JAMS Rules. We may reduce this amount if You
+                    demonstrate hardship. This Agreement is governed by the Federal Arbitration Act,
+                    and any award shall be subject to judicial confirmation. Any arbitration shall
+                    take place on an individual basis; class actions or arbitrations are not
+                    permitted.
                   </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    You agree to attempt in good faith to settle any dispute or claim that has or may arise between us, which arises out of or relates in any way to these Terms or your use of the Site or the Content, including, without limitation, any dispute or claim between you and a Provider (each, a &quot;Claim&quot;), by way of consultations between you and us, which consultations will be initiated upon written notice by any party to the other (the &quot;Consultation Notice&quot;). The Consultation Notice must describe the nature and basis of the Claim and set forth the specific relief sought (&quot;Demand&quot;). If such Claim cannot be resolved within thirty (30) days after the Consultation Notice is received, any party to the consultations may initiate an arbitration proceeding upon written notice to the other party in accordance with this Section 2. Any notice to us under this Section 2 should be addressed to: <a href="mailto:contact@cheapautoinsuranceoptions.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@cheapautoinsuranceoptions.com</a> (&quot;Notice Address&quot;). You agree to arbitrate all Claims between you and us, or any Provider, that cannot be amicably resolved in accordance with the foregoing paragraph. This agreement to arbitrate is intended to be broadly interpreted. It includes, but is not limited to: (a) claims arising out of or relating to any aspect of your relationship with us, whether based in contract, tort, statute, fraud, misrepresentation or any other legal theory; and (b) claims that could be alleged as class action Claims (and you agree to waive the right to participate in a class action in accordance with this Section 2). For the avoidance of doubt, references in this Section 2 to &quot;Site operator,&quot; &quot;Provider,&quot; &quot;we&quot;, &quot;Prospect&quot;, &quot;you,&quot; and &quot;us&quot; include our respective subsidiaries, affiliates, agents, employees, predecessors in interest, successors and assigns, as well as all authorized or unauthorized users or beneficiaries of the services, information or Site Content available through the use the Site. This arbitration agreement does not preclude you from bringing an individual action in small claims court if your claims qualify, and so long as the matter remains in such court and advances only on an individual (non-class, non-representative) basis. Further, this arbitration agreement does not preclude you from bringing issues to the attention of federal, state, or local agencies, including, for example, the Federal Communications Commission or the Federal Trade Commission. You agree that, by entering into this arbitration agreement, you and we are each waiving our respective rights to a trial by jury or to participate in a class or representative action, and that arbitration of disputes pursuant to this Section 2 shall be in your individual capacity. THIS MEANS YOU ARE LIMITING YOUR RIGHT TO APPEAL AND ARE WAIVING YOUR RIGHTS TO OTHER AVAILABLE RESOLUTION PROCESSES, SUCH AS A COURT ACTION. THE ARBITRATOR MAY NOT CONSOLIDATE, COMBINE, OR JOIN THE CLAIMS OF OTHER PARTIES WHO MAY BE SIMILARLY SITUATED OR OTHERWISE PRESIDE OVER ANY FORM OF A REPRESENTATIVE OR CLASS PROCEEDING. You acknowledge and agree that the Federal Arbitration Act governs the interpretation and enforcement of this provision. This arbitration provision shall survive termination of this Agreement.
+                  <p className={p}>
+                    An arbitration demand must be accompanied by a certification of compliance with
+                    the mandatory informal dispute resolution procedure outlined above and be
+                    personally signed by the party initiating the arbitration (and counsel, if
+                    represented).
                   </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    The arbitration will be governed by the American Arbitration Association (&quot;AAA&quot;) under its then-prevailing rules and procedures, including the AAA&apos;s Supplementary Procedures for Consumer-Related Disputes (collectively, the &quot;AAA Rules&quot;), as modified by this Agreement (but expressly excluding the Supplementary Rules for Class Arbitration and any other AAA Rules that conflict with the waiver of class arbitration and representative proceedings below), and will be administered by one (1) arbitrator with relevant industry experience appointed in accordance with the AAA Rules. The AAA Rules are available at <a href="https://www.adr.org/rules" className="text-blue-600 hover:text-blue-800 font-bold font-inter" target="_blank" rel="noopener noreferrer">https://www.adr.org/rules</a> or by calling (800) 778-7879. The arbitrator is bound by the terms of this Agreement and shall apply Delaware law consistent with the Federal Arbitration Act and applicable statutes of limitations, and shall honor claims of privilege recognized at law. All issues are for the arbitrator to decide, including, without limitation, issues relating to the applicability and enforceability of this arbitration agreement.
+                  <p className={p}>
+                    By signing an arbitration demand, you and your counsel certify that to the best
+                    of your and your counsel&apos;s knowledge, information, and belief, formed after
+                    an inquiry reasonable under the circumstances, that: (1) the arbitration demand
+                    are not being presented for any improper purpose, such as to harass, cause
+                    unnecessary delay, or needlessly increase the cost of dispute resolution; (2)
+                    the claims, defenses and other legal contentions are warranted and are made in
+                    good faith and are not frivolous; and (3) the factual and damages contentions
+                    have evidentiary support or, if specifically so identified, will likely have
+                    evidentiary support after a reasonable opportunity for further investigation or
+                    discovery. An arbitrator is expressly authorized to impose any sanctions or
+                    other relief available under Federal Rule of Civil Procedure 11 on represented
+                    parties and their counsel.
                   </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Unless otherwise mutually agreed by the parties to the arbitration, any arbitration hearings under this Section 2 will take place in the county where you are domiciled. If your Claim is for $5,000 or less, you may choose whether the arbitration will be conducted solely on the basis of documents submitted to the arbitrator, through a telephonic hearing, or by an in-person hearing as established by the AAA Rules. If your Claim exceeds $5,000, the right to a hearing will be determined by the AAA Rules. Except as otherwise provided for in this Section 2, in any arbitration between you and us under this Section 2, all AAA filing, administration and arbitrator fees for any arbitration initiated in accordance with the notice requirements above where Claims for damages do not exceed $10,000 shall, at your written request, be paid by us. Any request for payment of fees by us shall be submitted by mail to the AAA along with your demand for arbitration, and we will make arrangements to pay all necessary fees directly to the AAA. If the value of the relief sought is more than $10,000 and you are able to demonstrate that the costs of arbitration will be prohibitive as compared to the costs of litigation, we will pay as much of the filing, administration and arbitrator fees as the arbitrator deems necessary to prevent the arbitration from being cost-prohibitive. If, however, the arbitrator finds that either the substance of your Claim or the relief sought in the Demand is frivolous or brought for an improper purpose, you agree to reimburse us for all monies previously disbursed that are otherwise your obligation to pay under the AAA Rules.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    The arbitrator may award declaratory or injunctive relief only in favor of the individual party seeking relief and only to the extent necessary to provide relief warranted by that party&apos;s individual claim. The arbitrator shall not be bound by rulings in prior arbitrations involving our other Users, but is bound by rulings in prior arbitrations involving the same User to the extent required by applicable law.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    With the exception of the provision in the preceding paragraph prohibiting class arbitration or representative proceedings, if an arbitrator or court decides that any part of this Section 2 is invalid or unenforceable, the other parts of this Section 2 shall still apply to the maximum extent possible. In the event that the foregoing prohibition on class arbitration or representative proceedings is deemed invalid or unenforceable, then the entirety of this Section 2 shall be null and void. The remainder of the Terms, including, without limitation, Section 16 (Choice of Law and Forum), will remain in force.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    You may opt-out of this arbitration provision only by written notice to us at the Notice Address (<a href="mailto:contact@cheapautoinsuranceoptions.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@cheapautoinsuranceoptions.com</a>) within thirty (30) days of your acceptance of this agreement, which notice shall include your name, address, and a clear statement that you do not wish to resolve disputes with us through arbitration.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    If we make any change to this arbitration provision (other than a change to the Notice Address) during the term of your relationship with us, that change shall not apply to any Claim against us initiated prior to the effective date of the change. The change shall apply to all other Claims that have arisen or may arise between you and us. We will notify you of changes to this arbitration provision by posting the amended terms on the Site or by email, in each case at least thirty (30) days before the effective date of the changes.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Notwithstanding anything to the contrary in these Terms, Providers shall be third party beneficiaries of the rights to dispute resolution and arbitration set forth in this Section 2, and each Provider shall have the right to enforce this Section 2 against Users as if such Provider were a party to the agreement set forth in this Section 2 in the event of any dispute or claim between you and such Provider based on or relating to any transaction or interaction between you and such Provider that is enabled by or arises in connection with your use of the Site.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    DO NOT USE THIS SITE IF YOU DO NOT AGREE TO THE FOREGOING BINDING ARBITRATION PROVISIONS.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    3. Personal Use
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    We do not charge Users to access the Site. We grant each User a limited, revocable, non-exclusive license to access the Site and the text, images, maps, files, photos, information and other materials on the Site (the &quot;Content&quot;) in order to view, access or make inquiries to us regarding our services, in accordance with these Terms. Any other use of the Site is expressly prohibited. This limited license does not include any right of display, copying, aggregation, collection, or derivative use of the Site nor any right of use of spiders, data mining, robots or similar data extraction and gathering tools without our prior express written permission. Any rights not expressly granted herein are reserved by us.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    4. Downloading of Information from the Site and Proprietary Rights
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    All Content and the Site itself is protected by copyright and database rights as a compilation and/or collective work, pursuant to U.S. copyright laws, other copyright laws, trademark laws, and international conventions. The Content is only for each User&apos;s personal use in accordance with Section 3 (Personal Use). All Users agree to abide by these Terms and any and all additional information, restrictions or copyright notices contained in or relating to any Content on the Site. Copying or storing any Content other than for noncommercial, personal use is expressly prohibited without prior written permission from us or the applicable copyright holder. You acknowledge and agree that quotifii and its respective affiliates, own the data gathered by the Application. By displaying, publishing, or otherwise posting Content on our through the Site, you hereby grant to quotifii a non-exclusive, sub-licenseable, irrevocable, worldwide, fully-paid, royalty free license to use, modify, publicly display, reproduce, publish, and distribute such User Content in any and all media now known or hereafter developed without the requirement to make payment to you or any third party or to seek your or any third party&apos;s permission.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    5. Unauthorized Use
-                  </h2>
-                  <div className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Unless otherwise provided herein, or unless otherwise allowed under applicable law, you may not do any of the following without our prior written consent:
-                    <ul className="list-disc list-inside mt-4 ml-4 sm:ml-6 md:ml-8 space-y-2 font-inter">
-                      <li>Upload, post, display, copy, republish, reproduce, transmit, or distribute any Content in any form whatsoever;</li>
-                      <li>Reproduce any portion of the Site on your website or, using any device, including but not limited to use of a border or frame environment around the Site, or other framing technique to enclose any portion or aspect of the Site, or replicate or mirror any portion of the Site;</li>
-                      <li>Reverse engineer disassemble, copy, or duplicate any part of the Site;</li>
-                      <li>Modify, translate into any written or computer language, or create derivative works or translations from any Content or part of the Site;</li>
-                      <li>Offer for sale, sell, license, or transfer, in any form, any portion of the Site any third parties;</li>
-                      <li>Use any spider, robot or other automated device or automated or manual process to copy, monitor, or keep a database copy of the Content or any portion of the Site;</li>
-                      <li>Use the Site other than to make legitimate inquiries to us regarding our services or to learn about our services;</li>
-                      <li>Use the Site to create any fraudulent or false inquiry or account;</li>
-                      <li>Transmit or post any abusive, threatening, unlawful, defamatory, libelous, false, misleading indications of origin or statements of fact, vulgar, obscene, indecent, sexually explicit, pornographic, profane or inflammatory material, or any material that could constitute or encourage conduct that would be considered a criminal offense, give rise to civil liability, or otherwise violate any law or for any other purpose that is unlawful or prohibited by these Terms;</li>
-                      <li>Access or use the Site in any way that, in our sole discretion, adversely affects the function or performance of the Site or any other networks or computer systems used by us or the Site, or infringes on our or any third party&apos;s trademark, copyright, patent rights, rights of privacy or publicity or any other proprietary rights;</li>
-                      <li>Transmit or upload to the Site, or use in connection with the Site, any software, device or routine that contains viruses, worms, time bombs, Trojan horses or other computer programming routines that may interfere with or attempt to interfere with, damage or in any way intercept the normal operation of the Site, or appropriate the Site or any system, or take any action that imposes an unreasonable load on our computing platform;</li>
-                      <li>Circumvent any encrypted data or gain access to more materials or data than was licensed or use the Site in any manner which violates these Terms or any applicable laws; or</li>
-                      <li>Attempt to gain unauthorized access to the Application or any computer system used to provide the Application, circumvent any access restriction or security measures with respect to the Application, or disclose your access information or otherwise give access to the Application to any third party.</li>
-                    </ul>
-                  </div>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Unauthorized access to and/or use of the Site, or the telecommunications or computer facilities used to deliver the Site, is a breach of these Terms and is a violation of law. Further, unauthorized access to and/or use of the Application may result in your license to use the Application being terminated immediately, and you may be denied future participation in any telematics offering distributed by quotifii. Your internet service provider and/or mobile carrier may also remove you from their services in response to violations of these Terms applicable to the Application. If you are or become aware of or experience any Content, activity or communication through or in connection with the Site that appears to be in violation of the above, or in violation of any other provision of these Terms, we ask that you please inform us of any such violation by sending notification to <a href="mailto:contact@cheapautoinsuranceoptions.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@cheapautoinsuranceoptions.com</a>.
+                  <p className={p}>
+                    If any part of this Arbitration Agreement (including the below Additional Terms
+                    Applicable to Mass Arbitrations) is deemed invalid, it shall not invalidate the
+                    other parts. If JAMS is unavailable, the parties or a court will select another
+                    arbitral forum.
                   </p>
 
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    6. Site Changes
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    We may change, discontinue or suspend any aspect of the Site at any time, including the availability of any Site features, Content or database. We may also impose limits on certain services or features or restrict your access to all or part of the Site without notice to you or liability to us.
+                  <h3 className={h3}>c. Additional Terms Applicable to Mass Arbitrations</h3>
+                  <p className={p}>
+                    In the event that claimants (including you) assert or seek to assert 25 or more
+                    similar arbitration demands against us with the same counsel or counsel acting
+                    in coordination (&quot;Mass Arbitration&quot;), the JAMS Mass Arbitration
+                    Procedures and Guidelines and the provisions of this paragraph shall apply (in
+                    addition to the terms set forth in the above Arbitration Agreement). In the
+                    event a Mass Arbitration is presented, you and we will attempt to agree on a
+                    batching protocol where arbitrations will be filed and proceed in stages. If you
+                    and we cannot agree, the parties will submit the issue to a process arbitrator
+                    appointed by JAMS to decide. Any applicable limitations period (including
+                    statute of limitations) shall be tolled from the time your dispute is first
+                    presented to JAMS as being part of a Mass Arbitration until your dispute
+                    proceeds in arbitration or is otherwise resolved.
+                  </p>
+                  <p className={p}>
+                    This batch process shall in no way be interpreted as authorizing a class,
+                    collective and/or mass arbitration or action of any kind, or arbitration
+                    involving joint or consolidated claims under any circumstances, except as
+                    expressly set forth in this provision. You and we agree that the parties (and
+                    your and our counsel, if you and we are represented) will work together in good
+                    faith to ensure that arbitration remains cost-effective for all parties.
                   </p>
 
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    7. Our Privacy Policy
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    When you use the Site, you consent to the collection and use of your personally identifiable information in accordance with the quotifii <Link href="/privacy-policy" className="text-blue-600 hover:text-blue-800 font-bold font-inter">Privacy Policy</Link>, which is incorporated into these Terms. Our Privacy Policy explains our information collection practices and safeguards, how we use and share your information, and how to opt-out of receiving communications from us.
+                  <h3 className={h3}>d. Opt-Out Procedure</h3>
+                  <p className={p}>
+                    Opt-out. You have the right to opt out of the provisions of this Section by
+                    sending written notice of your decision to opt-out to{" "}
+                    <a href="mailto:contact@medisavingz.com" className={link}>
+                      contact@medisavingz.com
+                    </a>
+                    .
                   </p>
+                  <p className={p}>
+                    The notice to opt-out must be sent within 30 days of first accepting the
+                    Agreement. You must include (1) your name and residence address; (2) the email
+                    address and/or telephone number you used to conduct business with us; and (3) a
+                    clear statement that you want to opt out of the Arbitration Agreement.
+                  </p>
+                </div>
 
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    8. Identity Verification
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    We encourage all Users to use appropriate caution when interacting with anyone whom you may be doing business with specifically via the Site or generally via the Internet.
+                <div>
+                  <h2 className={h2}>Amendments of This Agreement</h2>
+                  <p className={p}>
+                    We reserve the right to update, amend and/or change this Agreement at any time
+                    in its sole discretion. Notice of updates to this Agreement will be made
+                    available to You. Amendments will take effect immediately upon our posting the
+                    updated Agreement on the Site. You are encouraged to revisit this Agreement from
+                    time to time in order to review any changes that have been made. The date on
+                    which this Agreement was last updated will be noted immediately above this
+                    Agreement. Your continued access and use of the Site following the posting of
+                    any such changes shall automatically be deemed your acceptance of all changes.
                   </p>
+                </div>
 
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    9. Limitation of Liability
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    IN NO EVENT WILL WE OR ANY OF OUR OFFICERS, DIRECTORS, SHAREHOLDERS OR EMPLOYEES, OR THOSE OF ANY APPLICATION MARKETPLACE PROVIDER, BE LIABLE FOR ANY LOST PROFITS, COVER, LOSS OF REVENUE OR ANY INDIRECT, CONSEQUENTIAL, SPECIAL, INCIDENTAL, OR PUNITIVE DAMAGES ARISING OUT OF, BASED ON, OR RESULTING FROM YOUR USE OF THE SITE, YOUR INABILITY TO USE THE SITE, OR ANY TRANSACTION BETWEEN US OR BETWEEN YOU AND PROVIDERS THAT IS ENABLED BY OR ARISES IN CONNECTION WITH YOUR USE OF THE SITE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. THESE LIMITATIONS AND EXCLUSIONS APPLY WITHOUT REGARD TO WHETHER THE DAMAGES ARISE FROM (i) BREACH OF CONTRACT, (ii) BREACH OF WARRANTY, (iii) STRICT LIABILITY, (iv) TORT, (v) NEGLIGENCE, (vi) STATUTE, OR (vii) ANY OTHER CAUSE OF ACTION, TO THE MAXIMUM EXTENT SUCH EXCLUSION AND LIMITATIONS ARE NOT PROHIBITED BY APPLICABLE LAW. IN ALL EVENTS, OUR LIABILITY, TO YOU OR TO ANY THIRD PARTY IN ANY CIRCUMSTANCE ARISING OUT OF OR IN CONNECTION WITH THE SITE IS LIMITED TO THE GREATER OF (a) THE AMOUNT OF FEES ACTUALLY RECEIVED BY US FROM YOU DURING THE CALENDAR MONTH DURING WHICH SUCH ALLEGED CLAIM(S) ACCRUED, AND (b) $200.00. Any cause of action you may have hereunder or with respect to your use of the Site must be commenced within one (1) year after the claim or cause of action first arises. SOME JURISDICTIONS DO NOT ALLOW THE LIMITATION OR EXCLUSION OF LIABILITY FOR INCIDENTAL, CONSEQUENTIAL, OR OTHER DAMAGES; AS A RESULT, THE ABOVE LIMITATIONS OR EXCLUSIONS MAY NOT APPLY TO YOU AND THE FOREGOING PARAGRAPH SHALL NOT APPLY TO A RESIDENT OF NEW JERSEY TO THE EXTENT DAMAGES TO SUCH NEW JERSEY RESIDENT ARE THE RESULT OF ASSURIFII&apos;S NEGLIGENT, FRAUDULENT OR RECKLESS ACT(S) OR INTENTIONAL MISCONDUCT.
+                <div>
+                  <h2 className={h2}>Miscellaneous</h2>
+                  <p className={p}>
+                    If any portion of this Agreement is deemed unlawful, void or unenforceable by
+                    any arbitrator or court of competent jurisdiction, this Agreement as a whole
+                    shall not be deemed unlawful, void or unenforceable, but only that portion of
+                    this Agreement that is unlawful, void or unenforceable shall be stricken from
+                    this Agreement.
                   </p>
+                  <p className={p}>
+                    The headings contained in this Agreement are for convenience of reference only,
+                    are not to be considered a part of this Agreement, and shall not limit or
+                    otherwise affect in any way the meaning or interpretation of this Agreement.
+                  </p>
+                  <p className={p}>
+                    All covenants, agreements, representations and warranties made in this
+                    Agreement, as may be amended by us from time to time, shall survive your
+                    acceptance of this Agreement and the termination of this Agreement.
+                  </p>
+                  <p className={p}>
+                    This Agreement and the Privacy Policy represent the entire understanding and
+                    agreement between you and us regarding the subject matter of the same, and
+                    supersede all other previous agreements, understandings and/or representations
+                    regarding the same.
+                  </p>
+                </div>
 
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    10. Disclaimer
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    THE SITE, INCLUDING ALL CONTENT, SERVICES, FUNCTIONS, SOFTWARE, MATERIALS AND INFORMATION MADE AVAILABLE ON OR ACCESSED THROUGH THE SITE, IS PROVIDED ON AN &quot;AS IS, AS AVAILABLE&quot; BASIS, AND quotifii DOES NOT OFFER MAINTENANCE OR SUPPORT SERVICES FOR ANY PORTION OF THE SITE, INCLUDING THE APPLICATION. TO THE FULLEST EXTENT PERMISSIBLE BY LAW, WE MAKE NO REPRESENTATIONS OR WARRANTIES OF ANY KIND WHATSOEVER FOR THE CONTENT ON THE SITE OR THE SERVICES, INFORMATION, FUNCTIONS AND MATERIALS AVAILABLE THROUGH THE SITE, FOR ANY SERVICES OR PRODUCTS OR HYPERTEXT LINKS TO THIRD PARTIES OR FOR ANY BREACH OF SECURITY ASSOCIATED WITH THE TRANSMISSION OF SENSITIVE INFORMATION THROUGH THE SITE OR ANY LINKED SITE. FURTHER, WE EXPRESSLY DISCLAIM ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, NON-INFRINGEMENT, TITLE, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE. WE DO NOT WARRANT THAT THE FUNCTIONS CONTAINED IN THE SITE OR ANY SERVICES, CONTENT OR MATERIALS CONTAINED THEREIN WILL MEET YOUR NEEDS, BE COMPLETE OR ACCURATE, BE UNINTERRUPTED OR ERROR FREE, THAT DEFECTS WILL BE CORRECTED, OR THAT THE SITE OR THE SERVER THAT MAKES IT AVAILABLE IS FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS. ANY MATERIAL OR DATA DOWNLOADED OR OTHERWISE OBTAINED THROUGH THE USE OF THE SITE IS DONE AT USER&apos;S OWN DISCRETION AND RISK, AND USER WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE TO USER&apos;S COMPUTER SYSTEM OR LOSS OF DATA THAT RESULTS FROM THE DOWNLOAD OR USE OF SUCH MATERIAL OR DATA. NO INFORMATION OBTAINED BY USER THROUGH THE SITE SHALL CREATE ANY WARRANTY NOT EXPRESSLY MADE HEREIN. SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF CERTAIN WARRANTIES. ACCORDINGLY, SOME OF THE ABOVE EXCLUSIONS MAY NOT APPLY TO YOU.
+                <div>
+                  <h2 className={h2}>Contact</h2>
+                  <p className={p}>
+                    If you have questions, comments, concerns or feedback regarding this Agreement
+                    or the Site, please contact us at{" "}
+                    <a href="mailto:contact@medisavingz.com" className={link}>
+                      contact@medisavingz.com
+                    </a>
+                    .
                   </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    11. Release
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    In the event that you have a dispute with any Provider, Prospect, or other third party, including without limitation any other user of the Site, arising from or in connection with the use of the Site and/or Content, you hereby agree to release, remise and forever discharge us and our agents, directors, officers, employees, shareholders and all other related persons or entities from any and all manner of rights, complaints, demands, claims, causes of action, proceedings, obligations, liabilities, legal fees, costs, and disbursements of any nature whatsoever, whether known or unknown, which now or hereafter arise from, relate to, or are connected with such dispute or your use of the Site. If you are a California resident, you hereby waive California civil code section 1542, which says: &quot;a general release does not extend to claims which the creditor does not know or suspect to exist in his favor at the time of executing the release, which, if known by him must have materially affected his settlement with the debtor.&quot; If you are a resident of a state other than California, you explicitly waive the terms and protections of any statute of your own state that has a similar import or intent.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    12. Indemnity
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    You hereby agree to indemnify, defend and hold us and our agents, directors, officers, employees, shareholders and all other related persons or entities (collectively, the &quot;Indemnified Parties&quot;) harmless from and against any and all liability and costs (including reasonable attorneys&apos; fees and court costs) incurred by the Indemnified Parties in connection with any claim arising out of your use of the Site or the Content thereon (including, without limitation, as a result of any transaction or interaction between you and a Provider or any of Provider&apos;s affiliates, partners or agents that is enabled by or arises in connection with your use of the Site), any information or data you access or provide through the Site, and any act (or failure to act) by you or other users of your account or any breach by you of these Terms, including, without limitation, the representations, warranties and covenants made by you herein.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    13. Proprietary Rights Notification
-                  </h2>
-                  <div className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    We do not permit copyright or trademark infringing activities and other infringement of intellectual property rights on the Site, and we will remove or modify (or ask you to remove or modify) Content if we are properly notified that such Content infringes on another&apos;s intellectual property rights. If you are a copyright or trademark owner or an agent thereof and believe that any Content in any public area of the Site infringes upon or otherwise conflicts with your proprietary rights, you may submit a notification pursuant to the Digital Millennium Copyright Act (&quot;DMCA&quot;) by providing our copyright agent with the following information in writing (see 17 U.S.C. 512(c)(3) for further detail):
-                    <ul className="list-disc list-inside mt-4 ml-4 sm:ml-6 md:ml-8 space-y-2 font-inter">
-                      <li>A physical or electronic signature of a person authorized to act on behalf of the owner of an exclusive right that is allegedly infringed;</li>
-                      <li>Identification of the proprietary work claimed to have been infringed, or, if multiple proprietary works are covered by a single notification, a representative list of such works;</li>
-                      <li>Identification of the material that is claimed to be infringing or to be the subject of infringing activity and that is to be removed or access to which is to be disabled and information reasonably sufficient to permit us to locate the material;</li>
-                      <li>Information reasonably sufficient to permit us to contact you, such as an address, telephone number, and an electronic mail address;</li>
-                      <li>A statement that you have a good faith belief that use of the material in the manner complained of is not authorized by the owner, its agent, or the law; and</li>
-                      <li>A statement that the information in the notification is accurate and, under penalty of perjury, that you are authorized to act on behalf of the owner of an exclusive right that is allegedly infringed.</li>
-                    </ul>
-                  </div>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Please contact our designated Copyright Agent at <a href="mailto:contact@cheapautoinsuranceoptions.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@cheapautoinsuranceoptions.com</a> to send notifications of claimed infringement. For clarity, only DMCA notices should go to the Copyright Agent; any other feedback, comments, requests for technical support, and other communications should be directed to our customer service through the Contact Us area of the Site. You hereby acknowledge and agree that if you fail to comply with all of the requirements listed above, your DMCA notice may not be valid.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    14. Trademarks
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Our logo and our other product and service names are our trademarks (the &quot;Marks&quot;). You agree not to display, reproduce or otherwise use in any manner such Marks without our prior written permission.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    15. Choice of Law and Forum
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    quotifii is a Colorado corporation and this agreement is governed by the laws of the State of Colorado, United States of America, excluding its choice of law rules. Subject to Section 2 (Dispute Resolution By Binding Arbitration), you irrevocably agree that such jurisdiction and venue will be the sole and exclusive jurisdiction and venue in Colorado of any legal dispute. You covenant not to sue us in any other forum for any cause of action. Our failure to exercise or enforce any right or provision of these Terms shall not constitute a waiver of any such right or provision. Subject to Section 2, if for any reason a court of competent jurisdiction finds any provision of these Terms, or portion thereof, to be unenforceable, that provision shall be enforced to the maximum extent permissible so as to affect the intent of these Terms, and the remainder of these Terms shall continue in full force and effect.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    16. No Agency
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    The relationship between the Company and each User and Provider is that of independent contractors, and no agency, joint venture, partnership, employee-employer or franchiser-franchisee relations is intended or created by these Terms or your use of the Site.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    17. Notices
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Except as explicitly stated otherwise, any notices sent from you to us shall be submitted via e-mail at <a href="mailto:contact@cheapautoinsuranceoptions.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@cheapautoinsuranceoptions.com</a>. When we need to send a notice to you, it shall be sent to the e-mail address you last provided to us. Notice shall be deemed given upon receipt or 24 hours after e-mail is sent, unless the sending party is notified that the e-mail address is invalid.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Alternatively, we may give you notice by certified mail, postage prepaid and return receipt requested, to the address last provided to us by you. In such cases, notice shall be deemed given three days after the date of mailing.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    18. Amendments
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    We reserve the right to change, modify, add or remove any portion of these Terms, in whole or in part, at any time. Notification of changes to these Terms will be posted on the Site and will be effective immediately thereafter. Your use of the Site following the posting of any such change, modification or amendment to these Terms will constitute your acceptance thereof. These Terms may not otherwise be modified, except in a writing signed by both parties. No delay or failure on the part of either party in exercising any right or remedy hereunder shall operate as a waiver thereof or of any other right or remedy. No waiver whatsoever shall be valid unless in writing, signed by the party to be charged, and then only to the extent therein set forth. These Terms (including, without limitation, the E-Sign Consent, binding arbitration) and the Privacy Policy constitute the entire agreement between us and Users with respect to the matters contemplated hereby.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    19. Links to Third-Party Sites
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    This Site may contain links to other Internet sites. We are not responsible for the availability of such external sites or resources, and do not endorse and are not responsible or liable for any content, advertising, products, or other materials on or available from such sites or resources. We shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, products or services available on such external sites or resources. We provide these links and references to you only as a convenience, and inclusion of any link or reference does not imply endorsement of the Web site or other resource.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    20. Partial Invalidity
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    The invalidity or unenforceability of any one or more sections of these Terms shall not affect the validity or enforceability of its remaining provisions.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    21. Acknowledgement
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    You acknowledge that You have read and understand these Terms, and that these Terms have the same force and effect as a signed agreement. These Terms shall confer no rights upon any other party other than the parties hereto.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    22. E-Sign Consent
-                  </h2>
-                  <div className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    In this E-Sign Consent, the following definitions apply: (i) &quot;You&quot; and &quot;your&quot; refer to you, the User; (ii) &quot;We,&quot; &quot;us,&quot; and &quot;our&quot; refer to the Site operator and its affiliates (including, without limitation, quotifii, Inc.), agents, successors and assigns. By clicking the &quot;I agree&quot; button, which you adopt as your electronic signature, you consent and agree that:
-                    <ul className="list-disc list-inside mt-4 ml-4 sm:ml-6 md:ml-8 space-y-2 font-inter">
-                      <li>We can provide you disclosures required by law, and other information about your legal rights and duties, electronically.</li>
-                      <li>Your electronic signature on agreements and documents has the same effect as if you signed them in ink.</li>
-                      <li>We can send all communications and disclosures, including, but not limited to, this E-Sign Consent, the telephone and e-mail contact consent, and the Privacy Policy and Terms of Use (collectively defined as &quot;Disclosures&quot;) to you electronically: (1) via e-mail; (2) by access to a web site that we designate in an e-mail notice we send to you at the time the information is available; or (3) to the extent permissible by law, by access to a web site that we generally designate in advance for such purpose.</li>
-                      <li>If you would like a paper copy, you can print a copy of the Disclosures or download the information for your records.</li>
-                      <li>This consent applies to: (1) your use of products and services offered by us; (2) all future Disclosures associated with us; and (3) all future transactions with us, at any time, and to other Disclosures that we provide to you by email, unless you have, prior to such transaction, withdrawn your consent by the procedure mentioned below.</li>
-                    </ul>
-                  </div>
-                  <div className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    You understand that, to access and retain the electronic Disclosures, you will need the following:
-                    <ul className="list-disc list-inside mt-4 ml-4 sm:ml-6 md:ml-8 space-y-2 font-inter">
-                      <li>A computer with an Internet connection.</li>
-                      <li>A current web browser that includes 128-bit encryption. Minimum recommended browser standards are Microsoft Internet Explorer version 8.0 and above (see www.microsoft.com/ie for current version), Mozilla Firefox current version (see www.mozilla.com for current version), Apple Safari current version (see www.apple.com/safari for current version), or Opera current version (see www.opera.com for current version). The browser must have cookies enabled.</li>
-                      <li>A valid email address.</li>
-                      <li>Sufficient storage space to save past Disclosures and/or an installed printer to print them.</li>
-                      <li>If you use a spam filter that blocks or re-routes emails from senders not listed in your email address book, you must add @quotifii.com to your email address book.</li>
-                    </ul>
-                  </div>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Any withdrawal of your consent to receive electronic Disclosures will be effective only after we have a reasonable period of time to process your withdrawal. You understand and agree that if you withdraw your consent to receive electronic Disclosures, we may—though we are not obligated to—cancel your account.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    At any time, you can update the email address to which we will send alerts that Disclosures are available. You can change your email address by contacting us at: <a href="mailto:contact@cheapautoinsuranceoptions.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@cheapautoinsuranceoptions.com</a>
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    By consenting, you agree that electronic Disclosures have the same meaning and effect as if we provided paper Disclosures to you. When we send you an email or other electronic notification alerting you that Disclosures are available electronically and we do in fact make them available online, that shall have the same meaning and effect as if we provided paper Disclosures to you, whether or not you choose to view the Disclosures, unless you had previously withdrawn your consent to receive Disclosures electronically. You understand and agree that Disclosures are considered received by you within 24 hours of the time posted to our website, or within 24 hours of the time emailed to you unless we receive notice that the e-mail address is invalid.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    You understand and agree that we reserve the right to cancel this electronic Disclosure service, change the terms of use of this service or send Disclosures in paper form at any time.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    You understand and agree that we are responsible for sending notice of the Disclosures to you electronically including at the email address you have provided, but are not responsible for any delay or failure in your receipt of the email notices.
-                  </p>
-
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
-                    Contact quotifii
-                  </h2>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    If you have any questions regarding any of these Terms, please contact us by emailing <a href="mailto:contact@cheapautoinsuranceoptions.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@cheapautoinsuranceoptions.com</a>.
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Reach us at: 1021 E Lincolnway Suite #6487, Cheyenne, WY 82001
+                  <p className="text-sm leading-relaxed text-[#1e1e1e] font-inter sm:text-base md:text-lg">
+                    MediSavingz
                   </p>
                 </div>
               </div>

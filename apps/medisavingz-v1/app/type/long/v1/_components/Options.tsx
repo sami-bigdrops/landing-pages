@@ -2,14 +2,9 @@
 
 import Image from "next/image"
 import { OPTIONS_CONTENT } from "@/lib/constant"
-import { Button as ButtonUI } from "@workspace/ui/components/button"
+import ZipCtaForm from "./ZipCtaForm"
 
-type OptionsProps = {
-    onGetQuoteClick?: () => void
-}
-
-export default function Options({ onGetQuoteClick }: OptionsProps) {
-
+export default function Options() {
     const renderBadge = (badge: (typeof OPTIONS_CONTENT.badges)[number]) => (
         <div key={badge.text} className="flex items-center gap-1.5 ">
             <Image
@@ -46,17 +41,12 @@ export default function Options({ onGetQuoteClick }: OptionsProps) {
                             <p className="w-full text-[0.85rem]  xl:text-[1.18rem] font-normal text-[#464F5B] text-center font-sans md:text-left  md:max-w-[350px] lg:max-w-[400px] xl:max-w-[750px]" style={{ lineHeight: '1.6' }}>{OPTIONS_CONTENT.subtext}</p>
                         </div>
 
-                        <div className="w-full mt-1 xl:mt-2 md:w-[235px] xl:w-[300px] ">
-                            <ButtonUI
-                                type="1"
-                                variant="default"
-                                htmlType="button"
-                                onClick={() => onGetQuoteClick?.()}
-                                className="w-full bg-[#2F6FED] text-white font-semibold h-14 xl:h-16 rounded-[10px] text-sm xl:text-lg  hover:bg-[#2F6FED] cursor-pointer transition-all duration-300"
-                            >
-                                Review My Medicare Options
-                            </ButtonUI>
-                       
+                        <div className="mt-1 w-full max-w-[420px] md:max-w-[480px] xl:mt-2 xl:max-w-[520px]">
+                            <ZipCtaForm
+                                idPrefix="options"
+                                buttonLabel="Review My Medicare Options"
+                                align="start"
+                            />
                         </div>
 
                         <div className="mt-1 flex w-full flex-col items-center gap-3.5 md:gap-3 md:mt-0.5 lg:flex-row lg:flex-nowrap md:items-start md:justify-start lg:gap-y-0 xl:gap-5 ">

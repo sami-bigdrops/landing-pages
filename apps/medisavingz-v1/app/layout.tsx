@@ -14,11 +14,11 @@ const fontSans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "MediSavingz",
+    default: "MediSavingz | Compare Medicare Options",
     template: "%s | MediSavingz",
   },
   description:
-    "MediSavingz helps individuals and families discover ways to save on healthcare and insurance costs. Compare plans, explore affordable options, and access trustworthy resources to maximize your medical savings with MediSavingz.",
+    "MediSavingz is a trusted, non-government resource that helps you compare Medicare Advantage, Part D, and related coverage options around your doctors, prescriptions, and budget.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },

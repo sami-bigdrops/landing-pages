@@ -2,9 +2,11 @@ import { Metadata } from "next"
 import HomeContent from "@/app/_components/HomeContent"
 
 export const metadata: Metadata = {
-  title: "MediSavingz",
+  title: {
+    absolute: "MediSavingz | Compare Medicare Options",
+  },
   description:
-    "MediSavingz helps individuals and families discover ways to save on healthcare and insurance costs. Compare plans, explore affordable options, and access trustworthy resources to maximize your medical savings with MediSavingz.",
+    "Compare Medicare options with MediSavingz, a trusted non-government resource. Review plans around your doctors, prescriptions, pharmacy preferences, and budget.",
 }
 
 export default function Page() {

@@ -6,7 +6,7 @@ import Footer from "@/app/_components/Footer"
 export const metadata: Metadata = {
   title: "Terms of Use",
   description:
-    "Assuritii terms of use and conditions. Please read these terms before using our vehicle protection services.",
+    "Read the MediSavingz Terms of Use for the rules governing your use of our website and services, including arbitration, disclaimers, and your rights and responsibilities.",
 }
 
 export default function TermsOfUsePage() {

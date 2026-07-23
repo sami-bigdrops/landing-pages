@@ -5,10 +5,15 @@ import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { Button } from "@workspace/ui/components/button"
-import { TrustedForm, getCookie } from "@workspace/lp-core"
+import { TrustedForm, getCookie, setCookie } from "@workspace/lp-core"
+import { AddressAutocomplete } from "./AddressAutocomplete"
+import { BirthdateInput } from "./BirthdateInput"
+import { isoToDisplay } from "@/lib/dob-format"
 
 const TOTAL_STEPS = 4
 const PROGRESS_TEAL = "#09A1A6"
+const ZIP_COOKIE_NAME = "zipCode"
+const ZIP_COOKIE_DAYS = 30
 
 const MEDICARE_PARTS_OPTIONS = [
   { id: "yes", label: "Yes" },
@@ -20,6 +25,8 @@ type MedicarePartsId = (typeof MEDICARE_PARTS_OPTIONS)[number]["id"] | ""
 
 const defaultFormData = {
   street_address: "",
+  city: "",
+  state: "",
   medicareParts: "" as MedicarePartsId,
   date_of_birth: "",
   first_name: "",
@@ -33,7 +40,7 @@ const FORM_TITLE =
   "text-center font-sans text-[1.25rem] font-bold text-[#17212B] md:text-[1.4rem] lg:text-[1.5rem] xl:text-[1.8rem]"
 
 const INPUT_FIELD =
-  "h-13.5 xl:h w-full min-w-0 rounded-[5px] border border-[#102E50] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] placeholder:text-[0.8rem] xl:placeholder:text-base shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#2F6FED] focus-visible:ring-[3px] focus-visible:ring-[#2F6FED]/20 xl:h-16 xl:text-base"
+  "h-13.5 w-full min-w-0 rounded-[5px] border border-[#102E50] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] placeholder:text-[0.8rem] shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#2F6FED] focus-visible:ring-[3px] focus-visible:ring-[#2F6FED]/20 xl:h-16 xl:text-base xl:placeholder:text-base"
 
 const CHOICE_BTN =
   "w-full flex h-14 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-[#2F6FED] bg-white px-5 py-0 font-sans text-sm font-semibold text-[#17212B] transition-all duration-300 hover:bg-[#F3F6FE] disabled:cursor-not-allowed disabled:opacity-90 md:h-14 xl:h-17 xl:text-lg"
@@ -91,15 +98,33 @@ function FormPage({ initialZip = "" }: FormPageProps) {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
-  const [showDobTip, setShowDobTip] = useState(true)
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const handlePlaceSelect = (details: {
+    address: string
+    city: string
+    state: string
+    zipCode: string
+  }) => {
+    const zip = normalizeZip(details.zipCode)
+    setFormData((prev) => ({
+      ...prev,
+      street_address: details.address,
+      city: details.city,
+      state: details.state,
+      zipCode: zip || prev.zipCode,
+    }))
+    if (zip.length === 5) {
+      setCookie(ZIP_COOKIE_NAME, zip, ZIP_COOKIE_DAYS)
+    }
+  }
+
   const isStepValid = () => {
-    if (currentStep === 1) return formData.street_address.trim() !== ""
-    if (currentStep === 2) return formData.medicareParts !== ""
+    if (currentStep === 1) return formData.medicareParts !== ""
+    if (currentStep === 2) return formData.street_address.trim() !== ""
     if (currentStep === 3) return true
     if (currentStep === 4) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -121,7 +146,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
   const handleMedicareSelect = (id: MedicarePartsId) => {
     setFormData((prev) => ({ ...prev, medicareParts: id }))
-    setCurrentStep(3)
+    setCurrentStep(2)
   }
 
   const handleFormKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
@@ -177,9 +202,13 @@ function FormPage({ initialZip = "" }: FormPageProps) {
       email,
       phoneNumber: formData.phone_number.trim(),
       address: formData.street_address.trim(),
+      city: formData.city.trim(),
+      state: formData.state.trim(),
       zipCode: zip,
       medicareParts: formData.medicareParts,
-      dateOfBirth: formData.date_of_birth.trim(),
+      dateOfBirth: formData.date_of_birth
+        ? isoToDisplay(formData.date_of_birth)
+        : "",
       subid1: getCookie("subid1") ?? "",
       subid2: getCookie("subid2") ?? "",
       subid3: getCookie("subid3") ?? "",
@@ -231,9 +260,9 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
   const stepTitle =
     currentStep === 1
-      ? "What is your Street Address?"
+      ? "Do you have Medicare Parts A & B?"
       : currentStep === 2
-        ? "Do you have Medicare Parts A & B?"
+        ? "What is your Street Address?"
         : currentStep === 3
           ? "What is your birthday?"
           : "Last Step!"
@@ -262,21 +291,6 @@ function FormPage({ initialZip = "" }: FormPageProps) {
           />
 
           {currentStep === 1 ? (
-            <div className="flex w-full flex-col items-center gap-4 md:gap-5  max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
-              <TextInput
-                id="streetAddress"
-                containerClassName="w-full"
-                value={formData.street_address}
-                onChange={(e) => handleInputChange("street_address", e.target.value)}
-                placeholder="Enter Your Street Address"
-                className={INPUT_FIELD}
-                
-              />
-              <FormNextButton onClick={handleNext} disabled={!isStepValid()} />
-            </div>
-          ) : null}
-
-          {currentStep === 2 ? (
             <div className="flex w-full flex-col items-center gap-3 md:gap-3.5 xl:gap-4  max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
               {MEDICARE_PARTS_OPTIONS.map(({ id, label }) => {
                 const selected = formData.medicareParts === id
@@ -297,59 +311,42 @@ function FormPage({ initialZip = "" }: FormPageProps) {
             </div>
           ) : null}
 
+          {currentStep === 2 ? (
+            <div className="flex w-full max-w-[420px] flex-col items-center gap-4 md:max-w-[420px] md:gap-5 lg:max-w-[450px] xl:max-w-[520px]">
+              <AddressAutocomplete
+                id="streetAddress"
+                value={formData.street_address}
+                city={formData.city}
+                state={formData.state}
+                zipCode={formData.zipCode}
+                onChange={(value) => handleInputChange("street_address", value)}
+                onPlaceSelect={handlePlaceSelect}
+                placeholder="Enter Your Street Address"
+                className={INPUT_FIELD}
+              />
+              <FormNextButton onClick={handleNext} disabled={!isStepValid()} />
+            </div>
+          ) : null}
+
           {currentStep === 3 ? (
             <div className="flex w-full flex-col items-center gap-4 md:gap-5 max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
-              <div className="relative w-full overflow-visible">
-                <TextInput
-                  id="dateOfBirth"
-                  containerClassName="w-full overflow-visible"
+              <div className="flex w-full flex-col items-center gap-2">
+                <BirthdateInput
                   value={formData.date_of_birth}
-                  onChange={(e) => handleInputChange("date_of_birth", e.target.value)}
-                  placeholder="Date of Birth"
-                  className={`${INPUT_FIELD} pr-11`}
+                  onChange={(iso) => handleInputChange("date_of_birth", iso)}
+                  className={INPUT_FIELD}
                 />
-                <div className="pointer-events-none absolute inset-y-0 right-0 z-20 flex items-center pr-3">
-                  {showDobTip ? (
-                    <div
-                      role="tooltip"
-                      className="pointer-events-none absolute bottom-[calc(100%+10px)] right-0 z-30 w-max max-w-[220px] rounded-md border border-[#E5E7EB] bg-white px-3 py-2 text-left text-[0.75rem] font-normal text-[#4B5563] shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-                    >
-                      Optional for MA and Part D plans
-                      <span
-                        className="absolute -bottom-1.5 right-3 size-3 rotate-45 border-b border-r border-[#E5E7EB] bg-white"
-                        aria-hidden
-                      />
-                    </div>
-                  ) : null}
-                  <button
-                    type="button"
-                    aria-label="Date of birth info"
-                    onClick={() => setShowDobTip((prev) => !prev)}
-                    onMouseEnter={() => setShowDobTip(true)}
-                    className="pointer-events-auto flex h-6 w-6 shrink-0 items-center justify-center overflow-visible"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="block h-5 w-5 shrink-0 overflow-visible"
-                      aria-hidden
-                    >
-                      <path
-                        d="M11.1618 0.0283627C8.12792 0.23743 5.28693 1.59193 3.21441 3.81745C1.1419 6.04297 -0.00716131 8.97309 3.35852e-05 12.0142C3.35852e-05 15.193 1.26282 18.2417 3.5106 20.4894C5.75838 22.7372 8.80701 24 11.9859 24C15.1647 24 18.2133 22.7372 20.4611 20.4894C22.7089 18.2417 23.9717 15.193 23.9717 12.0142C23.9756 10.3684 23.6405 8.7394 22.9873 7.22877C22.3341 5.71813 21.3767 4.35821 20.175 3.23374C18.9732 2.10927 17.5527 1.24436 16.002 0.692886C14.4514 0.141415 12.8037 -0.0847914 11.1618 0.0283627ZM10.7873 4.82269H13.1844V7.21985H10.7873V4.82269ZM9.58869 9.61702H13.1844V18.0071H15.5816V19.2057H8.39011V18.0071H10.7873V10.8156H8.39011L9.58869 9.61702Z"
-                        fill="#0094F0"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                <p className="text-center text-xs text-[#6B7280]">
+                  Optional for MA and Part D plans
+                </p>
               </div>
               <FormNextButton onClick={handleNext} />
             </div>
           ) : null}
 
           {currentStep === 4 ? (
-            <div className="flex w-full flex-col items-center gap-4 md:gap-5  max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
-              <div className="flex w-full flex-col gap-4">
+            <div className="flex w-full max-w-[720px] flex-col items-center gap-4 md:gap-5">
+              <div className="flex w-full max-w-[420px] flex-col gap-4 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
                 <TextInput
                   id="firstName"
                   containerClassName="w-full"
@@ -407,11 +404,104 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                 </p>
               ) : null}
 
-              <FormNextButton
-                isLastStep
-                isLoading={submitStatus === "loading"}
-                disabled={!isStepValid()}
-              />
+              <div className="flex w-full max-w-[420px] flex-col items-center gap-4 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
+                <FormNextButton
+                  isLastStep
+                  isLoading={submitStatus === "loading"}
+                  disabled={!isStepValid()}
+                />
+                <p className="text-center text-[0.7rem] leading-relaxed text-[#6B7280] md:text-xs">
+                  By clicking &quot;Agree, Review Plans,&quot; you agree to the consents below
+                  the button, including your consent to be contacted and your authorization
+                  for the use and disclosure of your health information. No obligation to
+                  enroll.
+                </p>
+              </div>
+
+              <div className="w-full rounded-[10px] border border-[#E5E7EB] bg-[#F9FAFB] px-4 py-4 text-left text-[0.7rem] leading-relaxed text-[#4B5563] md:px-5 md:py-5 md:text-xs">
+                <p className="mb-3 font-semibold text-[#17212B]">
+                  We value and protect your privacy.
+                </p>
+                <p className="mb-3">
+                  When you click &quot;Agree, Review Plans&quot; above, you agree to the
+                  following: I provide my express written consent, via electronic
+                  signature, to receive marketing communications, including calls, texts,
+                  SMS, and emails related to Medicare Advantage Plans, Medicare Supplement
+                  Insurance, Prescription Drug Plans, Final Expense policies, Financial
+                  Planning, Identity Protection &amp; Cyber Security, Health &amp;
+                  Wellness, Financial Services, Life Insurance, Pet Insurance, Travel
+                  Insurance, Lifestyle &amp; Recreation, Food &amp; Grocery, Transportation
+                  &amp; Auto, Aging in Place, Technology Support, Education &amp;
+                  Navigation Services, and Caregiver Services and related products (like
+                  Dental, Vision, Hearing, Cancer, Heart Attack, Stroke, Accident, and
+                  Hospital Indemnity Coverage) from MediSavingz, its marketing partners,
+                  and their licensed sales agents/representatives. I understand that calls,
+                  texts (SMS/MMS), and emails may be sent by MediSavingz or its third-party
+                  partners to the contact information I provide. These communications may
+                  use automated technology (automatic telephone dialing system (ATDS),
+                  prerecorded or artificial voice, recorded lines, interactive voice
+                  response (IVR), and/or AI technology) and may be delivered even if my
+                  number is on a Do Not Call registry and outside of regular business
+                  hours. This telemarketing consent is valid for 90 days.
+                </p>
+                <p className="mb-3">
+                  <span className="font-semibold text-[#17212B]">HIPAA Authorization:</span>{" "}
+                  I authorize MediSavingz to use and share my contact and insurance-related
+                  information to contact me about the additional products and services
+                  listed above. I also authorize MediSavingz, its licensed agents,
+                  affiliates, and listed partners to contact me, and I understand that these
+                  third-party partners, insurance carriers, and service providers may
+                  receive my information for this purpose, including to market non-Medicare
+                  and non-health-related products or services that may interest me as
+                  described{" "}
+                  <a
+                    href="/hippa-authorization"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#2F6FED] underline underline-offset-2"
+                  >
+                    here
+                  </a>
+                  . This HIPAA authorization is valid for 12 months unless I revoke it
+                  earlier. I understand that this authorization does not affect my Medicare
+                  eligibility, enrollment, or benefits, and that information disclosed may
+                  no longer be protected by HIPAA if received by entities not subject to
+                  HIPAA Rules.
+                </p>
+                <p>
+                  Message and data rates may apply. This consent is voluntary and not
+                  required for purchasing any product or service. Consent to be contacted by
+                  MediSavingz and/or HIPAA authorization can be withdrawn at any time by
+                  emailing{" "}
+                  <a
+                    href="mailto:contact@medisavingz.com"
+                    className="font-semibold text-[#2F6FED] underline underline-offset-2"
+                  >
+                    contact@medisavingz.com
+                  </a>
+                  . I agree to conduct this transaction electronically and in compliance
+                  with the E-Sign Act. I consent to and accept all terms outlined in the{" "}
+                  <a
+                    href="/privacy-policy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#2F6FED] underline underline-offset-2"
+                  >
+                    Privacy Policy
+                  </a>
+                  ,{" "}
+                  <a
+                    href="/terms-of-use"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#2F6FED] underline underline-offset-2"
+                  >
+                    Terms of Service
+                  </a>
+                  , including its arbitration clause as well as the site visit recording by
+                  TrustedForm.
+                </p>
+              </div>
             </div>
           ) : null}
         </form>

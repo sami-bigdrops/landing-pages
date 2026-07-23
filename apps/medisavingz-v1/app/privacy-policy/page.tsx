@@ -6,7 +6,7 @@ import Footer from "@/app/_components/Footer"
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Assuritii privacy policy. Learn how we collect, use, and protect your personal information.",
+    "Read the MediSavingz Privacy Policy to learn how we collect, use, disclose, retain, and protect your personal information when you use our website and Medicare comparison services.",
 }
 
 export default function PrivacyPolicyPage() {
