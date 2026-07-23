@@ -17,6 +17,7 @@ import { HERO_CONTENT } from "@/lib/constant"
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
+const ANALYTICS_FLUSH_DELAY_MS = 300;
 
 export default function Hero() {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
@@ -56,7 +57,9 @@ export default function Hero() {
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
     setIsRedirecting(true);
-    router.push("/form");
+    window.setTimeout(() => {
+      router.push("/form");
+    }, ANALYTICS_FLUSH_DELAY_MS);
   };
 
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));

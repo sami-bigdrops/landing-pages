@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useState, type FormEvent, type KeyboardEvent } from "react"
+import { Suspense, useEffect, useState, type FormEvent, type KeyboardEvent } from "react"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
@@ -9,11 +9,21 @@ import { TrustedForm, getCookie, setCookie } from "@workspace/lp-core"
 import { AddressAutocomplete } from "./AddressAutocomplete"
 import { BirthdateInput } from "./BirthdateInput"
 import { isoToDisplay } from "@/lib/dob-format"
+import { trackArohaa } from "@/lib/arohaa"
 
 const TOTAL_STEPS = 4
 const PROGRESS_TEAL = "#09A1A6"
 const ZIP_COOKIE_NAME = "zipCode"
 const ZIP_COOKIE_DAYS = 30
+const ANALYTICS_FLUSH_DELAY_MS = 300
+const AROHAA_SUBMITTED_KEY = "arohaa_medisavingz_submitted"
+
+function stepNameFor(step: number): string {
+  if (step === 1) return "Medicare Parts A & B"
+  if (step === 2) return "Street Address"
+  if (step === 3) return "Date of Birth"
+  return "Contact Information"
+}
 
 const MEDICARE_PARTS_OPTIONS = [
   { id: "yes", label: "Yes" },
@@ -98,6 +108,17 @@ function FormPage({ initialZip = "" }: FormPageProps) {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
+
+  useEffect(() => {
+    trackArohaa("form_start")
+  }, [])
+
+  useEffect(() => {
+    trackArohaa("form_step_view", {
+      step: currentStep,
+      step_name: stepNameFor(currentStep),
+    })
+  }, [currentStep])
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -247,7 +268,15 @@ function FormPage({ initialZip = "" }: FormPageProps) {
       }
 
       if (data.success && typeof data.redirectUrl === "string") {
-        window.location.href = data.redirectUrl
+        trackArohaa("form_submit")
+        try {
+          sessionStorage.setItem(AROHAA_SUBMITTED_KEY, "1")
+        } catch {
+          /* ignore */
+        }
+        window.setTimeout(() => {
+          window.location.href = data.redirectUrl as string
+        }, ANALYTICS_FLUSH_DELAY_MS)
         return
       }
 
@@ -291,7 +320,11 @@ function FormPage({ initialZip = "" }: FormPageProps) {
           />
 
           {currentStep === 1 ? (
-            <div className="flex w-full flex-col items-center gap-3 md:gap-3.5 xl:gap-4  max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
+            <div
+              className="flex w-full flex-col items-center gap-3 md:gap-3.5 xl:gap-4  max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]"
+              data-arohaa-step="1"
+              data-arohaa-step-name="Medicare Parts A & B"
+            >
               {MEDICARE_PARTS_OPTIONS.map(({ id, label }) => {
                 const selected = formData.medicareParts === id
                 return (
@@ -312,7 +345,11 @@ function FormPage({ initialZip = "" }: FormPageProps) {
           ) : null}
 
           {currentStep === 2 ? (
-            <div className="flex w-full max-w-[420px] flex-col items-center gap-4 md:max-w-[420px] md:gap-5 lg:max-w-[450px] xl:max-w-[520px]">
+            <div
+              className="flex w-full max-w-[420px] flex-col items-center gap-4 md:max-w-[420px] md:gap-5 lg:max-w-[450px] xl:max-w-[520px]"
+              data-arohaa-step="2"
+              data-arohaa-step-name="Street Address"
+            >
               <AddressAutocomplete
                 id="streetAddress"
                 value={formData.street_address}
@@ -323,18 +360,24 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                 onPlaceSelect={handlePlaceSelect}
                 placeholder="Enter Your Street Address"
                 className={INPUT_FIELD}
+                dataArohaaField="streetAddress"
               />
               <FormNextButton onClick={handleNext} disabled={!isStepValid()} />
             </div>
           ) : null}
 
           {currentStep === 3 ? (
-            <div className="flex w-full flex-col items-center gap-4 md:gap-5 max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
+            <div
+              className="flex w-full flex-col items-center gap-4 md:gap-5 max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]"
+              data-arohaa-step="3"
+              data-arohaa-step-name="Date of Birth"
+            >
               <div className="flex w-full flex-col items-center gap-2">
                 <BirthdateInput
                   value={formData.date_of_birth}
                   onChange={(iso) => handleInputChange("date_of_birth", iso)}
                   className={INPUT_FIELD}
+                  dataArohaaField="dateOfBirth"
                 />
                 <p className="text-center text-xs text-[#6B7280]">
                   Optional for MA and Part D plans
@@ -345,10 +388,16 @@ function FormPage({ initialZip = "" }: FormPageProps) {
           ) : null}
 
           {currentStep === 4 ? (
-            <div className="flex w-full max-w-[720px] flex-col items-center gap-4 md:gap-5">
+            <div
+              className="flex w-full max-w-[720px] flex-col items-center gap-4 md:gap-5"
+              data-arohaa-step="4"
+              data-arohaa-step-name="Contact Information"
+            >
               <div className="flex w-full max-w-[420px] flex-col gap-4 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
                 <TextInput
                   id="firstName"
+                  name="firstName"
+                  data-arohaa-field="firstName"
                   containerClassName="w-full"
                   value={formData.first_name}
                   onChange={(e) => handleInputChange("first_name", e.target.value)}
@@ -357,6 +406,8 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                 />
                 <TextInput
                   id="lastName"
+                  name="lastName"
+                  data-arohaa-field="lastName"
                   containerClassName="w-full"
                   value={formData.last_name}
                   onChange={(e) => handleInputChange("last_name", e.target.value)}
@@ -366,6 +417,8 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                 <TextInput
                   id="email"
                   type="email"
+                  name="email"
+                  data-arohaa-field="email"
                   containerClassName="w-full"
                   value={formData.email}
                   onChange={(e) => {
@@ -382,6 +435,8 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                 ) : null}
                 <PhoneNumberInput
                   id="phoneNumber"
+                  name="phoneNumber"
+                  data-arohaa-field="phoneNumber"
                   containerClassName="w-full"
                   value={formData.phone_number}
                   onChange={(value) => {

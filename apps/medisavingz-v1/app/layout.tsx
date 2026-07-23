@@ -36,7 +36,7 @@ export default function RootLayout({
       <head>
         <meta
           name="arohaa-verify"
-          content="hQviyFfApEfX5Nw1Z77K3vq9G6BYwQP1"
+          content="UenRchL3p-aCxpRFkTSue4u1X_nxrI3u"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -48,11 +48,11 @@ export default function RootLayout({
           id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="ba6afb9e-349a-458b-931e-0d6ee0c86dc8"
+          data-wid="8438a964-4585-4077-8c6f-2608662fcecd"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_KG4ReOfhIbHjhG91"
+          data-lp-id="lp_XpJkmZ-NLo8k5AHr"
           data-page="www.medisavingz.com"
-          data-formtype="zip"
+          data-formtype="multiple"
         />
         <script
           type="text/javascript"

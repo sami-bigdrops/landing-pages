@@ -72,6 +72,7 @@ export interface AddressAutocompleteProps {
   placeholder?: string
   labelClassName?: string
   className?: string
+  dataArohaaField?: string
 }
 
 let googleMapsLoadPromise: Promise<void> | null = null
@@ -110,6 +111,7 @@ export function AddressAutocomplete({
   placeholder = "Enter Your Street Address",
   labelClassName,
   className,
+  dataArohaaField,
 }: AddressAutocompleteProps) {
   const [predictions, setPredictions] = useState<GMapsPlacePrediction[]>([])
   const [showDropdown, setShowDropdown] = useState(false)
@@ -266,6 +268,8 @@ export function AddressAutocomplete({
         <input
           id={id}
           type="text"
+          name={dataArohaaField}
+          data-arohaa-field={dataArohaaField}
           value={value}
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={() => {

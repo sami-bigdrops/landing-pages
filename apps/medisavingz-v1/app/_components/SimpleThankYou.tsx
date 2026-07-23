@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Check } from "lucide-react"
+import { trackArohaa } from "@/lib/arohaa"
+
+const AROHAA_SUBMITTED_KEY = "arohaa_medisavingz_submitted"
 
 type SimpleThankYouProps = {
   title: string
@@ -30,6 +33,14 @@ export default function SimpleThankYou({
     const emailFromUrl = searchParams.get("email")
     if (emailFromUrl) {
       setIsAuthorized(true)
+      try {
+        if (sessionStorage.getItem(AROHAA_SUBMITTED_KEY) === "1") {
+          trackArohaa("form_success")
+          sessionStorage.removeItem(AROHAA_SUBMITTED_KEY)
+        }
+      } catch {
+        trackArohaa("form_success")
+      }
       setTimeout(() => {
         if (typeof window !== "undefined") {
           const cleanUrl =

@@ -11,6 +11,7 @@ interface BirthdateInputProps {
   onChange: (iso: string) => void
   className?: string
   ariaLabel?: string
+  dataArohaaField?: string
 }
 
 function formatDateInput(digits: string): string {
@@ -33,6 +34,7 @@ export function BirthdateInput({
   onChange,
   className,
   ariaLabel = "Date of birth",
+  dataArohaaField,
 }: BirthdateInputProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -108,6 +110,8 @@ export function BirthdateInput({
           type="text"
           inputMode="numeric"
           autoComplete="bday"
+          name={dataArohaaField}
+          data-arohaa-field={dataArohaaField}
           placeholder="DD/MM/YYYY"
           maxLength={10}
           value={display}
