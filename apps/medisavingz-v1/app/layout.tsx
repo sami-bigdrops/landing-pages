@@ -36,7 +36,7 @@ export default function RootLayout({
       <head>
         <meta
           name="arohaa-verify"
-          content="v-jM43ZmTwj4teHpsj4tnkBJzm4xY4S8"
+          content="hQviyFfApEfX5Nw1Z77K3vq9G6BYwQP1"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -48,10 +48,10 @@ export default function RootLayout({
           id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="9b5448db-5321-4837-aa6a-d6a3e07aeb17"
+          data-wid="ba6afb9e-349a-458b-931e-0d6ee0c86dc8"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_EYSm8H5lSLsKE0a6"
-          data-page="autoquote.cheapautoinsuranceoptions.com"
+          data-lp-id="lp_KG4ReOfhIbHjhG91"
+          data-page="www.medisavingz.com"
           data-formtype="zip"
         />
         <script
