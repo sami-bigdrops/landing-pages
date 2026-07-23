@@ -80,7 +80,7 @@ export const FEATURES_CONTENT = {
     },
     {
       id: 3,
-      title: "Recognised Providers",
+      title: "Recognized Providers",
       description:
         "Review cover options from well-known insurance companies in one simple place.",
       image: {
@@ -294,7 +294,7 @@ export const COVERAGE_CONTENT = {
   cta: {
     title: "Still Not Sure Which Option Fits You?",
     description:
-      "Medicare should not feel like guessing with your healthcare. We help you compare the details that matter before you enrol.",
+      "Medicare should not feel like guessing with your healthcare. We help you compare the details that matter before you enroll.",
     
   },
 } as const
@@ -368,7 +368,7 @@ export const FOOTER_CONTENT = {
     ],
   ],
   copyrightText:
-    "Plan availability, benefits, costs and provider networks vary by area.\nThis service is not connected with or endorsed by the U.S. government or the federal Medicare programme.\nCopyright © 2026 MediSavingz. All rights reserved.",
+    "Plan availability, benefits, costs and provider networks vary by area.\nThis service is not connected with or endorsed by the U.S. government or the federal Medicare program.\nCopyright © 2026 MediSavingz. All rights reserved.",
 } as const
 
  
