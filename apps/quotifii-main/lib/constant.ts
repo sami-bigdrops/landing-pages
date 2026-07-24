@@ -1,5 +1,7 @@
 //  sections constants
 
+import { ArrowUpIcon } from "lucide-react"
+
 export const HERO_CONTENT = {
   headlineLead: "Shop Auto & Home Insurance The Easy Way",
   
@@ -17,6 +19,7 @@ export const HERO_CONTENT = {
       arrow: "/auto-arrow.svg",
       primary: true,
       href: "https://auto-quote.quotifii.com",
+     
     },
     {
       label: "Home",
@@ -44,15 +47,127 @@ export const PARTNERS_CONTENT = {
   ],
 } as const
 
-export const OPTIONS_CONTENT = {
-  header: "A Better Rate Could Be Waiting In Your ZIP",
-  description: "Tell us the basics and we’ll line up options worth a look.",
+export const STEPS_CONTENT = {
+  header: "A Simpler Way to Find Insurance",
+  description:
+    "Tell us what you need, explore your options and select the right coverage.",
+  steps: [
+    {
+      number: 1,
+      numberText: "01",
+      title: "Tell Us About Yourself",
+      description: "Answer a few basic questions about your insurance needs.",
+      
+    },
+    {
+      number: 2,
+      numberText: "02",
+      title: "Explore Your Quotes",
+      description: "Review rates and coverage options from trusted providers.",
+      
+    },
+    {
+      number: 3,
+      numberText: "03",
+      title: "Save More",
+      description: "Choose a policy that suits your needs, lifestyle and budget.",
+      
+    },
+  ],
 
   image: {
-    src: "/quokka.webp",
-    alt: "Quokka Image",
+    src: "/step.webp",
+    alt: "Steps Image",
   },
-  
+} as const
+
+export const COVERAGE_CONTENT = {
+  header: "Find The Coverage That's Right For You",
+  description:
+    "Whether you need to protect your vehicle or your home, Quotifii makes it easy to explore trusted insurance options.",
+
+  arrowIconButton: {
+    src: "/auto-arrow.svg",
+    alt: "Arrow Icon",
+  },
+
+  sections: [
+    {
+      type: "auto",
+      title: "Auto Insurance",
+      description:
+        "Explore coverage designed to protect you, your vehicle and others on the road.",
+      features: [
+        {
+          label: "Multi-Vehicle Savings",
+          icon: "/auto-1.svg",
+          iconAlt: "Multi-Vehicle Icon",
+        },
+        {
+          label: "Collision & Comprehensive",
+          icon: "/auto-2.svg",
+          iconAlt: "Collision and Comprehensive Icon",
+        },
+        {
+          label: "Multiple Provider Comparison",
+          icon: "/auto-3.svg",
+          iconAlt: "Provider Comparison Icon",
+        },
+      ],
+ 
+      button: {
+        label: "Get Auto Quotes",
+        primary: true,
+        href: "https://auto-quote.quotifii.com",
+
+        badge: {
+          tag: "Popular Choice",
+          tagIcon: "/fire.svg",
+          tagIconAlt: "Fire Icon",
+        },
+      },
+      image: {
+        src: "/auto-in.webp",
+        alt: "Car insurance illustration",
+      },
+    },
+    
+    {
+      type: "home",
+      title: "Home Insurance",
+      description:
+        "Find coverage designed to protect your property, belongings and personal liability.",
+      features: [
+        {
+          label: "Property Protection",
+          icon: "/home-1.svg",
+          iconAlt: "Property Protection Icon",
+        },
+        {
+          label: "Personal Belongings",
+          icon: "/home-2.svg",
+          iconAlt: "Personal Belongings Icon",
+        },
+        {
+          label: "Liability Coverage",
+          icon: "/home-3.svg",
+          iconAlt: "Liability Coverage Icon",
+        },
+      ],
+      button: {
+        label: "Get Home Quotes",
+      
+        primary: true,
+        href: "https://home.quotifii.com",
+      },
+      image: {
+        src: "/home-in.webp",
+        alt: "Home insurance illustration",
+      },
+
+      
+    },
+  ],
 } as const
 
 export const REVIEW_CONTENT = {

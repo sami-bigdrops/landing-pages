@@ -5,9 +5,10 @@ import Hero from "@/app/type/long/v1/_components/Hero"
 import Review from "@/app/type/long/v1/_components/Review"
 import Footer from "@/app/_components/Footer"
 import Partners from "@/app/type/long/v1/_components/Partners"
-import Options from "@/app/type/long/v1/_components/Options"
+import Steps from "@/app/type/long/v1/_components/Steps"
 import Features from "@/app/type/long/v1/_components/Features"
 import Faq from "@/app/type/long/v1/_components/Faq"
+import Coverage from "@/app/type/long/v1/_components/Coverage"
 
 export default function HomeContent() {
   return (
@@ -16,9 +17,11 @@ export default function HomeContent() {
       <Hero />
       <Partners />
       <Features />
+      <Steps />
       <Review />
+      <Coverage />
       <Faq />
-      <Options /> 
+    
       <Footer />
     </div>
   )

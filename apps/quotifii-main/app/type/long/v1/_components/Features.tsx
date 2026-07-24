@@ -20,7 +20,7 @@ export default function Features() {
                   <div className="flex-1 flex flex-col items-center justify-center gap-2 md:gap-2.5 ">
 
 
-                    <h3 className="text-base lg:text-lg xl:text-xl font-semibold text-[#1A1A1A] font-sans">
+                    <h3 className="text-base xl:text-xl font-semibold text-[#1A1A1A] font-sans">
                       {step.title}
                     </h3>
 
