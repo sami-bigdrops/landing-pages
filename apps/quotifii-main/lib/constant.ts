@@ -305,6 +305,13 @@ export const FEATURES_CONTENT = {
 
 
 export const FOOTER_CONTENT = {
+
+  typelinks: [
+    { text: "Auto Insurance", href: "https://auto-quote.quotifii.com" },
+    { text: "Home Insurance", href: "https://home.quotifii.com" },
+    
+    
+  ],
   
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
