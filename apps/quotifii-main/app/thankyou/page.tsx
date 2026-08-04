@@ -4,6 +4,7 @@ import { THANKYOU_TYPE2_CONTENT } from "@/lib/constant"
 import Navbar from "@/app/_components/Navbar"
 import Footer from "@/app/_components/Footer"
 import { ThankYouType2, type ThankYouAd } from "@/app/_components/ThankYouType2"
+import { buildPageMetadata } from "@/lib/seo"
 
 const THANKYOU_ADS: ThankYouAd[] = [
   {
@@ -16,10 +17,14 @@ const THANKYOU_ADS: ThankYouAd[] = [
   },
 ]
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Thank You",
-  description: "Your request has been received. A specialist will contact you shortly.",
-}
+  description:
+    "Your Quotifii request has been received. A specialist will contact you shortly.",
+  path: "/thankyou",
+  index: false,
+  follow: false,
+})
 
 function ThankYouLoading() {
   return (

@@ -13,7 +13,7 @@ export default function Navbar() {
             <Link href="/" className="block">
                 <Image
                 src="/logo.svg"
-                alt="Quotifii"
+                alt="Quotifii home - compare auto and home insurance quotes"
                 width={128}
                 height={40}
                 className="w-36 lg:w-40 xl:w-48 h-auto object-contain"

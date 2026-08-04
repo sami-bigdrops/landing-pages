@@ -1,3 +1,14 @@
+import type { Metadata } from "next"
+import { buildPageMetadata } from "@/lib/seo"
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Access Denied",
+  description: "Your request could not be processed at this time.",
+  path: "/access-denied",
+  index: false,
+  follow: false,
+})
+
 export default function AccessDeniedPage() {
   return (
     <main className="min-h-screen bg-white flex items-center justify-center px-6">

@@ -14,14 +14,15 @@ export default function HomeContent() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <Hero />
-      <Partners />
-      <Features />
-      <Steps />
-      <Review />
-      <Coverage />
-      <Faq />
-    
+      <main id="main-content">
+        <Hero />
+        <Partners />
+        <Features />
+        <Steps />
+        <Review />
+        <Coverage />
+        <Faq />
+      </main>
       <Footer />
     </div>
   )

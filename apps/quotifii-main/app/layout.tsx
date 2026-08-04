@@ -1,9 +1,16 @@
+import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
-import { Metadata } from "next"
 
 import "@workspace/ui/globals.css"
 import { Analytics } from "@workspace/ui/components/analytics"
 import { Providers } from "@/components/providers"
+import {
+  DEFAULT_DESCRIPTION,
+  HOME_TITLE,
+  SEO_KEYWORDS,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo"
 
 const fontSans = Poppins({
   subsets: ["latin"],
@@ -13,16 +20,63 @@ const fontSans = Poppins({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Quotifii - Auto Quotes",
-    template: "%s | Quotifii",
+    default: HOME_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "`Quotifii provides top-quality auto quotes services across the USA. We offer auto quotes, and outstanding customer care to help homeowners enhance comfort, value, and curb appeal.",
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "insurance",
+  keywords: [...SEO_KEYWORDS],
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-US": "/",
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: HOME_TITLE,
+    description: DEFAULT_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: HOME_TITLE,
+    description: DEFAULT_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   icons: {
-    icon: [
-      { url: "/favicon.png", type: "image/png" },
-    ],
+    icon: [{ url: "/favicon.png", type: "image/png" }],
+    apple: [{ url: "/favicon.png", type: "image/png" }],
+    shortcut: ["/favicon.png"],
+  },
+  other: {
+    "geo.region": "US",
+    "geo.placename": "United States",
+    "og:locale:alternate": "en_US",
   },
 }
 
@@ -32,7 +86,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en-US" suppressHydrationWarning>
       <head>
         <meta
           name="arohaa-verify"
@@ -51,7 +105,7 @@ export default function RootLayout({
           data-wid="2550427e-6a1c-47a7-9d9b-dd1756af0d79"
           data-api="https://api.arohaa.net"
           data-lp-id="lp_gpD0IbRv7QIE2wv5"
-          data-page="autoinsurance.quotifii.com"
+          data-page="www.quotifii.com"
           data-formtype="zip"
         />
         <script
