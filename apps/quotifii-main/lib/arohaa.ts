@@ -11,12 +11,12 @@ declare global {
 
 export const AROHAA_SERVICES = {
   auto: {
-    id: "auto-insurance",
-    label: "Auto Insurance",
+    id: "svc-9qcgmdnu",
+    label: "Auto Insurance Quotifii",
   },
   home: {
-    id: "home-insurance",
-    label: "Home Insurance",
+    id: "svc-9wougzwg",
+    label: "Home Insurance Quotifii",
   },
 } as const
 
