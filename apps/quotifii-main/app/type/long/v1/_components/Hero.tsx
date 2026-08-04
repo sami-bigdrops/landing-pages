@@ -10,6 +10,7 @@ import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
 import { HERO_CONTENT } from "@/lib/constant";
 import { buildProductRedirectUrl } from "@/lib/build-product-redirect-url";
+import { AROHAA_SERVICES, trackServiceClick } from "@/lib/arohaa";
 
 const ANALYTICS_FLUSH_DELAY_MS = 300;
 
@@ -63,6 +64,10 @@ export default function Hero() {
 
     const { redirectUrl, zip } = buildRedirectUrl(autoButton.href);
 
+    trackServiceClick({
+      serviceKey: "auto",
+      href: redirectUrl,
+    });
     track("hero_cta_click", {
       product: "auto",
       state: cityName || undefined,
@@ -80,6 +85,10 @@ export default function Hero() {
 
     const { redirectUrl, zip } = buildRedirectUrl(homeButton.href);
 
+    trackServiceClick({
+      serviceKey: "home",
+      href: redirectUrl,
+    });
     track("hero_cta_click", {
       product: "home",
       state: cityName || undefined,
@@ -129,6 +138,8 @@ export default function Hero() {
                     disabled={redirectingTo !== null}
                     onClick={handleAutoClick}
                     className={AUTO_BUTTON_CLASS}
+                    data-arohaa-service={AROHAA_SERVICES.auto.id}
+                    data-arohaa-service-label={AROHAA_SERVICES.auto.label}
                   >
                     {redirectingTo === "auto" ? (
                       "Redirecting..."
@@ -163,6 +174,8 @@ export default function Hero() {
                     disabled={redirectingTo !== null}
                     onClick={handleHomeClick}
                     className={HOME_BUTTON_CLASS}
+                    data-arohaa-service={AROHAA_SERVICES.home.id}
+                    data-arohaa-service-label={AROHAA_SERVICES.home.label}
                   >
                     {redirectingTo === "home" ? (
                       "Redirecting..."

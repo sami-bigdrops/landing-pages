@@ -3,6 +3,14 @@
 import Image from "next/image"
 import { FOOTER_CONTENT } from "@/lib/constant"
 import { buildProductRedirectUrl } from "@/lib/build-product-redirect-url"
+import { AROHAA_SERVICES, trackServiceClick } from "@/lib/arohaa"
+
+const ANALYTICS_FLUSH_DELAY_MS = 300
+
+function getServiceKey(href: string) {
+  if (href.includes("homequotes") || href.includes("home")) return "home" as const
+  return "auto" as const
+}
 
 export default function Footer() {
   return (
@@ -23,19 +31,33 @@ export default function Footer() {
         className="flex items-center justify-center  mb-4 gap-6 xl:gap-8"
         aria-label="Insurance types"
       >
-        {FOOTER_CONTENT.typelinks.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            onClick={(e) => {
-              e.preventDefault()
-              window.location.href = buildProductRedirectUrl(link.href)
-            }}
-            className="text-xs xl:text-base text-white font-normal underline underline-offset-4 hover:text-white/90 transition-colors"
-          >
-            {link.text}
-          </a>
-        ))}
+        {FOOTER_CONTENT.typelinks.map((link) => {
+          const serviceKey = getServiceKey(link.href)
+          const service = AROHAA_SERVICES[serviceKey]
+
+          return (
+            <a
+              key={link.href}
+              href={link.href}
+              data-arohaa-service={service.id}
+              data-arohaa-service-label={service.label}
+              onClick={(e) => {
+                e.preventDefault()
+                const redirectUrl = buildProductRedirectUrl(link.href)
+                trackServiceClick({
+                  serviceKey,
+                  href: redirectUrl,
+                })
+                window.setTimeout(() => {
+                  window.location.href = redirectUrl
+                }, ANALYTICS_FLUSH_DELAY_MS)
+              }}
+              className="text-xs xl:text-base text-white font-normal underline underline-offset-4 hover:text-white/90 transition-colors"
+            >
+              {link.text}
+            </a>
+          )
+        })}
       </nav>
 
       <p className="text-xs xl:text-base text-white">

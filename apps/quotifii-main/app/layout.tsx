@@ -90,7 +90,7 @@ export default function RootLayout({
       <head>
         <meta
           name="arohaa-verify"
-          content="T03rnR6ZhV4MEqaeMrcWOUviXfkS1ZxZ"
+          content="Omg_RcyzWH5OLvACwn8ZNbesUoNkyS_i"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -102,11 +102,11 @@ export default function RootLayout({
           id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="2550427e-6a1c-47a7-9d9b-dd1756af0d79"
+          data-wid="97b0a6b9-9eba-401c-b6af-0f3edc6388e9"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_gpD0IbRv7QIE2wv5"
+          data-lp-id="lp_xC5nIQUIoj0eWuio"
           data-page="www.quotifii.com"
-          data-formtype="zip"
+          data-formtype="none"
         />
         <script
           type="text/javascript"
