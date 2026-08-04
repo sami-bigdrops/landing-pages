@@ -5,10 +5,22 @@ import type { UtmParamsResult, UseUtmParamsOptions } from '../model/utm-params';
 import {
   UTM_COOKIE_NAMES,
   UTM_URL_PARAM_KEYS,
+  UTM_URL_PARAM_ALIASES,
   DEFAULT_UTM_COOKIE_DAYS,
   sanitizeUtmParamValue,
 } from '../model/utm-params';
 import { getCookie, setCookie } from './cookie-utils';
+
+function firstSearchParam(
+  urlParams: URLSearchParams,
+  ...keys: string[]
+): string {
+  for (const key of keys) {
+    const value = urlParams.get(key)?.trim() ?? '';
+    if (value) return value;
+  }
+  return '';
+}
 
 function resolveOptions(
   options?: number | UseUtmParamsOptions
@@ -42,9 +54,21 @@ export function useUtmParams(
 
     const mappings = extraMappingsRef.current;
     const urlParams = new URLSearchParams(window.location.search);
-    let utmSource = urlParams.get(UTM_URL_PARAM_KEYS.subid1) ?? '';
-    let utmId = urlParams.get(UTM_URL_PARAM_KEYS.subid2) ?? '';
-    let utmS1 = urlParams.get(UTM_URL_PARAM_KEYS.subid3) ?? '';
+    let utmSource = firstSearchParam(
+      urlParams,
+      UTM_URL_PARAM_KEYS.subid1,
+      ...UTM_URL_PARAM_ALIASES.subid1
+    );
+    let utmId = firstSearchParam(
+      urlParams,
+      UTM_URL_PARAM_KEYS.subid2,
+      ...UTM_URL_PARAM_ALIASES.subid2
+    );
+    let utmS1 = firstSearchParam(
+      urlParams,
+      UTM_URL_PARAM_KEYS.subid3,
+      ...UTM_URL_PARAM_ALIASES.subid3
+    );
 
     utmSource = sanitizeUtmParamValue('utm_source', utmSource);
     utmS1 = sanitizeUtmParamValue('utm_s1', utmS1);

@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { FOOTER_CONTENT } from "@/lib/constant"
+import { buildProductRedirectUrl } from "@/lib/build-product-redirect-url"
 
 export default function Footer() {
   return (
@@ -26,6 +27,10 @@ export default function Footer() {
           <a
             key={link.href}
             href={link.href}
+            onClick={(e) => {
+              e.preventDefault()
+              window.location.href = buildProductRedirectUrl(link.href)
+            }}
             className="text-xs xl:text-base text-white font-normal underline underline-offset-4 hover:text-white/90 transition-colors"
           >
             {link.text}

@@ -48,9 +48,17 @@ export default function Options() {
 
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
 
-    const utmSource = getCookie("subid1") || "";
-    const utmId = getCookie("subid2") || "";
-    const utmS1 = getCookie("subid3") || "";
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmSource =
+      getCookie("subid1") || urlParams.get("sid") || urlParams.get("utm_source") || "";
+    const utmId =
+      getCookie("subid2") ||
+      urlParams.get("tid") ||
+      urlParams.get("uid") ||
+      urlParams.get("utm_id") ||
+      "";
+    const utmS1 =
+      getCookie("subid3") || urlParams.get("sub1") || urlParams.get("utm_s1") || "";
 
     const params = new URLSearchParams({
       zip_code: trimmed,

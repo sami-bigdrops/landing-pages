@@ -3,17 +3,14 @@
 import { useState, useEffect } from "react";
 import {
   useUtmParams,
-  setCookie,
-  getCookie,
   QUOTIFII_EXTENDED_UTM_OPTIONS,
 } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
 import { HERO_CONTENT } from "@/lib/constant";
+import { buildProductRedirectUrl } from "@/lib/build-product-redirect-url";
 
-const ZIP_COOKIE_NAME = "zipCode";
-const ZIP_COOKIE_DAYS = 30;
 const ANALYTICS_FLUSH_DELAY_MS = 300;
 
 const [autoButton, homeButton] = HERO_CONTENT.herobuttons;
@@ -54,25 +51,9 @@ export default function Hero() {
 
   const buildRedirectUrl = (baseUrl: string) => {
     const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
-    if (trimmed.length === 5) {
-      setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
-    }
-
-    const utmSource = getCookie("subid1") || "";
-    const utmId = getCookie("subid2") || "";
-    const utmS1 = getCookie("subid3") || "";
-
-    const params = new URLSearchParams();
-    params.set("tid", utmId);
-    params.set("uid", utmId);
-    params.set("sid", utmSource);
-    params.set("sub1", utmS1);
-    if (trimmed.length === 5) {
-      params.set("zip", trimmed);
-    }
 
     return {
-      redirectUrl: `${baseUrl}/?${params.toString()}`,
+      redirectUrl: buildProductRedirectUrl(baseUrl),
       zip: trimmed.length === 5 ? trimmed : undefined,
     };
   };

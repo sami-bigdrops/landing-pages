@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { COVERAGE_CONTENT } from "@/lib/constant"
+import { buildProductRedirectUrl } from "@/lib/build-product-redirect-url"
 import { Button } from "@workspace/ui/components/button"
 
 type CoverageSection = (typeof COVERAGE_CONTENT.sections)[number]
@@ -52,7 +53,7 @@ function CoverageCard({ section }: { section: CoverageSection }) {
       variant="default"
       htmlType="button"
       onClick={() => {
-        window.location.href = section.button.href
+        window.location.href = buildProductRedirectUrl(section.button.href)
       }}
       className={`flex h-14 md:h-14.5 xl:h-18  cursor-pointer font-medium font-poppins text-sm xl:text-lg px-4 xl:px-4.5  w-full shrink-0 cursor-pointer items-center justify-between gap-2 rounded-[10px] bg-[#F16601]  text-white shadow-[0_0_6px_0_rgba(0,53,153,0.20)] transition-all duration-300 hover:bg-[#F16601]  ${className}`}
     >

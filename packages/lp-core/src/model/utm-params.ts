@@ -28,6 +28,13 @@ export const UTM_URL_PARAM_KEYS = {
   subid3: 'utm_s1',
 } as const;
 
+/** Partner / form hop aliases for the same values as UTM_URL_PARAM_KEYS */
+export const UTM_URL_PARAM_ALIASES = {
+  subid1: ['sid'] as const,
+  subid2: ['tid', 'uid'] as const,
+  subid3: ['sub1'] as const,
+} as const;
+
 export const DEFAULT_UTM_COOKIE_DAYS = 30;
 
 /** Keys persisted in utm_params and shown in the UTM dashboard */
