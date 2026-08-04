@@ -18,7 +18,7 @@ export const HERO_CONTENT = {
       iconAlt: "Auto Insurance Icon",
       arrow: "/auto-arrow.svg",
       primary: true,
-      href: "https://auto-quote.quotifii.com",
+      href: "https://autoinsurance.quotifii.com",
      
     },
     {
@@ -27,7 +27,7 @@ export const HERO_CONTENT = {
       iconAlt: "Home Insurance Icon",
       arrow: "/home-arrow.svg",
       primary: false,
-      href: "https://home.quotifii.com",
+      href: "https://homequotes.quotifii.com",
     },
   ],
  
@@ -118,7 +118,7 @@ export const COVERAGE_CONTENT = {
       button: {
         label: "Get Auto Quotes",
         primary: true,
-        href: "https://auto-quote.quotifii.com",
+        href: "https://autoinsurance.quotifii.com",
 
         badge: {
           tag: "Popular Choice",
@@ -158,7 +158,7 @@ export const COVERAGE_CONTENT = {
         label: "Get Home Quotes",
       
         primary: true,
-        href: "https://home.quotifii.com",
+        href: "https://homequotes.quotifii.com",
       },
       image: {
         src: "/home-in.webp",
@@ -307,8 +307,8 @@ export const FEATURES_CONTENT = {
 export const FOOTER_CONTENT = {
 
   typelinks: [
-    { text: "Auto Insurance", href: "https://auto-quote.quotifii.com" },
-    { text: "Home Insurance", href: "https://home.quotifii.com" },
+    { text: "Auto Insurance", href: "https://autoinsurance.quotifii.com" },
+    { text: "Home Insurance", href: "https://homequotes.quotifii.com" },
     
     
   ],
