@@ -11,6 +11,7 @@ import {
   SITE_NAME,
   SITE_URL,
 } from "@/lib/seo"
+import { AROHAA_SERVICES_JSON } from "@/lib/arohaa"
 
 const fontSans = Poppins({
   subsets: ["latin"],
@@ -107,6 +108,7 @@ export default function RootLayout({
           data-lp-id="lp_xC5nIQUIoj0eWuio"
           data-page="www.quotifii.com"
           data-formtype="none"
+          data-services={AROHAA_SERVICES_JSON}
         />
         <script
           type="text/javascript"

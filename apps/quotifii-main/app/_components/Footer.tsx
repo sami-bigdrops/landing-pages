@@ -38,12 +38,12 @@ export default function Footer() {
           return (
             <a
               key={link.href}
-              href={link.href}
+              href={service.href}
               data-arohaa-service={service.id}
               data-arohaa-service-label={service.label}
               onClick={(e) => {
                 e.preventDefault()
-                const redirectUrl = buildProductRedirectUrl(link.href)
+                const redirectUrl = buildProductRedirectUrl(service.href)
                 trackServiceClick({
                   serviceKey,
                   href: redirectUrl,

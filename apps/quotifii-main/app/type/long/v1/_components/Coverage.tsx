@@ -4,7 +4,6 @@ import Image from "next/image"
 import { COVERAGE_CONTENT } from "@/lib/constant"
 import { buildProductRedirectUrl } from "@/lib/build-product-redirect-url"
 import { AROHAA_SERVICES, trackServiceClick } from "@/lib/arohaa"
-import { Button } from "@workspace/ui/components/button"
 
 type CoverageSection = (typeof COVERAGE_CONTENT.sections)[number]
 
@@ -52,8 +51,9 @@ function CoverageCard({ section }: { section: CoverageSection }) {
   const serviceKey = section.type === "home" ? "home" : "auto"
   const service = AROHAA_SERVICES[serviceKey]
 
-  const handleClick = () => {
-    const redirectUrl = buildProductRedirectUrl(section.button.href)
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    const redirectUrl = buildProductRedirectUrl(service.href)
     trackServiceClick({
       serviceKey,
       href: redirectUrl,
@@ -64,14 +64,12 @@ function CoverageCard({ section }: { section: CoverageSection }) {
   }
 
   const ctaButton = (className: string) => (
-    <Button
-      type="1"
-      variant="default"
-      htmlType="button"
-      onClick={handleClick}
+    <a
+      href={service.href}
       data-arohaa-service={service.id}
       data-arohaa-service-label={service.label}
-      className={`flex h-14 md:h-14.5 xl:h-18  cursor-pointer font-medium font-poppins text-sm xl:text-lg px-4 xl:px-4.5  w-full shrink-0 cursor-pointer items-center justify-between gap-2 rounded-[10px] bg-[#F16601]  text-white shadow-[0_0_6px_0_rgba(0,53,153,0.20)] transition-all duration-300 hover:bg-[#F16601]  ${className}`}
+      onClick={handleClick}
+      className={`flex h-14 md:h-14.5 xl:h-18 cursor-pointer font-medium font-poppins text-sm xl:text-lg px-4 xl:px-4.5 w-full shrink-0 items-center justify-between gap-2 rounded-[10px] bg-[#F16601] text-white shadow-[0_0_6px_0_rgba(0,53,153,0.20)] transition-all duration-300 hover:bg-[#F16601] ${className}`}
     >
       <span className="flex min-w-0 items-center gap-2.5 xl:gap-3">
         {section.button.label}
@@ -86,9 +84,9 @@ function CoverageCard({ section }: { section: CoverageSection }) {
         alt={COVERAGE_CONTENT.arrowIconButton.alt}
         width={20}
         height={20}
-        className="h-5 w-5 xl:h-6.5 xl:w-6.5  shrink-0 "
+        className="h-5 w-5 xl:h-6.5 xl:w-6.5 shrink-0"
       />
-    </Button>
+    </a>
   )
 
   return (

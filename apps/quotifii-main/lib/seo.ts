@@ -9,13 +9,13 @@ export const SITE_TAGLINE =
   "Compare auto and home insurance quotes from trusted U.S. providers in one place."
 
 export const DEFAULT_DESCRIPTION =
-  "Compare auto and home insurance quotes across the United States with Quotifii. Explore coverage options from trusted providers and find a policy that fits your needs and budget."
+  "Compare auto and home insurance quotes across the United States with Quotifii. Explore trusted providers and find coverage that fits your budget today."
 
 export const HOME_TITLE =
   "Compare Auto & Home Insurance Quotes Online | Quotifii"
 
 export const HOME_DESCRIPTION =
-  "Shop auto and home insurance the easy way. Quotifii helps U.S. shoppers compare quotes from trusted providers, review coverage options, and find rates that fit their budget—free and with no obligation."
+  "Compare auto and home insurance quotes with Quotifii. Explore trusted U.S. providers and find coverage that fits your needs and budget—free, no obligation."
 
 export const SEO_KEYWORDS = [
   "auto insurance quotes",

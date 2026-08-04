@@ -3,6 +3,7 @@
 import { ArrowUpIcon } from "lucide-react"
 
 export const HERO_CONTENT = {
+  brand: "Quotifii",
   headlineLead: "Shop Auto & Home Insurance The Easy Way",
   
   subheadline: "Explore coverage options from trusted providers and find a policy suited to your needs and budget.",
@@ -18,8 +19,8 @@ export const HERO_CONTENT = {
       iconAlt: "Auto Insurance Icon",
       arrow: "/auto-arrow.svg",
       primary: true,
-      href: "https://autoinsurance.quotifii.com",
-     
+      href: "https://autoinsurance.quotifii.com/",
+      serviceKey: "auto" as const,
     },
     {
       label: "Home",
@@ -27,7 +28,8 @@ export const HERO_CONTENT = {
       iconAlt: "Home Insurance Icon",
       arrow: "/home-arrow.svg",
       primary: false,
-      href: "https://homequotes.quotifii.com",
+      href: "https://homequotes.quotifii.com/",
+      serviceKey: "home" as const,
     },
   ],
  
@@ -118,8 +120,7 @@ export const COVERAGE_CONTENT = {
       button: {
         label: "Get Auto Quotes",
         primary: true,
-        href: "https://autoinsurance.quotifii.com",
-
+        href: "https://autoinsurance.quotifii.com/",
         badge: {
           tag: "Popular Choice",
           tagIcon: "/fire.svg",
@@ -128,10 +129,9 @@ export const COVERAGE_CONTENT = {
       },
       image: {
         src: "/auto-in.webp",
-        alt: "Car insurance illustration",
+        alt: "Compare auto insurance quotes online with Quotifii",
       },
     },
-    
     {
       type: "home",
       title: "Home Insurance",
@@ -156,16 +156,13 @@ export const COVERAGE_CONTENT = {
       ],
       button: {
         label: "Get Home Quotes",
-      
         primary: true,
-        href: "https://homequotes.quotifii.com",
+        href: "https://homequotes.quotifii.com/",
       },
       image: {
         src: "/home-in.webp",
-        alt: "Home insurance illustration",
+        alt: "Compare home insurance quotes online with Quotifii",
       },
-
-      
     },
   ],
 } as const
@@ -307,10 +304,8 @@ export const FEATURES_CONTENT = {
 export const FOOTER_CONTENT = {
 
   typelinks: [
-    { text: "Auto Insurance", href: "https://autoinsurance.quotifii.com" },
-    { text: "Home Insurance", href: "https://homequotes.quotifii.com" },
-    
-    
+    { text: "Auto Insurance", href: "https://autoinsurance.quotifii.com/" },
+    { text: "Home Insurance", href: "https://homequotes.quotifii.com/" },
   ],
   
   links: [
