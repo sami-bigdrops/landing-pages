@@ -13,7 +13,7 @@ export const AROHAA_SERVICES = {
   auto: {
     id: "svc-9qcgmdnu",
     label: "Auto Insurance Quotifii",
-    href: "https://autoinsurance.quotifii.com/",
+    href: "https://autocoverage.quotifii.com/",
   },
   home: {
     id: "svc-9wougzwg",

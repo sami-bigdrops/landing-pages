@@ -104,7 +104,7 @@ export function getOrganizationJsonLd() {
       availableLanguage: "English",
     },
     sameAs: [
-      "https://autoinsurance.quotifii.com",
+      "https://autocoverage.quotifii.com",
       "https://homequotes.quotifii.com",
     ],
   }

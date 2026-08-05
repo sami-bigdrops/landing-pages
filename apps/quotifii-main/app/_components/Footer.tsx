@@ -9,6 +9,7 @@ const ANALYTICS_FLUSH_DELAY_MS = 300
 
 function getServiceKey(href: string) {
   if (href.includes("homequotes") || href.includes("home")) return "home" as const
+  if (href.includes("autocoverage") || href.includes("auto")) return "auto" as const
   return "auto" as const
 }
 

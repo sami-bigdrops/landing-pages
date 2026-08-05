@@ -19,7 +19,7 @@ export const HERO_CONTENT = {
       iconAlt: "Auto Insurance Icon",
       arrow: "/auto-arrow.svg",
       primary: true,
-      href: "https://autoinsurance.quotifii.com/",
+      href: "https://autocoverage.quotifii.com/",
       serviceKey: "auto" as const,
     },
     {
@@ -120,7 +120,7 @@ export const COVERAGE_CONTENT = {
       button: {
         label: "Get Auto Quotes",
         primary: true,
-        href: "https://autoinsurance.quotifii.com/",
+        href: "https://autocoverage.quotifii.com/",
         badge: {
           tag: "Popular Choice",
           tagIcon: "/fire.svg",
@@ -304,7 +304,7 @@ export const FEATURES_CONTENT = {
 export const FOOTER_CONTENT = {
 
   typelinks: [
-    { text: "Auto Insurance", href: "https://autoinsurance.quotifii.com/" },
+    { text: "Auto Insurance", href: "https://autocoverage.quotifii.com/" },
     { text: "Home Insurance", href: "https://homequotes.quotifii.com/" },
   ],
   
