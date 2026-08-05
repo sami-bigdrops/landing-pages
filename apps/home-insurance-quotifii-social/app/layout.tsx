@@ -64,7 +64,7 @@ export default function RootLayout({
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
-            __html: `(function(){function getCookie(n){var p=("; "+document.cookie).split("; "+n+"=");if(p.length===2)return decodeURIComponent(p.pop().split(";").shift()||"");return"";}function loadPixel(){var utmId=getCookie("subid2")||"";var utmSource=getCookie("subid1")||"";var tag=document.createElement("script");tag.src="https://tmpxl.com/pixel_container?api_token=a84f3c91d7e62b5080fa4d13c9b72e65&s1=b4d9f82a-6c31-4e7f-9ab5-1d83c6ef4029&s2="+encodeURIComponent(utmId)+"&s3=nameofwebsite_"+encodeURIComponent(utmSource);document.head.appendChild(tag);}var tries=0; (function wait(){if(getCookie("subid1")||getCookie("subid2")||tries>=40){loadPixel();return;}tries++;setTimeout(wait,50);})();})();`,
+            __html: `(function(){function getCookie(n){var p=("; "+document.cookie).split("; "+n+"=");if(p.length===2)return decodeURIComponent(p.pop().split(";").shift()||"");return"";}function loadPixel(){var utmId=getCookie("subid2")||"";var utmSource=getCookie("subid1")||"";var tag=document.createElement("script");tag.src="https://tmpxl.com/pixel_container?api_token=a84f3c91d7e62b5080fa4d13c9b72e65&s1=b4d9f82a-6c31-4e7f-9ab5-1d83c6ef4029&s2="+encodeURIComponent(utmId)+"&s3="+encodeURIComponent(utmSource);document.head.appendChild(tag);}var tries=0; (function wait(){if(getCookie("subid1")||getCookie("subid2")||tries>=40){loadPixel();return;}tries++;setTimeout(wait,50);})();})();`,
           }}
         />
       </head>
