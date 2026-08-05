@@ -76,7 +76,7 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-0 flex-1 w-full overflow-hidden xl:min-h-[590px] 2xl:min-h-[620px]">
+    <div className="relative flex items-center justify-center min-h-0 flex-1 w-full overflow-hidden xl:min-h-[660px] 2xl:min-h-[660px]">
       <div
         className="absolute inset-0 w-full h-full bg-[url('/hero-bg.webp')] bg-cover bg-no-repeat bg-[position:left_42%] md:bg-[position:52%_32%] lg:bg-[position:38%_28%] xl:bg-[position:48%_24%] 2xl:bg-[position:top_68%_right_38%]"
         role="img"
