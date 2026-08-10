@@ -39,8 +39,8 @@ export default function Hero() {
   }, []);
 
   const headlineText = cityName
-    ? `Protect Your Home & Save on Insurance in   ${cityName} `
-    : "Protect Your Home & Save on Insurance in Your Area";
+    ? `Protect Your Home & Save On Insurance In   ${cityName} `
+    : "Protect Your Home & Save On Insurance In Your Area";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,34 +84,31 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="relative w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[510px]">
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-[10px] md:rounded-none md:min-h-[292px] lg:min-h-[400px] xl:min-h-[550px] 2xl:min-h-[620px] ">
       <div
-        className="absolute inset-0 w-full h-full bg-[position:center]  lg:bg-[position:right_center]"
-        style={{
-          backgroundImage: "url('/hero-bg.webp')",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          
-        }} 
+        className="absolute inset-0 w-full h-full rounded-[10px] bg-[#EBF4FF] md:rounded-none md:bg-[url('/hero-bg.webp')] md:bg-cover md:bg-no-repeat md:bg-[position:center] lg:bg-[position:right_center] 2xl:bg-[position:bottom_center]"
       />
-      <div
-        className="absolute inset-0 w-full h-full bg-black/40"
-        aria-hidden
-      />
-      <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-8 py-10 md:py-15 md:px-8 lg:py-20 xl:px-23 xl:py-28 2xl:py-35">
-        <div className="container mx-auto ">
-          <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-8 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
+      
+      <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-14 py-10 md:py-12 md:px-8 lg:py-15 xl:px-23 xl:py-22 ">
+        <div className="container mx-auto max-w-[1400px]">
+          <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-3 md:gap-6 lg:gap-6.5 xl:gap-10 ">
 
-            <div className="flex-1 w-full flex flex-col md:flex-row  bg-[#FFFFFF] px-5 py-7 md:py-6 xl:px-8 xl:py-9   md:max-w-[450px] lg:max-w-[500px] xl:max-w-[690px] 2xl:max-w-[750px] rounded-none justify-center items-center md:justify-center lg:items-center">
-              <div className="w-full flex flex-col items-center md:items-start gap-4 md:gap-4 lg:gap-6 xl:gap-9  ">
+            <div className="flex-1 w-full flex flex-col md:flex-row  md:max-w-[450px] lg:max-w-[500px] xl:max-w-[690px] 2xl:max-w-[750px] rounded-none justify-center items-center md:justify-center lg:items-center">
+              <div className="w-full flex flex-col items-center md:items-start gap-6 md:gap-5 lg:gap-6 xl:gap-10  ">
 
                 <div className="w-full">
                   <h1
-                    className="text-[1.35rem] md:text-[1.45rem] lg:text-[1.4rem] xl:text-[1.9rem] 2xl:text-[2.1rem] max-w-full font-bold text-[#1A1A1A] text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-poppins"
+                    className={`
+                      text-[1.45rem] md:text-3xl  xl:text-5xl
+                      max-w-full font-bold text-[#1A1A1A] md:text-white text-center md:text-left lg:text-left xl:text-left 2xl:text-left
+                      font-poppins md:max-w-[340px] lg:max-w-[380px] xl:max-w-[600px]
+                      md:[text-shadow:0_4px_4px_rgba(0,0,0,0.15)] tracking-relaxed
+                    `}
                     style={{
                       lineHeight: "1.4",
                     }}
                   >
+             
                     {headlineText}
                   </h1>
                 </div>
@@ -122,7 +119,7 @@ export default function Hero() {
                   <form
                     data-arohaa-zip-form
                     onSubmit={handleSubmit}
-                    className="block sm:hidden space-y-4"
+                    className="block sm:hidden space-y-3"
                   >
                     <div className="relative w-full">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
@@ -165,9 +162,9 @@ export default function Hero() {
                   <form
                     data-arohaa-zip-form
                     onSubmit={handleSubmit}
-                    className="hidden relative w-full sm:flex w-full flex-row items-center justify-center md:justify-start gap-2 xl:gap-3.5"
+                    className="hidden relative w-full sm:flex w-full flex-row items-center justify-center md:justify-start gap-2.5 xl:gap-3.5"
                   >
-                    <div className="relative w-full max-w-[290px] lg:max-w-full min-w-0 shrink">
+                    <div className="relative w-full max-w-[290px] md:max-w-[170px] lg:max-w-[200px] xl:max-w-[300px] min-w-0 shrink">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                         <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
                       </div>
@@ -197,7 +194,7 @@ export default function Hero() {
                       htmlType="submit"
                       data-arohaa-zip-submit
                       disabled={isRedirecting || !zipValid}
-                      className="h-14 md:h-14.5 xl:h-18 w-[180px] md:w-[170px] lg:w-[180px] xl:w-[232px] shrink-0 rounded-[10px] cursor-pointer text-white font-medium font-poppins text-sm  xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed bg-[#F16601]"
+                      className="h-14 md:h-14.5 xl:h-18 w-[180px] md:w-[190px] lg:w-[190px] xl:w-[232px] shrink-0 rounded-[10px] cursor-pointer text-white font-medium font-poppins text-sm  xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed bg-[#F16601]"
                     >
                       {isRedirecting ? "Redirecting..." : <>Request My Quotes </>}
                     </Button>
@@ -206,7 +203,7 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-2">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 lg:gap-4 ">
               {HERO_CONTENT.features.map((feature, index) => (
                 <div key={index} className="flex items-center justify-center gap-2">
                   <Image
@@ -214,16 +211,18 @@ export default function Hero() {
                     alt={feature.alt}
                     width={20}
                     height={20}
-                    className="w-5 h-5 xl:w-5.5 xl:h-5.5"
+                    className="w-4 h-4 xl:w-5.5 xl:h-5.5"
                   />
-                  <p className="text-sm  xl:text-lg font-normal text-white text-center font-poppins">
+                  <p className="text-[0.82rem]   xl:text-lg font-normal text-[#4B5563] md:text-white text-center font-poppins">
                     {feature.text}
                   </p>
-                  {index !== HERO_CONTENT.features.length - 1 && (
-                    <span className="hidden md:inline-block h-5 xl:h-6 border-l border-white mx-1" aria-hidden="true"></span>
-                  )}
+                  
                 </div>
               ))}
+            </div>
+
+            <div className="mt-5 w-full h-full flex items-center justify-center md:hidden">
+              <Image src="/mobile.webp" alt="hero image" width={500} height={500} className="w-full h-full object-cover" />
             </div>
 
 

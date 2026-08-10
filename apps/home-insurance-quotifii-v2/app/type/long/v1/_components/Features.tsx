@@ -6,21 +6,21 @@ import { FEATURES_CONTENT } from '@/lib/constant'
 
 export default function Features() {
   return (
-    <div className="steps bg-white w-full h-full px-6 py-6 md:px-6 md:py-8 lg:px-14 lg:py-10  xl:px-23 xl:py-14">
-      <div className="container mx-auto">
-        <div className="step-content w-full flex flex-col items-center justify-center gap-7 md:gap-10 lg:gap-18 xl:gap-19 ">
-          <h2 className="text-xl lg:text-2xl xl:text-3xl  md:max-w-full  font-bold text-[#1A1A1A] text-center font-poppins " style={{ lineHeight: "1.4" }}>
+    <div className="steps bg-white w-full h-full px-6 py-6 md:px-8 md:py-8 lg:px-14 lg:py-8  xl:px-23 xl:py-14">
+      <div className="container mx-auto max-w-[1400px]">
+        <div className="step-content w-full flex flex-col items-center justify-center gap-8 md:gap-12 lg:gap-14 xl:gap-19 ">
+          <h2 className="text-[1.4rem] md:text-2xl  xl:text-4xl  md:max-w-full  font-bold text-[#1A1A1A] text-center font-poppins " style={{ lineHeight: "1.4" }}>
             {FEATURES_CONTENT.header}
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8  xl:gap-26 2xl:gap-32">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8  xl:gap-8 ">
             {FEATURES_CONTENT.steps.map((step) => (
               <div key={step.number} className="flex flex-col items-center gap-4 md:gap-6 lg:gap-8">
                 <div className="flex flex-col-reverse items-center justify-center gap-4 md:gap-5 lg:gap-5 xl:gap-6 w-full">
                   <div className="flex-1 flex flex-col items-center justify-center gap-2 md:gap-2.5 ">
 
 
-                    <h3 className="text-[0.95rem] md:max-w-[180px] lg:text-base xl:text-xl lg:max-w-[210px] xl:max-w-[260px] font-semibold text-[#1A1A1A] text-center font-poppins">
+                    <h3 className="text-[0.95rem] md:max-w-[180px] lg:text-base xl:text-xl  font-semibold text-[#1A1A1A] text-center font-poppins">
                       {step.title}
                     </h3>
 
@@ -30,12 +30,12 @@ export default function Features() {
                   </div>
 
                   <div className="flex-1 flex items-center justify-center w-full h-full">
-                    <div className="w-12 h-12 lg:w-13 lg:h-13  xl:w-17 xl:h-17">
+                    <div className="w-auto h-[100px]">
                       <Image
                         src={step.image.src}
                         alt={step.image.alt}
-                        width={60}
-                        height={60}
+                        width={100}
+                        height={100}
                         className="w-full h-full object-contain"
                         priority
                       />

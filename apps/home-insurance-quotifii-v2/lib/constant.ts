@@ -16,7 +16,7 @@ export const HERO_CONTENT = {
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "We partner with top home insurance providers",
+  header: "We Partner With Top Home Insurance Providers",
 
   partners: [
     { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-26 lg:w-33 xl:w-45 overflow-hidden object-contain" },
@@ -84,7 +84,7 @@ export const REVIEW_CONTENT = {
 } as const
 
 export const FEATURES_CONTENT = {
-  header: "Why Choose Quotifii for Home Insurance",
+  header: "Why Choose Quotifii For Home Insurance",
   steps: [
     {
       number: 1,
@@ -92,7 +92,7 @@ export const FEATURES_CONTENT = {
       description: "Protect your home structure, belongings, and more in one plan.",
       image: {
         src: "/feature-1.svg",
-        alt: "Multi-Vehicle Savings",
+        alt: "Complete Home Coverage icon",
       },
     },
     {
@@ -101,7 +101,7 @@ export const FEATURES_CONTENT = {
       description: "Stay covered against fire, theft, weather damage, and more.",
       image: {
         src: "/feature-2.svg",
-        alt: "Safe Driver Discounts",
+        alt: "Protection from Unexpected Damage icon",
       },
     },
     {
@@ -110,7 +110,7 @@ export const FEATURES_CONTENT = {
       description: "Get quick support when you need it most.",
       image: {
         src: "/feature-3.svg",
-        alt: "24/7 Roadside Assistance",
+        alt: "Fast & Hassle-Free Claims icon",
       },
     },
   ],
