@@ -118,6 +118,11 @@ export const FEATURES_CONTENT = {
 
 export const COVER_CONTENT = {
   header: "What Does Home Insurance Typically Cover?",
+
+  image: {
+    src: "/coverage.webp",
+    alt: "Cover All icon",
+  },
   items: [
     {
       title: "Rebuilding costs",

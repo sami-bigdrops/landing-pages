@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { OPTIONS_CONTENT } from "@/lib/constant";
+import { OPTIONS_CONTENT, HERO_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import { useState, useEffect } from "react";
@@ -83,49 +83,42 @@ export default function Options() {
 
   return (
     <div
-      className="options bg-[#EBF4FF] w-full h-full px-6 py-6 md:px-6 md:py-8 lg:px-14 lg:py-10  xl:px-23 xl:py-14"
+      className="options bg-white w-full h-full px-6 py-6 md:px-8 md:py-8 lg:px-14 lg:py-10  xl:px-23 xl:py-14"
 
     >
-      <div className="container mx-auto">
-        <div className="options-content w-full flex flex-col md:flex-row items-center justify-center md:justify-center md:items-center gap-6 lg:gap-15 xl:gap-18 ">
-          <div className=" w-full md:w-[50%] md:h-[190px]  lg:h-[220px] xl:h-[260px]  2xl:h-[290px]  flex items-center justify-center overflow-hidden rounded-[10px] ">
-            <Image
-              src={OPTIONS_CONTENT.image.src}
-              alt={OPTIONS_CONTENT.image.alt}
-              width={500}
-              height={500}
-              className="w-full h-full   object-cover flex items-center justify-center "
-            
-            />
-          </div>
-          <div className="w-full md:w-[50%]   flex flex-col items-center justify-center md:justify-center md:items-center gap-6 md:gap-5 lg:gap-7 xl:gap-9  ">
-            <div className="flex flex-col items-center justify-center md:justify-center md:items-start gap-3 md:gap-3 lg:gap-4 xl:gap-5">
-            <h2 className="text-xl lg:text-2xl xl:text-3xl  md:max-w-full  font-bold text-[#1A1A1A] text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-poppins " style={{ lineHeight: "1.4" }}>
-            {OPTIONS_CONTENT.header}
+      <div className="container mx-auto max-w-[1400px]">
+        <div className="options-content w-full flex flex-col md:flex-row items-center justify-center md:justify-center md:items-center gap-6 lg:gap-15 xl:gap-25 ">
+
+          <div className="w-full md:w-[50%] flex flex-col items-center justify-center md:justify-center md:items-start gap-3 md:gap-3 xl:gap-4">
+            <h2 className="text-[1.4rem] md:text-2xl  xl:text-4xl  md:max-w-full  font-bold text-[#1A1A1A] text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-poppins " style={{ lineHeight: "1.4" }}>
+              {OPTIONS_CONTENT.header}
             </h2>
-              <p className="text-sm  lg:text-base xl:text-lg text-[#4B5563] md:text-left text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-poppins " style={{ lineHeight: 1.5 }}>
-                {OPTIONS_CONTENT.description}
-              </p>
-            </div>
-            <div className="w-full space-y-4 sm:space-y-0 lg:max-w-[490px] xl:max-w-full">
-                  {/* Mobile */}
-                  <form
-                    data-arohaa-zip-form
-                    onSubmit={handleSubmit}
-                    className="block sm:hidden space-y-4"
-                  >
-                    <div className="relative w-full">
-                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                        <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
-                      </div>
-                      <ZipCodeInput
-                        id="options-zipcode-mobile"
-                        name="zip"
-                        data-arohaa-zip
-                        value={zipCode}
-                        onChange={(value) => setZipCode(value)}
-                        placeholder="90001"
-                        inputClassName="
+            <p className="text-sm   xl:text-lg text-[#4B5563] md:text-left text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-poppins " style={{ lineHeight: 1.5 }}>
+              {OPTIONS_CONTENT.description}
+            </p>
+          </div>
+
+          <div className="w-full md:w-[50%]   flex flex-col items-center justify-center md:justify-center md:items-center gap-3 md:gap-4 lg:gap-6 xl:gap-7  ">
+
+            <div className="w-full space-y-4 sm:space-y-0 lg:max-w-[400px] xl:max-w-full">
+              {/* Mobile */}
+              <form
+                data-arohaa-zip-form
+                onSubmit={handleSubmit}
+                className="block sm:hidden space-y-3"
+              >
+                <div className="relative w-full">
+                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
+                    <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
+                  </div>
+                  <ZipCodeInput
+                    id="options-zipcode-mobile"
+                    name="zip"
+                    data-arohaa-zip
+                    value={zipCode}
+                    onChange={(value) => setZipCode(value)}
+                    placeholder="90001"
+                    inputClassName="
                         h-14 pl-10 pr-2 text-[0.9rem] font-normal font-poppins
                         rounded-[10px]
                         border border-[#0035994D]
@@ -135,40 +128,40 @@ export default function Options() {
                         placeholder:text-[#444444]
                         focus-visible:ring-0 focus-visible:ring-offset-0
                       "
-                        containerClassName="w-full"
-                      />
-                    </div>
-                    <Button
-                      type="1"
-                      variant="default"
-                      htmlType="submit"
-                      data-arohaa-zip-submit
-                      disabled={isRedirecting || !zipValid}
-                      className="bg-[#F16601] h-14 w-full cursor-pointer text-white font-medium font-poppins rounded-[10px] text-[0.9rem] px-8 py-4 flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed"
-                    >
-                      {isRedirecting ? "Redirecting..." : <>Request My Quotes </>}
-                    </Button>
-                  </form>
+                    containerClassName="w-full"
+                  />
+                </div>
+                <Button
+                  type="1"
+                  variant="default"
+                  htmlType="submit"
+                  data-arohaa-zip-submit
+                  disabled={isRedirecting || !zipValid}
+                  className="bg-[#F16601] h-14 w-full cursor-pointer text-white font-medium font-poppins rounded-[10px] text-[0.9rem] px-8 py-4 flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed"
+                >
+                  {isRedirecting ? "Redirecting..." : <>Request My Quotes </>}
+                </Button>
+              </form>
 
-                  {/* Desktop */}
+              {/* Desktop */}
 
-                  <form
-                    data-arohaa-zip-form
-                    onSubmit={handleSubmit}
-                    className="hidden sm:flex w-full flex-row items-center justify-center md:justify-start gap-2 xl:gap-3.5"
-                  >
-                    <div className="relative w-full max-w-[290px] lg:max-w-full min-w-0 shrink">
-                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                        <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
-                      </div>
-                      <ZipCodeInput
-                        id="options-zipcode"
-                        name="zip"
-                        data-arohaa-zip
-                        value={zipCode}
-                        onChange={(value) => setZipCode(value)}
-                        placeholder="90001"
-                        inputClassName="
+              <form
+                data-arohaa-zip-form
+                onSubmit={handleSubmit}
+                className="hidden sm:flex w-full flex-row items-center justify-center md:justify-start gap-2 xl:gap-3.5"
+              >
+                <div className="relative w-full max-w-[290px] lg:max-w-full min-w-0 shrink">
+                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
+                    <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
+                  </div>
+                  <ZipCodeInput
+                    id="options-zipcode"
+                    name="zip"
+                    data-arohaa-zip
+                    value={zipCode}
+                    onChange={(value) => setZipCode(value)}
+                    placeholder="90001"
+                    inputClassName="
                         h-14 md:h-14 xl:h-18 pl-10 xl:pl-11 pr-2 text-[0.9rem] lg:text-[1.05rem] xl:text-xl font-normal font-poppins
                         rounded-[10px]
                         border border-[#0035994D]
@@ -178,21 +171,38 @@ export default function Options() {
                         placeholder:text-[#444444]
                         focus-visible:ring-0 focus-visible:ring-offset-0
                       "
-                        containerClassName="w-full"
-                      />
-                    </div>
-                    <Button
-                      type="1"
-                      variant="default"
-                      htmlType="submit"
-                      data-arohaa-zip-submit
-                      disabled={isRedirecting || !zipValid}
-                      className="h-14 md:h-13.5 xl:h-17.5 w-[180px] md:w-[170px] lg:w-[180px] xl:w-[232px] shrink-0 rounded-[10px] cursor-pointer text-white font-medium font-poppins text-sm  xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md bg-[#F16601] hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed bg-[#F16601]"
-                    >
-                      {isRedirecting ? "Redirecting..." : <>Request My Quotes </>}
-                    </Button>
-                  </form>
+                    containerClassName="w-full"
+                  />
                 </div>
+                <Button
+                  type="1"
+                  variant="default"
+                  htmlType="submit"
+                  data-arohaa-zip-submit
+                  disabled={isRedirecting || !zipValid}
+                  className="h-14 md:h-13.5 xl:h-17.5 w-[180px] md:w-[170px] lg:w-[180px] xl:w-[232px] shrink-0 rounded-[10px] cursor-pointer text-white font-medium font-poppins text-sm  xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md bg-[#F16601] hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed bg-[#F16601]"
+                >
+                  {isRedirecting ? "Redirecting..." : <>Request My Quotes </>}
+                </Button>
+              </form>
+            </div>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 lg:gap-4 ">
+              {HERO_CONTENT.features.map((feature, index) => (
+                <div key={index} className="flex items-center justify-center gap-2">
+                  <Image
+                    src={feature.image}
+                    alt={feature.alt}
+                    width={20}
+                    height={20}
+                    className="w-4 h-4 xl:w-5.5 xl:h-5.5"
+                  />
+                  <p className="text-[0.82rem] md:text-[0.77rem] lg:text-[0.85rem]   xl:text-lg font-medium text-[#4B5563] text-center md:text-left  font-poppins">
+                    {feature.text}
+                  </p>
+                  
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

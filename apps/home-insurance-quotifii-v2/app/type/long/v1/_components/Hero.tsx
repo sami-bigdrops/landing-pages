@@ -213,7 +213,7 @@ export default function Hero() {
                     height={20}
                     className="w-4 h-4 xl:w-5.5 xl:h-5.5"
                   />
-                  <p className="text-[0.82rem]   xl:text-lg font-normal text-[#4B5563] md:text-white text-center font-poppins">
+                  <p className="text-[0.82rem]   xl:text-lg font-medium  text-[#4B5563] md:text-white text-center font-poppins">
                     {feature.text}
                   </p>
                   

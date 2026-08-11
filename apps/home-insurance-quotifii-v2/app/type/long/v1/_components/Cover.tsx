@@ -7,7 +7,7 @@ import { COVER_CONTENT } from '@/lib/constant'
 
 export default function Cover() {
   return (
-    <div className="cover bg-white w-full h-full px-6 py-6 md:px-6 md:py-8 lg:px-14 lg:py-10  xl:px-23 xl:py-14">
+    <div className="cover bg-[#EBF4FF] w-full h-full px-6 py-6 md:px-6 md:py-8 lg:px-14 lg:py-10  xl:px-23 xl:py-14">
       <div className="container mx-auto">
         <div className="cover-content w-full flex flex-col items-center justify-center gap-5 md:gap-8 lg:gap-10 xl:gap-16 ">
           <h2 className="text-xl lg:text-2xl xl:text-3xl  md:max-w-full  font-bold text-[#1A1A1A] text-center font-poppins " style={{ lineHeight: "1.4" }}>

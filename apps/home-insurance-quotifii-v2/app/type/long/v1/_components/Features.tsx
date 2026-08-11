@@ -13,14 +13,14 @@ export default function Features() {
             {FEATURES_CONTENT.header}
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8  xl:gap-8 ">
+          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8  xl:gap-8 ">
             {FEATURES_CONTENT.steps.map((step) => (
-              <div key={step.number} className="flex flex-col items-center gap-4 md:gap-6 lg:gap-8">
-                <div className="flex flex-col-reverse items-center justify-center gap-4 md:gap-5 lg:gap-5 xl:gap-6 w-full">
-                  <div className="flex-1 flex flex-col items-center justify-center gap-2 md:gap-2.5 ">
+              <div key={step.number} className="w-full flex flex-col items-center gap-4 md:gap-6 lg:gap-8">
+                <div className="w-full flex flex-col-reverse items-center justify-center gap-4 md:gap-5 lg:gap-5 xl:gap-6 w-full">
+                  <div className="w-full flex-1 flex flex-col items-center justify-center gap-2 md:gap-2.5 ">
 
 
-                    <h3 className="text-[0.95rem] md:max-w-[180px] lg:text-base xl:text-xl  font-semibold text-[#1A1A1A] text-center font-poppins">
+                    <h3 className="text-[0.95rem] md:max-w-[180px] lg:max-w-full lg:text-base xl:text-xl font-semibold text-[#1A1A1A] text-center font-poppins">
                       {step.title}
                     </h3>
 
@@ -29,8 +29,8 @@ export default function Features() {
                     </p>
                   </div>
 
-                  <div className="flex-1 flex items-center justify-center w-full h-full">
-                    <div className="w-auto h-[100px]">
+                  <div className="w-full flex-1 flex items-center justify-center w-full h-full">
+                    <div className="w-auto h-[100px] xl:h-[130px]">
                       <Image
                         src={step.image.src}
                         alt={step.image.alt}
