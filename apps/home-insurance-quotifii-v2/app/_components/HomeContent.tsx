@@ -18,7 +18,7 @@ export default function HomeContent() {
       <Partners />
       {/* <Review /> */}
       <Features />
-      <Cover />
+    
       <Steps />
       <Options /> 
       <Footer />

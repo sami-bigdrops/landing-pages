@@ -128,7 +128,7 @@ export const COVER_CONTENT = {
       title: "Rebuilding costs",
       description: "Covers damage to your home structure",
       image: {
-        src: "/cover-1.webp",
+        src: "/cover-1.svg",
         alt: "Rebuilding costs",
       },
     },
@@ -136,7 +136,7 @@ export const COVER_CONTENT = {
       title: "Personal belongings",
       description: "Protects furniture, electronics, and valuables",
       image: {
-        src: "/cover-2.webp",
+        src: "/cover-2.svg",
         alt: "Personal belongings",
       },
     },
@@ -144,7 +144,7 @@ export const COVER_CONTENT = {
       title: "Liability protection",
       description: "Covers accidents and legal responsibilities",
       image: {
-        src: "/cover-3.webp",
+        src: "/cover-3.svg",
         alt: "Liability protection",
       },
     },
@@ -152,7 +152,7 @@ export const COVER_CONTENT = {
       title: "Living Expenses",
       description: "Pays for temporary stay if needed",
       image: {
-        src: "/cover-4.webp",
+        src: "/cover-4.svg",
         alt: "Living Expenses",
       },
     },

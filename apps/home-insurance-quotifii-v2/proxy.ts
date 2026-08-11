@@ -39,6 +39,10 @@ function applyUtmCookies(response: NextResponse, utmMap: Map<string, string>) {
 }
 
 export async function proxy(request: NextRequest) {
+  if (process.env.NODE_ENV === "development") {
+    return NextResponse.next()
+  }
+
   const deniedPath = utmBlockConfig.deniedPath ?? "/access-denied"
   const { pathname } = request.nextUrl
 

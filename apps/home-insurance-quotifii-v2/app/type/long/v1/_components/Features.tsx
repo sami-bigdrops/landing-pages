@@ -34,10 +34,9 @@ export default function Features() {
                       <Image
                         src={step.image.src}
                         alt={step.image.alt}
-                        width={100}
-                        height={100}
+                        width={400}
+                        height={400}
                         className="w-full h-full object-contain"
-                        priority
                       />
                     </div>
                   </div>
