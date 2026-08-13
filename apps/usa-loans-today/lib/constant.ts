@@ -43,135 +43,109 @@ export const HERO_CONTENT = {
   ],
 } as const
 
-export const PARTNERS_CONTENT = {
-  header: "We Work With Trusted Providers",
 
-  partners: [
-    { alt: "Trusted insurance partner logo", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Trusted insurance partner logo", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Trusted insurance partner logo", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Trusted insurance partner logo", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-14 xl:w-19 overflow-hidden object-contain" },
-    { alt: "Trusted insurance partner logo", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Trusted insurance partner logo", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
-  ],
-} as const
 
-export const STEPS_CONTENT = {
-  header: "A Simpler Way to Find Insurance",
+export const WORKS_CONTENT = {
+  header: "How It Works",
   description:
-    "Tell us what you need, explore your options and select the right coverage.",
+    "Finding loan options doesn’t need to take hours.",
   steps: [
     {
       number: 1,
-      numberText: "01",
-      title: "Tell Us About Yourself",
-      description: "Answer a few basic questions about your insurance needs.",
-      
+      numberText: "1",
+      title: "Tell Us What You Need",
+      description: "Share a few basic details about the loan you’re looking for.",
     },
     {
       number: 2,
-      numberText: "02",
-      title: "Explore Your Quotes",
-      description: "Review rates and coverage options from trusted providers.",
-      
+      numberText: "2",
+      title: "See Available Options",
+      description: "We’ll check for lenders and loan options that may match your needs.",
     },
     {
       number: 3,
-      numberText: "03",
-      title: "Save More",
-      description: "Choose a policy that suits your needs, lifestyle and budget.",
-      
+      numberText: "3",
+      title: "Compare Before You Decide",
+      description: "Look at the rates, terms and costs before choosing what works for you.",
     },
   ],
 
   image: {
-    src: "/step.webp",
-    alt: "Simple three-step process to compare insurance quotes",
+    src: "/work.webp",
+    alt: "How it works illustration - person reviewing loan options on phone",
   },
 } as const
 
-export const COVERAGE_CONTENT = {
-  header: "Find The Coverage That's Right For You",
+export const COMPARE_CONTENT = {
+  header: "Know What You’re Comparing",
   description:
-    "Whether you need to protect your vehicle or your home, Quotifii makes it easy to explore trusted insurance options.",
-
-  arrowIconButton: {
-    src: "/auto-arrow.svg",
-    alt: "Arrow Icon",
-  },
-
-  sections: [
+    "Before choosing a loan, take a look at the details that can affect how much you pay.",
+  compareList: [
     {
-      type: "auto",
-      title: "Auto Insurance",
-      description:
-        "Explore coverage designed to protect you, your vehicle and others on the road.",
-      features: [
-        {
-          label: "Multi-Vehicle Savings",
-          icon: "/auto-1.svg",
-          iconAlt: "Multi-Vehicle Icon",
-        },
-        {
-          label: "Collision & Comprehensive",
-          icon: "/auto-2.svg",
-          iconAlt: "Collision and Comprehensive Icon",
-        },
-        {
-          label: "Multiple Provider Comparison",
-          icon: "/auto-3.svg",
-          iconAlt: "Provider Comparison Icon",
-        },
-      ],
- 
-      button: {
-        label: "Get Auto Quotes",
-        primary: true,
-        href: "https://autocoverage.quotifii.com/",
-        badge: {
-          tag: "Popular Choice",
-          tagIcon: "/fire.svg",
-          tagIconAlt: "Fire Icon",
-        },
-      },
-      image: {
-        src: "/auto-in.webp",
-        alt: "Compare auto insurance quotes online with Quotifii",
-      },
+      title: "Annual Percentage Rate (APR)",
+      icon: "/compare-right.svg",
+      alt: "List of loan details",
     },
     {
-      type: "home",
-      title: "Home Insurance",
-      description:
-        "Find coverage designed to protect your property, belongings and personal liability.",
-      features: [
-        {
-          label: "Property Protection",
-          icon: "/home-1.svg",
-          iconAlt: "Property Protection Icon",
-        },
-        {
-          label: "Personal Belongings",
-          icon: "/home-2.svg",
-          iconAlt: "Personal Belongings Icon",
-        },
-        {
-          label: "Liability Coverage",
-          icon: "/home-3.svg",
-          iconAlt: "Liability Coverage Icon",
-        },
-      ],
-      button: {
-        label: "Get Home Quotes",
-        primary: true,
-        href: "https://homequotes.quotifii.com/",
-      },
-      image: {
-        src: "/home-in.webp",
-        alt: "Compare home insurance quotes online with Quotifii",
-      },
+      title: "Loan Amount",
+      icon: "/compare-right.svg",
+      alt: "List of loan details",
+    },
+    {
+      title: "Monthly Payments",
+      icon: "/compare-right.svg",
+      alt: "List of loan details",
+    },
+    {
+      title: "Repayment Terms",
+      icon: "/compare-right.svg",
+      alt: "List of loan details",
+    },
+    {
+      title: "Fees & Charges",
+      icon: "/compare-right.svg",
+      alt: "List of loan details",
+    },
+    {
+      title: "Total Cost of Borrowing",
+      icon: "/compare-right.svg",
+      alt: "List of loan details",
     },
   ],
+  
+  image: {
+    src: "/compare.webp",
+    alt: "Couple comparing loan options on laptop",
+  },
+  button: {
+    label: "CHECK LOAN OPTIONS",
+    variant: "primary", // Custom, for styling as red
+  },
+} as const
+
+export const OPTIONS_CONTENT = {
+  headline: "Ready To Explore Medicare Options In Your Area?",
+  subtext: "We will help you compare available Medicare options with a calmer, clearer review - so you can make a decision that fits your health, your money and your peace of mind.",
+  
+  badges: [
+    {
+      icon: "/option-1.svg",
+      text: "Licensed Guidance",
+    },
+    {
+      icon: "/option-2.svg",
+      text: "No-pressure review",
+    },
+    {
+      icon: "/option-3.svg",
+      text: "Plans Available By ZIP Code",
+    },
+  ],
+
+  image: {
+    src: "/option.webp", // Update with actual image asset path if different
+    alt: "Family sitting on couch looking at tablet together"
+  }
 } as const
 
 export const REVIEW_CONTENT = {
