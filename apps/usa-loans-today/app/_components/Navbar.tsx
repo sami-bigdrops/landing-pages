@@ -16,7 +16,7 @@ export default function Navbar() {
                 alt="Quotifii home - compare auto and home insurance quotes"
                 width={128}
                 height={40}
-                className="w-36 lg:w-40 xl:w-48 h-auto object-contain"
+                className="w-32 lg:w-36 xl:w-42 h-auto object-contain"
                 priority
                 />
             </Link>

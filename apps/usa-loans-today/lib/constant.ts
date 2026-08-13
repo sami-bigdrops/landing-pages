@@ -4,7 +4,8 @@ import { ArrowUpIcon } from "lucide-react"
 
 export const HERO_CONTENT = {
   brand: "USA Loans Today",
-  headlineLead: "Find a Loan That Fits Your Needs",
+  headlineLead1: "Find A Loan That",
+  headlineLead2: "Fits Your Needs",
   subheadline:
     "Compare loan options from multiple lenders in one place. See what may be available based on your needs, budget and financial situation.",
   image: {
@@ -14,28 +15,28 @@ export const HERO_CONTENT = {
   trustpilot: {
     text: "Rated 4.9/5 on",
     logo: {
-      src: "/trustpilot-logo.svg", 
+      src: "/hero-trust.svg", 
       alt: "Trustpilot",
     },
   },
   valueProps: [
     {
-      icon: "/icons/lock.svg",
+      icon: "/feature-1.svg",
       title: "Safe & Secure",
       description: "Your information is handled securely throughout the process.",
     },
     {
-      icon: "/icons/building.svg",
+      icon: "/feature-2.svg",
       title: "Multiple Lenders",
       description: "Compare options from lenders within our network.",
     },
     {
-      icon: "/icons/process.svg",
+      icon: "/feature-3.svg",
       title: "Simple Process",
       description: "Answer a few questions online to get started.",
     },
     {
-      icon: "/icons/list.svg",
+      icon: "/feature-4.svg",
       title: "Clear Loan Details",
       description: "Review rates, terms and repayment information before making a decision.",
     },

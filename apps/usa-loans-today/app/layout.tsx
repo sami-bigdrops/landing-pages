@@ -121,7 +121,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${fontInter.variable} ${fontSans.variable} antialiased overflow-x-hidden overflow-y-auto`}
+        className={`${fontInter.variable} ${fontInter.className} ${fontSans.variable} antialiased overflow-x-hidden overflow-y-auto`}
       >
         <Providers>{children}</Providers>
         <Analytics />

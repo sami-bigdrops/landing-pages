@@ -13,87 +13,92 @@ export default function Hero() {
     useUtmParams(30)
 
     return (
-        <div className="relative flex items-center  bg-blue-500 justify-center min-h-0 flex-1 w-full overflow-hidden xl:min-h-[660px] 2xl:min-h-[660px]">
-            {/* <div
-                className="absolute inset-0 w-full h-full bg-[url('/hero-bg.webp')] bg-cover bg-no-repeat bg-[position:left_42%] md:bg-[position:52%_32%] lg:bg-[position:38%_28%] xl:bg-[position:48%_24%] 2xl:bg-[position:top_68%_right_38%]"
-                role="img"
+        <div className="relative flex items-center  bg-[#1B4D82]  justify-center min-h-0 flex-1 w-full overflow-hidden xl:min-h-[640px] px-6 py-8 md:px-8 md:py-12 lg:px-14 lg:py-13 xl:px-23 xl:py-15"
+         style={{
+            backgroundImage: "url('/hero-bg.webp')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+         }}
+        >
+            <div className="mx-auto w-full max-w-[1380px]">
+                <div className="hero-content flex w-full min-h-0 flex-col items-center justify-center gap-8 md:items-start md:justify-center md:gap-14 lg:gap-16 xl:gap-18">
+                    <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-center md:justify-between">
+                        <div className="left md:w-[50%] lg:w-[52%] xl:w-[58%] flex min-w-0 flex-1 flex-col items-center justify-center gap-3 sm:gap-3.5 md:gap-4 md:items-start xl:gap-5">
+                            <h1 className="w-full text-center md:text-left font-bold text-white text-3xl lg:text-4xl xl:text-5xl md:max-w-[250px] lg:max-w-[390px] xl:max-w-[480px] font-sans"
+                                style={{ lineHeight: "1.3" }}
 
-            /> */}
+                            >
+                                {HERO_CONTENT.headlineLead1} {" "}
+                                <span className="text-[#FFD759]">{HERO_CONTENT.headlineLead2}</span>
+                            </h1>
+                            <p className="w-full text-center md:text-left font-normal text-white text-[0.85rem] xl:text-xl md:max-w-[370px] lg:max-w-[400px] xl:max-w-[540px] font-sans"
+                                style={{ lineHeight: "1.6" }}
 
-            <div className="relative z-10 flex h-full min-h-0 w-full flex-col items-center justify-center p-4 py-6 md:px-8 md:py-12 lg:px-14 lg:py-18 xl:px-23 xl:py-25">
-                <div className="mx-auto w-full max-w-[1380px]">
-                    <div className="hero-content flex w-full min-h-0 flex-col items-center justify-center gap-4 md:items-start md:justify-center md:gap-5 lg:gap-6 xl:gap-7">
-                        <div className="flex w-full flex-col items-center justify-center gap-4 md:flex-row md:items-start md:justify-between">
-                            <div className="left flex min-w-0 flex-1 flex-col items-center justify-end gap-3 sm:gap-3.5 md:gap-4 lg:items-start lg:gap-6">
-                                <h1 className="w-full text-center md:text-left font-bold text-[#1A1A1A] text-[1.5rem] md:text-[1.6rem] lg:text-[1.7rem] xl:text-4xl md:max-w-[400px] lg:max-w-[500px] xl:max-w-[600px]"
-                                    style={{ lineHeight: "1.3" }}
+                            >
+                                {HERO_CONTENT.subheadline}
+                            </p>
 
-                                >
-                                    {HERO_CONTENT.headlineLead}
-                                </h1>
-                                <p className="w-full text-center md:text-left font-normal text-[#4B5563] text-sm xl:text-xl md:max-w-[370px] lg:max-w-[400px] xl:max-w-[540px]"
-                                    style={{ lineHeight: "1.6" }}
+                            <div className="mt-2 md:mt-4 xl:mt-5 flex w-full items-center justify-center md:justify-start gap-2">
 
-                                >
-                                    {HERO_CONTENT.subheadline}
+                                <p className="text-[0.85rem] xl:text-[1.15rem] text-center  font-normal text-white  font-sans">
+                                    {HERO_CONTENT.trustpilot.text}
                                 </p>
-
-                                <div className="flex w-full items-center justify-center md:justify-start">
-                                    <div className="inline-flex items-center gap-1.5 rounded-[6px] bg-[#002868] px-3 py-1.5 xl:gap-2 xl:px-3.5 xl:py-2">
-                                        <span className="whitespace-nowrap text-[0.8rem] font-medium text-white xl:text-[0.95rem]">
-                                            {HERO_CONTENT.trustpilot.text}
-                                        </span>
-                                        <Image
-                                            src={HERO_CONTENT.trustpilot.logo.src}
-                                            alt={HERO_CONTENT.trustpilot.logo.alt}
-                                            width={120}
-                                            height={24}
-                                            className="h-4 w-auto xl:h-5"
-                                        />
-                                    </div>
+                                <div className="w-auto h-6.5 xl:h-10 flex items-center justify-center">
+                                    <Image
+                                        src={HERO_CONTENT.trustpilot.logo.src}
+                                        alt={HERO_CONTENT.trustpilot.logo.alt}
+                                        width={104}
+                                        height={104}
+                                        className="w-full h-full object-contain"
+                                    />
                                 </div>
-                            </div>
-                            <div className="right mx-auto ">
-                                <Form />
+
+
                             </div>
                         </div>
-                        <div>
-                            <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-9  xl:gap-24 2xl:gap-10">
-                                {HERO_CONTENT.valueProps.map((valueProp, idx) => (
-                                    <div key={idx} className="flex flex-col items-center gap-4 md:gap-6 lg:gap-8">
-                                        <div className="flex flex-col-reverse items-center justify-center gap-4 md:gap-5 lg:gap-5 w-full">
-                                            <div className="flex-1 flex flex-col items-center justify-center gap-2 md:gap-2.5 ">
+                        <div className="right mx-auto md:w-[50%] lg:w-[48%] xl:w-[42%]">
+                            <Form />
+                        </div>
+                    </div>
+                    <div>
+                        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-9  xl:gap-24 2xl:gap-10">
+                            {HERO_CONTENT.valueProps.map((valueProp, idx) => (
+                                <div key={idx} className="flex flex-col items-center md:justify-start md:items-start gap-4 md:gap-6 lg:gap-8">
+                                    <div className="flex flex-col-reverse items-center justify-center md:justify-start md:items-start gap-4  lg:gap-5 w-full">
+                                        <div className="flex-1 flex flex-col items-center md:justify-start md:items-start gap-2.5 md:gap-3 lg:gap-4 ">
 
 
-                                                <h3 className="text-base xl:text-xl font-semibold text-[#1A1A1A] font-sans">
-                                                    {valueProp.title}
-                                                </h3>
+                                            <h3 className="text-base xl:text-xl font-semibold text-white font-sans">
+                                                {valueProp.title}
+                                            </h3>
 
-                                                <p className="text-[0.85rem]  xl:text-base   mx-auto text-[#4B5563] text-center 2xl:max-w-[240px] font-sans" style={{ lineHeight: 1.6 }}>
-                                                    {valueProp.description}
-                                                </p>
-                                            </div>
+                                            <p className="text-[0.85rem]  xl:text-base   mx-auto text-white text-center md:text-left font-normal font-sans" style={{ lineHeight: 1.6 }}>
+                                                {valueProp.description}
+                                            </p>
+                                        </div>
 
-                                            <div className="flex-1 flex items-center justify-center w-full h-full">
-                                                <div className="w-12 h-12 xl:w-14 xl:h-14">
-                                                    <Image
-                                                        src={valueProp.icon}
-                                                        alt={valueProp.title}
-                                                        width={60}
-                                                        height={60}
-                                                        className="w-full h-full object-contain"
-                                                        priority
-                                                    />
-                                                </div>
+                                        <div className="flex-1 flex items-center justify-center md:justify-start md:items-start w-full h-full ">
+                                            <div className="w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-[#4285F4] flex items-center justify-center">
+                                                <Image
+                                                    src={valueProp.icon}
+                                                    alt={valueProp.title}
+                                                    width={32}
+                                                    height={32}
+                                                    className="w-5.5 h-5.5 xl:w-6 xl:h-6 object-contain"
+                                                    priority
+                                                />
                                             </div>
                                         </div>
+                                  
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
     )

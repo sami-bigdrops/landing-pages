@@ -6,6 +6,8 @@ import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { Button } from "@workspace/ui/components/button"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
+import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group";
+
 
 
 
@@ -186,7 +188,7 @@ function AddressAutocomplete({
     setPredictions([])
 
     const selectedMainText = pred.structured_formatting.main_text.trim()
-    const fallbackCityState = parseCityStateFromPrediction(pred)
+    // const fallbackCityState = parseCityStateFromPrediction(pred)
 
     onChange(selectedMainText)
 
@@ -198,8 +200,8 @@ function AddressAutocomplete({
     if (!placesRef.current) {
       applySelection({
         streetAddress: selectedMainText,
-        city: fallbackCityState.city,
-        state: fallbackCityState.state,
+        city: "",
+        state: "",
         zipCode: "",
       })
       return
@@ -211,24 +213,24 @@ function AddressAutocomplete({
         if (!place?.address_components) {
           applySelection({
             streetAddress: selectedMainText,
-            city: fallbackCityState.city,
-            state: fallbackCityState.state,
+            city: "",
+            state: "",
             zipCode: "",
           })
           return
         }
 
-        const { streetNumber, route, parsedCity, parsedState, parsedZip } = parseAddressComponents(
-          place.address_components
-        )
-        const streetAddress =
-          (streetNumber ? `${streetNumber} ${route}`.trim() : route.trim()) || selectedMainText
+        // const { streetNumber, route, parsedCity, parsedState, parsedZip } = parseAddressComponents(
+        //   place.address_components
+        // )
+        // const streetAddress =
+        //   (streetNumber ? `${streetNumber} ${route}`.trim() : route.trim()) || selectedMainText
 
         applySelection({
-          streetAddress,
-          city: parsedCity || fallbackCityState.city,
-          state: parsedState || fallbackCityState.state,
-          zipCode: normalizeZip(parsedZip),
+          streetAddress: selectedMainText,
+          city: "",
+          state: "",
+          zipCode: "",
         })
       }
     )
@@ -284,6 +286,16 @@ function AddressAutocomplete({
 }
 
 // --- Form Options ---
+
+const BORROW_AMOUNT_OPTIONS = [
+  { value: "100-1000", label: "$100 - $1000" },
+  { value: "1000-2000", label: "$1000 - $2000" },
+  { value: "2000-3000", label: "$2000 - $3000" },
+  { value: "3000-4000", label: "$3000 - $4000" },
+  { value: "4000-5000", label: "$4000 - $5000" },
+  { value: "5000+", label: "$5000+" },
+] as const
+
 const HOW_SOON_TO_SELL_OPTIONS = [
   { id: "asap", label: "ASAP" },
   { id: "within_30_days", label: "Within 30 Days" },
@@ -320,11 +332,11 @@ const SELL_HOUSE_OPTIONS = [
 ] as const
 
 const OFFER_CARD_SHELL =
-  "flex w-full flex-col items-center gap-6 lg:gap-7 xl:gap-9 rounded-[10px] border border-[#E2E8F0] bg-[#ECF1FB] shadow-[0_0_6px_0_rgba(16,46,80,0.15)] px-5 py-6 md:py-8 md:px-12 lg:px-16 xl:px-20 xl:py-10"
+  "flex w-full flex-col items-center gap-6 lg:gap-7 xl:gap-8 rounded-[15px] border border-[#E2E8F0] bg-[#F8FAFC] shadow-[0_0_10px_0_rgba(31,58,95,0.15)] px-5 py-6 md:px-6 xl:py-8"
 const INPUT_CARD_SHELL =
   "flex w-full flex-col items-center gap-4 md:gap-5  xl:gap-6 rounded-[10px] border border-[#E2E8F0] bg-[#ECF1FB] shadow-[0_0_6px_0_rgba(16,46,80,0.15)] px-5 py-6 md:py-8 md:px-9 lg:px-9 xl:px-11 xl:py-10"
 const OFFER_CARD_TITLE =
-  "text-center font-sans text-base  xl:text-[1.4rem] font-semibold text-[#182542]"
+  "text-center font-inter text-sm  xl:text-[1.2rem] font-normal text-[#182542]"
 const OFFER_CARD_DESCRIPTION =
   "text-center font-sans text-[0.8rem]  text-[#4B5563] xl:text-[0.95rem]"
 const OFFER_CHOICE_BTN =
@@ -335,8 +347,9 @@ const OFFER_CHOICE_LABEL_WRAP =
 
 const INPUT_CONTAINER = "w-full"
 const INPUT_FIELD =
-  "h-14 w-full min-w-0 rounded-[6px] border border-[#CCCCCF] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#102E50] focus-visible:ring-[3px] focus-visible:ring-[#102E50]/25 xl:h-15 xl:text-base"
+  "h-14 w-full min-w-0 rounded-[6px] border border-[#CCCCCF] bg-white px-4 text-[0.85rem] text-[#2C3E50] placeholder:text-[0.85rem] shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#102E50] focus-visible:ring-[3px] focus-visible:ring-[#102E50]/25 xl:h-15 xl:text-base [font-family:var(--font-inter),sans-serif] [&::placeholder]:[font-family:var(--font-inter),sans-serif] [&::placeholder]:!text-[#2C3E50]"
 
+type BorrowAmountTypeId = (typeof BORROW_AMOUNT_OPTIONS)[number]["value"] | ""
 type HowSoonToSellTypeId = (typeof HOW_SOON_TO_SELL_OPTIONS)[number]["id"] | ""
 type RepairsAndMaintenanceTypeId = (typeof REPAIRS_AND_MAINTENANCE_OPTIONS)[number]["id"] | ""
 type SellHouseForCashTypeId = (typeof SELL_HOUSE_FOR_CASH_OPTIONS)[number]["id"]
@@ -347,6 +360,7 @@ type SellHouseTypeId = (typeof SELL_HOUSE_OPTIONS)[number]["id"] | ""
 const TOTAL_STEPS = 7
 
 const defaultFormData = {
+  borrowAmount: BORROW_AMOUNT_OPTIONS[0].value as BorrowAmountTypeId,
   howSoonToSell: "" as HowSoonToSellTypeId,
   zipCode: "",
   sellHouseForCash: "yes" as SellHouseForCashTypeId,
@@ -361,6 +375,23 @@ const defaultFormData = {
   state: "",
 }
 
+function getCreditScoreNotice() {
+  return (
+    <p className="flex items-center justify-center gap-2 font-inter text-left font-medium text-[0.8rem] text-[#486581] xl:text-[0.9rem]" style={{ lineHeight: 1.4 }}>
+      <img
+        src="/Lock.svg"
+        alt=""
+        width={18}
+        height={18}
+        className="h-4 w-4 shrink-0"
+      />
+      <span>
+        Checking your options <span className="font-bold text-[#2C3E50]">won&apos;t affect</span> your credit score.
+      </span>
+    </p>
+  )
+}
+
 type FormNavigationProps = {
   showNext?: boolean
   isNextDisabled?: boolean
@@ -371,7 +402,7 @@ type FormNavigationProps = {
 function FormNavigation({
   showNext = true,
   isNextDisabled = false,
-  nextLabel = "Next",
+  nextLabel = "CONTINUE",
   onNext,
 }: FormNavigationProps) {
   return (
@@ -381,13 +412,24 @@ function FormNavigation({
           type="button"
           onClick={onNext}
           disabled={isNextDisabled}
-          className="w-full md:w-45 xl:w-47 rounded-[10px] bg-[#102E50] cursor-pointer py-3 xl:py-4 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
+          className="relative flex w-full items-center justify-center rounded-[10px] bg-[#C62828] h-13 xl:h-14 font-inter text-sm font-medium uppercase text-white shadow-[0_0_4px_0_rgba(0,0,0,0.25)] cursor-pointer transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:py-4 xl:text-[1.05rem]"
         >
           {nextLabel}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden
+            className="absolute right-4 top-1/2 h-4.5 w-4.5 -translate-y-1/2 xl:right-5 xl:h-5 xl:w-5"
+          >
+            <path d="M22.707 12.707C22.8945 12.5195 22.9998 12.2652 22.9998 12C22.9998 11.7349 22.8945 11.4806 22.707 11.293L16.707 5.29304C16.5184 5.11088 16.2658 5.01009 16.0036 5.01237C15.7414 5.01465 15.4906 5.11981 15.3052 5.30522C15.1198 5.49063 15.0146 5.74144 15.0123 6.00364C15.01 6.26584 15.1108 6.51844 15.293 6.70704L19.586 11H2C1.73478 11 1.48043 11.1054 1.29289 11.2929C1.10536 11.4805 1 11.7348 1 12C1 12.2653 1.10536 12.5196 1.29289 12.7071C1.48043 12.8947 1.73478 13 2 13H19.586L15.293 17.293C15.1108 17.4816 15.01 17.7342 15.0123 17.9964C15.0146 18.2586 15.1198 18.5095 15.3052 18.6949C15.4906 18.8803 15.7414 18.9854 16.0036 18.9877C16.2658 18.99 16.5184 18.8892 16.707 18.707L22.707 12.707Z" fill="white"/>
+          </svg>
         </button>
 
       ) : null}
-      
+
     </nav>
   )
 }
@@ -414,6 +456,9 @@ function FormPage() {
   }
 
   const isStepValid = () => {
+    if (currentStep === 1) {
+      return formData.borrowAmount !== ""
+    }
     if (currentStep === 5) {
       return (
         formData.street_address.trim() !== "" &&
@@ -497,6 +542,7 @@ function FormPage() {
     const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
     const payload = {
+      borrowAmount: formData.borrowAmount,
       howSoonToSell: formData.howSoonToSell,
       zipCode: zip,
       sellHouseForCash: formData.sellHouseForCash,
@@ -561,7 +607,7 @@ function FormPage() {
   }
 
   return (
-    <section className="flex w-full min-h-[220px] flex-col items-center gap-8 md:min-h-[190px] md:gap-10 xl:min-h-[250px] xl:gap-12">
+    <section className="flex w-full  flex-col items-center gap-8 md:min-h-[190px] md:gap-10 xl:min-h-[250px] xl:gap-12">
 
 
       <form
@@ -574,38 +620,39 @@ function FormPage() {
         <TrustedForm />
 
         {currentStep === 1 ? (
-          <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section className={OFFER_CARD_SHELL}>
-              {/* <p className={OFFER_CARD_TITLE}>{OFFER_CONTENT.subtitle}</p> */}
-              <div className="flex w-full flex-col items-center justify-center gap-3 md:flex-row md:gap-3.5 xl:gap-4">
-                {SELL_HOUSE_FOR_CASH_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.sellHouseForCash === id
-                  const isYes = id === "yes"
+          <div className="flex w-full items-center justify-center ">
+            <section className={`${OFFER_CARD_SHELL} bg-white`}>
+              <div className="flex flex-col items-center justify-center gap-1.5 xl:gap-2">
 
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, sellHouseForCash: id }))
-                        setCurrentStep(2)
-                      }}
-                      aria-pressed={selected}
-                      className={`${OFFER_CHOICE_BTN} ${isYes ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
-                      style={
-                        isYes
-                          ? {
-                            background:
-                              "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
-                          }
-                          : undefined
-                      }
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
+                <h2 className="text-lg md:text-xl  xl:text-[1.7rem] uppercase font-extrabold text-center tracking-normal font-sans text-[#0F2D52]">Start Your Loan Search</h2>
+                <p className={OFFER_CARD_TITLE}>How much would you like to borrow?</p>
+              </div>
+              <div className="flex w-full flex-col items-center gap-5 md:gap-5">
+                <RadioButtonGroup
+                  name="borrowAmount"
+                  options={[...BORROW_AMOUNT_OPTIONS]}
+                  value={formData.borrowAmount}
+                  onChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      borrowAmount: value as BorrowAmountTypeId,
+                    }))
+                  }
+                  type="1"
+                  layout="column"
+                  containerClassName="w-full "
+                  className="w-full md:grid lg:grid-cols-2 gap-3.5 md:mb-1 lg:mb-2"
+                  optionClassName="w-full rounded-[10px] border border-[#D1D5DB] bg-white"
+                  selectedOptionBackgroundColor="#F4F8FF"
+                  selectedOptionBorderColor="#2563EB"
+                  selectedIndicatorColor="#C62828"
+                />
+                <FormNavigation
+                  showNext
+                  isNextDisabled={!isStepValid()}
+                  onNext={handleNext}
+                />
+                {getCreditScoreNotice()}
               </div>
             </section>
           </div>
@@ -895,7 +942,7 @@ function FormPage() {
                   </a>{" "}
                   and you can revoke your consent at any time by emailing us.
                 </p>
-           
+
 
                 {submitStatus === "error" && submitError ? (
                   <p className="text-sm text-red-600" role="alert">
@@ -911,7 +958,7 @@ function FormPage() {
                   {submitStatus === "loading" ? "Submitting..." : "SEE MY INSTANT CASH OFFER"}
                 </button>
               </div>
-         
+
             </section>
           </div>
 
@@ -920,8 +967,8 @@ function FormPage() {
 
       </form>
 
-     
-      
+
+
     </section>
   )
 }

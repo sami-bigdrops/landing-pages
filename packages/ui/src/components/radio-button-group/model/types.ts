@@ -29,4 +29,5 @@ export interface RadioButtonGroupProps
   labelClassName?: string
   selectedOptionBackgroundColor?: string
   selectedOptionBorderColor?: string
+  selectedIndicatorColor?: string
 }

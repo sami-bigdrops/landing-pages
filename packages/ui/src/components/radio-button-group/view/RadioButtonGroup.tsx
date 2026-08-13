@@ -31,6 +31,7 @@ function RadioButtonGroup({
   disabled,
   selectedOptionBackgroundColor,
   selectedOptionBorderColor,
+  selectedIndicatorColor,
   ...props
 }: RadioButtonGroupProps) {
   const id = React.useId()
@@ -115,16 +116,32 @@ function RadioButtonGroup({
                   className={cn(
                     radioIndicatorDotVariants({ type }),
                     "peer-focus-visible:border-ring peer-focus-visible:ring-ring/50 peer-focus-visible:ring-[3px]",
-                    type === "1" && isChecked && "border-primary bg-primary",
+                    type === "1" && isChecked && !selectedIndicatorColor && "border-primary bg-primary",
+                    type === "1" && isChecked && selectedIndicatorColor && "bg-white",
                     type === "1" && !isChecked && "bg-background"
                   )}
+                  style={
+                    type === "1" && isChecked && selectedIndicatorColor
+                      ? { borderColor: selectedIndicatorColor }
+                      : undefined
+                  }
                 />
                 {type === "1" && isChecked && (
                   <span
                     className="absolute inset-0 flex items-center justify-center"
                     aria-hidden
                   >
-                    <span className="size-1.5 rounded-full bg-primary-foreground" />
+                    <span
+                      className={cn(
+                        "size-1.5 rounded-full",
+                        !selectedIndicatorColor && "bg-primary-foreground"
+                      )}
+                      style={
+                        selectedIndicatorColor
+                          ? { backgroundColor: selectedIndicatorColor }
+                          : undefined
+                      }
+                    />
                   </span>
                 )}
               </span>
