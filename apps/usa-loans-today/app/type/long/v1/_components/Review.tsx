@@ -6,69 +6,84 @@ import { REVIEW_CONTENT } from '@/lib/constant'
 
 export default function Review() {
   return (
-    <div className="review bg-white w-full h-full px-6 py-8 md:px-8 md:py-8 lg:px-14 lg:py-10 xl:px-23 xl:py-15">
-      <div className="container mx-auto max-w-[1380px] ">
+    <div className="review bg-[#F8FAFC] w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-23 xl:py-15">
+      <div className="container mx-auto max-w-[1300px] ">
         <div className="review-content w-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:gap-12 xl:gap-15 xl:pb-5 ">
-          <h2 className="text-[1.5rem] md:text-2xl lg:text-2xl xl:text-4xl lg:max-w-full font-bold text-[#1A1A1A] text-center font-sans "style={{
-            lineHeight: "1.3",
-          }}>
-            {REVIEW_CONTENT.header}
-          </h2>
+          <div className="w-full flex flex-col items-center justify-center gap-4 md:gap-5 xl:gap-6">
+            <h2 className="text-2xl lg:text-3xl xl:text-4xl  font-bold text-[#1A1A1A] text-center font-sans md:max-w-[400px] lg:max-w-[500px] xl:max-w-[600px] mx-auto" style={{
+              lineHeight: "1.3",
+            }}>
+              {REVIEW_CONTENT.header}
+            </h2>
+
+            <div className=" flex w-full items-center justify-center  gap-2">
+
+              <p className="text-[0.85rem] xl:text-[1.15rem] text-center  font-medium text-[#2C3E50]  font-sans">
+                {REVIEW_CONTENT.trustpilot.text}
+              </p>
+              <div className="w-auto h-6.5 xl:h-9 flex items-center justify-center">
+                <Image
+                  src={REVIEW_CONTENT.trustpilot.logo.src}
+                  alt={REVIEW_CONTENT.trustpilot.logo.alt}
+                  width={104}
+                  height={104}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+
+            </div>
+
+          </div>
 
           <div className="w-full">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-4 lg:gap-6 xl:gap-8 ">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4  lg:gap-6 xl:gap-8 ">
               {REVIEW_CONTENT.reviews.map((review) => (
                 <div
                   key={review.id}
-                  className="w-full md:w-auto min-w-0 bg-white border border-[#D8DADF] shadow-[2px_2px_15px_0_rgba(0,0,0,0.04)] rounded-[15px] flex flex-col items-start justify-start gap-5  p-5 py-6 xl:p-6  xl:gap-5 md:min-h-[260px] lg:min-h-[235px] xl:min-h-[268px]"
+                  className="w-full md:w-auto min-w-0 bg-white border border-[#CEDBEC] shadow-[0_4px_15px_0_rgba(44,62,80,0.02)] rounded-[10px] flex flex-col items-start justify-start gap-5 p-4.5 py-5.5 xl:p-6 xl:gap-5 md:min-h-[220px] lg:min-h-[195px] xl:min-h-[225px]"
                 >
            
-           
+
+
                   <div className="w-full flex items-center justify-between gap-3">
-                    <div className="flex items-center justify-start gap-0.5">
-                      {[...Array(5)].map((_, index) => (
-                        <svg
-                          key={index}
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="26"
-                          height="26"
-                          viewBox="0 0 26 26"
-                          fill="none"
-                          className="w-4.5 h-4.5 xl:w-6 xl:h-6"
-                        >
-                          <path
-                            d="M9.35575 8.79725L12.2709 2.89042C12.569 2.28653 13.4301 2.28653 13.7281 2.89042L16.6433 8.79725L23.1619 9.74445C23.8283 9.84129 24.0944 10.6603 23.6122 11.1303L18.8953 15.7282L20.0088 22.2204C20.1227 22.8841 19.426 23.3903 18.8299 23.0769L12.9995 20.0117L7.16916 23.0769C6.57308 23.3903 5.87642 22.8841 5.99026 22.2204L7.10377 15.7282L2.38688 11.1303C1.90465 10.6603 2.17075 9.84129 2.83718 9.74445L9.35575 8.79725Z"
-                            fill="#FFB300"
-                          />
-                        </svg>
-                      ))}
+                    <div className="flex items-center justify-start gap-1.5">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        className="h-4 w-4 shrink-0 xl:h-5.5 xl:w-5.5"
+                        aria-hidden
+                      >
+                        <path
+                          d="M20 7.67123H12.3577L10.0163 0L7.64228 7.67123L0 7.63699L6.17886 12.363L3.80488 20L9.98374 15.274L16.1626 20L13.7886 12.363L20 7.67123Z"
+                          fill="#04DA8D"
+                        />
+                      </svg>
+                      <p className="flex items-baseline gap-0 font-sans leading-none">
+                        <span className="text-base font-bold text-[#1A1A1A] xl:text-[1.3rem]">5</span>
+                       
+                        <span className="text-[0.7rem] font-normal text-[#1A1A1A] xl:text-base">/5</span>
+                      </p>
                     </div>
 
-                    {REVIEW_CONTENT.badge.map((badge) => (
-                      <div
-                        key={badge.text}
-                        className="inline-flex shrink-0 items-center gap-1.5 xl:gap-1.5"
-                      >
-                        <Image
-                          src={badge.icon}
-                          alt=""
-                          width={16}
-                          height={16}
-                          className="h-3.5 w-3.5 xl:h-4 xl:w-4 object-contain"
-                          aria-hidden
-                        />
-                        <span className="text-[0.7rem] xl:text-sm font-normal text-[#374151] font-sans">
-                          {badge.text}
-                        </span>
-                      </div>
-                    ))}
-                     
+                    
+                    <div className="flex items-center justify-start gap-0.5">
+                      <p className="text-[0.77rem] xl:text-[0.95rem] text-[#486581] font-sans">
+                        {review.date}
+                      </p>
+                        
+                     </div>
+                    
+
 
 
                   </div>
 
-                  <p className="text-[0.85rem]   xl:text-base xl:mt-0.5  xl:max-w-[330px]  text-[#4B5563] font-sans flex-1" style={{ lineHeight: 1.6 }}>
-                    &quot;{review.quote}&quot;
+                  <p className="text-[0.85rem]   xl:text-base xl:mt-0.5  xl:max-w-[330px] font-medium  text-[#486581] font-sans flex-1" style={{ lineHeight: 1.6 }}>
+                    {review.quote}
                   </p>
 
                   <div className="w-full flex flex-col items-start justify-start xl:flex-row xl:items-center xl:justify-between gap-2 mt-auto">
@@ -83,15 +98,15 @@ export default function Review() {
                         />
                       </div>
                       <div className="flex flex-col items-start justify-start gap-0.5 ">
-                        <p className="font-semibold text-[0.85rem]  xl:text-base text-[#1A1A1A] font-sans">
+                        <p className="font-bold text-[0.85rem]  xl:text-base text-[#1A1A1A] font-sans">
                           {review.customer.name}
                         </p>
-                        <p className="text-xs  xl:text-sm text-[#4B5563] font-inter">
+                        <p className="text-xs  xl:text-sm text-[#2C3E50] font-sans">
                           {review.customer.location}
                         </p>
                       </div>
                     </div>
-                   
+
                   </div>
                 </div>
               ))}

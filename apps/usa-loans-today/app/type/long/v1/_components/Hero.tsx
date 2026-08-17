@@ -21,7 +21,7 @@ export default function Hero() {
             backgroundRepeat: "no-repeat",
          }}
         >
-            <div className="mx-auto w-full max-w-[1380px]">
+            <div className="mx-auto w-full max-w-[1300px]">
                 <div className="hero-content flex w-full min-h-0 flex-col items-center justify-center gap-8 md:items-start md:justify-center md:gap-14 lg:gap-16 xl:gap-18">
                     <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-center md:justify-between">
                         <div className="left md:w-[50%] lg:w-[52%] xl:w-[58%] flex min-w-0 flex-1 flex-col items-center justify-center gap-3 sm:gap-3.5 md:gap-4 md:items-start xl:gap-5">

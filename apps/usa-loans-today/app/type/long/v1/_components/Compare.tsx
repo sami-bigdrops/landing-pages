@@ -22,7 +22,7 @@ export default function Compare({ onGetQuoteClick }: CompareProps) {
                             {COMPARE_CONTENT.header}
                         </h2>
                         <p
-                            className="text-sm font-normal xl:text-lg mx-auto text-[#4B5563] text-center font-sans "
+                            className="text-sm font-medium xl:text-lg mx-auto text-[#4B5563] text-center font-sans "
                             style={{ lineHeight: 1.6 }}
                         >
                             {COMPARE_CONTENT.description}
@@ -76,7 +76,7 @@ export default function Compare({ onGetQuoteClick }: CompareProps) {
                             variant="default"
                             htmlType="button"
                             onClick={() => onGetQuoteClick?.()}
-                            className="w-full bg-[#C62828] text-white font-semibold h-14 xl:h-16 rounded-[10px] text-sm xl:text-lg shadow-[0_4px_10px_0_rgba(0,0,0,0.10)] hover:bg-[#C62828] cursor-pointer transition-all duration-300"
+                            className="w-full bg-[#C62828] text-white font-sans font-bold h-14 xl:h-16 rounded-[10px] text-sm xl:text-lg shadow-[0_4px_10px_0_rgba(0,0,0,0.10)] hover:bg-[#C62828] cursor-pointer transition-all duration-300"
                         >
                             CHECK LOAN OPTIONS
                         </ButtonUI>

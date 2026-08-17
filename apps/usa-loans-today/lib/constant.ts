@@ -124,8 +124,8 @@ export const COMPARE_CONTENT = {
 } as const
 
 export const OPTIONS_CONTENT = {
-  headline: "Ready To Explore Medicare Options In Your Area?",
-  subtext: "We will help you compare available Medicare options with a calmer, clearer review - so you can make a decision that fits your health, your money and your peace of mind.",
+  headline: "Ready to See Your Loan Options?",
+  subtext: "Answer a few questions and see what loan options may be available to you.",
   
   badges: [
     {
@@ -149,91 +149,116 @@ export const OPTIONS_CONTENT = {
 } as const
 
 export const REVIEW_CONTENT = {
-  header: "What Our Customers Say",
+  header: "Real Experiences From People Looking for Loan Options",
 
-  badge: [
-    {
-      text: "Verified",
-      icon: "/badge.svg",
+  trustpilot: {
+    text: "Rated 4.9/5 on",
+    logo: {
+      src: "/review-trust.svg", 
+      alt: "Trustpilot",
     },
-    
-  ],
+  },
+
+  
 
   reviews: [
     {
       id: 1,
+      date: "Aug 2026",
       quote:
-        'Quotifii helped me find suitable coverage without visiting multiple websites. The entire process felt quick and straightforward.',
+        '“Easy to use and I could see my options without spending hours searching.”',
       customer: {
-        name: "Linda R.",
-        location: "San Diego, CA",
+        name: "Sarah M.",
+        location: "Personal Loan",
         image: {
           src: "/profile-1.svg",
-          alt: "Linda R.",
+          alt: "Sarah M.",
         },
       },
     },
     {
       id: 2,
+      date: "Jun 2026",
       quote:
-        'The steps were clear, the options were easy to review and I found a policy that worked for my budget.',
+        '“I liked being able to compare everything before deciding.”',
       customer: {
-        name: "Marco W.",
-        location: "Austin, TX",
+        name: "Michael R.",
+        location: "Debt Consolidation",
         image: {
           src: "/profile-2.svg",
-          alt: "Marco W.",
+          alt: "Michael R.",
         },
       },
     },
     {
       id: 3,
+      date: "Mar 2026",
       quote:
-        'I explored auto and home insurance options in one place and found the right coverage without feeling pressured.',
+        '“The whole process was clear and didn’t take long.”',
       customer: {
-        name: "Camila S.",
-        location: "Edison, NJ",
+        name: "David L.",
+        location: "Business Loan",
         image: {
           src: "/profile-3.svg",
-          alt: "Camila S.",
+          alt: "David L.",
         },
       },
     },
   ],
+  
 } as const
 
 export const FAQ_CONTENT = {
   header: "Frequently Asked Questions",
+  subtitle: "Everything you need to know before exploring your loan options.",
   faqs: [
     {
       id: 1,
-      question: "Is it free to receive insurance quotes?",
-      answer: "Yes. Quotifii lets you explore insurance quotes without any hidden fees or obligations.",
+      question: "Will checking my loan options affect my credit score?",
+      answer:
+        "Checking initial options may involve a soft credit check, which does not affect your credit score. A lender may carry out a hard credit check if you continue with an application.",
     },
     {
       id: 2,
-      question: "How long does it take?",
-      answer: "Most users can complete the initial process in just a few minutes.",
+      question: "Can I see options from more than one lender?",
+      answer:
+        "Yes. Depending on your details, you may be able to review options from lenders in our network.",
     },
     {
       id: 3,
-      question: "Which insurance companies do you work with?",
-      answer: "We partner with a network of trusted insurance providers offering reliable coverage and competitive rates.",
+      question: "How long does it take?",
+      answer:
+        "The initial form only takes a few minutes. Approval and funding times depend on the lender.",
     },
     {
       id: 4,
-      question: "Will requesting quotes affect my credit score?",
-      answer: "No. Exploring insurance quotes through Quotifii will not affect your credit score.",
+      question: "What types of loans can I compare?",
+      answer:
+        "Available options may include personal loans, auto loans, mortgages, debt consolidation loans, business loans and other types of financing.",
     },
     {
       id: 5,
-      question: "Can I explore both auto and home insurance?",
-      answer: "Yes. You can receive options for auto insurance, home insurance or both.",
+      question: "Are there any fees?",
+      answer:
+        "Fees depend on the lender and loan. Check the full loan terms before accepting an offer.",
     },
     {
       id: 6,
-      question: "Am I required to purchase a policy?",
-      answer: "No. You are free to review your options without any obligation to purchase.",
+      question: "How are my options selected?",
+      answer:
+        "Your details, requested loan amount and lender requirements are used to identify possible matches.",
+    },
+    {
+      id: 7,
+      question: "Is my information secure?",
+      answer:
+        "We use security measures designed to protect the information you submit.",
+    },
+    {
+      id: 8,
+      question: "How soon can I get the money?",
+      answer:
+        "It depends on the lender, approval process and your bank. Some lenders may fund approved loans quickly, while others may take longer.",
     },
   ],
 } as const
@@ -282,20 +307,91 @@ export const FEATURES_CONTENT = {
 
 
 
-export const FOOTER_CONTENT = {
-
-  typelinks: [
-    { text: "Auto Insurance", href: "https://autocoverage.quotifii.com/" },
-    { text: "Home Insurance", href: "https://homequotes.quotifii.com/" },
+export const NEED_CONTENT = {
+  header: "Loans For Different Needs",
+  description:
+    "Whatever you’re planning or dealing with, you can explore loan options that fit different situations.",
+  needs: [
+    {
+      title: "Personal Loans",
+      description:
+        "For everyday expenses, larger purchases or other personal needs.",
+      image: {
+        src: "/need-1.svg",
+        alt: "Personal Loans",
+      },
+    },
+    {
+      title: "Debt Consolidation",
+      description:
+        "See options that may help you combine eligible debts into one payment.",
+      image: {
+        src: "/need-2.svg",
+        alt: "Debt Consolidation",
+      },
+    },
+    {
+      title: "Mortgage Loans",
+      description:
+        "Explore financing options for buying or refinancing a home.",
+      image: {
+        src: "/need-3.svg",
+        alt: "Mortgage Loans",
+      },
+    },
+    {
+      title: "Auto Loans",
+      description: "Find financing options for a new or used car.",
+      image: {
+        src: "/need-4.svg",
+        alt: "Auto Loans",
+      },
+    },
+    {
+      title: "Home Improvement",
+      description:
+        "Explore loans for repairs, upgrades and renovation projects.",
+      image: {
+        src: "/need-5.svg",
+        alt: "Home Improvement",
+      },
+    },
+    {
+      title: "Business Loans",
+      description: "See funding options for eligible business expenses.",
+      image: {
+        src: "/need-6.svg",
+        alt: "Business Loans",
+      },
+    },
+    {
+      title: "Student Loans",
+      description: "Explore financing options for eligible education costs.",
+      image: {
+        src: "/need-7.svg",
+        alt: "Student Loans",
+      },
+    },
+    {
+      title: "Emergency Expenses",
+      description: "Find options for unexpected bills and urgent expenses.",
+      image: {
+        src: "/need-8.svg",
+        alt: "Emergency Expenses",
+      },
+    },
   ],
-  
+} as const
+
+export const FOOTER_CONTENT = {
+  logo: "/footer-logo.svg",
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
-    { text: "Terms of Use", href: "/terms-of-use" },
-    { text: "Contact ", href: "/contact" },
+    { text: "Terms and Conditions", href: "/terms-of-use" },
   ],
-
-  copyrightText: "Copyright © 2026 Quotifii. All Rights Reserved.",
+  disclaimer:
+    "USA Loans Today is not a lender. We connect consumers with third-party lenders and lending partners. Rates, terms, loan amounts and approval depend on the lender and your eligibility. Completing the form does not guarantee approval or funding.",
+  copyrightText: "Copyright © 2026 USA Loans Today. All Rights Reserved.",
 } as const
 
 export const THANKYOU_CONTENT = {
