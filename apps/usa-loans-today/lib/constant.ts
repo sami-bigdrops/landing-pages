@@ -320,6 +320,7 @@ export const NEED_CONTENT = {
         src: "/need-1.svg",
         alt: "Personal Loans",
       },
+      circleColor: "#FFD55F",
     },
     {
       title: "Debt Consolidation",
@@ -329,6 +330,7 @@ export const NEED_CONTENT = {
         src: "/need-2.svg",
         alt: "Debt Consolidation",
       },
+      circleColor: "#4483EB",
     },
     {
       title: "Mortgage Loans",
@@ -338,6 +340,7 @@ export const NEED_CONTENT = {
         src: "/need-3.svg",
         alt: "Mortgage Loans",
       },
+      circleColor: "#04DA8D",
     },
     {
       title: "Auto Loans",
@@ -346,6 +349,7 @@ export const NEED_CONTENT = {
         src: "/need-4.svg",
         alt: "Auto Loans",
       },
+      circleColor: "#4483EB",
     },
     {
       title: "Home Improvement",
@@ -355,6 +359,7 @@ export const NEED_CONTENT = {
         src: "/need-5.svg",
         alt: "Home Improvement",
       },
+      circleColor: "#04DA8D",
     },
     {
       title: "Business Loans",
@@ -363,6 +368,7 @@ export const NEED_CONTENT = {
         src: "/need-6.svg",
         alt: "Business Loans",
       },
+      circleColor: "#FFD55F",
     },
     {
       title: "Student Loans",
@@ -371,6 +377,7 @@ export const NEED_CONTENT = {
         src: "/need-7.svg",
         alt: "Student Loans",
       },
+      circleColor: "#04DA8D",
     },
     {
       title: "Emergency Expenses",
@@ -379,6 +386,7 @@ export const NEED_CONTENT = {
         src: "/need-8.svg",
         alt: "Emergency Expenses",
       },
+      circleColor: "#FFD55F",
     },
   ],
 } as const
