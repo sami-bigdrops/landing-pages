@@ -4,13 +4,17 @@ export const HERO_CONTENT = {
   headline: "What Would a New Metal Roof Cost for Your Home?",
   description: "(Answer the question below to get started!)",
   subtitle: "Are you a homeowner?",
+
+  subheadline: "These Next-Generation Metal Roofs Look Like Shingle, Tile or Wood, but They're as Strong as Steel! And You Won't Believe How Affordable They Can Be!",
+
+
   image: {
     src: "/hero-bg.webp",
     alt: "Roof"
   },
 
-  heroImage: {
-    src: "/hero.webp",
+  heroSubheadlineImage: {
+    src: "/hero-sub-img.png",
     alt: "Roof"
   }
   

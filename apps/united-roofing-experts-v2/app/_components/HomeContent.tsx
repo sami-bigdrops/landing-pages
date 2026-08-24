@@ -30,14 +30,7 @@ export default function HomeContent() {
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <Hero />
-        <Works />
-        <Roof />
-        <Choose />
-        <Saving />
-        <Rating />
-        <Review />
-        <Info />
-        <RoofType />
+        
         
         <Footer />
       </div>
