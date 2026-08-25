@@ -1,327 +1,36 @@
 "use client"
 
-import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent } from "react"
+import { Suspense, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react"
 import Image from "next/image"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
-import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 
-// import { SubmissionLoadingScreen } from "./SubmissionLoadingScreen"
-// import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
-
 const ANALYTICS_FLUSH_DELAY_MS = 300
-
-
-// --- Google Maps Places types (minimal) ---
-type GMapsPlacePrediction = {
-  place_id: string
-  description: string
-  structured_formatting: {
-    main_text: string
-    secondary_text: string
-  }
-  terms?: Array<{ offset: number; value: string }>
-}
-
-type GMapsAddressComponent = {
-  long_name: string
-  short_name: string
-  types: string[]
-}
-
-type GMapsPlaceResult = {
-  address_components?: GMapsAddressComponent[]
-}
-
-type GMapsAutocompleteService = {
-  getPlacePredictions(
-    req: { input: string; types: string[]; componentRestrictions: { country: string } },
-    cb: (predictions: GMapsPlacePrediction[] | null, status: string) => void
-  ): void
-}
-
-type GMapsPlacesService = {
-  getDetails(
-    req: { placeId: string; fields: string[] },
-    cb: (result: GMapsPlaceResult | null, status: string) => void
-  ): void
-}
-
-type GMapsWindow = {
-  google?: {
-    maps?: {
-      places?: {
-        AutocompleteService: new () => GMapsAutocompleteService
-        PlacesService: new (el: HTMLElement) => GMapsPlacesService
-        PlacesServiceStatus: { OK: string }
-      }
-    }
-  }
-}
-
-type AddressResult = {
-  streetAddress: string
-  city: string
-  state: string
-  zipCode: string
-}
-
-let googleMapsLoadPromise: Promise<void> | null = null
-
-function loadGoogleMaps(apiKey: string): Promise<void> {
-  if (googleMapsLoadPromise) return googleMapsLoadPromise
-  const win = window as unknown as GMapsWindow
-  if (win.google?.maps?.places) {
-    googleMapsLoadPromise = Promise.resolve()
-    return googleMapsLoadPromise
-  }
-  googleMapsLoadPromise = new Promise((resolve) => {
-    const script = document.createElement("script")
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`
-    script.async = true
-    script.onload = () => resolve()
-    document.head.appendChild(script)
-  })
-  return googleMapsLoadPromise
-}
 
 function normalizeZip(zip: string): string {
   return zip.replace(/\D/g, "").slice(0, 5)
 }
 
-// --- Google Places Autocomplete Component ---
-function AddressAutocomplete({
-  value,
-  city,
-  state,
-  zipCode,
-  onChange,
-  onSelect,
-  label,
-  placeholder,
-  labelClassName,
-  className,
-  inputName,
-  dataArohaaField,
-}: {
-  value: string
-  city: string
-  state: string
-  zipCode: string
-  onChange: (v: string) => void
-  onSelect: (result: AddressResult) => void
-  label: string
-  placeholder: string
-  labelClassName?: string
-  className?: string
-  inputName?: string
-  dataArohaaField?: string
-}) {
-  const [predictions, setPredictions] = useState<GMapsPlacePrediction[]>([])
-  const [showDropdown, setShowDropdown] = useState(false)
-  const [isFetching, setIsFetching] = useState(false)
-  const [mapsReady, setMapsReady] = useState(false)
-  const autocompleteRef = useRef<GMapsAutocompleteService | null>(null)
-  const placesRef = useRef<GMapsPlacesService | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const hiddenDivRef = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
-    if (!apiKey) return
-    loadGoogleMaps(apiKey).then(() => {
-      const win = window as unknown as GMapsWindow
-      const places = win.google?.maps?.places
-      if (!places) return
-      autocompleteRef.current = new places.AutocompleteService()
-      if (!hiddenDivRef.current) {
-        hiddenDivRef.current = document.createElement("div")
-      }
-      placesRef.current = new places.PlacesService(hiddenDivRef.current)
-      setMapsReady(true)
-    })
-  }, [])
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setShowDropdown(false)
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
-
-  const fetchPredictions = useCallback(
-    (input: string) => {
-      if (!autocompleteRef.current || !mapsReady) return
-      setIsFetching(true)
-      autocompleteRef.current.getPlacePredictions(
-        {
-          input,
-          types: ["address"],
-          componentRestrictions: { country: "us" },
-        },
-        (preds, status) => {
-          setIsFetching(false)
-          const win = window as unknown as GMapsWindow
-          const OK = win.google?.maps?.places?.PlacesServiceStatus?.OK ?? "OK"
-          if (status !== OK || !preds) {
-            setPredictions([])
-            setShowDropdown(false)
-            return
-          }
-          setPredictions(preds)
-          setShowDropdown(preds.length > 0)
-        }
-      )
-    },
-    [mapsReady]
-  )
-
-  const handleInputChange = (inputValue: string) => {
-    onChange(inputValue)
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    if (!inputValue.trim() || inputValue.length < 3) {
-      setPredictions([])
-      setShowDropdown(false)
-      return
-    }
-    debounceRef.current = setTimeout(() => fetchPredictions(inputValue), 300)
-  }
-
-  const handleSelect = (pred: GMapsPlacePrediction) => {
-    setShowDropdown(false)
-    setPredictions([])
-
-    const selectedMainText = pred.structured_formatting.main_text.trim()
-    // const fallbackCityState = parseCityStateFromPrediction(pred)
-    const fallbackCityState = { city: "", state: "" }
-
-    onChange(selectedMainText)
-
-    const applySelection = (result: AddressResult) => {
-      onChange(result.streetAddress)
-      onSelect(result)
-    }
-
-    if (!placesRef.current) {
-      applySelection({
-        streetAddress: selectedMainText,
-        city: fallbackCityState.city,
-        state: fallbackCityState.state,
-        zipCode: "",
-      })
-      return
-    }
-
-    placesRef.current.getDetails(
-      { placeId: pred.place_id, fields: ["address_components"] },
-      (place) => {
-        if (!place?.address_components) {
-          applySelection({
-            streetAddress: selectedMainText,
-            city: fallbackCityState.city,
-            state: fallbackCityState.state,
-            zipCode: "",
-          })
-          return
-        }
-
-        // const { streetNumber, route, parsedCity, parsedState, parsedZip } = parseAddressComponents(
-        //   place.address_components
-        // )
-        // const streetAddress =
-        //   (streetNumber ? `${streetNumber} ${route}`.trim() : route.trim()) || selectedMainText
-
-        applySelection({
-          streetAddress: selectedMainText,
-          city: fallbackCityState.city,
-          state: fallbackCityState.state,
-          zipCode: "",
-        })
-      }
-    )
-  }
-
-  return (
-    <div className="w-full relative" ref={containerRef}>
-      <label className={labelClassName}>{label}</label>
-      <div className="relative">
-        <input
-          type="text"
-          name={inputName}
-          data-arohaa-field={dataArohaaField}
-          value={value}
-          onChange={(e) => handleInputChange(e.target.value)}
-          onFocus={() => {
-            if (predictions.length > 0) setShowDropdown(true)
-          }}
-          placeholder={placeholder}
-          className={className}
-          autoComplete="off"
-        />
-        {isFetching ? (
-          <span className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 rounded-full border-2 border-[#102E50] border-t-transparent animate-spin" aria-hidden />
-        ) : null}
-      </div>
-
-      {showDropdown && predictions.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-[#102E50] rounded-[5px] shadow-lg overflow-hidden">
-          {predictions.map((pred) => (
-            <button
-              key={pred.place_id}
-              type="button"
-              onMouseDown={(e) => {
-                e.preventDefault()
-                handleSelect(pred)
-              }}
-              className="w-full text-left px-4 py-3 hover:bg-[#fde9ea] transition-colors border-b border-gray-100 last:border-b-0 cursor-pointer"
-            >
-              <p className="text-sm font-medium text-[#111827] truncate">{pred.structured_formatting.main_text}</p>
-              <p className="text-xs text-[#6B7280] mt-0.5 truncate">{pred.structured_formatting.secondary_text}</p>
-            </button>
-          ))}
-        </div>
-      )}
-
-      {(city || state || zipCode) && (
-        <p className="text-[0.7rem] xl:text-[0.8rem] mt-2 font-medium text-left text-[#1C1C1C]">
-          {[city, state].filter(Boolean).join(", ")}
-          {zipCode ? ` ${zipCode}` : ""}
-        </p>
-      )}
-    </div>
-  )
-}
-
 // --- Form Options ---
-const HOME_TYPE_OPTIONS = [
-  { id: "single_family", label: "Single Family Home", Icon: "/family.svg" },
-  { id: "condominium", label: "Condominium / Townhome", Icon: "/mall.svg" },
-  { id: "mobile", label: "Mobile / Manufactured Home", Icon: "/car.svg" },
-  { id: "vacant_land", label: "Vacant Land", Icon: "/land.svg" },
-] as const
 
 const NEEDS_WORK_OPTIONS = [
-  { id: "roof_replacement", label: "Roof replacement", Icon: "/house.svg" },
-  { id: "roof_repair", label: "Roof repair", Icon: "/broken-home.svg" },
-  { id: "not_sure", label: "I'm not sure", Icon: "/home-renovation.svg" },
+  { id: "roof_replacement", label: "Roof replacement", Icon: "/need-1.svg" },
+  { id: "roof_repair", label: "Roof repair", Icon: "/need-2.svg" },
+  { id: "not_sure", label: "I'm not sure", Icon: "/need-3.svg" },
 
 ] as const
 
-const PROPERTY_LIST_OPTIONS = [
-  { id: "yes", label: "Yes", Icon: "/yes.svg" },
-  { id: "no", label: "No", Icon: "/no.svg" },
+const YES_NO_OPTIONS = [
+  { id: "yes", label: "Yes" },
+  { id: "no", label: "No" },
 ] as const
 
 const ROOF_AGE_OPTIONS = [
-  { id: "less_than_10", label: "Less than 10 years", Icon: "/house.svg" },
-  { id: "ten_twenty", label: "10-20 years", Icon: "/clock-with-calendar.svg" },
-  { id: "more_than_20", label: "More than 20 years", Icon: "/calendar.svg" },
-  { id: "not_sure", label: "I'm not sure", Icon: "/home-renovation.svg" },
+  { id: "less_than_10", label: "Less than 10 years", Icon: "/need-1.svg" },
+  { id: "ten_twenty", label: "10-20 years", Icon: "/need-1.svg" },
+  { id: "more_than_20", label: "More than 20 years", Icon: "/need-1.svg" },
+  { id: "not_sure", label: "I'm not sure", Icon: "/need-3.svg" },
 ] as const
 
 const HOME_SIZE_OPTIONS = [
@@ -331,14 +40,14 @@ const HOME_SIZE_OPTIONS = [
 ] as const
 
 const ROOF_SHAPE_OPTIONS = [
-  { id: "sloped", label: "Sloped roof", Icon: "/roof-sloped.svg" },
-  { id: "flat", label: "Flat roof", Icon: "/roof-flat.svg" },
-  { id: "not_sure", label: "I'm not sure", Icon: "/question-red.svg" },
+  { id: "sloped", label: "Sloped roof", Icon: "/home.svg" },
+  { id: "flat", label: "Flat roof", Icon: "/box.svg" },
+  { id: "not_sure", label: "I'm not sure", Icon: "/need-3.svg" },
 ] as const
 
 const PLANNING_PROCESS_OPTIONS = [
-  { id: "ready_to_hire", label: "Ready to hire", Icon: "/ready-to-hire.svg" },
-  { id: "just_getting_price", label: "Just getting a price", Icon: "/just-getting-price.svg" }
+  { id: "ready_to_hire", label: "Ready to hire", Icon: "/handshake.svg" },
+  { id: "just_getting_price", label: "Just getting a price", Icon: "/price.svg" }
 ] as const
 
 const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
@@ -348,6 +57,30 @@ const STEP_SHELL_FIELDS = "mx-auto flex w-full max-w-3xl flex-col gap-5 md:gap-6
 const STEP_TITLE = "text-center text-base font-medium text-[#323232] xl:text-2xl md:max-w-[400px] xl:max-w-[600px]"
 const GRID_2 = "grid w-full grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 xl:gap-5"
 const CHOICE_GRID_BASE = "grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-5"
+
+function StepTitle({ children }: { children: ReactNode }) {
+  const label = typeof children === "string" ? children.trimEnd() : children
+
+  return (
+    <h3 className={STEP_TITLE}>
+      {label}
+      <span className="group relative ml-0.5 inline-block">
+        <span
+          className="cursor-help text-base font-semibold leading-none text-[#E11D2E] xl:text-2xl"
+          aria-hidden
+        >
+          *
+        </span>
+        <span
+          role="tooltip"
+          className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded bg-[#4B5563] px-2.5 py-1 xl:px-3 xl:py-1.5 text-xs xl:text-sm font-normal text-white opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100"
+        >
+          This field is required.
+        </span>
+      </span>
+    </h3>
+  )
+}
 
 function getChoiceGridClass(itemCount: number) {
   switch (itemCount) {
@@ -362,70 +95,39 @@ function getChoiceGridClass(itemCount: number) {
   }
 }
 const CHOICE_BTN =
-  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[5px] border border-[#102E50] bg-white px-3 py-4 text-center transition-colors hover:bg-[#e6f0ff] md:gap-5 md:px-4 md:py-5 xl:px-6 xl:py-8"
+  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-start gap-1.5 rounded-[5px] border border-[#102E50] bg-white px-3 py-4 text-center transition-colors hover:bg-[#e6f0ff]  md:px-4 md:py-5 xl:px-6 xl:py-7"
 const CHOICE_BTN_MLS =
   "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[5px] border border-[#1776eb] bg-white px-3 py-4 text-center transition-colors hover:bg-[#e6f0ff] text-[#1776eb] md:gap-5 md:px-4 md:py-5 xl:px-6 xl:py-7"
 const CHOICE_BTN_MLS_LABEL = "text-sm font-medium uppercase leading-normal text-[#1776eb] xl:text-base"
-const CHOICE_ICON = "h-9.5 w-9.5 shrink-0 object-contain md:h-10 md:w-10 xl:h-14 xl:w-14"
-const CHOICE_LABEL = "text-[0.85rem] font-medium leading-normal text-[#323232] xl:text-base"
+const CHOICE_ICON = "h-16 w-16 shrink-0 object-contain md:h-17 md:w-17 xl:h-25 xl:w-25"
+const CHOICE_LABEL = "text-[0.85rem] font-medium leading-normal text-[#323232] xl:text-[1.1rem]"
 const INPUT_FIELD =
   "mt-2 h-14 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base"
-const LABEL_CLASS = "text-sm font-medium text-[#1C1C1C] xl:text-base"
-const PARTNER_LINK_CLASS =
-  "inline cursor-pointer border-0 bg-transparent p-0 font-bold text-[#343434] underline"
 
-type HomeTypeId = (typeof HOME_TYPE_OPTIONS)[number]["id"]
+type YesNoId = (typeof YES_NO_OPTIONS)[number]["id"]
 type PropertyTypeId = (typeof NEEDS_WORK_OPTIONS)[number]["id"]
-type PropertyListTypeId = (typeof PROPERTY_LIST_OPTIONS)[number]["id"]
 type RoofAgeTypeId = (typeof ROOF_AGE_OPTIONS)[number]["id"]
 type HomeSizeTypeId = (typeof HOME_SIZE_OPTIONS)[number]["id"]
 type RoofShapeTypeId = (typeof ROOF_SHAPE_OPTIONS)[number]["id"]
 type PlanningProcessTypeId = (typeof PLANNING_PROCESS_OPTIONS)[number]["id"]
 
-
-const HOUSE_VALUE_RANGES: { value: string; label: string }[] = [
-  { value: "u100", label: "Under $100K" },
-  { value: "100_150", label: "$100K to $150K" },
-  { value: "150_200", label: "$150K to $200K" },
-  { value: "200_250", label: "$200K to $250K" },
-  { value: "250_300", label: "$250K to $300K" },
-  { value: "300_350", label: "$300K to $350K" },
-  { value: "350_400", label: "$350K to $400K" },
-  { value: "400_450", label: "$400K to $450K" },
-  { value: "450_500", label: "$450K to $500K" },
-  { value: "500_550", label: "$500K to $550K" },
-  { value: "550_600", label: "$550K to $600K" },
-  { value: "600_700", label: "$600K to $700K" },
-  { value: "700_800", label: "$700K to $800K" },
-  { value: "800_900", label: "$800K to $900K" },
-  { value: "900k_1m", label: "$900K to $1M" },
-  { value: "1m_1_1", label: "$1M to $1.1M" },
-  { value: "1_1_1_2", label: "$1.1M to $1.2M" },
-  { value: "1_2_1_3", label: "$1.2M to $1.3M" },
-  { value: "1_3_1_4", label: "$1.3M to $1.4M" },
-  { value: "1_4_1_5", label: "$1.4M to $1.5M" },
-  { value: "1_5m_plus", label: "$1.5M+" },
-]
-
 const TOTAL_STEPS = 13
 
 const defaultFormData = {
-  homeType: "condominium" as HomeTypeId,
-  zipCode: "",
+  isHomeowner: "yes" as YesNoId,
   propertyType: "roof_replacement" as PropertyTypeId,
-  propertyList: "yes" as PropertyListTypeId,
   roofAge: "less_than_10" as RoofAgeTypeId,
   homeSize: "under_1500" as HomeSizeTypeId,
   roofShape: "sloped" as RoofShapeTypeId,
   planningProcess: "ready_to_hire" as PlanningProcessTypeId,
-  houseValueRange: "500_550",
+  hasAttic: "yes" as YesNoId,
+  hasRoofLeaks: "yes" as YesNoId,
+  hasMetalRoof: "yes" as YesNoId,
+  qualifiesForDiscount: "yes" as YesNoId,
+  zipCode: "",
   first_name: "",
   last_name: "",
-  phone_number: "",
   email: "",
-  street_address: "",
-  city: "",
-  state: "",
 }
 
 type FormNavigationProps = {
@@ -445,7 +147,7 @@ function FormNavigation({
         type="button"
         onClick={onNext}
         disabled={isNextDisabled}
-        className="w-full rounded-[10px] bg-[#C12026] py-3 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
+        className="w-full rounded-[10px] bg-[#C12026] py-3 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:py-4 xl:text-[1.05rem]"
       >
         {nextLabel}
       </button>
@@ -456,45 +158,14 @@ function FormNavigation({
 function FormPage() {
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState(defaultFormData)
-  const [houseValueIndex, setHouseValueIndex] = useState(() => {
-    const idx = HOUSE_VALUE_RANGES.findIndex((r) => r.value === defaultFormData.houseValueRange)
-    return idx >= 0 ? idx : 9
-  })
 
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
-  const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
-  const [partnersOpen, setPartnersOpen] = useState(false)
-  const [showSubmissionLoading, setShowSubmissionLoading] = useState(false)
-  const redirectUrlRef = useRef<string | null>(null)
-  const apiReadyRef = useRef(false)
-  const animationReadyRef = useRef(false)
-
-  const tryRedirect = useCallback(() => {
-    if (apiReadyRef.current && animationReadyRef.current && redirectUrlRef.current) {
-      const url = redirectUrlRef.current
-      window.setTimeout(() => {
-        window.location.href = url
-      }, ANALYTICS_FLUSH_DELAY_MS)
-    }
-  }, [])
-
-  const handleLoadingComplete = useCallback(() => {
-    animationReadyRef.current = true
-    tryRedirect()
-  }, [tryRedirect])
+  const [fieldErrors, setFieldErrors] = useState<{ email?: string }>({})
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     if (field === "zipCode") {
       setFormData((prev) => ({ ...prev, zipCode: normalizeZip(value) }))
-      return
-    }
-    if (field === "street_address") {
-      setFormData((prev) => ({
-        ...prev,
-        street_address: value,
-        ...(value.trim() === "" ? { city: "", state: "", zipCode: "" } : {}),
-      }))
       return
     }
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -571,30 +242,26 @@ function FormPage() {
     }
 
     setSubmitStatus("loading")
-    setShowSubmissionLoading(true)
-    redirectUrlRef.current = null
-    apiReadyRef.current = false
-    animationReadyRef.current = false
 
     const form = e.currentTarget
     const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
     const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
     const payload = {
-      homeType: formData.homeType,
-      zipCode: zip,
+      isHomeowner: formData.isHomeowner,
       propertyType: formData.propertyType,
-      propertyList: formData.propertyList,
       roofAge: formData.roofAge,
       homeSize: formData.homeSize,
       roofShape: formData.roofShape,
       planningProcess: formData.planningProcess,
-      houseValueRange: formData.houseValueRange,
+      hasAttic: formData.hasAttic,
+      hasRoofLeaks: formData.hasRoofLeaks,
+      hasMetalRoof: formData.hasMetalRoof,
+      qualifiesForDiscount: formData.qualifiesForDiscount,
+      zipCode: zip,
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
       email: formData.email.trim(),
-      isHomeowner: formData.propertyList,
-      phoneNumber: formData.phone_number.trim(),
       subid1: getCookie("subid1") ?? "",
       subid2: getCookie("subid2") ?? "",
       subid3: getCookie("subid3") ?? "",
@@ -635,13 +302,8 @@ function FormPage() {
       if (!res.ok) {
         const errorMsg = typeof data.error === "string" ? data.error : "Submission failed"
         const fieldHint = (data as { field?: string }).field
-        setShowSubmissionLoading(false)
         if (fieldHint === "email" || (data as { invalidField?: string }).invalidField === "email") {
           setFieldErrors({ email: errorMsg })
-          setSubmitStatus("error")
-          setSubmitError(errorMsg)
-        } else if (fieldHint === "phoneNumber") {
-          setFieldErrors({ phone: errorMsg })
           setSubmitStatus("error")
           setSubmitError(errorMsg)
         } else {
@@ -652,16 +314,14 @@ function FormPage() {
       }
 
       if (data.success && typeof data.redirectUrl === "string") {
-        redirectUrlRef.current = data.redirectUrl
-        apiReadyRef.current = true
-        tryRedirect()
+        window.setTimeout(() => {
+          window.location.href = data.redirectUrl!
+        }, ANALYTICS_FLUSH_DELAY_MS)
         return
       }
 
-      setShowSubmissionLoading(false)
       setSubmitStatus("idle")
     } catch {
-      setShowSubmissionLoading(false)
       setSubmitStatus("error")
       setSubmitError("Something went wrong. Please try again.")
     }
@@ -696,16 +356,16 @@ function FormPage() {
             data-arohaa-step="1"
             data-arohaa-step-name="Are you a homeowner?"
           >
-            <h3 className={STEP_TITLE}>Are you a homeowner? </h3>
+            <StepTitle>Are you a homeowner? </StepTitle>
             <div className={GRID_2}>
-              {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.propertyList === id
+              {YES_NO_OPTIONS.map(({ id, label }) => {
+                const selected = formData.isHomeowner === id
                 return (
                   <button
                     key={id}
                     type="button"
                     onClick={() => {
-                      setFormData((prev) => ({ ...prev, propertyList: id }))
+                      setFormData((prev) => ({ ...prev, isHomeowner: id }))
                       setCurrentStep(2)
                     }}
                     aria-pressed={selected}
@@ -726,7 +386,7 @@ function FormPage() {
             data-arohaa-step="2"
             data-arohaa-step-name="What do you need?"
           >
-            <h3 className={STEP_TITLE}>What do you need?</h3>
+            <StepTitle>What do you need?</StepTitle>
             <div className={getChoiceGridClass(NEEDS_WORK_OPTIONS.length)}>
               {NEEDS_WORK_OPTIONS.map(({ id, label, Icon }) => {
                 const selected = formData.propertyType === id
@@ -741,7 +401,7 @@ function FormPage() {
                     aria-pressed={selected}
                     className={CHOICE_BTN}
                   >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <Image src={Icon} alt="" width={80} height={80} aria-hidden className={CHOICE_ICON} />
                     <span className={CHOICE_LABEL}>{label}</span>
                   </button>
                 )
@@ -756,7 +416,7 @@ function FormPage() {
             data-arohaa-step="3"
             data-arohaa-step-name="MLS Listing"
           >
-            <h3 className={STEP_TITLE}>How old is your roof?</h3>
+            <StepTitle>How old is your roof?</StepTitle>
             <div className={getChoiceGridClass(ROOF_AGE_OPTIONS.length)}>
               {ROOF_AGE_OPTIONS.map(({ id, label, Icon }) => {
                 const selected = formData.roofAge === id
@@ -771,7 +431,7 @@ function FormPage() {
                     aria-pressed={selected}
                     className={CHOICE_BTN}
                   >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <Image src={Icon} alt="" width={80} height={80} aria-hidden className={CHOICE_ICON} />
                     <span className={CHOICE_LABEL}>{label}</span>
                   </button>
                 )
@@ -785,7 +445,7 @@ function FormPage() {
             data-arohaa-step="4"
             data-arohaa-step-name="Home Size"
           >
-            <h3 className={STEP_TITLE}>What is the size of your home?</h3>
+            <StepTitle>What is the size of your home?</StepTitle>
             <div className={getChoiceGridClass(HOME_SIZE_OPTIONS.length)}>
               {HOME_SIZE_OPTIONS.map(({ id, label, Icon }) => {
                 const selected = formData.homeSize === id
@@ -800,7 +460,7 @@ function FormPage() {
                     aria-pressed={selected}
                     className={CHOICE_BTN}
                   >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <Image src={Icon} alt="" width={80} height={80} aria-hidden className={CHOICE_ICON} />
                     <span className={CHOICE_LABEL}>{label}</span>
                   </button>
                 )
@@ -815,7 +475,7 @@ function FormPage() {
             data-arohaa-step="5"
             data-arohaa-step-name="Timeline"
           >
-            <h3 className={STEP_TITLE}>What is the shape of your roof?</h3>
+            <StepTitle>What is the shape of your roof?</StepTitle>
             <div className={getChoiceGridClass(ROOF_SHAPE_OPTIONS.length)}>
               {ROOF_SHAPE_OPTIONS.map(({ id, label, Icon }) => {
                 const selected = formData.roofShape === id
@@ -830,7 +490,7 @@ function FormPage() {
                     aria-pressed={selected}
                     className={CHOICE_BTN}
                   >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <Image src={Icon} alt="" width={80} height={80} aria-hidden className={CHOICE_ICON} />
                     <span className={CHOICE_LABEL}>{label}</span>
                   </button>
                 )
@@ -845,7 +505,7 @@ function FormPage() {
             data-arohaa-step="6"
             data-arohaa-step-name="Credit Rating"
           >
-            <h3 className={STEP_TITLE}>Where are you in the planning process?</h3>
+            <StepTitle>Where are you in the planning process?</StepTitle>
             <div className={getChoiceGridClass(PLANNING_PROCESS_OPTIONS.length)}>
               {PLANNING_PROCESS_OPTIONS.map(({ id, label, Icon }) => {
                 const selected = formData.planningProcess === id
@@ -860,7 +520,7 @@ function FormPage() {
                     aria-pressed={selected}
                     className={CHOICE_BTN}
                   >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
+                    <Image src={Icon} alt="" width={80} height={80} aria-hidden className={CHOICE_ICON} />
                     <span className={CHOICE_LABEL}>{label}</span>
                   </button>
                 )
@@ -875,16 +535,16 @@ function FormPage() {
             data-arohaa-step="7"
             data-arohaa-step-name="Attic"
           >
-            <h3 className={STEP_TITLE}>Does your house have an attic? </h3>
+            <StepTitle>Does your house have an attic? </StepTitle>
             <div className={GRID_2}>
-              {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.propertyList === id
+              {YES_NO_OPTIONS.map(({ id, label }) => {
+                const selected = formData.hasAttic === id
                 return (
                   <button
                     key={id}
                     type="button"
                     onClick={() => {
-                      setFormData((prev) => ({ ...prev, propertyList: id }))
+                      setFormData((prev) => ({ ...prev, hasAttic: id }))
                       setCurrentStep(8)
                     }}
                     aria-pressed={selected}
@@ -905,16 +565,16 @@ function FormPage() {
             data-arohaa-step="8"
             data-arohaa-step-name="Active Roof Leaks"
           >
-            <h3 className={STEP_TITLE}>Are you aware of any active roof leaks? </h3>
+            <StepTitle>Are you aware of any active roof leaks? </StepTitle>
             <div className={GRID_2}>
-              {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.propertyList === id
+              {YES_NO_OPTIONS.map(({ id, label }) => {
+                const selected = formData.hasRoofLeaks === id
                 return (
                   <button
                     key={id}
                     type="button"
                     onClick={() => {
-                      setFormData((prev) => ({ ...prev, propertyList: id }))
+                      setFormData((prev) => ({ ...prev, hasRoofLeaks: id }))
                       setCurrentStep(9)
                     }}
                     aria-pressed={selected}
@@ -935,16 +595,16 @@ function FormPage() {
             data-arohaa-step="8"
             data-arohaa-step-name="Metal Roof"
           >
-            <h3 className={STEP_TITLE}>Do you have a metal roof currently? </h3>
+            <StepTitle>Do you have a metal roof currently? </StepTitle>
             <div className={GRID_2}>
-              {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.propertyList === id
+              {YES_NO_OPTIONS.map(({ id, label }) => {
+                const selected = formData.hasMetalRoof === id
                 return (
                   <button
                     key={id}
                     type="button"
                     onClick={() => {
-                      setFormData((prev) => ({ ...prev, propertyList: id }))
+                      setFormData((prev) => ({ ...prev, hasMetalRoof: id }))
                       setCurrentStep(10)
                     }}
                     aria-pressed={selected}
@@ -965,16 +625,16 @@ function FormPage() {
             data-arohaa-step="10"
             data-arohaa-step-name="Senior, Military or First Responder Discounts"
           >
-            <h3 className={STEP_TITLE}>Does anyone in your household qualify for senior, military or first responder discounts that may be available? </h3>
+            <StepTitle>Does anyone in your household qualify for senior, military or first responder discounts that may be available? </StepTitle>
             <div className={GRID_2}>
-              {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.propertyList === id
+              {YES_NO_OPTIONS.map(({ id, label }) => {
+                const selected = formData.qualifiesForDiscount === id
                 return (
                   <button
                     key={id}
                     type="button"
                     onClick={() => {
-                      setFormData((prev) => ({ ...prev, propertyList: id }))
+                      setFormData((prev) => ({ ...prev, qualifiesForDiscount: id }))
                       setCurrentStep(11)
                     }}
                     aria-pressed={selected}
@@ -995,7 +655,7 @@ function FormPage() {
             data-arohaa-step="8"
             data-arohaa-step-name="Contact Information"
           >
-            <h3 className={STEP_TITLE}>What is your ZIP code? </h3>
+            <StepTitle>What is your ZIP code? </StepTitle>
             <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
               <TextInput
                 id="zipCode"
@@ -1026,10 +686,10 @@ function FormPage() {
             data-arohaa-step-name="Contact Information"
           >
             <div className="flex flex-col items-center justify-center gap-1.5">
-            <h3 className={STEP_TITLE}>Who should we prepare this FREE quote for? </h3>
+            <StepTitle>Who should we prepare this FREE quote for? </StepTitle>
             <p className="text-sm xl:text-base text-center text-gray-500">Please enter your first and last name below.</p>
             </div>
-            <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
+            <div className="flex w-full max-w-lg flex-col gap-4 text-left md:gap-4">
               <TextInput
                 id="firstName"
                 name="firstName"
@@ -1064,7 +724,7 @@ function FormPage() {
             data-arohaa-step-name="Address and Phone"
           >
             <div className="flex flex-col items-center justify-center gap-1.5">
-            <h3 className={STEP_TITLE}>Where should we send your information? </h3>
+            <StepTitle>Where should we send your information? </StepTitle>
             <p className="text-sm xl:text-base text-center text-gray-500">Please enter your email address below.</p>
             </div>
             <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
@@ -1111,9 +771,6 @@ function FormPage() {
 
 
       </form>
-
-
-      {/* <SubmissionLoadingScreen active={showSubmissionLoading} onComplete={handleLoadingComplete} /> */}
     </section>
   )
 }
