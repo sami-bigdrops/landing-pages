@@ -345,7 +345,7 @@ const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-6 md
 const STEP_SHELL_WIDE = "mx-auto flex w-full max-w-6xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
 const STEP_SHELL_VALUE = "mx-auto flex w-full max-w-5xl flex-col items-center gap-6 text-center md:gap-7 xl:gap-8"
 const STEP_SHELL_FIELDS = "mx-auto flex w-full max-w-3xl flex-col gap-5 md:gap-6"
-const STEP_TITLE = "text-center text-base font-medium text-[#323232] xl:text-2xl"
+const STEP_TITLE = "text-center text-base font-medium text-[#323232] xl:text-2xl md:max-w-[400px] xl:max-w-[600px]"
 const GRID_2 = "grid w-full grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 xl:gap-5"
 const CHOICE_GRID_BASE = "grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-5"
 

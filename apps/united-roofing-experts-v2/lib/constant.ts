@@ -14,7 +14,7 @@ export const HERO_CONTENT = {
   },
 
   heroSubheadlineImage: {
-    src: "/hero-sub-img.png",
+    src: "/hero-sub-img.webp",
     alt: "Roof"
   }
   
@@ -306,7 +306,7 @@ export const FOOTER_CONTENT = {
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms and Conditions ", href: "/terms-of-use" },
   ],
-  copyrightText: "Copyright © MetalRoofingInnovations.com. All Rights Reserved. MetalRoofingInnovations.com is not responsible for the offers, products or services provided by Service Providers.",
+  copyrightText: "Copyright © UnitedRoofingExperts.com. All Rights Reserved. UnitedRoofingExperts.com is not responsible for the offers, products or services provided by Service Providers.",
 } as const
 
 export const THANKYOU_CONTENT = {
