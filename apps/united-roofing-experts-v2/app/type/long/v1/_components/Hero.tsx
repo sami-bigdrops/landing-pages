@@ -1,6 +1,5 @@
 "use client";
 
-import { useUtmParams } from "@workspace/lp-core";
 import { HERO_CONTENT } from "@/lib/constant";
 import { Button } from "@workspace/ui/components/button";
 
@@ -9,21 +8,20 @@ import Image from "next/image";
 
 
 export default function Hero() {
-  useUtmParams(30);
   const router = useRouter();
+
+  const handleHomeownerAnswer = (answer: "yes" | "no") => {
+    router.push(`/form?isHomeowner=${answer}`);
+  };
 
   const handleCheckMyEligibility = () => {
     router.push("/form");
   };
+
   return (
-    <div className="relative w-full h-full  md:min-h-[370px] lg:min-h-[400px] xl:min-h-[600px] overflow-hidden px-6 py-8 md:px-6 md:py-10 lg:px-14  xl:px-20 xl:py-12"
-
-    >
-
-
-
+    <div className="relative flex h-full w-full flex-1 flex-col items-center justify-center overflow-hidden px-6 py-8 md:px-6 md:py-10 lg:px-14 xl:px-20 xl:py-12">
       <div className="relative z-10 container mx-auto">
-        <div className="hero-content  flex flex-col items-center justify-center  gap-4 xl:gap-5">
+        <div className="hero-content flex flex-col items-center justify-center gap-4 xl:gap-5">
 
           <div className=" w-full flex flex-col items-center  gap-2 ">
             <h1 className="text-2xl md:text-3xl xl:text-4xl  md:max-w-[450px] lg:max-w-[550px] xl:max-w-[600px] font-bold  text-[#000000] text-center font-sans " style={{ lineHeight: "1.4" }}>
@@ -32,8 +30,6 @@ export default function Hero() {
             <p className="text-[#FF0000] italic text-center font-sans text-sm lg:text-sm xl:text-lg font-semibold  md:max-w-[550px] xl:max-w-[730px]" style={{ lineHeight: "1.6" }}>
               {HERO_CONTENT.description}
             </p>
-
-
           </div>
 
           <div className="w-full flex items-center justify-center ">
@@ -46,7 +42,7 @@ export default function Hero() {
                 <Button
                   type="1"
                   variant="default"
-                  onClick={handleCheckMyEligibility}
+                  onClick={() => handleHomeownerAnswer("yes")}
                   className="w-full flex h-14 flex-1 cursor-pointer items-center justify-center gap-2 rounded-none  px-5 md:py-3.5 xl:py-4 font-bold text-[0.85rem] font-inherit text-black  transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-90 md:h-14   xl:h-18.5  xl:text-lg  bg-[#00F00F] hover:bg-[#00F00F]"
                 >
                   YES
@@ -55,7 +51,7 @@ export default function Hero() {
                 <Button
                   type="1"
                   variant="default"
-                  onClick={handleCheckMyEligibility}
+                  onClick={() => handleHomeownerAnswer("no")}
                   className="w-full flex h-14 flex-1 cursor-pointer items-center justify-center gap-2 rounded-none px-5 md:py-3.5 xl:py-4 font-bold text-[0.85rem] font-inherit text-black  transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-90 md:h-14 xl:h-18.5  xl:text-lg  bg-[#F50202] hover:bg-[#F50202]"
                 >
                   NO
@@ -86,10 +82,7 @@ export default function Hero() {
                 Click for Pricing!
               </Button>
             </div>
-       
-
           </div>
-
 
         </div>
       </div>
