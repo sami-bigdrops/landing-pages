@@ -13,14 +13,17 @@ export default function Hero() {
     useUtmParams(30)
 
     return (
-        <div className="relative flex items-center  bg-[#1B4D82]  justify-center min-h-0 flex-1 w-full overflow-hidden xl:min-h-[640px] px-6 py-8 md:px-8 md:py-12 lg:px-14 lg:py-13 xl:px-23 xl:py-15"
-         style={{
-            backgroundImage: "url('/hero-bg.webp')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-         }}
+        <div
+            className="relative flex items-center justify-center min-h-0 flex-1 w-full overflow-hidden xl:min-h-[640px] px-6 py-8 md:px-8 md:py-12 lg:px-14 lg:py-13 xl:px-23 xl:py-15"
+            style={{
+                backgroundImage:
+                    "url('/hero-bg.webp'), linear-gradient(180deg, #1B4D82 0%, #163D6B 55%, #0F2D52 100%)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}
         >
+   
             <div className="mx-auto w-full max-w-[1300px]">
                 <div className="hero-content flex w-full min-h-0 flex-col items-center justify-center gap-8 md:items-start md:justify-center md:gap-14 lg:gap-16 xl:gap-18">
                     <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-center md:justify-between">
@@ -39,12 +42,12 @@ export default function Hero() {
                                 {HERO_CONTENT.subheadline}
                             </p>
 
-                            <div className="mt-2 md:mt-4 xl:mt-5 flex w-full items-center justify-center md:justify-start gap-2">
+                            <div className="mt-2 md:mt-4 xl:mt-5 flex w-full items-end justify-center md:justify-start gap-2">
 
                                 <p className="text-[0.85rem] xl:text-[1.15rem] text-center  font-normal text-white  font-sans">
                                     {HERO_CONTENT.trustpilot.text}
                                 </p>
-                                <div className="w-auto h-6.5 xl:h-10 flex items-center justify-center">
+                                <div className="w-auto h-6 xl:h-10 flex items-center justify-center">
                                     <Image
                                         src={HERO_CONTENT.trustpilot.logo.src}
                                         alt={HERO_CONTENT.trustpilot.logo.alt}
