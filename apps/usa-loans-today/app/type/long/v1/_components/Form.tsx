@@ -360,7 +360,7 @@ type SellHouseTypeId = (typeof SELL_HOUSE_OPTIONS)[number]["id"] | ""
 const TOTAL_STEPS = 7
 
 const defaultFormData = {
-  borrowAmount: BORROW_AMOUNT_OPTIONS[0].value as BorrowAmountTypeId,
+  borrowAmount: "" as BorrowAmountTypeId,
   howSoonToSell: "" as HowSoonToSellTypeId,
   zipCode: "",
   sellHouseForCash: "yes" as SellHouseForCashTypeId,
@@ -632,12 +632,13 @@ function FormPage() {
                   name="borrowAmount"
                   options={[...BORROW_AMOUNT_OPTIONS]}
                   value={formData.borrowAmount}
-                  onChange={(value) =>
+                  onChange={(value) => {
                     setFormData((prev) => ({
                       ...prev,
                       borrowAmount: value as BorrowAmountTypeId,
                     }))
-                  }
+                    setCurrentStep(2)
+                  }}
                   type="1"
                   layout="column"
                   containerClassName="w-full "
@@ -647,11 +648,7 @@ function FormPage() {
                   selectedOptionBorderColor="#2563EB"
                   selectedIndicatorColor="#C62828"
                 />
-                <FormNavigation
-                  showNext
-                  isNextDisabled={!isStepValid()}
-                  onNext={handleNext}
-                />
+                
                 {getCreditScoreNotice()}
               </div>
             </section>
