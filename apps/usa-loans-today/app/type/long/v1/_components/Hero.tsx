@@ -61,7 +61,7 @@ export default function Hero() {
                             </div>
                         </div>
                         <div className="right mx-auto md:w-[50%] lg:w-[48%] xl:w-[42%]">
-                            <Form />
+                            <Form heroOnly />
                         </div>
                     </div>
                     <div>
