@@ -189,6 +189,8 @@ export async function POST(request: NextRequest) {
       process.env.LEADPROSPER_API_KEY &&
       process.env.LEADPROSPER_API_URL
 
+    let leadProsperBuyerId = ""
+
     if (hasLeadProsper) {
       const formData = {
         lp_campaign_id: process.env.LEADPROSPER_CAMPAIGN_ID,
@@ -230,7 +232,12 @@ export async function POST(request: NextRequest) {
       })
 
       const rawResponse = await apiResponse.text()
-      let result: { status?: string; code?: number; message?: string }
+      let result: {
+        status?: string
+        code?: number
+        message?: string
+        buyer_id?: string | number
+      }
       try {
         result = JSON.parse(rawResponse)
       } catch {
@@ -273,6 +280,23 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         )
       }
+
+      leadProsperBuyerId =
+        result.buyer_id != null && String(result.buyer_id).trim() !== ""
+          ? String(result.buyer_id).trim()
+          : ""
+
+      if (leadProsperBuyerId === "00") {
+        console.log("[submit-form] Rejected: buyer_id 00")
+        return NextResponse.json(
+          {
+            success: true,
+            rejected: true,
+            redirectUrl: "/rejected",
+          },
+          { status: 200 }
+        )
+      }
     }
 
     const sent = await sendSubmissionConfirmationEmail({
@@ -289,11 +313,19 @@ export async function POST(request: NextRequest) {
     const accessToken = crypto.randomUUID()
     const expiresAt = Date.now() + 10 * 60 * 1000
 
+    const thankYouParams = new URLSearchParams({
+      email: emailTrimmed,
+      firstName: String(firstName).trim(),
+    })
+    if (leadProsperBuyerId) {
+      thankYouParams.set("buyer_id", leadProsperBuyerId)
+    }
+
     const successResponse = NextResponse.json(
       {
         success: true,
         message: "Form submitted successfully",
-        redirectUrl: `/thankyou?email=${encodeURIComponent(emailTrimmed)}&firstName=${encodeURIComponent(String(firstName).trim())}`,
+        redirectUrl: `/thankyou?${thankYouParams.toString()}`,
         accessToken,
         expiresAt,
       },

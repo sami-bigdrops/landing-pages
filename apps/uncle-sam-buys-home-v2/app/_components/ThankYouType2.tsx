@@ -5,6 +5,9 @@ import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Shield, Building2, CheckCircle } from "lucide-react"
 import type { ThankYouType2Content } from "@/lib/constant"
+import { trackArohaa } from "@/lib/arohaa"
+
+const AROHAA_SUBMITTED_KEY = "arohaa_uncle_sam_v2_submitted"
 
 const ICON_MAP = {
   shield: Shield,
@@ -95,6 +98,14 @@ export function ThankYouType2({
     const emailFromUrl = searchParams.get("email")
     if (emailFromUrl) {
       setIsAuthorized(true)
+      try {
+        if (sessionStorage.getItem(AROHAA_SUBMITTED_KEY) === "1") {
+          trackArohaa("form_success")
+          sessionStorage.removeItem(AROHAA_SUBMITTED_KEY)
+        }
+      } catch {
+        trackArohaa("form_success")
+      }
       setTimeout(() => {
         if (typeof window !== "undefined") {
           const cleanUrl =
@@ -135,8 +146,8 @@ export function ThankYouType2({
             {content.title}
           </h1>
 
-          <div className="mt-8 flex justify-center">
-            {content.partnerLogo.src ? (
+          {content.partnerLogo.src ? (
+            <div className="mt-8 flex justify-center">
               <Image
                 src={content.partnerLogo.src}
                 alt={content.partnerLogo.alt}
@@ -145,15 +156,8 @@ export function ThankYouType2({
                 className="h-auto w-full max-w-[280px] object-contain"
                 priority
               />
-            ) : (
-              <div
-                className="flex h-28 w-full max-w-[280px] items-center justify-center rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 text-sm font-medium text-gray-500"
-                aria-hidden
-              >
-                Brand Logo
-              </div>
-            )}
-          </div>
+            </div>
+          ) : null}
 
           <p className="mt-6 mx-auto max-w-[690px] whitespace-pre-line text-base font-medium leading-relaxed text-gray-600 sm:text-lg">
             {renderConfirmationMessage(

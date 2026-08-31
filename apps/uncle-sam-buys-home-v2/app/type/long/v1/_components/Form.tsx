@@ -7,8 +7,22 @@ import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { Button } from "@workspace/ui/components/button"
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 import { OFFER_CONTENT } from "@/lib/constant"
+import { trackArohaa } from "@/lib/arohaa"
 import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
 import { PartnersDialog } from "./PartnersDialog"
+
+const ANALYTICS_FLUSH_DELAY_MS = 300
+const AROHAA_SUBMITTED_KEY = "arohaa_uncle_sam_v2_submitted"
+
+const STEP_NAMES: Record<number, string> = {
+  1: "Sell House For Cash",
+  2: "How Soon To Sell",
+  3: "Repairs And Maintenance",
+  4: "Why Selling",
+  5: "Property Address",
+  6: "Name And Email",
+  7: "Phone Number",
+}
 
 
 
@@ -248,6 +262,7 @@ function AddressAutocomplete({
             if (predictions.length > 0) setShowDropdown(true)
           }}
           placeholder={placeholder}
+          data-arohaa-field="address"
           className={className}
           autoComplete="off"
         />
@@ -403,6 +418,17 @@ function FormPage() {
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
   const [partnersOpen, setPartnersOpen] = useState(false)
 
+  useEffect(() => {
+    trackArohaa("form_start")
+  }, [])
+
+  useEffect(() => {
+    trackArohaa("form_step_view", {
+      step: currentStep,
+      step_name: STEP_NAMES[currentStep] ?? `Step ${currentStep}`,
+    })
+  }, [currentStep])
+
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     if (field === "street_address") {
       setFormData((prev) => ({
@@ -551,7 +577,15 @@ function FormPage() {
       }
 
       if (data.success && typeof data.redirectUrl === "string") {
-        window.location.href = data.redirectUrl
+        trackArohaa("form_submit")
+        try {
+          sessionStorage.setItem(AROHAA_SUBMITTED_KEY, "1")
+        } catch {
+          /* ignore */
+        }
+        window.setTimeout(() => {
+          window.location.href = data.redirectUrl as string
+        }, ANALYTICS_FLUSH_DELAY_MS)
         return
       }
 
@@ -567,6 +601,7 @@ function FormPage() {
 
 
       <form
+        id="lead-form"
         onSubmit={handleLeadSubmit}
         onKeyDown={handleFormKeyDown}
         noValidate
@@ -577,7 +612,11 @@ function FormPage() {
 
         {currentStep === 1 ? (
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section className={OFFER_CARD_SHELL}>
+            <section
+              className={OFFER_CARD_SHELL}
+              data-arohaa-step="1"
+              data-arohaa-step-name={STEP_NAMES[1]}
+            >
               <p className={OFFER_CARD_TITLE}>{OFFER_CONTENT.subtitle}</p>
               <div className="flex w-full flex-col items-center justify-center gap-3 md:flex-row md:gap-3.5 xl:gap-4">
                 {SELL_HOUSE_FOR_CASH_OPTIONS.map(({ id, label }) => {
@@ -615,7 +654,11 @@ function FormPage() {
 
         {currentStep === 2 ? (
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section className={OFFER_CARD_SHELL}>
+            <section
+              className={OFFER_CARD_SHELL}
+              data-arohaa-step="2"
+              data-arohaa-step-name={STEP_NAMES[2]}
+            >
               <p className={OFFER_CARD_TITLE}>{HOW_SOON_TO_SELL_TITLE}</p>
               <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
                 {HOW_SOON_TO_SELL_OPTIONS.map(({ id, label }) => {
@@ -652,7 +695,11 @@ function FormPage() {
 
         {currentStep === 3 ? (
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section className={OFFER_CARD_SHELL}>
+            <section
+              className={OFFER_CARD_SHELL}
+              data-arohaa-step="3"
+              data-arohaa-step-name={STEP_NAMES[3]}
+            >
               <p className={OFFER_CARD_TITLE}>{REPAIRS_AND_MAINTENANCE_TITLE}</p>
               <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
                 {REPAIRS_AND_MAINTENANCE_OPTIONS.map(({ id, label }) => {
@@ -689,7 +736,11 @@ function FormPage() {
 
         {currentStep === 4 ? (
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section className={OFFER_CARD_SHELL}>
+            <section
+              className={OFFER_CARD_SHELL}
+              data-arohaa-step="4"
+              data-arohaa-step-name={STEP_NAMES[4]}
+            >
               <p className={OFFER_CARD_TITLE}>{SELL_HOUSE_TITLE}</p>
               <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
                 {SELL_HOUSE_OPTIONS.map(({ id, label }) => {
@@ -728,7 +779,11 @@ function FormPage() {
 
         {currentStep === 5 ? (
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section className={INPUT_CARD_SHELL}>
+            <section
+              className={INPUT_CARD_SHELL}
+              data-arohaa-step="5"
+              data-arohaa-step-name={STEP_NAMES[5]}
+            >
               <div className="flex flex-col items-center justify-center gap-1.5 ">
                 <p className={OFFER_CARD_TITLE}>Please Enter Your Property Address</p>
                 <p className={OFFER_CARD_DESCRIPTION}>Type your address below, then select from the dropdown</p>
@@ -768,7 +823,11 @@ function FormPage() {
 
         {currentStep === 6 ? (
           <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section className={INPUT_CARD_SHELL}>
+            <section
+              className={INPUT_CARD_SHELL}
+              data-arohaa-step="6"
+              data-arohaa-step-name={STEP_NAMES[6]}
+            >
 
               <p className={OFFER_CARD_TITLE}>What is your name and email?</p>
 
@@ -776,6 +835,7 @@ function FormPage() {
                 <div className="flex w-full flex-col gap-3">
                   <TextInput
                     id="step6FirstName"
+                    data-arohaa-field="firstName"
                     containerClassName={INPUT_CONTAINER}
                     value={formData.first_name}
                     onChange={(e) => handleInputChange("first_name", e.target.value)}
@@ -784,6 +844,7 @@ function FormPage() {
                   />
                   <TextInput
                     id="step6LastName"
+                    data-arohaa-field="lastName"
                     containerClassName={INPUT_CONTAINER}
                     value={formData.last_name}
                     onChange={(e) => handleInputChange("last_name", e.target.value)}
@@ -793,6 +854,7 @@ function FormPage() {
                   <TextInput
                     id="email"
                     type="email"
+                    data-arohaa-field="email"
                     containerClassName={INPUT_CONTAINER}
                     value={formData.email}
                     onChange={(e) => {
@@ -821,7 +883,11 @@ function FormPage() {
         {currentStep === TOTAL_STEPS ? (
 
           <div className="mt-1 flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section className={INPUT_CARD_SHELL}>
+            <section
+              className={INPUT_CARD_SHELL}
+              data-arohaa-step="7"
+              data-arohaa-step-name={STEP_NAMES[7]}
+            >
 
               <p className={OFFER_CARD_TITLE}>Final Step - What is your phone number?</p>
 
@@ -829,6 +895,7 @@ function FormPage() {
                 <PhoneNumberInput
                   id="phoneNumber"
                   label=""
+                  data-arohaa-field="phoneNumber"
                   containerClassName={INPUT_CONTAINER}
                   value={formData.phone_number}
                   onChange={(v) => {

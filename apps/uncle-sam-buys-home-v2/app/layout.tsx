@@ -24,6 +24,9 @@ export const metadata: Metadata = {
       { url: "/favicon.png", type: "image/png" },
     ],
   },
+  other: {
+    "arohaa-verify": "RPrkbszWpSKiC-uwnk5CEswm9g2J4_JC",
+  },
 }
 
 export default function RootLayout({
@@ -33,6 +36,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="arohaa-verify" content="RPrkbszWpSKiC-uwnk5CEswm9g2J4_JC" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "!function(w){if(w.arohaa)return;var a=function(){(a.q=a.q||[]).push(arguments)};a.q=[];a.l=Date.now();w.arohaa=a}(window);",
+          }}
+        />
+        <script
+          id="arohaa-sdk"
+          src="https://cdn.arohaa.net/sdk.js"
+          async
+          data-wid="b1922a54-ee0d-4de3-883f-d5fe204d51dc"
+          data-api="https://api.arohaa.net"
+          data-lp-id="lp_VMlnuU-yQ7UgyFDC"
+          data-page="go.unclesambuyshomes.com"
+          data-formtype="multiple"
+        />
+      </head>
       <body
         className={`${fontPoppins.variable} font-sans antialiased overflow-x-hidden overflow-y-auto`}
       >

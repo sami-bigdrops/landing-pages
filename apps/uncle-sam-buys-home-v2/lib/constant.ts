@@ -377,6 +377,7 @@ export const TCPA_PARTNER_NAMES = [
   "HomeGo",
   "HomeLight, Inc.",
   "HomeMatch, its partners, and parties acting on their behalf",
+  "HomeRepairly",
   "homes.com",
   "Homevestors",
   "Ideal Agent",
@@ -516,6 +517,21 @@ export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
   },
   confirmationMessage:
     "We're glad you're here.\nWe've matched you with PrimeStreet.\nYou can rest assured that here at PrimeStreet, we will match you with the best agent in your area for your needs, free of cost! No hassle, just great service!\n\nOne of our Customer Advocates will be reaching out to you soon to help you with your home needs or feel free to reach out to us first by calling or texting us at +14696208367.",
+  contactPhoneLabel: "+14696208367",
+  contactPhoneHref: "tel:+14696208367",
+  aboutSectionTitle: "",
+  featureCards: [],
+}
+
+export const THANKYOU_TYPE2_CONTENT_NO_PARTNER: ThankYouType2Content = {
+  title: "Thanks for your inquiry!",
+  partnerName: "",
+  partnerLogo: {
+    src: "",
+    alt: "",
+  },
+  confirmationMessage:
+    "One of our Customer Advocates will be reaching out to you soon to help you with your home needs or feel free to reach out to us first by calling or texting us at +14696208367.",
   contactPhoneLabel: "+14696208367",
   contactPhoneHref: "tel:+14696208367",
   aboutSectionTitle: "",

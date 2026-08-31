@@ -7,6 +7,7 @@ import {
   THANKYOU_CONTENT,
   THANKYOU_REQUIRE_EMAIL_IN_PARAMS,
   THANKYOU_TYPE2_CONTENT,
+  THANKYOU_TYPE2_CONTENT_NO_PARTNER,
 } from "@/lib/constant"
 
 const THANKYOU_ADS: ThankYouAd[] = [
@@ -27,6 +28,7 @@ type ThankYouPageContentProps = {
 export function ThankYouPageContent({ loadingFallback }: ThankYouPageContentProps) {
   const searchParams = useSearchParams()
   const firstNameRef = useRef<string | null>(null)
+  const buyerIdRef = useRef<string | null>(null)
 
   if (firstNameRef.current === null) {
     firstNameRef.current =
@@ -35,7 +37,17 @@ export function ThankYouPageContent({ loadingFallback }: ThankYouPageContentProp
       ""
   }
 
+  if (buyerIdRef.current === null) {
+    buyerIdRef.current = searchParams.get("buyer_id")?.trim() || ""
+  }
+
   const firstName = firstNameRef.current
+  const buyerId = buyerIdRef.current
+  const showPrimeStreet = buyerId === "01"
+  const baseContent = showPrimeStreet
+    ? THANKYOU_TYPE2_CONTENT
+    : THANKYOU_TYPE2_CONTENT_NO_PARTNER
+
   const title = firstName
     ? THANKYOU_CONTENT.title.replace("{first_name}", firstName)
     : THANKYOU_CONTENT.titleFallback
@@ -43,7 +55,7 @@ export function ThankYouPageContent({ loadingFallback }: ThankYouPageContentProp
   return (
     <ThankYouType2
       content={{
-        ...THANKYOU_TYPE2_CONTENT,
+        ...baseContent,
         title,
       }}
       ads={THANKYOU_ADS}
