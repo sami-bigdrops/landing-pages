@@ -1,11 +1,12 @@
 "use client"
 
-import { Suspense, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react"
+import { Suspense, useEffect, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react"
 import Image from "next/image"
-import { useSearchParams } from "next/navigation"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
-import { TrustedForm, getCookie } from "@workspace/lp-core"
+import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
+import { TrustedForm, getCookie, setCookie } from "@workspace/lp-core"
+import { AddressAutocomplete } from "./AddressAutocomplete"
 
 const ANALYTICS_FLUSH_DELAY_MS = 300
 
@@ -55,7 +56,7 @@ const CHOICE_GRID_BASE = "mx-auto grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-
 const STEP_HEADER =
   "flex h-[7.5rem] w-full shrink-0 flex-col items-center justify-center gap-1.5 md:h-[8rem] xl:h-[8.5rem]"
 const STEP_BODY =
-  "flex h-[22rem] w-full shrink-0 flex-col items-center justify-start md:h-[24rem] xl:h-[26rem]"
+  "flex h-[26rem] w-full shrink-0 flex-col items-center justify-start overflow-visible md:h-[28rem] xl:h-[30rem]"
 
 function StepTitle({ children }: { children: ReactNode }) {
   const label = typeof children === "string" ? children.trimEnd() : children
@@ -156,8 +157,12 @@ const defaultFormData = {
   hasMetalRoof: "yes" as YesNoId,
   qualifiesForDiscount: "yes" as YesNoId,
   zipCode: "",
+  address: "",
+  city: "",
+  state: "",
   first_name: "",
   last_name: "",
+  phone_number: "",
   email: "",
 }
 
@@ -187,21 +192,27 @@ function FormNavigation({
 }
 
 function FormPage() {
-  const searchParams = useSearchParams()
-  const homeownerFromUrl = searchParams.get("isHomeowner")
-  const askHomeowner = homeownerFromUrl === null
-
-  const [currentStep, setCurrentStep] = useState(askHomeowner ? 0 : 1)
-  const [formData, setFormData] = useState({
-    ...defaultFormData,
-    isHomeowner: (homeownerFromUrl === "no" ? "no" : "yes") as YesNoId,
-  })
+  const [askHomeowner, setAskHomeowner] = useState(true)
+  const [currentStep, setCurrentStep] = useState<number | null>(null)
+  const [formData, setFormData] = useState(defaultFormData)
 
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<{ email?: string }>({})
 
-  const progressCurrent = askHomeowner ? currentStep + 1 : currentStep
+  useEffect(() => {
+    const homeownerCookie = getCookie("isHomeowner")
+    const hasHomeownerCookie = homeownerCookie === "yes" || homeownerCookie === "no"
+    setAskHomeowner(!hasHomeownerCookie)
+    setFormData((prev) => ({
+      ...prev,
+      isHomeowner: (homeownerCookie === "no" ? "no" : "yes") as YesNoId,
+    }))
+    setCurrentStep(hasHomeownerCookie ? 1 : 0)
+  }, [])
+
+  const progressCurrent =
+    currentStep === null ? 1 : askHomeowner ? currentStep + 1 : currentStep
   const progressTotal = askHomeowner ? BASE_STEPS + 1 : BASE_STEPS
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
@@ -219,20 +230,32 @@ function FormPage() {
       return normalizeZip(formData.zipCode).length === 5
     }
     if (currentStep === 11) {
-      return formData.first_name.trim() !== "" && formData.last_name.trim() !== ""
+      return (
+        formData.address.trim() !== "" &&
+        formData.city.trim() !== "" &&
+        formData.state.trim() !== ""
+      )
     }
     if (currentStep === BASE_STEPS) {
-      return formData.email.trim() !== "" && emailRegex.test(formData.email.trim())
+      const phoneDigits = formData.phone_number.replace(/\D/g, "")
+      return (
+        formData.first_name.trim() !== "" &&
+        formData.last_name.trim() !== "" &&
+        phoneDigits.length === 10 &&
+        formData.email.trim() !== "" &&
+        emailRegex.test(formData.email.trim())
+      )
     }
     return true
   }
 
   const handleNext = () => {
-    if (!isStepValid() || currentStep >= BASE_STEPS) return
-    setCurrentStep((prev) => prev + 1)
+    if (currentStep === null || !isStepValid() || currentStep >= BASE_STEPS) return
+    setCurrentStep((prev) => (prev === null ? prev : prev + 1))
   }
 
   const handleFormKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (currentStep === null) return
     if (e.key !== "Enter") return
     const tag = (e.target as HTMLElement).tagName
     if (tag === "TEXTAREA" || tag === "BUTTON") return
@@ -250,6 +273,7 @@ function FormPage() {
 
   const handleLeadSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (currentStep === null) return
     if (currentStep !== BASE_STEPS) {
       if ((currentStep === 10 || currentStep === 11) && isStepValid()) {
         handleNext()
@@ -263,12 +287,17 @@ function FormPage() {
     const zip = normalizeZip(formData.zipCode)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const email = formData.email.trim()
+    const phoneDigits = formData.phone_number.replace(/\D/g, "")
 
     if (
       !formData.first_name.trim() ||
       !formData.last_name.trim() ||
+      !formData.address.trim() ||
+      !formData.city.trim() ||
+      !formData.state.trim() ||
       !email ||
       !emailRegex.test(email) ||
+      phoneDigits.length !== 10 ||
       zip.length !== 5
     ) {
       setSubmitStatus("error")
@@ -283,7 +312,7 @@ function FormPage() {
     const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
     const payload = {
-      isHomeowner: formData.isHomeowner,
+      isHomeowner: getCookie("isHomeowner") || formData.isHomeowner,
       propertyType: formData.propertyType,
       roofAge: formData.roofAge,
       homeSize: formData.homeSize,
@@ -294,8 +323,12 @@ function FormPage() {
       hasMetalRoof: formData.hasMetalRoof,
       qualifiesForDiscount: formData.qualifiesForDiscount,
       zipCode: zip,
+      address: formData.address.trim(),
+      city: formData.city.trim(),
+      state: formData.state.trim(),
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
+      phoneNumber: phoneDigits,
       email: formData.email.trim(),
       subid1: getCookie("subid1") ?? "",
       subid2: getCookie("subid2") ?? "",
@@ -386,6 +419,12 @@ function FormPage() {
         <TrustedForm />
 
         <div className="flex min-h-0 w-full flex-1 flex-col justify-start md:justify-center">
+          {currentStep === null ? (
+            <div className="flex h-full min-h-[12rem] w-full items-center justify-center">
+              <div className="text-base font-semibold text-[#102E50] md:text-lg">Loading...</div>
+            </div>
+          ) : null}
+
           {currentStep === 0 ? (
             <StepFrame step="0" stepName="Are you a homeowner?" title="Are you a homeowner?">
               <div className={GRID_2}>
@@ -396,6 +435,7 @@ function FormPage() {
                       key={id}
                       type="button"
                       onClick={() => {
+                        setCookie("isHomeowner", id)
                         setFormData((prev) => ({ ...prev, isHomeowner: id }))
                         setCurrentStep(1)
                       }}
@@ -672,11 +712,47 @@ function FormPage() {
           {currentStep === 11 ? (
             <StepFrame
               step="11"
+              stepName="Address"
+              title="What is your street address?"
+              subtitle="Start typing your address and select it from the list."
+            >
+              <div className={`${FIELDS_STACK} overflow-visible`}>
+                <AddressAutocomplete
+                  id="address"
+                  label={null}
+                  value={formData.address}
+                  onChange={(value) => handleInputChange("address", value)}
+                  onPlaceSelect={(details) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      address: details.address,
+                      city: details.city,
+                      state: details.state,
+                      ...(details.zipCode ? { zipCode: details.zipCode } : {}),
+                    }))
+                  }}
+                  placeholder="Address"
+                  className={INPUT_FIELD}
+                />
+                {formData.city || formData.state ? (
+                  <p className="text-center text-sm text-gray-500 xl:text-base">
+                    {[formData.city, formData.state].filter(Boolean).join(", ")}
+                    {formData.zipCode ? ` ${formData.zipCode}` : ""}
+                  </p>
+                ) : null}
+                <FormNavigation isNextDisabled={!isStepValid()} onNext={handleNext} />
+              </div>
+            </StepFrame>
+          ) : null}
+
+          {currentStep === BASE_STEPS ? (
+            <StepFrame
+              step="12"
               stepName="Contact Information"
               title="Who should we prepare this FREE quote for?"
-              subtitle="Please enter your first and last name below."
+              subtitle="Please enter your contact details below."
             >
-              <div className={FIELDS_STACK}>
+              <div className={`${FIELDS_STACK} overflow-y-auto`}>
                 <TextInput
                   id="firstName"
                   name="firstName"
@@ -695,19 +771,15 @@ function FormPage() {
                   placeholder="Enter Last Name"
                   className={INPUT_FIELD}
                 />
-                <FormNavigation isNextDisabled={!isStepValid()} onNext={handleNext} />
-              </div>
-            </StepFrame>
-          ) : null}
-
-          {currentStep === BASE_STEPS ? (
-            <StepFrame
-              step="12"
-              stepName="Email"
-              title="Where should we send your information?"
-              subtitle="Please enter your email address below."
-            >
-              <div className={FIELDS_STACK}>
+                <PhoneNumberInput
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  data-arohaa-field="phoneNumber"
+                  label={null}
+                  value={formData.phone_number}
+                  onChange={(value) => handleInputChange("phone_number", value)}
+                  className={INPUT_FIELD}
+                />
                 <TextInput
                   id="email"
                   name="email"

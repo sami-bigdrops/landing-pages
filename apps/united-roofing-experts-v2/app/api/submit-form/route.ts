@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
 
     const {
-      isHomeowner,
+      isHomeowner: isHomeownerFromBody,
       propertyType,
       roofAge,
       homeSize,
@@ -16,14 +16,26 @@ export async function POST(request: NextRequest) {
       hasMetalRoof,
       qualifiesForDiscount,
       zipCode,
+      address,
+      city,
+      state,
       firstName,
       lastName,
+      phoneNumber,
       email,
-      subid1,
-      subid2,
-      subid3,
+      subid1: subid1FromBody,
+      subid2: subid2FromBody,
+      subid3: subid3FromBody,
       xxTrustedFormCertUrl,
     } = body
+
+    const isHomeowner =
+      request.cookies.get("isHomeowner")?.value ||
+      isHomeownerFromBody ||
+      ""
+    const subid1 = request.cookies.get("subid1")?.value || subid1FromBody || ""
+    const subid2 = request.cookies.get("subid2")?.value || subid2FromBody || ""
+    const subid3 = request.cookies.get("subid3")?.value || subid3FromBody || ""
 
     const forwarded = request.headers.get("x-forwarded-for")
     const firstForwarded = forwarded?.split(",")[0]
@@ -43,8 +55,12 @@ export async function POST(request: NextRequest) {
       hasMetalRoof: hasMetalRoof ?? "",
       qualifiesForDiscount: qualifiesForDiscount ?? "",
       zipCode: zipCode ?? "",
+      address: address ?? "",
+      city: city ?? "",
+      state: state ?? "",
       firstName,
       lastName,
+      phoneNumber,
       email,
       subid1: subid1 ?? "",
       subid2: subid2 ?? "",
@@ -70,7 +86,11 @@ export async function POST(request: NextRequest) {
         first_name: String(firstName ?? "").trim(),
         last_name: String(lastName ?? "").trim(),
         email: String(email ?? "").trim(),
+        phone: String(phoneNumber ?? "").trim(),
         zip_code: String(zipCode ?? "").trim(),
+        address: String(address ?? "").trim(),
+        city: String(city ?? "").trim(),
+        state: String(state ?? "").trim(),
         homeowner: String(isHomeowner ?? "").trim(),
         property_type: String(propertyType ?? "").trim(),
         roof_age: String(roofAge ?? "").trim(),

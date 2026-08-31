@@ -2,6 +2,7 @@
 
 import { HERO_CONTENT } from "@/lib/constant";
 import { Button } from "@workspace/ui/components/button";
+import { setCookie } from "@workspace/lp-core";
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -11,7 +12,8 @@ export default function Hero() {
   const router = useRouter();
 
   const handleHomeownerAnswer = (answer: "yes" | "no") => {
-    router.push(`/form?isHomeowner=${answer}`);
+    setCookie("isHomeowner", answer);
+    router.push("/form");
   };
 
   const handleCheckMyEligibility = () => {
