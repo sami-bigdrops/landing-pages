@@ -26,6 +26,11 @@ import {
   formatSSN,
 } from "@/lib/form/formatters"
 import {
+  AROHAA_SUBMITTED_KEY,
+  FORM_STEP_NAMES,
+  trackArohaa,
+} from "@/lib/arohaa"
+import {
   TOTAL_STEPS,
   STATE_LICENSE_FORMATS,
   spendingOptions,
@@ -58,6 +63,7 @@ const COOKIE_PREFIX = "form_"
 const COOKIE_MAX_AGE_DAYS = 7
 const PERSIST_DEBOUNCE_MS = 500
 const AUTO_ADVANCE_DELAY_MS = 180
+const ANALYTICS_FLUSH_DELAY_MS = 300
 
 const AUTO_ADVANCE_STEPS = new Set([2, 3, 4, 9, 17, 18, 20, 23, 24, 26, 29, 30, 31, 32])
 
@@ -426,6 +432,19 @@ function LoanFormInner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (!isHydrated) return
+    trackArohaa("form_start")
+  }, [isHydrated])
+
+  useEffect(() => {
+    if (!isHydrated) return
+    trackArohaa("form_step_view", {
+      step: currentStep,
+      step_name: FORM_STEP_NAMES[currentStep] ?? `Step ${currentStep}`,
+    })
+  }, [currentStep, isHydrated])
+
   const persistSnapshot = JSON.stringify({
     currentStep: String(currentStep),
     spendingPurpose,
@@ -700,6 +719,7 @@ function LoanFormInner() {
       }
       if (data.city) setZipCodeCity(data.city)
       if (data.stateAbbreviation) setState(data.stateAbbreviation.toUpperCase())
+      trackArohaa("zip_submit", { zip })
       goToNextStep()
     } catch {
       setZipCodeError("We could not verify that zip code right now")
@@ -917,7 +937,15 @@ function LoanFormInner() {
       }
 
       clearPersistedForm()
-      window.location.href = data.redirectUrl ?? "/thankyou"
+      trackArohaa("form_submit")
+      try {
+        sessionStorage.setItem(AROHAA_SUBMITTED_KEY, "1")
+      } catch {
+        /* ignore */
+      }
+      window.setTimeout(() => {
+        window.location.href = data.redirectUrl ?? "/thankyou"
+      }, ANALYTICS_FLUSH_DELAY_MS)
     } catch {
       setSubmitError("Something went wrong. Please try again.")
     } finally {

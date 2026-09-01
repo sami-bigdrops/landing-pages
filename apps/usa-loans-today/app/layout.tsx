@@ -13,8 +13,6 @@ import {
   SITE_NAME,
   SITE_URL,
 } from "@/lib/seo"
-import { AROHAA_SERVICES_JSON } from "@/lib/arohaa"
-
 const fontInter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -84,6 +82,7 @@ export const metadata: Metadata = {
     shortcut: ["/favicon.png"],
   },
   other: {
+    "arohaa-verify": "0st0jqtPnLFhlXf0KQSok1PkpxLMC0G0",
     "geo.region": "US",
     "geo.placename": "United States",
     "og:locale:alternate": "en_US",
@@ -100,7 +99,7 @@ export default function RootLayout({
       <head>
         <meta
           name="arohaa-verify"
-          content="Omg_RcyzWH5OLvACwn8ZNbesUoNkyS_i"
+          content="0st0jqtPnLFhlXf0KQSok1PkpxLMC0G0"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -112,12 +111,11 @@ export default function RootLayout({
           id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="97b0a6b9-9eba-401c-b6af-0f3edc6388e9"
+          data-wid="98f5e545-db53-4d92-bda3-3d2a741c4fcf"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_xC5nIQUIoj0eWuio"
-          data-page="www.quotifii.com"
-          data-formtype="none"
-          data-services={AROHAA_SERVICES_JSON}
+          data-lp-id="lp_2OQKoq5kkHcURbwg"
+          data-page="go.usaloanstoday.com"
+          data-formtype="multiple"
         />
       </head>
       <body
