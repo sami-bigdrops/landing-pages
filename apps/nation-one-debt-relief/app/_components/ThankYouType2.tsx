@@ -3,14 +3,7 @@
 import React, { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Shield, Building2, CheckCircle } from "lucide-react"
 import type { ThankYouType2Content } from "@/lib/constant"
-
-const ICON_MAP = {
-  shield: Shield,
-  building: Building2,
-  check: CheckCircle,
-} as const
 
 export interface ThankYouAd {
   image: string
@@ -32,31 +25,6 @@ function getCookie(name: string): string {
   const parts = value.split(`; ${name}=`)
   if (parts.length === 2) return parts.pop()?.split(";").shift()?.trim() ?? ""
   return ""
-}
-
-function renderConfirmationMessage(
-  message: string,
-  phoneLabel?: string,
-  phoneHref?: string
-) {
-  if (!phoneLabel || !phoneHref || !message.includes(phoneLabel)) {
-    return message
-  }
-
-  const parts = message.split(phoneLabel)
-  return parts.map((part, index) => (
-    <React.Fragment key={index}>
-      {part}
-      {index < parts.length - 1 ? (
-        <a
-          href={phoneHref}
-          className="inline font-bold text-[#1e3a5f] underline decoration-[#1e3a5f]/40 underline-offset-2 transition-colors hover:text-[#C12026] hover:decoration-[#C12026]"
-        >
-          {phoneLabel}
-        </a>
-      ) : null}
-    </React.Fragment>
-  ))
 }
 
 export function ThankYouType2({
@@ -115,7 +83,7 @@ export function ThankYouType2({
     if (loadingFallback) return <>{loadingFallback}</>
     return (
       <main className="flex min-h-[50vh] items-center justify-center bg-white px-6 py-20">
-        <div className="h-12 w-12 animate-spin rounded-full border-2 border-gray-200 border-t-sky-600" />
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-gray-200 border-t-[#142B4A]" />
       </main>
     )
   }
@@ -128,84 +96,52 @@ export function ThankYouType2({
       .replace(/\$\{utm_id\}/g, utmParams.utm_id)
 
   return (
-    <main className="min-h-screen bg-white">
-      <section className="px-4 py-10 sm:px-6 sm:py-14 lg:py-20">
-        <div className="mx-auto max-w-5xl text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-[#1e3a5f] sm:text-3xl">
+    <main className="flex flex-1 flex-col bg-white">
+      <section className="flex flex-1 flex-col items-center justify-center px-6 py-14 md:px-8 md:py-14 lg:px-14 lg:py-16 xl:py-20">
+        <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center">
+          <h1
+            className="font-sans text-2xl font-extrabold text-[#142B4A] md:text-3xl xl:text-4xl"
+            style={{ lineHeight: "1.3" }}
+          >
             {content.title}
           </h1>
 
-          <div className="mt-8 flex justify-center">
-            {content.partnerLogo.src ? (
-              <Image
-                src={content.partnerLogo.src}
-                alt={content.partnerLogo.alt}
-                width={280}
-                height={120}
-                className="h-auto w-full max-w-[280px] object-contain"
-                priority
-              />
-            ) : (
-              <div
-                className="flex h-28 w-full max-w-[280px] items-center justify-center rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 text-sm font-medium text-gray-500"
-                aria-hidden
-              >
-                Brand Logo
-              </div>
-            )}
-          </div>
-
-          <p className="mt-6 mx-auto max-w-[690px] whitespace-pre-line text-base font-medium leading-relaxed text-gray-600 sm:text-lg">
-            {renderConfirmationMessage(
-              content.confirmationMessage,
-              content.contactPhoneLabel,
-              content.contactPhoneHref
-            )}
+          <p
+            className="mt-4 max-w-2xl font-sans text-[0.85rem] font-normal text-[#475467] md:mt-5 md:max-w-[450px] xl:max-w-[620px] xl:mt-6 xl:text-lg"
+            style={{ lineHeight: "1.6" }}
+          >
+            {content.confirmationMessage}
           </p>
 
-          {content.aboutSectionTitle && content.featureCards.length > 0 ? (
-            <>
-              <h2 className="mt-10 text-lg font-bold text-gray-900 sm:mt-12 sm:text-xl">
-                {content.aboutSectionTitle}
-              </h2>
-              <div className="mt-6 grid gap-5 sm:mt-8 sm:grid-cols-3 sm:gap-6">
-                {content.featureCards.map((card, index) => {
-                  const IconComponent = ICON_MAP[card.icon]
-                  return (
-                    <div
-                      key={index}
-                      className="rounded-xl border border-gray-100 bg-white p-5 text-left shadow-[0_2px_12px_rgba(0,0,0,0.06)] sm:p-6"
-                    >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-600 text-white sm:h-12 sm:w-12">
-                        <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2} />
-                      </div>
-                      <h3 className="mt-4 text-base font-bold text-gray-900 sm:text-lg">
-                        {card.title}
-                      </h3>
-                      <ul className="mt-3 space-y-2">
-                        {card.bulletPoints.map((point, i) => (
-                          <li
-                            key={i}
-                            className="flex items-start gap-2 text-sm text-gray-600 sm:text-[0.9375rem]"
-                          >
-                            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-600" />
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                })}
-              </div>
-            </>
+          {content.featureCards.length > 0 ? (
+            <div className="mt-10 flex w-full max-w-xl flex-col items-center justify-center gap-8 sm:mt-12 sm:flex-row sm:gap-14 md:mt-14 md:gap-16 xl:mt-16 xl:gap-20">
+              {content.featureCards.map((card) => (
+                <div
+                  key={card.title}
+                  className="flex flex-col items-center justify-center gap-3 xl:gap-4"
+                >
+                  <Image
+                    src={card.iconSrc}
+                    alt=""
+                    width={60}
+                    height={60}
+                    className="h-11 w-11 md:h-12 md:w-12 object-contain xl:h-14 xl:w-14"
+                    aria-hidden
+                  />
+                  <p className="font-sans text-base font-bold text-[#142B4A] xl:text-lg">
+                    {card.title}
+                  </p>
+                </div>
+              ))}
+            </div>
           ) : null}
         </div>
       </section>
 
-      {ads.length > 0 && (
-        <section className="border-t border-gray-200 bg-gray-50 px-4 py-10 sm:px-6 sm:py-14">
+      {ads.length > 0 ? (
+        <section className="border-t border-gray-200 bg-[#F8F9FB] px-6 py-10 md:px-8 md:py-12 lg:px-14">
           <div className="mx-auto max-w-4xl">
-            <h2 className="mb-6 text-center text-base font-semibold text-gray-900 sm:mb-8 sm:text-lg">
+            <h2 className="mb-6 text-center font-sans text-base font-semibold text-[#142B4A] md:mb-8 md:text-lg">
               {adSectionTitle ?? `We have handpicked ${ads.length} great offers, just for you.`}
             </h2>
             <div className="grid grid-cols-1 gap-5 sm:gap-6">
@@ -215,7 +151,7 @@ export function ThankYouType2({
                   href={replaceUtm(ad.link)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+                  className="group block overflow-hidden rounded-[10px] border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md"
                 >
                   <Image
                     src={ad.image}
@@ -229,7 +165,7 @@ export function ThankYouType2({
             </div>
           </div>
         </section>
-      )}
+      ) : null}
     </main>
   )
 }

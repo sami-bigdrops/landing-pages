@@ -2,13 +2,15 @@
 
 import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
+import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { TrustedForm, getCookie } from "@workspace/lp-core"
-import CashOfferCard from "./Card"
-import { PartnersDialog } from "./PartnersDialog"
-import { SubmissionLoadingScreen } from "./SubmissionLoadingScreen"
+
+
+import PartnerLogos from "@/app/_components/PartnerLogos"
 import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
 
 const ANALYTICS_FLUSH_DELAY_MS = 300
@@ -340,11 +342,11 @@ const CREDIT_OPTIONS = [
   { id: "excellent", label: "Excellent (701+)", Icon: "/excellant.svg" }
 ] as const
 
-const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
+const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-6 "
 const STEP_SHELL_WIDE = "mx-auto flex w-full max-w-6xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
 const STEP_SHELL_VALUE = "mx-auto flex w-full max-w-5xl flex-col items-center gap-6 text-center md:gap-7 xl:gap-8"
 const STEP_SHELL_FIELDS = "mx-auto flex w-full max-w-3xl flex-col gap-5 md:gap-6"
-const STEP_TITLE = "text-center text-base font-medium text-[#1C1C1C] xl:text-xl"
+const STEP_TITLE = "text-center text-xl  font-bold text-[#142B4A] xl:text-2xl mb-2"
 const GRID_2 = "grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-5"
 const GRID_SELL = "grid w-full grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3 xl:gap-5"
 const CHOICE_BTN =
@@ -352,12 +354,12 @@ const CHOICE_BTN =
 const CHOICE_BTN_MLS =
   "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-7 xl:px-6 xl:py-10"
 const CHOICE_ICON = "h-9.5 w-9.5 shrink-0 object-contain md:h-10 md:w-10 xl:h-14 xl:w-14"
-const CHOICE_LABEL = "text-[0.85rem] font-semibold leading-normal text-[#343434] xl:text-base"
+const CHOICE_LABEL = "text-[0.85rem] font-semibold leading-normal text-[#475467] xl:text-base"
 const INPUT_FIELD =
-  "mt-2 h-14 w-full rounded-[5px] border border-[#102E50] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base"
-const LABEL_CLASS = "text-sm font-medium text-[#1C1C1C] xl:text-base"
+  "mt-2 h-14 w-full rounded-[10px] border border-gray-300 bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-[0_4px_12px_0_rgba(0,0,0,0.03)] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base"
+const LABEL_CLASS = "text-sm font-medium text-[#142B4A] xl:text-base"
 const PARTNER_LINK_CLASS =
-  "inline cursor-pointer border-0 bg-transparent p-0 font-bold text-[#343434] underline"
+  "inline cursor-pointer border-0 bg-transparent p-0 font-bold text-[#475467] underline"
 
 type HomeTypeId = (typeof HOME_TYPE_OPTIONS)[number]["id"]
 type PropertyTypeId = (typeof PROPERTY_TYPE_OPTIONS)[number]["id"]
@@ -390,7 +392,7 @@ const HOUSE_VALUE_RANGES: { value: string; label: string }[] = [
   { value: "1_5m_plus", label: "$1.5M+" },
 ]
 
-const TOTAL_STEPS = 9
+const TOTAL_STEPS = 4
 
 const defaultFormData = {
   homeType: "condominium" as HomeTypeId,
@@ -411,31 +413,69 @@ const defaultFormData = {
 }
 
 type FormNavigationProps = {
+  showBack?: boolean
   isNextDisabled?: boolean
   nextLabel?: string
   onNext: () => void
+  onBack?: () => void
+}
+
+function CreditScoreNotice() {
+  return (
+    <p className="flex w-full items-center justify-center gap-1.5 text-[0.85rem] font-normal text-[#475467]">
+      <Image
+        src="/lock.svg"
+        alt=""
+        width={16}
+        height={16}
+        aria-hidden
+        className="h-4 w-4 shrink-0"
+      />
+      <span>No impact to your credit score</span>
+    </p>
+  )
 }
 
 function FormNavigation({
+  showBack = false,
   isNextDisabled = false,
-  nextLabel = "Next",
+  nextLabel = "Continue",
   onNext,
+  onBack,
 }: FormNavigationProps) {
   return (
-    <nav className="flex w-full max-w-lg flex-col items-center gap-4 md:gap-5">
-      <button
-        type="button"
-        onClick={onNext}
-        disabled={isNextDisabled}
-        className="w-full rounded-[10px] bg-[#C12026] py-3 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
-      >
-        {nextLabel}
-      </button>
+    <nav className="flex w-full max-w-lg flex-col gap-4.5 mt-1.5 xl:mt-2.5">
+      <div className="flex w-full items-stretch gap-2.5 md:max-w-[300px] xl:max-w-[330px] md:mx-auto">
+        {showBack ? (
+          <button
+            type="button"
+            onClick={onBack}
+            aria-label="Go back"
+            className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-[#D1D5DB] bg-white shadow-[0_0_6px_0_rgba(0,0,0,0.04)] transition-colors hover:bg-[#F9FAFB] md:h-[52px] md:w-[52px] xl:h-14 xl:w-14"
+          >
+     
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="15" viewBox="0 0 19 15" fill="none" aria-hidden className="h-4 w-4 text-[#8E91A0]">
+              <path d="M17.4167 8.25H3.12953L7.98145 13.1019C8.06813 13.1867 8.13713 13.2878 8.18445 13.3994C8.23178 13.5111 8.25649 13.631 8.25716 13.7522C8.25783 13.8734 8.23444 13.9936 8.18834 14.1058C8.14225 14.2179 8.07437 14.3198 7.98863 14.4055C7.90289 14.4912 7.801 14.5591 7.68885 14.6052C7.57671 14.6512 7.45653 14.6746 7.3353 14.6739C7.21406 14.6732 7.09416 14.6485 6.98254 14.6011C6.87093 14.5538 6.76981 14.4848 6.68505 14.3981L0.268388 7.98142C0.0965391 7.80952 0 7.5764 0 7.33333C0 7.09027 0.0965391 6.85715 0.268388 6.68525L6.68505 0.268584C6.77008 0.183299 6.87114 0.115664 6.9824 0.0695703C7.09366 0.0234767 7.21294 -0.000166252 7.33337 8.79926e-07C7.51464 3.95856e-05 7.69183 0.0538219 7.84254 0.154549C7.99325 0.255277 8.11071 0.398426 8.18007 0.565901C8.24944 0.733376 8.26759 0.917656 8.23223 1.09545C8.19688 1.27324 8.10961 1.43655 7.98145 1.56475L3.12953 6.41667H17.4167C17.6598 6.41667 17.893 6.51325 18.0649 6.68515C18.2368 6.85706 18.3334 7.09022 18.3334 7.33333C18.3334 7.57645 18.2368 7.80961 18.0649 7.98152C17.893 8.15342 17.6598 8.25 17.4167 8.25Z" fill="#8E91A0"/>
+            </svg>
+       
+          </button>
+        ) : null}
+        <button
+          type="button"
+          onClick={onNext}
+          disabled={isNextDisabled}
+          className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#C12026] text-base font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] md:py-3.5 xl:h-14 xl:text-[1.05rem]"
+        >
+          {nextLabel}
+        </button>
+      </div>
+      <CreditScoreNotice />
     </nav>
   )
 }
 
 function FormPage() {
+  const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState(defaultFormData)
   const [houseValueIndex, setHouseValueIndex] = useState(() => {
@@ -449,22 +489,12 @@ function FormPage() {
   const [partnersOpen, setPartnersOpen] = useState(false)
   const [showSubmissionLoading, setShowSubmissionLoading] = useState(false)
   const redirectUrlRef = useRef<string | null>(null)
-  const apiReadyRef = useRef(false)
-  const animationReadyRef = useRef(false)
 
-  const tryRedirect = useCallback(() => {
-    if (apiReadyRef.current && animationReadyRef.current && redirectUrlRef.current) {
-      const url = redirectUrlRef.current
-      window.setTimeout(() => {
-        window.location.href = url
-      }, ANALYTICS_FLUSH_DELAY_MS)
-    }
+  const redirectToThankYou = useCallback((url: string) => {
+    window.setTimeout(() => {
+      window.location.href = url
+    }, ANALYTICS_FLUSH_DELAY_MS)
   }, [])
-
-  const handleLoadingComplete = useCallback(() => {
-    animationReadyRef.current = true
-    tryRedirect()
-  }, [tryRedirect])
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     if (field === "street_address") {
@@ -479,24 +509,19 @@ function FormPage() {
   }
 
   const isStepValid = () => {
-    if (currentStep === 7) {
-      return formData.houseValueRange.trim() !== ""
+    if (currentStep === 1) {
+      return formData.first_name.trim() !== "" && formData.last_name.trim() !== ""
     }
-    if (currentStep === 8) {
+    if (currentStep === 2) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      return (
-        formData.first_name.trim() !== "" &&
-        formData.last_name.trim() !== "" &&
-        formData.email.trim() !== "" &&
-        emailRegex.test(formData.email.trim())
-      )
+      return emailRegex.test(formData.email.trim())
+    }
+    if (currentStep === 3) {
+      return normalizeZip(formData.zipCode).length === 5
     }
     if (currentStep === TOTAL_STEPS) {
-      return (
-        formData.street_address.trim() !== "" &&
-        formData.phone_number.trim() !== "" &&
-        normalizeZip(formData.zipCode).length === 5
-      )
+      const phoneDigits = formData.phone_number.replace(/\D/g, "")
+      return phoneDigits.length === 10 && normalizeZip(formData.zipCode).length === 5
     }
     return true
   }
@@ -504,6 +529,14 @@ function FormPage() {
   const handleNext = () => {
     if (!isStepValid() || currentStep >= TOTAL_STEPS) return
     setCurrentStep((prev) => prev + 1)
+  }
+
+  const handleBack = () => {
+    if (currentStep === 1) {
+      router.push("/")
+      return
+    }
+    setCurrentStep((prev) => prev - 1)
   }
 
   const handleFormKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
@@ -517,7 +550,7 @@ function FormPage() {
     }
 
     e.preventDefault()
-    if ((currentStep === 7 || currentStep === 8) && isStepValid()) {
+    if (isStepValid()) {
       handleNext()
     }
   }
@@ -525,7 +558,7 @@ function FormPage() {
   const handleLeadSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (currentStep !== TOTAL_STEPS) {
-      if ((currentStep === 7 || currentStep === 8) && isStepValid()) {
+      if (isStepValid()) {
         handleNext()
       }
       return
@@ -537,21 +570,23 @@ function FormPage() {
     const zip = normalizeZip(formData.zipCode)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const email = formData.email.trim()
+    const phoneDigits = formData.phone_number.replace(/\D/g, "")
 
     if (
       !formData.first_name.trim() ||
       !formData.last_name.trim() ||
-      !formData.street_address.trim() ||
       !email ||
       !emailRegex.test(email) ||
-      !formData.phone_number.trim() ||
+      phoneDigits.length !== 10 ||
       zip.length !== 5
     ) {
       setSubmitStatus("error")
       setSubmitError(
-        zip.length !== 5
-          ? "Please select a street address from the suggestions so we can detect your ZIP code."
-          : "Please complete all required fields with valid details."
+        phoneDigits.length !== 10
+          ? "Please enter a valid 10-digit phone number."
+          : zip.length !== 5
+            ? "Please enter a valid ZIP code."
+            : "Please complete all required fields with valid details."
       )
       return
     }
@@ -559,8 +594,6 @@ function FormPage() {
     setSubmitStatus("loading")
     setShowSubmissionLoading(true)
     redirectUrlRef.current = null
-    apiReadyRef.current = false
-    animationReadyRef.current = false
 
     const form = e.currentTarget
     const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
@@ -638,10 +671,13 @@ function FormPage() {
         return
       }
 
-      if (data.success && typeof data.redirectUrl === "string") {
-        redirectUrlRef.current = data.redirectUrl
-        apiReadyRef.current = true
-        tryRedirect()
+      if (data.success) {
+        const thankYouUrl =
+          typeof data.redirectUrl === "string" && data.redirectUrl.length > 0
+            ? data.redirectUrl
+            : `/thankyou?email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(formData.first_name.trim())}`
+        redirectUrlRef.current = thankYouUrl
+        redirectToThankYou(thankYouUrl)
         return
       }
 
@@ -655,10 +691,8 @@ function FormPage() {
   }
 
   return (
-    <section className="flex w-full min-h-[400px] flex-col items-center gap-8 md:min-h-[460px] md:gap-10 xl:min-h-[580px] xl:gap-12">
-      <h2 className="max-w-5xl text-center text-xl font-bold text-[#182542] lg:text-2xl xl:text-3xl">
-        Need to Sell Quickly? Uncle Sam Buys Homes — Get a Cash Offer for Your Home Today!
-      </h2>
+    <section className="flex w-full min-h-[400px] flex-col items-center justify-center gap-8 md:min-h-[390px] md:gap-10 xl:min-h-[510px] xl:gap-12">
+      
 
       <form
         id="lead-form"
@@ -667,7 +701,7 @@ function FormPage() {
         onSubmit={handleLeadSubmit}
         onKeyDown={handleFormKeyDown}
         noValidate
-        className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 xl:gap-8"
+        className="mx-auto flex w-full md:max-w-xl  xl:max-w-xl flex-col items-center gap-2 md:gap-0"
       >
         <ProgressBar
           type="8"
@@ -682,237 +716,12 @@ function FormPage() {
         {currentStep === 1 ? (
           <section
             className={STEP_SHELL}
+
             data-arohaa-step="1"
             data-arohaa-step-name="Confirm Your Home Type"
           >
-            <h3 className={STEP_TITLE}>Confirm Your Home Type</h3>
-            <div className={GRID_2}>
-              {HOME_TYPE_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.homeType === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, homeType: id }))
-                      setCurrentStep(2)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN}
-                  >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
-                    <span className={CHOICE_LABEL}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </section>
-        ) : null}
-
-        {currentStep === 2 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="2"
-            data-arohaa-step-name="Tell Us About Your Property"
-          >
-            <h3 className={STEP_TITLE}>Tell Us About Your Property!</h3>
-            <div className={GRID_2}>
-              {PROPERTY_TYPE_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.propertyType === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, propertyType: id }))
-                      setCurrentStep(3)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN}
-                  >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
-                    <span className={CHOICE_LABEL}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </section>
-        ) : null}
-
-        {currentStep === 3 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="3"
-            data-arohaa-step-name="MLS Listing"
-          >
-            <h3 className={STEP_TITLE}>Is Your House Already Listed on the MLS?</h3>
-            <div className={GRID_2}>
-              {PROPERTY_LIST_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.propertyList === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, propertyList: id }))
-                      setCurrentStep(4)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN_MLS}
-                  >
-                    <Image
-                      src={Icon}
-                      alt=""
-                      width={48}
-                      height={48}
-                      aria-hidden
-                      className="h-5 w-5 shrink-0 object-contain xl:h-7 xl:w-7"
-                    />
-                    <span className={`${CHOICE_LABEL} lg:text-base xl:text-lg`}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </section>
-        ) : null}
-        {currentStep === 4 ? (
-          <section
-            className={STEP_SHELL_WIDE}
-            data-arohaa-step="4"
-            data-arohaa-step-name="Why Do You Want To Sell"
-          >
-            <h3 className={STEP_TITLE}>Why Do You Want To Sell?</h3>
-            <div className={GRID_SELL}>
-              {SELL_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.sell === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, sell: id }))
-                      setCurrentStep(5)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN}
-                  >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
-                    <span className={CHOICE_LABEL}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </section>
-        ) : null}
-
-        {currentStep === 5 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="5"
-            data-arohaa-step-name="Timeline"
-          >
-            <h3 className={STEP_TITLE}>How Soon Do You Want Your Money?</h3>
-            <div className={GRID_2}>
-              {MONEY_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.money === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, money: id }))
-                      setCurrentStep(6)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN}
-                  >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
-                    <span className={CHOICE_LABEL}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </section>
-        ) : null}
-
-        {currentStep === 6 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="6"
-            data-arohaa-step-name="Credit Rating"
-          >
-            <h3 className={STEP_TITLE}>How Would You Rate Your Credit?</h3>
-            <div className={GRID_2}>
-              {CREDIT_OPTIONS.map(({ id, label, Icon }) => {
-                const selected = formData.credit === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setFormData((prev) => ({ ...prev, credit: id }))
-                      setCurrentStep(7)
-                    }}
-                    aria-pressed={selected}
-                    className={CHOICE_BTN}
-                  >
-                    <Image src={Icon} alt="" width={48} height={48} aria-hidden className={CHOICE_ICON} />
-                    <span className={CHOICE_LABEL}>{label}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </section>
-        ) : null}
-
-        {currentStep === 7 ? (
-          <section
-            className={STEP_SHELL_VALUE}
-            data-arohaa-step="7"
-            data-arohaa-step-name="Estimate House Value"
-          >
-            <h3 className={STEP_TITLE}>Estimate House Value</h3>
-            <p className="text-xl font-medium text-[#182542] md:text-2xl xl:text-3xl">
-              {HOUSE_VALUE_RANGES[houseValueIndex]?.label ?? ""}
-            </p>
-            <input
-              type="range"
-              name="houseValueRange"
-              data-arohaa-field="houseValueRange"
-              min={0}
-              max={HOUSE_VALUE_RANGES.length - 1}
-              step={1}
-              value={houseValueIndex}
-              aria-label="Estimated house value range"
-              onChange={(e) => {
-                const idx = Number(e.target.value)
-                setHouseValueIndex(idx)
-                const v = HOUSE_VALUE_RANGES[idx]?.value ?? ""
-                setFormData((prev) => ({ ...prev, houseValueRange: v }))
-              }}
-              className="h-2 w-full max-w-4xl cursor-pointer appearance-none rounded-full bg-[#E5E7EB] accent-[#182542] xl:h-2.5 [&::-moz-range-thumb]:size-5.5 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-3 [&::-moz-range-thumb]:border-[#182542] [&::-moz-range-thumb]:bg-white xl:[&::-moz-range-thumb]:size-7 xl:[&::-moz-range-thumb]:border-3.5 [&::-webkit-slider-thumb]:size-5.5 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-3 [&::-webkit-slider-thumb]:border-[#182542] [&::-webkit-slider-thumb]:bg-white xl:[&::-webkit-slider-thumb]:size-7 xl:[&::-webkit-slider-thumb]:border-3.5"
-              style={{
-                background:
-                  HOUSE_VALUE_RANGES.length <= 1
-                    ? "#102E50"
-                    : `linear-gradient(to right, #102E50 0%, #102E50 ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB ${(houseValueIndex / (HOUSE_VALUE_RANGES.length - 1)) * 100}%, #E5E7EB 100%)`,
-              }}
-            />
-            <div className="flex w-full max-w-4xl justify-between text-xs font-medium text-[#343434] xl:text-sm">
-              <span>Under $100K</span>
-              <span>$1.5M+</span>
-            </div>
-            <FormNavigation isNextDisabled={!isStepValid()} onNext={handleNext} />
-          </section>
-        ) : null}
-
-        {currentStep === 8 ? (
-          <section
-            className={`${STEP_SHELL_FIELDS} items-center`}
-            data-arohaa-step="8"
-            data-arohaa-step-name="Contact Information"
-          >
-            <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
+            <h3 className={STEP_TITLE}>What is your name?</h3>
+            <div className="flex w-full max-w-lg flex-col gap-4 text-left ">
               <TextInput
                 id="step6FirstName"
                 name="firstName"
@@ -935,6 +744,26 @@ function FormPage() {
                 labelClassName={LABEL_CLASS}
                 className={INPUT_FIELD}
               />
+             
+              
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 2 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="2"
+            data-arohaa-step-name="Email Address"
+          >
+            <h3 className={STEP_TITLE}>What is your email?</h3>
+            <div className="flex w-full max-w-lg flex-col gap-4 text-left">
               <TextInput
                 id="email"
                 name="email"
@@ -956,41 +785,55 @@ function FormPage() {
                 </p>
               ) : null}
             </div>
-            <FormNavigation isNextDisabled={!isStepValid()} onNext={handleNext} />
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
           </section>
         ) : null}
 
-        {currentStep === TOTAL_STEPS ? (
+        {currentStep === 3 ? (
           <section
-            className={`${STEP_SHELL_FIELDS} items-center`}
-            data-arohaa-step="9"
-            data-arohaa-step-name="Address and Phone"
+            className={STEP_SHELL}
+            data-arohaa-step="3"
+            data-arohaa-step-name="Zip Code"
           >
-            <div className="flex w-full max-w-lg flex-col gap-5 text-left md:gap-6">
-              <AddressAutocomplete
-                label="Street Address"
-                inputName="address"
-                dataArohaaField="address"
-                value={formData.street_address}
-                city={formData.city}
-                state={formData.state}
-                zipCode={formData.zipCode}
-                onChange={(v) => {
-                  handleInputChange("street_address", v)
-                }}
-                onSelect={(result) => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    street_address: result.streetAddress,
-                    city: result.city,
-                    state: result.state,
-                    zipCode: result.zipCode,
-                  }))
-                }}
-                placeholder="Enter Street Address"
+            <h3 className={STEP_TITLE}>What is your Zip Code?</h3>
+            <div className="flex w-full max-w-lg flex-col gap-4 text-left">
+              <ZipCodeInput
+                id="zipCode"
+                name="zipCode"
+                data-arohaa-field="zipCode"
+                label="Zip Code"
+                value={formData.zipCode}
+                onChange={(value) => handleInputChange("zipCode", value)}
+                placeholder="Enter Zip Code"
                 labelClassName={LABEL_CLASS}
                 className={INPUT_FIELD}
+                containerClassName="w-full"
               />
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+        
+
+        {currentStep === TOTAL_STEPS ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="4"
+            data-arohaa-step-name="Address and Phone"
+          >
+            <h3 className={STEP_TITLE}>What is your phone number?</h3>
+            <div className="flex w-full max-w-lg flex-col gap-4 text-left md:gap-5">
+              
               <PhoneNumberInput
                 id="phoneNumber"
                 name="phoneNumber"
@@ -1017,63 +860,61 @@ function FormPage() {
                 </p>
               ) : null}
 
-              <button
-                type="submit"
-                disabled={!isStepValid() || submitStatus === "loading"}
-                className="h-13 w-full cursor-pointer rounded-[10px] bg-[#C12026] py-3 text-sm font-medium uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:h-15 xl:text-lg"
-              >
-                {submitStatus === "loading" ? "Submitting..." : "See My Instant Cash Offer"}
-              </button>
-
-              <p className="text-justify text-xs font-normal leading-relaxed text-[#343434] xl:text-[0.85rem]">
-                By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to{" "}
-                <button
-                  type="button"
-                  onClick={() => setPartnersOpen(true)}
-                  className={PARTNER_LINK_CLASS}
-                >
-                  2 partners
-                </button>
-                ; that you are providing your prior express written consent for those{" "}
-                <button
-                  type="button"
-                  onClick={() => setPartnersOpen(true)}
-                  className={PARTNER_LINK_CLASS}
-                >
-                  partners
-                </button>{" "}
-                to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our{" "}
-                <a href="/terms-of-use" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
-                  Terms of Use
-                </a>
-                , including its{" "}
-                <a
-                  href="/terms-of-use#dispute-resolution"
-                  className="font-bold text-[#343434]"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Arbitration provision
-                </a>
-                , and{" "}
-                <a href="/privacy-policy" className="font-bold text-[#343434]" target="_blank" rel="noopener noreferrer">
-                  Privacy Policy
-                </a>
-                ; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email{" "}
-                <a href="mailto:consent@unclesambuyshomes.com" className="font-bold text-[#343434]">
-                  consent@unclesambuyshomes.com
-                </a>{" "}
-                and you can revoke your consent at any time by emailing us.
+              <p className="text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
+              By clicking "SUBMIT" you consent to allowing Nation One Debt Relief to contact you as described below.
               </p>
+
+              <nav className="flex w-full max-w-lg flex-col gap-4.5 mt-1.5 xl:mt-2.5">
+                <div className="flex w-full items-stretch gap-2.5">
+                  <button
+                    type="button"
+                    onClick={handleBack}
+                    aria-label="Go back"
+                    className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-[#D1D5DB] bg-white shadow-[0_0_6px_0_rgba(0,0,0,0.04)] transition-colors hover:bg-[#F9FAFB] md:h-[52px] md:w-[52px] xl:h-14 xl:w-14"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="15" viewBox="0 0 19 15" fill="none" aria-hidden className="h-4 w-4 text-[#8E91A0]">
+                      <path d="M17.4167 8.25H3.12953L7.98145 13.1019C8.06813 13.1867 8.13713 13.2878 8.18445 13.3994C8.23178 13.5111 8.25649 13.631 8.25716 13.7522C8.25783 13.8734 8.23444 13.9936 8.18834 14.1058C8.14225 14.2179 8.07437 14.3198 7.98863 14.4055C7.90289 14.4912 7.801 14.5591 7.68885 14.6052C7.57671 14.6512 7.45653 14.6746 7.3353 14.6739C7.21406 14.6732 7.09416 14.6485 6.98254 14.6011C6.87093 14.5538 6.76981 14.4848 6.68505 14.3981L0.268388 7.98142C0.0965391 7.80952 0 7.5764 0 7.33333C0 7.09027 0.0965391 6.85715 0.268388 6.68525L6.68505 0.268584C6.77008 0.183299 6.87114 0.115664 6.9824 0.0695703C7.09366 0.0234767 7.21294 -0.000166252 7.33337 8.79926e-07C7.51464 3.95856e-05 7.69183 0.0538219 7.84254 0.154549C7.99325 0.255277 8.11071 0.398426 8.18007 0.565901C8.24944 0.733376 8.26759 0.917656 8.23223 1.09545C8.19688 1.27324 8.10961 1.43655 7.98145 1.56475L3.12953 6.41667H17.4167C17.6598 6.41667 17.893 6.51325 18.0649 6.68515C18.2368 6.85706 18.3334 7.09022 18.3334 7.33333C18.3334 7.57645 18.2368 7.80961 18.0649 7.98152C17.893 8.15342 17.6598 8.25 17.4167 8.25Z" fill="#8E91A0"/>
+                    </svg>
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={!isStepValid() || submitStatus === "loading"}
+                    className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#C12026] text-sm font-semibold uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] xl:h-14 xl:text-base"
+                  >
+                    {submitStatus === "loading" ? "Submitting..." : "SUBMIT"}
+                  </button>
+                </div>
+                
+              </nav>
+
+              <p className="text-justify text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
+                By submitting this form, I am providing Nation One Debt Relief, with express written consent to contact me regarding product offerings by SMS/text messages or by using an auto dialer (or automated means) at the phone number(s) provided and such consent is not a condition of a purchase. I further consent to initial contact outside of permissible state and federal call times if made within approximately one hour of submission. Message and data rates may apply. You can opt-out of this service at any time by replying to our last message with “STOP”. For assistance, please call any number listed on this website. I also consent and agree to Nation One Debt Relief’s{" "}
+                <a href="/privacy-policy" className="underline text-[#475467]" target="_blank" rel="noopener noreferrer">
+                  Privacy Policy
+                </a>{" "}
+                and{" "}
+                <a href="/terms-of-use" className="underline text-[#475467]" target="_blank" rel="noopener noreferrer">
+                  Terms of Use
+                </a>.
+              </p>
+         
             </div>
           </section>
         ) : null}
 
-        <CashOfferCard />
+     
       </form>
 
-      <PartnersDialog isOpen={partnersOpen} onClose={() => setPartnersOpen(false)} />
-      <SubmissionLoadingScreen active={showSubmissionLoading} onComplete={handleLoadingComplete} />
+      <PartnerLogos className="mt-3 md:mt-5 xl:mt-6" />
+
+      {showSubmissionLoading ? (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#F3F6FA]/95 px-4 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-4 rounded-[20px] border border-[#E5E7EB] bg-white px-8 py-10 shadow-[0_20px_50px_rgba(24,37,66,0.12)]">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#E5E7EB] border-t-[#C12026]" />
+            <p className="text-sm font-medium text-[#142B4A] md:text-base">Submitting your request...</p>
+          </div>
+        </div>
+      ) : null}
     </section>
   )
 }

@@ -23,9 +23,9 @@ const REQUIRED_FIELDS = [
   "houseValueRange",
   "firstName",
   "lastName",
-  "address",
   "email",
   "phoneNumber",
+  "zipCode",
 ] as const
 
 function isEnvEnabled(value: string | undefined): boolean {
@@ -130,8 +130,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: "Could not determine ZIP code from the address. Please select a valid street address.",
-          field: "address",
+          error: "Please enter a valid 5-digit ZIP code.",
+          field: "zipCode",
         },
         { status: 400 }
       )

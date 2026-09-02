@@ -7,7 +7,7 @@ import { ThankYouPageContent } from "@/app/_components/ThankYouPageContent"
 
 export const metadata: Metadata = {
   title: "Thank You",
-  description: `Your request to ${SITE_BRAND.name} was received. A specialist will contact you shortly about your property.`,
+  description: `Your request to ${SITE_BRAND.name} was received. A representative will contact you shortly.`,
 }
 
 function ThankYouLoading() {

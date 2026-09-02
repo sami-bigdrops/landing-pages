@@ -28,27 +28,16 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: "Need Cash Fast? Get an Instant Cash Offer with Uncle Sam Buys Homes Today!",
+  headline: "Find Your Debt Relief Options Today",
+  description: "Answer a few simple questions to see what solutions may be available for your financial situation.",
   
   partners: [
-    
-    {
-      alt: "Consumer Affairs",
-      src: "/partner-3.svg",
-      
-      
-    },
-    {
-      alt: "2025 Top Rated Consumers",
-      src: "/partner-2.svg",
-     
-    },
+    { alt: "trustpilot", src: "/hero-1.svg", className: "w-22 md:w-22 lg:w-22 xl:w-28 overflow-hidden object-contain" },
+    { alt: "bbb", src: "/hero-2.svg", className: "w-26 md:w-26 lg:w-26 xl:w-33 overflow-hidden object-contain" },
+    { alt: "google", src: "/hero-3.svg", className: "w-22 md:w-22 lg:w-22 xl:w-28 overflow-hidden object-contain" },
   ],
 
-  // image: {
-  //   alt: "Hero Image",
-  //   src: "/family.webp",
-  // },
+  
 } as const
 
 
@@ -366,32 +355,31 @@ export const FOOTER_CONTENT = {
   linkHeader: "Company",
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
-    { text: "Terms of Use", href: "/terms-of-use" },
+    { text: "Terms and Conditions", href: "/terms-of-use" },
   ],
-  copyrightText: "Copyright © 2026 UncleSamBuysHomes.com. All Rights Reserved.",
+  copyrightText: "Copyright © 2026 Nation One Debt Relief. All Rights Reserved.",
   disclaimer:
-    "Uncle Sam Buys Homes is a marketing platform that connects homeowners with companies involved in real estate transactions. The information you submit on this website is shared in real time with our network of partner companies. If your details match what a partner is looking for, they may contact you directly. In some cases, we may use SMS to help connect you with a provider or facilitate a call. We may receive compensation from these providers when they contact you or offer their services. You are not charged for using our platform. We do not guarantee that you will receive an offer, that any provider will accept your request, or that their services will meet your specific needs. The products or services offered may not always be the best available in the market. Submitting your information does not obligate you to purchase any service or product, and it does not obligate any provider to offer you a service. This website is intended for U.S. citizens only. We do not accept submissions from individuals outside the United States, including Canada and countries in the European Union.",
+    "Please note that all calls with the company may be recorded or monitored for quality assurance and training purposes. *Clients who are able to stay with the program and get all their debt settled realize approximate savings of 46% before fees, or 25% including our fees, over 24 to 48 months. All claims are based on enrolled debts. Not all debts are eligible for enrollment. Not all clients complete our program for various reasons, including their ability to save sufficient funds. Estimates based on prior results, which will vary based on specific circumstances. We do not guarantee that your debts will be lowered by a specific amount or percentage or that you will be debt-free within a specific period of time. We do not assume consumer debt, make monthly payments to creditors or provide tax, bankruptcy, accounting or legal advice or credit repair services. Not available in all states. Please contact a tax professional to discuss tax consequences of settlement. Please consult with a bankruptcy attorney for more information on bankruptcy. Depending on your state, we may be available to recommend a local tax professional and/or bankruptcy attorney. Read and understand all program materials prior to enrollment, including potential adverse impact on credit rating.",
 } as const
 
 
 export const THANKYOU_CONTENT = {
-  title: "Thanks for your inquiry, {first_name}!",
-  titleFallback: "Thanks for your inquiry!",
+  title: "Expect our call soon!",
+  titleFallback: "Expect our call soon!",
   subtitle:
-    "We're glad you're here.\nWe've matched you with PrimeStreet.\nYou can rest assured that here at PrimeStreet, we will match you with the best agent in your area for your needs, free of cost! No hassle, just great service!\n\nOne of our Customer Advocates will be reaching out to you soon to help you with your home needs or feel free to reach out to us first by calling or texting us at +14696208367.",
+    "A Nation One Debt Relief representative will be contacting you shortly by phone or email to go over solutions that fit your specific need",
   contactTitle: "Call or text us",
-  contactPhoneLabel: "+14696208367",
-  contactPhoneHref: "tel:+14696208367",
-  confirmationTitle:
-    "A confirmation message has been sent to your email address.",
+  contactPhoneLabel: "",
+  contactPhoneHref: "",
+  confirmationTitle: "Expect our call soon!",
   confirmationDescription:
-    "The message contains next steps for your cash-offer request. Please check your spam folder if you don't see it in your inbox.",
+    "A Nation One Debt Relief representative will be contacting you shortly by phone or email to go over solutions that fit your specific need",
 } as const
 
 export interface ThankYouType2FeatureCard {
   title: string
-  bulletPoints: string[]
-  icon: "shield" | "building" | "check"
+  iconSrc: string
+  bulletPoints?: string[]
 }
 
 export interface ThankYouType2Content {
@@ -409,18 +397,25 @@ export interface ThankYouType2Content {
 export const THANKYOU_REQUIRE_EMAIL_IN_PARAMS = true
 
 export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
-  title: "Thanks for your inquiry!",
-  partnerName: "PrimeStreet",
+  title: "Expect our call soon!",
+  partnerName: SITE_BRAND.name,
   partnerLogo: {
-    src: "/PrimeStreetLogo.svg",
-    alt: "PrimeStreet logo",
+    src: "/logo.svg",
+    alt: `${SITE_BRAND.name} logo`,
   },
   confirmationMessage:
-    "We're glad you're here.\nWe've matched you with PrimeStreet.\nYou can rest assured that here at PrimeStreet, we will match you with the best agent in your area for your needs, free of cost! No hassle, just great service!\n\nOne of our Customer Advocates will be reaching out to you soon to help you with your home needs or feel free to reach out to us first by calling or texting us at +14696208367.",
-  contactPhoneLabel: "+14696208367",
-  contactPhoneHref: "tel:+14696208367",
+    "A Nation One Debt Relief representative will be contacting you shortly by phone or email to go over solutions that fit your specific need",
   aboutSectionTitle: "",
-  featureCards: [],
+  featureCards: [
+    {
+      title: "Free consultation",
+      iconSrc: "/thankyou-icon-1.svg",
+    },
+    {
+      title: "See personalized options",
+      iconSrc: "/thankyou-icon-2.svg",
+    },
+  ],
 }
 
 export const TCPA_PARTNER_NAMES = [

@@ -10,15 +10,15 @@ export default function Navbar() {
     <NavbarUI
       variant="default"
       type="2"
-      className="mx-auto w-full  px-4 py-6 sm:px-6 lg:px-8 border-none"
+      className="relative z-20 mx-auto w-full bg-white px-4 py-6 sm:px-6 lg:px-8 border-none shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
       logo={
         <>
           <Image
             src="/logo.svg"
-            alt="Uncle Sam Buys Homes"
+            alt="Nation One Debt Relief"
             width={128}
             height={40}
-            className="w-auto h-14 xl:h-16 object-contain"
+            className="w-auto h-10 xl:h-12 object-contain"
             priority
           />
           
