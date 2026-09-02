@@ -1,16 +1,17 @@
 "use client"
 
 import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent } from "react"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
+
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { TrustedForm, getCookie } from "@workspace/lp-core"
 
 
 import PartnerLogos from "@/app/_components/PartnerLogos"
+import CreditScoreNotice from "@/app/_components/CreditScoreNotice"
 import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
 
 const ANALYTICS_FLUSH_DELAY_MS = 300
@@ -420,22 +421,6 @@ type FormNavigationProps = {
   onBack?: () => void
 }
 
-function CreditScoreNotice() {
-  return (
-    <p className="flex w-full items-center justify-center gap-1.5 text-[0.85rem] font-normal text-[#475467]">
-      <Image
-        src="/lock.svg"
-        alt=""
-        width={16}
-        height={16}
-        aria-hidden
-        className="h-4 w-4 shrink-0"
-      />
-      <span>No impact to your credit score</span>
-    </p>
-  )
-}
-
 function FormNavigation({
   showBack = false,
   isNextDisabled = false,
@@ -464,7 +449,7 @@ function FormNavigation({
           type="button"
           onClick={onNext}
           disabled={isNextDisabled}
-          className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#C12026] text-base font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] md:py-3.5 xl:h-14 xl:text-[1.05rem]"
+          className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#BF0A30] text-base font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] md:py-3.5 xl:h-14 xl:text-[1.05rem]"
         >
           {nextLabel}
         </button>
