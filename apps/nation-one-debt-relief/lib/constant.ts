@@ -28,8 +28,8 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline: "Find Your Debt Relief Options Today",
-  description: "Answer a few simple questions to see what solutions may be available for your financial situation.",
+  headline: "Find a Smarter Way Out of Debt",
+  description: "Answer a few quick questions to see what debt relief options may fit your financial situation.",
   
   partners: [
     { alt: "trustpilot", src: "/hero-1.svg", className: "w-22 md:w-22 lg:w-22 xl:w-28 overflow-hidden object-contain" },
@@ -40,7 +40,22 @@ export const HERO_CONTENT = {
   
 } as const
 
-
+export const RIBBON_CONTENT = {
+  items: [
+    {
+      icon: "/tick.svg",
+      text: "Potentially Reduce Your Debt By Up To 44%*",
+    },
+    {
+      icon: "/tick.svg",
+      text: "Programs Typically Last 24–48 Months*",
+    },
+    {
+      icon: "/tick.svg",
+      text: "Free Consultation. No Upfront Fees.",
+    },
+  ],
+} as const
 
 export const FORM_CONTENT = {
   header: "Get Your Free Cash Offer on Your Home",

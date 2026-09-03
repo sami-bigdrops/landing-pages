@@ -15,7 +15,7 @@ export default function Footer() {
           alt={SITE_BRAND.name}
           width={180}
           height={56}
-          className="mx-auto h-auto w-[140px] object-contain md:w-[160px] xl:w-[180px]"
+          className="mx-auto h-auto w-[140px] object-contain xl:w-[180px]"
         />
       }
       links={[...FOOTER_CONTENT.links]}
