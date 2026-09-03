@@ -13,6 +13,11 @@ import { TrustedForm, getCookie } from "@workspace/lp-core"
 import PartnerLogos from "@/app/_components/PartnerLogos"
 import CreditScoreNotice from "@/app/_components/CreditScoreNotice"
 import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
+import {
+  AROHAA_SUBMITTED_KEY,
+  FORM_STEP_NAMES,
+  trackArohaa,
+} from "@/lib/arohaa"
 
 const ANALYTICS_FLUSH_DELAY_MS = 300
 
@@ -475,6 +480,17 @@ function FormPage() {
   const [showSubmissionLoading, setShowSubmissionLoading] = useState(false)
   const redirectUrlRef = useRef<string | null>(null)
 
+  useEffect(() => {
+    trackArohaa("form_start")
+  }, [])
+
+  useEffect(() => {
+    trackArohaa("form_step_view", {
+      step: currentStep,
+      step_name: FORM_STEP_NAMES[currentStep] ?? `Step ${currentStep}`,
+    })
+  }, [currentStep])
+
   const redirectToThankYou = useCallback((url: string) => {
     window.setTimeout(() => {
       window.location.href = url
@@ -513,6 +529,9 @@ function FormPage() {
 
   const handleNext = () => {
     if (!isStepValid() || currentStep >= TOTAL_STEPS) return
+    if (currentStep === 3) {
+      trackArohaa("zip_submit", { zip: normalizeZip(formData.zipCode) })
+    }
     setCurrentStep((prev) => prev + 1)
   }
 
@@ -657,6 +676,12 @@ function FormPage() {
       }
 
       if (data.success) {
+        trackArohaa("form_submit")
+        try {
+          sessionStorage.setItem(AROHAA_SUBMITTED_KEY, "1")
+        } catch {
+          /* ignore */
+        }
         const thankYouUrl =
           typeof data.redirectUrl === "string" && data.redirectUrl.length > 0
             ? data.redirectUrl
@@ -703,7 +728,7 @@ function FormPage() {
             className={STEP_SHELL}
 
             data-arohaa-step="1"
-            data-arohaa-step-name="Confirm Your Home Type"
+            data-arohaa-step-name={FORM_STEP_NAMES[1]}
           >
             <h3 className={STEP_TITLE}>What is your name?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left ">
@@ -745,7 +770,7 @@ function FormPage() {
           <section
             className={STEP_SHELL}
             data-arohaa-step="2"
-            data-arohaa-step-name="Email Address"
+            data-arohaa-step-name={FORM_STEP_NAMES[2]}
           >
             <h3 className={STEP_TITLE}>What is your email?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left">
@@ -783,7 +808,7 @@ function FormPage() {
           <section
             className={STEP_SHELL}
             data-arohaa-step="3"
-            data-arohaa-step-name="Zip Code"
+            data-arohaa-step-name={FORM_STEP_NAMES[3]}
           >
             <h3 className={STEP_TITLE}>What is your Zip Code?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left">
@@ -814,7 +839,7 @@ function FormPage() {
           <section
             className={STEP_SHELL}
             data-arohaa-step="4"
-            data-arohaa-step-name="Address and Phone"
+            data-arohaa-step-name={FORM_STEP_NAMES[4]}
           >
             <h3 className={STEP_TITLE}>What is your phone number?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left md:gap-5">

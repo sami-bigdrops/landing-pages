@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 import type { ThankYouType2Content } from "@/lib/constant"
+import { AROHAA_SUBMITTED_KEY, trackArohaa } from "@/lib/arohaa"
 
 export interface ThankYouAd {
   image: string
@@ -56,6 +57,14 @@ export function ThankYouType2({
 
     if (!requireEmailInParams) {
       setIsAuthorized(true)
+      try {
+        if (sessionStorage.getItem(AROHAA_SUBMITTED_KEY) === "1") {
+          trackArohaa("form_success")
+          sessionStorage.removeItem(AROHAA_SUBMITTED_KEY)
+        }
+      } catch {
+        trackArohaa("form_success")
+      }
       setIsLoading(false)
       return
     }
@@ -63,6 +72,14 @@ export function ThankYouType2({
     const emailFromUrl = searchParams.get("email")
     if (emailFromUrl) {
       setIsAuthorized(true)
+      try {
+        if (sessionStorage.getItem(AROHAA_SUBMITTED_KEY) === "1") {
+          trackArohaa("form_success")
+          sessionStorage.removeItem(AROHAA_SUBMITTED_KEY)
+        }
+      } catch {
+        trackArohaa("form_success")
+      }
       setTimeout(() => {
         if (typeof window !== "undefined") {
           const cleanUrl =

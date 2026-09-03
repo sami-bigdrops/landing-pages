@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     ],
   },
   other: {
-    "arohaa-verify": "DYU1XydGlivBXRgaXkImckKISdyDlY5V",
+    "arohaa-verify": "J3aBQbFN781ynLpzhJEhS1Jj_JXzyCB2",
   },
 }
 
@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="arohaa-verify" content="DYU1XydGlivBXRgaXkImckKISdyDlY5V" />
+        <meta name="arohaa-verify" content="J3aBQbFN781ynLpzhJEhS1Jj_JXzyCB2" />
         <script
           dangerouslySetInnerHTML={{
             __html:
@@ -49,10 +49,10 @@ export default function RootLayout({
           id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="847e0468-905e-46e7-8e9e-11b6a693c3d2"
+          data-wid="52f64ef3-980f-43a9-b299-afadac79b299"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_DYFFNOWZsCUsjCdp"
-          data-page="www.nationonedebtrelief.com"
+          data-lp-id="lp_xBjgvE8SiSGl04kG"
+          data-page="get.nationonedebtrelief.com"
           data-formtype="multiple"
         />
       </head>
