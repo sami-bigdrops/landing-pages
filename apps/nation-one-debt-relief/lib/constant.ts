@@ -57,313 +57,41 @@ export const RIBBON_CONTENT = {
   ],
 } as const
 
-export const FORM_CONTENT = {
-  header: "Get Your Free Cash Offer on Your Home",
-  tabs: {
-    vehicleDetails: "PROPERTY DETAILS",
-    personalDetails: "YOUR CONTACT INFO",
-  },
-  fields: {
-    carYear: {
-      label: "Car Year",
-      placeholder: "Select Year",
-    },
-    carMake: {
-      label: "Car Make",
-      placeholder: "Select Make",
-    },
-    carModel: {
-      label: "Car Model",
-      placeholder: "Select Model",
-    },
-    currentMileage: {
-      label: "Current Mileage",
-      placeholder: "Enter Mileage",
-    },
-    firstName: {
-      label: "First Name",
-      placeholder: "Enter First Name",
-    },
-    lastName: {
-      label: "Last Name",
-      placeholder: "Enter Last Name",
-    },
-    email: {
-      label: "Email",
-      placeholder: "Enter Email",
-    },
-    phoneNumber: {
-      label: "Phone Number",
-      placeholder: "(123) 4567-890",
-    },
-    zipCode: {
-      label: "Zip Code",
-      placeholder: "Enter Zip Code",
-    },
-  },
-  button: "See My Cash Offer",
-  disclaimer:
-    'By clicking "See My Cash Offer" you agree that Uncle Sam Buys Homes may contact you at the phone number and email you provided about your request and related services. Consent is not a condition of purchase. Message and data rates may apply. You can withdraw consent anytime.',
-} as const
 
-export const WORK_CONTENT = {
+export const FEATURES_CONTENT = {
   header: "How It Works",
   steps: [
     {
-      number: "01",
-      title: "Tell us about your property",
-      description: "Share your address, timeline, and a few details so we can understand your situation.",
-    },
-    {
-      number: "02",
-      title: "Get a cash offer path",
-      description: "We review your information and connect you with buyers interested in homes like yours.",
-    },
-    {
-      number: "03",
-      title: "Move forward on your terms",
-      description: "If there is a fit, you can explore a no-obligation cash offer without listing fees or repairs.",
-    },
-  ],
-  workImage: [
-    {
-      src: "/step-3.webp",
-      alt: "Couple in a modern kitchen discussing their home",
-    },
-  ],
-} as const
-
-export const ABOUT_CONTENT = {
-  header: "Why sell your home for cash?",
-  description:
-    "Uncle Sam Buys Homes helps homeowners explore a faster sale without open houses, agent commissions, or months of uncertainty.",
-  features: [
-    {
-      title: "Skip the traditional listing grind",
+      number: 1,
+      title: "Tell Us About Your Debt",
+      description: "Share a few details about your current debt. A specialist will reach out to understand your situation.",
       image: {
-        src: "/about-1.svg",
-        alt: "Homeowners reviewing a simpler sale option",
+        src: "/feature-1.svg",
+        alt: "Debt information icon",
       },
     },
     {
-      title: "Talk timelines that fit your move",
+      number: 2,
+      title: "Get a Plan That Fits",
+      description: "Explore debt relief options shaped around your budget, financial needs and goals.",
       image: {
-        src: "/about-2.svg",
-        alt: "Planning a move on your schedule",
+        src: "/feature-2.svg",
+        alt: "Plan fit icon",
       },
     },
     {
-      title: "Understand your options in plain language",
+      number: 3,
+      title: "Take Steps Towards Debt Freedom",
+      description: "Follow your personalized plan with support as you work towards reducing your debt.",
       image: {
-        src: "/about-3.svg",
-        alt: "Clear next steps for selling your home",
+        src: "/feature-3.svg",
+        alt: "Debt freedom icon",
       },
     },
   ],
 } as const
 
 
-export const FEATURES_CONTENT = {
-  header: "Questions worth asking any buyer",
-  features: [
-    {
-      title: "How is the offer price determined?",
-      image: {
-        src: "/feature-icon.svg",
-        alt: "Offer price discussion",
-      },
-    },
-    {
-      title: "What fees or deductions apply at closing?",
-      image: {
-        src: "/feature-icon.svg",
-        alt: "Closing costs and fees",
-      },
-    },
-    {
-      title: "What inspections or walkthroughs are required?",
-      image: {
-        src: "/feature-icon.svg",
-        alt: "Property inspection timeline",
-      },
-    },
-    {
-      title: "Can you choose your closing date?",
-      image: {
-        src: "/feature-icon.svg",
-        alt: "Choosing a closing date",
-      },
-    },
-  ],
-} as const
-
-export const COVER_CONTENT = {
-  header: "What's Covered",
-  homeSystems: {
-    header: "HOME SYSTEMS",
-    items: [
-      {
-        title: "Heating And Air Conditioning Systems",
-        image: {
-          src: "/home-1.svg",
-          alt: "Heating And Air Conditioning Systems",
-        },
-      },
-      {
-        title: "Plumbing Systems And Accessories",
-        image: {
-          src: "/home-2.svg",
-          alt: "Plumbing Systems And Accessories",
-        },
-      },
-      {
-        title: "Electrical Systems And Accessories",
-        image: {
-          src: "/home-3.svg",
-          alt: "Electrical Systems And Accessories",
-        },
-      },
-      {
-        title: "Maintenance Services",
-        image: {
-          src: "/home-4.svg",
-          alt: "Maintenance Services",
-        },
-      },
-    ],
-  },
-  appliances: {
-    header: "APPLIANCES",
-    items: [
-      {
-        title: "Refrigerator",
-        image: {
-          src: "/appliances-1.svg",
-          alt: "Refrigerator",
-        },
-      },
-      {
-        title: "Oven",
-        image: {
-          src: "/appliances-2.svg",
-          alt: "Oven",
-        },
-      },
-      {
-        title: "Washer / Dryer",
-        image: {
-          src: "/appliances-3.svg",
-          alt: "Washer / Dryer",
-        },
-      },
-      {
-        title: "Water Heater",
-        image: {
-          src: "/appliances-4.svg",
-          alt: "Water Heater",
-        },
-      },
-    ],
-    additionalText: "And More...",
-  },
-  callToAction: {
-    buttonText: "Call for help with your request",
-    contactText: "Or give us a call",
-    phoneNumber: "1-855-916-3700",
-    phoneHref: "tel:+18559163700",
-  },
-} as const
-
-
-
-
-
-export const REVIEW_CONTENT = {
-  header: "See What Our Customers Have To Say",
-  rating: {
-    
-    image: {
-      src: "/review.svg",
-      alt: "Google Review Rating",
-    },
-    reviewText:"Based on 1,500+ reviews",
-  },
-
-
-  reviews: [
-    {
-     id: 1,
-      quote:
-        "We needed to move quickly for a job relocation. The process was straightforward, and we avoided months of showings while we figured out our next step.",
-      customer: {
-        name: "Sarah Matthews",
-        status: "Dallas, TX",
-        image: {
-          src: "/profile-1.svg",
-          alt: "Sarah Matthews",
-        },
-      },
-    },
-    {
-      id: 2,
-      quote:
-        "Inherited a property that needed work. We wanted clarity on options without committing to a long listing. Getting a cash path explained upfront made the decision easier.",
-      customer: {
-        name: "David Martinez",
-        status: "Orlando, FL",
-        image: {
-          src: "/profile-2.svg",
-          alt: "David Martinez",
-        },
-      },
-    },
-    {
-     
-      id: 3,
-      quote:
-        "We were behind on payments and stressed about timelines. Having someone walk through a simple next step—without pressure—helped us breathe again.",
-      customer: {
-        name: "Monica Patel",
-        status: "Phoenix, AZ",
-        image: {
-          src: "/profile-3.svg",
-          alt: "Monica Patel",
-        },
-      },
-    },
-  ],
-} as const
-
-
-export const FAQ_CONTENT = {
-  header: "Frequently Asked Questions",
-  faqs: [
-    {
-      id: 1,
-      question: "What is a cash offer on my home?",
-      answer:
-        "It is a buyer’s proposal to purchase your property for an agreed price, often with a simpler timeline and fewer traditional sale steps than a retail listing.",
-    },
-    {
-      id: 2,
-      question: "Does requesting an offer cost anything?",
-      answer:
-        "Submitting your information through Uncle Sam Buys Homes does not charge you a fee. Any offer or agreement would come from the buyer you choose to work with.",
-    },
-    {
-      id: 3,
-      question: "Do I have to make repairs first?",
-      answer:
-        "Many cash paths focus on buying as-is. Specific expectations depend on the buyer and your property, which is why we collect a few details up front.",
-    },
-    {
-      id: 4,
-      question: "Am I obligated if I submit the form?",
-      answer:
-        "No. Sharing your information helps us route you to interested buyers. You decide whether to move forward after you learn more.",
-    },
-  ],
-} as const
 
 export const FOOTER_CONTENT = {
   description: SITE_BRAND.description,

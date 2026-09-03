@@ -19,7 +19,7 @@ export default function Ribbon() {
                                 height={20}
                                 className="h-5 w-5 shrink-0 object-contain  xl:h-7 xl:w-7"
                             />
-                            <p className="text-left font-sans text-[0.7rem] font-normal leading-snug text-white md:max-w-none md:whitespace-nowrap md:text-left md:text-[0.67rem] md:leading-normal lg:text-[0.8rem] xl:text-lg">
+                            <p className="text-left font-sans text-[0.7rem] font-normal leading-snug text-white md:max-w-none md:whitespace-nowrap md:text-left md:text-[0.67rem] md:leading-normal lg:text-[0.8rem] xl:text-base">
                                 {item.text}
                             </p>
                         </div>

@@ -1,6 +1,6 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
-import { COVER_CONTENT, SITE_BRAND, THANKYOU_TYPE2_CONTENT } from "@/lib/constant";
+import { SITE_BRAND, THANKYOU_TYPE2_CONTENT } from "@/lib/constant";
 
 const region = process.env.AWS_REGION || "us-east-1";
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
@@ -56,8 +56,12 @@ export async function sendSubmissionConfirmationEmail(
 
   const firstName = params.firstName?.trim() || "there";
   const { confirmationMessage } = THANKYOU_TYPE2_CONTENT;
-  const phone = COVER_CONTENT.callToAction;
   const subject = `Thank you — ${SITE_BRAND.name}`;
+  const contactPhoneLabel =
+    THANKYOU_TYPE2_CONTENT.contactPhoneLabel?.trim() || "";
+  const contactPhoneHref =
+    THANKYOU_TYPE2_CONTENT.contactPhoneHref?.trim() || "";
+  const showPhoneCta = Boolean(contactPhoneLabel && contactPhoneHref);
 
   const htmlBody = `
 <!DOCTYPE html>
@@ -164,11 +168,12 @@ export async function sendSubmissionConfirmationEmail(
       <tr>
         <td class="body-text">${escapeHtml(confirmationMessage)}</td>
       </tr>
+      ${showPhoneCta ? `
       <tr>
         <td class="cta-wrap">
-          <a class="cta-phone" href="${escapeHtml(phone.phoneHref)}">${escapeHtml(phone.phoneNumber)}</a>
+          <a class="cta-phone" href="${escapeHtml(contactPhoneHref)}">${escapeHtml(contactPhoneLabel)}</a>
         </td>
-      </tr>
+      </tr>` : ""}
       <tr>
         <td class="footer-text">
           <p>This is an automated confirmation that we received your request.</p>
@@ -193,8 +198,9 @@ Hi ${firstName},
 
 ${confirmationMessage}
 
-${phone.contactText}: ${phone.phoneNumber}
-${phone.phoneHref}
+${showPhoneCta ? `${contactPhoneLabel}
+${contactPhoneHref}
+` : ""}
 
 This is an automated confirmation that we received your request.
 ${process.env.SES_EMAIL_UNSUBSCRIBE_URL?.trim() ? `Unsubscribe: ${process.env.SES_EMAIL_UNSUBSCRIBE_URL.trim()}` : ""}

@@ -4,6 +4,7 @@ import Navbar from "@/app/_components/Navbar"
 import Hero from "@/app/type/long/v1/_components/Hero"
 import Footer from "@/app/_components/Footer"
 import Ribbon from "@/app/type/long/v1/_components/Ribbon"
+import Features from "@/app/type/long/v1/_components/Features"
 
 export default function HomeContent() {
   return (
@@ -12,6 +13,7 @@ export default function HomeContent() {
         <Navbar />
         <Hero />
         <Ribbon />
+        <Features />
         <Footer />
       </div>
     </>

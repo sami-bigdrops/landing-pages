@@ -23,7 +23,22 @@ const options = [
 export default function Hero() {
   useUtmParams(30)
   const [value, setValue] = useState("")
+  const [showError, setShowError] = useState(false)
   const router = useRouter()
+
+  const handleContinue = () => {
+    if (!value) {
+      setShowError(true)
+      return
+    }
+
+    router.push("/form")
+  }
+
+  const handleSelectChange = (selectedValue: string) => {
+    setValue(selectedValue)
+    setShowError(false)
+  }
 
   return (
     <div className="relative bg-white w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-20 xl:py-16 ">
@@ -47,7 +62,7 @@ export default function Hero() {
                 <div className="flex w-full items-stretch gap-2.5 md:max-w-[300px] xl:max-w-[330px] md:mx-auto">
                   <button
                     type="button"
-                    onClick={() => router.push("/form")}
+                    onClick={handleContinue}
                     className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#BF0A30] text-sm xl:text-base font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] md:py-3.5 xl:h-14 xl:text-[1.05rem]"
                   >
                     See My Options
@@ -61,8 +76,8 @@ export default function Hero() {
                   placeholder="Select debt amount"
                   options={options}
                   value={value}
-                  onChange={setValue}
-                  selectClassName={INPUT_FIELD}
+                  onChange={handleSelectChange}
+                  selectClassName={`${INPUT_FIELD} ${showError ? "border-red-500 focus:border-red-500" : ""}`}
                 />
               </div>
             </div>
