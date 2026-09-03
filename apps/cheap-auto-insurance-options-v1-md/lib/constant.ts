@@ -177,7 +177,7 @@ export const FOOTER_CONTENT = {
   ],
 
   savingsDisclaimer:
-    "Savings estimates are based on initial quotes from customers who requested insurance quotes through Compare. Your actual savings may differ based on your state, personal circumstances, coverage choices, and insurance provider. Individual results are not guaranteed.",
+    "Savings estimates are based on initial quotes from customers who requested insurance quotes through our website. Your actual savings may differ based on your state, personal circumstances, coverage choices, and insurance provider. Individual results are not guaranteed.",
 
   disclaimer: [
     "Cheap Auto Insurance Options is a digital insurance comparison platform that helps consumers compare auto insurance options through its network of insurance carriers, agencies, and licensed partners across the United States. We may receive compensation from our partner providers when you are connected with their products or services. Cheap Auto Insurance Options is not affiliated with any federal, state, or government agency.",
