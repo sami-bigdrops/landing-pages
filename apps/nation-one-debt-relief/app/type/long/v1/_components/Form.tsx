@@ -449,7 +449,7 @@ function FormNavigation({
           type="button"
           onClick={onNext}
           disabled={isNextDisabled}
-          className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#BF0A30] text-base font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] md:py-3.5 xl:h-14 xl:text-[1.05rem]"
+          className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#C12026] text-sm font-semibold  text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] xl:h-14 xl:text-base"
         >
           {nextLabel}
         </button>
@@ -845,10 +845,7 @@ function FormPage() {
                 </p>
               ) : null}
 
-              <p className="text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
-              By clicking "SUBMIT" you consent to allowing Nation One Debt Relief to contact you as described below.
-              </p>
-
+              
               <nav className="flex w-full max-w-lg flex-col gap-4.5 mt-1.5 xl:mt-2.5">
                 <div className="flex w-full items-stretch gap-2.5">
                   <button
