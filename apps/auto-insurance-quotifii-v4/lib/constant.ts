@@ -1,7 +1,9 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Let's drop your rate in {city_name} today!",
+  headline: "Compare Auto Insurance Quotes and Save Up to",
+  headline2: "$899",
+  description: "Compare personalized quotes from trusted providers and find coverage that fits your needs.",
   image: {
     src: "/hero.webp",
     alt: "Quotifii"
