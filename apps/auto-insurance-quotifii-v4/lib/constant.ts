@@ -29,10 +29,10 @@ export const OPTIONS_CONTENT = {
   header: "A Better Rate Could Be Waiting In Your ZIP",
   description: "Tell us the basics and we’ll line up options worth a look.",
 
-  image: {
-    src: "/quokka.webp",
-    alt: "Quokka Image",
-  },
+    icon: {
+      src: "/Car.svg",
+      alt: "car icon",
+    },
   
 } as const
 
