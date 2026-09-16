@@ -41,7 +41,7 @@ export interface UseBrowserNotificationResult {
   ) => Promise<ShowNotificationResult>;
 }
 
-export const PUSH_SW_PATH = '/lp-push-sw';
+export const PUSH_SW_PATH = '/sw.js';
 export const PUSH_SUBSCRIBE_PATH = '/api/push/subscribe';
 export const PUSH_UNSUBSCRIBE_PATH = '/api/push/unsubscribe';
 export const PUSH_SEND_PATH = '/api/push/send';

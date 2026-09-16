@@ -54,6 +54,7 @@ export default function RootLayout({
           data-lp-id="lp_VMlnuU-yQ7UgyFDC"
           data-page="go.unclesambuyshomes.com"
           data-formtype="multiple"
+          data-web-push-proxy="/api/push"
         />
       </head>
       <body
