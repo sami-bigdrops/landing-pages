@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_BRAND.name}`,
   },
   description: SITE_BRAND.description,
+  manifest: "/site.webmanifest",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },

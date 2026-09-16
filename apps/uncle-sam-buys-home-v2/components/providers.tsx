@@ -2,13 +2,17 @@
 
 import * as React from "react"
 
-import { UtmBlockGuard } from "@workspace/lp-core/controller"
+import { UtmBlockGuard, BrowserPushProvider } from "@workspace/lp-core/controller"
+import { PushPermissionOnLand } from "@/components/PushPermissionOnLand"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <>
       <UtmBlockGuard />
-      {children}
+      <BrowserPushProvider>
+        <PushPermissionOnLand />
+        {children}
+      </BrowserPushProvider>
     </>
   )
 }

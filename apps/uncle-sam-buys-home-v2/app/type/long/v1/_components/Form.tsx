@@ -5,10 +5,11 @@ import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, typ
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { Button } from "@workspace/ui/components/button"
-import { TrustedForm, getCookie } from "@workspace/lp-core"
+import { TrustedForm, getCookie, useBrowserPush } from "@workspace/lp-core"
 import { OFFER_CONTENT } from "@/lib/constant"
 import { trackArohaa } from "@/lib/arohaa"
 import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
+import { clearFormProgress, saveFormProgress } from "@/lib/form-progress"
 import { PartnersDialog } from "./PartnersDialog"
 
 const ANALYTICS_FLUSH_DELAY_MS = 300
@@ -411,6 +412,7 @@ function FormNavigation({
 
 function FormPage() {
   const [currentStep, setCurrentStep] = useState(1)
+  const { enablePush, reportPushEvent, setPushContext } = useBrowserPush()
   const [formData, setFormData] = useState(defaultFormData)
 
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
@@ -427,7 +429,17 @@ function FormPage() {
       step: currentStep,
       step_name: STEP_NAMES[currentStep] ?? `Step ${currentStep}`,
     })
-  }, [currentStep])
+    saveFormProgress(currentStep)
+    setPushContext({
+      step: currentStep,
+      zip: formData.zipCode.trim() || undefined,
+    })
+  }, [currentStep, formData.zipCode, setPushContext])
+
+  function goToStep(nextStep: number) {
+    setCurrentStep(nextStep)
+    saveFormProgress(nextStep)
+  }
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     if (field === "street_address") {
@@ -465,7 +477,7 @@ function FormPage() {
 
   const handleNext = () => {
     if (!isStepValid() || currentStep >= TOTAL_STEPS) return
-    setCurrentStep((prev) => prev + 1)
+    goToStep(currentStep + 1)
   }
 
   const handleFormKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
@@ -519,6 +531,7 @@ function FormPage() {
     }
 
     setSubmitStatus("loading")
+    void enablePush()
 
     const form = e.currentTarget
     const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
@@ -578,6 +591,11 @@ function FormPage() {
 
       if (data.success && typeof data.redirectUrl === "string") {
         trackArohaa("form_submit")
+        clearFormProgress()
+        void reportPushEvent("form_success", {
+          step: currentStep,
+          zip: zip || undefined,
+        })
         try {
           sessionStorage.setItem(AROHAA_SUBMITTED_KEY, "1")
         } catch {
@@ -630,7 +648,7 @@ function FormPage() {
                       variant="default"
                       onClick={() => {
                         setFormData((prev) => ({ ...prev, sellHouseForCash: id }))
-                        setCurrentStep(2)
+                        goToStep(2)
                       }}
                       aria-pressed={selected}
                       className={`${OFFER_CHOICE_BTN} ${isYes ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
@@ -671,7 +689,7 @@ function FormPage() {
                       variant="default"
                       onClick={() => {
                         setFormData((prev) => ({ ...prev, howSoonToSell: id }))
-                        setCurrentStep(3)
+                        goToStep(3)
                       }}
                       aria-pressed={selected}
                       className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
@@ -712,7 +730,7 @@ function FormPage() {
                       variant="default"
                       onClick={() => {
                         setFormData((prev) => ({ ...prev, repairsAndMaintenance: id }))
-                        setCurrentStep(4)
+                        goToStep(4)
                       }}
                       aria-pressed={selected}
                       className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
@@ -753,7 +771,7 @@ function FormPage() {
                       variant="default"
                       onClick={() => {
                         setFormData((prev) => ({ ...prev, sellHouse: id }))
-                        setCurrentStep(5)
+                        goToStep(5)
                       }}
                       aria-pressed={selected}
                       className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}

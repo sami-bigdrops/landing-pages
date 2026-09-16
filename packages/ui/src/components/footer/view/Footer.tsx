@@ -117,14 +117,14 @@ function FooterCopyrightBlock({
         </p>
       )}
       {disclaimer != null && (
-        <p
+        <div
           className={cn(
             "text-xs text-white/70 max-w-3xl mx-auto leading-relaxed",
             disclaimerClassName
           )}
         >
           {disclaimer}
-        </p>
+        </div>
       )}
     </>
   )
