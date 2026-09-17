@@ -435,7 +435,10 @@ export default function PrivacyPolicy() {
               </p>
               <ul className={listClass}>
                 <li className={listItemClass} style={{ lineHeight: "1.6" }}>
-                  Nation Debt Relief
+                  Nation Debt Relief LLC
+                </li>
+                <li className={listItemClass} style={{ lineHeight: "1.6" }}>
+                  JG Wentworth
                 </li>
               </ul>
               <p className={`${paragraphClass} mt-3 md:mt-4`} style={{ lineHeight: "1.6" }}>

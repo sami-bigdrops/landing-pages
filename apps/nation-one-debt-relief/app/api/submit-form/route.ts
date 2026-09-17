@@ -25,6 +25,7 @@ const REQUIRED_FIELDS = [
   "lastName",
   "email",
   "phoneNumber",
+  "address",
   "zipCode",
 ] as const
 
@@ -116,9 +117,12 @@ export async function POST(request: NextRequest) {
     // Resolve city/state/zip from client payload or address geocoding
     const geocoded = await geocodeAddress(String(address).trim(), zipHint)
     const bodyCity = typeof body.city === "string" ? body.city.trim() : ""
-    const bodyState = typeof body.state === "string" ? body.state.trim() : ""
+    const bodyState =
+      typeof body.state === "string"
+        ? body.state.trim().toUpperCase().slice(0, 2)
+        : ""
     const resolvedCity = bodyCity || geocoded.city
-    const resolvedState = bodyState || geocoded.state
+    const resolvedState = (bodyState || geocoded.state).toUpperCase().slice(0, 2)
     const zipVal = zipHint.length === 5 ? zipHint : geocoded.zipCode
     console.log("[submit-form] geocoded:", {
       city: resolvedCity,
@@ -132,6 +136,18 @@ export async function POST(request: NextRequest) {
           success: false,
           error: "Please enter a valid 5-digit ZIP code.",
           field: "zipCode",
+        },
+        { status: 400 }
+      )
+    }
+
+    if (!resolvedCity || resolvedState.length !== 2) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "Please select a street address from the suggestions so we can detect your city and state.",
+          field: "address",
         },
         { status: 400 }
       )

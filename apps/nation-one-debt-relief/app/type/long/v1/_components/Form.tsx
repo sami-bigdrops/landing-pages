@@ -518,11 +518,22 @@ function FormPage() {
       return emailRegex.test(formData.email.trim())
     }
     if (currentStep === 3) {
-      return normalizeZip(formData.zipCode).length === 5
+      return (
+        formData.street_address.trim() !== "" &&
+        formData.city.trim() !== "" &&
+        formData.state.trim().length === 2 &&
+        normalizeZip(formData.zipCode).length === 5
+      )
     }
     if (currentStep === TOTAL_STEPS) {
       const phoneDigits = formData.phone_number.replace(/\D/g, "")
-      return phoneDigits.length === 10 && normalizeZip(formData.zipCode).length === 5
+      return (
+        phoneDigits.length === 10 &&
+        formData.street_address.trim() !== "" &&
+        formData.city.trim() !== "" &&
+        formData.state.trim().length === 2 &&
+        normalizeZip(formData.zipCode).length === 5
+      )
     }
     return true
   }
@@ -582,15 +593,22 @@ function FormPage() {
       !email ||
       !emailRegex.test(email) ||
       phoneDigits.length !== 10 ||
+      !formData.street_address.trim() ||
+      !formData.city.trim() ||
+      formData.state.trim().length !== 2 ||
       zip.length !== 5
     ) {
       setSubmitStatus("error")
       setSubmitError(
         phoneDigits.length !== 10
           ? "Please enter a valid 10-digit phone number."
-          : zip.length !== 5
-            ? "Please enter a valid ZIP code."
-            : "Please complete all required fields with valid details."
+          : !formData.street_address.trim() ||
+              !formData.city.trim() ||
+              formData.state.trim().length !== 2
+            ? "Please select a street address from the suggestions so we can detect your city, state, and ZIP."
+            : zip.length !== 5
+              ? "Please enter a valid ZIP code."
+              : "Please complete all required fields with valid details."
       )
       return
     }
@@ -616,7 +634,7 @@ function FormPage() {
       lastName: formData.last_name.trim(),
       address: formData.street_address.trim(),
       city: formData.city.trim(),
-      state: formData.state.trim(),
+      state: formData.state.trim().toUpperCase().slice(0, 2),
       email: formData.email.trim(),
       phoneNumber: formData.phone_number.trim(),
       subid1: getCookie("subid1") ?? "",
@@ -810,8 +828,30 @@ function FormPage() {
             data-arohaa-step="3"
             data-arohaa-step-name={FORM_STEP_NAMES[3]}
           >
-            <h3 className={STEP_TITLE}>What is your Zip Code?</h3>
-            <div className="flex w-full max-w-lg flex-col gap-4 text-left">
+            <h3 className={STEP_TITLE}>What is your address?</h3>
+            <div className="flex w-full max-w-lg flex-col gap-4 text-left overflow-visible">
+              <AddressAutocomplete
+                value={formData.street_address}
+                city={formData.city}
+                state={formData.state}
+                zipCode={formData.zipCode}
+                onChange={(v) => handleInputChange("street_address", v)}
+                onSelect={(result) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    street_address: result.streetAddress,
+                    city: result.city,
+                    state: result.state.toUpperCase().slice(0, 2),
+                    zipCode: normalizeZip(result.zipCode),
+                  }))
+                }}
+                label="Street Address"
+                placeholder="Start typing your address"
+                labelClassName={LABEL_CLASS}
+                className={INPUT_FIELD}
+                inputName="address"
+                dataArohaaField="address"
+              />
               <ZipCodeInput
                 id="zipCode"
                 name="zipCode"
@@ -819,7 +859,7 @@ function FormPage() {
                 label="Zip Code"
                 value={formData.zipCode}
                 onChange={(value) => handleInputChange("zipCode", value)}
-                placeholder="Enter Zip Code"
+                placeholder="Filled from address"
                 labelClassName={LABEL_CLASS}
                 className={INPUT_FIELD}
                 containerClassName="w-full"
