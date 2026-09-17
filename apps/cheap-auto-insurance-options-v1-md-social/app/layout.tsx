@@ -65,6 +65,12 @@ export default function RootLayout({
             __html: `(function(){function getCookie(n){var p=("; "+document.cookie).split("; "+n+"=");if(p.length===2)return decodeURIComponent(p.pop().split(";").shift()||"");return"";}function loadPixel(){var utmId=getCookie("subid2")||"";var utmSource=getCookie("subid1")||"";var tag=document.createElement("script");tag.src="https://tmpxl.com/pixel_container?api_token=a84f3c91d7e62b5080fa4d13c9b72e65&s1=b4d9f82a-6c31-4e7f-9ab5-1d83c6ef4029&s2="+encodeURIComponent(utmId)+"&s3="+encodeURIComponent(utmSource);document.head.appendChild(tag);}var tries=0; (function wait(){if(getCookie("subid1")||getCookie("subid2")||tries>=40){loadPixel();return;}tries++;setTimeout(wait,50);})();})();`,
           }}
         />
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `(function(){function getCookie(n){var p=("; "+document.cookie).split("; "+n+"=");if(p.length===2)return decodeURIComponent(p.pop().split(";").shift()||"");return"";}function getUtmId(){try{var q=new URLSearchParams(window.location.search).get("utm_id")||"";if(q)return q;}catch(e){}return getCookie("subid2")||"";}function loadPixel(){var img=new Image();img.src="https://www.br2ghatrk.com/?nid=1687&event_id=2234&transaction_id="+encodeURIComponent(getUtmId());}var tries=0;(function wait(){if(getUtmId()||tries>=40){loadPixel();return;}tries++;setTimeout(wait,50);})();})();`,
+          }}
+        />
       </head>
       <body
         className={`${fontSans.variable} ${fontSans.className} antialiased overflow-x-hidden overflow-y-auto`}
