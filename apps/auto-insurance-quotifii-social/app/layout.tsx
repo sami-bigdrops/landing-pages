@@ -24,6 +24,9 @@ export const metadata: Metadata = {
       { url: "/favicon.png", type: "image/png" },
     ],
   },
+  other: {
+    "arohaa-verify": "uI1o9-7U6ytHo-XmLrG5tpANJ-jNixRi",
+  },
 }
 
 export default function RootLayout({
@@ -34,7 +37,31 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-      <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0132/1582.js" async={true}></script>
+        <meta
+          name="arohaa-verify"
+          content="uI1o9-7U6ytHo-XmLrG5tpANJ-jNixRi"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "!function(w){if(w.arohaa)return;var a=function(){(a.q=a.q||[]).push(arguments)};a.q=[];a.l=Date.now();w.arohaa=a}(window);",
+          }}
+        />
+        <script
+          id="arohaa-sdk"
+          src="https://cdn.arohaa.net/sdk.js"
+          async
+          data-wid="4a46a75f-de6b-4ad8-8bc6-5311240d1bd7"
+          data-api="https://api.arohaa.net"
+          data-lp-id="lp_y9bGdjsdg01KiXGA"
+          data-page="autocoverage.quotifii.com"
+          data-formtype="zip"
+        />
+        <script
+          type="text/javascript"
+          src="//script.crazyegg.com/pages/scripts/0132/1582.js"
+          async={true}
+        />
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
