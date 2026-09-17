@@ -4,7 +4,7 @@ export default function CreditScoreNotice() {
   return (
     <p className="flex w-full items-center justify-center gap-1.5 text-[0.85rem] font-normal text-[#475467]">
       <Image
-        src="/lock.svg"
+        src="/Lock.svg"
         alt=""
         width={16}
         height={16}
