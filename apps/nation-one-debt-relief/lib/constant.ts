@@ -112,8 +112,8 @@ export const THANKYOU_CONTENT = {
   subtitle:
     "A Nation One Debt Relief representative will be contacting you shortly by phone or email to go over solutions that fit your specific need",
   contactTitle: "Call or text us",
-  contactPhoneLabel: "",
-  contactPhoneHref: "",
+  contactPhoneLabel: "1-888-467-6508",
+  contactPhoneHref: "tel:+18884676508",
   confirmationTitle: "Expect our call soon!",
   confirmationDescription:
     "A Nation One Debt Relief representative will be contacting you shortly by phone or email to go over solutions that fit your specific need",
@@ -148,6 +148,8 @@ export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
   },
   confirmationMessage:
     "A Nation One Debt Relief representative will be contacting you shortly by phone or email to go over solutions that fit your specific need",
+  contactPhoneLabel: "1-888-467-6508",
+  contactPhoneHref: "tel:+18884676508",
   aboutSectionTitle: "",
   featureCards: [
     {

@@ -130,6 +130,15 @@ export function ThankYouType2({
             {content.confirmationMessage}
           </p>
 
+          {content.contactPhoneLabel && content.contactPhoneHref ? (
+            <a
+              href={content.contactPhoneHref}
+              className="mt-6 inline-flex items-center justify-center rounded-[10px] bg-[#C12026] px-6 py-3 font-sans text-base font-semibold text-white transition-opacity hover:opacity-90 md:mt-7 xl:mt-8 xl:text-lg"
+            >
+              {content.contactPhoneLabel}
+            </a>
+          ) : null}
+
           {content.featureCards.length > 0 ? (
             <div className="mt-10 flex w-full max-w-xl flex-col items-center justify-center gap-8 sm:mt-12 sm:flex-row sm:gap-14 md:mt-14 md:gap-16 xl:mt-16 xl:gap-20">
               {content.featureCards.map((card) => (
