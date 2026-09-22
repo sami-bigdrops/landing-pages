@@ -3,13 +3,12 @@
 import Navbar from "@/app/_components/Navbar"
 import Hero from "@/app/type/long/v1/_components/Hero"
 import Footer from "@/app/_components/Footer"
-import Partners from "@/app/type/long/v1/_components/Partners"
 import Features from "@/app/type/long/v1/_components/Features"
 import Review from "@/app/type/long/v1/_components/Review"
-import Steps from "@/app/type/long/v1/_components/Steps"
+
 import Options from "@/app/type/long/v1/_components/Options"
 import Faq from "@/app/type/long/v1/_components/Faq"
-
+import Steps from "@/app/type/long/v1/_components/Steps"
 
 export default function HomeContent() {
   return (
@@ -17,11 +16,11 @@ export default function HomeContent() {
       
       <Navbar />
       <Hero />
-      <Partners />
-      <Features />
       <Steps />
+      
+      
       <Review />
-      <Faq />
+     
       <Options />
       
       <Footer />
