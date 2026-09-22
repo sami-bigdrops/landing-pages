@@ -19,7 +19,8 @@ export const FORM_STEP_NAMES: Record<number, string> = {
   1: "Name",
   2: "Email Address",
   3: "Address",
-  4: "Phone Number",
+  4: "Date of Birth",
+  5: "Phone Number",
 }
 
 export function trackArohaa(

@@ -13,11 +13,14 @@ import { TrustedForm, getCookie } from "@workspace/lp-core"
 import PartnerLogos from "@/app/_components/PartnerLogos"
 import CreditScoreNotice from "@/app/_components/CreditScoreNotice"
 import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
+import { isValidDob } from "@/lib/validate-dob"
 import {
   AROHAA_SUBMITTED_KEY,
   FORM_STEP_NAMES,
   trackArohaa,
 } from "@/lib/arohaa"
+import { BirthdateInput } from "./BirthdateInput"
+import { PartnersDialog } from "./PartnersDialog"
 
 const ANALYTICS_FLUSH_DELAY_MS = 300
 
@@ -305,110 +308,19 @@ function AddressAutocomplete({
   )
 }
 
-// --- Form Options ---
-const HOME_TYPE_OPTIONS = [
-  { id: "single_family", label: "Single Family Home", Icon: "/family.svg" },
-  { id: "condominium", label: "Condominium / Townhome", Icon: "/mall.svg" },
-  { id: "mobile", label: "Mobile / Manufactured Home", Icon: "/car.svg" },
-  { id: "vacant_land", label: "Vacant Land", Icon: "/land.svg" },
-] as const
-
-const PROPERTY_TYPE_OPTIONS = [
-  { id: "needs_work", label: "Needs Work", Icon: "/house.svg" },
-  { id: "fair", label: "Fair", Icon: "/broken-home.svg" },
-  { id: "good", label: "Good", Icon: "/home-renovation.svg" },
-  { id: "excellent", label: "Excellent", Icon: "/happy-house.svg" },
-] as const
-
-const PROPERTY_LIST_OPTIONS = [
-  { id: "yes", label: "Yes", Icon: "/yes.svg" },
-  { id: "no", label: "No", Icon: "/no.svg" },
-] as const
-
-const SELL_OPTIONS = [
-  { id: "late", label: "Behind on Mortgage Payments", Icon: "/mortgage.svg" },
-  { id: "job", label: "Job / Income Loss", Icon: "/briefcase.svg" },
-  { id: "cash", label: "Need to Access Cash", Icon: "/cash.svg" },
-  { id: "repairs", label: "Property Needs Repairs", Icon: "/house-repair.svg" },
-  { id: "move", label: "Downsizing / Relocating", Icon: "/property-exchange.svg" },
-  { id: "metrics", label: "Research Home Metrics", Icon: "/house-price.svg" }
-] as const
-
-const MONEY_OPTIONS = [
-  { id: "asap", label: "ASAP", Icon: "/coming-soon.svg" },
-  { id: "2_3_months", label: "2-3 Months", Icon: "/calendar-charge.svg" },
-  { id: "6_months", label: "6 Months", Icon: "/clock-with-calendar.svg" },
-  { id: "no_rush", label: "I Am In No Rush", Icon: "/calendar.svg" }
-] as const
-
-const CREDIT_OPTIONS = [
-  { id: "poor", label: "Poor (559 Or Less)", Icon: "/poor.svg" },
-  { id: "fair", label: "Fair (560–639)", Icon: "/fair.svg" },
-  { id: "good", label: "Good (640–700)", Icon: "/good.svg" },
-  { id: "excellent", label: "Excellent (701+)", Icon: "/excellant.svg" }
-] as const
-
+// --- Layout / field styles ---
 const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-6 "
-const STEP_SHELL_WIDE = "mx-auto flex w-full max-w-6xl flex-col items-center gap-6 md:gap-7 xl:gap-8"
-const STEP_SHELL_VALUE = "mx-auto flex w-full max-w-5xl flex-col items-center gap-6 text-center md:gap-7 xl:gap-8"
-const STEP_SHELL_FIELDS = "mx-auto flex w-full max-w-3xl flex-col gap-5 md:gap-6"
 const STEP_TITLE = "text-center text-xl  font-bold text-[#142B4A] xl:text-2xl mb-2"
-const GRID_2 = "grid w-full grid-cols-2 gap-3 md:gap-4 xl:gap-5"
-const GRID_SELL = "grid w-full grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3 xl:gap-5"
-const CHOICE_BTN =
-  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-6 xl:px-6 xl:py-8"
-const CHOICE_BTN_MLS =
-  "flex min-h-0 w-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[10px] border border-[#102E50] bg-white px-3 py-5 text-center transition-colors hover:bg-[#fde9ea] md:gap-5 md:px-4 md:py-7 xl:px-6 xl:py-10"
-const CHOICE_ICON = "h-9.5 w-9.5 shrink-0 object-contain md:h-10 md:w-10 xl:h-14 xl:w-14"
-const CHOICE_LABEL = "text-[0.85rem] font-semibold leading-normal text-[#475467] xl:text-base"
 const INPUT_FIELD =
   "mt-2 h-14 w-full rounded-[10px] border border-gray-300 bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-[0_4px_12px_0_rgba(0,0,0,0.03)] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base"
 const LABEL_CLASS = "text-sm font-medium text-[#142B4A] xl:text-base"
 const PARTNER_LINK_CLASS =
   "inline cursor-pointer border-0 bg-transparent p-0 font-bold text-[#475467] underline"
 
-type HomeTypeId = (typeof HOME_TYPE_OPTIONS)[number]["id"]
-type PropertyTypeId = (typeof PROPERTY_TYPE_OPTIONS)[number]["id"]
-type PropertyListTypeId = (typeof PROPERTY_LIST_OPTIONS)[number]["id"]
-type SellTypeId = (typeof SELL_OPTIONS)[number]["id"]
-type MoneyTypeId = (typeof MONEY_OPTIONS)[number]["id"]
-type CreditTypeId = (typeof CREDIT_OPTIONS)[number]["id"]
-
-const HOUSE_VALUE_RANGES: { value: string; label: string }[] = [
-  { value: "u100", label: "Under $100K" },
-  { value: "100_150", label: "$100K to $150K" },
-  { value: "150_200", label: "$150K to $200K" },
-  { value: "200_250", label: "$200K to $250K" },
-  { value: "250_300", label: "$250K to $300K" },
-  { value: "300_350", label: "$300K to $350K" },
-  { value: "350_400", label: "$350K to $400K" },
-  { value: "400_450", label: "$400K to $450K" },
-  { value: "450_500", label: "$450K to $500K" },
-  { value: "500_550", label: "$500K to $550K" },
-  { value: "550_600", label: "$550K to $600K" },
-  { value: "600_700", label: "$600K to $700K" },
-  { value: "700_800", label: "$700K to $800K" },
-  { value: "800_900", label: "$800K to $900K" },
-  { value: "900k_1m", label: "$900K to $1M" },
-  { value: "1m_1_1", label: "$1M to $1.1M" },
-  { value: "1_1_1_2", label: "$1.1M to $1.2M" },
-  { value: "1_2_1_3", label: "$1.2M to $1.3M" },
-  { value: "1_3_1_4", label: "$1.3M to $1.4M" },
-  { value: "1_4_1_5", label: "$1.4M to $1.5M" },
-  { value: "1_5m_plus", label: "$1.5M+" },
-]
-
-const TOTAL_STEPS = 4
+const TOTAL_STEPS = 5
 
 const defaultFormData = {
-  homeType: "condominium" as HomeTypeId,
   zipCode: "",
-  propertyType: "needs_work" as PropertyTypeId,
-  propertyList: "yes" as PropertyListTypeId,
-  sell: "late" as SellTypeId,
-  money: "asap" as MoneyTypeId,
-  credit: "poor" as CreditTypeId,
-  houseValueRange: "500_550",
   first_name: "",
   last_name: "",
   phone_number: "",
@@ -416,6 +328,7 @@ const defaultFormData = {
   street_address: "",
   city: "",
   state: "",
+  date_of_birth: "",
 }
 
 type FormNavigationProps = {
@@ -468,10 +381,6 @@ function FormPage() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState(defaultFormData)
-  const [houseValueIndex, setHouseValueIndex] = useState(() => {
-    const idx = HOUSE_VALUE_RANGES.findIndex((r) => r.value === defaultFormData.houseValueRange)
-    return idx >= 0 ? idx : 9
-  })
 
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
@@ -525,6 +434,9 @@ function FormPage() {
         normalizeZip(formData.zipCode).length === 5
       )
     }
+    if (currentStep === 4) {
+      return isValidDob(formData.date_of_birth)
+    }
     if (currentStep === TOTAL_STEPS) {
       const phoneDigits = formData.phone_number.replace(/\D/g, "")
       return (
@@ -532,7 +444,8 @@ function FormPage() {
         formData.street_address.trim() !== "" &&
         formData.city.trim() !== "" &&
         formData.state.trim().length === 2 &&
-        normalizeZip(formData.zipCode).length === 5
+        normalizeZip(formData.zipCode).length === 5 &&
+        isValidDob(formData.date_of_birth)
       )
     }
     return true
@@ -596,19 +509,22 @@ function FormPage() {
       !formData.street_address.trim() ||
       !formData.city.trim() ||
       formData.state.trim().length !== 2 ||
-      zip.length !== 5
+      zip.length !== 5 ||
+      !isValidDob(formData.date_of_birth)
     ) {
       setSubmitStatus("error")
       setSubmitError(
         phoneDigits.length !== 10
           ? "Please enter a valid 10-digit phone number."
-          : !formData.street_address.trim() ||
-              !formData.city.trim() ||
-              formData.state.trim().length !== 2
-            ? "Please select a street address from the suggestions so we can detect your city, state, and ZIP."
-            : zip.length !== 5
-              ? "Please enter a valid ZIP code."
-              : "Please complete all required fields with valid details."
+          : !isValidDob(formData.date_of_birth)
+            ? "Please enter a valid date of birth. You must be between 18 and 100 years old."
+            : !formData.street_address.trim() ||
+                !formData.city.trim() ||
+                formData.state.trim().length !== 2
+              ? "Please select a street address from the suggestions so we can detect your city, state, and ZIP."
+              : zip.length !== 5
+                ? "Please enter a valid ZIP code."
+                : "Please complete all required fields with valid details."
       )
       return
     }
@@ -622,19 +538,13 @@ function FormPage() {
     const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
     const payload = {
-      homeType: formData.homeType,
       zipCode: zip,
-      propertyType: formData.propertyType,
-      propertyList: formData.propertyList,
-      sell: formData.sell,
-      money: formData.money,
-      credit: formData.credit,
-      houseValueRange: formData.houseValueRange,
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
       address: formData.street_address.trim(),
       city: formData.city.trim(),
       state: formData.state.trim().toUpperCase().slice(0, 2),
+      dob: formData.date_of_birth,
       email: formData.email.trim(),
       phoneNumber: formData.phone_number.trim(),
       subid1: getCookie("subid1") ?? "",
@@ -873,13 +783,38 @@ function FormPage() {
             />
           </section>
         ) : null}
-        
 
-        {currentStep === TOTAL_STEPS ? (
+        {currentStep === 4 ? (
           <section
             className={STEP_SHELL}
             data-arohaa-step="4"
             data-arohaa-step-name={FORM_STEP_NAMES[4]}
+          >
+            <h3 className={STEP_TITLE}>What is your date of birth?</h3>
+            <div className="flex w-full max-w-lg flex-col gap-4 text-left overflow-visible">
+              <BirthdateInput
+                value={formData.date_of_birth}
+                onChange={(iso) => handleInputChange("date_of_birth", iso)}
+                label="Date of Birth"
+                labelClassName={LABEL_CLASS}
+                className={INPUT_FIELD}
+                dataArohaaField="dob"
+              />
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === TOTAL_STEPS ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="5"
+            data-arohaa-step-name={FORM_STEP_NAMES[5]}
           >
             <h3 className={STEP_TITLE}>What is your phone number?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left md:gap-5">
@@ -926,23 +861,24 @@ function FormPage() {
                   <button
                     type="submit"
                     disabled={!isStepValid() || submitStatus === "loading"}
-                    className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#C12026] text-sm font-semibold uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] xl:h-14 xl:text-base"
+                    className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#C12026] text-sm font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] xl:h-14 xl:text-base"
                   >
-                    {submitStatus === "loading" ? "Submitting..." : "SUBMIT"}
+                    {submitStatus === "loading" ? "Checking..." : "Check My Options"}
                   </button>
                 </div>
                 
               </nav>
 
               <p className="text-justify text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
-                By submitting this form, I am providing Nation One Debt Relief, with express written consent to contact me regarding product offerings by SMS/text messages or by using an auto dialer (or automated means) at the phone number(s) provided and such consent is not a condition of a purchase. I further consent to initial contact outside of permissible state and federal call times if made within approximately one hour of submission. Message and data rates may apply. You can opt-out of this service at any time by replying to our last message with “STOP”. For assistance, please call any number listed on this website. I also consent and agree to Nation One Debt Relief’s{" "}
-                <a href="/privacy-policy" className="underline text-[#475467]" target="_blank" rel="noopener noreferrer">
-                  Privacy Policy
-                </a>{" "}
-                and{" "}
-                <a href="/terms-of-use" className="underline text-[#475467]" target="_blank" rel="noopener noreferrer">
-                  Terms of Use
-                </a>.
+                By clicking “Check My Options” I also provide express written consent under the Fair Credit Reporting Act (FCRA) for Nationonedebtrelief and its{" "}
+                <button
+                  type="button"
+                  onClick={() => setPartnersOpen(true)}
+                  className={PARTNER_LINK_CLASS}
+                >
+                  partners
+                </button>{" "}
+                to obtain my consumer credit report and related information from one or more credit bureaus, both now and in the future for a maximum of twelve months, as needed to provide me with personal loan and debt consolidation options. These inquiries will not affect my credit score.
               </p>
          
             </div>
@@ -951,6 +887,8 @@ function FormPage() {
 
      
       </form>
+
+      <PartnersDialog isOpen={partnersOpen} onClose={() => setPartnersOpen(false)} />
 
       <PartnerLogos className="mt-3 md:mt-5 xl:mt-6" />
 
