@@ -1,11 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useUtmParams } from "@workspace/lp-core"
 import PartnerLogos from "@/app/_components/PartnerLogos"
 import CreditScoreNotice from "@/app/_components/CreditScoreNotice"
 import { HERO_CONTENT } from "@/lib/constant"
+import {
+  DEBT_AMOUNT_STORAGE_KEY,
+  FORM_STEP_NAMES,
+  trackArohaa,
+} from "@/lib/arohaa"
 import { SelectInput } from "@workspace/ui/components/select-input"
 
 const INPUT_FIELD =
@@ -26,12 +31,25 @@ export default function Hero() {
   const [showError, setShowError] = useState(false)
   const router = useRouter()
 
+  useEffect(() => {
+    trackArohaa("form_start")
+    trackArohaa("form_step_view", {
+      step: 1,
+      step_name: FORM_STEP_NAMES[1],
+    })
+  }, [])
+
   const handleContinue = () => {
     if (!value) {
       setShowError(true)
       return
     }
 
+    try {
+      sessionStorage.setItem(DEBT_AMOUNT_STORAGE_KEY, value)
+    } catch {
+      // ignore storage failures
+    }
     router.push("/form")
   }
 
@@ -54,7 +72,11 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5">
+          <div
+            className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5"
+            data-arohaa-step="1"
+            data-arohaa-step-name={FORM_STEP_NAMES[1]}
+          >
             <h3 className="text-center text-lg  font-semibold text-[#142B4A] xl:text-xl ">How much debt do you have?</h3>
 
             <div className="w-full flex flex-col-reverse items-center justify-center gap-4 md:max-w-[300px] xl:max-w-[330px]">
@@ -71,7 +93,7 @@ export default function Hero() {
                 <CreditScoreNotice />
               </div>
 
-              <div className="flex w-full max-w-lg flex-col gap-4 text-left">
+              <div className="flex w-full max-w-lg flex-col gap-4 text-left" data-arohaa-field="debtAmount">
                 <SelectInput
                   placeholder="Select debt amount"
                   options={options}

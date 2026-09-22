@@ -32,16 +32,54 @@ export const HERO_CONTENT = {
 } as const
 
 
-export const PARTNERS_CONTENT = {
-  header: "Get quotes and offers from popular insurance companies",
-
-  partners: [
-    { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 3", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-14 xl:w-19 overflow-hidden object-contain" },
-    { alt: "Partner 5", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 6", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
+export const STEPS_CONTENT = {
+  header: "Are Your Windows Causing These Problems?",
+  description: {
+    before: "Heat gain and heat loss through windows account for ",
+    highlight: "25%–30% of residential heating and cooling energy use",
+    after: ", making inefficient windows more than just an everyday inconvenience.",
+  },
+  steps: [
+    {
+      number: 1,
+      title: "Uneven Temperatures",
+      description:
+        "Some rooms stay too hot in summer or too cold in winter.",
+      image: {
+        src: "/about-1.svg",
+        alt: "Uneven Temperatures Icon",
+      },
+    },
+    {
+      number: 2,
+      title: "Drafts & Air Leaks",
+      description:
+        "Feel unwanted hot or cold air around your windows?",
+      image: {
+        src: "/about-2.svg",
+        alt: "Drafts & Air Leaks Icon",
+      },
+    },
+    {
+      number: 3,
+      title: "Outside Noise",
+      description:
+        "Traffic, neighbours and everyday outdoor sounds finding their way inside?",
+      image: {
+        src: "/about-3.svg",
+        alt: "Outside Noise Icon",
+      },
+    },
+    {
+      number: 4,
+      title: "Difficult Windows",
+      description:
+        "Windows sticking, fogging up or becoming harder to open and close?",
+      image: {
+        src: "/about-4.svg",
+        alt: "Difficult Windows Icon",
+      },
+    },
   ],
 } as const
 
@@ -92,112 +130,87 @@ export const FEATURES_CONTENT = {
   ]
 } as const;
 
-export const STEPS_CONTENT = {
-  header: "Get Covered in 3 Simple Steps",
 
-  steps: [
-    {
-      number: 1,
-      numberText: "01.",
-      title: "Enter Your ZIP Code",
-      description: "Tell us where you live so we can help find auto insurance options available in your area.",
-      image: {
-        src: "/step-1.svg",
-        alt: "Enter Your ZIP Code",
-      },
-    },
-    {
-      number: 2,
-      numberText: "02.",
-      title: "Answer A Few Quick Questions",
-      description: "Share basic details about your vehicle, driving needs, and current cover preferences.",
-      image: {
-        src: "/step-2.svg",
-        alt: "Answer A Few Quick Questions",
-      },
-    },
-    {
-      number: 3,
-      numberText: "03.",
-      title: "Compare & Choose Your Quote",
-      description: "Review your quote options, compare benefits, and select the cover that works best for you.",
-      image: {
-        src: "/step-3.svg",
-        alt: "Compare & Choose Your Quote",
-      },
-    },
-  ],
-} as const
 
 export const OPTIONS_CONTENT = {
-  header: "Ready to Compare Auto Insurance Quotes?",
-  description: "Enter your ZIP code to compare personalized auto insurance options from recognized providers.",
+  header: "Ready to Replace Your Old Windows?",
+  description: "Find replacement window options available in your area and get a free quote for your home.",
 
   badges: [
     {
-      icon: "/hero-4.svg",
-      text: "Free Quotes",
+      number: "25+",
+      label: "Years Experience",
     },
     {
-      icon: "/hero-5.svg",
-      text: "Takes Just 2 Minutes",
+      number: "10k+",
+      label: "Windows Installed",
     },
     {
-      icon: "/hero-6.svg",
-      text: "Compare Multiple Providers",
+      number: "4.9",
+      label: "Customer Rating",
+      icon: "/star.svg", // Assumes you have a star icon at this path
+      iconAlt: "Star",
+    },
+    {
+      text: "Lifetime",
+      label: "Warranty",
+      highlight: true, // Optional: may help distinguish for styling
     },
   ],
+
+  image: {
+    src: "/info.webp",
+    alt: "Options Background",
+  },
   
 } as const
 
 
 export const REVIEW_CONTENT = {
-  header: "Helping Drivers Find Better Rates Every Day",
-
-  badge: [
-    {
-      text: "Verified",
-      icon: "/badge.svg",
-    },
-    
-  ],
-
+  header: "Trusted by Homeowners Like You",
+  subheader: "See what homeowners have to say about replacing old windows and improving the comfort of their homes.",
   reviews: [
     {
       id: 1,
-      quote: "Comparing quotes was much easier than calling different insurance companies one by one. I found a plan that fit my monthly budget in just a few minutes.",
+      quote: "Our old windows made certain rooms uncomfortable year-round. After replacing them, we noticed a huge difference in temperature and overall comfort throughout our home.",
       customer: {
         name: "Sarah M.",
-        location: "Phoenix, AZ",
+        time: "2 hours ago",
         image: {
           src: "/profile-1.svg",
           alt: "Sarah M.",
         },
+        verified: true,
       },
+      rating: 5,
     },
     {
       id: 2,
-      quote: "The process was quick and simple. I could review different cover options in one place and choose the one that worked best for my family.",
+      quote: "The entire process was simple and stress-free. The team explained our options clearly, gave us an honest quote, and completed the installation professionally.",
       customer: {
         name: "Michael R.",
-        location: "Dallas, TX",
+        time: "6 hours ago",
         image: {
           src: "/profile-2.svg",
           alt: "Michael R.",
         },
+        verified: true,
       },
+      rating: 5,
     },
     {
       id: 3,
-      quote: "I liked being able to compare auto insurance quotes without feeling pressured. It saved me time and helped me find a better rate.",
+      quote: "We replaced our aging windows and immediately noticed less outside noise and a more comfortable living space. The difference has been amazing.",
       customer: {
-        name: "Jessica L.",
-        location: "Orlando, FL",
+        name: "Jennifer K.",
+        time: "1 day ago",
         image: {
           src: "/profile-3.svg",
-          alt: "Jessica L.",
+          alt: "Jennifer K.",
         },
+        verified: true,
       },
+      rating: 5,
     },
   ],
 } as const
