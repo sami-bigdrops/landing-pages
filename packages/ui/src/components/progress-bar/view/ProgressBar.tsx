@@ -243,8 +243,8 @@ function ProgressBar({
       {type === "9" && (
         <div className="relative mx-auto flex w-full max-w-[210px] md:max-w-[225px] lg:max-w-[230px] xl:max-w-[275px] items-center justify-between ">
           <div
-            className="absolute left-4 right-4 top-1/2 z-0 h-px md:h-[1.5px] xl:h-[2px] -translate-y-1/2 md:left-[18px] md:right-[18px]"
-            style={{ backgroundColor: foregroundColor ?? TYPE9_TEAL }}
+            className="absolute left-4 right-4 top-1/2 z-0 h-[2px] md:h-[2.5px] xl:h-[3px] -translate-y-1/2 md:left-[18px] md:right-[18px]"
+            style={{ backgroundColor: backgroundColor ?? (foregroundColor ?? TYPE9_TEAL) }}
             aria-hidden
           />
           {Array.from({ length: totalSteps }, (_, i) => {
@@ -252,6 +252,7 @@ function ProgressBar({
             const completed = currentStep > stepNumber
             const active = currentStep === stepNumber
             const color = foregroundColor ?? TYPE9_TEAL
+            const inactiveBg = backgroundColor ?? "#ffffff"
             return (
               <div
                 key={i}
@@ -260,13 +261,17 @@ function ProgressBar({
                   active
                     ? {
                         backgroundColor: color,
-                        color: "#ffffff",
+                        color: "#FFFFFF",
                         border: `1px solid ${color}`,
+                        borderRadius: 50,
                       }
                     : {
-                        backgroundColor: "#ffffff",
+                        backgroundColor: inactiveBg,
                         color: color,
-                        border: `1px solid ${color}`,
+                        border: backgroundColor
+                          ? `1px solid ${inactiveBg}`
+                          : `1px solid ${color}`,
+                        borderRadius: 50,
                       }
                 }
                 aria-current={active ? "step" : undefined}

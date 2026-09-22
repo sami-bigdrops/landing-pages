@@ -95,14 +95,14 @@ export function AddressAutocomplete({
 
   return (
     <div className="space-y-1.5">
-      {label != null && (
+      {label ? (
         <label
           htmlFor={id}
           className={cn("text-sm font-medium text-foreground leading-none", labelClassName)}
         >
           {label}
         </label>
-      )}
+      ) : null}
       <input
         ref={inputRef}
         id={id}

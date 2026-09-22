@@ -8,31 +8,27 @@ export const NAVBAR_CONTENT = {
 } as const
 
 export const HERO_CONTENT = {
-  headline: "Get Cheap Auto Insurance Quotes Instantly",
+  headline: "Upgrade Your Windows. Upgrade Your Comfort.",
   description:
-    "Compare trusted auto insurance quotes and find the right coverage at the right price.",
-    Badges: [
-      {
-        icon: "/hero-1.svg",
-        text: "Free Quotes",
-      },
-      {
-        icon: "/hero-2.svg",
-        text: "Takes Just 2 Minutes",
-      },
-      {
-        icon: "/hero-3.svg",
-        text: "Compare Multiple Providers",
-      },
-    ],
-    
+    "Find replacement window options for a more comfortable, energy-efficient home.",
+  Badges: [
+    {
+      icon: "/tick-mark.svg",
+      text: "No pressure consultation",
+    },
+    {
+      icon: "/tick-mark.svg",
+      text: "Clear Quote Options",
+    },
+    {
+      icon: "/tick-mark.svg",
+      text: "Professional Installation",
+    },
+  ],
   image: {
-    alt: "A couple in a modern kitchen discussing their home",
+    alt: "Blue house with white trim and a welcoming front porch in a sunny neighborhood.",
     src: "/hero-bg.webp",
   },
- 
- 
-  
 } as const
 
 

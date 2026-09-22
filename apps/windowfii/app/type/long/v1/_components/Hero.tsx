@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   useUtmParams,
   setCookie,
-  getCookie,
   QUOTIFII_EXTENDED_UTM_OPTIONS,
 } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
@@ -18,11 +18,11 @@ import { HERO_CONTENT } from "@/lib/constant"
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://quote.cheapautoinsuranceoptions.com";
 const ANALYTICS_FLUSH_DELAY_MS = 300;
 
 export default function Hero() {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
+  const router = useRouter();
 
   const [zipCode, setZipCode] = useState("");
   const [cityName, setCityName] = useState("");
@@ -56,25 +56,10 @@ export default function Hero() {
     }
 
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
-
-    const utmSource = getCookie("subid1") || "";
-    const utmId = getCookie("subid2") || "";
-    const utmS1 = getCookie("subid3") || "";
-
-    const params = new URLSearchParams();
-    params.set("tid", utmId);
-    params.set("uid", utmId);
-    params.set("sid", utmSource);
-    params.set("sub1", utmS1);
-    params.set("zip", trimmed);
-
-    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
-
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
-
     setIsRedirecting(true);
     window.setTimeout(() => {
-      window.location.href = redirectUrl;
+      router.push("/form");
     }, ANALYTICS_FLUSH_DELAY_MS);
   };
 
@@ -100,16 +85,21 @@ export default function Hero() {
     );
   }
 
+  
+
    const renderBadge = (badge: (typeof HERO_CONTENT.Badges)[number]) => (
-    <div key={badge.text} className="flex items-center gap-1 xl:gap-1.5">
+    <div
+      key={badge.text}
+      className={`flex items-start justify-start gap-2.5 md:gap-2 rounded-[8px] bg-[rgba(255,255,255,0.15)] backdrop-blur-xs px-3 py-2.5 xl:gap-2.5 xl:px-4 xl:py-3 w-[205px] md:w-fit`}
+    >
       <Image
         src={badge.icon}
         alt="badge icon"
         width={18}
         height={18}
-        className="size-[16px] xl:size-5 shrink-0 object-contain"
+        className="size-[15px] xl:size-5 shrink-0 object-contain"
       />
-      <span className=" text-[0.8rem] md:text-[0.75rem] xl:text-base font-normal leading-tight text-[#374151] md:text-white">
+      <span className="text-[0.8rem] md:text-[0.73rem] xl:text-base font-normal leading-tight text-white">
         {badge.text}
       </span>
     </div>
@@ -131,12 +121,12 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 w-full h-full px-6  py-8 md:px-8 md:py-12 md:px-8 lg:px-14 lg:py-16 xl:px-23 xl:py-24 2xl:py-28 2xl:px-25">
-        <div className="container mx-auto max-w-[1400px] ">
-          <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-5 md:gap-8 lg:gap-6.5 xl:gap-8  ">
+        <div className="container mx-auto max-w-[1350px] ">
+          <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-5 md:gap-8 lg:gap-8 xl:gap-10  ">
 
-          <div className="w-full flex flex-col items-center md:items-start gap-2 xl:gap-4">
+          <div className="w-full flex flex-col items-center md:items-start gap-2 lg:gap-3 xl:gap-4">
                 <h1
-                  className="text-2xl  md:text-3xl  xl:text-5xl  font-extrabold text-white text-center md:text-left lg:text-left xl:text-left 2xl:text-left md:max-w-[450px] lg:max-w-[470px] xl:max-w-[650px]  font-sans"
+                  className="text-2xl  md:text-3xl  lg:text-4xl xl:text-5xl  font-bold text-white text-center md:text-left lg:text-left xl:text-left 2xl:text-left md:max-w-[450px] lg:max-w-[470px] xl:max-w-[650px]  font-sans"
                   style={{
                     lineHeight: "1.3",
 
@@ -144,7 +134,7 @@ export default function Hero() {
                 >
                   {HERO_CONTENT.headline}
                 </h1>
-                <p className="text-[#374151] text-center font-normal font-sans text-sm  text-center md:text-left text-sm xl:text-[1.2rem] font-normal md:max-w-[350px] lg:max-w-[400px] xl:max-w-[610px]  text-white " style={{ lineHeight: "1.5" }}>
+                <p className="text-[#374151] text-center font-normal font-sans text-sm  text-center md:text-left text-sm xl:text-[1.25rem] font-normal md:max-w-[390px] lg:max-w-[400px] xl:max-w-[610px]  text-white " style={{ lineHeight: "1.5" }}>
                   {HERO_CONTENT.description}
                 </p>
               </div>
@@ -179,12 +169,12 @@ export default function Hero() {
                           onChange={(value) => setZipCode(value)}
                           placeholder="90001"
                           inputClassName="
-                          h-14 pl-9.5 pr-2 text-[0.9rem] font-normal font-poppins
-                          rounded-[6px]
-                          border border-[#0752A0]
-                          bg-white
+                          h-14 pl-9.5 pr-2 text-[0.9rem] font-normal font-sans
+                          rounded-[10px]
+                          border border-[#CEDBEC]
+                          bg-[#FFF]
                           w-full
-                          shadow-[0_0_10px_0_rgba(31,58,95,0.10)]
+                          shadow-[0_0_2px_0_rgba(23,33,43,0.06)]
                           placeholder:text-[#102A43]
                           focus-visible:ring-0 focus-visible:ring-offset-0
                         "
@@ -198,14 +188,14 @@ export default function Hero() {
                         htmlType="submit"
                         data-arohaa-zip-submit
                         disabled={isRedirecting || !zipValid}
-                        className="flex h-14 w-full cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#F59E0B] px-8 py-4 font-poppins text-[0.9rem] font-semibold uppercase  text-[#102A43] shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#F59E0B] disabled:cursor-not-allowed disabled:opacity-90"
+                        className="flex h-14 w-full cursor-pointer items-center justify-center gap-1.5 rounded-[10px] bg-[#2B75FB] px-8 py-4 font-sans text-[0.9rem] font-medium uppercase  text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2B75FB] disabled:cursor-not-allowed disabled:opacity-90"
                       >
                         {isRedirecting ? (
                           "Redirecting..."
                         ) : (
                           <>
                             Get My Free Quote
-                            <QuoteArrowIcon />
+                            <ArrowRight className="size-4.5" />
                           </>
                         )}
                       </Button>
@@ -216,13 +206,8 @@ export default function Hero() {
 
                   </div>
 
-                  <div className="mt-1 flex w-full flex-col items-center gap-3 md:mt-1 md:flex-row md:flex-nowrap md:items-start md:justify-start md:gap-y-0 xl:gap-4.5 ">
-                    <div className="flex items-start justify-start gap-x-3.5 xl:gap-x-5 ">
-                      {HERO_CONTENT.Badges.slice(0, 2).map(renderBadge)}
-                    </div>
-                    <div className="flex items-start justify-start ">
-                      {renderBadge(HERO_CONTENT.Badges[2])}
-                    </div>
+                  <div className="mt-3.5 flex w-full flex-col items-center gap-2.5 md:mt-1 md:items-start xl:gap-3">
+                    {HERO_CONTENT.Badges.map(renderBadge)}
                   </div>
                 </div>
               </div>
@@ -239,19 +224,19 @@ export default function Hero() {
              
 
               <div className="flex-1 w-full flex flex-col md:flex-row   justify-center items-center md:justify-center lg:items-center">
-                <div className="w-full flex flex-col items-center justify-center gap-4 md:gap-4 lg:gap-5 xl:gap-6  ">
+                <div className="w-full flex flex-col items-center justify-center gap-4 md:gap-7 lg:gap-7 xl:gap-10  ">
 
 
 
 
-                  {/* Desktop */}
+                  {/* Desktop  view*/}
 
                   <form
                     data-arohaa-zip-form
                     onSubmit={handleSubmit}
-                    className="hidden relative w-full sm:flex w-full flex-row items-start justify-start  gap-2 xl:gap-3"
+                    className="hidden relative w-full sm:flex w-full flex-row items-start justify-start  gap-2.5 xl:gap-3"
                   >
-                    <div className="relative w-full max-w-[160px] lg:max-w-[165px] xl:max-w-[212px] min-w-0 shrink ">
+                    <div className="relative w-full max-w-[175px]  lg:max-w-[205px] xl:max-w-[270px] min-w-0 shrink ">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                         <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-5.5 xl:h-5.5 " />
                       </div>
@@ -263,12 +248,12 @@ export default function Hero() {
                         onChange={(value) => setZipCode(value)}
                         placeholder="90001"
                         inputClassName="
-                          h-14 md:h-13.5 xl:h-17.5 pl-10 xl:pl-10.5 pr-2 text-[0.9rem] lg:text-[0.95rem] xl:text-xl font-normal font-poppins
-                          rounded-[6px]
-                          border border-[#0752A0]
-                          bg-white
+                          h-14 md:h-13.5 xl:h-17.5 pl-10 xl:pl-10.5 pr-2 text-[0.9rem] lg:text-[0.95rem] xl:text-xl font-normal font-sans
+                          rounded-[10px]
+                          border border-[#CEDBEC]
+                          bg-[#FFF]
                           w-full
-                          shadow-[0_0_10px_0_rgba(31,58,95,0.10)]
+                          shadow-[0_0_2px_0_rgba(23,33,43,0.06)]
                           placeholder:text-[#102A43]
                           focus-visible:ring-0 focus-visible:ring-offset-0
                         "
@@ -282,24 +267,24 @@ export default function Hero() {
                       htmlType="submit"
                       data-arohaa-zip-submit
                       disabled={isRedirecting || !zipValid}
-                      className="flex h-14 w-[190px] shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#F59E0B] px-4 font-poppins text-[0.85rem] font-bold uppercase text-[#102A43] shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#F59E0B] disabled:cursor-not-allowed disabled:opacity-90 md:h-13.5 lg:w-[205px] xl:h-17.5 xl:w-[260px] xl:text-lg"
+                      className="flex h-14 w-[205px] shrink-0 cursor-pointer items-center justify-center gap-1.5 xl:gap-2 rounded-[10px] bg-[#2B75FB] px-4 font-sans text-[0.85rem] font-medium uppercase text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2B75FB] disabled:cursor-not-allowed disabled:opacity-90 md:h-13.5 lg:w-[205px] xl:h-17.5 xl:w-[270px] xl:text-lg"
                     >
                       {isRedirecting ? (
                         "Redirecting..."
                       ) : (
                         <>
                           Get My Free Quote
-                          <QuoteArrowIcon />
+                          <ArrowRight className="size-4.5 xl:size-5.5" />
                         </>
                       )}
                     </Button>
                   </form>
 
-                   <div className="mt-1 flex w-full flex-col items-center gap-3 md:mt-1 lg:flex-row md:flex-nowrap md:items-start md:justify-start md:gap-y-3 xl:gap-4.5 ">
-                    <div className="flex items-start justify-start gap-x-3.5 xl:gap-x-5 ">
+                   <div className="mt-1 flex w-full flex-col items-start gap-2.5 md:mt-1 lg:flex-row lg:flex-nowrap lg:gap-3 xl:gap-4.5">
+                    <div className="flex items-start justify-start gap-x-3 xl:gap-x-5">
                       {HERO_CONTENT.Badges.slice(0, 2).map(renderBadge)}
                     </div>
-                    <div className="flex items-start justify-start ">
+                    <div className="flex items-start justify-start">
                       {renderBadge(HERO_CONTENT.Badges[2])}
                     </div>
                   </div>
