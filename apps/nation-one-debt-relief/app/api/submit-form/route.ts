@@ -4,6 +4,7 @@ import { sendSubmissionConfirmationEmail } from "@/lib/send-submission-email"
 import { verifyEmailWithHunter } from "@/lib/hunter-verify-email"
 import { geocodeAddress } from "@/lib/geocode-address"
 import { isValidDob } from "@/lib/validate-dob"
+import { isoToLeadProsperDob } from "@/lib/dob-format"
 import { postLeadProsper } from "@/lib/leadprosper"
 
 const REQUIRED_FIELDS = [
@@ -241,7 +242,7 @@ export async function POST(request: NextRequest) {
         last_name: String(lastName).trim(),
         email: emailTrimmed,
         phone: leadProsperPhoneDigits(String(phoneNumber)),
-        DOB: dobVal,
+        DOB: isoToLeadProsperDob(dobVal),
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,
