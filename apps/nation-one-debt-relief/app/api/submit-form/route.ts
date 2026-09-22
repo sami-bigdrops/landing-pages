@@ -79,6 +79,7 @@ export async function POST(request: NextRequest) {
       phoneNumber,
       zipCode,
       dob,
+      debtAmount,
       subid1,
       subid2,
       subid3,
@@ -243,6 +244,8 @@ export async function POST(request: NextRequest) {
         email: emailTrimmed,
         phone: leadProsperPhoneDigits(String(phoneNumber)),
         DOB: isoToLeadProsperDob(dobVal),
+        debt_amount:
+          typeof debtAmount === "string" ? debtAmount.trim() : String(debtAmount ?? "").trim(),
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,

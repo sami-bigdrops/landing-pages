@@ -16,6 +16,8 @@ import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/pars
 import { isValidDob } from "@/lib/validate-dob"
 import {
   AROHAA_SUBMITTED_KEY,
+  DEBT_AMOUNT_STORAGE_KEY,
+  FORM_AROHAA_STEP_OFFSET,
   FORM_STEP_NAMES,
   trackArohaa,
 } from "@/lib/arohaa"
@@ -329,6 +331,7 @@ const defaultFormData = {
   city: "",
   state: "",
   date_of_birth: "",
+  debt_amount: "",
 }
 
 type FormNavigationProps = {
@@ -390,13 +393,21 @@ function FormPage() {
   const redirectUrlRef = useRef<string | null>(null)
 
   useEffect(() => {
-    trackArohaa("form_start")
+    try {
+      const stored = sessionStorage.getItem(DEBT_AMOUNT_STORAGE_KEY) ?? ""
+      if (stored) {
+        setFormData((prev) => ({ ...prev, debt_amount: stored }))
+      }
+    } catch {
+      // ignore storage failures
+    }
   }, [])
 
   useEffect(() => {
+    const arohaaStep = currentStep + FORM_AROHAA_STEP_OFFSET
     trackArohaa("form_step_view", {
-      step: currentStep,
-      step_name: FORM_STEP_NAMES[currentStep] ?? `Step ${currentStep}`,
+      step: arohaaStep,
+      step_name: FORM_STEP_NAMES[arohaaStep] ?? `Step ${arohaaStep}`,
     })
   }, [currentStep])
 
@@ -545,6 +556,7 @@ function FormPage() {
       city: formData.city.trim(),
       state: formData.state.trim().toUpperCase().slice(0, 2),
       dob: formData.date_of_birth,
+      debtAmount: formData.debt_amount,
       email: formData.email.trim(),
       phoneNumber: formData.phone_number.trim(),
       subid1: getCookie("subid1") ?? "",
@@ -655,13 +667,13 @@ function FormPage() {
           <section
             className={STEP_SHELL}
 
-            data-arohaa-step="1"
-            data-arohaa-step-name={FORM_STEP_NAMES[1]}
+            data-arohaa-step="2"
+            data-arohaa-step-name={FORM_STEP_NAMES[2]}
           >
             <h3 className={STEP_TITLE}>What is your name?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left ">
               <TextInput
-                id="step6FirstName"
+                id="firstName"
                 name="firstName"
                 data-arohaa-field="firstName"
                 label="First Name"
@@ -672,7 +684,7 @@ function FormPage() {
                 className={INPUT_FIELD}
               />
               <TextInput
-                id="step6LastName"
+                id="lastName"
                 name="lastName"
                 data-arohaa-field="lastName"
                 label="Last Name"
@@ -697,8 +709,8 @@ function FormPage() {
         {currentStep === 2 ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="2"
-            data-arohaa-step-name={FORM_STEP_NAMES[2]}
+            data-arohaa-step="3"
+            data-arohaa-step-name={FORM_STEP_NAMES[3]}
           >
             <h3 className={STEP_TITLE}>What is your email?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left">
@@ -735,8 +747,8 @@ function FormPage() {
         {currentStep === 3 ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="3"
-            data-arohaa-step-name={FORM_STEP_NAMES[3]}
+            data-arohaa-step="4"
+            data-arohaa-step-name={FORM_STEP_NAMES[4]}
           >
             <h3 className={STEP_TITLE}>What is your address?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left overflow-visible">
@@ -787,8 +799,8 @@ function FormPage() {
         {currentStep === 4 ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="4"
-            data-arohaa-step-name={FORM_STEP_NAMES[4]}
+            data-arohaa-step="5"
+            data-arohaa-step-name={FORM_STEP_NAMES[5]}
           >
             <h3 className={STEP_TITLE}>What is your date of birth?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left overflow-visible">
@@ -813,8 +825,8 @@ function FormPage() {
         {currentStep === TOTAL_STEPS ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="5"
-            data-arohaa-step-name={FORM_STEP_NAMES[5]}
+            data-arohaa-step="6"
+            data-arohaa-step-name={FORM_STEP_NAMES[6]}
           >
             <h3 className={STEP_TITLE}>What is your phone number?</h3>
             <div className="flex w-full max-w-lg flex-col gap-4 text-left md:gap-5">
