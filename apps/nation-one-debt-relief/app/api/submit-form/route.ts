@@ -3,30 +3,17 @@ import { NextRequest, NextResponse } from "next/server"
 import { sendSubmissionConfirmationEmail } from "@/lib/send-submission-email"
 import { verifyEmailWithHunter } from "@/lib/hunter-verify-email"
 import { geocodeAddress } from "@/lib/geocode-address"
-import {
-  mapPropertyCondition,
-  mapPropertyType,
-  mapPropertyValue,
-  mapRealtorListing,
-  mapReasonForSelling,
-  mapTimeframe,
-  postLeadProsper,
-} from "@/lib/leadprosper"
+import { isValidDob } from "@/lib/validate-dob"
+import { postLeadProsper } from "@/lib/leadprosper"
 
 const REQUIRED_FIELDS = [
-  "homeType",
-  "propertyType",
-  "propertyList",
-  "sell",
-  "money",
-  "credit",
-  "houseValueRange",
   "firstName",
   "lastName",
   "email",
   "phoneNumber",
   "address",
   "zipCode",
+  "dob",
 ] as const
 
 function isEnvEnabled(value: string | undefined): boolean {
@@ -84,19 +71,13 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
 
     const {
-      homeType,
-      propertyType,
-      propertyList,
-      sell,
-      money,
-      credit,
-      houseValueRange,
       firstName,
       lastName,
       address,
       email,
       phoneNumber,
       zipCode,
+      dob,
       subid1,
       subid2,
       subid3,
@@ -107,6 +88,19 @@ export async function POST(request: NextRequest) {
     if (missingFields.length > 0) {
       return NextResponse.json(
         { error: "All fields are required", missingFields: [...missingFields] },
+        { status: 400 }
+      )
+    }
+
+    const dobVal = typeof dob === "string" ? dob.trim() : String(dob ?? "").trim()
+    if (!isValidDob(dobVal)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "Please enter a valid date of birth. You must be between 18 and 100 years old.",
+          field: "dob",
+        },
         { status: 400 }
       )
     }
@@ -176,13 +170,7 @@ export async function POST(request: NextRequest) {
       email: emailTrimmed,
       phoneNumber,
       zipCode: zipVal,
-      homeType,
-      propertyType,
-      propertyList,
-      sell,
-      money,
-      credit,
-      houseValueRange,
+      dob: dobVal,
       subid1: subid1 ?? "",
       subid2: subid2 ?? "",
       subid3: subid3 ?? "",
@@ -242,19 +230,18 @@ export async function POST(request: NextRequest) {
       const apiKey = process.env.LEADPROSPER_API_KEY!
       const trustedFormUrl =
         typeof xxTrustedFormCertUrl === "string" ? xxTrustedFormCertUrl.trim() : ""
-      const propertyValue = mapPropertyValue(String(houseValueRange).trim())
 
       const formData: Record<string, unknown> = {
         lp_campaign_id: campaignId,
         lp_supplier_id: supplierId,
         lp_key: apiKey,
-        lp_action: "",
         lp_subid1: subid1 ?? "",
         lp_subid2: subid2 ?? "",
         first_name: String(firstName).trim(),
         last_name: String(lastName).trim(),
         email: emailTrimmed,
         phone: leadProsperPhoneDigits(String(phoneNumber)),
+        DOB: dobVal,
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,
@@ -265,16 +252,7 @@ export async function POST(request: NextRequest) {
         trustedform_cert_url: trustedFormUrl,
         trustedformtoken: trustedFormUrl,
         tcpa_text:
-          'By clicking "SEE MY INSTANT CASH OFFER" you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to 2 partners; that you are providing your prior express written consent for those partners to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our Terms of Use, including its Arbitration provision, and Privacy Policy; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email consent@unclesambuyshomes.com and you can revoke your consent at any time by emailing us.',
-        propertytype: mapPropertyType(String(homeType).trim()),
-        propertycondition: mapPropertyCondition(String(propertyType).trim()),
-        reasonforselling: mapReasonForSelling(String(sell).trim()),
-        timeframe: mapTimeframe(String(money).trim()),
-        realtorldisting: mapRealtorListing(String(propertyList).trim()),
-      }
-
-      if (propertyValue != null) {
-        formData.propertyvalue = propertyValue
+          'By clicking “Check My Options” I also provide express written consent under the Fair Credit Reporting Act (FCRA) for Nationonedebtrelief and its partners to obtain my consumer credit report and related information from one or more credit bureaus, both now and in the future for a maximum of twelve months, as needed to provide me with personal loan and debt consolidation options. These inquiries will not affect my credit score.',
       }
 
       const postResult = await postLeadProsper(formData)

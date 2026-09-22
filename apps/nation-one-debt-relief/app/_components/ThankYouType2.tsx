@@ -123,6 +123,19 @@ export function ThankYouType2({
             {content.title}
           </h1>
 
+          {content.partnerLogo?.src ? (
+            <div className="mt-6 flex justify-center md:mt-7 xl:mt-8">
+              <Image
+                src={content.partnerLogo.src}
+                alt={content.partnerLogo.alt}
+                width={280}
+                height={80}
+                className="h-auto w-full max-w-[220px] object-contain md:max-w-[260px] xl:max-w-[280px]"
+                priority
+              />
+            </div>
+          ) : null}
+
           <p
             className="mt-4 max-w-2xl font-sans text-[0.85rem] font-normal text-[#475467] md:mt-5 md:max-w-[450px] xl:max-w-[620px] xl:mt-6 xl:text-lg"
             style={{ lineHeight: "1.6" }}
@@ -140,25 +153,40 @@ export function ThankYouType2({
           ) : null}
 
           {content.featureCards.length > 0 ? (
-            <div className="mt-10 flex w-full max-w-xl flex-col items-center justify-center gap-8 sm:mt-12 sm:flex-row sm:gap-14 md:mt-14 md:gap-16 xl:mt-16 xl:gap-20">
-              {content.featureCards.map((card) => (
-                <div
-                  key={card.title}
-                  className="flex flex-col items-center justify-center gap-3 xl:gap-4"
-                >
-                  <Image
-                    src={card.iconSrc}
-                    alt=""
-                    width={60}
-                    height={60}
-                    className="h-11 w-11 md:h-12 md:w-12 object-contain xl:h-14 xl:w-14"
-                    aria-hidden
-                  />
-                  <p className="font-sans text-base font-bold text-[#142B4A] xl:text-lg">
-                    {card.title}
-                  </p>
-                </div>
-              ))}
+            <div className="mt-10 w-full max-w-xl sm:mt-12 md:mt-14 xl:mt-16">
+              {content.aboutSectionTitle ? (
+                <h2 className="mb-6 text-center font-sans text-lg font-bold text-[#142B4A] md:mb-8 md:text-xl xl:mb-10 xl:text-2xl">
+                  {content.aboutSectionTitle}
+                </h2>
+              ) : null}
+              <div className="flex w-full flex-col items-center justify-center gap-8 sm:flex-row sm:items-start sm:gap-14 md:gap-16 xl:gap-20">
+                {content.featureCards.map((card) => (
+                  <div
+                    key={card.title}
+                    className="flex max-w-[220px] flex-col items-center justify-center gap-3 text-center xl:gap-4"
+                  >
+                    <Image
+                      src={card.iconSrc}
+                      alt=""
+                      width={60}
+                      height={60}
+                      className="h-11 w-11 md:h-12 md:w-12 object-contain xl:h-14 xl:w-14"
+                      aria-hidden
+                    />
+                    <p className="font-sans text-base font-bold text-[#142B4A] xl:text-lg">
+                      {card.title}
+                    </p>
+                    {card.description ? (
+                      <p
+                        className="font-sans text-[0.85rem] font-normal text-[#475467] xl:text-base"
+                        style={{ lineHeight: "1.5" }}
+                      >
+                        {card.description}
+                      </p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
             </div>
           ) : null}
         </div>
