@@ -84,51 +84,56 @@ export const STEPS_CONTENT = {
 } as const
 
 export const FEATURES_CONTENT = {
-  headline: "Find Affordable Auto Insurance Without The Long Search",
-  
+  header: "Upgrade Your Windows. Upgrade Your Everyday Comfort.",
+  description:
+    "Modern replacement windows can help improve how your home feels, performs and looks throughout the year.",
   steps: [
     {
-      id: 1,
-      title: "Save More",
+      number: 1,
+      title: "Better Energy Efficiency",
       description:
-        "Compare quotes from multiple insurance providers and look for rates that suit your budget.",
+        "Help keep heated and cooled air where it belongs while reducing unwanted heat transfer through your windows.",
       image: {
-        src: "/feature-1.svg",
-        alt: "Cash in Your Hands Fast",
+        src: "/choose-1.svg",
+        alt: "Energy Efficiency Icon",
       },
     },
     {
-      id: 2,
-      title: "Fast & Easy",
+      number: 2,
+      title: "Improved Comfort",
       description:
-        "Share a few basic details and view personalized quote options in just a few minutes.",
+        "Reduce drafts, hot spots and temperature changes that can make certain rooms uncomfortable.",
       image: {
-        src: "/feature-2.svg",
-        alt: "Sell Completely As-Is",
+        src: "/choose-2.svg",
+        alt: "Comfort Icon",
       },
     },
     {
-      id: 3,
-      title: "Recognised Providers",
+      number: 3,
+      title: "Reduced Outside Noise",
       description:
-        "Review cover options from well-known insurance companies in one simple place.",
+        "Create a quieter indoor space by reducing the amount of unwanted outdoor noise entering your home.",
       image: {
-        src: "/feature-3.svg",
-        alt: "Close in as Little as 7 Days",
+        src: "/choose-3.svg",
+        alt: "Noise Reduction Icon",
       },
     },
     {
-      id: 4,
-      title: "No Obligation",
+      number: 4,
+      title: "Enhanced Curb Appeal",
       description:
-        "Check your options freely, with no pressure to buy and no hidden commitment.",
+        "Refresh the look of your home with window styles that complement its exterior and character.",
       image: {
-        src: "/feature-4.svg",
-        alt: "Zero Fees or Commissions",
+        src: "/choose-4.svg",
+        alt: "Curb Appeal Icon",
       },
     },
-  ]
-} as const;
+  ],
+  image: {
+    src: "/choose.webp",
+    alt: "Features Background",
+  },
+} as const
 
 
 
@@ -249,11 +254,11 @@ export const FOOTER_CONTENT = {
     [
       { text: "Privacy Policy", href: "/privacy-policy" },
       { text: "Terms of Use", href: "/terms-of-use" },
-      { text: "Contact", href: "/contact" },
+      
     ],
   ],
 
-  copyrightText: "Copyright © 2026 Cheap Auto Insurance Options. All Rights Reserved.",
+  copyrightText: "Copyright © 2026 Windowfii. All Rights Reserved.",
 } as const
 
  
