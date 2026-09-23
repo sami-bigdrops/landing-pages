@@ -79,23 +79,23 @@ export default function Options() {
           src={OPTIONS_CONTENT.image.src}
           alt={OPTIONS_CONTENT.image.alt}
           fill
-          className="object-cover object-[75%_center] lg:object-[80%_top] xl:object-[85%_top]"
+          className="object-cover object-center"
           sizes="100vw"
         />
       </div>
-      <div className="relative z-10 w-full h-full px-6 py-8 md:px-8 md:py-12 lg:px-14 xl:px-23 xl:py-15">
+      <div className="relative z-10 w-full h-full px-6 py-8 md:px-8 md:py-12 lg:px-14 lg:py-13 xl:px-23 xl:py-18">
         <div className="mx-auto w-full max-w-[1350px]">
           <div className="options-content flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10 lg:gap-14 xl:gap-20">
-            <div className="flex w-full flex-col items-center justify-center gap-6 md:w-[50%] md:items-start lg:w-[45%]">
-              <div className="flex w-full flex-col items-center justify-center gap-2.5 md:items-start xl:gap-4">
+            <div className="flex w-full flex-col items-center justify-center gap-6 md:w-[50%] md:items-start xl:gap-9 ">
+              <div className="flex w-full flex-col items-center justify-center gap-2.5 md:items-start lg:gap-3 xl:gap-4">
                 <h2
-                  className="max-w-[500px] text-center font-sans text-[1.4rem] font-bold text-white md:text-left md:text-2xl md:max-w-[300px] lg:max-w-[380px] xl:max-w-[450px] xl:text-4xl"
+                  className="max-w-[500px] text-center font-sans text-[1.4rem] font-bold text-white md:text-left md:text-2xl md:max-w-[300px] lg:max-w-[380px] xl:max-w-[500px] xl:text-4xl"
                   style={{ lineHeight: "1.3" }}
                 >
                   {OPTIONS_CONTENT.header}
                 </h2>
                 <p
-                  className="max-w-[530px] text-center font-sans text-[0.85rem] font-normal text-white md:text-left md:max-w-[300px]  xl:max-w-[450px] xl:text-[1.14rem]"
+                  className="max-w-[530px] text-center font-sans text-[0.85rem] font-normal text-white md:text-left md:max-w-[300px] lg:max-w-[400px] xl:max-w-[540px] xl:text-[1.14rem]"
                   style={{ lineHeight: "1.6" }}
                 >
                   {OPTIONS_CONTENT.description}
@@ -194,7 +194,7 @@ export default function Options() {
                       onSubmit={handleSubmit}
                       className="hidden relative w-full sm:flex w-full flex-row items-start justify-start  gap-2.5 xl:gap-3"
                     >
-                      <div className="relative w-full max-w-[175px]  lg:max-w-[205px] xl:max-w-[270px] min-w-0 shrink ">
+                      <div className="relative w-full max-w-[175px]  lg:max-w-[195px] xl:max-w-[270px] min-w-0 shrink ">
                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                           <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-5.5 xl:h-5.5 " />
                         </div>
@@ -225,7 +225,7 @@ export default function Options() {
                         htmlType="submit"
                         data-arohaa-zip-submit
                         disabled={isRedirecting || !zipValid}
-                        className="flex h-14 w-[200px] shrink-0 cursor-pointer items-center justify-center gap-1.5 xl:gap-2 rounded-[10px] bg-[#2B75FB] px-4 font-sans text-[0.85rem] font-medium uppercase text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2B75FB] disabled:cursor-not-allowed disabled:opacity-90 md:h-13.5 lg:w-[205px] xl:h-17.5 xl:w-[270px] xl:text-lg"
+                        className="flex h-14 w-[200px] shrink-0 cursor-pointer items-center justify-center gap-1.5 xl:gap-2 rounded-[10px] bg-[#2B75FB] px-4 font-sans text-[0.85rem] font-medium uppercase text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2B75FB] disabled:cursor-not-allowed disabled:opacity-90 md:h-13.5 lg:w-[200px] xl:h-17.5 xl:w-[270px] xl:text-lg"
                       >
                         {isRedirecting ? (
                           "Redirecting..."
@@ -244,8 +244,8 @@ export default function Options() {
               </div>
             </div>
 
-            <div className="w-full md:w-[42%] lg:w-[45%] xl:w-[42%]">
-            <div className="grid w-full grid-cols-2 gap-4 md:gap-3.5 xl:gap-4">
+            <div className="w-full md:w-[42%] lg:w-[40%]  ">
+            <div className="grid w-full grid-cols-2 gap-4 md:gap-4.5 lg:gap-5.5 xl:gap-8">
               {OPTIONS_CONTENT.badges.map((badge) => {
                 const value = "number" in badge ? badge.number : badge.text;
                 const showStar = "icon" in badge && Boolean(badge.icon);
@@ -253,11 +253,11 @@ export default function Options() {
                 return (
                   <div
                     key={badge.label}
-                    className="flex flex-col items-center justify-center gap-2.5 rounded-[10px] font-normal border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.08)] px-3.5 py-4.5 text-center backdrop-blur-[2px] md:rounded-[10px]  xl:gap-1.5 xl:rounded-[10px] xl:px-5 xl:py-8"
+                    className="flex flex-col items-center justify-center gap-2.5 rounded-[10px] font-normal border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.08)] px-3.5 py-4.5 text-center backdrop-blur-[2px] md:rounded-[10px]  xl:gap-3 xl:rounded-[10px] xl:px-4 xl:py-6.5"
                   >
 
-                    <div className="flex items-center justify-center gap-1">
-                      <span className="font-sans text-2xl font-semibold leading-none text-[#54A5FB]  xl:text-4xl">
+                    <div className="flex items-center justify-center gap-1 ">
+                      <span className="font-sans text-2xl font-semibold leading-none text-[#54A5FB]  lg:text-[1.7rem] xl:text-[2.3rem]">
                         {value}
                       </span>
                       {showStar ? (
@@ -266,11 +266,11 @@ export default function Options() {
                           alt={"iconAlt" in badge ? badge.iconAlt : "Star"}
                           width={22}
                           height={22}
-                          className="size-6 object-contain  xl:size-6"
+                          className="size-6 object-contain  xl:size-7"
                         />
                       ) : null}
                     </div>
-                    <span className="font-sans text-[0.79rem] font-normal text-white  xl:text-base">
+                    <span className="font-sans text-[0.79rem] lg:text-[0.83rem] font-normal text-white  xl:text-[1.1rem]">
                       {badge.label}
                     </span>
                   </div>
