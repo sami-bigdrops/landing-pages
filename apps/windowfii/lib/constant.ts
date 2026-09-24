@@ -249,55 +249,9 @@ export const THANKYOU_CONTENT = {
   contactPhoneHref: "tel:+18001234567",
 } as const
 
-export interface ThankYouType2FeatureCard {
-  title: string
-  bulletPoints: string[]
-  icon: "shield" | "building" | "check"
-}
-
-export interface ThankYouType2Content {
-  title: string
-  partnerName: string
-  partnerLogo: { src: string; alt: string }
-  confirmationMessage: string
-  aboutSectionTitle: string
-  featureCards: ThankYouType2FeatureCard[]
-}
-
-export const THANKYOU_TYPE2_CONTENT: ThankYouType2Content = {
+export const THANKYOU_PAGE = {
   title: "Thank you!",
-  partnerName: "Renewal By Andersen",
-  partnerLogo: { src: "/rba.avif", alt: "RENEWAL by ANDERSEN" },
-  confirmationMessage:
-    "Congratulations! You have been matched with one of our partners, Renewal By Andersen. The Customer Specialist will be contacting you soon!",
-  aboutSectionTitle: "About Renewal by Andersen",
-  featureCards: [
-    {
-      title: "Trusted Excellence",
-      icon: "shield",
-      bulletPoints: [
-        "Division of Andersen Corporation",
-        "Decades of craftsmanship",
-        "Nationwide reliability",
-      ],
-    },
-    {
-      title: "Custom Solutions",
-      icon: "building",
-      bulletPoints: [
-        "Custom-made windows & doors",
-        "Energy efficient design",
-        "Enhanced curb appeal",
-      ],
-    },
-    {
-      title: "Premium Service",
-      icon: "check",
-      bulletPoints: [
-        "Full-service approach",
-        "Premium materials",
-        "Industry-leading warranties",
-      ],
-    },
-  ],
-}
+  message:
+    "We've received your information. We will contact you soon.",
+} as const
+
