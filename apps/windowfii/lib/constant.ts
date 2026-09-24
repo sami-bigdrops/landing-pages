@@ -26,7 +26,7 @@ export const HERO_CONTENT = {
     },
   ],
   image: {
-    alt: "Blue house with white trim and a welcoming front porch in a sunny neighborhood.",
+    alt: "American home with modern replacement windows and updated exterior",
     src: "/hero-bg.webp",
   },
 } as const
@@ -131,7 +131,7 @@ export const FEATURES_CONTENT = {
   ],
   image: {
     src: "/choose.webp",
-    alt: "Features Background",
+    alt: "Bright living room with large modern replacement windows and natural daylight",
   },
 } as const
 
@@ -165,7 +165,7 @@ export const OPTIONS_CONTENT = {
 
   image: {
     src: "/info.webp",
-    alt: "Options Background",
+    alt: "Modern residential home featuring professionally installed replacement windows",
   },
   
 } as const
@@ -183,7 +183,7 @@ export const REVIEW_CONTENT = {
         time: "2 hours ago",
         image: {
           src: "/profile-1.svg",
-          alt: "Sarah M.",
+          alt: "Windowfii customer Sarah",
         },
         verified: true,
       },
@@ -197,7 +197,7 @@ export const REVIEW_CONTENT = {
         time: "6 hours ago",
         image: {
           src: "/profile-2.svg",
-          alt: "Michael R.",
+          alt: "Windowfii customer Michael",
         },
         verified: true,
       },
@@ -211,7 +211,7 @@ export const REVIEW_CONTENT = {
         time: "1 day ago",
         image: {
           src: "/profile-3.svg",
-          alt: "Jennifer K.",
+          alt: "Windowfii customer Jennifer",
         },
         verified: true,
       },
@@ -219,33 +219,6 @@ export const REVIEW_CONTENT = {
     },
   ],
 } as const
-
-export const FAQ_CONTENT = {
-  header: "Frequently Asked Questions",
-  faqs: [
-    {
-      id: 1,
-      question: "Is it free to compare auto insurance quotes?",
-      answer: "Yes. Comparing quotes through our platform is free. There are no hidden charges or purchase obligations.",
-    },
-    {
-      id: 2,
-      question: "How long does it take to get my quotes?",
-      answer: "Most users can complete the process in just a few minutes after entering their ZIP code and basic details.",
-    },
-    {
-      id: 3,
-      question: "Will comparing quotes affect my credit score?",
-      answer: "No. Comparing quotes through our platform will not affect your credit score.",
-    },
-    {
-      id: 4,
-      question: "Am I required to purchase a policy?",
-      answer: "No. You can review your quote options freely and choose whether or not to move forward.",
-    },
-  ],
-} as const
-
 
 
 

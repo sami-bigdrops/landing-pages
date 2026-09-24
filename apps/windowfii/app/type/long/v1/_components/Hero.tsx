@@ -108,14 +108,15 @@ export default function Hero() {
 
 
    return (
-    <div className="relative  w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[560px]">
-      <div className="pointer-events-none absolute inset-0 ">
+    <div className="relative  w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[580px]">
+      <div className="pointer-events-none absolute inset-0">
         <Image
           src={HERO_CONTENT.image.src}
           alt={HERO_CONTENT.image.alt}
           fill
           priority
-          className="object-cover object-[75%_center] lg:object-[80%_top] xl:object-[85%_top] "
+          unoptimized
+          className="object-cover object-[85%_top] md:object-[60%_top_right] lg:object-[70%_top] xl:object-[70%_top_center] 2xl:object-[70%_center]"
           sizes="100vw"
         />
       </div>

@@ -14,11 +14,11 @@ const fontSans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Windowfii",
+    default: "Replacement Windows Near You | Free Quote | Windowfii",
     template: "%s | Windowfii",
   },
   description:
-    "Windowfii connects you with expert home window replacement and installation services. Discover trusted local window installers and upgrade your home's efficiency and curb appeal at windowfii.com.",
+    "Compare replacement window options near you with Windowfii. Improve comfort, energy efficiency and curb appeal. Get your free window quote today.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png" },

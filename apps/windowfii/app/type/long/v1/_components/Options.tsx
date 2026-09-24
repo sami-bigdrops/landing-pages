@@ -81,6 +81,7 @@ export default function Options() {
           fill
           className="object-cover object-center"
           sizes="100vw"
+          priority
         />
       </div>
       <div className="relative z-10 w-full h-full px-6 py-8 md:px-8 md:py-12 lg:px-14 lg:py-13 xl:px-23 xl:py-18">

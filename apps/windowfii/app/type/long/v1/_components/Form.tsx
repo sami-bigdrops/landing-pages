@@ -17,7 +17,7 @@ const PROGRESS_INACTIVE = "#E7EEF6"
 const ZIP_COOKIE_NAME = "zipCode"
 const ZIP_COOKIE_DAYS = 30
 const ANALYTICS_FLUSH_DELAY_MS = 300
-const AROHAA_SUBMITTED_KEY = "arohaa_medisavingz_submitted"
+const AROHAA_SUBMITTED_KEY = "arohaa_windowfii_submitted"
 
 const FORM_FEATURES = [
   { icon: "/form-1.svg", label: "Energy Efficient" },
@@ -35,8 +35,6 @@ const defaultFormData = {
   street_address: "",
   city: "",
   state: "",
-  medicareParts: "" as string,
-  date_of_birth: "",
   first_name: "",
   last_name: "",
   email: "",
@@ -63,7 +61,6 @@ const BTN_ROW =
   "flex w-full flex-col gap-2.5 md:flex-row md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px] xl:gap-3"
 
 type FormNextButtonProps = {
-  isFirstStep?: boolean
   isLastStep?: boolean
   isLoading?: boolean
   disabled?: boolean
@@ -72,7 +69,6 @@ type FormNextButtonProps = {
 }
 
 function FormNextButton({
-  isFirstStep = false,
   isLastStep = false,
   isLoading = false,
   disabled = false,
@@ -81,11 +77,9 @@ function FormNextButton({
 }: FormNextButtonProps) {
   const label = isLoading
     ? "Submitting..."
-    : isFirstStep
-      ? "START FREE QUOTE"
-      : isLastStep
-        ? "GET STARTED NOW"
-        : "NEXT"
+    : isLastStep
+      ? "GET STARTED NOW"
+      : "NEXT"
 
   return (
     <Button
@@ -177,7 +171,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
       return (
         formData.email.trim() !== "" &&
         emailRegex.test(formData.email.trim()) &&
-        formData.phone_number.trim() !== ""
+        formData.phone_number.replace(/\D/g, "").length === 10
       )
     }
     return false
@@ -222,7 +216,8 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const email = formData.email.trim()
-    const zip = normalizeZip(formData.zipCode)
+    const zip = normalizeZip(formData.zipCode || getCookie(ZIP_COOKIE_NAME) || "")
+    const phoneDigits = formData.phone_number.replace(/\D/g, "")
 
     if (
       !formData.first_name.trim() ||
@@ -230,10 +225,15 @@ function FormPage({ initialZip = "" }: FormPageProps) {
       !formData.street_address.trim() ||
       !email ||
       !emailRegex.test(email) ||
-      !formData.phone_number.trim()
+      phoneDigits.length !== 10 ||
+      zip.length !== 5
     ) {
       setSubmitStatus("error")
-      setSubmitError("Please complete all required fields with valid details.")
+      setSubmitError(
+        zip.length !== 5
+          ? "Please enter your zip code on the home page, then complete this form."
+          : "Please complete all required fields with valid details."
+      )
       return
     }
 
@@ -241,27 +241,20 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
     const form = e.currentTarget
     const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
-    const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
     const payload = {
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
       email,
-      phoneNumber: formData.phone_number.trim(),
+      phoneNumber: phoneDigits,
       address: formData.street_address.trim(),
       city: formData.city.trim(),
       state: formData.state.trim(),
       zipCode: zip,
-      medicareParts: formData.medicareParts,
-      dateOfBirth: formData.date_of_birth,
-      // dateOfBirth: formData.date_of_birth
-      //   ? isoToDisplay(formData.date_of_birth)
-      //   : "",
       subid1: getCookie("subid1") ?? "",
       subid2: getCookie("subid2") ?? "",
       subid3: getCookie("subid3") ?? "",
       xxTrustedFormCertUrl: certInput?.value ?? "",
-      xxTrustedFormToken: tokenInput?.value ?? "",
     }
 
     try {
