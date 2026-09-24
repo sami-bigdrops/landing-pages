@@ -5,20 +5,19 @@ import Image from "next/image"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
-import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
 import { Button } from "@workspace/ui/components/button"
 import { TrustedForm, getCookie, setCookie } from "@workspace/lp-core"
 // import { AddressAutocomplete } from "./AddressAutocomplete"
 
 import { trackArohaa } from "@/lib/arohaa"
 
-const TOTAL_STEPS = 4
+const TOTAL_STEPS = 3
 const PROGRESS_ACTIVE = "#336AC7"
 const PROGRESS_INACTIVE = "#E7EEF6"
 const ZIP_COOKIE_NAME = "zipCode"
 const ZIP_COOKIE_DAYS = 30
 const ANALYTICS_FLUSH_DELAY_MS = 300
-const AROHAA_SUBMITTED_KEY = "arohaa_medisavingz_submitted"
+const AROHAA_SUBMITTED_KEY = "arohaa_windowfii_submitted"
 
 const FORM_FEATURES = [
   { icon: "/form-1.svg", label: "Energy Efficient" },
@@ -27,9 +26,8 @@ const FORM_FEATURES = [
 ] as const
 
 function stepNameFor(step: number): string {
-  if (step === 1) return "Where is your project?"
-  if (step === 2) return "Who are we speaking with?"
-  if (step === 3) return "What is your home address?"
+  if (step === 1) return "Who are we speaking with?"
+  if (step === 2) return "What is your home address?"
   return "Let us know how we can reach you"
 }
 
@@ -37,8 +35,6 @@ const defaultFormData = {
   street_address: "",
   city: "",
   state: "",
-  medicareParts: "" as string,
-  date_of_birth: "",
   first_name: "",
   last_name: "",
   email: "",
@@ -56,13 +52,15 @@ const INPUT_FIELD =
   "h-13.5 w-full min-w-0 rounded-[5px] border border-[#0E2651] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] placeholder:text-[0.8rem] shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#2B75FB] focus-visible:ring-[3px] focus-visible:ring-[#2B75FB]/20 xl:h-16 xl:text-base xl:placeholder:text-base"
 
 const PRIMARY_BTN =
-  "min-w-0 flex-1 basis-0 cursor-pointer rounded-[10px] bg-[#2B75FB] px-5 h-13.5 xl:h-16 text-[0.9rem] font-semibold uppercase text-white transition-all duration-300 hover:bg-[#2B75FB] disabled:cursor-not-allowed disabled:opacity-60 xl:text-lg shadow-[0_0_10px_0_rgba(31,58,95,0.10)]"
+  "h-13.5 w-full shrink-0 cursor-pointer rounded-[10px] bg-[#2B75FB] px-5 py-0 text-[0.9rem] font-semibold uppercase text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#2B75FB] disabled:cursor-not-allowed disabled:opacity-60 md:min-w-0 md:flex-1 md:basis-0 xl:h-16 xl:text-lg"
 
 const BACK_BTN =
-  "min-w-0 flex-1 basis-0 cursor-pointer rounded-[10px] bg-[#8B8F94] px-5 h-13.5 xl:h-16 text-[0.9rem] font-semibold uppercase text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#8B8F94] xl:text-lg"
+  "h-13.5 w-full shrink-0 cursor-pointer rounded-[10px] bg-[#8B8F94] px-5 py-0 text-[0.9rem] font-semibold uppercase text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#8B8F94] md:min-w-0 md:flex-1 md:basis-0 xl:h-16 xl:text-lg"
+
+const BTN_ROW =
+  "flex w-full flex-col gap-2.5 md:flex-row md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px] xl:gap-3"
 
 type FormNextButtonProps = {
-  isFirstStep?: boolean
   isLastStep?: boolean
   isLoading?: boolean
   disabled?: boolean
@@ -71,7 +69,6 @@ type FormNextButtonProps = {
 }
 
 function FormNextButton({
-  isFirstStep = false,
   isLastStep = false,
   isLoading = false,
   disabled = false,
@@ -80,11 +77,9 @@ function FormNextButton({
 }: FormNextButtonProps) {
   const label = isLoading
     ? "Submitting..."
-    : isFirstStep
-      ? "START FREE QUOTE"
-      : isLastStep
-        ? "GET STARTED NOW"
-        : "NEXT"
+    : isLastStep
+      ? "GET STARTED NOW"
+      : "NEXT"
 
   return (
     <Button
@@ -167,19 +162,16 @@ function FormPage({ initialZip = "" }: FormPageProps) {
   }
 
   const isStepValid = () => {
-    if (currentStep === 1) return /^\d{5}$/.test(normalizeZip(formData.zipCode))
-    if (currentStep === 2) {
+    if (currentStep === 1) {
       return formData.first_name.trim() !== "" && formData.last_name.trim() !== ""
     }
-    if (currentStep === 3) return formData.street_address.trim() !== ""
-    if (currentStep === 4) {
+    if (currentStep === 2) return formData.street_address.trim() !== ""
+    if (currentStep === 3) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       return (
-        formData.first_name.trim() !== "" &&
-        formData.last_name.trim() !== "" &&
         formData.email.trim() !== "" &&
         emailRegex.test(formData.email.trim()) &&
-        formData.phone_number.trim() !== ""
+        formData.phone_number.replace(/\D/g, "").length === 10
       )
     }
     return false
@@ -187,14 +179,14 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
   const handleNext = () => {
     if (!isStepValid() || currentStep >= TOTAL_STEPS) return
-    if (currentStep === 1) {
-      setCookie(ZIP_COOKIE_NAME, normalizeZip(formData.zipCode), ZIP_COOKIE_DAYS)
-    }
     setCurrentStep((prev) => prev + 1)
   }
 
   const handleBack = () => {
-    if (currentStep <= 1) return
+    if (currentStep <= 1) {
+      window.location.href = "/"
+      return
+    }
     setCurrentStep((prev) => prev - 1)
   }
 
@@ -224,7 +216,8 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const email = formData.email.trim()
-    const zip = normalizeZip(formData.zipCode)
+    const zip = normalizeZip(formData.zipCode || getCookie(ZIP_COOKIE_NAME) || "")
+    const phoneDigits = formData.phone_number.replace(/\D/g, "")
 
     if (
       !formData.first_name.trim() ||
@@ -232,10 +225,15 @@ function FormPage({ initialZip = "" }: FormPageProps) {
       !formData.street_address.trim() ||
       !email ||
       !emailRegex.test(email) ||
-      !formData.phone_number.trim()
+      phoneDigits.length !== 10 ||
+      zip.length !== 5
     ) {
       setSubmitStatus("error")
-      setSubmitError("Please complete all required fields with valid details.")
+      setSubmitError(
+        zip.length !== 5
+          ? "Please enter your zip code on the home page, then complete this form."
+          : "Please complete all required fields with valid details."
+      )
       return
     }
 
@@ -243,27 +241,20 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
     const form = e.currentTarget
     const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
-    const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
     const payload = {
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
       email,
-      phoneNumber: formData.phone_number.trim(),
+      phoneNumber: phoneDigits,
       address: formData.street_address.trim(),
       city: formData.city.trim(),
       state: formData.state.trim(),
       zipCode: zip,
-      medicareParts: formData.medicareParts,
-      dateOfBirth: formData.date_of_birth,
-      // dateOfBirth: formData.date_of_birth
-      //   ? isoToDisplay(formData.date_of_birth)
-      //   : "",
       subid1: getCookie("subid1") ?? "",
       subid2: getCookie("subid2") ?? "",
       subid3: getCookie("subid3") ?? "",
       xxTrustedFormCertUrl: certInput?.value ?? "",
-      xxTrustedFormToken: tokenInput?.value ?? "",
     }
 
     try {
@@ -318,12 +309,10 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
   const stepTitle =
     currentStep === 1
-      ? "Where is your project?"
+      ? "Who are we speaking with?"
       : currentStep === 2
-        ? "Who are we speaking with?"
-        : currentStep === 3
-          ? "What is your home address?"
-          : "Let us know how we can reach you"
+        ? "What is your home address?"
+        : "Let us know how we can reach you"
 
   return (
     <section className="flex w-full flex-1 flex-col border-t border-[#E5E7EB] bg-white px-6 py-10 md:px-8 md:py-14 lg:px-14 lg:py-15 xl:px-20 xl:py-20">
@@ -346,7 +335,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
             totalSteps={TOTAL_STEPS}
             foregroundColor={PROGRESS_ACTIVE}
             backgroundColor={PROGRESS_INACTIVE}
-            className="w-full max-w-[420px] md:max-w-[480px] xl:max-w-[560px]"
+            className="w-full max-w-[180px] md:max-w-[210px] xl:max-w-[260px]"
           />
 
           <h2 className={FORM_TITLE} style={{ lineHeight: 1.3 }}>
@@ -355,37 +344,10 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
           {currentStep === 1 ? (
             <div
-              className="flex w-full flex-col items-center gap-4.5 md:gap-5 xl:gap-6 max-w-[420px] md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]"
-              data-arohaa-step="1"
-              data-arohaa-step-name="Where is your project?"
-            >
-              <ZipCodeInput
-                id="form-zipcode"
-                name="zip"
-                data-arohaa-zip
-                value={formData.zipCode}
-                onChange={(value) => handleInputChange("zipCode", normalizeZip(value))}
-                placeholder="Zip Code"
-                inputClassName={INPUT_FIELD}
-                containerClassName="w-full"
-              />
-              <div className="flex w-full gap-3">
-                <FormNextButton
-                  isFirstStep
-                  onClick={handleNext}
-                  disabled={!isStepValid()}
-                />
-              </div>
-            </div>
-          ) : null}
-
-          {currentStep === 2 ? (
-            <div
               className="flex w-full max-w-[420px] flex-col items-center gap-4.5 md:max-w-[420px] md:gap-5 xl:gap-6 lg:max-w-[450px] xl:max-w-[520px]"
-              data-arohaa-step="2"
+              data-arohaa-step="1"
               data-arohaa-step-name="Who are we speaking with?"
             >
-
               <div className="flex w-full max-w-[420px] flex-col gap-3 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
                 <TextInput
                   id="firstName"
@@ -408,21 +370,19 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                   className={INPUT_FIELD}
                 />
               </div>
-              <div className="flex w-full min-w-0 gap-2.5 xl:gap-3 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
+              <div className={BTN_ROW}>
                 <FormBackButton onClick={handleBack} />
                 <FormNextButton onClick={handleNext} disabled={!isStepValid()} />
               </div>
             </div>
-
           ) : null}
 
-          {currentStep === 3 ? (
+          {currentStep === 2 ? (
             <div
               className="flex w-full flex-col items-center gap-4 md:gap-5 max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]"
-              data-arohaa-step="3"
+              data-arohaa-step="2"
               data-arohaa-step-name="What is your home address?"
             >
-
               {/* <AddressAutocomplete
                 id="streetAddress"
                 value={formData.street_address}
@@ -446,22 +406,20 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                 className={INPUT_FIELD}
               />
 
-              
-              <div className="flex w-full min-w-0 gap-3 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
+              <div className={BTN_ROW}>
                 <FormBackButton onClick={handleBack} />
                 <FormNextButton onClick={handleNext} disabled={!isStepValid()} />
               </div>
             </div>
           ) : null}
 
-          {currentStep === 4 ? (
+          {currentStep === 3 ? (
             <div
               className="flex w-full max-w-[720px] flex-col items-center gap-4.5 md:gap-5 xl:gap-6"
-              data-arohaa-step="4"
+              data-arohaa-step="3"
               data-arohaa-step-name="Contact Information"
             >
               <div className="flex w-full max-w-[420px] flex-col gap-3 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
-                
                 <TextInput
                   id="email"
                   type="email"
@@ -508,7 +466,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
               ) : null}
 
               <div className="flex w-full max-w-[420px] flex-col items-center gap-4.5 md:gap-5.5 xl:gap-6.5 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
-                <div className="flex w-full min-w-0 gap-3 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
+                <div className={BTN_ROW}>
                   <FormBackButton onClick={handleBack} />
                   <FormNextButton
                     isLastStep
@@ -524,10 +482,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                     By submitting this form, I also agree to receive emails about products, services, and sales, as well as third-party offers including, without limitation, from our affiliates and/or unrelated third parties.
                   </p>
                 </div>
-           
               </div>
-
-              
             </div>
           ) : null}
 
