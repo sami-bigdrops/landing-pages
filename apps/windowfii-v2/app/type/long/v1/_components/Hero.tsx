@@ -8,10 +8,9 @@ import {
   QUOTIFII_EXTENDED_UTM_OPTIONS,
 } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
-import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
-import { Button } from "@workspace/ui/components/button";
+
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+
 import { HERO_CONTENT } from "@/lib/constant"
 import Form from "@/app/type/long/v1/_components/Form"
 import Navbar from "@/app/_components/Navbar"
