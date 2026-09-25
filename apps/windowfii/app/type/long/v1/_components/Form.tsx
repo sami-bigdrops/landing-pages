@@ -2,12 +2,13 @@
 
 import { Suspense, useEffect, useState, type FormEvent, type KeyboardEvent } from "react"
 import Image from "next/image"
+import Script from "next/script"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { Button } from "@workspace/ui/components/button"
 import { TrustedForm, getCookie, setCookie } from "@workspace/lp-core"
-// import { AddressAutocomplete } from "./AddressAutocomplete"
+import { AddressAutocomplete } from "./AddressAutocomplete"
 
 import { trackArohaa } from "@/lib/arohaa"
 
@@ -126,6 +127,8 @@ function FormPage({ initialZip = "" }: FormPageProps) {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
+  const [googlePlacesReady, setGooglePlacesReady] = useState(false)
+  const googlePlacesApiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
 
   useEffect(() => {
     trackArohaa("form_start")
@@ -316,6 +319,13 @@ function FormPage({ initialZip = "" }: FormPageProps) {
 
   return (
     <section className="flex w-full flex-1 flex-col border-t border-[#E5E7EB] bg-white px-6 py-10 md:px-8 md:py-14 lg:px-14 lg:py-15 xl:px-20 xl:py-20">
+      {googlePlacesApiKey ? (
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${googlePlacesApiKey}&libraries=places`}
+          strategy="lazyOnload"
+          onLoad={() => setGooglePlacesReady(true)}
+        />
+      ) : null}
       <div className="container mx-auto flex w-full max-w-[900px] flex-1 flex-col items-center">
         <form
           onSubmit={handleLeadSubmit}
@@ -383,27 +393,15 @@ function FormPage({ initialZip = "" }: FormPageProps) {
               data-arohaa-step="2"
               data-arohaa-step-name="What is your home address?"
             >
-              {/* <AddressAutocomplete
+              <AddressAutocomplete
                 id="streetAddress"
+                label=""
                 value={formData.street_address}
-                // city={formData.city}
-                // state={formData.state}
-                // zipCode={formData.zipCode}
                 onChange={(value) => handleInputChange("street_address", value)}
                 onPlaceSelect={handlePlaceSelect}
-                placeholder="Enter Your Street Address"
-                className={INPUT_FIELD}
-                // dataArohaaField="streetAddress"
-              /> */}
-              <TextInput
-                id="streetAddress"
-                name="streetAddress"
-                data-arohaa-field="streetAddress"
-                containerClassName="w-full"
-                value={formData.street_address}
-                onChange={(e) => handleInputChange("street_address", e.target.value)}
                 placeholder="Street Address"
                 className={INPUT_FIELD}
+                googleReady={googlePlacesReady}
               />
 
               <div className={BTN_ROW}>
