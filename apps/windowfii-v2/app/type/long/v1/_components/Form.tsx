@@ -94,6 +94,8 @@ function FormNextButton({
       htmlType={isLastStep ? "submit" : "button"}
       onClick={isLastStep ? undefined : onClick}
       disabled={disabled || isLoading}
+      backgroundColor="#2B75FB"
+      foregroundColor="#FFFFFF"
       className={`${PRIMARY_BTN}${className ? ` ${className}` : ""}`}
     >
       {label}
@@ -132,6 +134,51 @@ function FormPage({ initialZip = "" }: FormPageProps) {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
+  const [zipError, setZipError] = useState("")
+
+  const applyZipIfEmpty = (raw: string) => {
+    const zip = normalizeZip(raw)
+    if (zip.length !== 5) return
+    setFormData((prev) => {
+      if (normalizeZip(prev.zipCode).length === 5) return prev
+      return { ...prev, zipCode: zip }
+    })
+    setCookie(ZIP_COOKIE_NAME, zip, ZIP_COOKIE_DAYS)
+    setZipError("")
+  }
+
+  useEffect(() => {
+    applyZipIfEmpty(initialZip)
+  }, [initialZip])
+
+  useEffect(() => {
+    let cancelled = false
+    fetch("/api/location")
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return
+        if (data?.zip != null) applyZipIfEmpty(String(data.zip))
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    const syncFromDom = () => {
+      const el = document.getElementById("form-zipcode") as HTMLInputElement | null
+      if (!el) return
+      applyZipIfEmpty(el.value)
+    }
+    syncFromDom()
+    const intervalId = window.setInterval(syncFromDom, 300)
+    const timeoutId = window.setTimeout(() => window.clearInterval(intervalId), 4000)
+    return () => {
+      window.clearInterval(intervalId)
+      window.clearTimeout(timeoutId)
+    }
+  }, [])
 
   useEffect(() => {
     trackArohaa("form_start")
@@ -168,7 +215,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
   }
 
   const isStepValid = () => {
-    if (currentStep === 1) return formData.zipCode.length === 5
+    if (currentStep === 1) return normalizeZip(formData.zipCode).length === 5
     if (currentStep === 2) {
       return formData.first_name.trim() !== "" && formData.last_name.trim() !== ""
     }
@@ -185,10 +232,23 @@ function FormPage({ initialZip = "" }: FormPageProps) {
   }
 
   const handleNext = () => {
-    if (!isStepValid() || currentStep >= TOTAL_STEPS) return
-    if (currentStep === 1 && formData.zipCode.length === 5) {
-      setCookie(ZIP_COOKIE_NAME, formData.zipCode, ZIP_COOKIE_DAYS)
+    if (currentStep >= TOTAL_STEPS) return
+
+    if (currentStep === 1) {
+      const inputEl = document.getElementById("form-zipcode") as HTMLInputElement | null
+      const zip = normalizeZip(inputEl?.value || formData.zipCode)
+      if (zip.length !== 5) {
+        setZipError("Please enter a valid 5-digit ZIP code.")
+        return
+      }
+      setFormData((prev) => ({ ...prev, zipCode: zip }))
+      setCookie(ZIP_COOKIE_NAME, zip, ZIP_COOKIE_DAYS)
+      setZipError("")
+      setCurrentStep((prev) => prev + 1)
+      return
     }
+
+    if (!isStepValid()) return
     setCurrentStep((prev) => prev + 1)
   }
 
@@ -362,17 +422,17 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                 name="zip"
                 data-arohaa-zip
                 value={formData.zipCode}
-                onChange={(value) => handleInputChange("zipCode", normalizeZip(value))}
+                onChange={(value) => {
+                  handleInputChange("zipCode", normalizeZip(value))
+                  if (zipError) setZipError("")
+                }}
                 placeholder="Zip Code"
                 inputClassName={INPUT_FIELD}
                 containerClassName="w-full"
+                error={zipError || undefined}
               />
               <div className="flex w-full gap-3">
-                <FormNextButton
-                  isFirstStep
-                  onClick={handleNext}
-                  disabled={!isStepValid()}
-                />
+                <FormNextButton isFirstStep onClick={handleNext} />
               </div>
             </div>
           ) : null}

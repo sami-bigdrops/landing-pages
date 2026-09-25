@@ -41,6 +41,7 @@ function ZipCodeInput({
         </label>
       )}
       <input
+        {...props}
         id={inputId}
         type="text"
         inputMode="numeric"
@@ -49,13 +50,12 @@ function ZipCodeInput({
         value={digits}
         onChange={handleChange}
         maxLength={ZIP_LENGTH}
-        placeholder="12345"
+        placeholder={props.placeholder ?? "12345"}
         className={cn(inputBase, inputClassName, className)}
         aria-invalid={error != null}
         aria-describedby={
           error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
         }
-        {...props}
       />
       {error != null && String(error).trim() !== "" && (
         <p
