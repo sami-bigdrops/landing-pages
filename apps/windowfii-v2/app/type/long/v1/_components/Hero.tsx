@@ -135,7 +135,7 @@ export default function Hero() {
             </div>
 
             <div className="w-full flex flex-col items-center justify-center px-6  ">
-              <p className="text-[#808080] text-center font-normal font-sans text-xs  text-justify md:text-left xl:text-sm font-normal  " style={{ lineHeight: "1.5" }}>
+              <p className="text-[#808080] text-center font-normal font-sans text-xs  text-justify  xl:text-sm font-normal  " style={{ lineHeight: "1.5" }}>
                 {HERO_CONTENT.disclaimer}
               </p>
             </div>
