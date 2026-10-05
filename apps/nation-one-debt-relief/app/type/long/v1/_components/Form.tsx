@@ -2,6 +2,7 @@
 
 import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
 
@@ -882,7 +883,15 @@ function FormPage() {
               </nav>
 
               <p className="text-justify text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
-                By clicking “Check My Options” I also provide express written consent under the Fair Credit Reporting Act (FCRA) for Nationonedebtrelief and its{" "}
+                By clicking &quot;Check My Options,&quot; I agree to the Nation One Debt Relief{" "}
+                <Link href="/terms-of-use" className={PARTNER_LINK_CLASS}>
+                  Terms of Use
+                </Link>{" "}
+                and{" "}
+                <Link href="/privacy-policy" className={PARTNER_LINK_CLASS}>
+                  Privacy Policy
+                </Link>
+                . I authorize Nation One Debt Relief and its{" "}
                 <button
                   type="button"
                   onClick={() => setPartnersOpen(true)}
@@ -890,7 +899,15 @@ function FormPage() {
                 >
                   partners
                 </button>{" "}
-                to obtain my consumer credit report and related information from one or more credit bureaus, both now and in the future for a maximum of twelve months, as needed to provide me with personal loan and debt consolidation options. These inquiries will not affect my credit score.
+                to send me marketing text messages and phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. I can opt out anytime by replying STOP or using the unsubscribe link. I also provide express written consent under the Fair Credit Reporting Act (FCRA) for Nation One Debt Relief and its{" "}
+                <button
+                  type="button"
+                  onClick={() => setPartnersOpen(true)}
+                  className={PARTNER_LINK_CLASS}
+                >
+                  partners
+                </button>{" "}
+                to obtain my consumer credit report and related information from one or more credit bureaus, now and for up to twelve months in the future, as needed to provide me with personal loan and debt consolidation options. These inquiries will not affect my credit score.
               </p>
          
             </div>
