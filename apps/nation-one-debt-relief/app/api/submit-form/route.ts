@@ -256,7 +256,7 @@ export async function POST(request: NextRequest) {
         trustedform_cert_url: trustedFormUrl,
         trustedformtoken: trustedFormUrl,
         tcpa_text:
-          'By clicking “Check My Options” I also provide express written consent under the Fair Credit Reporting Act (FCRA) for Nationonedebtrelief and its partners to obtain my consumer credit report and related information from one or more credit bureaus, both now and in the future for a maximum of twelve months, as needed to provide me with personal loan and debt consolidation options. These inquiries will not affect my credit score.',
+          'By clicking "Check My Options," I agree to the Nation One Debt Relief Terms of Use and Privacy Policy. I authorize Nation One Debt Relief and its partners to send me marketing text messages and phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. I can opt out anytime by replying STOP or using the unsubscribe link. I also provide express written consent under the Fair Credit Reporting Act (FCRA) for Nation One Debt Relief and its partners to obtain my consumer credit report and related information from one or more credit bureaus, now and for up to twelve months in the future, as needed to provide me with personal loan and debt consolidation options. These inquiries will not affect my credit score.',
       }
 
       const postResult = await postLeadProsper(formData)
