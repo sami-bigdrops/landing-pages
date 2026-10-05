@@ -15,6 +15,8 @@ const DEFAULT_FG = "var(--primary)"
 const TYPE8_TRACK = "#d1e9e6"
 const TYPE8_FILL = "#26a69a"
 const TYPE9_TEAL = "#09A1A6"
+const TYPE10_TRACK = "#E5E7EB"
+const TYPE10_FILL = "#0D9488"
 
 function getDefaultForeground(): string {
   return DEFAULT_FG
@@ -284,6 +286,25 @@ function ProgressBar({
               </div>
             )
           })}
+        </div>
+      )}
+      {type === "10" && (
+        <div className="flex w-full items-center gap-2.5 md:gap-3">
+          <span className="shrink-0 text-sm font-medium text-[#374151] md:text-[0.95rem]">
+            Your Progress:
+          </span>
+          <div
+            className="relative h-2.5 min-w-0 flex-1 overflow-hidden rounded-full md:h-3"
+            style={{ backgroundColor: backgroundColor ?? TYPE10_TRACK }}
+          >
+            <div
+              className="h-full max-w-full rounded-full transition-all duration-300"
+              style={{
+                width: `${percentage}%`,
+                backgroundColor: foregroundColor ?? TYPE10_FILL,
+              }}
+            />
+          </div>
         </div>
       )}
     </div>
