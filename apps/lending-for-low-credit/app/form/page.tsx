@@ -4,9 +4,9 @@ import Footer from "@/app/_components/Footer"
 
 export default function FormRoute() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       <Navbar />
-      <div className="flex flex-1 flex-col px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
+      <div className="flex min-h-0 flex-1 flex-col px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-10 xl:px-20 xl:py-14">
         <FormPageWrapper />
       </div>
       <Footer />

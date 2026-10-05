@@ -98,11 +98,10 @@ export const FOOTER_CONTENT = {
   linkHeader: "Company",
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
-    { text: "Terms and Conditions", href: "/terms-of-use" },
+    { text: "Terms of Use", href: "/terms-of-use" },
   ],
-  copyrightText: "Copyright © 2026 Nation One Debt Relief. All Rights Reserved.",
-  disclaimer:
-    "Please note that all calls with the company may be recorded or monitored for quality assurance and training purposes. *Clients who are able to stay with the program and get all their debt settled realize approximate savings of 46% before fees, or 25% including our fees, over 24 to 48 months. All claims are based on enrolled debts. Not all debts are eligible for enrollment. Not all clients complete our program for various reasons, including their ability to save sufficient funds. Estimates based on prior results, which will vary based on specific circumstances. We do not guarantee that your debts will be lowered by a specific amount or percentage or that you will be debt-free within a specific period of time. We do not assume consumer debt, make monthly payments to creditors or provide tax, bankruptcy, accounting or legal advice or credit repair services. Not available in all states. Please contact a tax professional to discuss tax consequences of settlement. Please consult with a bankruptcy attorney for more information on bankruptcy. Depending on your state, we may be available to recommend a local tax professional and/or bankruptcy attorney. Read and understand all program materials prior to enrollment, including potential adverse impact on credit rating.",
+  copyrightText: "Copyright © 2026 Lending for low credit. All Rights Reserved.",
+  
 } as const
 
 

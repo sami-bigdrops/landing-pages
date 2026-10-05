@@ -324,8 +324,8 @@ function AddressAutocomplete({
 }
 
 // --- Layout / field styles ---
-const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-4 xl:gap-4.5 "
-const STEP_TITLE = "text-center text-xl md:text-2xl font-extrabold text-[#111827] xl:text-3xl mb-2  md:max-w-[300px] xl:max-w-[400px]"
+const STEP_SHELL = "mx-auto flex w-full max-w-4xl flex-col items-center gap-4  xl:gap-4.5 "
+const STEP_TITLE = "text-center text-xl md:text-2xl font-extrabold text-[#111827] xl:text-3xl mb-2 md:mb-3 xl:mb-5  md:max-w-[300px] xl:max-w-[400px]"
 const INPUT_FIELD =
   "mt-2 h-14 w-full rounded-[10px] border border-[#213266] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-[0_4px_12px_0_rgba(0,0,0,0.03)] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base text-center"
 
@@ -399,7 +399,7 @@ const UNSECURED_DEBT_OPTIONS = [
 ] as const
 
 const CHOICE_BTN =
-  "w-full flex h-14 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[10px] px-5 py-0 font-semibold text-[0.85rem] font-inherit text-[#111827] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-90 md:h-14 md:py-3.5 xl:h-16 xl:py-4 xl:text-base border border-[#AAAEC1] bg-white hover:border-[#069773] hover:bg-[#E8F6F2] hover:shadow-[0_4px_12px_0_rgba(0,0,0,0.03)]"
+  "w-full flex min-h-14 h-auto shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[10px] px-4 py-3 font-semibold text-[0.85rem] font-inherit text-[#213266] whitespace-normal text-center leading-snug transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-90 md:min-h-14 md:py-3.5 xl:h-16 xl:px-5 xl:py-4 xl:text-base border border-[#AAAEC1] bg-white hover:border-[#069773] hover:bg-[#E8F6F2] hover:shadow-[0_4px_12px_0_rgba(0,0,0,0.03)]"
 
 const CHOICE_BTN_ACTIVE =
   "border-[#069773] bg-[#E8F6F2] shadow-[0_4px_12px_0_rgba(0,0,0,0.03)]"
@@ -797,7 +797,7 @@ function FormPage() {
   }
 
   return (
-    <section className="flex w-full min-h-[360px] flex-col items-center justify-center gap-8 md:min-h-[360px] md:gap-10 xl:min-h-[420px] xl:gap-12">
+    <section className="flex w-full min-h-[360px] flex-1 flex-col items-center justify-center gap-8 md:min-h-[360px] md:gap-10 xl:min-h-[420px] xl:gap-12">
 
 
       <form
@@ -826,7 +826,7 @@ function FormPage() {
             data-arohaa-step="2"
             data-arohaa-step-name={FORM_STEP_NAMES[2]}
           >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-6">
               <h3 className={STEP_TITLE}>How much would you like to borrow?</h3>
               <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center ">
                 <TextInput
@@ -1014,7 +1014,7 @@ function FormPage() {
             <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
               <div className="flex flex-col items-center justify-center gap-0.5">
               <h3 className={STEP_TITLE}>What is your monthly income?</h3>
-              <p className="text-center text-xs font-normal leading-relaxed text-[#374151] md:max-w-[320px] xl:max-w-[380px] xl:text-sm">
+              <p className="text-center text-xs font-normal leading-relaxed text-[#374151] md:max-w-[320px] xl:max-w-[360px] xl:text-sm">
                 Alimony, child support, or separate maintenance payments need not be disclosed unless you want it considered as a basis for repayment of the loan.
               </p>
 
@@ -1476,16 +1476,17 @@ function FormPage() {
                   </p>
                 ) : null}
                 <p className="text-center text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
-                  By clicking the button and submitting this form, I provide express consent under EBR and TCPA for Lending for Low Credit and its partners to contact me at the number provided (including via automatic dialing systems, text messages, pre-recorded/artificial voice messages and/or live operators) for marketing purposes, even if my number is on any Do Not Call list. Consent is not required for purchase. Message and data rates may apply. See our{" "}
+                  By clicking "Next", I hereby provide my express consent to recurring communication at the telephone number provided by Lending for Low Credit and its Marketplace Partners (including parties calling on their behalf) in connection with my loan request, for other marketing purposes, and related to credit or credit-related offers, including contact through automatic dialing systems, artificial or pre-recorded voice messaging, or text message. I understand that my consent applies to these text messages and telemarketing calls even if I have subscribed to a federal, state, or company "Do Not Call" registry. Message and data rates may apply. To opt-out, please reply STOP to the received text message. My check of the preceding box shall be my electronic signature to this consent. I understand that consent is not a condition to utilize our services.{" "}
                   <Link href="/terms-of-use" className="text-[#0035D5] underline">
                     Terms of Service
-                  </Link>{" "}
-                  and{" "}
+                  </Link>
+                  {" "} / {" "}
                   <Link href="/privacy-policy" className="text-[#0035D5] underline">
                     Privacy Policy
                   </Link>
-                  .
+                  {" "}apply.
                 </p>
+           
               </div>
             </div>
             <FormNavigation
@@ -1513,8 +1514,9 @@ function FormPage() {
                     height="18"
                     viewBox="0 0 18 18"
                     fill="none"
-                    className="mt-0.5 shrink-0"
+                    className="mt-0.5 w-3.5 h-3.5 shrink-0"
                     aria-hidden
+
                     
                   >
                     <path
@@ -1539,8 +1541,9 @@ function FormPage() {
                   containerClassName="w-full"
                 />
                 <p className="text-left text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
-                  By providing your Social Security Number and clicking &quot;View Offers&quot; below, you authorize Lending for Low Credit and its Marketplace Partners to obtain your consumer credit report from contracted credit bureaus in connection with your request to explore potential lending options and to determine your eligibility for available financial products or services.
+                  By providing your Social Security Number and clicking "View Offers" below, you authorize Lending for Low Credit and its Marketplace Partners to obtain your consumer credit report from contracted credit bureaus in connection with your request to explore potential lending options and to determine your eligibility for available financial products or services.
                 </p>
+           
                 {submitStatus === "error" && submitError ? (
                   <p className="text-sm text-red-600" role="alert">
                     {submitError}
@@ -1559,7 +1562,7 @@ function FormPage() {
             </nav>
             <div className="mt-2 w-full md:max-w-[320px] xl:max-w-[380px] text-left text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:mt-3 xl:text-xs">
               <p className="mb-2">
-                By providing my Social Security Number and clicking on &quot;View Offers&quot; above, I consent, acknowledge, and agree to the following:
+                By providing my Social Security Number and clicking on "View Offers" above, I consent, acknowledge, and agree to the following:
               </p>
               <ul className="list-disc space-y-2 pl-4">
                 <li>
@@ -1567,17 +1570,17 @@ function FormPage() {
                   {", "}
                   <Link href="/privacy-policy" className="text-[#0035D5] underline">Privacy Policy</Link>
                   {", "}
-                  <span className="text-[#0035D5] underline">Credit Authorization Agreement</span>
+                  <Link href="#" className="text-[#0035D5] underline">Credit Authorization Agreement</Link>
                   {", "}
-                  <span className="text-[#0035D5] underline">E-Consent</span>
+                  <Link href="#" className="text-[#0035D5] underline">E-Consent</Link>
                   {", "}
-                  <span className="text-[#0035D5] underline">Arbitration Notice</span>
+                  <Link href="#" className="text-[#0035D5] underline">Arbitration Notice</Link>
                   {", "}
-                  <span className="text-[#0035D5] underline">Advertiser Disclosure</span>
+                  <Link href="#" className="text-[#0035D5] underline">Advertiser Disclosure</Link>
                   {", "}
-                  <span className="text-[#0035D5] underline">Personal Loan Notice</span>
+                  <Link href="#" className="text-[#0035D5] underline">Personal Loan Notice</Link>
                   {", and the use of "}
-                  <span className="text-[#0035D5] underline">Session Replay Technology</span>
+                  <Link href="#" className="text-[#0035D5] underline">Session Replay Technology</Link>
                   {" apply."}
                 </li>
                 <li>
@@ -1589,9 +1592,12 @@ function FormPage() {
                 <li>
                   I understand that if I am not connected with a lender or lending partner for the requested loan amount, my information may be presented to additional lenders and/or lending partners offering different loan amounts or terms. I also understand that if I am not connected with a lender, I may be presented with other financial service providers offering products related to my selected loan purpose.
                 </li>
-                <li>I certify that all information provided is true and complete.</li>
+                <li>
+                  I certify that all information provided is true and complete.
+                </li>
               </ul>
             </div>
+       
             <button
               type="button"
               onClick={handleBack}
@@ -1623,7 +1629,7 @@ export default function Form() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-white">
+        <div className="flex flex-1 items-center justify-center bg-white">
           <div className="text-base font-semibold text-[#102E50] md:text-lg">Loading...</div>
         </div>
       }
