@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
                     This Privacy Policy applies to the sites and apps where it appears.
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    This Policy describes how we treat personal information on the websites and apps where it is located. Your use of this website indicates that you agree to our collection, disclosure, use, of your information as described in this Privacy Policy. This includes quotifii&apos;s auto, home and life insurance services as well as all services marketed and provided by quotifii.com. It also applies to our mobile sites and apps.
+                    This Policy describes how we treat personal information on the websites and apps where it is located. Your use of this website indicates that you agree to our collection, disclosure, use, of your information as described in this Privacy Policy. This includes Cheap Auto Insurance Options&apos; auto insurance services as well as all services marketed and provided by cheapautoinsuranceoptions.com. It also applies to our mobile sites and apps.
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
