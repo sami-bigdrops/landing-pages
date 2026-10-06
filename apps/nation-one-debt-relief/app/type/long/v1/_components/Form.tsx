@@ -1,7 +1,6 @@
 "use client"
 
 import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TextInput } from "@workspace/ui/components/text-input"
@@ -336,53 +335,32 @@ const defaultFormData = {
 }
 
 type FormNavigationProps = {
-  showBack?: boolean
   isNextDisabled?: boolean
   nextLabel?: string
   onNext: () => void
-  onBack?: () => void
 }
 
 function FormNavigation({
-  showBack = false,
   isNextDisabled = false,
   nextLabel = "Continue",
   onNext,
-  onBack,
 }: FormNavigationProps) {
   return (
     <nav className="flex w-full max-w-lg flex-col gap-4.5 mt-1.5 xl:mt-2.5">
-      <div className="flex w-full items-stretch gap-2.5">
-        {showBack ? (
-          <button
-            type="button"
-            onClick={onBack}
-            aria-label="Go back"
-            className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-[#D1D5DB] bg-white shadow-[0_0_6px_0_rgba(0,0,0,0.04)] transition-colors hover:bg-[#F9FAFB] md:h-[52px] md:w-[52px] xl:h-14 xl:w-14"
-          >
-     
-            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="15" viewBox="0 0 19 15" fill="none" aria-hidden className="h-4 w-4 text-[#8E91A0]">
-              <path d="M17.4167 8.25H3.12953L7.98145 13.1019C8.06813 13.1867 8.13713 13.2878 8.18445 13.3994C8.23178 13.5111 8.25649 13.631 8.25716 13.7522C8.25783 13.8734 8.23444 13.9936 8.18834 14.1058C8.14225 14.2179 8.07437 14.3198 7.98863 14.4055C7.90289 14.4912 7.801 14.5591 7.68885 14.6052C7.57671 14.6512 7.45653 14.6746 7.3353 14.6739C7.21406 14.6732 7.09416 14.6485 6.98254 14.6011C6.87093 14.5538 6.76981 14.4848 6.68505 14.3981L0.268388 7.98142C0.0965391 7.80952 0 7.5764 0 7.33333C0 7.09027 0.0965391 6.85715 0.268388 6.68525L6.68505 0.268584C6.77008 0.183299 6.87114 0.115664 6.9824 0.0695703C7.09366 0.0234767 7.21294 -0.000166252 7.33337 8.79926e-07C7.51464 3.95856e-05 7.69183 0.0538219 7.84254 0.154549C7.99325 0.255277 8.11071 0.398426 8.18007 0.565901C8.24944 0.733376 8.26759 0.917656 8.23223 1.09545C8.19688 1.27324 8.10961 1.43655 7.98145 1.56475L3.12953 6.41667H17.4167C17.6598 6.41667 17.893 6.51325 18.0649 6.68515C18.2368 6.85706 18.3334 7.09022 18.3334 7.33333C18.3334 7.57645 18.2368 7.80961 18.0649 7.98152C17.893 8.15342 17.6598 8.25 17.4167 8.25Z" fill="#8E91A0"/>
-            </svg>
-       
-          </button>
-        ) : null}
-        <button
-          type="button"
-          onClick={onNext}
-          disabled={isNextDisabled}
-          className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#C12026] text-sm font-semibold uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] xl:h-14 xl:text-base"
-        >
-          {nextLabel}
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={onNext}
+        disabled={isNextDisabled}
+        className="h-12 w-full cursor-pointer rounded-[10px] bg-[#C12026] text-sm font-semibold uppercase text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] xl:h-14 xl:text-base"
+      >
+        {nextLabel}
+      </button>
       <CreditScoreNotice />
     </nav>
   )
 }
 
 function FormPage() {
-  const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState(defaultFormData)
 
@@ -469,14 +447,6 @@ function FormPage() {
       trackArohaa("zip_submit", { zip: normalizeZip(formData.zipCode) })
     }
     setCurrentStep((prev) => prev + 1)
-  }
-
-  const handleBack = () => {
-    if (currentStep === 1) {
-      router.push("/")
-      return
-    }
-    setCurrentStep((prev) => prev - 1)
   }
 
   const handleFormKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
@@ -699,10 +669,8 @@ function FormPage() {
               
             </div>
             <FormNavigation
-              showBack
               isNextDisabled={!isStepValid()}
               onNext={handleNext}
-              onBack={handleBack}
             />
           </section>
         ) : null}
@@ -737,10 +705,8 @@ function FormPage() {
               ) : null}
             </div>
             <FormNavigation
-              showBack
               isNextDisabled={!isStepValid()}
               onNext={handleNext}
-              onBack={handleBack}
             />
           </section>
         ) : null}
@@ -789,10 +755,8 @@ function FormPage() {
               />
             </div>
             <FormNavigation
-              showBack
               isNextDisabled={!isStepValid()}
               onNext={handleNext}
-              onBack={handleBack}
             />
           </section>
         ) : null}
@@ -810,15 +774,12 @@ function FormPage() {
                 onChange={(iso) => handleInputChange("date_of_birth", iso)}
                 label="Date of Birth"
                 labelClassName={LABEL_CLASS}
-                className={INPUT_FIELD}
                 dataArohaaField="dob"
               />
             </div>
             <FormNavigation
-              showBack
               isNextDisabled={!isStepValid()}
               onNext={handleNext}
-              onBack={handleBack}
             />
           </section>
         ) : null}
@@ -860,25 +821,13 @@ function FormPage() {
 
               
               <nav className="flex w-full max-w-lg flex-col gap-4.5 mt-1.5 xl:mt-2.5">
-                <div className="flex w-full items-stretch gap-2.5">
-                  <button
-                    type="button"
-                    onClick={handleBack}
-                    aria-label="Go back"
-                    className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-[#D1D5DB] bg-white shadow-[0_0_6px_0_rgba(0,0,0,0.04)] transition-colors hover:bg-[#F9FAFB] md:h-[52px] md:w-[52px] xl:h-14 xl:w-14"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="15" viewBox="0 0 19 15" fill="none" aria-hidden className="h-4 w-4 text-[#8E91A0]">
-                      <path d="M17.4167 8.25H3.12953L7.98145 13.1019C8.06813 13.1867 8.13713 13.2878 8.18445 13.3994C8.23178 13.5111 8.25649 13.631 8.25716 13.7522C8.25783 13.8734 8.23444 13.9936 8.18834 14.1058C8.14225 14.2179 8.07437 14.3198 7.98863 14.4055C7.90289 14.4912 7.801 14.5591 7.68885 14.6052C7.57671 14.6512 7.45653 14.6746 7.3353 14.6739C7.21406 14.6732 7.09416 14.6485 6.98254 14.6011C6.87093 14.5538 6.76981 14.4848 6.68505 14.3981L0.268388 7.98142C0.0965391 7.80952 0 7.5764 0 7.33333C0 7.09027 0.0965391 6.85715 0.268388 6.68525L6.68505 0.268584C6.77008 0.183299 6.87114 0.115664 6.9824 0.0695703C7.09366 0.0234767 7.21294 -0.000166252 7.33337 8.79926e-07C7.51464 3.95856e-05 7.69183 0.0538219 7.84254 0.154549C7.99325 0.255277 8.11071 0.398426 8.18007 0.565901C8.24944 0.733376 8.26759 0.917656 8.23223 1.09545C8.19688 1.27324 8.10961 1.43655 7.98145 1.56475L3.12953 6.41667H17.4167C17.6598 6.41667 17.893 6.51325 18.0649 6.68515C18.2368 6.85706 18.3334 7.09022 18.3334 7.33333C18.3334 7.57645 18.2368 7.80961 18.0649 7.98152C17.893 8.15342 17.6598 8.25 17.4167 8.25Z" fill="#8E91A0"/>
-                    </svg>
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={!isStepValid() || submitStatus === "loading"}
-                    className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#C12026] text-sm font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] xl:h-14 xl:text-base"
-                  >
-                    {submitStatus === "loading" ? "Checking..." : "Check My Options"}
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  disabled={!isStepValid() || submitStatus === "loading"}
+                  className="h-12 w-full cursor-pointer rounded-[10px] bg-[#C12026] text-sm font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] xl:h-14 xl:text-base"
+                >
+                  {submitStatus === "loading" ? "Checking..." : "Check My Options"}
+                </button>
                 
               </nav>
 

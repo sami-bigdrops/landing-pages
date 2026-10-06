@@ -1,10 +1,20 @@
 "use client"
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
-import { Calendar } from "lucide-react"
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
+import { ChevronDown } from "lucide-react"
 import { cn } from "@workspace/ui/lib/utils"
-import { isoToDisplay, partsToIso } from "@/lib/dob-format"
-import { DatePickerCalendar, getDobBounds } from "./DatePickerCalendar"
+import {
+  MONTH_NAMES,
+  buildIsoFromParts,
+  dayToPadded,
+  isoToParts,
+  listDaysForMonth,
+  listMonthsInRange,
+  listYearsForParts,
+  maxDayForMonth,
+  monthToPadded,
+} from "@/lib/dob-format"
+import { getDobBounds } from "./DatePickerCalendar"
 
 interface BirthdateInputProps {
   value: string
@@ -17,19 +27,30 @@ interface BirthdateInputProps {
   hasError?: boolean
 }
 
-function formatDateInput(digits: string): string {
-  const d = digits.slice(0, 8)
-  let result = d.slice(0, 2)
-  if (d.length > 2) result += "/" + d.slice(2, 4)
-  if (d.length > 4) result += "/" + d.slice(4, 8)
-  return result
+type Segment = "month" | "day" | "year"
+
+interface SegmentConfig {
+  id: Segment
+  label: string
+  placeholder: string
+  autoComplete: "bday-month" | "bday-day" | "bday-year"
+  maxLength: number
+  inputMode: "numeric" | "text"
 }
 
-function displayToIso(display: string): string {
-  const digits = display.replace(/\D/g, "")
-  if (digits.length !== 8) return ""
-  // User enters MM/DD/YYYY
-  return partsToIso(digits.slice(0, 2), digits.slice(2, 4), digits.slice(4, 8))
+const SEGMENTS: SegmentConfig[] = [
+  { id: "month", label: "Month", placeholder: "Month", autoComplete: "bday-month", maxLength: 2, inputMode: "numeric" },
+  { id: "day", label: "Day", placeholder: "DD", autoComplete: "bday-day", maxLength: 2, inputMode: "numeric" },
+  { id: "year", label: "Year", placeholder: "YYYY", autoComplete: "bday-year", maxLength: 4, inputMode: "numeric" },
+]
+
+function clampDayForMonth(mm: string, dd: string, yyyy: string): string {
+  if (!dd) return dd
+  const max = maxDayForMonth(mm, yyyy)
+  const n = Number.parseInt(dd, 10)
+  if (!Number.isFinite(n)) return dd
+  if (n > max) return String(max).padStart(2, "0")
+  return dd.length === 2 ? dayToPadded(dd) || dd : dd
 }
 
 export function BirthdateInput({
@@ -42,111 +63,359 @@ export function BirthdateInput({
   dataArohaaField,
   hasError,
 }: BirthdateInputProps) {
-  const wrapperRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const nextCursorRef = useRef<number | null>(null)
-  const [display, setDisplay] = useState(() => isoToDisplay(value))
-  const [calendarOpen, setCalendarOpen] = useState(false)
-  const { minDate, maxDate } = getDobBounds()
+  const rootRef = useRef<HTMLDivElement>(null)
+  const inputRefs = useRef<Record<Segment, HTMLInputElement | null>>({
+    month: null,
+    day: null,
+    year: null,
+  })
+  const listId = useId()
+  const { minDate, maxDate } = useMemo(() => getDobBounds(), [])
+
+  const [parts, setParts] = useState(() => isoToParts(value))
+  const [openSegment, setOpenSegment] = useState<Segment | null>(null)
+  const [monthEditing, setMonthEditing] = useState(false)
 
   useEffect(() => {
-    if (!value) return
-    setDisplay(isoToDisplay(value))
+    setParts(isoToParts(value))
   }, [value])
 
-  useLayoutEffect(() => {
-    if (nextCursorRef.current !== null && inputRef.current) {
-      inputRef.current.setSelectionRange(nextCursorRef.current, nextCursorRef.current)
-      nextCursorRef.current = null
-    }
-  })
-
   useEffect(() => {
-    if (!calendarOpen) return
+    if (openSegment === null) return
     const handlePointerDown = (e: MouseEvent) => {
-      if (wrapperRef.current?.contains(e.target as Node)) return
-      setCalendarOpen(false)
+      if (rootRef.current?.contains(e.target as Node)) return
+      setOpenSegment(null)
+      setMonthEditing(false)
     }
     document.addEventListener("mousedown", handlePointerDown)
     return () => document.removeEventListener("mousedown", handlePointerDown)
-  }, [calendarOpen])
+  }, [openSegment])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value
-    const cursorPos = e.target.selectionStart ?? raw.length
-    const digitsBeforeCursor = raw.slice(0, cursorPos).replace(/\D/g, "").length
+  const emitChange = useCallback(
+    (next: { mm: string; dd: string; yyyy: string }) => {
+      const mm = next.mm.length === 2 ? monthToPadded(next.mm) || next.mm : next.mm
+      const dd = next.dd.length === 2 ? dayToPadded(next.dd) || next.dd : next.dd
+      const yyyy = next.yyyy
+      onChange(buildIsoFromParts(mm, dd, yyyy))
+    },
+    [onChange]
+  )
 
-    const digits = raw.replace(/\D/g, "")
-    const formatted = formatDateInput(digits)
+  const updateParts = useCallback(
+    (patch: Partial<{ mm: string; dd: string; yyyy: string }>, focusNext?: Segment) => {
+      setParts((prev) => {
+        let mm = patch.mm !== undefined ? patch.mm : prev.mm
+        let dd = patch.dd !== undefined ? patch.dd : prev.dd
+        let yyyy = patch.yyyy !== undefined ? patch.yyyy : prev.yyyy
 
-    let digitCount = 0
-    let newPos = formatted.length
-    if (digitsBeforeCursor === 0) {
-      newPos = 0
-    } else {
-      for (let i = 0; i < formatted.length; i++) {
-        if (/\d/.test(formatted.charAt(i))) {
-          digitCount++
-          if (digitCount === digitsBeforeCursor) {
-            newPos = i + 1
-            break
-          }
+        if (patch.mm !== undefined || patch.yyyy !== undefined) {
+          dd = clampDayForMonth(mm, dd, yyyy)
         }
+
+        const next = { mm, dd, yyyy }
+        emitChange(next)
+        return next
+      })
+
+      if (focusNext) {
+        requestAnimationFrame(() => {
+          inputRefs.current[focusNext]?.focus()
+          inputRefs.current[focusNext]?.select()
+        })
       }
+    },
+    [emitChange]
+  )
+
+  const focusSegment = (segment: Segment) => {
+    requestAnimationFrame(() => {
+      inputRefs.current[segment]?.focus()
+    })
+  }
+
+  const trimPrevious = (segment: Segment) => {
+    if (segment === "day") {
+      const trimmed = parts.mm.slice(0, -1)
+      updateParts({ mm: trimmed })
+      focusSegment("month")
+      setMonthEditing(true)
+      return
     }
-    if (formatted.charAt(newPos) === "/") newPos++
-
-    nextCursorRef.current = newPos
-    setDisplay(formatted)
-    onChange(displayToIso(formatted))
+    if (segment === "year") {
+      const trimmed = parts.dd.slice(0, -1)
+      updateParts({ dd: trimmed })
+      focusSegment("day")
+    }
   }
 
-  const handleCalendarSelect = (iso: string) => {
-    setDisplay(isoToDisplay(iso))
-    onChange(iso)
-    setCalendarOpen(false)
+  const handleMonthInput = (raw: string) => {
+    const digits = raw.replace(/\D/g, "").slice(0, 2)
+    if (digits.length === 0) {
+      updateParts({ mm: "" })
+      return
+    }
+
+    if (digits.length === 1) {
+      const n = Number.parseInt(digits, 10)
+      if (n >= 2 && n <= 9) {
+        updateParts({ mm: `0${n}` }, "day")
+        setMonthEditing(false)
+        setOpenSegment(null)
+        return
+      }
+      updateParts({ mm: digits })
+      return
+    }
+
+    const n = Number.parseInt(digits, 10)
+    if (n >= 1 && n <= 12) {
+      const padded = monthToPadded(digits)
+      updateParts({ mm: padded }, "day")
+      setMonthEditing(false)
+      setOpenSegment(null)
+      return
+    }
+
+    updateParts({ mm: digits.slice(0, 1) })
   }
+
+  const handleDayInput = (raw: string) => {
+    const digits = raw.replace(/\D/g, "").slice(0, 2)
+    if (digits.length === 0) {
+      updateParts({ dd: "" })
+      return
+    }
+
+    const max = maxDayForMonth(parts.mm, parts.yyyy)
+
+    if (digits.length === 1) {
+      const n = Number.parseInt(digits, 10)
+      if (n * 10 > max && n <= max) {
+        updateParts({ dd: `0${n}` }, "year")
+        setOpenSegment(null)
+        return
+      }
+      updateParts({ dd: digits })
+      return
+    }
+
+    const n = Number.parseInt(digits, 10)
+    if (n >= 1 && n <= max) {
+      updateParts({ dd: dayToPadded(digits) }, "year")
+      setOpenSegment(null)
+      return
+    }
+
+    updateParts({ dd: digits.slice(0, 1) })
+  }
+
+  const handleYearInput = (raw: string) => {
+    const digits = raw.replace(/\D/g, "").slice(0, 4)
+    updateParts({ yyyy: digits })
+    if (digits.length === 4) {
+      setOpenSegment(null)
+    }
+  }
+
+  const handleKeyDown = (segment: Segment, e: React.KeyboardEvent<HTMLInputElement>) => {
+    const input = e.currentTarget
+    if (e.key === "Backspace" && input.value === "") {
+      e.preventDefault()
+      trimPrevious(segment)
+      return
+    }
+    if (e.key === "ArrowLeft" && input.selectionStart === 0 && segment !== "month") {
+      e.preventDefault()
+      focusSegment(segment === "year" ? "day" : "month")
+    }
+    if (e.key === "ArrowRight" && input.selectionStart === input.value.length && segment !== "year") {
+      e.preventDefault()
+      focusSegment(segment === "month" ? "day" : "year")
+    }
+    if (e.key === "Escape") {
+      setOpenSegment(null)
+      setMonthEditing(false)
+    }
+  }
+
+  const monthOptions = useMemo(
+    () => listMonthsInRange(parts.yyyy, minDate, maxDate),
+    [parts.yyyy, minDate, maxDate]
+  )
+
+  const dayOptions = useMemo(
+    () => listDaysForMonth(parts.mm, parts.yyyy, minDate, maxDate),
+    [parts.mm, parts.yyyy, minDate, maxDate]
+  )
+
+  const yearOptions = useMemo(
+    () => listYearsForParts(parts.mm, parts.dd, minDate, maxDate),
+    [parts.mm, parts.dd, minDate, maxDate]
+  )
+
+  const segmentValue = (segment: Segment): string => {
+    if (segment === "month") {
+      if (monthEditing || openSegment === "month") return parts.mm
+      const padded = monthToPadded(parts.mm)
+      if (padded) return MONTH_NAMES[Number.parseInt(padded, 10) - 1] ?? parts.mm
+      return parts.mm
+    }
+    if (segment === "day") return parts.dd
+    return parts.yyyy
+  }
+
+  const selectFromDropdown = (segment: Segment, selected: string) => {
+    if (segment === "month") {
+      updateParts({ mm: selected }, "day")
+      setMonthEditing(false)
+    } else if (segment === "day") {
+      updateParts({ dd: selected }, "year")
+    } else {
+      updateParts({ yyyy: selected })
+    }
+    setOpenSegment(null)
+  }
+
+  const dropdownOptions = (segment: Segment): Array<{ value: string; label: string }> => {
+    if (segment === "month") return monthOptions
+    if (segment === "day") {
+      return dayOptions.map((d) => ({
+        value: String(d).padStart(2, "0"),
+        label: String(d),
+      }))
+    }
+    return yearOptions.map((y) => ({ value: String(y), label: String(y) }))
+  }
+
+  const fieldShell =
+    "relative flex min-w-0 flex-1 flex-col gap-1.5"
+  const inputShell =
+    "relative flex h-14 w-full items-center rounded-[10px] border border-gray-300 bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.03)] focus-within:border-[#102E50] xl:h-15"
+  const inputBase =
+    "min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-[#111827] placeholder:text-[#8F8E93] focus:outline-none xl:text-base"
 
   return (
-    <div ref={wrapperRef} className="relative w-full">
+    <div ref={rootRef} className="relative w-full" role="group" aria-label={ariaLabel}>
       {label ? <label className={labelClassName}>{label}</label> : null}
-      <div className="relative w-full">
-        <input
-          ref={inputRef}
-          type="text"
-          inputMode="numeric"
-          autoComplete="bday"
-          name={dataArohaaField}
-          data-arohaa-field={dataArohaaField}
-          placeholder="MM/DD/YYYY"
-          maxLength={10}
-          value={display}
-          onChange={handleChange}
-          aria-label={ariaLabel}
-          className={cn(className, "pr-12", hasError && "border-red-500 focus:border-red-500")}
-        />
-        <button
-          type="button"
-          onClick={() => setCalendarOpen((open) => !open)}
-          className="absolute inset-y-0 right-0 z-20 flex w-11 items-center justify-center text-[#142B4A] transition-colors hover:text-[#C12026]"
-          aria-label="Open calendar"
-          aria-expanded={calendarOpen}
-        >
-          <Calendar className="h-5 w-5" />
-        </button>
-      </div>
 
-      {calendarOpen ? (
-        <div className="absolute left-1/2 z-50 mt-2 w-full max-w-sm -translate-x-1/2">
-          <DatePickerCalendar
-            key={value || "empty"}
-            value={value}
-            onChange={handleCalendarSelect}
-            minDate={minDate}
-            maxDate={maxDate}
-          />
-        </div>
+      {dataArohaaField ? (
+        <input type="hidden" name={dataArohaaField} data-arohaa-field={dataArohaaField} value={value} readOnly />
       ) : null}
+
+      <div className={cn("mt-2 grid w-full grid-cols-1 gap-3 sm:grid-cols-3", className?.includes("mt-") && "mt-0")}>
+        {SEGMENTS.map((seg) => {
+          const options = dropdownOptions(seg.id)
+          const isOpen = openSegment === seg.id
+          const displayValue = segmentValue(seg.id)
+          const selectedValue =
+            seg.id === "month"
+              ? monthToPadded(parts.mm)
+              : seg.id === "day"
+                ? dayToPadded(parts.dd)
+                : parts.yyyy
+
+          return (
+            <div key={seg.id} className={fieldShell}>
+              <span className="text-xs font-medium text-[#475467] sm:text-sm">{seg.label}</span>
+              <div
+                className={cn(
+                  inputShell,
+                  hasError && "border-red-500 focus-within:border-red-500",
+                  className && !className.includes("h-") ? undefined : className
+                )}
+              >
+                <input
+                  ref={(el) => {
+                    inputRefs.current[seg.id] = el
+                  }}
+                  type="text"
+                  inputMode={seg.inputMode}
+                  autoComplete={seg.autoComplete}
+                  placeholder={seg.placeholder}
+                  maxLength={seg.id === "month" && !monthEditing && parts.mm ? undefined : seg.maxLength}
+                  value={displayValue}
+                  aria-expanded={isOpen}
+                  aria-controls={isOpen ? `${listId}-${seg.id}` : undefined}
+                  aria-haspopup="listbox"
+                  aria-label={`${ariaLabel} ${seg.label}`}
+                  className={cn(inputBase, seg.id === "month" && !monthEditing && parts.mm ? "truncate" : "")}
+                  onFocus={() => {
+                    if (seg.id === "month") setMonthEditing(true)
+                    setOpenSegment(seg.id)
+                  }}
+                  onChange={(e) => {
+                    if (seg.id === "month") handleMonthInput(e.target.value)
+                    else if (seg.id === "day") handleDayInput(e.target.value)
+                    else handleYearInput(e.target.value)
+                  }}
+                  onKeyDown={(e) => handleKeyDown(seg.id, e)}
+                  onBlur={() => {
+                    window.setTimeout(() => {
+                      if (rootRef.current?.contains(document.activeElement)) return
+                      if (seg.id === "month") {
+                        setMonthEditing(false)
+                        if (parts.mm.length === 1) {
+                          const padded = monthToPadded(parts.mm)
+                          if (padded) updateParts({ mm: padded })
+                        }
+                      } else if (seg.id === "day" && parts.dd.length === 1) {
+                        const padded = dayToPadded(parts.dd)
+                        if (padded) updateParts({ dd: padded })
+                      }
+                    }, 0)
+                  }}
+                />
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  aria-label={`Open ${seg.label} list`}
+                  className="flex h-full shrink-0 items-center justify-center px-2.5 text-[#142B4A] transition-colors hover:text-[#C12026]"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    setOpenSegment((cur) => (cur === seg.id ? null : seg.id))
+                    if (seg.id === "month") setMonthEditing(true)
+                    focusSegment(seg.id)
+                  }}
+                >
+                  <ChevronDown className={cn("h-4 w-4 transition-transform", isOpen && "rotate-180")} />
+                </button>
+
+                {isOpen && options.length > 0 ? (
+                  <ul
+                    id={`${listId}-${seg.id}`}
+                    role="listbox"
+                    aria-label={`${seg.label} options`}
+                    className="absolute left-0 right-0 top-[calc(100%+4px)] z-50 max-h-80 overflow-y-auto rounded-[10px] border border-[#E5E7EB] bg-white py-1 shadow-lg sm:max-h-96"
+                  >
+                    {options.map((opt) => {
+                      const isSelected = opt.value === selectedValue
+                      return (
+                        <li key={opt.value} role="presentation">
+                          <button
+                            type="button"
+                            role="option"
+                            aria-selected={isSelected}
+                            className={cn(
+                              "flex w-full px-3 py-2.5 text-left text-sm transition-colors",
+                              isSelected
+                                ? "bg-[#C12026] font-medium text-white"
+                                : "text-[#051850] hover:bg-[#EBF5FF]"
+                            )}
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => selectFromDropdown(seg.id, opt.value)}
+                          >
+                            {opt.label}
+                          </button>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                ) : null}
+              </div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
