@@ -329,36 +329,34 @@ const STEP_TITLE = "text-center text-xl md:text-2xl font-extrabold text-[#111827
 const INPUT_FIELD =
   "mt-2 h-14 w-full rounded-[10px] border border-[#213266] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-[0_4px_12px_0_rgba(0,0,0,0.03)] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base text-center"
 
-const TOTAL_STEPS = 19
+const TOTAL_STEPS = 25
 
 const SPEND_PURPOSE_OPTIONS = [
-  { label: "Auto Purchase", value: "auto_purchase" },
-  { label: "Credit Card Consolidation", value: "credit_card_consolidation" },
+  { label: "Auto", value: "auto" },
+  { label: "Auto - Dealer", value: "auto_dealer" },
+  { label: "Auto - Private Party", value: "auto_private_party" },
+  { label: "Credit Card", value: "credit_card" },
   { label: "Debt Consolidation", value: "debt_consolidation" },
-  { label: "Debt Settlement", value: "debt_settlement" },
   { label: "Education", value: "education" },
   { label: "Home Improvement", value: "home_improvement" },
   { label: "Medical", value: "medical" },
   { label: "Relocation", value: "relocation" },
+  { label: "Renewable Energy", value: "renewable_energy" },
   { label: "Small Business", value: "small_business" },
   { label: "Travel", value: "travel" },
+  { label: "Wedding", value: "wedding" },
+  { label: "Debt Settlement", value: "debt_settlement" },
+  { label: "Debt Relief", value: "debt_relief" },
   { label: "Other", value: "other" },
 ]
 
 const CREDIT_SCORE_OPTIONS = [
-  { id: "excellent", label: "Excellent (720+)" },
-  { id: "good", label: "Good (660-719)" },
-  { id: "fair", label: "Fair (600-659)" },
-  { id: "poor", label: "Poor (Under 599)" },
-  { id: "no_credit", label: "No Credit Established" },
-] as const
-
-const EMPLOYMENT_STATUS_OPTIONS = [
-  { id: "employed", label: "Employed" },
-  { id: "self_employed", label: "Self Employed" },
-  { id: "social_security_or_disability", label: "Social Security Or Disability" },
-  { id: "benefits", label: "Benefits" },
-  { id: "unemployed", label: "Unemployed" },
+  { id: "none", label: "None" },
+  { id: "very_bad", label: "Very Bad" },
+  { id: "bad", label: "Bad" },
+  { id: "fair", label: "Fair" },
+  { id: "good", label: "Good" },
+  { id: "excellent", label: "Excellent" },
 ] as const
 
 const PAY_FREQUENCY_OPTIONS = [
@@ -366,6 +364,21 @@ const PAY_FREQUENCY_OPTIONS = [
   { id: "twice_a_month", label: "Twice A Month" },
   { id: "every_other_week", label: "Every Other Week" },
   { id: "weekly", label: "Weekly" },
+] as const
+
+const PRIMARY_INCOME_SOURCE_OPTIONS = [
+  { id: "employed", label: "Employed" },
+  { id: "self_employed", label: "Self Employed" },
+  { id: "pension", label: "Pension" },
+  { id: "social_security", label: "Social Security" },
+  { id: "disability", label: "Disability" },
+  { id: "benefits", label: "Benefits" },
+  { id: "unemployed", label: "Unemployed" },
+] as const
+
+const PAY_RECEIVE_METHOD_OPTIONS = [
+  { id: "direct_deposit", label: "Direct Deposit" },
+  { id: "paper_check", label: "Paper Check" },
 ] as const
 
 const YES_NO_OPTIONS = [
@@ -378,24 +391,28 @@ const HOME_OWNERSHIP_OPTIONS = [
   { id: "rent", label: "Rent" },
 ] as const
 
-const VEHICLE_STATUS_OPTIONS = [
-  { id: "yes_paid_off", label: "Yes - It's Paid Off" },
-  { id: "yes_making_payments", label: "Yes - I'm Making Payments" },
-  { id: "no", label: "No" },
+const VEHICLE_OWNERSHIP_OPTIONS = [
+  { id: "full_title", label: "Full Title" },
+  { id: "na", label: "NA" },
+  { id: "not_provided", label: "Not Provided" },
+  { id: "payments", label: "Payments" },
 ] as const
 
-const MILITARY_AFFILIATION_OPTIONS = [
-  { id: "not_a_servicemember", label: "Not A Servicemember" },
-  { id: "active_duty", label: "Active Duty Servicemember" },
-  { id: "dependent_of_active_duty", label: "Dependent Of An Active Duty Servicemember" },
-] as const
+const HOME_IMPROVEMENT_REASON_OPTIONS = [
+  { label: "Windows - Not Purchased", value: "windows_not_purchased" },
+  { label: "Windows - Purchased", value: "windows_purchased" },
+  { label: "New Roof - Not Purchased", value: "new_roof_not_purchased" },
+  { label: "New Roof - Purchased", value: "new_roof_purchased" },
+  { label: "Remodel - Not Found A GC", value: "remodel_not_found_a_gc" },
+  { label: "Remodel - Signed With A GC", value: "remodel_signed_with_a_gc" },
+  { label: "Other", value: "other" },
+  { label: "Solar - Not Purchased", value: "solar_not_purchased" },
+  { label: "Solar - Purchased", value: "solar_purchased" },
+]
 
-const UNSECURED_DEBT_OPTIONS = [
-  { id: "none", label: "None" },
-  { id: "9999_or_less", label: "$9,999 Or Less" },
-  { id: "10000_to_19999", label: "$10,000 - $19,999" },
-  { id: "20000_to_29999", label: "$20,000 - $29,999" },
-  { id: "30000_or_more", label: "$30,000 Or More" },
+const ACCOUNT_TYPE_OPTIONS = [
+  { id: "checking", label: "Checking" },
+  { id: "savings", label: "Savings" },
 ] as const
 
 const CHOICE_BTN =
@@ -422,6 +439,10 @@ const defaultFormData = {
   credit_score: "",
   employment_status: "",
   pay_frequency: "",
+  currently_in_military: "",
+  primary_income_source: "",
+  pay_receive_method: "",
+  employer_name: "",
   monthly_income: "",
   checking_account: "",
   direct_deposit: "",
@@ -429,6 +450,12 @@ const defaultFormData = {
   vehicle_status: "",
   military_affiliation: "",
   unsecured_debt: "",
+  vehicle_ownership_status: "",
+  home_improvement_reason: "",
+  account_type: "",
+  bank_name: "",
+  routing_number: "",
+  account_number: "",
   ssn: "",
 }
 
@@ -480,6 +507,8 @@ function FormPage() {
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
   const [showSubmissionLoading, setShowSubmissionLoading] = useState(false)
+  const [confirmAccurate, setConfirmAccurate] = useState(false)
+  const [confirmUse, setConfirmUse] = useState(false)
   const redirectUrlRef = useRef<string | null>(null)
 
   useEffect(() => {
@@ -528,66 +557,69 @@ function FormPage() {
 
   const isStepValid = () => {
     if (currentStep === 1) {
-      return formData.debt_amount.trim() !== ""
-    }
-    if (currentStep === 2) {
-      return formData.spend_purpose.trim() !== ""
-    }
-    if (currentStep === 3) {
-      return formData.credit_score.trim() !== ""
-    }
-    if (currentStep === 4) {
-      return formData.employment_status.trim() !== ""
-    }
-    if (currentStep === 5) {
-      return formData.pay_frequency.trim() !== ""
-    }
-    if (currentStep === 6) {
-      return formData.monthly_income.trim() !== ""
-    }
-    if (currentStep === 7) {
-      return formData.checking_account.trim() !== ""
-    }
-    if (currentStep === 8) {
-      return formData.direct_deposit.trim() !== ""
-    }
-    if (currentStep === 9) {
-      return (
-        normalizeZip(formData.zipCode).length === 5 &&
-        formData.city.trim() !== "" &&
-        formData.state.trim().length === 2
-      )
-    }
-    if (currentStep === 10) {
-      return formData.street_address.trim() !== ""
-    }
-    if (currentStep === 11) {
-      return formData.home_ownership.trim() !== ""
-    }
-    if (currentStep === 12) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      return emailRegex.test(formData.email.trim())
-    }
-    if (currentStep === 13) {
-      return formData.vehicle_status.trim() !== ""
-    }
-    if (currentStep === 14) {
-      return formData.military_affiliation.trim() !== ""
-    }
-    if (currentStep === 15) {
-      return formData.unsecured_debt.trim() !== ""
-    }
-    if (currentStep === 16) {
       return formData.first_name.trim() !== "" && formData.last_name.trim() !== ""
     }
-    if (currentStep === 17) {
+    if (currentStep === 2) {
       return isValidDob(formData.date_of_birth)
     }
-    if (currentStep === 18) {
+    if (currentStep === 3) {
+      return formData.street_address.trim() !== ""
+    }
+    if (currentStep === 4) {
+      return formData.city.trim() !== ""
+    }
+    if (currentStep === 5) {
+      return formData.state.trim().length === 2
+    }
+    if (currentStep === 6) {
+      return normalizeZip(formData.zipCode).length === 5
+    }
+    if (currentStep === 7) {
       return formData.phone_number.replace(/\D/g, "").length === 10
+    }
+    if (currentStep === 8) {
+      return normalizeSsn(formData.ssn).length === 9
+    }
+    if (currentStep === 9) {
+      return formData.debt_amount.trim() !== ""
+    }
+    if (currentStep === 10) {
+      return formData.spend_purpose.trim() !== ""
+    }
+    if (currentStep === 11) {
+      return formData.unsecured_debt.trim() !== ""
+    }
+    if (currentStep === 12) {
+      return formData.home_ownership.trim() !== ""
+    }
+    if (currentStep === 13) {
+      return formData.currently_in_military.trim() !== ""
+    }
+    if (currentStep === 14) {
+      return formData.primary_income_source.trim() !== ""
+    }
+    if (currentStep === 15) {
+      return formData.monthly_income.trim() !== ""
+    }
+    if (currentStep === 16) {
+      return formData.pay_frequency.trim() !== ""
+    }
+    if (currentStep === 17) {
+      return formData.pay_receive_method.trim() !== ""
+    }
+    if (currentStep === 18) {
+      return true
+    }
+    if (currentStep === 19) {
+      return formData.credit_score.trim() !== ""
+    }
+    if (currentStep === 20 || currentStep === 21 || currentStep === 22 || currentStep === 23 || currentStep === 24) {
+      return true
     }
     if (currentStep === TOTAL_STEPS) {
       return (
+        confirmAccurate &&
+        confirmUse &&
         normalizeSsn(formData.ssn).length === 9 &&
         formData.phone_number.replace(/\D/g, "").length === 10 &&
         formData.first_name.trim() !== "" &&
@@ -604,7 +636,7 @@ function FormPage() {
 
   const handleNext = () => {
     if (!isStepValid() || currentStep >= TOTAL_STEPS) return
-    if (currentStep === 9) {
+    if (currentStep === 6) {
       trackArohaa("zip_submit", { zip: normalizeZip(formData.zipCode) })
     }
     setCurrentStep((prev) => prev + 1)
@@ -647,16 +679,19 @@ function FormPage() {
     setFieldErrors({})
 
     const zip = normalizeZip(formData.zipCode)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const email = formData.email.trim()
     const phoneDigits = formData.phone_number.replace(/\D/g, "")
     const ssnDigits = normalizeSsn(formData.ssn)
 
+    if (!confirmAccurate || !confirmUse) {
+      setSubmitStatus("error")
+      setSubmitError("Please confirm both statements before submitting.")
+      return
+    }
+
     if (
       !formData.first_name.trim() ||
       !formData.last_name.trim() ||
-      !email ||
-      !emailRegex.test(email) ||
       phoneDigits.length !== 10 ||
       ssnDigits.length !== 9 ||
       !formData.street_address.trim() ||
@@ -705,6 +740,10 @@ function FormPage() {
       creditScore: formData.credit_score,
       employmentStatus: formData.employment_status,
       payFrequency: formData.pay_frequency,
+      currentlyInMilitary: formData.currently_in_military,
+      primaryIncomeSource: formData.primary_income_source,
+      payReceiveMethod: formData.pay_receive_method,
+      employerName: formData.employer_name.trim(),
       monthlyIncome: formData.monthly_income,
       checkingAccount: formData.checking_account,
       directDeposit: formData.direct_deposit,
@@ -712,6 +751,12 @@ function FormPage() {
       vehicleStatus: formData.vehicle_status,
       militaryAffiliation: formData.military_affiliation,
       unsecuredDebt: formData.unsecured_debt,
+      vehicleOwnershipStatus: formData.vehicle_ownership_status,
+      homeImprovementReason: formData.home_improvement_reason,
+      accountType: formData.account_type,
+      bankName: formData.bank_name.trim(),
+      routingNumber: formData.routing_number.trim(),
+      accountNumber: formData.account_number.trim(),
       email: formData.email.trim(),
       phoneNumber: formData.phone_number.trim(),
       ssn: ssnDigits,
@@ -822,571 +867,8 @@ function FormPage() {
         {currentStep === 1 ? (
           <section
             className={STEP_SHELL}
-
             data-arohaa-step="2"
             data-arohaa-step-name={FORM_STEP_NAMES[2]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-6">
-              <h3 className={STEP_TITLE}>How much would you like to borrow?</h3>
-              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center ">
-                <TextInput
-                  id="debtAmount"
-                  name="debtAmount"
-                  data-arohaa-field="debtAmount"
-
-                  value={formData.debt_amount}
-                  onChange={(e) => handleInputChange("debt_amount", e.target.value)}
-                  placeholder="$ 0"
-
-                  className={INPUT_FIELD}
-                />
-
-
-
-              </div>
-
-            </div>
-
-            <FormNavigation
-              showBack
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          </section>
-        ) : null}
-
-        {currentStep === 2 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="3"
-            data-arohaa-step-name={FORM_STEP_NAMES[3]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>How do you want to spend the money?</h3>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center"
-                data-arohaa-field="spendPurpose"
-              >
-                <SelectInput
-                  placeholder="Select"
-                  options={SPEND_PURPOSE_OPTIONS}
-                  value={formData.spend_purpose}
-                  onChange={(selectedValue) =>
-                    handleInputChange("spend_purpose", selectedValue)
-                  }
-                  selectClassName={INPUT_FIELD}
-                />
-              </div>
-            </div>
-            <FormNavigation
-              showBack
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          </section>
-        ) : null}
-
-        {currentStep === 3 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="4"
-            data-arohaa-step-name={FORM_STEP_NAMES[4]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>What is your estimated credit score?</h3>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
-                data-arohaa-field="creditScore"
-              >
-                {CREDIT_SCORE_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.credit_score === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, credit_score: id }))
-                        setCurrentStep(4)
-                      }}
-                      aria-pressed={selected}
-                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </div>
-            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
-              Back
-            </button>
-          </section>
-        ) : null}
-
-        {currentStep === 4 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="5"
-            data-arohaa-step-name={FORM_STEP_NAMES[5]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>What is your employment status?</h3>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
-                data-arohaa-field="employmentStatus"
-              >
-                {EMPLOYMENT_STATUS_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.employment_status === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, employment_status: id }))
-                        setCurrentStep(5)
-                      }}
-                      aria-pressed={selected}
-                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </div>
-            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
-              Back
-            </button>
-          </section>
-        ) : null}
-
-        {currentStep === 5 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="6"
-            data-arohaa-step-name={FORM_STEP_NAMES[6]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>How often are you paid?</h3>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
-                data-arohaa-field="payFrequency"
-              >
-                {PAY_FREQUENCY_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.pay_frequency === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, pay_frequency: id }))
-                        setCurrentStep(6)
-                      }}
-                      aria-pressed={selected}
-                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </div>
-            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
-              Back
-            </button>
-          </section>
-        ) : null}
-
-        {currentStep === 6 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="7"
-            data-arohaa-step-name={FORM_STEP_NAMES[7]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <div className="flex flex-col items-center justify-center gap-0.5">
-              <h3 className={STEP_TITLE}>What is your monthly income?</h3>
-              <p className="text-center text-xs font-normal leading-relaxed text-[#374151] md:max-w-[320px] xl:max-w-[360px] xl:text-sm">
-                Alimony, child support, or separate maintenance payments need not be disclosed unless you want it considered as a basis for repayment of the loan.
-              </p>
-
-              </div>
-              
-              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-2 text-center xl:gap-3.5">
-                <TextInput
-                  id="monthlyIncome"
-                  name="monthlyIncome"
-                  data-arohaa-field="monthlyIncome"
-                  value={formData.monthly_income}
-                  onChange={(e) => handleInputChange("monthly_income", e.target.value)}
-                  placeholder="$ 0"
-                  className={INPUT_FIELD}
-                />
-                <p className="text-center text-[0.7rem] font-normal text-[#374151] xl:text-xs">
-                  You may be asked to verify your income
-                </p>
-              </div>
-            </div>
-            <FormNavigation
-              showBack
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          </section>
-        ) : null}
-
-        {currentStep === 7 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="8"
-            data-arohaa-step-name={FORM_STEP_NAMES[8]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>Do you have a checking account?</h3>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
-                data-arohaa-field="checkingAccount"
-              >
-                {YES_NO_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.checking_account === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, checking_account: id }))
-                        setCurrentStep(8)
-                      }}
-                      aria-pressed={selected}
-                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </div>
-            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
-              Back
-            </button>
-          </section>
-        ) : null}
-
-        {currentStep === 8 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="9"
-            data-arohaa-step-name={FORM_STEP_NAMES[9]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>Do you have Direct Deposit?</h3>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
-                data-arohaa-field="directDeposit"
-              >
-                {YES_NO_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.direct_deposit === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, direct_deposit: id }))
-                        setCurrentStep(9)
-                      }}
-                      aria-pressed={selected}
-                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </div>
-            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
-              Back
-            </button>
-          </section>
-        ) : null}
-
-        {currentStep === 9 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="10"
-            data-arohaa-step-name={FORM_STEP_NAMES[10]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>What is your ZIP code?</h3>
-              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center">
-                <ZipCodeInput
-                  id="zipCode"
-                  name="zipCode"
-                  data-arohaa-field="zipCode"
-                  value={formData.zipCode}
-                  onChange={(value) => {
-                    void handleZipChange(value)
-                  }}
-                  placeholder="XXXXX"
-                  className={INPUT_FIELD}
-                  containerClassName="w-full"
-                />
-              </div>
-            </div>
-            <FormNavigation
-              showBack
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          </section>
-        ) : null}
-
-        {currentStep === 10 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="11"
-            data-arohaa-step-name={FORM_STEP_NAMES[11]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>What is your street address?</h3>
-              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center">
-                <TextInput
-                  id="streetAddress"
-                  name="streetAddress"
-                  data-arohaa-field="address"
-                  value={formData.street_address}
-                  onChange={(e) => handleInputChange("street_address", e.target.value)}
-                  placeholder="Enter Address"
-                  className={INPUT_FIELD}
-                />
-              </div>
-            </div>
-            <FormNavigation
-              showBack
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          </section>
-        ) : null}
-
-        {currentStep === 11 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="12"
-            data-arohaa-step-name={FORM_STEP_NAMES[12]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>Do you own or rent your home?</h3>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
-                data-arohaa-field="homeOwnership"
-              >
-                {HOME_OWNERSHIP_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.home_ownership === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, home_ownership: id }))
-                        setCurrentStep(12)
-                      }}
-                      aria-pressed={selected}
-                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </div>
-            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
-              Back
-            </button>
-          </section>
-        ) : null}
-
-        {currentStep === 12 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="13"
-            data-arohaa-step-name={FORM_STEP_NAMES[13]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>What is your email address?</h3>
-              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center">
-                <TextInput
-                  id="email"
-                  name="email"
-                  data-arohaa-field="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => {
-                    handleInputChange("email", e.target.value)
-                    if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
-                  }}
-                  placeholder="Enter email address"
-                  className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus:border-red-500" : ""}`}
-                />
-                {fieldErrors.email ? (
-                  <p className="text-xs text-red-600" role="alert">
-                    {fieldErrors.email}
-                  </p>
-                ) : null}
-              </div>
-            </div>
-            <FormNavigation
-              showBack
-              isNextDisabled={!isStepValid()}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          </section>
-        ) : null}
-
-        {currentStep === 13 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="14"
-            data-arohaa-step-name={FORM_STEP_NAMES[14]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>Do you have a vehicle registered in your name?</h3>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
-                data-arohaa-field="vehicleStatus"
-              >
-                {VEHICLE_STATUS_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.vehicle_status === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, vehicle_status: id }))
-                        setCurrentStep(14)
-                      }}
-                      aria-pressed={selected}
-                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </div>
-            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
-              Back
-            </button>
-          </section>
-        ) : null}
-
-        {currentStep === 14 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="15"
-            data-arohaa-step-name={FORM_STEP_NAMES[15]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>What is your Military Affiliation?</h3>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
-                data-arohaa-field="militaryAffiliation"
-              >
-                {MILITARY_AFFILIATION_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.military_affiliation === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, military_affiliation: id }))
-                        setCurrentStep(15)
-                      }}
-                      aria-pressed={selected}
-                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </div>
-            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
-              Back
-            </button>
-          </section>
-        ) : null}
-
-        {currentStep === 15 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="16"
-            data-arohaa-step-name={FORM_STEP_NAMES[16]}
-          >
-            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <div className="flex flex-col items-center justify-center gap-0.5">
-                <h3 className={STEP_TITLE}>How much unsecured debt do you have?</h3>
-                <p className="text-center text-xs font-normal leading-relaxed text-[#374151] md:max-w-[320px] xl:max-w-[380px] xl:text-sm">
-                  Unsecured debt includes credit cards, personal loans, or medical bills.
-                </p>
-              </div>
-              <div
-                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
-                data-arohaa-field="unsecuredDebt"
-              >
-                {UNSECURED_DEBT_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.unsecured_debt === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, unsecured_debt: id }))
-                        setCurrentStep(16)
-                      }}
-                      aria-pressed={selected}
-                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </div>
-            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
-              Back
-            </button>
-          </section>
-        ) : null}
-
-        {currentStep === 16 ? (
-          <section
-            className={STEP_SHELL}
-            data-arohaa-step="17"
-            data-arohaa-step-name={FORM_STEP_NAMES[17]}
           >
             <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
               <h3 className={STEP_TITLE}>What is your name?</h3>
@@ -1422,11 +904,11 @@ function FormPage() {
           </section>
         ) : null}
 
-        {currentStep === 17 ? (
+        {currentStep === 2 ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="18"
-            data-arohaa-step-name={FORM_STEP_NAMES[18]}
+            data-arohaa-step="3"
+            data-arohaa-step-name={FORM_STEP_NAMES[3]}
           >
             <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
               <h3 className={STEP_TITLE}>What is your date of birth?</h3>
@@ -1448,11 +930,141 @@ function FormPage() {
           </section>
         ) : null}
 
-        {currentStep === 18 ? (
+        {currentStep === 3 ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="19"
-            data-arohaa-step-name={FORM_STEP_NAMES[19]}
+            data-arohaa-step="4"
+            data-arohaa-step-name={FORM_STEP_NAMES[4]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your street address?</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center">
+                <TextInput
+                  id="streetAddress"
+                  name="streetAddress"
+                  data-arohaa-field="address"
+                  value={formData.street_address}
+                  onChange={(e) => handleInputChange("street_address", e.target.value)}
+                  placeholder="Enter Address"
+                  className={INPUT_FIELD}
+                />
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 4 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="5"
+            data-arohaa-step-name={FORM_STEP_NAMES[5]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your city?</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center">
+                <TextInput
+                  id="city"
+                  name="city"
+                  data-arohaa-field="city"
+                  value={formData.city}
+                  onChange={(e) => handleInputChange("city", e.target.value)}
+                  placeholder="Enter City"
+                  className={INPUT_FIELD}
+                />
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 5 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="6"
+            data-arohaa-step-name={FORM_STEP_NAMES[6]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your state?</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-2 text-center xl:gap-3">
+                <TextInput
+                  id="state"
+                  name="state"
+                  data-arohaa-field="state"
+                  value={formData.state}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "state",
+                      e.target.value.replace(/[^a-zA-Z]/g, "").toUpperCase().slice(0, 2)
+                    )
+                  }
+                  placeholder="Enter State"
+                  maxLength={2}
+                  className={INPUT_FIELD}
+                />
+                <p className="text-center text-xs font-normal leading-relaxed text-[#374151] xl:text-sm">
+                  Please enter your 2-letter US state abbreviation.
+                  <br />
+                  Example: CA, TX, FL
+                </p>
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 6 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="7"
+            data-arohaa-step-name={FORM_STEP_NAMES[7]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your ZIP code?</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center">
+                <ZipCodeInput
+                  id="zipCode"
+                  name="zipCode"
+                  data-arohaa-field="zipCode"
+                  value={formData.zipCode}
+                  onChange={(value) => {
+                    void handleZipChange(value)
+                  }}
+                  placeholder="XXXXX"
+                  className={INPUT_FIELD}
+                  containerClassName="w-full"
+                />
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 7 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="8"
+            data-arohaa-step-name={FORM_STEP_NAMES[8]}
           >
             <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
               <h3 className={STEP_TITLE}>What is your phone number?</h3>
@@ -1486,7 +1098,647 @@ function FormPage() {
                   </Link>
                   {" "}apply.
                 </p>
-           
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 8 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="9"
+            data-arohaa-step-name={FORM_STEP_NAMES[9]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your Social Security Number?</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center gap-3 text-center xl:gap-4">
+                <TextInput
+                  id="ssn"
+                  name="ssn"
+                  data-arohaa-field="ssn"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  value={formatSsn(formData.ssn ?? "")}
+                  onChange={(e) => handleInputChange("ssn", normalizeSsn(e.target.value))}
+                  placeholder="XXX - XX - XXXX"
+                  className={INPUT_FIELD}
+                  containerClassName="w-full"
+                />
+                <div className="flex items-start gap-2 text-left">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    className="mt-0.5 h-3.5 w-3.5 shrink-0"
+                    aria-hidden
+                  >
+                    <path
+                      d="M12.375 9V6.75C12.375 5.85489 12.0194 4.99645 11.3865 4.36351C10.7536 3.73058 9.89511 3.375 9 3.375C8.10489 3.375 7.24645 3.73058 6.61351 4.36351C5.98058 4.99645 5.625 5.85489 5.625 6.75V9H12.375ZM2.25 9H3.375V6.75C3.375 5.25816 3.96763 3.82742 5.02252 2.77252C6.07742 1.71763 7.50816 1.125 9 1.125C10.4918 1.125 11.9226 1.71763 12.9775 2.77252C14.0324 3.82742 14.625 5.25816 14.625 6.75V9H15.75V16.875H2.25V9Z"
+                      fill="#213266"
+                    />
+                  </svg>
+                  <p className="text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
+                    We do a soft pull which <span className="font-bold">does not</span> affect your credit score. We use 256-bit SSL technology to encrypt your data.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 9 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="10"
+            data-arohaa-step-name={FORM_STEP_NAMES[10]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-6">
+              <h3 className={STEP_TITLE}>How much would you like to borrow?</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-2 text-center xl:gap-3">
+                <TextInput
+                  id="debtAmount"
+                  name="debtAmount"
+                  data-arohaa-field="debtAmount"
+                  inputMode="numeric"
+                  value={formData.debt_amount}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "debt_amount",
+                      e.target.value.replace(/[^\d]/g, "")
+                    )
+                  }
+                  placeholder="$ 0"
+                  className={INPUT_FIELD}
+                />
+                <p className="text-center text-xs font-normal leading-relaxed text-[#374151] xl:text-sm">
+                  Please enter a whole number only.
+                </p>
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 10 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="11"
+            data-arohaa-step-name={FORM_STEP_NAMES[11]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is the purpose of your loan?</h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center"
+                data-arohaa-field="spendPurpose"
+              >
+                <SelectInput
+                  placeholder="Select"
+                  options={SPEND_PURPOSE_OPTIONS}
+                  value={formData.spend_purpose}
+                  onChange={(selectedValue) =>
+                    handleInputChange("spend_purpose", selectedValue)
+                  }
+                  selectClassName={INPUT_FIELD}
+                />
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 11 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="12"
+            data-arohaa-step-name={FORM_STEP_NAMES[12]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your current unsecured debt amount?</h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-2 text-center xl:gap-3"
+                data-arohaa-field="unsecuredDebt"
+              >
+                <TextInput
+                  id="unsecuredDebt"
+                  name="unsecuredDebt"
+                  data-arohaa-field="unsecuredDebt"
+                  inputMode="numeric"
+                  value={formData.unsecured_debt}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "unsecured_debt",
+                      e.target.value.replace(/[^\d]/g, "")
+                    )
+                  }
+                  placeholder="$0"
+                  className={INPUT_FIELD}
+                />
+                <p className="text-center text-xs font-normal leading-relaxed text-[#374151] xl:text-sm">
+                  Enter 0 if you have no unsecured debt.
+                </p>
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 12 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="13"
+            data-arohaa-step-name={FORM_STEP_NAMES[13]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>Do you own or rent your home?</h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
+                data-arohaa-field="homeOwnership"
+              >
+                {HOME_OWNERSHIP_OPTIONS.map(({ id, label }) => {
+                  const selected = formData.home_ownership === id
+
+                  return (
+                    <Button
+                      key={id}
+                      type="1"
+                      variant="default"
+                      onClick={() => {
+                        setFormData((prev) => ({ ...prev, home_ownership: id }))
+                        setCurrentStep(13)
+                      }}
+                      aria-pressed={selected}
+                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
+                    >
+                      {label}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
+              Back
+            </button>
+          </section>
+        ) : null}
+
+        {currentStep === 13 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="14"
+            data-arohaa-step-name={FORM_STEP_NAMES[14]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>Are you currently in the military?</h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
+                data-arohaa-field="currentlyInMilitary"
+              >
+                {YES_NO_OPTIONS.map(({ id, label }) => {
+                  const selected = formData.currently_in_military === id
+
+                  return (
+                    <Button
+                      key={id}
+                      type="1"
+                      variant="default"
+                      onClick={() => {
+                        setFormData((prev) => ({ ...prev, currently_in_military: id }))
+                        setCurrentStep(14)
+                      }}
+                      aria-pressed={selected}
+                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
+                    >
+                      {label}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
+              Back
+            </button>
+          </section>
+        ) : null}
+
+        {currentStep === 14 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="15"
+            data-arohaa-step-name={FORM_STEP_NAMES[15]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your primary source of income?</h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
+                data-arohaa-field="primaryIncomeSource"
+              >
+                {PRIMARY_INCOME_SOURCE_OPTIONS.map(({ id, label }) => {
+                  const selected = formData.primary_income_source === id
+
+                  return (
+                    <Button
+                      key={id}
+                      type="1"
+                      variant="default"
+                      onClick={() => {
+                        setFormData((prev) => ({ ...prev, primary_income_source: id }))
+                        setCurrentStep(15)
+                      }}
+                      aria-pressed={selected}
+                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
+                    >
+                      {label}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
+              Back
+            </button>
+          </section>
+        ) : null}
+
+        {currentStep === 15 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="16"
+            data-arohaa-step-name={FORM_STEP_NAMES[16]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <div className="flex flex-col items-center justify-center gap-0.5">
+                <h3 className={STEP_TITLE}>What is your monthly income?</h3>
+                <p className="text-center text-xs font-normal leading-relaxed text-[#374151] md:max-w-[320px] xl:max-w-[360px] xl:text-sm">
+                  Alimony, child support, or separate maintenance payments need not be disclosed unless you want it considered as a basis for repayment of the loan.
+                </p>
+              </div>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-2 text-center xl:gap-3.5">
+                <TextInput
+                  id="monthlyIncome"
+                  name="monthlyIncome"
+                  data-arohaa-field="monthlyIncome"
+                  value={formData.monthly_income}
+                  onChange={(e) => handleInputChange("monthly_income", e.target.value)}
+                  placeholder="$ 0"
+                  className={INPUT_FIELD}
+                />
+                <p className="text-center text-[0.7rem] font-normal text-[#374151] xl:text-xs">
+                  You may be asked to verify your income
+                </p>
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 16 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="17"
+            data-arohaa-step-name={FORM_STEP_NAMES[17]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>How often are you paid?</h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
+                data-arohaa-field="payFrequency"
+              >
+                {PAY_FREQUENCY_OPTIONS.map(({ id, label }) => {
+                  const selected = formData.pay_frequency === id
+
+                  return (
+                    <Button
+                      key={id}
+                      type="1"
+                      variant="default"
+                      onClick={() => {
+                        setFormData((prev) => ({ ...prev, pay_frequency: id }))
+                        setCurrentStep(17)
+                      }}
+                      aria-pressed={selected}
+                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
+                    >
+                      {label}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
+              Back
+            </button>
+          </section>
+        ) : null}
+
+        {currentStep === 17 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="18"
+            data-arohaa-step-name={FORM_STEP_NAMES[18]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>How do you receive your pay?</h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
+                data-arohaa-field="payReceiveMethod"
+              >
+                {PAY_RECEIVE_METHOD_OPTIONS.map(({ id, label }) => {
+                  const selected = formData.pay_receive_method === id
+
+                  return (
+                    <Button
+                      key={id}
+                      type="1"
+                      variant="default"
+                      onClick={() => {
+                        setFormData((prev) => ({ ...prev, pay_receive_method: id }))
+                        setCurrentStep(18)
+                      }}
+                      aria-pressed={selected}
+                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
+                    >
+                      {label}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
+              Back
+            </button>
+          </section>
+        ) : null}
+
+        {currentStep === 18 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="19"
+            data-arohaa-step-name={FORM_STEP_NAMES[19]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your employer name? (Optional)</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center">
+                <TextInput
+                  id="employerName"
+                  name="employerName"
+                  data-arohaa-field="employerName"
+                  value={formData.employer_name}
+                  onChange={(e) => handleInputChange("employer_name", e.target.value)}
+                  placeholder="Enter Employer Name"
+                  className={INPUT_FIELD}
+                />
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 19 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="20"
+            data-arohaa-step-name={FORM_STEP_NAMES[20]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>How would you describe your credit status?</h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
+                data-arohaa-field="creditScore"
+              >
+                {CREDIT_SCORE_OPTIONS.map(({ id, label }) => {
+                  const selected = formData.credit_score === id
+
+                  return (
+                    <Button
+                      key={id}
+                      type="1"
+                      variant="default"
+                      onClick={() => {
+                        setFormData((prev) => ({ ...prev, credit_score: id }))
+                        setCurrentStep(20)
+                      }}
+                      aria-pressed={selected}
+                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
+                    >
+                      {label}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
+              Back
+            </button>
+          </section>
+        ) : null}
+
+        {currentStep === 20 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="21"
+            data-arohaa-step-name={FORM_STEP_NAMES[21]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>
+                What is your current vehicle ownership/payment status? (Optional)
+              </h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
+                data-arohaa-field="vehicleOwnershipStatus"
+              >
+                {VEHICLE_OWNERSHIP_OPTIONS.map(({ id, label }) => {
+                  const selected = formData.vehicle_ownership_status === id
+
+                  return (
+                    <Button
+                      key={id}
+                      type="1"
+                      variant="default"
+                      onClick={() => {
+                        setFormData((prev) => ({ ...prev, vehicle_ownership_status: id }))
+                        setCurrentStep(21)
+                      }}
+                      aria-pressed={selected}
+                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
+                    >
+                      {label}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
+              Back
+            </button>
+          </section>
+        ) : null}
+
+        {currentStep === 21 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="22"
+            data-arohaa-step-name={FORM_STEP_NAMES[22]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>
+                If you are applying for a Home Improvement loan, what is the reason for the loan? (Optional)
+              </h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center"
+                data-arohaa-field="homeImprovementReason"
+              >
+                <SelectInput
+                  placeholder="Select"
+                  options={HOME_IMPROVEMENT_REASON_OPTIONS}
+                  value={formData.home_improvement_reason}
+                  onChange={(selectedValue) =>
+                    handleInputChange("home_improvement_reason", selectedValue)
+                  }
+                  selectClassName={INPUT_FIELD}
+                />
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 22 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="23"
+            data-arohaa-step-name={FORM_STEP_NAMES[23]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your account type? (Optional)</h3>
+              <div
+                className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center justify-center gap-2.5 xl:gap-3"
+                data-arohaa-field="accountType"
+              >
+                {ACCOUNT_TYPE_OPTIONS.map(({ id, label }) => {
+                  const selected = formData.account_type === id
+
+                  return (
+                    <Button
+                      key={id}
+                      type="1"
+                      variant="default"
+                      onClick={() => {
+                        setFormData((prev) => ({ ...prev, account_type: id }))
+                        setCurrentStep(23)
+                      }}
+                      aria-pressed={selected}
+                      className={`${CHOICE_BTN}${selected ? ` ${CHOICE_BTN_ACTIVE}` : ""}`}
+                    >
+                      {label}
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+            <button type="button" onClick={handleBack} className={CHOICE_BACK_BTN}>
+              Back
+            </button>
+          </section>
+        ) : null}
+
+        {currentStep === 23 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="24"
+            data-arohaa-step-name={FORM_STEP_NAMES[24]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your bank name? (Optional)</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center">
+                <TextInput
+                  id="bankName"
+                  name="bankName"
+                  data-arohaa-field="bankName"
+                  value={formData.bank_name}
+                  onChange={(e) => handleInputChange("bank_name", e.target.value)}
+                  placeholder="Enter Bank Name"
+                  className={INPUT_FIELD}
+                />
+              </div>
+            </div>
+            <FormNavigation
+              showBack
+              isNextDisabled={!isStepValid()}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </section>
+        ) : null}
+
+        {currentStep === 24 ? (
+          <section
+            className={STEP_SHELL}
+            data-arohaa-step="25"
+            data-arohaa-step-name={FORM_STEP_NAMES[25]}
+          >
+            <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
+              <h3 className={STEP_TITLE}>What is your routing number? (Optional)</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center">
+                <TextInput
+                  id="routingNumber"
+                  name="routingNumber"
+                  data-arohaa-field="routingNumber"
+                  inputMode="numeric"
+                  value={formData.routing_number}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "routing_number",
+                      e.target.value.replace(/\D/g, "").slice(0, 9)
+                    )
+                  }
+                  placeholder="XXXXXXXXX"
+                  maxLength={9}
+                  className={INPUT_FIELD}
+                />
               </div>
             </div>
             <FormNavigation
@@ -1501,51 +1753,52 @@ function FormPage() {
         {currentStep === TOTAL_STEPS ? (
           <section
             className={STEP_SHELL}
-            data-arohaa-step="20"
-            data-arohaa-step-name={FORM_STEP_NAMES[20]}
+            data-arohaa-step="26"
+            data-arohaa-step-name={FORM_STEP_NAMES[26]}
           >
             <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
-              <h3 className={STEP_TITLE}>What is your Social Security Number?</h3>
-              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center gap-3 text-center xl:gap-4">
-                <div className="flex items-start gap-2 text-left">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 18 18"
-                    fill="none"
-                    className="mt-0.5 w-3.5 h-3.5 shrink-0"
-                    aria-hidden
-
-                    
-                  >
-                    <path
-                      d="M12.375 9V6.75C12.375 5.85489 12.0194 4.99645 11.3865 4.36351C10.7536 3.73058 9.89511 3.375 9 3.375C8.10489 3.375 7.24645 3.73058 6.61351 4.36351C5.98058 4.99645 5.625 5.85489 5.625 6.75V9H12.375ZM2.25 9H3.375V6.75C3.375 5.25816 3.96763 3.82742 5.02252 2.77252C6.07742 1.71763 7.50816 1.125 9 1.125C10.4918 1.125 11.9226 1.71763 12.9775 2.77252C14.0324 3.82742 14.625 5.25816 14.625 6.75V9H15.75V16.875H2.25V9Z"
-                      fill="#213266"
-                    />
-                  </svg>
-                  <p className="text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
-                    We do a soft pull which <span className="font-bold">does not</span> affect your credit score. We use 256-bit SSL technology to encrypt your data.
-                  </p>
-                </div>
+              <h3 className={STEP_TITLE}>What is your account number? (Optional)</h3>
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col items-center gap-4 text-center xl:gap-5">
                 <TextInput
-                  id="ssn"
-                  name="ssn"
-                  data-arohaa-field="ssn"
-                  inputMode="numeric"
-                  autoComplete="off"
-                  value={formatSsn(formData.ssn ?? "")}
-                  onChange={(e) => handleInputChange("ssn", normalizeSsn(e.target.value))}
-                  placeholder="XXX - XX - XXXX"
+                  id="accountNumber"
+                  name="accountNumber"
+                  data-arohaa-field="accountNumber"
+                  value={formData.account_number}
+                  onChange={(e) => handleInputChange("account_number", e.target.value)}
+                  placeholder="Enter Your Account Number"
                   className={INPUT_FIELD}
                   containerClassName="w-full"
                 />
-                <p className="text-left text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
-                  By providing your Social Security Number and clicking "View Offers" below, you authorize Lending for Low Credit and its Marketplace Partners to obtain your consumer credit report from contracted credit bureaus in connection with your request to explore potential lending options and to determine your eligibility for available financial products or services.
-                </p>
-           
+                <div className="h-px w-full bg-[#E5E7EB]" />
+                <div className="flex w-full flex-col gap-3 text-left">
+                  <p className="text-sm font-medium text-[#111827] xl:text-base">
+                    Please confirm the following:
+                  </p>
+                  <label className="flex cursor-pointer items-start gap-2.5">
+                    <input
+                      type="checkbox"
+                      checked={confirmAccurate}
+                      onChange={(e) => setConfirmAccurate(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#069773]"
+                    />
+                    <span className="text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
+                      I confirm that the information provided in this form is accurate and complete to the best of my knowledge.
+                    </span>
+                  </label>
+                  <label className="flex cursor-pointer items-start gap-2.5">
+                    <input
+                      type="checkbox"
+                      checked={confirmUse}
+                      onChange={(e) => setConfirmUse(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#069773]"
+                    />
+                    <span className="text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
+                      I understand that the information provided may be used to process my loan enquiry/application.
+                    </span>
+                  </label>
+                </div>
                 {submitStatus === "error" && submitError ? (
-                  <p className="text-sm text-red-600" role="alert">
+                  <p className="w-full text-left text-sm text-red-600" role="alert">
                     {submitError}
                   </p>
                 ) : null}
@@ -1557,54 +1810,16 @@ function FormPage() {
                 disabled={!isStepValid() || submitStatus === "loading"}
                 className="h-12 w-full cursor-pointer rounded-[10px] bg-[#069773] text-sm font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] xl:h-14 xl:text-base"
               >
-                {submitStatus === "loading" ? "Submitting..." : "View Offers"}
+                {submitStatus === "loading" ? "Submitting..." : "Submit My Loan Enquiry"}
+              </button>
+              <button
+                type="button"
+                onClick={handleBack}
+                className="cursor-pointer border-0 bg-transparent p-0 text-sm font-medium text-[#374151] underline transition-opacity hover:opacity-80 xl:text-base"
+              >
+                Back
               </button>
             </nav>
-            <div className="mt-2 w-full md:max-w-[320px] xl:max-w-[380px] text-left text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:mt-3 xl:text-xs">
-              <p className="mb-2">
-                By providing my Social Security Number and clicking on "View Offers" above, I consent, acknowledge, and agree to the following:
-              </p>
-              <ul className="list-disc space-y-2 pl-4">
-                <li>
-                  <Link href="/terms-of-use" className="text-[#0035D5] underline">Terms of Service</Link>
-                  {", "}
-                  <Link href="/privacy-policy" className="text-[#0035D5] underline">Privacy Policy</Link>
-                  {", "}
-                  <Link href="#" className="text-[#0035D5] underline">Credit Authorization Agreement</Link>
-                  {", "}
-                  <Link href="#" className="text-[#0035D5] underline">E-Consent</Link>
-                  {", "}
-                  <Link href="#" className="text-[#0035D5] underline">Arbitration Notice</Link>
-                  {", "}
-                  <Link href="#" className="text-[#0035D5] underline">Advertiser Disclosure</Link>
-                  {", "}
-                  <Link href="#" className="text-[#0035D5] underline">Personal Loan Notice</Link>
-                  {", and the use of "}
-                  <Link href="#" className="text-[#0035D5] underline">Session Replay Technology</Link>
-                  {" apply."}
-                </li>
-                <li>
-                  By continuing with the prequalification process, I understand and agree that I am authorizing Lending for Low Credit and its applicable partners to obtain a consumer report from contracted credit bureaus. This information may be used to authenticate my identity, evaluate my request, and connect me with potential financial products or services. Any credit inquiry performed during the prequalification process will be handled according to the applicable credit authorization terms.
-                </li>
-                <li>
-                  I understand that my information may be presented to a marketplace of lenders and/or lending partners. These lenders and/or lending partners may review and verify my information to determine whether I may qualify for available loan products. I acknowledge that lenders, lending partners, and other financial service providers may share information related to my application status, approval status, and funded status as permitted.
-                </li>
-                <li>
-                  I understand that if I am not connected with a lender or lending partner for the requested loan amount, my information may be presented to additional lenders and/or lending partners offering different loan amounts or terms. I also understand that if I am not connected with a lender, I may be presented with other financial service providers offering products related to my selected loan purpose.
-                </li>
-                <li>
-                  I certify that all information provided is true and complete.
-                </li>
-              </ul>
-            </div>
-       
-            <button
-              type="button"
-              onClick={handleBack}
-              className="mt-2 cursor-pointer border-0 bg-transparent p-0 text-sm font-medium text-[#374151] underline transition-opacity hover:opacity-80 xl:mt-3 xl:text-base"
-            >
-              Back
-            </button>
           </section>
         ) : null}
 

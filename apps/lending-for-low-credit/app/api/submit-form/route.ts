@@ -10,7 +10,6 @@ import { postLeadProsper } from "@/lib/leadprosper"
 const REQUIRED_FIELDS = [
   "firstName",
   "lastName",
-  "email",
   "phoneNumber",
   "address",
   "zipCode",
@@ -180,7 +179,7 @@ export async function POST(request: NextRequest) {
     }
     console.log("[submit-form] Form data submitted:", JSON.stringify(submittedFormData, null, 2))
 
-    if (isEnvEnabled(process.env.SET_HUNTER)) {
+    if (emailTrimmed && isEnvEnabled(process.env.SET_HUNTER)) {
       const hunterResult = await verifyEmailWithHunter(emailTrimmed)
       if (!hunterResult.ok) {
         return NextResponse.json(
@@ -338,15 +337,17 @@ export async function POST(request: NextRequest) {
       console.log("[submit-form] LeadProsper status: NOT SENT (LeadProsper env not configured)")
     }
 
-    const sent = await sendSubmissionConfirmationEmail({
-      to: emailTrimmed,
-      firstName: String(firstName).trim(),
-      lastName: String(lastName).trim(),
-    })
-    if (sent) {
-      console.log("[submit-form] confirmation email sent")
-    } else {
-      console.error("[submit-form] confirmation email was not sent")
+    if (emailTrimmed) {
+      const sent = await sendSubmissionConfirmationEmail({
+        to: emailTrimmed,
+        firstName: String(firstName).trim(),
+        lastName: String(lastName).trim(),
+      })
+      if (sent) {
+        console.log("[submit-form] confirmation email sent")
+      } else {
+        console.error("[submit-form] confirmation email was not sent")
+      }
     }
 
     const accessToken = crypto.randomUUID()
