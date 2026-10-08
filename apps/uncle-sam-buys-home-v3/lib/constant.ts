@@ -28,29 +28,23 @@ export const COLORS = {
 
 
 export const HERO_CONTENT = {
-  headline1: "Life Happens.",
-  headline2: "We Buy Houses",
-  headline3: "No Matter the Reason.",
+  headline: "See Your Cash Offer Options",
   description:
-    "Whether you're facing a divorce, job loss, foreclosure, or just need to move fast , we're here to help, not judge. Get a fair cash offer on your terms, on your timeline.",
-    badges: [
-      {
-        icon: "/hero-1.svg",
-        text: "No Repairs Needed",
-      },
-      {
-        icon: "/hero-2.svg",
-        text: "Zero Fees",
-      },
-      {
-        icon: "/hero-3.svg",
-        text: "100% Confidential",
-      },
-    ],
-  image: {
-    alt: "A couple in a modern kitchen discussing their home",
-    src: "/hero.webp",
-  },
+    "No obligation. Just answer a few quick questions to get started.",
+  badges: [
+    {
+      icon: "/badge-check.svg",
+      text: "NO REPAIRS",
+    },
+    {
+      icon: "/badge-check.svg",
+      text: "NO AGENTS",
+    },
+    {
+      icon: "/badge-check.svg",
+      text: "NO OBLIGATION",
+    },
+  ],
 } as const
 
 export const OFFER_CONTENT = {

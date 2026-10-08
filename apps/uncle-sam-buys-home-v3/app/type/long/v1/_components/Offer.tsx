@@ -30,10 +30,6 @@ export default function Offer() {
 
 
 
-                    <div className="w-full flex items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-                       <Form />
-                    </div>
-
 
                 </div>
 

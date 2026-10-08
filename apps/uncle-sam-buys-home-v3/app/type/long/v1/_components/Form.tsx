@@ -1,12 +1,14 @@
 "use client"
 
 import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent } from "react"
+import Image from "next/image"
 
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { Button } from "@workspace/ui/components/button"
+import { ProgressBar } from "@workspace/ui/components/progress-bar"
 import { TrustedForm, getCookie, useBrowserPush } from "@workspace/lp-core"
-import { OFFER_CONTENT } from "@/lib/constant"
+import { HERO_CONTENT, OFFER_CONTENT } from "@/lib/constant"
 import { trackArohaa } from "@/lib/arohaa"
 import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
 import { clearFormProgress, saveFormProgress } from "@/lib/form-progress"
@@ -16,8 +18,8 @@ const ANALYTICS_FLUSH_DELAY_MS = 300
 const AROHAA_SUBMITTED_KEY = "arohaa_uncle_sam_v2_submitted"
 
 const STEP_NAMES: Record<number, string> = {
-  1: "Sell House For Cash",
-  2: "How Soon To Sell",
+  1: "What type of property are you selling?",
+  2: "What's got you thinking about selling?",
   3: "Repairs And Maintenance",
   4: "Why Selling",
   5: "Property Address",
@@ -310,7 +312,14 @@ const HOW_SOON_TO_SELL_OPTIONS = [
   { id: "no_timeline", label: "No Timeline" },
 ] as const
 
-const HOW_SOON_TO_SELL_TITLE = "How soon would you like to sell?"
+const PROPERTY_TYPE_TITLE = "What type of property are you selling?"
+const PROPERTY_TYPE_OPTIONS = [
+  { id: "single_family", label: "Single Family Home" ,Icon: "/icon-1.svg"},
+  { id: "condo_townhome", label: "Condo / Townhome" ,Icon: "/icon-2.svg"},
+  { id: "other", label: "Other Property Type" ,Icon: "/icon-3.svg"},
+] as const
+
+const HOW_SOON_TO_SELL_TITLE = "What's got you thinking about selling?"
 
 const REPAIRS_AND_MAINTENANCE_TITLE = "What kind of repairs and maintenance does the house need?"
 
@@ -338,7 +347,7 @@ const SELL_HOUSE_OPTIONS = [
 ] as const
 
 const OFFER_CARD_SHELL =
-  "flex w-full flex-col items-center gap-6 lg:gap-7 xl:gap-9 rounded-[10px] border border-[#E2E8F0] bg-[#ECF1FB] shadow-[0_0_6px_0_rgba(16,46,80,0.15)] px-5 py-6 md:py-8 md:px-12 lg:px-16 xl:px-20 xl:py-10"
+  "flex w-full flex-col items-center gap-6 lg:gap-7 xl:gap-9 rounded-[10px] border border-[#E2E8F0] bg-[#ECF1FB] shadow-[0_0_6px_0_rgba(16,46,80,0.15)] px-5 py-6 md:py-8 md:px-9 xl:py-10"
 const INPUT_CARD_SHELL =
   "flex w-full flex-col items-center gap-4 md:gap-5  xl:gap-6 rounded-[10px] border border-[#E2E8F0] bg-[#ECF1FB] shadow-[0_0_6px_0_rgba(16,46,80,0.15)] px-5 py-6 md:py-8 md:px-9 lg:px-9 xl:px-11 xl:py-10"
 const OFFER_CARD_TITLE =
@@ -356,6 +365,7 @@ const INPUT_FIELD =
   "h-14 w-full min-w-0 rounded-[6px] border border-[#CCCCCF] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#102E50] focus-visible:ring-[3px] focus-visible:ring-[#102E50]/25 xl:h-15 xl:text-base"
 
 type HowSoonToSellTypeId = (typeof HOW_SOON_TO_SELL_OPTIONS)[number]["id"] | ""
+type PropertyTypeId = (typeof PROPERTY_TYPE_OPTIONS)[number]["id"] | ""
 type RepairsAndMaintenanceTypeId = (typeof REPAIRS_AND_MAINTENANCE_OPTIONS)[number]["id"] | ""
 type SellHouseForCashTypeId = (typeof SELL_HOUSE_FOR_CASH_OPTIONS)[number]["id"]
 type SellHouseTypeId = (typeof SELL_HOUSE_OPTIONS)[number]["id"] | ""
@@ -367,6 +377,7 @@ const TOTAL_STEPS = 7
 const defaultFormData = {
   howSoonToSell: "" as HowSoonToSellTypeId,
   zipCode: "",
+  propertyType: "" as PropertyTypeId,
   sellHouseForCash: "yes" as SellHouseForCashTypeId,
   sellHouse: "" as SellHouseTypeId,
   repairsAndMaintenance: "" as RepairsAndMaintenanceTypeId,
@@ -405,7 +416,7 @@ function FormNavigation({
         </button>
 
       ) : null}
-      
+
     </nav>
   )
 }
@@ -615,400 +626,436 @@ function FormPage() {
   }
 
   return (
-    <section className="flex w-full min-h-[220px] flex-col items-center gap-8 md:min-h-[190px] md:gap-10 xl:min-h-[250px] xl:gap-12">
+    <section className="flex w-full min-h-[220px] flex-col items-center md:min-h-[190px] xl:min-h-[250px]">
+      <div className="flex w-full flex-col items-center gap-6 xl:gap-5">
+        <form
+          id="lead-form"
+          onSubmit={handleLeadSubmit}
+          onKeyDown={handleFormKeyDown}
+          noValidate
+          className="mx-auto flex w-full max-w-4xl flex-col items-center gap-8 xl:gap-10 "
+        >
+          <ProgressBar
+            type="8"
+            className="!mb-0 w-full md:!mb-0 md:max-w-[530px] lg:max-w-[550px] xl:max-w-[720px]"
+            currentStep={currentStep}
+            totalSteps={TOTAL_STEPS}
+            backgroundColor="#C1202633"
+            foregroundColor="#C12026"
+            
+          />
+
+          <TrustedForm />
+
+          {currentStep === 1 ? (
+            <div className="flex w-full items-center justify-center md:max-w-[530px] lg:max-w-[550px] xl:max-w-[720px]">
+              <section
+                className={OFFER_CARD_SHELL}
+                data-arohaa-step="1"
+                data-arohaa-step-name={STEP_NAMES[1]}
+              >
+                <p className={OFFER_CARD_TITLE}>{PROPERTY_TYPE_TITLE}</p>
+                <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
+                  {PROPERTY_TYPE_OPTIONS.map(({ id, label, Icon }) => {
+                    const selected = formData.propertyType === id
+
+                    return (
+                      <Button
+                        key={id}
+                        type="1"
+                        variant="default"
+                        onClick={() => {
+                          setFormData((prev) => ({ ...prev, propertyType: id }))
+                          goToStep(2)
+                        }}
+                        aria-pressed={selected}
+                        className={`w-full flex h-auto min-h-[4.75rem] md:min-h-[4.8rem] xl:min-h-[5.9rem] shrink-0 cursor-pointer items-stretch justify-start gap-0 overflow-hidden rounded-[10px] border border-[#C12026] p-0 font-semibold text-[0.85rem] font-inherit text-[#3E3E3F] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-90 lg:text-sm xl:text-lg ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
+                        style={
+                          selected
+                            ? {
+                              background:
+                                "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
+                            }
+                            : undefined
+                        }
+                      >
+                        <span className="flex w-[37%] md:w-[25%] xl:w-[23%] shrink-0 items-center justify-center self-stretch  pl-3">
+                          <Image
+                            src={Icon}
+                            alt=""
+                            width={120}
+                            height={90}
+                            className="h-15 w-auto max-h-full max-w-full object-contain md:h-16 xl:h-21"
+                          />
+                        </span>
+                        <span className="flex flex-1 items-center px-3 py-3 text-left text-[0.85rem] md:text-sm xl:text-lg font-semibold text-[#3E3E3F] whitespace-normal leading-snug">
+                          {label}
+                        </span>
+                      </Button>
+                    )
+                  })}
+                </div>
+              </section>
+            </div>
+          ) : null}
+
+          {currentStep === 2 ? (
+            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+              <section
+                className={OFFER_CARD_SHELL}
+                data-arohaa-step="2"
+                data-arohaa-step-name={STEP_NAMES[2]}
+              >
+                <p className={OFFER_CARD_TITLE}>{HOW_SOON_TO_SELL_TITLE}</p>
+                <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
+                  {HOW_SOON_TO_SELL_OPTIONS.map(({ id, label }) => {
+                    const selected = formData.howSoonToSell === id
+
+                    return (
+                      <Button
+                        key={id}
+                        type="1"
+                        variant="default"
+                        onClick={() => {
+                          setFormData((prev) => ({ ...prev, howSoonToSell: id }))
+                          goToStep(3)
+                        }}
+                        aria-pressed={selected}
+                        className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
+                        style={
+                          selected
+                            ? {
+                              background:
+                                "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
+                            }
+                            : undefined
+                        }
+                      >
+                        {label}
+                      </Button>
+                    )
+                  })}
+                </div>
+              </section>
+            </div>
+          ) : null}
+
+          {currentStep === 3 ? (
+            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+              <section
+                className={OFFER_CARD_SHELL}
+                data-arohaa-step="3"
+                data-arohaa-step-name={STEP_NAMES[3]}
+              >
+                <p className={OFFER_CARD_TITLE}>{REPAIRS_AND_MAINTENANCE_TITLE}</p>
+                <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
+                  {REPAIRS_AND_MAINTENANCE_OPTIONS.map(({ id, label }) => {
+                    const selected = formData.repairsAndMaintenance === id
+
+                    return (
+                      <Button
+                        key={id}
+                        type="1"
+                        variant="default"
+                        onClick={() => {
+                          setFormData((prev) => ({ ...prev, repairsAndMaintenance: id }))
+                          goToStep(4)
+                        }}
+                        aria-pressed={selected}
+                        className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
+                        style={
+                          selected
+                            ? {
+                              background:
+                                "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
+                            }
+                            : undefined
+                        }
+                      >
+                        <span className={OFFER_CHOICE_LABEL_WRAP}>{label}</span>
+                      </Button>
+                    )
+                  })}
+                </div>
+              </section>
+            </div>
+          ) : null}
+
+          {currentStep === 4 ? (
+            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+              <section
+                className={OFFER_CARD_SHELL}
+                data-arohaa-step="4"
+                data-arohaa-step-name={STEP_NAMES[4]}
+              >
+                <p className={OFFER_CARD_TITLE}>{SELL_HOUSE_TITLE}</p>
+                <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
+                  {SELL_HOUSE_OPTIONS.map(({ id, label }) => {
+                    const selected = formData.sellHouse === id
+
+                    return (
+                      <Button
+                        key={id}
+                        type="1"
+                        variant="default"
+                        onClick={() => {
+                          setFormData((prev) => ({ ...prev, sellHouse: id }))
+                          goToStep(5)
+                        }}
+                        aria-pressed={selected}
+                        className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
+                        style={
+                          selected
+                            ? {
+                              background:
+                                "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
+                            }
+                            : undefined
+                        }
+                      >
+                        <span className={OFFER_CHOICE_LABEL_WRAP}>{label}</span>
+                      </Button>
+                    )
+                  })}
+                </div>
+              </section>
+            </div>
+          ) : null}
 
 
-      <form
-        id="lead-form"
-        onSubmit={handleLeadSubmit}
-        onKeyDown={handleFormKeyDown}
-        noValidate
-        className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 xl:gap-8"
-      >
 
-        <TrustedForm />
-
-        {currentStep === 1 ? (
-          <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section
-              className={OFFER_CARD_SHELL}
-              data-arohaa-step="1"
-              data-arohaa-step-name={STEP_NAMES[1]}
-            >
-              <p className={OFFER_CARD_TITLE}>{OFFER_CONTENT.subtitle}</p>
-              <div className="flex w-full flex-col items-center justify-center gap-3 md:flex-row md:gap-3.5 xl:gap-4">
-                {SELL_HOUSE_FOR_CASH_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.sellHouseForCash === id
-                  const isYes = id === "yes"
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, sellHouseForCash: id }))
-                        goToStep(2)
-                      }}
-                      aria-pressed={selected}
-                      className={`${OFFER_CHOICE_BTN} ${isYes ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
-                      style={
-                        isYes
-                          ? {
-                            background:
-                              "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
-                          }
-                          : undefined
-                      }
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </section>
-          </div>
-        ) : null}
-
-        {currentStep === 2 ? (
-          <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section
-              className={OFFER_CARD_SHELL}
-              data-arohaa-step="2"
-              data-arohaa-step-name={STEP_NAMES[2]}
-            >
-              <p className={OFFER_CARD_TITLE}>{HOW_SOON_TO_SELL_TITLE}</p>
-              <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
-                {HOW_SOON_TO_SELL_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.howSoonToSell === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, howSoonToSell: id }))
-                        goToStep(3)
-                      }}
-                      aria-pressed={selected}
-                      className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
-                      style={
-                        selected
-                          ? {
-                            background:
-                              "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
-                          }
-                          : undefined
-                      }
-                    >
-                      {label}
-                    </Button>
-                  )
-                })}
-              </div>
-            </section>
-          </div>
-        ) : null}
-
-        {currentStep === 3 ? (
-          <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section
-              className={OFFER_CARD_SHELL}
-              data-arohaa-step="3"
-              data-arohaa-step-name={STEP_NAMES[3]}
-            >
-              <p className={OFFER_CARD_TITLE}>{REPAIRS_AND_MAINTENANCE_TITLE}</p>
-              <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
-                {REPAIRS_AND_MAINTENANCE_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.repairsAndMaintenance === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, repairsAndMaintenance: id }))
-                        goToStep(4)
-                      }}
-                      aria-pressed={selected}
-                      className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
-                      style={
-                        selected
-                          ? {
-                            background:
-                              "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
-                          }
-                          : undefined
-                      }
-                    >
-                      <span className={OFFER_CHOICE_LABEL_WRAP}>{label}</span>
-                    </Button>
-                  )
-                })}
-              </div>
-            </section>
-          </div>
-        ) : null}
-
-        {currentStep === 4 ? (
-          <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section
-              className={OFFER_CARD_SHELL}
-              data-arohaa-step="4"
-              data-arohaa-step-name={STEP_NAMES[4]}
-            >
-              <p className={OFFER_CARD_TITLE}>{SELL_HOUSE_TITLE}</p>
-              <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
-                {SELL_HOUSE_OPTIONS.map(({ id, label }) => {
-                  const selected = formData.sellHouse === id
-
-                  return (
-                    <Button
-                      key={id}
-                      type="1"
-                      variant="default"
-                      onClick={() => {
-                        setFormData((prev) => ({ ...prev, sellHouse: id }))
-                        goToStep(5)
-                      }}
-                      aria-pressed={selected}
-                      className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
-                      style={
-                        selected
-                          ? {
-                            background:
-                              "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
-                          }
-                          : undefined
-                      }
-                    >
-                      <span className={OFFER_CHOICE_LABEL_WRAP}>{label}</span>
-                    </Button>
-                  )
-                })}
-              </div>
-            </section>
-          </div>
-        ) : null}
-
-
-
-        {currentStep === 5 ? (
-          <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section
-              className={INPUT_CARD_SHELL}
-              data-arohaa-step="5"
-              data-arohaa-step-name={STEP_NAMES[5]}
-            >
-              <div className="flex flex-col items-center justify-center gap-1.5 ">
-                <p className={OFFER_CARD_TITLE}>Please Enter Your Property Address</p>
-                <p className={OFFER_CARD_DESCRIPTION}>Type your address below, then select from the dropdown</p>
-              </div>
-              <div className="flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
-                <AddressAutocomplete
-                  label=""
-                  value={formData.street_address}
-                  city={formData.city}
-                  state={formData.state}
-                  zipCode={formData.zipCode}
-                  onChange={(v) => {
-                    handleInputChange("street_address", v)
-                  }}
-                  onSelect={(result) => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      street_address: result.streetAddress,
-                      city: result.city,
-                      state: result.state,
-                      zipCode: result.zipCode,
-                    }))
-                  }}
-                  placeholder="Property Address"
-                  labelClassName="sr-only"
-                  className={INPUT_FIELD}
-                />
-                <FormNavigation
-                  showNext
-                  isNextDisabled={!isStepValid()}
-                  onNext={handleNext}
-                />
-              </div>
-            </section>
-          </div>
-        ) : null}
-
-        {currentStep === 6 ? (
-          <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section
-              className={INPUT_CARD_SHELL}
-              data-arohaa-step="6"
-              data-arohaa-step-name={STEP_NAMES[6]}
-            >
-
-              <p className={OFFER_CARD_TITLE}>What is your name and email?</p>
-
-              <div className="mt-1 flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
-                <div className="flex w-full flex-col gap-3">
-                  <TextInput
-                    id="step6FirstName"
-                    data-arohaa-field="firstName"
-                    containerClassName={INPUT_CONTAINER}
-                    value={formData.first_name}
-                    onChange={(e) => handleInputChange("first_name", e.target.value)}
-                    placeholder="First Name"
-                    className={INPUT_FIELD}
-                  />
-                  <TextInput
-                    id="step6LastName"
-                    data-arohaa-field="lastName"
-                    containerClassName={INPUT_CONTAINER}
-                    value={formData.last_name}
-                    onChange={(e) => handleInputChange("last_name", e.target.value)}
-                    placeholder="Last Name"
-                    className={INPUT_FIELD}
-                  />
-                  <TextInput
-                    id="email"
-                    type="email"
-                    data-arohaa-field="email"
-                    containerClassName={INPUT_CONTAINER}
-                    value={formData.email}
-                    onChange={(e) => {
-                      handleInputChange("email", e.target.value)
-                      if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
+          {currentStep === 5 ? (
+            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+              <section
+                className={INPUT_CARD_SHELL}
+                data-arohaa-step="5"
+                data-arohaa-step-name={STEP_NAMES[5]}
+              >
+                <div className="flex flex-col items-center justify-center gap-1.5 ">
+                  <p className={OFFER_CARD_TITLE}>Please Enter Your Property Address</p>
+                  <p className={OFFER_CARD_DESCRIPTION}>Type your address below, then select from the dropdown</p>
+                </div>
+                <div className="flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
+                  <AddressAutocomplete
+                    label=""
+                    value={formData.street_address}
+                    city={formData.city}
+                    state={formData.state}
+                    zipCode={formData.zipCode}
+                    onChange={(v) => {
+                      handleInputChange("street_address", v)
                     }}
-                    placeholder="Email"
-                    className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
+                    onSelect={(result) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        street_address: result.streetAddress,
+                        city: result.city,
+                        state: result.state,
+                        zipCode: result.zipCode,
+                      }))
+                    }}
+                    placeholder="Property Address"
+                    labelClassName="sr-only"
+                    className={INPUT_FIELD}
                   />
-                  {fieldErrors.email ? (
+                  <FormNavigation
+                    showNext
+                    isNextDisabled={!isStepValid()}
+                    onNext={handleNext}
+                  />
+                </div>
+              </section>
+            </div>
+          ) : null}
+
+          {currentStep === 6 ? (
+            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+              <section
+                className={INPUT_CARD_SHELL}
+                data-arohaa-step="6"
+                data-arohaa-step-name={STEP_NAMES[6]}
+              >
+
+                <p className={OFFER_CARD_TITLE}>What is your name and email?</p>
+
+                <div className="mt-1 flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
+                  <div className="flex w-full flex-col gap-3">
+                    <TextInput
+                      id="step6FirstName"
+                      data-arohaa-field="firstName"
+                      containerClassName={INPUT_CONTAINER}
+                      value={formData.first_name}
+                      onChange={(e) => handleInputChange("first_name", e.target.value)}
+                      placeholder="First Name"
+                      className={INPUT_FIELD}
+                    />
+                    <TextInput
+                      id="step6LastName"
+                      data-arohaa-field="lastName"
+                      containerClassName={INPUT_CONTAINER}
+                      value={formData.last_name}
+                      onChange={(e) => handleInputChange("last_name", e.target.value)}
+                      placeholder="Last Name"
+                      className={INPUT_FIELD}
+                    />
+                    <TextInput
+                      id="email"
+                      type="email"
+                      data-arohaa-field="email"
+                      containerClassName={INPUT_CONTAINER}
+                      value={formData.email}
+                      onChange={(e) => {
+                        handleInputChange("email", e.target.value)
+                        if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
+                      }}
+                      placeholder="Email"
+                      className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
+                    />
+                    {fieldErrors.email ? (
+                      <p className="text-xs text-red-600" role="alert">
+                        {fieldErrors.email}
+                      </p>
+                    ) : null}
+                  </div>
+                  <FormNavigation
+                    showNext
+                    isNextDisabled={!isStepValid()}
+                    onNext={handleNext}
+                  />
+                </div>
+              </section>
+            </div>
+          ) : null}
+
+          {currentStep === TOTAL_STEPS ? (
+
+            <div className="mt-1 flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+              <section
+                className={INPUT_CARD_SHELL}
+                data-arohaa-step="7"
+                data-arohaa-step-name={STEP_NAMES[7]}
+              >
+
+                <p className={OFFER_CARD_TITLE}>Final Step - What is your phone number?</p>
+
+                <div className="mt-1 flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
+                  <PhoneNumberInput
+                    id="phoneNumber"
+                    label=""
+                    data-arohaa-field="phoneNumber"
+                    containerClassName={INPUT_CONTAINER}
+                    value={formData.phone_number}
+                    onChange={(v) => {
+                      handleInputChange("phone_number", v)
+                      if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
+                    }}
+                    placeholder="Phone Number"
+                    labelClassName="sr-only"
+                    className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
+                  />
+                  {fieldErrors.phone ? (
                     <p className="text-xs text-red-600" role="alert">
-                      {fieldErrors.email}
+                      {fieldErrors.phone}
                     </p>
                   ) : null}
-                </div>
-                <FormNavigation
-                  showNext
-                  isNextDisabled={!isStepValid()}
-                  onNext={handleNext}
-                />
-              </div>
-            </section>
-          </div>
-        ) : null}
 
-        {currentStep === TOTAL_STEPS ? (
 
-          <div className="mt-1 flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
-            <section
-              className={INPUT_CARD_SHELL}
-              data-arohaa-step="7"
-              data-arohaa-step-name={STEP_NAMES[7]}
-            >
-
-              <p className={OFFER_CARD_TITLE}>Final Step - What is your phone number?</p>
-
-              <div className="mt-1 flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
-                <PhoneNumberInput
-                  id="phoneNumber"
-                  label=""
-                  data-arohaa-field="phoneNumber"
-                  containerClassName={INPUT_CONTAINER}
-                  value={formData.phone_number}
-                  onChange={(v) => {
-                    handleInputChange("phone_number", v)
-                    if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
-                  }}
-                  placeholder="Phone Number"
-                  labelClassName="sr-only"
-                  className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
-                />
-                {fieldErrors.phone ? (
-                  <p className="text-xs text-red-600" role="alert">
-                    {fieldErrors.phone}
+                  <p className="text-justify text-[0.7rem] font-normal leading-relaxed text-[#4B5563] xl:text-[0.85rem]">
+                    By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to{" "}
+                    <button
+                      type="button"
+                      onClick={() => setPartnersOpen(true)}
+                      className="inline cursor-pointer border-0 bg-transparent p-0 font-normal text-[#3399FF] underline"
+                    >
+                      2 partners
+                    </button>
+                    ; that you are providing your prior express written consent for those{" "}
+                    <button
+                      type="button"
+                      onClick={() => setPartnersOpen(true)}
+                      className="inline cursor-pointer border-0 bg-transparent p-0 font-normal text-[#3399FF] underline"
+                    >
+                      partners
+                    </button>{" "}
+                    to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our{" "}
+                    <a
+                      href="/terms-of-use"
+                      className="font-normal text-[#3399FF] underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Terms of Use
+                    </a>
+                    , including its{" "}
+                    <a
+                      href="/terms-of-use#dispute-resolution"
+                      className="font-normal text-[#3399FF] underline"
+                    >
+                      Arbitration provision
+                    </a>
+                    , and{" "}
+                    <a
+                      href="/privacy-policy"
+                      className="font-normal text-[#3399FF] underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Privacy Policy
+                    </a>
+                    ; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email{" "}
+                    <a
+                      href="mailto:consent@unclesambuyshomes.com"
+                      className="font-normal text-[#3399FF] underline"
+                    >
+                      consent@unclesambuyshomes.com
+                    </a>{" "}
+                    and you can revoke your consent at any time by emailing us.
                   </p>
-                ) : null}
 
 
-                <p className="text-justify text-[0.7rem] font-normal leading-relaxed text-[#4B5563] xl:text-[0.85rem]">
-                  By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to{" "}
+                  {submitStatus === "error" && submitError ? (
+                    <p className="text-sm text-red-600" role="alert">
+                      {submitError}
+                    </p>
+                  ) : null}
+
                   <button
-                    type="button"
-                    onClick={() => setPartnersOpen(true)}
-                    className="inline cursor-pointer border-0 bg-transparent p-0 font-normal text-[#3399FF] underline"
+                    type="submit"
+                    disabled={!isStepValid() || submitStatus === "loading"}
+                    className="w-full md:w-60 xl:w-70 rounded-[10px] bg-[#102E50] py-3 xl:py-4 text-sm font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
                   >
-                    2 partners
+                    {submitStatus === "loading" ? "Submitting..." : "SEE MY INSTANT CASH OFFER"}
                   </button>
-                  ; that you are providing your prior express written consent for those{" "}
-                  <button
-                    type="button"
-                    onClick={() => setPartnersOpen(true)}
-                    className="inline cursor-pointer border-0 bg-transparent p-0 font-normal text-[#3399FF] underline"
-                  >
-                    partners
-                  </button>{" "}
-                  to contact you at the telephone number you provided (including through an automatic telephone dialing system, pre-recorded or artificial voice, AI, SMS and MMS) even if your telephone number is listed on any state, federal or corporate Do Not Call list; you agree to our{" "}
-                  <a
-                    href="/terms-of-use"
-                    className="font-normal text-[#3399FF] underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Terms of Use
-                  </a>
-                  , including its{" "}
-                  <a
-                    href="/terms-of-use#dispute-resolution"
-                    className="font-normal text-[#3399FF] underline"
-                  >
-                    Arbitration provision
-                  </a>
-                  , and{" "}
-                  <a
-                    href="/privacy-policy"
-                    className="font-normal text-[#3399FF] underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Privacy Policy
-                  </a>
-                  ; and that we can use your data for marketing and analytics. Your consent, and e-signature, is not a condition of accessing our services, as you may email{" "}
-                  <a
-                    href="mailto:consent@unclesambuyshomes.com"
-                    className="font-normal text-[#3399FF] underline"
-                  >
-                    consent@unclesambuyshomes.com
-                  </a>{" "}
-                  and you can revoke your consent at any time by emailing us.
-                </p>
-           
+                </div>
 
-                {submitStatus === "error" && submitError ? (
-                  <p className="text-sm text-red-600" role="alert">
-                    {submitError}
-                  </p>
-                ) : null}
+              </section>
+            </div>
 
-                <button
-                  type="submit"
-                  disabled={!isStepValid() || submitStatus === "loading"}
-                  className="w-full md:w-60 xl:w-70 rounded-[10px] bg-[#102E50] py-3 xl:py-4 text-sm font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
-                >
-                  {submitStatus === "loading" ? "Submitting..." : "SEE MY INSTANT CASH OFFER"}
-                </button>
-              </div>
-         
-            </section>
-          </div>
-
-        ) : null}
+          ) : null}
 
 
-      </form>
+        </form>
+
+        <div className="flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-3.5 md:gap-x-8 xl:gap-x-10 ">
+          {HERO_CONTENT.badges.map((badge) => (
+            <div key={badge.text} className="flex items-center gap-2 xl:gap-2.5">
+              <Image
+                src={badge.icon}
+                alt=""
+                width={18}
+                height={18}
+                className="size-[20px] md:size-[23px]  xl:size-[28px] shrink-0 object-contain"
+              />
+              <span className="text-[0.8rem] md:text-[0.8rem] xl:text-[1rem] font-semibold uppercase leading-tight tracking-wide text-[#182542]">
+                {badge.text}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <PartnersDialog isOpen={partnersOpen} onClose={() => setPartnersOpen(false)} />
-      
+
     </section>
   )
 }

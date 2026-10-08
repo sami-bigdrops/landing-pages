@@ -10,7 +10,7 @@ export default function Navbar() {
     <NavbarUI
       variant="default"
       type="2"
-      className="mx-auto w-full  px-4 py-6 sm:px-6 lg:px-8 border-none"
+      className="mx-auto w-full  px-4 py-4 sm:px-6 lg:px-8 xl:py-6 border-none"
       logo={
         <>
           <Image
