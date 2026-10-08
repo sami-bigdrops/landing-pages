@@ -1,17 +1,20 @@
 "use client"
 
-import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent } from "react"
+import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent, type ReactNode } from "react"
 import Image from "next/image"
+import { ChevronLeft, ChevronRight, MapPin, ArrowRight } from "lucide-react"
 
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
 import { Button } from "@workspace/ui/components/button"
 import { ProgressBar } from "@workspace/ui/components/progress-bar"
+import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
 import { TrustedForm, getCookie, useBrowserPush } from "@workspace/lp-core"
-import { HERO_CONTENT, OFFER_CONTENT } from "@/lib/constant"
+import { HERO_CONTENT } from "@/lib/constant"
 import { trackArohaa } from "@/lib/arohaa"
 import { parseAddressComponents, parseCityStateFromPrediction } from "@/lib/parse-place-address"
 import { clearFormProgress, saveFormProgress } from "@/lib/form-progress"
+import { lookupCityStateByZip } from "@/lib/lookup-zip"
 import { PartnersDialog } from "./PartnersDialog"
 
 const ANALYTICS_FLUSH_DELAY_MS = 300
@@ -20,11 +23,11 @@ const AROHAA_SUBMITTED_KEY = "arohaa_uncle_sam_v2_submitted"
 const STEP_NAMES: Record<number, string> = {
   1: "What type of property are you selling?",
   2: "What's got you thinking about selling?",
-  3: "Repairs And Maintenance",
-  4: "Why Selling",
-  5: "Property Address",
-  6: "Name And Email",
-  7: "Phone Number",
+  3: "Is the house currently listed with a realtor?",
+  4: "When would you like to sell?",
+  5: "Roughly where's your credit these days?",
+  6: "Nice, almost there. Where's the house?",
+  7: "Last step! Where should Uncle Sam send your offer?",
 }
 
 
@@ -118,6 +121,8 @@ function AddressAutocomplete({
   placeholder,
   labelClassName,
   className,
+  leadingIcon,
+  showSummary = true,
 }: {
   value: string
   city: string
@@ -129,6 +134,8 @@ function AddressAutocomplete({
   placeholder: string
   labelClassName?: string
   className?: string
+  leadingIcon?: ReactNode
+  showSummary?: boolean
 }) {
   const [predictions, setPredictions] = useState<GMapsPlacePrediction[]>([])
   const [showDropdown, setShowDropdown] = useState(false)
@@ -255,8 +262,13 @@ function AddressAutocomplete({
 
   return (
     <div className="w-full relative" ref={containerRef}>
-      <label className={labelClassName}>{label}</label>
+      {label ? <label className={labelClassName}>{label}</label> : null}
       <div className="relative">
+        {leadingIcon ? (
+          <span className="pointer-events-none absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-[#355A89]">
+            {leadingIcon}
+          </span>
+        ) : null}
         <input
           type="text"
           value={value}
@@ -293,23 +305,22 @@ function AddressAutocomplete({
         </div>
       )}
 
-      {(city || state || zipCode) && (
+      {showSummary && (city || state || zipCode) ? (
         <p className="text-[0.7rem] xl:text-[0.8rem] mt-2 font-medium text-left text-[#1C1C1C]">
           {[city, state].filter(Boolean).join(", ")}
           {zipCode ? ` ${zipCode}` : ""}
         </p>
-      )}
+      ) : null}
     </div>
   )
 }
 
 // --- Form Options ---
 const HOW_SOON_TO_SELL_OPTIONS = [
-  { id: "asap", label: "ASAP" },
-  { id: "within_30_days", label: "Within 30 Days" },
-  { id: "within_60_days", label: "Within 60 Days" },
-  { id: "within_90_days", label: "Within 90 Days" },
-  { id: "no_timeline", label: "No Timeline" },
+  { id: "financial_hardship", label: "Financial hardship" },
+  { id: "property_needs_repairs", label: "Property needs repairs" },
+  { id: "downsizing_relocating", label: "Downsizing / Relocating" },
+  { id: "research_home_metrics", label: "Research home metrics" },
 ] as const
 
 const PROPERTY_TYPE_TITLE = "What type of property are you selling?"
@@ -321,29 +332,41 @@ const PROPERTY_TYPE_OPTIONS = [
 
 const HOW_SOON_TO_SELL_TITLE = "What's got you thinking about selling?"
 
-const REPAIRS_AND_MAINTENANCE_TITLE = "What kind of repairs and maintenance does the house need?"
-
-const SELL_HOUSE_TITLE = "Why are you selling your house?"
-
-const REPAIRS_AND_MAINTENANCE_OPTIONS = [
-  { id: "full_gut", label: "Full Gut - Everything - $$$$" },
-  { id: "remodel", label: "Remodel - Kitchen, Bathrooms, Roof - $$$" },
-  { id: "cosmetic", label: "Cosmetic - Flooring, Paint - $$" },
-  { id: "none", label: "None - TV Commercial Ready - $" },
+const LISTED_WITH_REALTOR_TITLE = "Is the house currently listed with a realtor?"
+const LISTED_WITH_REALTOR_DESCRIPTION =
+  "Either answer is fine. Uncle Sam needs to know who to talk to."
+const LISTED_WITH_REALTOR_OPTIONS = [
+  { id: "no", label: "No" },
+  { id: "yes", label: "Yes" },
 ] as const
+
+const WHEN_TO_SELL_TITLE = "When would you like to sell?"
+const WHEN_TO_SELL_OPTIONS = [
+  { id: "asap", label: "ASAP" },
+  { id: "2_3_months", label: "2–3 months" },
+  { id: "6_months", label: "6 months" },
+] as const
+
+const CREDIT_SCORE_TITLE = "Roughly where's your credit these days?"
+const CREDIT_SCORE_DESCRIPTION =
+  "A ballpark is fine. It doesn't change Uncle Sam's cash offer."
+const CREDIT_SCORE_OPTIONS = [
+  { id: "excellent", label: "Excellent", description: "701 or higher" },
+  { id: "good", label: "Good", description: "640–700" },
+  { id: "fair", label: "Fair", description: "560–639" },
+  { id: "poor", label: "Poor", description: "559 or lower" },
+] as const
+
+const ADDRESS_STEP_TITLE = "Nice, almost there. Where's the house?"
+const ADDRESS_MANUAL_HELPER =
+  "Enter the ZIP and Uncle Sam fills in the city and state."
+const CONTACT_STEP_TITLE = "Last step! Where should Uncle Sam send your offer?"
+const ADDRESS_FIELD_LABEL =
+  "mb-1.5 block w-full text-left text-[0.8rem] font-semibold text-[#182542] xl:text-base"
 
 const SELL_HOUSE_FOR_CASH_OPTIONS = [
   { id: "yes", label: "Yes" },
   { id: "no", label: "No" },
-] as const
-
-const SELL_HOUSE_OPTIONS = [
-  { id: "structural_damage", label: "Structural/Fire/Water Damage" },
-  { id: "relocating", label: "Relocating" },
-  { id: "emergency", label: "Emergency Reasons" },
-  { id: "divorce", label: "Divorce" },
-  { id: "no_agent", label: "Sell Without Real Estate Agent" },
-  { id: "foreclosure", label: "Foreclosure" },
 ] as const
 
 const OFFER_CARD_SHELL =
@@ -353,22 +376,32 @@ const INPUT_CARD_SHELL =
 const OFFER_CARD_TITLE =
   "text-center font-sans text-base  xl:text-[1.4rem] font-semibold text-[#182542]"
 const OFFER_CARD_DESCRIPTION =
-  "text-center font-sans text-[0.8rem]  text-[#4B5563] xl:text-[0.95rem]"
+  "text-center font-sans text-[0.8rem] font-medium text-[#4B5563] xl:text-[0.95rem]"
 const OFFER_CHOICE_BTN =
   "w-full flex h-14 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[10px] px-5 py-0 font-semibold text-[0.85rem] font-inherit text-[#3E3E3F] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-90 md:h-14 md:py-3.5 md:flex-1 xl:h-18.5 xl:py-4 lg:text-sm xl:text-lg border border-[#C12026]"
 
 const OFFER_CHOICE_LABEL_WRAP =
   "w-full px-0.5 text-center text-[0.85rem] lg:text-sm xl:text-lg font-semibold text-[#3E3E3F] whitespace-normal md:px-0  leading-snug"
 
+const STEP_RADIO_OPTION_CLASS = [
+  OFFER_CHOICE_BTN,
+  "!justify-start bg-white hover:bg-[#fde9ea] hover:border-[#C12026] hover:text-[#3E3E3F] md:!flex-none md:!h-full lg:!h-auto lg:!min-h-[3.5rem] xl:!min-h-[4.5rem]",
+  ...OFFER_CHOICE_LABEL_WRAP.split(/\s+/).filter(Boolean).map(
+    (cls) => `[&>span:last-child]:${cls}`
+  ),
+  "[&>span:last-child]:!text-left",
+].join(" ")
+
 const INPUT_CONTAINER = "w-full"
 const INPUT_FIELD =
-  "h-14 w-full min-w-0 rounded-[6px] border border-[#CCCCCF] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#102E50] focus-visible:ring-[3px] focus-visible:ring-[#102E50]/25 xl:h-15 xl:text-base"
+  "h-14 w-full min-w-0 rounded-[10px] border border-[#CCCCCF] bg-white px-4 text-sm text-[#111827] placeholder:text-[#8F8E93] shadow-none outline-none transition-[color,box-shadow] focus-visible:border-[#102E50] focus-visible:ring-[3px] focus-visible:ring-[#102E50]/25 xl:h-15 xl:text-base"
 
 type HowSoonToSellTypeId = (typeof HOW_SOON_TO_SELL_OPTIONS)[number]["id"] | ""
 type PropertyTypeId = (typeof PROPERTY_TYPE_OPTIONS)[number]["id"] | ""
-type RepairsAndMaintenanceTypeId = (typeof REPAIRS_AND_MAINTENANCE_OPTIONS)[number]["id"] | ""
+type ListedWithRealtorTypeId = (typeof LISTED_WITH_REALTOR_OPTIONS)[number]["id"] | ""
+type WhenToSellTypeId = (typeof WHEN_TO_SELL_OPTIONS)[number]["id"] | ""
+type CreditScoreTypeId = (typeof CREDIT_SCORE_OPTIONS)[number]["id"] | ""
 type SellHouseForCashTypeId = (typeof SELL_HOUSE_FOR_CASH_OPTIONS)[number]["id"]
-type SellHouseTypeId = (typeof SELL_HOUSE_OPTIONS)[number]["id"] | ""
 
 
 
@@ -379,8 +412,10 @@ const defaultFormData = {
   zipCode: "",
   propertyType: "" as PropertyTypeId,
   sellHouseForCash: "yes" as SellHouseForCashTypeId,
-  sellHouse: "" as SellHouseTypeId,
-  repairsAndMaintenance: "" as RepairsAndMaintenanceTypeId,
+  whenToSell: "" as WhenToSellTypeId,
+  creditScore: "" as CreditScoreTypeId,
+  listedWithRealtor: "" as ListedWithRealtorTypeId,
+  repairsAndMaintenance: "none",
   first_name: "",
   last_name: "",
   phone_number: "",
@@ -394,6 +429,8 @@ type FormNavigationProps = {
   showNext?: boolean
   isNextDisabled?: boolean
   nextLabel?: string
+  showNextIcon?: boolean
+  fullWidth?: boolean
   onNext: () => void
 }
 
@@ -401,23 +438,41 @@ function FormNavigation({
   showNext = true,
   isNextDisabled = false,
   nextLabel = "Next",
+  showNextIcon = false,
+  fullWidth = false,
   onNext,
 }: FormNavigationProps) {
   return (
-    <nav className="flex w-full max-w-lg flex-col items-center gap-4 md:gap-5">
+    <nav className={`flex w-full flex-col items-center gap-4 md:gap-5 ${fullWidth ? "" : "max-w-lg"}`}>
       {showNext ? (
         <button
           type="button"
           onClick={onNext}
           disabled={isNextDisabled}
-          className="w-full md:w-45 xl:w-47 rounded-[10px] bg-[#102E50] cursor-pointer py-3 xl:py-4 text-base font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
+          className={`${fullWidth ? "w-full" : "w-full md:w-45 xl:w-47"} inline-flex h-13 xl:h-16 items-center justify-center gap-2 rounded-[10px] bg-[#102E50] cursor-pointer py-3 xl:py-4 text-[0.9rem] font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.1rem]`}
         >
           {nextLabel}
+          {showNextIcon ? <ArrowRight className="size-4.5 xl:size-5 shrink-0" aria-hidden /> : null}
         </button>
 
       ) : null}
 
     </nav>
+  )
+}
+
+const FORM_BACK_BTN_CLASS =
+  "absolute left-5 top-5 md:left-6 md:top-6   xl:left-8 xl:top-6.5 gap-1 flex items-center gap-0.5 border-0 bg-transparent p-0 text-sm font-semibold text-[#355A89] cursor-pointer  xl:text-lg"
+
+function FormBackButton({ onClick }: { onClick: () => void }) {
+  return (
+    <>
+      <button type="button" onClick={onClick} className={FORM_BACK_BTN_CLASS}>
+        <ChevronLeft className="size-5 xl:size-5.5 shrink-0" aria-hidden />
+        Back
+      </button>
+      <div className="w-full shrink-0 pt-4 md:pt-3 lg:pt-2 xl:pt-2 " aria-hidden />
+    </>
   )
 }
 
@@ -430,6 +485,7 @@ function FormPage() {
   const [submitError, setSubmitError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
   const [partnersOpen, setPartnersOpen] = useState(false)
+  const [addressEntryMode, setAddressEntryMode] = useState<"search" | "manual">("search")
 
   useEffect(() => {
     trackArohaa("form_start")
@@ -452,36 +508,56 @@ function FormPage() {
     saveFormProgress(nextStep)
   }
 
+  function handleBack() {
+    if (currentStep <= 1) return
+    goToStep(currentStep - 1)
+  }
+
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
     if (field === "street_address") {
       setFormData((prev) => ({
         ...prev,
         street_address: value,
-        ...(value.trim() === "" ? { city: "", state: "", zipCode: "" } : {}),
+        ...(value.trim() === "" && addressEntryMode === "search"
+          ? { city: "", state: "", zipCode: "" }
+          : {}),
       }))
       return
     }
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const handleZipChange = (value: string) => {
+    const zip = normalizeZip(value)
+    setFormData((prev) => ({ ...prev, zipCode: zip }))
+    if (zip.length !== 5) return
+    void lookupCityStateByZip(zip).then(({ city, state }) => {
+      if (!city && !state) return
+      setFormData((prev) => ({
+        ...prev,
+        zipCode: zip,
+        ...(city ? { city } : {}),
+        ...(state ? { state } : {}),
+      }))
+    })
+  }
+
   const isStepValid = () => {
-    if (currentStep === 5) {
+    if (currentStep === 6) {
       return (
         formData.street_address.trim() !== "" &&
         normalizeZip(formData.zipCode).length === 5
       )
     }
-    if (currentStep === 6) {
+    if (currentStep === TOTAL_STEPS) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       return (
         formData.first_name.trim() !== "" &&
         formData.last_name.trim() !== "" &&
         formData.email.trim() !== "" &&
-        emailRegex.test(formData.email.trim())
+        emailRegex.test(formData.email.trim()) &&
+        formData.phone_number.trim() !== ""
       )
-    }
-    if (currentStep === TOTAL_STEPS) {
-      return formData.phone_number.trim() !== ""
     }
     return true
   }
@@ -502,7 +578,7 @@ function FormPage() {
     }
 
     e.preventDefault()
-    if ((currentStep === 5 || currentStep === 6) && isStepValid()) {
+    if (currentStep === 6 && isStepValid()) {
       handleNext()
     }
   }
@@ -510,7 +586,7 @@ function FormPage() {
   const handleLeadSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (currentStep !== TOTAL_STEPS) {
-      if ((currentStep === 5 || currentStep === 6) && isStepValid()) {
+      if (currentStep === 6 && isStepValid()) {
         handleNext()
       }
       return
@@ -552,7 +628,9 @@ function FormPage() {
       howSoonToSell: formData.howSoonToSell,
       zipCode: zip,
       sellHouseForCash: formData.sellHouseForCash,
-      sellHouse: formData.sellHouse,
+      whenToSell: formData.whenToSell,
+      creditScore: formData.creditScore,
+      listedWithRealtor: formData.listedWithRealtor,
       repairsAndMaintenance: formData.repairsAndMaintenance,
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
@@ -626,7 +704,7 @@ function FormPage() {
   }
 
   return (
-    <section className="flex w-full min-h-[220px] flex-col items-center md:min-h-[190px] xl:min-h-[250px]">
+    <section className="flex w-full min-h-[220px] flex-col items-center md:min-h-[190px] xl:min-h-[250px] ">
       <div className="flex w-full flex-col items-center gap-6 xl:gap-5">
         <form
           id="lead-form"
@@ -637,7 +715,7 @@ function FormPage() {
         >
           <ProgressBar
             type="8"
-            className="!mb-0 w-full md:!mb-0 md:max-w-[530px] lg:max-w-[550px] xl:max-w-[720px]"
+            className="!mb-0 w-full md:!mb-0 md:max-w-[530px] lg:max-w-[570px] xl:max-w-[720px]"
             currentStep={currentStep}
             totalSteps={TOTAL_STEPS}
             backgroundColor="#C1202633"
@@ -648,7 +726,7 @@ function FormPage() {
           <TrustedForm />
 
           {currentStep === 1 ? (
-            <div className="flex w-full items-center justify-center md:max-w-[530px] lg:max-w-[550px] xl:max-w-[720px]">
+            <div className="flex w-full items-center justify-center md:max-w-[530px] lg:max-w-[570px] xl:max-w-[720px]">
               <section
                 className={OFFER_CARD_SHELL}
                 data-arohaa-step="1"
@@ -700,123 +778,119 @@ function FormPage() {
           ) : null}
 
           {currentStep === 2 ? (
-            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+            <div className="flex w-full items-center justify-center md:max-w-[530px] lg:max-w-[570px] xl:max-w-[720px]">
               <section
-                className={OFFER_CARD_SHELL}
+                className={`${OFFER_CARD_SHELL} relative`}
                 data-arohaa-step="2"
                 data-arohaa-step-name={STEP_NAMES[2]}
               >
+                <FormBackButton onClick={handleBack} />
                 <p className={OFFER_CARD_TITLE}>{HOW_SOON_TO_SELL_TITLE}</p>
                 <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
-                  {HOW_SOON_TO_SELL_OPTIONS.map(({ id, label }) => {
-                    const selected = formData.howSoonToSell === id
-
-                    return (
-                      <Button
-                        key={id}
-                        type="1"
-                        variant="default"
-                        onClick={() => {
-                          setFormData((prev) => ({ ...prev, howSoonToSell: id }))
-                          goToStep(3)
-                        }}
-                        aria-pressed={selected}
-                        className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
-                        style={
-                          selected
-                            ? {
-                              background:
-                                "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
-                            }
-                            : undefined
-                        }
-                      >
-                        {label}
-                      </Button>
-                    )
-                  })}
+                  <RadioButtonGroup
+                    name="howSoonToSell"
+                    type="1"
+                    layout="column"
+                    value={formData.howSoonToSell}
+                    onChange={(value) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        howSoonToSell: value as HowSoonToSellTypeId,
+                      }))
+                      goToStep(3)
+                    }}
+                    options={HOW_SOON_TO_SELL_OPTIONS.map(({ id, label }) => ({
+                      value: id,
+                      label,
+                    }))}
+                    containerClassName="w-full space-y-0"
+                    className="w-full !flex-col gap-3 md:!grid md:grid-cols-2 md:gap-3.5 xl:gap-4.5"
+                    optionClassName={STEP_RADIO_OPTION_CLASS}
+                    selectedOptionBackgroundColor="rgba(193, 32, 38, 0.10)"
+                    selectedOptionBorderColor="#C12026"
+                    selectedIndicatorColor="#C12026"
+                  />
                 </div>
               </section>
             </div>
           ) : null}
 
           {currentStep === 3 ? (
-            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+            <div className="flex w-full items-center justify-center md:max-w-[530px] lg:max-w-[570px] xl:max-w-[720px]">
               <section
-                className={OFFER_CARD_SHELL}
+                className={`${OFFER_CARD_SHELL} relative`}
                 data-arohaa-step="3"
                 data-arohaa-step-name={STEP_NAMES[3]}
               >
-                <p className={OFFER_CARD_TITLE}>{REPAIRS_AND_MAINTENANCE_TITLE}</p>
-                <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
-                  {REPAIRS_AND_MAINTENANCE_OPTIONS.map(({ id, label }) => {
-                    const selected = formData.repairsAndMaintenance === id
-
-                    return (
-                      <Button
-                        key={id}
-                        type="1"
-                        variant="default"
-                        onClick={() => {
-                          setFormData((prev) => ({ ...prev, repairsAndMaintenance: id }))
-                          goToStep(4)
-                        }}
-                        aria-pressed={selected}
-                        className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
-                        style={
-                          selected
-                            ? {
-                              background:
-                                "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
-                            }
-                            : undefined
-                        }
-                      >
-                        <span className={OFFER_CHOICE_LABEL_WRAP}>{label}</span>
-                      </Button>
-                    )
-                  })}
+                <FormBackButton onClick={handleBack} />
+                <p className={OFFER_CARD_TITLE}>{LISTED_WITH_REALTOR_TITLE}</p>
+                <div className="flex w-full flex-col items-center justify-center gap-4 md:gap-5 xl:gap-6.5">
+                  <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
+                    <RadioButtonGroup
+                      name="listedWithRealtor"
+                      type="1"
+                      layout="column"
+                      value={formData.listedWithRealtor}
+                      onChange={(value) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          listedWithRealtor: value as ListedWithRealtorTypeId,
+                        }))
+                        goToStep(4)
+                      }}
+                      options={LISTED_WITH_REALTOR_OPTIONS.map(({ id, label }) => ({
+                        value: id,
+                        label,
+                      }))}
+                      containerClassName="w-full space-y-0"
+                      className="w-full !flex-col gap-3 md:!grid md:grid-cols-2 md:gap-3.5 xl:gap-4.5"
+                      optionClassName={STEP_RADIO_OPTION_CLASS}
+                      selectedOptionBackgroundColor="rgba(193, 32, 38, 0.10)"
+                      selectedOptionBorderColor="#C12026"
+                      selectedIndicatorColor="#C12026"
+                    />
+                  </div>
+                  <p className={`${OFFER_CARD_DESCRIPTION} !text-left w-full`}>
+                    {LISTED_WITH_REALTOR_DESCRIPTION}
+                  </p>
                 </div>
               </section>
             </div>
           ) : null}
 
           {currentStep === 4 ? (
-            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+            <div className="flex w-full items-center justify-center md:max-w-[530px] lg:max-w-[570px] xl:max-w-[720px]">
               <section
-                className={OFFER_CARD_SHELL}
+                className={`${OFFER_CARD_SHELL} relative`}
                 data-arohaa-step="4"
                 data-arohaa-step-name={STEP_NAMES[4]}
               >
-                <p className={OFFER_CARD_TITLE}>{SELL_HOUSE_TITLE}</p>
+                <FormBackButton onClick={handleBack} />
+                <p className={OFFER_CARD_TITLE}>{WHEN_TO_SELL_TITLE}</p>
                 <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
-                  {SELL_HOUSE_OPTIONS.map(({ id, label }) => {
-                    const selected = formData.sellHouse === id
-
-                    return (
-                      <Button
-                        key={id}
-                        type="1"
-                        variant="default"
-                        onClick={() => {
-                          setFormData((prev) => ({ ...prev, sellHouse: id }))
-                          goToStep(5)
-                        }}
-                        aria-pressed={selected}
-                        className={`${OFFER_CHOICE_BTN} ${selected ? "" : "bg-white hover:bg-[#fde9ea] hover:text-[#3E3E3F]"}`}
-                        style={
-                          selected
-                            ? {
-                              background:
-                                "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF",
-                            }
-                            : undefined
-                        }
-                      >
-                        <span className={OFFER_CHOICE_LABEL_WRAP}>{label}</span>
-                      </Button>
-                    )
-                  })}
+                  <RadioButtonGroup
+                    name="whenToSell"
+                    type="1"
+                    layout="column"
+                    value={formData.whenToSell}
+                    onChange={(value) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        whenToSell: value as WhenToSellTypeId,
+                      }))
+                      goToStep(5)
+                    }}
+                    options={WHEN_TO_SELL_OPTIONS.map(({ id, label }) => ({
+                      value: id,
+                      label,
+                    }))}
+                    containerClassName="w-full space-y-0"
+                    className="w-full !flex-col gap-3 md:!grid md:grid-cols-2 md:gap-3.5 xl:gap-4.5"
+                    optionClassName={STEP_RADIO_OPTION_CLASS}
+                    selectedOptionBackgroundColor="rgba(193, 32, 38, 0.10)"
+                    selectedOptionBorderColor="#C12026"
+                    selectedIndicatorColor="#C12026"
+                  />
                 </div>
               </section>
             </div>
@@ -825,44 +899,44 @@ function FormPage() {
 
 
           {currentStep === 5 ? (
-            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+            <div className="flex w-full items-center justify-center md:max-w-[530px] lg:max-w-[570px] xl:max-w-[720px]">
               <section
-                className={INPUT_CARD_SHELL}
+                className={`${OFFER_CARD_SHELL} relative`}
                 data-arohaa-step="5"
                 data-arohaa-step-name={STEP_NAMES[5]}
               >
-                <div className="flex flex-col items-center justify-center gap-1.5 ">
-                  <p className={OFFER_CARD_TITLE}>Please Enter Your Property Address</p>
-                  <p className={OFFER_CARD_DESCRIPTION}>Type your address below, then select from the dropdown</p>
-                </div>
-                <div className="flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
-                  <AddressAutocomplete
-                    label=""
-                    value={formData.street_address}
-                    city={formData.city}
-                    state={formData.state}
-                    zipCode={formData.zipCode}
-                    onChange={(v) => {
-                      handleInputChange("street_address", v)
-                    }}
-                    onSelect={(result) => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        street_address: result.streetAddress,
-                        city: result.city,
-                        state: result.state,
-                        zipCode: result.zipCode,
-                      }))
-                    }}
-                    placeholder="Property Address"
-                    labelClassName="sr-only"
-                    className={INPUT_FIELD}
-                  />
-                  <FormNavigation
-                    showNext
-                    isNextDisabled={!isStepValid()}
-                    onNext={handleNext}
-                  />
+                <FormBackButton onClick={handleBack} />
+                <p className={OFFER_CARD_TITLE}>{CREDIT_SCORE_TITLE}</p>
+                <div className="flex w-full flex-col items-center justify-center  gap-4 md:gap-5 xl:gap-6.5">
+                  <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
+                    <RadioButtonGroup
+                      name="creditScore"
+                      type="1"
+                      layout="column"
+                      value={formData.creditScore}
+                      onChange={(value) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          creditScore: value as CreditScoreTypeId,
+                        }))
+                        goToStep(6)
+                      }}
+                      options={CREDIT_SCORE_OPTIONS.map(({ id, label, description }) => ({
+                        value: id,
+                        label,
+                        description,
+                      }))}
+                      containerClassName="w-full space-y-0"
+                      className="w-full !flex-col gap-3 md:!grid md:grid-cols-2 md:gap-3.5 xl:gap-4.5"
+                      optionClassName={`${STEP_RADIO_OPTION_CLASS} [&>span:last-child>span:last-child]:!text-[0.75rem] md:[&>span:last-child>span:last-child]:!text-[0.8rem] xl:[&>span:last-child>span:last-child]:!text-[0.9rem]`}
+                      selectedOptionBackgroundColor="rgba(193, 32, 38, 0.10)"
+                      selectedOptionBorderColor="#C12026"
+                      selectedIndicatorColor="#C12026"
+                    />
+                  </div>
+                  <p className={`${OFFER_CARD_DESCRIPTION} !text-left w-full`}>
+                    {CREDIT_SCORE_DESCRIPTION}
+                  </p>
                 </div>
               </section>
             </div>
@@ -871,97 +945,259 @@ function FormPage() {
           {currentStep === 6 ? (
             <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
               <section
-                className={INPUT_CARD_SHELL}
+                className={`${INPUT_CARD_SHELL} relative`}
                 data-arohaa-step="6"
                 data-arohaa-step-name={STEP_NAMES[6]}
               >
+                <FormBackButton onClick={handleBack} />
+                <p className={OFFER_CARD_TITLE}>{ADDRESS_STEP_TITLE}</p>
 
-                <p className={OFFER_CARD_TITLE}>What is your name and email?</p>
-
-                <div className="mt-1 flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
-                  <div className="flex w-full flex-col gap-3">
-                    <TextInput
-                      id="step6FirstName"
-                      data-arohaa-field="firstName"
-                      containerClassName={INPUT_CONTAINER}
-                      value={formData.first_name}
-                      onChange={(e) => handleInputChange("first_name", e.target.value)}
-                      placeholder="First Name"
-                      className={INPUT_FIELD}
+                {addressEntryMode === "search" ? (
+                  <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-6 xl:gap-7">
+                    <div className="w-full">
+                      <AddressAutocomplete
+                        label="Property address"
+                        value={formData.street_address}
+                        city={formData.city}
+                        state={formData.state}
+                        zipCode={formData.zipCode}
+                        onChange={(v) => handleInputChange("street_address", v)}
+                        onSelect={(result) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            street_address: result.streetAddress,
+                            city: result.city,
+                            state: result.state,
+                            zipCode: result.zipCode,
+                          }))
+                        }}
+                        placeholder="Start typing your street address"
+                        labelClassName={ADDRESS_FIELD_LABEL}
+                        leadingIcon={<MapPin className="size-5 xl:size-5.5 shrink-0" aria-hidden />}
+                        showSummary={false}
+                        className={`${INPUT_FIELD} pl-10 xl:pl-11`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setAddressEntryMode("manual")}
+                        className="mt-6.5 xl:mt-7 border-0 bg-transparent p-0 text-left text-[0.8rem] font-semibold text-[#355A89] underline cursor-pointer xl:text-base"
+                      >
+                        Can&apos;t find it? Enter the address manually
+                      </button>
+                    </div>
+                    <FormNavigation
+                      showNext
+                      fullWidth
+                      showNextIcon
+                      nextLabel="Continue"
+                      isNextDisabled={!isStepValid()}
+                      onNext={handleNext}
                     />
-                    <TextInput
-                      id="step6LastName"
-                      data-arohaa-field="lastName"
-                      containerClassName={INPUT_CONTAINER}
-                      value={formData.last_name}
-                      onChange={(e) => handleInputChange("last_name", e.target.value)}
-                      placeholder="Last Name"
-                      className={INPUT_FIELD}
-                    />
-                    <TextInput
-                      id="email"
-                      type="email"
-                      data-arohaa-field="email"
-                      containerClassName={INPUT_CONTAINER}
-                      value={formData.email}
-                      onChange={(e) => {
-                        handleInputChange("email", e.target.value)
-                        if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
-                      }}
-                      placeholder="Email"
-                      className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
-                    />
-                    {fieldErrors.email ? (
-                      <p className="text-xs text-red-600" role="alert">
-                        {fieldErrors.email}
-                      </p>
-                    ) : null}
                   </div>
-                  <FormNavigation
-                    showNext
-                    isNextDisabled={!isStepValid()}
-                    onNext={handleNext}
-                  />
-                </div>
+                ) : (
+                  <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-6 xl:gap-7">
+                    <div className="flex w-full flex-col  gap-3 md:gap-3.5">
+                      <div className="w-full">
+                        <label htmlFor="manualStreet" className={ADDRESS_FIELD_LABEL}>
+                          Street address
+                        </label>
+                        <div className="relative">
+                          <span className="pointer-events-none absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-[#355A89]">
+                            <MapPin className="size-5 xl:size-5.5 shrink-0" aria-hidden />
+                          </span>
+                          <TextInput
+                            id="manualStreet"
+                            data-arohaa-field="address"
+                            containerClassName={INPUT_CONTAINER}
+                            value={formData.street_address}
+                            onChange={(e) => handleInputChange("street_address", e.target.value)}
+                            placeholder="123 Main St"
+                            className={`${INPUT_FIELD} pl-10 xl:pl-11`}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-3 md:gap-3.5">
+                        <div className="w-full min-w-0">
+                          <label htmlFor="manualZip" className={ADDRESS_FIELD_LABEL}>
+                            ZIP
+                          </label>
+                          <TextInput
+                            id="manualZip"
+                            data-arohaa-field="zipCode"
+                            containerClassName={INPUT_CONTAINER}
+                            value={formData.zipCode}
+                            onChange={(e) => handleZipChange(e.target.value)}
+                            placeholder="93950"
+                            inputMode="numeric"
+                            maxLength={5}
+                            className={INPUT_FIELD}
+                          />
+                        </div>
+                        <div className="w-full min-w-0">
+                          <label htmlFor="manualCity" className={ADDRESS_FIELD_LABEL}>
+                            City
+                          </label>
+                          <TextInput
+                            id="manualCity"
+                            data-arohaa-field="city"
+                            containerClassName={INPUT_CONTAINER}
+                            value={formData.city}
+                            onChange={(e) => handleInputChange("city", e.target.value)}
+                            placeholder="City"
+                            className={INPUT_FIELD}
+                          />
+                        </div>
+                        <div className="w-full min-w-0">
+                          <label htmlFor="manualState" className={ADDRESS_FIELD_LABEL}>
+                            State
+                          </label>
+                          <TextInput
+                            id="manualState"
+                            data-arohaa-field="state"
+                            containerClassName={INPUT_CONTAINER}
+                            value={formData.state}
+                            onChange={(e) => handleInputChange("state", e.target.value)}
+                            placeholder="CA"
+                            className={INPUT_FIELD}
+                          />
+                        </div>
+                      </div>
+
+                      <p className={`${OFFER_CARD_DESCRIPTION} !text-left w-full`}>
+                        {ADDRESS_MANUAL_HELPER}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setAddressEntryMode("search")}
+                        className="mt-2 border-0 bg-transparent p-0 text-left text-[0.8rem] font-semibold text-[#355A89] underline cursor-pointer xl:text-base"
+                      >
+                        Search for the address instead
+                      </button>
+                    </div>
+
+                    <FormNavigation
+                      showNext
+                      fullWidth
+                      showNextIcon
+                      nextLabel="Continue"
+                      isNextDisabled={!isStepValid()}
+                      onNext={handleNext}
+                    />
+                  </div>
+                )}
               </section>
             </div>
           ) : null}
 
           {currentStep === TOTAL_STEPS ? (
-
-            <div className="mt-1 flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
               <section
-                className={INPUT_CARD_SHELL}
+                className={`${INPUT_CARD_SHELL} relative`}
                 data-arohaa-step="7"
                 data-arohaa-step-name={STEP_NAMES[7]}
               >
+                <FormBackButton onClick={handleBack} />
+                <p className={OFFER_CARD_TITLE}>{CONTACT_STEP_TITLE}</p>
 
-                <p className={OFFER_CARD_TITLE}>Final Step - What is your phone number?</p>
+                <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-6 xl:gap-7">
+                  <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 md:gap-3.5">
+                    <div className="w-full min-w-0">
+                      <label htmlFor="step7FirstName" className={ADDRESS_FIELD_LABEL}>
+                        First name
+                      </label>
+                      <TextInput
+                        id="step7FirstName"
+                        data-arohaa-field="firstName"
+                        containerClassName={INPUT_CONTAINER}
+                        value={formData.first_name}
+                        onChange={(e) => handleInputChange("first_name", e.target.value)}
+                        placeholder="Jane"
+                        className={INPUT_FIELD}
+                      />
+                    </div>
+                    <div className="w-full min-w-0">
+                      <label htmlFor="step7LastName" className={ADDRESS_FIELD_LABEL}>
+                        Last name
+                      </label>
+                      <TextInput
+                        id="step7LastName"
+                        data-arohaa-field="lastName"
+                        containerClassName={INPUT_CONTAINER}
+                        value={formData.last_name}
+                        onChange={(e) => handleInputChange("last_name", e.target.value)}
+                        placeholder="Doe"
+                        className={INPUT_FIELD}
+                      />
+                    </div>
+                    <div className="w-full min-w-0">
+                      <label htmlFor="email" className={ADDRESS_FIELD_LABEL}>
+                        Email
+                      </label>
+                      <TextInput
+                        id="email"
+                        type="email"
+                        data-arohaa-field="email"
+                        containerClassName={INPUT_CONTAINER}
+                        value={formData.email}
+                        onChange={(e) => {
+                          handleInputChange("email", e.target.value)
+                          if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: undefined }))
+                        }}
+                        placeholder="jane@example.com"
+                        className={`${INPUT_FIELD} ${fieldErrors.email ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
+                      />
+                      {fieldErrors.email ? (
+                        <p className="mt-1 text-xs text-red-600" role="alert">
+                          {fieldErrors.email}
+                        </p>
+                      ) : null}
+                    </div>
+                    <div className="w-full min-w-0">
+                      <label htmlFor="phoneNumber" className={ADDRESS_FIELD_LABEL}>
+                        Phone
+                      </label>
+                      <PhoneNumberInput
+                        id="phoneNumber"
+                        label=""
+                        data-arohaa-field="phoneNumber"
+                        containerClassName={INPUT_CONTAINER}
+                        value={formData.phone_number}
+                        onChange={(v) => {
+                          handleInputChange("phone_number", v)
+                          if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
+                        }}
+                        placeholder="(555) 555-5555"
+                        labelClassName="sr-only"
+                        className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
+                      />
+                      {fieldErrors.phone ? (
+                        <p className="mt-1 text-xs text-red-600" role="alert">
+                          {fieldErrors.phone}
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
 
-                <div className="mt-1 flex w-full flex-col items-center justify-center gap-6 md:gap-7 xl:gap-8.5 ">
-                  <PhoneNumberInput
-                    id="phoneNumber"
-                    label=""
-                    data-arohaa-field="phoneNumber"
-                    containerClassName={INPUT_CONTAINER}
-                    value={formData.phone_number}
-                    onChange={(v) => {
-                      handleInputChange("phone_number", v)
-                      if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: undefined }))
-                    }}
-                    placeholder="Phone Number"
-                    labelClassName="sr-only"
-                    className={`${INPUT_FIELD} ${fieldErrors.phone ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/25" : ""}`}
-                  />
-                  {fieldErrors.phone ? (
-                    <p className="text-xs text-red-600" role="alert">
-                      {fieldErrors.phone}
+                  {submitStatus === "error" && submitError ? (
+                    <p className="w-full text-sm text-red-600" role="alert">
+                      {submitError}
                     </p>
                   ) : null}
 
+                  <button
+                    type="submit"
+                    disabled={!isStepValid() || submitStatus === "loading"}
+                    className="inline-flex h-13 xl:h-16 w-full items-center justify-center gap-2 rounded-[10px] bg-[#102E50] py-3 xl:py-4 text-[0.9rem] font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.1rem]"
+                  >
+                    {submitStatus === "loading" ? "Submitting..." : "Get My Cash Offer"}
+                    {submitStatus !== "loading" ? (
+                      <ArrowRight className="size-4.5 xl:size-5 shrink-0" aria-hidden />
+                    ) : null}
+                  </button>
 
-                  <p className="text-justify text-[0.7rem] font-normal leading-relaxed text-[#4B5563] xl:text-[0.85rem]">
-                    By clicking &quot;SEE MY INSTANT CASH OFFER&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to{" "}
+                  <p className="w-full text-left text-[0.7rem] font-normal leading-relaxed text-[#4B5563] xl:text-[0.85rem]">
+                    By clicking &quot;Get My Cash Offer&quot; you electronically sign (pursuant to the ESIGN Act) and agree: to share your information with up to{" "}
                     <button
                       type="button"
                       onClick={() => setPartnersOpen(true)}
@@ -1011,26 +1247,9 @@ function FormPage() {
                     </a>{" "}
                     and you can revoke your consent at any time by emailing us.
                   </p>
-
-
-                  {submitStatus === "error" && submitError ? (
-                    <p className="text-sm text-red-600" role="alert">
-                      {submitError}
-                    </p>
-                  ) : null}
-
-                  <button
-                    type="submit"
-                    disabled={!isStepValid() || submitStatus === "loading"}
-                    className="w-full md:w-60 xl:w-70 rounded-[10px] bg-[#102E50] py-3 xl:py-4 text-sm font-medium text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:py-3.5 xl:text-[1.05rem]"
-                  >
-                    {submitStatus === "loading" ? "Submitting..." : "SEE MY INSTANT CASH OFFER"}
-                  </button>
                 </div>
-
               </section>
             </div>
-
           ) : null}
 
 

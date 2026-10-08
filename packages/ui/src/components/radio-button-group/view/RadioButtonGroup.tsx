@@ -147,12 +147,17 @@ function RadioButtonGroup({
               </span>
               <span
                 className={cn(
-                  "text-base font-medium",
+                  "flex min-w-0 flex-col items-start gap-0.5 text-base font-medium",
                   (type === "1" || !isChecked) && "text-foreground",
                   type !== "1" && isChecked && "text-inherit"
                 )}
               >
-                {opt.label}
+                <span>{opt.label}</span>
+                {opt.description != null && opt.description !== "" ? (
+                  <span className="text-sm font-normal leading-snug text-[#4B5563]">
+                    {opt.description}
+                  </span>
+                ) : null}
               </span>
             </label>
           )

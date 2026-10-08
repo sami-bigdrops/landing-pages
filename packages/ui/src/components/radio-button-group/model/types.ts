@@ -7,6 +7,7 @@ export type RadioButtonGroupType = "1" | "2" | "3" | "4"
 export interface RadioOption {
   value: string
   label: string
+  description?: string
   disabled?: boolean
 }
 
