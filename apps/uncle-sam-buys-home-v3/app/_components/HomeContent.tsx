@@ -24,11 +24,9 @@ export default function HomeContent() {
       <div className="flex flex-col w-full min-h-screen">
         <Navbar />
         <Hero onGetQuoteClick={scrollToOffer} />
-        <Offer />
-        <Help onGetQuoteClick={scrollToOffer} />
+        
         <Steps onGetQuoteClick={scrollToOffer} />
-        <Works onGetQuoteClick={scrollToOffer} />
-        <Review onGetQuoteClick={scrollToOffer} />
+       
         <Info onGetQuoteClick={scrollToOffer} />
         <Footer />
       </div>

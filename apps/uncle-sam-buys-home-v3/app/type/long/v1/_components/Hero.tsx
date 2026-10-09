@@ -13,7 +13,7 @@ export default function Hero({ onGetQuoteClick }: HeroProps) {
 
   return (
     <div
-      className="w-full h-full bg-white   px-6 sm:px-6 lg:px-14 py-4  md:px-8 lg:py-6 xl:px-23 xl:py-10">
+      className="w-full h-full bg-white   px-6 sm:px-6 lg:px-14 py-4 pb-6 md:pb-8 lg:pb-10 xl:pb-12   md:px-8 lg:py-6 xl:px-23 xl:py-10">
       <div className="container mx-auto xl:max-w-[1280px]">
         <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-center md:justify-between ">
           <div className=" flex w-full h-full flex-col items-center justify-center gap-8 ">

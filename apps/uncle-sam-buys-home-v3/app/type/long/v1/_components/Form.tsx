@@ -27,7 +27,8 @@ const STEP_NAMES: Record<number, string> = {
   4: "When would you like to sell?",
   5: "Roughly where's your credit these days?",
   6: "Nice, almost there. Where's the house?",
-  7: "Last step! Where should Uncle Sam send your offer?",
+  7: "Estimate your property value",
+  8: "Last step! Where should Uncle Sam send your offer?",
 }
 
 
@@ -360,6 +361,15 @@ const CREDIT_SCORE_OPTIONS = [
 const ADDRESS_STEP_TITLE = "Nice, almost there. Where's the house?"
 const ADDRESS_MANUAL_HELPER =
   "Enter the ZIP and Uncle Sam fills in the city and state."
+const PROPERTY_ESTIMATE_TITLE = "Estimate your property value"
+const PROPERTY_ESTIMATE_HELPER =
+  "A ballpark is fine. Uncle Sam does his own homework."
+const PROPERTY_ESTIMATE_MIN = 50_000
+const PROPERTY_ESTIMATE_MAX = 10_000_000
+const PROPERTY_ESTIMATE_EMPTY_ERROR =
+  "Please enter your best guess of the home's value."
+const PROPERTY_ESTIMATE_RANGE_ERROR =
+  "Please enter an amount between $50,000 and $10,000,000."
 const CONTACT_STEP_TITLE = "Last step! Where should Uncle Sam send your offer?"
 const ADDRESS_FIELD_LABEL =
   "mb-1.5 block w-full text-left text-[0.8rem] font-semibold text-[#182542] xl:text-base"
@@ -380,17 +390,17 @@ const OFFER_CARD_DESCRIPTION =
 const OFFER_CHOICE_BTN =
   "w-full flex h-14 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[10px] px-5 py-0 font-semibold text-[0.85rem] font-inherit text-[#3E3E3F] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-90 md:h-14 md:py-3.5 md:flex-1 xl:h-18.5 xl:py-4 lg:text-sm xl:text-lg border border-[#C12026]"
 
-const OFFER_CHOICE_LABEL_WRAP =
-  "w-full px-0.5 text-center text-[0.85rem] lg:text-sm xl:text-lg font-semibold text-[#3E3E3F] whitespace-normal md:px-0  leading-snug"
+const STEP_RADIO_OPTION_CLASS =
+  `${OFFER_CHOICE_BTN} !justify-start !gap-3 bg-white hover:bg-[#fde9ea] hover:border-[#C12026] hover:text-[#3E3E3F] md:!flex-none md:!h-full lg:!h-auto lg:!min-h-[3.5rem] xl:!min-h-[4.5rem]`
 
-const STEP_RADIO_OPTION_CLASS = [
-  OFFER_CHOICE_BTN,
-  "!justify-start bg-white hover:bg-[#fde9ea] hover:border-[#C12026] hover:text-[#3E3E3F] md:!flex-none md:!h-full lg:!h-auto lg:!min-h-[3.5rem] xl:!min-h-[4.5rem]",
-  ...OFFER_CHOICE_LABEL_WRAP.split(/\s+/).filter(Boolean).map(
-    (cls) => `[&>span:last-child]:${cls}`
-  ),
-  "[&>span:last-child]:!text-left",
-].join(" ")
+const STEP_RADIO_LABEL_CLASS =
+  "flex min-w-0 flex-1 flex-col !items-start justify-center text-left text-[0.85rem] md:text-sm xl:text-lg font-semibold text-[#3E3E3F] whitespace-normal leading-snug"
+
+const STEP_RADIO_DESCRIPTION_CLASS =
+  "!text-[0.75rem] md:!text-[0.8rem] xl:!text-[0.9rem] font-normal leading-snug text-[#4B5563]"
+
+const STEP_RADIO_SELECTED_BACKGROUND =
+  "linear-gradient(0deg, rgba(193, 32, 38, 0.10) 0%, rgba(193, 32, 38, 0.10) 100%), #FFF"
 
 const INPUT_CONTAINER = "w-full"
 const INPUT_FIELD =
@@ -405,7 +415,36 @@ type SellHouseForCashTypeId = (typeof SELL_HOUSE_FOR_CASH_OPTIONS)[number]["id"]
 
 
 
-const TOTAL_STEPS = 7
+const TOTAL_STEPS = 8
+
+function formatPropertyEstimateDisplay(digits: string): string {
+  const cleaned = digits.replace(/\D/g, "")
+  if (!cleaned) return ""
+  return Number(cleaned).toLocaleString("en-US")
+}
+
+function getPropertyEstimateDigits(value: string): string {
+  return value.replace(/\D/g, "")
+}
+
+function getPropertyEstimateError(
+  value: string,
+  options?: { emptyOnSubmit?: boolean }
+): string {
+  const digits = getPropertyEstimateDigits(value)
+  if (!digits) {
+    return options?.emptyOnSubmit ? PROPERTY_ESTIMATE_EMPTY_ERROR : ""
+  }
+  const amount = Number(digits)
+  if (
+    !Number.isFinite(amount) ||
+    amount < PROPERTY_ESTIMATE_MIN ||
+    amount > PROPERTY_ESTIMATE_MAX
+  ) {
+    return PROPERTY_ESTIMATE_RANGE_ERROR
+  }
+  return ""
+}
 
 const defaultFormData = {
   howSoonToSell: "" as HowSoonToSellTypeId,
@@ -416,6 +455,7 @@ const defaultFormData = {
   creditScore: "" as CreditScoreTypeId,
   listedWithRealtor: "" as ListedWithRealtorTypeId,
   repairsAndMaintenance: "none",
+  propertyEstimate: "",
   first_name: "",
   last_name: "",
   phone_number: "",
@@ -483,7 +523,11 @@ function FormPage() {
 
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "error">("idle")
   const [submitError, setSubmitError] = useState("")
-  const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
+  const [fieldErrors, setFieldErrors] = useState<{
+    email?: string
+    phone?: string
+    propertyEstimate?: string
+  }>({})
   const [partnersOpen, setPartnersOpen] = useState(false)
   const [addressEntryMode, setAddressEntryMode] = useState<"search" | "manual">("search")
 
@@ -549,6 +593,10 @@ function FormPage() {
         normalizeZip(formData.zipCode).length === 5
       )
     }
+    if (currentStep === 7) {
+      return getPropertyEstimateError(formData.propertyEstimate) === ""
+        && getPropertyEstimateDigits(formData.propertyEstimate).length > 0
+    }
     if (currentStep === TOTAL_STEPS) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       return (
@@ -567,6 +615,27 @@ function FormPage() {
     goToStep(currentStep + 1)
   }
 
+  const handlePropertyEstimateChange = (rawValue: string) => {
+    const digits = getPropertyEstimateDigits(rawValue)
+    handleInputChange("propertyEstimate", digits)
+    setFieldErrors((prev) => ({
+      ...prev,
+      propertyEstimate: getPropertyEstimateError(digits) || undefined,
+    }))
+  }
+
+  const handlePropertyEstimateNext = () => {
+    const error = getPropertyEstimateError(formData.propertyEstimate, {
+      emptyOnSubmit: true,
+    })
+    if (error) {
+      setFieldErrors((prev) => ({ ...prev, propertyEstimate: error }))
+      return
+    }
+    setFieldErrors((prev) => ({ ...prev, propertyEstimate: undefined }))
+    handleNext()
+  }
+
   const handleFormKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
     if (e.key !== "Enter") return
     const tag = (e.target as HTMLElement).tagName
@@ -580,6 +649,10 @@ function FormPage() {
     e.preventDefault()
     if (currentStep === 6 && isStepValid()) {
       handleNext()
+      return
+    }
+    if (currentStep === 7) {
+      handlePropertyEstimateNext()
     }
   }
 
@@ -588,6 +661,8 @@ function FormPage() {
     if (currentStep !== TOTAL_STEPS) {
       if (currentStep === 6 && isStepValid()) {
         handleNext()
+      } else if (currentStep === 7) {
+        handlePropertyEstimateNext()
       }
       return
     }
@@ -624,14 +699,18 @@ function FormPage() {
     const certInput = form.elements.namedItem("xxTrustedFormCertUrl") as HTMLInputElement | null
     const tokenInput = form.elements.namedItem("xxTrustedFormToken") as HTMLInputElement | null
 
+    const propertyEstimateDigits = formData.propertyEstimate.replace(/\D/g, "")
+
     const payload = {
       howSoonToSell: formData.howSoonToSell,
+      propertyType: formData.propertyType,
       zipCode: zip,
       sellHouseForCash: formData.sellHouseForCash,
       whenToSell: formData.whenToSell,
       creditScore: formData.creditScore,
       listedWithRealtor: formData.listedWithRealtor,
       repairsAndMaintenance: formData.repairsAndMaintenance,
+      propertyEstimate: propertyEstimateDigits,
       firstName: formData.first_name.trim(),
       lastName: formData.last_name.trim(),
       address: formData.street_address.trim(),
@@ -666,11 +745,16 @@ function FormPage() {
           setFieldErrors({ email: errorMsg })
           setSubmitStatus("error")
           setSubmitError(errorMsg)
-          setCurrentStep(6)
+          setCurrentStep(TOTAL_STEPS)
         } else if (fieldHint === "phoneNumber") {
           setFieldErrors({ phone: errorMsg })
           setSubmitStatus("error")
           setSubmitError(errorMsg)
+          setCurrentStep(TOTAL_STEPS)
+        } else if (fieldHint === "address") {
+          setSubmitStatus("error")
+          setSubmitError(errorMsg)
+          setCurrentStep(6)
         } else {
           setSubmitStatus("error")
           setSubmitError(errorMsg)
@@ -719,7 +803,7 @@ function FormPage() {
             currentStep={currentStep}
             totalSteps={TOTAL_STEPS}
             backgroundColor="#C1202633"
-            foregroundColor="#C12026"
+            foregroundColor="#E71E26"
             
           />
 
@@ -806,7 +890,8 @@ function FormPage() {
                     containerClassName="w-full space-y-0"
                     className="w-full !flex-col gap-3 md:!grid md:grid-cols-2 md:gap-3.5 xl:gap-4.5"
                     optionClassName={STEP_RADIO_OPTION_CLASS}
-                    selectedOptionBackgroundColor="rgba(193, 32, 38, 0.10)"
+                    optionLabelClassName={STEP_RADIO_LABEL_CLASS}
+                    selectedOptionBackground={STEP_RADIO_SELECTED_BACKGROUND}
                     selectedOptionBorderColor="#C12026"
                     selectedIndicatorColor="#C12026"
                   />
@@ -845,7 +930,8 @@ function FormPage() {
                       containerClassName="w-full space-y-0"
                       className="w-full !flex-col gap-3 md:!grid md:grid-cols-2 md:gap-3.5 xl:gap-4.5"
                       optionClassName={STEP_RADIO_OPTION_CLASS}
-                      selectedOptionBackgroundColor="rgba(193, 32, 38, 0.10)"
+                      optionLabelClassName={STEP_RADIO_LABEL_CLASS}
+                      selectedOptionBackground={STEP_RADIO_SELECTED_BACKGROUND}
                       selectedOptionBorderColor="#C12026"
                       selectedIndicatorColor="#C12026"
                     />
@@ -887,7 +973,8 @@ function FormPage() {
                     containerClassName="w-full space-y-0"
                     className="w-full !flex-col gap-3 md:!grid md:grid-cols-2 md:gap-3.5 xl:gap-4.5"
                     optionClassName={STEP_RADIO_OPTION_CLASS}
-                    selectedOptionBackgroundColor="rgba(193, 32, 38, 0.10)"
+                    optionLabelClassName={STEP_RADIO_LABEL_CLASS}
+                    selectedOptionBackground={STEP_RADIO_SELECTED_BACKGROUND}
                     selectedOptionBorderColor="#C12026"
                     selectedIndicatorColor="#C12026"
                   />
@@ -928,8 +1015,10 @@ function FormPage() {
                       }))}
                       containerClassName="w-full space-y-0"
                       className="w-full !flex-col gap-3 md:!grid md:grid-cols-2 md:gap-3.5 xl:gap-4.5"
-                      optionClassName={`${STEP_RADIO_OPTION_CLASS} [&>span:last-child>span:last-child]:!text-[0.75rem] md:[&>span:last-child>span:last-child]:!text-[0.8rem] xl:[&>span:last-child>span:last-child]:!text-[0.9rem]`}
-                      selectedOptionBackgroundColor="rgba(193, 32, 38, 0.10)"
+                      optionClassName={STEP_RADIO_OPTION_CLASS}
+                      optionLabelClassName={STEP_RADIO_LABEL_CLASS}
+                      optionDescriptionClassName={STEP_RADIO_DESCRIPTION_CLASS}
+                      selectedOptionBackground={STEP_RADIO_SELECTED_BACKGROUND}
                       selectedOptionBorderColor="#C12026"
                       selectedIndicatorColor="#C12026"
                     />
@@ -1090,7 +1179,7 @@ function FormPage() {
             </div>
           ) : null}
 
-          {currentStep === TOTAL_STEPS ? (
+          {currentStep === 7 ? (
             <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
               <section
                 className={`${INPUT_CARD_SHELL} relative`}
@@ -1098,16 +1187,75 @@ function FormPage() {
                 data-arohaa-step-name={STEP_NAMES[7]}
               >
                 <FormBackButton onClick={handleBack} />
+                <p className={OFFER_CARD_TITLE}>{PROPERTY_ESTIMATE_TITLE}</p>
+
+                <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-6 xl:gap-7">
+                  <div className="flex w-full flex-col items-start text-left">
+                    <label htmlFor="propertyEstimate" className={ADDRESS_FIELD_LABEL}>
+                      Your estimate
+                    </label>
+                    <div className="relative w-full">
+                      <span className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-sm font-medium text-[#4B5563] xl:text-base">
+                        $
+                      </span>
+                      <TextInput
+                        id="propertyEstimate"
+                        data-arohaa-field="propertyEstimate"
+                        containerClassName={INPUT_CONTAINER}
+                        value={formatPropertyEstimateDisplay(formData.propertyEstimate)}
+                        onChange={(e) => handlePropertyEstimateChange(e.target.value)}
+                        placeholder="Your best guess, e.g. 350,000"
+                        inputMode="numeric"
+                        aria-invalid={fieldErrors.propertyEstimate ? true : undefined}
+                        className={`${INPUT_FIELD} pl-8 xl:pl-9 ${
+                          fieldErrors.propertyEstimate
+                            ? "border-[#E85A2A] focus-visible:border-[#E85A2A] focus-visible:ring-[#E85A2A]/25"
+                            : ""
+                        }`}
+                      />
+                    </div>
+                    {fieldErrors.propertyEstimate ? (
+                      <p
+                        className="mt-2 w-full text-left text-[0.8rem] font-semibold text-[#E85A2A] xl:text-[0.95rem]"
+                        role="alert"
+                      >
+                        {fieldErrors.propertyEstimate}
+                      </p>
+                    ) : null}
+                    <p className={`${OFFER_CARD_DESCRIPTION} !text-left w-full mt-2`}>
+                      {PROPERTY_ESTIMATE_HELPER}
+                    </p>
+                  </div>
+                  <FormNavigation
+                    showNext
+                    fullWidth
+                    showNextIcon
+                    nextLabel="Continue"
+                    onNext={handlePropertyEstimateNext}
+                  />
+                </div>
+              </section>
+            </div>
+          ) : null}
+
+          {currentStep === TOTAL_STEPS ? (
+            <div className="flex w-full items-center justify-center md:max-w-[550px] lg:max-w-[590px] xl:max-w-[720px]">
+              <section
+                className={`${INPUT_CARD_SHELL} relative`}
+                data-arohaa-step="8"
+                data-arohaa-step-name={STEP_NAMES[8]}
+              >
+                <FormBackButton onClick={handleBack} />
                 <p className={OFFER_CARD_TITLE}>{CONTACT_STEP_TITLE}</p>
 
                 <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-6 xl:gap-7">
                   <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 md:gap-3.5">
                     <div className="w-full min-w-0">
-                      <label htmlFor="step7FirstName" className={ADDRESS_FIELD_LABEL}>
+                      <label htmlFor="step8FirstName" className={ADDRESS_FIELD_LABEL}>
                         First name
                       </label>
                       <TextInput
-                        id="step7FirstName"
+                        id="step8FirstName"
                         data-arohaa-field="firstName"
                         containerClassName={INPUT_CONTAINER}
                         value={formData.first_name}
@@ -1117,11 +1265,11 @@ function FormPage() {
                       />
                     </div>
                     <div className="w-full min-w-0">
-                      <label htmlFor="step7LastName" className={ADDRESS_FIELD_LABEL}>
+                      <label htmlFor="step8LastName" className={ADDRESS_FIELD_LABEL}>
                         Last name
                       </label>
                       <TextInput
-                        id="step7LastName"
+                        id="step8LastName"
                         data-arohaa-field="lastName"
                         containerClassName={INPUT_CONTAINER}
                         value={formData.last_name}

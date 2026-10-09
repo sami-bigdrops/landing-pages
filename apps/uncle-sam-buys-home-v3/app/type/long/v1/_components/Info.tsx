@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { ArrowRight } from "lucide-react"
 import { INFO_CONTENT } from "@/lib/constant"
 import { Button as ButtonUI } from "@workspace/ui/components/button"
 
@@ -9,81 +10,50 @@ type InfoProps = {
 }
 
 export default function Info({ onGetQuoteClick }: InfoProps) {
-
-    const renderBadge = (badge: (typeof INFO_CONTENT.badges)[number]) => (
-        <div key={badge.text} className="flex items-center gap-2 ">
-            <Image
-                src={badge.icon}
-                alt="badge icon"
-                width={18}
-                height={18}
-                className="size-[18px] xl:size-5 shrink-0 object-contain"
-            />
-            <span className=" text-[0.8rem] md:text-[0.74rem] xl:text-[0.9rem] font-normal leading-tight text-[#4B5563">
-                {badge.text}
-            </span>
-        </div>
-    )
-
     return (
-        <div
-
-            className="info w-full h-full bg-[#F4F8FC] px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12  xl:px-23 xl:py-15"
-        >
-            <div className="container mx-auto max-w-[1280px]">
-
-
-
-
-                <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row  md:gap-6 lg:gap-10 xl:gap-10">
-                    <div className="left flex flex-col items-center justify-center gap-4 xl:gap-5 md:w-[58%] lg:w-[55%] md:items-start md:justify-center ">
-                        <div className="flex w-full flex-col items-center gap-2.5 md:items-start md:gap-3">
-                            <h2 className="text-2xl text-center font-bold text-[#182542] font-sans md:text-left md:text-2xl xl:text-[2.2rem] lg:max-w-[350px] xl:max-w-[500px]" style={{ lineHeight: '1.3' }}>
-                                {INFO_CONTENT.headline}
-                            </h2>
-
-                            <p className="w-full text-sm font-normal text-[#4B5563] text-center font-sans md:text-left xl:text-lg md:max-w-[350px] lg:max-w-[400px] xl:max-w-[530px]" style={{ lineHeight: '1.6' }}>{INFO_CONTENT.subtext}</p>
-                        </div>
-
-                        <div className="w-full mt-1 xl:mt-2 md:w-[235px] xl:w-[300px] ">
-                            <ButtonUI
-                                type="1"
-                                variant="default"
-                                htmlType="button"
-                                onClick={() => onGetQuoteClick?.()}
-                                className="w-full bg-[#E71E26] text-white font-semibold h-14 xl:h-16 rounded-[10px] text-sm xl:text-lg shadow-[0_0_6px_0_rgba(0,0,0,0.15)] hover:bg-[#E71E26] cursor-pointer transition-all duration-300"
-                            >
-                                GET MY FREE CASH OFFER
-                            </ButtonUI>
-                        </div>
-
-                        <div className="mt-1 flex w-full flex-col items-center gap-3.5 md:mt-1 md:flex-row md:flex-nowrap md:items-start md:justify-start md:gap-y-0 xl:gap-4.5 ">
-                            <div className="flex items-start justify-start gap-x-4 xl:gap-x-5 ">
-                                {INFO_CONTENT.badges.slice(0, 2).map(renderBadge)}
-                            </div>
-                            <div className="flex items-start justify-start ">
-                                {renderBadge(INFO_CONTENT.badges[2])}
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
-                    <div className="right w-full flex flex-col items-center justify-center md:w-[42%] lg:w-[45%]  md:h-[220px] lg:h-[260px] xl:h-[340px] ">
+        <div className="info w-full h-full bg-white px-6 py-12 md:px-8 md:py-12 lg:px-14  xl:px-23 xl:py-15">
+            <div className="container mx-auto max-w-[1360px]">
+                <div className="flex w-full flex-col items-center justify-center gap-4 text-center xl:gap-5">
+                    <div className="flex size-[85px] shrink-0 items-center justify-center overflow-hidden   xl:size-[105px]">
                         <Image
                             src={INFO_CONTENT.image.src}
                             alt={INFO_CONTENT.image.alt}
-                            width={800}
-                            height={560}
-                            className="w-full h-full rounded-[10px] object-cover"
+                            width={96}
+                            height={96}
+                            className="size-full object-cover"
                             priority
                         />
                     </div>
 
+                    <div className="flex w-full max-w-[540px] flex-col items-center gap-2.5 md:gap-3 xl:max-w-[640px]">
+                        <h2
+                            className="text-2xl font-bold text-[#182542] font-sans lg:text-3xl xl:text-[2.6rem]"
+                            style={{ lineHeight: "1.3" }}
+                        >
+                            {INFO_CONTENT.headline}
+                        </h2>
+
+                        <p
+                            className="w-full text-sm font-normal text-[#4B5563] font-sans xl:text-lg"
+                            style={{ lineHeight: "1.6" }}
+                        >
+                            {INFO_CONTENT.subtext}
+                        </p>
+                    </div>
+
+                    <div className="mt-1 w-full max-w-[280px] md:max-w-[220px] xl:mt-2 xl:max-w-[280px]">
+                        <ButtonUI
+                            type="1"
+                            variant="default"
+                            htmlType="button"
+                            onClick={() => onGetQuoteClick?.()}
+                            className="inline-flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-[#E71E26] text-[0.95rem] font-semibold text-white shadow-[0_0_6px_0_rgba(0,0,0,0.15)] transition-all duration-300 hover:bg-[#E71E26] xl:h-16 xl:text-[1.2rem]"
+                        >
+                            Get My Cash Offer
+                            <ArrowRight className="size-4.5 shrink-0 xl:size-5" aria-hidden />
+                        </ButtonUI>
+                    </div>
                 </div>
-
-
             </div>
         </div>
     )

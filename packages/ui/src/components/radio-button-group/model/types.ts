@@ -27,8 +27,11 @@ export interface RadioButtonGroupProps
   hint?: string
   containerClassName?: string
   optionClassName?: string
+  optionLabelClassName?: string
+  optionDescriptionClassName?: string
   labelClassName?: string
   selectedOptionBackgroundColor?: string
+  selectedOptionBackground?: string
   selectedOptionBorderColor?: string
   selectedIndicatorColor?: string
 }

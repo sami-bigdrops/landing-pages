@@ -230,33 +230,27 @@ export const WORKS_CONTENT = {
 
 
 export const STEPS_CONTENT = {
-  headline: "Simple. Fast. Stress-Free.",
+  headline: "Simple. Fast. Sold.",
   subtext:
-    "We've designed our process to be as easy as possible , especially when life is already complicated enough.",
+    "",
   steps: [
     {
       id: 1,
       number: "01",
-      title: "Tell Us About Your Home",
-      description: "Fill out the short form. It takes less than 2 minutes and there's zero obligation.",
+      title: "Simple",
+      description: "One short form. No listing, no open houses, no waiting on a buyer's bank.",
     },
     {
       id: 2,
       number: "02",
-      title: "Receive a Fair Cash Offer",
-      description: "We review your property and deliver a no-obligation cash offer within 24 hours.",
+      title: "Fast",
+      description: "A real cash offer usually within 24 hours, and you can close in as little as 7 days.",
     },
     {
       id: 3,
       number: "03",
-      title: "Choose Your Closing Date",
-      description: "Accept on your terms. We close on your timeline — as fast as 7 days if needed.",
-    },
-    {
-      id: 4,
-      number: "04",
-      title: "Walk Away With Cash",
-      description: "We handle all the paperwork. You get paid and get your fresh start.",
+      title: "Sold",
+      description: "Cash means no financing contingencies. When Bob says sold, it's sold.",
     },
   ],
 } as const;
@@ -317,27 +311,14 @@ export const REVIEW_CONTENT = {
 
 
 export const INFO_CONTENT = {
-  headline: "Whatever Your Situation , There Is a Way Forward.",
-  subtext: "You don't have to figure this out alone. Get a free, no-obligation cash offer and let us help you take the next step , on your terms, at your pace.",
+  headline: "Ready when you are.",
+  subtext: "Two minutes, no obligation, and a real cash number for your house. The worst case is you learn what it’s worth.",
   
-  badges: [
-    {
-      icon: "/hero-1.svg",
-      text: "No Repairs Needed",
-    },
-    {
-      icon: "/hero-2.svg",
-      text: "Zero Fees",
-    },
-    {
-      icon: "/hero-3.svg",
-      text: "100% Confidential",
-    },
-  ],
+
 
   image: {
-    src: "/info.webp", // Update with actual image asset path if different
-    alt: "Family sitting on couch looking at tablet together"
+    src: "/info.svg", // Update with actual image asset path if different
+    alt: "uncle sam buys homes"
   }
 } as const
 

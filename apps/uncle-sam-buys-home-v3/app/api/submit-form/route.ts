@@ -6,10 +6,12 @@ import { geocodeAddress } from "@/lib/geocode-address"
 
 const REQUIRED_FIELDS = [
   "howSoonToSell",
+  "propertyType",
   "sellHouseForCash",
   "listedWithRealtor",
   "whenToSell",
   "creditScore",
+  "propertyEstimate",
   "firstName",
   "lastName",
   "address",
@@ -72,11 +74,13 @@ export async function POST(request: NextRequest) {
 
     const {
       howSoonToSell,
+      propertyType,
       sellHouseForCash,
       listedWithRealtor,
       repairsAndMaintenance,
       whenToSell,
       creditScore,
+      propertyEstimate,
       firstName,
       lastName,
       address,
@@ -164,13 +168,22 @@ export async function POST(request: NextRequest) {
       ? firstForwarded.trim()
       : request.headers.get("x-real-ip") || "unknown"
 
+    const propertyEstimateDigits =
+      typeof propertyEstimate === "string"
+        ? propertyEstimate.replace(/\D/g, "")
+        : String(propertyEstimate ?? "").replace(/\D/g, "")
+    const propertyEstimateValue =
+      propertyEstimateDigits.length > 0 ? Number(propertyEstimateDigits) : undefined
+
     const submittedPayload = {
       howSoonToSell,
+      propertyType,
       sellHouseForCash,
       listedWithRealtor,
       repairsAndMaintenance: repairsAndMaintenance ?? "none",
       whenToSell,
       creditScore,
+      propertyEstimate: propertyEstimateDigits,
       firstName,
       lastName,
       address,
@@ -197,7 +210,7 @@ export async function POST(request: NextRequest) {
     let leadProsperBuyerId = ""
 
     if (hasLeadProsper) {
-      const formData = {
+      const formData: Record<string, unknown> = {
         lp_campaign_id: process.env.LEADPROSPER_CAMPAIGN_ID,
         lp_supplier_id: process.env.LEADPROSPER_SUPPLIER_ID,
         lp_key: process.env.LEADPROSPER_API_KEY,
@@ -212,6 +225,7 @@ export async function POST(request: NextRequest) {
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,
+        property_type: propertyType,
         how_soon_to_sell: howSoonToSell,
         sell_house_for_cash: sellHouseForCash,
         listed_with_realtor: listedWithRealtor,
@@ -225,6 +239,10 @@ export async function POST(request: NextRequest) {
         landing_page_url: request.headers.get("referer") ?? "",
         trustedform_cert_url: xxTrustedFormCertUrl ?? "",
         trustedform_token: xxTrustedFormToken ?? "",
+      }
+
+      if (propertyEstimateValue != null && Number.isFinite(propertyEstimateValue)) {
+        formData.propertyvalue = propertyEstimateValue
       }
 
       const logPayload = { ...formData, lp_key: formData.lp_key ? "[REDACTED]" : "" }

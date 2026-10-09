@@ -26,10 +26,13 @@ function RadioButtonGroup({
   hint,
   containerClassName,
   optionClassName,
+  optionLabelClassName,
+  optionDescriptionClassName,
   labelClassName,
   className,
   disabled,
   selectedOptionBackgroundColor,
+  selectedOptionBackground,
   selectedOptionBorderColor,
   selectedIndicatorColor,
   ...props
@@ -38,9 +41,17 @@ function RadioButtonGroup({
   const fieldsetId = `${id}-fieldset`
   const groupId = `${id}-group`
   const selectedStyle =
-    (type === "1" || type === "3") && (selectedOptionBackgroundColor != null || selectedOptionBorderColor != null)
+    (type === "1" || type === "3") &&
+    (selectedOptionBackground != null ||
+      selectedOptionBackgroundColor != null ||
+      selectedOptionBorderColor != null)
       ? {
-          backgroundColor: selectedOptionBackgroundColor ?? DEFAULT_SELECTED_BG,
+          ...(selectedOptionBackground != null
+            ? { background: selectedOptionBackground }
+            : {
+                backgroundColor:
+                  selectedOptionBackgroundColor ?? DEFAULT_SELECTED_BG,
+              }),
           borderColor: selectedOptionBorderColor ?? DEFAULT_SELECTED_BORDER,
         }
       : undefined
@@ -149,12 +160,18 @@ function RadioButtonGroup({
                 className={cn(
                   "flex min-w-0 flex-col items-start gap-0.5 text-base font-medium",
                   (type === "1" || !isChecked) && "text-foreground",
-                  type !== "1" && isChecked && "text-inherit"
+                  type !== "1" && isChecked && "text-inherit",
+                  optionLabelClassName
                 )}
               >
                 <span>{opt.label}</span>
                 {opt.description != null && opt.description !== "" ? (
-                  <span className="text-sm font-normal leading-snug text-[#4B5563]">
+                  <span
+                    className={cn(
+                      "text-sm font-normal leading-snug text-[#4B5563]",
+                      optionDescriptionClassName
+                    )}
+                  >
                     {opt.description}
                   </span>
                 ) : null}
