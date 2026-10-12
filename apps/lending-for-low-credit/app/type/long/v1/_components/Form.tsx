@@ -921,9 +921,7 @@ function FormPage() {
                   labelClassName="mb-1.5 block w-full text-left text-[0.8rem] font-semibold text-[#142B4A] xl:text-base"
                   dataArohaaField="dob"
                 />
-                <p className="w-full text-left text-[0.75rem] font-medium text-[#6B7280] xl:text-sm">
-                  Format: MM/DD/YYYY
-                </p>
+               
               </div>
             </div>
             <FormNavigation
