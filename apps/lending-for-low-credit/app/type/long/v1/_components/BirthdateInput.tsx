@@ -28,7 +28,7 @@ function formatDateInput(digits: string): string {
 function displayToIso(display: string): string {
   const digits = display.replace(/\D/g, "")
   if (digits.length !== 8) return ""
-  // User enters DD/MM/YYYY
+  // User enters MM/DD/YYYY
   return partsToIso(digits.slice(0, 2), digits.slice(2, 4), digits.slice(4, 8))
 }
 
@@ -118,7 +118,7 @@ export function BirthdateInput({
           autoComplete="bday"
           name={dataArohaaField}
           data-arohaa-field={dataArohaaField}
-          placeholder="DD/MM/YYYY"
+          placeholder="MM/DD/YYYY"
           maxLength={10}
           value={display}
           onChange={handleChange}

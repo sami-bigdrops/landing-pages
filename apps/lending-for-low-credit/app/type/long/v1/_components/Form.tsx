@@ -307,7 +307,7 @@ function AddressAutocomplete({
               className="w-full text-left px-4 py-3 hover:bg-[#fde9ea] transition-colors border-b border-gray-100 last:border-b-0 cursor-pointer"
             >
               <p className="text-sm font-medium text-[#111827] truncate">{pred.structured_formatting.main_text}</p>
-              <p className="text-xs text-[#374151] mt-0.5 truncate">{pred.structured_formatting.secondary_text}</p>
+              <p className="text-xs text-[#475467] mt-0.5 truncate">{pred.structured_formatting.secondary_text}</p>
             </button>
           ))}
         </div>
@@ -360,10 +360,10 @@ const CREDIT_SCORE_OPTIONS = [
 ] as const
 
 const PAY_FREQUENCY_OPTIONS = [
-  { id: "monthly", label: "Monthly" },
-  { id: "twice_a_month", label: "Twice A Month" },
-  { id: "every_other_week", label: "Every Other Week" },
   { id: "weekly", label: "Weekly" },
+  { id: "every_2_weeks", label: "Every 2 Weeks" },
+  { id: "twice_a_month", label: "Twice A Month" },
+  { id: "monthly", label: "Monthly" },
 ] as const
 
 const PRIMARY_INCOME_SOURCE_OPTIONS = [
@@ -422,7 +422,7 @@ const CHOICE_BTN_ACTIVE =
   "border-[#069773] bg-[#E8F6F2] shadow-[0_4px_12px_0_rgba(0,0,0,0.03)]"
 
 const CHOICE_BACK_BTN =
-  "mt-1.5 cursor-pointer border-0 bg-transparent p-0 text-sm font-medium text-[#374151] underline transition-opacity hover:opacity-80 xl:mt-2.5 xl:text-base"
+  "mt-1.5 cursor-pointer border-0 bg-transparent p-0 text-sm font-medium text-[#475467] underline transition-opacity hover:opacity-80 xl:mt-2.5 xl:text-base"
 
 const defaultFormData = {
   zipCode: "",
@@ -489,7 +489,7 @@ function FormNavigation({
         <button
           type="button"
           onClick={onBack}
-          className="cursor-pointer border-0 bg-transparent p-0 text-sm font-medium text-[#374151] underline transition-opacity hover:opacity-80 xl:text-base"
+          className="cursor-pointer border-0 bg-transparent p-0 text-sm font-medium text-[#475467] underline transition-opacity hover:opacity-80 xl:text-base"
         >
           Back
         </button>
@@ -912,13 +912,18 @@ function FormPage() {
           >
             <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
               <h3 className={STEP_TITLE}>What is your date of birth?</h3>
-              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-4 text-center overflow-visible">
+              <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-2 text-left overflow-visible">
                 <BirthdateInput
                   value={formData.date_of_birth}
                   onChange={(iso) => handleInputChange("date_of_birth", iso)}
                   className={INPUT_FIELD}
+                  label="Date of Birth*"
+                  labelClassName="mb-1.5 block w-full text-left text-[0.8rem] font-semibold text-[#142B4A] xl:text-base"
                   dataArohaaField="dob"
                 />
+                <p className="w-full text-left text-[0.75rem] font-medium text-[#6B7280] xl:text-sm">
+                  Format: MM/DD/YYYY
+                </p>
               </div>
             </div>
             <FormNavigation
@@ -1012,7 +1017,7 @@ function FormPage() {
                   maxLength={2}
                   className={INPUT_FIELD}
                 />
-                <p className="text-center text-xs font-normal leading-relaxed text-[#374151] xl:text-sm">
+                <p className="text-center text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
                   Please enter your 2-letter US state abbreviation.
                   <br />
                   Example: CA, TX, FL
@@ -1087,16 +1092,8 @@ function FormPage() {
                     {fieldErrors.phone}
                   </p>
                 ) : null}
-                <p className="text-center text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
-                  By clicking "Next", I hereby provide my express consent to recurring communication at the telephone number provided by Lending for Low Credit and its Marketplace Partners (including parties calling on their behalf) in connection with my loan request, for other marketing purposes, and related to credit or credit-related offers, including contact through automatic dialing systems, artificial or pre-recorded voice messaging, or text message. I understand that my consent applies to these text messages and telemarketing calls even if I have subscribed to a federal, state, or company "Do Not Call" registry. Message and data rates may apply. To opt-out, please reply STOP to the received text message. My check of the preceding box shall be my electronic signature to this consent. I understand that consent is not a condition to utilize our services.{" "}
-                  <Link href="/terms-of-use" className="text-[#0035D5] underline">
-                    Terms of Service
-                  </Link>
-                  {" "} / {" "}
-                  <Link href="/privacy-policy" className="text-[#0035D5] underline">
-                    Privacy Policy
-                  </Link>
-                  {" "}apply.
+                <p className="text-center text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
+                Do not include “1” before your phone number.                  
                 </p>
               </div>
             </div>
@@ -1137,7 +1134,7 @@ function FormPage() {
                     height="18"
                     viewBox="0 0 18 18"
                     fill="none"
-                    className="mt-0.5 h-3.5 w-3.5 shrink-0"
+                    className="mt-0.5 h-3.5 w-3.5 xl:h-4 xl:w-4 shrink-0"
                     aria-hidden
                   >
                     <path
@@ -1145,7 +1142,7 @@ function FormPage() {
                       fill="#213266"
                     />
                   </svg>
-                  <p className="text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
+                  <p className="text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
                     We do a soft pull which <span className="font-bold">does not</span> affect your credit score. We use 256-bit SSL technology to encrypt your data.
                   </p>
                 </div>
@@ -1184,7 +1181,7 @@ function FormPage() {
                   placeholder="$ 0"
                   className={INPUT_FIELD}
                 />
-                <p className="text-center text-xs font-normal leading-relaxed text-[#374151] xl:text-sm">
+                <p className="text-center text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
                   Please enter a whole number only.
                 </p>
               </div>
@@ -1257,7 +1254,7 @@ function FormPage() {
                   placeholder="$0"
                   className={INPUT_FIELD}
                 />
-                <p className="text-center text-xs font-normal leading-relaxed text-[#374151] xl:text-sm">
+                <p className="text-center text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
                   Enter 0 if you have no unsecured debt.
                 </p>
               </div>
@@ -1397,9 +1394,7 @@ function FormPage() {
             <div className="w-full flex flex-col items-center justify-center gap-4 xl:gap-5">
               <div className="flex flex-col items-center justify-center gap-0.5">
                 <h3 className={STEP_TITLE}>What is your monthly income?</h3>
-                <p className="text-center text-xs font-normal leading-relaxed text-[#374151] md:max-w-[320px] xl:max-w-[360px] xl:text-sm">
-                  Alimony, child support, or separate maintenance payments need not be disclosed unless you want it considered as a basis for repayment of the loan.
-                </p>
+               
               </div>
               <div className="flex w-full md:max-w-[320px] xl:max-w-[380px] flex-col gap-2 text-center xl:gap-3.5">
                 <TextInput
@@ -1411,8 +1406,8 @@ function FormPage() {
                   placeholder="$ 0"
                   className={INPUT_FIELD}
                 />
-                <p className="text-center text-[0.7rem] font-normal text-[#374151] xl:text-xs">
-                  You may be asked to verify your income
+                <p className="text-center text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
+                Please enter a whole number.
                 </p>
               </div>
             </div>
@@ -1781,7 +1776,7 @@ function FormPage() {
                       onChange={(e) => setConfirmAccurate(e.target.checked)}
                       className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#069773]"
                     />
-                    <span className="text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
+                    <span className="text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
                       I confirm that the information provided in this form is accurate and complete to the best of my knowledge.
                     </span>
                   </label>
@@ -1792,7 +1787,7 @@ function FormPage() {
                       onChange={(e) => setConfirmUse(e.target.checked)}
                       className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#069773]"
                     />
-                    <span className="text-[0.7rem] font-normal leading-relaxed text-[#374151] xl:text-xs">
+                    <span className="text-xs font-normal leading-relaxed text-[#475467] xl:text-[0.85rem]">
                       I understand that the information provided may be used to process my loan enquiry/application.
                     </span>
                   </label>
@@ -1815,7 +1810,7 @@ function FormPage() {
               <button
                 type="button"
                 onClick={handleBack}
-                className="cursor-pointer border-0 bg-transparent p-0 text-sm font-medium text-[#374151] underline transition-opacity hover:opacity-80 xl:text-base"
+                className="cursor-pointer border-0 bg-transparent p-0 text-sm font-medium text-[#475467] underline transition-opacity hover:opacity-80 xl:text-base"
               >
                 Back
               </button>
