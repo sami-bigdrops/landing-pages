@@ -16,6 +16,9 @@ const REQUIRED_FIELDS = [
   "dob",
 ] as const
 
+const TCPA_TEXT =
+  'By clicking "Submit My Loan Enquiry" I agree to the Lending for Low Credit Terms of Use and Privacy Policy. I authorize Lending for Low Credit and its partners to contact me at the telephone number provided, including through automatic dialing systems, artificial or pre-recorded voice messaging, or text message. Message and data rates may apply. I can opt out anytime by replying STOP. I also provide express written consent under the Fair Credit Reporting Act (FCRA) for Lending for Low Credit and its partners to obtain my consumer credit report and related information from one or more credit bureaus, both now and in the future for a maximum of twelve months, as needed to provide me with personal loan and debt consolidation options. These inquiries will not affect my credit score.'
+
 function isEnvEnabled(value: string | undefined): boolean {
   return value?.trim().toLowerCase() === "true"
 }
@@ -37,6 +40,12 @@ function leadProsperPhoneDigits(phone: string): string {
 
 function normalizeZip(zip: string): string {
   return String(zip).replace(/\D/g, "").slice(0, 5)
+}
+
+function asTrimmedString(value: unknown): string {
+  if (typeof value === "string") return value.trim()
+  if (value == null) return ""
+  return String(value).trim()
 }
 
 function isCaliforniaLead(state: string): boolean {
@@ -79,10 +88,33 @@ export async function POST(request: NextRequest) {
       zipCode,
       dob,
       debtAmount,
+      spendPurpose,
+      creditScore,
+      employmentStatus,
+      payFrequency,
+      currentlyInMilitary,
+      primaryIncomeSource,
+      payReceiveMethod,
+      employerName,
+      monthlyIncome,
+      checkingAccount,
+      directDeposit,
+      homeOwnership,
+      vehicleStatus,
+      militaryAffiliation,
+      unsecuredDebt,
+      vehicleOwnershipStatus,
+      homeImprovementReason,
+      accountType,
+      bankName,
+      routingNumber,
+      accountNumber,
+      ssn,
       subid1,
       subid2,
       subid3,
       xxTrustedFormCertUrl,
+      xxTrustedFormToken,
     } = body
 
     const missingFields = REQUIRED_FIELDS.filter((field) => !body[field]?.trim?.())
@@ -109,7 +141,6 @@ export async function POST(request: NextRequest) {
     const zipHint =
       typeof zipCode === "string" ? normalizeZip(zipCode) : normalizeZip(String(zipCode ?? ""))
 
-    // Resolve city/state/zip from client payload or address geocoding
     const geocoded = await geocodeAddress(String(address).trim(), zipHint)
     const bodyCity = typeof body.city === "string" ? body.city.trim() : ""
     const bodyState =
@@ -160,7 +191,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const emailTrimmed = String(email).trim()
+    const emailTrimmed = String(email ?? "").trim()
+    const ssnDigits = String(ssn ?? "").replace(/\D/g, "")
 
     const submittedFormData = {
       firstName,
@@ -172,10 +204,34 @@ export async function POST(request: NextRequest) {
       phoneNumber,
       zipCode: zipVal,
       dob: dobVal,
+      debtAmount: asTrimmedString(debtAmount),
+      spendPurpose: asTrimmedString(spendPurpose),
+      creditScore: asTrimmedString(creditScore),
+      employmentStatus: asTrimmedString(employmentStatus),
+      payFrequency: asTrimmedString(payFrequency),
+      currentlyInMilitary: asTrimmedString(currentlyInMilitary),
+      primaryIncomeSource: asTrimmedString(primaryIncomeSource),
+      payReceiveMethod: asTrimmedString(payReceiveMethod),
+      employerName: asTrimmedString(employerName),
+      monthlyIncome: asTrimmedString(monthlyIncome),
+      checkingAccount: asTrimmedString(checkingAccount),
+      directDeposit: asTrimmedString(directDeposit),
+      homeOwnership: asTrimmedString(homeOwnership),
+      vehicleStatus: asTrimmedString(vehicleStatus),
+      militaryAffiliation: asTrimmedString(militaryAffiliation),
+      unsecuredDebt: asTrimmedString(unsecuredDebt),
+      vehicleOwnershipStatus: asTrimmedString(vehicleOwnershipStatus),
+      homeImprovementReason: asTrimmedString(homeImprovementReason),
+      accountType: asTrimmedString(accountType),
+      bankName: asTrimmedString(bankName),
+      routingNumber: asTrimmedString(routingNumber),
+      accountNumber: asTrimmedString(accountNumber),
+      ssn: ssnDigits ? "[REDACTED]" : "",
       subid1: subid1 ?? "",
       subid2: subid2 ?? "",
       subid3: subid3 ?? "",
       xxTrustedFormCertUrl: xxTrustedFormCertUrl ?? "",
+      xxTrustedFormToken: xxTrustedFormToken ?? "",
     }
     console.log("[submit-form] Form data submitted:", JSON.stringify(submittedFormData, null, 2))
 
@@ -231,6 +287,8 @@ export async function POST(request: NextRequest) {
       const apiKey = process.env.LEADPROSPER_API_KEY!
       const trustedFormUrl =
         typeof xxTrustedFormCertUrl === "string" ? xxTrustedFormCertUrl.trim() : ""
+      const trustedFormToken =
+        typeof xxTrustedFormToken === "string" ? xxTrustedFormToken.trim() : ""
 
       const formData: Record<string, unknown> = {
         lp_campaign_id: campaignId,
@@ -238,24 +296,45 @@ export async function POST(request: NextRequest) {
         lp_key: apiKey,
         lp_subid1: subid1 ?? "",
         lp_subid2: subid2 ?? "",
+        lp_subid3: subid3 ?? "",
         first_name: String(firstName).trim(),
         last_name: String(lastName).trim(),
         email: emailTrimmed,
         phone: leadProsperPhoneDigits(String(phoneNumber)),
         DOB: isoToLeadProsperDob(dobVal),
-        debt_amount:
-          typeof debtAmount === "string" ? debtAmount.trim() : String(debtAmount ?? "").trim(),
+        ssn: ssnDigits,
         address: String(address).trim(),
         city: resolvedCity,
         state: resolvedState,
         zip_code: zipVal,
+        debt_amount: asTrimmedString(debtAmount),
+        spending_purpose: asTrimmedString(spendPurpose),
+        credit_score: asTrimmedString(creditScore),
+        employment_status: asTrimmedString(employmentStatus),
+        pay_frequency: asTrimmedString(payFrequency),
+        currently_in_military: asTrimmedString(currentlyInMilitary),
+        primary_income_source: asTrimmedString(primaryIncomeSource),
+        pay_receive_method: asTrimmedString(payReceiveMethod),
+        employer_name: asTrimmedString(employerName),
+        monthly_income: asTrimmedString(monthlyIncome),
+        checking_account: asTrimmedString(checkingAccount),
+        direct_deposit: asTrimmedString(directDeposit),
+        home_ownership: asTrimmedString(homeOwnership),
+        vehicle_status: asTrimmedString(vehicleStatus),
+        military_affiliation: asTrimmedString(militaryAffiliation),
+        unsecured_debt: asTrimmedString(unsecuredDebt),
+        vehicle_ownership_status: asTrimmedString(vehicleOwnershipStatus),
+        home_improvement_reason: asTrimmedString(homeImprovementReason),
+        bank_account_type: asTrimmedString(accountType),
+        bank_name: asTrimmedString(bankName),
+        bank_routing_number: asTrimmedString(routingNumber),
+        bank_account_number: asTrimmedString(accountNumber),
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",
         trustedform_cert_url: trustedFormUrl,
-        trustedformtoken: trustedFormUrl,
-        tcpa_text:
-          'By clicking “Check My Options” I also provide express written consent under the Fair Credit Reporting Act (FCRA) for Nationonedebtrelief and its partners to obtain my consumer credit report and related information from one or more credit bureaus, both now and in the future for a maximum of twelve months, as needed to provide me with personal loan and debt consolidation options. These inquiries will not affect my credit score.',
+        trustedformtoken: trustedFormToken || trustedFormUrl,
+        tcpa_text: TCPA_TEXT,
       }
 
       const postResult = await postLeadProsper(formData)

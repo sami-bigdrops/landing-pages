@@ -4,92 +4,11 @@ export const SITE_BRAND = {
     "Lending For Low Credit helps individuals with low credit scores find practical lending and debt relief solutions tailored to their financial needs.",
 } as const
 
-export const COLORS_CONSTANTS = {
-  white: "#FFFFFF",
-  heading: "#111827",
-  description: "#374151",
-} as const
-
-export const FONT = {
-  inter: "Inter",
-  interVariable: "--font-sans",
-} as const
-
-export const COLORS = {
-  textWhite: "text-white",
-  textHeading: "text-[#111827]",
-  textDescription: "text-[#374151]",
-  fontInter: "font-sans",
-} as const
 
 
 
 //  sections constants
 
-
-export const HERO_CONTENT = {
-  headline: "Find a Smarter Way Out of Debt",
-  description: "Answer a few quick questions to see what debt relief options may fit your financial situation.",
-  
-  partners: [
-    { alt: "trustpilot", src: "/hero-1.svg", className: "w-22 md:w-22 lg:w-22 xl:w-28 overflow-hidden object-contain" },
-    { alt: "bbb", src: "/hero-2.svg", className: "w-26 md:w-26 lg:w-26 xl:w-33 overflow-hidden object-contain" },
-    { alt: "google", src: "/hero-3.svg", className: "w-22 md:w-22 lg:w-22 xl:w-28 overflow-hidden object-contain" },
-  ],
-
-  
-} as const
-
-export const RIBBON_CONTENT = {
-  items: [
-    {
-      icon: "/tick.svg",
-      text: "Potentially Reduce Your Debt By Up To 44%*",
-    },
-    {
-      icon: "/tick.svg",
-      text: "Programs Typically Last 24–48 Months*",
-    },
-    {
-      icon: "/tick.svg",
-      text: "Free Consultation. No Upfront Fees.",
-    },
-  ],
-} as const
-
-
-export const FEATURES_CONTENT = {
-  header: "How It Works",
-  steps: [
-    {
-      number: 1,
-      title: "Tell Us About Your Debt",
-      description: "Share a few details about your current debt. A specialist will reach out to understand your situation.",
-      image: {
-        src: "/feature-1.svg",
-        alt: "Debt information icon",
-      },
-    },
-    {
-      number: 2,
-      title: "Get a Plan That Fits",
-      description: "Explore debt relief options shaped around your budget, financial needs and goals.",
-      image: {
-        src: "/feature-2.svg",
-        alt: "Plan fit icon",
-      },
-    },
-    {
-      number: 3,
-      title: "Take Steps Towards Debt Freedom",
-      description: "Follow your personalized plan with support as you work towards reducing your debt.",
-      image: {
-        src: "/feature-3.svg",
-        alt: "Debt freedom icon",
-      },
-    },
-  ],
-} as const
 
 
 
