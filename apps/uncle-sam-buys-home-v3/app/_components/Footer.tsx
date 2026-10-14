@@ -6,17 +6,17 @@ import { FOOTER_CONTENT } from "@/lib/constant"
 export default function Footer() {
   return (
     <FooterUI
-      type="long"
+      type="type-1"
       className="mt-auto"
-      bgColor="#102E50"
+      bgColor="#F8F9FB"
      
       linkHeader={FOOTER_CONTENT.linkHeader}
       links={[...FOOTER_CONTENT.links]}
-      
+      linksClassName="text-black hover:text-black"
       copyrightText={FOOTER_CONTENT.copyrightText}
-      copyrightClassName="text-white text-left md:text-center leading-relaxed"
+      copyrightClassName="text-black text-left md:text-center leading-relaxed"
       disclaimer={FOOTER_CONTENT.disclaimer}
-      disclaimerClassName="max-w-5xl text-left"
+      disclaimerClassName="max-w-5xl text-left text-black"
     />
   )
 }

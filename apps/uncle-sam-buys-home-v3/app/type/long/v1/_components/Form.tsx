@@ -2,7 +2,7 @@
 
 import { Suspense, useState, useRef, useEffect, useCallback, type FormEvent, type KeyboardEvent, type ReactNode } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight, MapPin, ArrowRight } from "lucide-react"
+import { ChevronRight, MapPin, ArrowRight } from "lucide-react"
 
 import { TextInput } from "@workspace/ui/components/text-input"
 import { PhoneNumberInput } from "@workspace/ui/components/phone-number-input"
@@ -501,22 +501,11 @@ function FormNavigation({
   )
 }
 
-const FORM_BACK_BTN_CLASS =
-  "absolute left-5 top-5 md:left-6 md:top-6   xl:left-8 xl:top-6.5 gap-1 flex items-center gap-0.5 border-0 bg-transparent p-0 text-sm font-semibold text-[#355A89] cursor-pointer  xl:text-lg"
-
-function FormBackButton({ onClick }: { onClick: () => void }) {
-  return (
-    <>
-      <button type="button" onClick={onClick} className={FORM_BACK_BTN_CLASS}>
-        <ChevronLeft className="size-5 xl:size-5.5 shrink-0" aria-hidden />
-        Back
-      </button>
-      <div className="w-full shrink-0 pt-4 md:pt-3 lg:pt-2 xl:pt-2 " aria-hidden />
-    </>
-  )
+type FormPageProps = {
+  onStepChange?: (step: number) => void
 }
 
-function FormPage() {
+function FormPage({ onStepChange }: FormPageProps) {
   const [currentStep, setCurrentStep] = useState(1)
   const { enablePush, reportPushEvent, setPushContext } = useBrowserPush()
   const [formData, setFormData] = useState(defaultFormData)
@@ -541,20 +530,16 @@ function FormPage() {
       step_name: STEP_NAMES[currentStep] ?? `Step ${currentStep}`,
     })
     saveFormProgress(currentStep)
+    onStepChange?.(currentStep)
     setPushContext({
       step: currentStep,
       zip: formData.zipCode.trim() || undefined,
     })
-  }, [currentStep, formData.zipCode, setPushContext])
+  }, [currentStep, formData.zipCode, onStepChange, setPushContext])
 
   function goToStep(nextStep: number) {
     setCurrentStep(nextStep)
     saveFormProgress(nextStep)
-  }
-
-  function handleBack() {
-    if (currentStep <= 1) return
-    goToStep(currentStep - 1)
   }
 
   const handleInputChange = (field: keyof typeof defaultFormData, value: string) => {
@@ -868,7 +853,6 @@ function FormPage() {
                 data-arohaa-step="2"
                 data-arohaa-step-name={STEP_NAMES[2]}
               >
-                <FormBackButton onClick={handleBack} />
                 <p className={OFFER_CARD_TITLE}>{HOW_SOON_TO_SELL_TITLE}</p>
                 <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
                   <RadioButtonGroup
@@ -907,7 +891,6 @@ function FormPage() {
                 data-arohaa-step="3"
                 data-arohaa-step-name={STEP_NAMES[3]}
               >
-                <FormBackButton onClick={handleBack} />
                 <p className={OFFER_CARD_TITLE}>{LISTED_WITH_REALTOR_TITLE}</p>
                 <div className="flex w-full flex-col items-center justify-center gap-4 md:gap-5 xl:gap-6.5">
                   <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
@@ -951,7 +934,6 @@ function FormPage() {
                 data-arohaa-step="4"
                 data-arohaa-step-name={STEP_NAMES[4]}
               >
-                <FormBackButton onClick={handleBack} />
                 <p className={OFFER_CARD_TITLE}>{WHEN_TO_SELL_TITLE}</p>
                 <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
                   <RadioButtonGroup
@@ -992,7 +974,6 @@ function FormPage() {
                 data-arohaa-step="5"
                 data-arohaa-step-name={STEP_NAMES[5]}
               >
-                <FormBackButton onClick={handleBack} />
                 <p className={OFFER_CARD_TITLE}>{CREDIT_SCORE_TITLE}</p>
                 <div className="flex w-full flex-col items-center justify-center  gap-4 md:gap-5 xl:gap-6.5">
                   <div className="flex w-full flex-col items-center justify-center gap-3 md:gap-3.5 xl:gap-4.5">
@@ -1038,7 +1019,6 @@ function FormPage() {
                 data-arohaa-step="6"
                 data-arohaa-step-name={STEP_NAMES[6]}
               >
-                <FormBackButton onClick={handleBack} />
                 <p className={OFFER_CARD_TITLE}>{ADDRESS_STEP_TITLE}</p>
 
                 {addressEntryMode === "search" ? (
@@ -1186,7 +1166,6 @@ function FormPage() {
                 data-arohaa-step="7"
                 data-arohaa-step-name={STEP_NAMES[7]}
               >
-                <FormBackButton onClick={handleBack} />
                 <p className={OFFER_CARD_TITLE}>{PROPERTY_ESTIMATE_TITLE}</p>
 
                 <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-6 xl:gap-7">
@@ -1245,7 +1224,6 @@ function FormPage() {
                 data-arohaa-step="8"
                 data-arohaa-step-name={STEP_NAMES[8]}
               >
-                <FormBackButton onClick={handleBack} />
                 <p className={OFFER_CARD_TITLE}>{CONTACT_STEP_TITLE}</p>
 
                 <div className="flex w-full flex-col items-center justify-center gap-5 md:gap-6 xl:gap-7">
@@ -1427,7 +1405,11 @@ function FormPage() {
   )
 }
 
-export default function Form() {
+type FormProps = {
+  onStepChange?: (step: number) => void
+}
+
+export default function Form({ onStepChange }: FormProps) {
   return (
     <Suspense
       fallback={
@@ -1436,7 +1418,7 @@ export default function Form() {
         </div>
       }
     >
-      <FormPage />
+      <FormPage onStepChange={onStepChange} />
     </Suspense>
   )
 }
