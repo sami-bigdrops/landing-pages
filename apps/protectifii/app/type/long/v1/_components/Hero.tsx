@@ -11,11 +11,12 @@ import { track } from "@vercel/analytics";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { HERO_CONTENT } from "@/lib/constant";
+
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://auto-quote.quotifii.com";
+const BASE_URL = "https://protectifii.com";
 const ANALYTICS_FLUSH_DELAY_MS = 300;
 
 export default function Hero() {
@@ -88,130 +89,223 @@ export default function Hero() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div className="relative w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[510px]">
-      <div
-        className="absolute inset-0 w-full h-full"
-        style={{
-          backgroundImage: "url('/hero-bg.webp')",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "left"
-        }}
-      />
-      <div
-        className="absolute inset-0 w-full h-full bg-black/40"
-        aria-hidden
-      />
-      <div className="relative z-10 w-full h-full px-6 sm:px-6 lg:px-8 py-10 md:py-15 md:px-8 lg:py-20 xl:px-23 xl:py-33 2xl:py-38">
-        <div className="container mx-auto ">
-          <div className="hero-content w-full flex flex-col items-center justify-center md:justify-start md:items-start gap-4 md:gap-8 lg:gap-6.5 xl:gap-8 2xl:gap-9 ">
-            <div className="w-full flex flex-col items-center  md:items-start gap-3 xl:gap-4">
-              <h1
-                className="text-[1.45rem] md:text-[1.35rem] lg:text-[1.4rem] xl:text-[1.9rem] 2xl:text-[2.1rem] font-extrabold text-white text-center md:text-left lg:text-left xl:text-left 2xl:text-left font-sans"
-                style={{
-                  lineHeight: "1.3",
-                  textShadow: "0 1px 3px rgba(0,0,0,0.5), 0 2px 12px rgba(0,0,0,0.4), 0 0 1px rgba(0,0,0,0.8)",
-                }}
-              >
-                {headlineText}
-              </h1>
-            </div>
-            <div className="flex-1 w-full flex flex-col md:flex-row  bg-[#FFFFFF] px-5 py-7 md:py-6 xl:px-8 xl:py-9   md:max-w-[450px] lg:max-w-[500px] xl:max-w-[680px] rounded-none justify-center items-center md:justify-center lg:items-center">
-              <div className="w-full flex flex-col items-center md:items-start gap-4 md:gap-4 lg:gap-5 xl:gap-7  ">
-                <p className="text-black font-semibold text-lg xl:text-xl  font-sans">
-                  What is your ZIP Code?
-                </p>
+    <div
+      className="relative w-full h-full bg-[#F8D247]  lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[560px]"
+     
+    >
 
-                <div className="w-full space-y-4 sm:space-y-0 lg:max-w-[490px] xl:max-w-full">
-                  {/* Mobile */}
-                  <form
-                    data-arohaa-zip-form
-                    onSubmit={handleSubmit}
-                    className="block sm:hidden space-y-4"
-                  >
-                    <div className="relative w-full">
-                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                        <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
+
+      <div className="relative z-10 w-full h-full px-6 py-8 md:px-8 md:pt-10 lg:px-14 lg:pt-14 xl:px-23 xl:pt-22 ">
+        <div className="container mx-auto max-w-[1280px] ">
+          <div className="hero-content relative flex w-full flex-col items-center justify-center gap-4 md:flex-row md:items-center md:justify-between ">
+
+            {/* Mobile */}
+
+            <div className="left md:pb-10 lg:pb-14 xl:pb-22 flex w-full h-full md:w-[58%] flex-col items-center justify-center gap-6 md:gap-1.5 md:items-start md:justify-center ">
+
+
+            
+         
+
+              <div className="w-full flex flex-col items-center justify-center md:items-start  gap-2.5 xl:gap-3">
+                <h1
+                  className="text-2xl md:text-[1.6rem]  lg:text-3xl xl:text-5xl  md:max-w-[550px] lg:max-w-[500px] xl:max-w-[650px] font-extrabold text-[#191443] text-center md:text-left font-sans"
+                  style={{
+                    lineHeight: "1.3",
+                  }}
+                >
+           
+                  {HERO_CONTENT.headline}
+                </h1>
+                <p className="text-[#4B4B57] text-center md:text-left font-normal font-sans text-sm  xl:text-[1.19rem]  md:max-w-[350px] lg:max-w-[430px] xl:max-w-[630px] " style={{ lineHeight: "1.6" }}>
+                  {HERO_CONTENT.description}
+                </p>
+              </div>
+
+              <div className="flex w-full max-w-[450px] flex-col items-center gap-6 md:max-w-[450px] md:items-start lg:max-w-[500px] xl:max-w-[680px] xl:gap-5">
+                <div className="flex w-full flex-col items-center justify-center bg-white/80 rounded-[10px] p-4.5">
+           
+                  <div className="w-full  lg:max-w-[490px] xl:max-w-full">
+                    {/* Mobile */}
+                    <form
+                      data-arohaa-zip-form
+                      onSubmit={handleSubmit}
+                      className="block space-y-3 sm:hidden"
+                    >
+                      <div className="relative w-full">
+                        <div className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 transform">
+                          <Image src="/location.svg" alt="location icon" width={20} height={20} className="h-5 w-5 xl:h-6 xl:w-6" />
+                        </div>
+                        <ZipCodeInput
+                          id="hero-zipcode-mobile"
+                          name="zip"
+                          data-arohaa-zip
+                          value={zipCode}
+                          onChange={(value) => setZipCode(value)}
+                          placeholder="90001"
+                          inputClassName="
+                          h-14 pl-10 pr-2 text-[0.9rem] font-normal font-sans
+                          rounded-[10px]
+                          border border-[#D5D2E5]
+                          bg-white
+                          w-full
+                          shadow-[0_0_2px_0_rgba(25,20,67,0.15)]
+                          placeholder:text-[#191443]
+                          focus-visible:ring-0 focus-visible:ring-offset-0
+                        "
+                          containerClassName="w-full"
+                        />
+                      </div>
+                      <Button
+                        type="1"
+                        variant="default"
+                        htmlType="submit"
+                        data-arohaa-zip-submit
+                        disabled={isRedirecting || !zipValid}
+                        className="flex h-14 w-full cursor-pointer items-center justify-center tracking-normal gap-3 rounded-[10px] bg-[#191443] px-8 py-4 font-sans text-[0.9rem] font-medium text-white shadow-[0_0_6px_0_rgba(0,53,153,0.20)] transition-all duration-300 hover:bg-[#191443] disabled:cursor-not-allowed disabled:opacity-90"
+                      >
+                        {isRedirecting ? "Redirecting..." : <>Get My Free Quotes <Image src="/arrow.svg" alt="" width={22} height={22} className="h-4.5 w-4.5 shrink-0" /></>}
+                      </Button>
+                    </form>
+
+                    {/* Desktop */}
+                    <form
+                      data-arohaa-zip-form
+                      onSubmit={handleSubmit}
+                      className="relative hidden w-full sm:block"
+                    >
+                      <div className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 transform">
+                        <Image src="/location.svg" alt="location icon" width={20} height={20} className="h-5 w-5 xl:h-6 xl:w-6" />
                       </div>
                       <ZipCodeInput
-                        id="hero-zipcode-mobile"
+                        id="hero-zipcode"
                         name="zip"
                         data-arohaa-zip
                         value={zipCode}
                         onChange={(value) => setZipCode(value)}
                         placeholder="90001"
                         inputClassName="
-                        h-14 pl-10 pr-2 text-[0.9rem] font-normal font-sans
-                        rounded-[10px]
-                        border border-[#0035994D]
-                        bg-white
-                        w-full
-                        shadow-[0_0_10px_0_rgba(0,53,153,0.15)]
-                        placeholder:text-[#444444]
-                        focus-visible:ring-0 focus-visible:ring-offset-0
-                      "
+                          h-14 md:h-14.5 xl:h-18 pl-10 xl:pl-11 pr-[180px] md:pr-[200px] text-[0.9rem] lg:text-[1.05rem] xl:text-xl font-normal font-sans
+                          rounded-[10px]
+                          border border-[#D5D2E5]
+                          bg-white
+                          w-full
+                          shadow-[0_0_2px_0_rgba(25,20,67,0.15)]
+                          placeholder:text-[#191443]
+                          focus-visible:ring-0 focus-visible:ring-offset-0
+                        "
                         containerClassName="w-full"
                       />
-                    </div>
-                    <Button
-                      type="1"
-                      variant="default"
-                      htmlType="submit"
-                      data-arohaa-zip-submit
-                      disabled={isRedirecting || !zipValid}
-                      className="bg-[#F16601] h-14 w-full cursor-pointer text-white font-medium font-sans rounded-[10px] text-[0.9rem] px-8 py-4 flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed"
-                    >
-                      {isRedirecting ? "Redirecting..." : <>Continue <ArrowRight className="w-5.5 h-5.5" /></>}
-                    </Button>
-                  </form>
+                      <Button
+                        type="1"
+                        variant="default"
+                        htmlType="submit"
+                        data-arohaa-zip-submit
+                        disabled={isRedirecting || !zipValid}
+                        className="absolute right-0 top-0 flex h-14 w-[180px] cursor-pointer items-center justify-center gap-2 rounded-l-none rounded-r-[10px] bg-[#191443] font-sans text-sm font-medium text-white shadow-[0_0_6px_0_rgba(0,53,153,0.20)] transition-all duration-300 hover:bg-[#191443] disabled:cursor-not-allowed disabled:opacity-90 md:h-14.5 md:w-[170px] lg:w-[180px] lg:text-[0.9rem] xl:h-18 xl:w-[225px] xl:text-lg"
+                      >
+                        {isRedirecting ? "Redirecting..." : <>Get My Free Quotes <Image src="/arrow.svg" alt="" width={22} height={22} className="h-5.5 w-5.5 shrink-0 xl:h-7 xl:w-7" /></>}
+                      </Button>
+                    </form>
+                  </div>
+                </div>
 
-                  {/* Desktop */}
-                  <form
-                    data-arohaa-zip-form
-                    onSubmit={handleSubmit}
-                    className="hidden sm:block relative w-full"
-                  >
-                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                      <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
+                {/* Mobile badges: Trustpilot row, then features */}
+                <div className="flex w-full flex-col items-center gap-3.5 md:hidden">
+                  <Image
+                    src={HERO_CONTENT.badge[0].icon}
+                    alt="Trustpilot"
+                    width={208}
+                    height={24}
+                    className="h-5 w-auto object-contain"
+                  />
+                  <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+                    {[HERO_CONTENT.badge[1], HERO_CONTENT.badge[2]].map((badge, index) => (
+                      <div key={badge.text} className="flex items-center gap-2.5">
+                        {index > 0 ? (
+                          <span className="h-1 w-1 shrink-0 rounded-full bg-[#191443]" aria-hidden />
+                        ) : null}
+                        <div className="flex items-center gap-1.5">
+                          <Image
+                            src={badge.icon}
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="size-4.5 shrink-0 object-contain"
+                          />
+                          <span className="font-sans text-[0.82rem] font-semibold text-[#191443]">
+                            {badge.text}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* md+ badges: single horizontal row */}
+                <div className="hidden w-full flex-wrap items-center justify-start gap-x-3 gap-y-2 md:flex xl:gap-x-4">
+                  {HERO_CONTENT.badge.map((badge, index) => (
+                    <div key={"text" in badge ? badge.text : badge.icon} className="flex items-center gap-3 xl:gap-4">
+                      {index > 0 ? (
+                        <span className="size-1 shrink-0 rounded-full bg-[#191443]" aria-hidden />
+                      ) : null}
+                      {"text" in badge && badge.text ? (
+                        <div className="flex items-center gap-1.5 xl:gap-2">
+                          <Image
+                            src={badge.icon}
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="size-4.5 shrink-0 object-contain xl:size-5"
+                          />
+                          <span className="font-sans text-sm font-semibold text-[#191443] xl:text-base">
+                            {badge.text}
+                          </span>
+                        </div>
+                      ) : (
+                        <Image
+                          src={badge.icon}
+                          alt="Trustpilot"
+                          width={208}
+                          height={24}
+                          className="h-5 w-auto object-contain xl:h-6"
+                        />
+                      )}
                     </div>
-                    <ZipCodeInput
-                      id="hero-zipcode"
-                      name="zip"
-                      data-arohaa-zip
-                      value={zipCode}
-                      onChange={(value) => setZipCode(value)}
-                      placeholder="90001"
-                      inputClassName="
-                        h-14 md:h-14.5 xl:h-18 pl-10 xl:pl-11 pr-[180px] md:pr-[200px]  text-[0.9rem] lg:text-[1.05rem] xl:text-xl font-normal font-sans
-                        rounded-[10px]
-                        border border-[#0035994D]
-                        bg-white
-                        w-full
-                        shadow-[0_0_10px_0_rgba(0,53,153,0.15)]
-                        placeholder:text-[#444444]
-                        focus-visible:ring-0 focus-visible:ring-offset-0
-                      "
-                      containerClassName="w-full"
-                    />
-                    <Button
-                      type="1"
-                      variant="default"
-                      htmlType="submit"
-                      data-arohaa-zip-submit
-                      disabled={isRedirecting || !zipValid}
-                      className="absolute right-0 top-0 h-14 md:h-14.5 xl:h-18 w-[180px] md:w-[170px] lg:w-[180px] xl:w-[225px]  rounded-r-[10px] rounded-l-none cursor-pointer text-white font-medium font-sans text-sm lg:text-[0.9rem] xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed bg-[#F16601]"
-                    >
-                      {isRedirecting ? "Redirecting..." : <>Continue <ArrowRight className="w-5.5 h-5.5 xl:w-8 xl:h-8" /></>}
-                    </Button>
-                  </form>
+                  ))}
                 </div>
               </div>
             </div>
+            <div className="hidden md:block right flex w-full items-end justify-center md:absolute md:-right-7 xl:-right-13 md:bottom-0 md:w-[48%]">
+              <Image
+                src={HERO_CONTENT.image.src}
+                alt={HERO_CONTENT.image.alt}
+                width={860}
+                height={1080}
+                priority
+                className="h-auto w-full max-w-[320px] object-contain object-bottom md:max-w-none md:w-[340px] lg:w-[400px] xl:w-[550px]"
+              />
+            </div>
+
+
 
 
           </div>
         </div>
       </div>
+
+
+
+
+
     </div>
+
+
+
+
+
+
+
+
   );
 }

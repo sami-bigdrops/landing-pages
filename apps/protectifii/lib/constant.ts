@@ -1,11 +1,30 @@
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "Let's drop your rate in {city_name} today!",
+  headline: "*Save Up To $900 A Year On Auto Insurance.",
+  description:
+    "Why pay more than you need to? Compare quotes from multiple insurers and find coverage that fits your needs and budget.",
+
+  badge: [
+    {
+      icon: "/hero-1.svg",
+    },
+    {
+      text: "Free to compare",
+      icon: "/hero-2.svg",
+    },
+    {
+      text: "No obligation",
+      icon: "/hero-3.svg",
+    },
+  ],
+    
+   
   image: {
+    alt: "Protectifii",
     src: "/hero.webp",
-    alt: "Quotifii"
   },
+  
  
   
 } as const
