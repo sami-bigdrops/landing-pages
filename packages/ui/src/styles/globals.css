@@ -4,6 +4,7 @@
 @source "../../../bdmg-component/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
 @source not "../../../../apps/**/.next/**";
+@source not "../../../../apps/**/next-env.d.ts";
 
 @import "tw-animate-css";
 
