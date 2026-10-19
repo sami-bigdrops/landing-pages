@@ -11,7 +11,7 @@ export default function Partners() {
         background: "linear-gradient(180deg, #EBF4FF 0%, #FFF 64.52%)"
       }}
     >
-      <div className="container mx-auto">
+      <div className="container mx-auto max-w-[1280px]">
         <div className="partners-content w-full flex flex-col items-center justify-center gap-8 md:gap-8 xl:gap-14">
           <h2 className="text-base lg:text-lg xl:text-xl font-semibold text-[#1A1A1A] text-center font-sans leading-tight tracking-tight">
             {PARTNERS_CONTENT.header}

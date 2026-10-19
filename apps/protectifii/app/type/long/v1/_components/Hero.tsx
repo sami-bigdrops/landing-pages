@@ -90,15 +90,15 @@ export default function Hero() {
 
   return (
     <div
-      className="relative w-full overflow-x-hidden bg-[#F8D247] md:min-h-[370px] lg:min-h-[400px] xl:min-h-[560px] 2xl:min-h-[620px]"
+      className="relative w-full overflow-x-hidden bg-[#F8D247] md:min-h-[370px] lg:min-h-[400px] xl:min-h-[500px] 2xl:min-h-[520px]"
     >
-      <div className="relative z-10 h-full w-full px-6 py-8 md:px-8 md:pb-0 md:pt-10 lg:px-14 lg:pt-14 xl:px-23 xl:pt-22">
+      <div className="relative z-10 h-full w-full px-6 py-8 md:px-8 md:pb-0 md:pt-10 lg:px-14 lg:pt-14 xl:px-23 xl:pt-18 2xl:pt-20">
         <div className="container mx-auto max-w-[1280px]">
           <div className="hero-content relative flex w-full min-w-0 flex-col items-center justify-center gap-4 md:flex-row md:items-center md:justify-between">
 
             {/* Mobile */}
 
-            <div className="left flex h-full w-full flex-col items-center justify-center gap-6 md:w-[55%] md:items-start md:justify-center md:gap-5 lg:gap-6 ">
+            <div className="left lg:pb-18 flex h-full w-full flex-col items-center justify-center gap-6 md:w-[55%] md:items-start md:justify-center md:gap-5 lg:gap-6 xl:gap-8">
 
 
             
@@ -106,7 +106,7 @@ export default function Hero() {
 
               <div className="w-full flex flex-col items-center justify-center md:items-start  gap-2.5 xl:gap-3">
                 <h1
-                  className="text-2xl md:text-[1.6rem]  lg:text-3xl xl:text-5xl  md:max-w-[330px] lg:max-w-[450px] xl:max-w-[650px] font-extrabold text-[#191443] text-center md:text-left font-sans"
+                  className="text-2xl md:text-[1.6rem]  lg:text-3xl xl:text-4xl  md:max-w-[330px] lg:max-w-[450px] xl:max-w-[500px] font-extrabold text-[#191443] text-center md:text-left font-sans"
                   style={{
                     lineHeight: "1.3",
                   }}
@@ -114,13 +114,13 @@ export default function Hero() {
            
                   {HERO_CONTENT.headline}
                 </h1>
-                <p className="text-[#4B4B57] text-center md:text-left font-normal font-sans text-[0.85rem]  xl:text-[1.19rem]  md:max-w-[350px] lg:max-w-[430px] xl:max-w-[630px] " style={{ lineHeight: "1.6" }}>
+                <p className="text-[#4B4B57] text-center md:text-left font-normal font-sans text-[0.85rem]  xl:text-base md:max-w-[350px] lg:max-w-[430px] xl:max-w-[560px] " style={{ lineHeight: "1.6" }}>
                   {HERO_CONTENT.description}
                 </p>
               </div>
 
-              <div className="flex w-full  flex-col items-center gap-6 md:max-w-[500px] md:items-start lg:max-w-[500px] xl:max-w-[680px] xl:gap-5">
-                <div className="flex w-full md:max-w-[380px] lg:max-w-[450px] xl:max-w-full flex-col items-center justify-center bg-white/80 rounded-[10px] p-4.5 md:p-3.5">
+              <div className="flex w-full  flex-col items-center gap-6 md:max-w-[500px] md:items-start lg:max-w-[500px] xl:max-w-[600px] xl:gap-6">
+                <div className="flex w-full md:max-w-[380px] lg:max-w-[470px] xl:max-w-full flex-col items-center justify-center bg-white/80 rounded-[10px] p-4.5 md:p-3.5 lg:p-4 xl:p-5.5">
            
                   <div className="w-full">
                     {/* Mobile */}
@@ -173,7 +173,7 @@ export default function Hero() {
                     >
                       <div className="relative min-w-0 flex-1">
                         <div className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 transform">
-                          <Image src="/location.svg" alt="location icon" width={20} height={20} className="h-5 w-5 xl:h-6 xl:w-6" />
+                          <Image src="/location.svg" alt="location icon" width={20} height={20} className="h-5 w-5 xl:h-5.5 xl:w-5.5" />
                         </div>
                         <ZipCodeInput
                           id="hero-zipcode"
@@ -201,9 +201,9 @@ export default function Hero() {
                         htmlType="submit"
                         data-arohaa-zip-submit
                         disabled={isRedirecting || !zipValid}
-                        className="flex h-14 w-[180px] shrink-0 cursor-pointer items-center justify-center gap-3 rounded-[10px] bg-[#191443] font-sans text-sm font-medium text-white shadow-[0_0_6px_0_rgba(0,53,153,0.20)] transition-all duration-300 hover:bg-[#191443] disabled:cursor-not-allowed disabled:opacity-90 md:h-14.5 md:w-[200px] lg:w-[180px] lg:text-[0.9rem] xl:h-18 xl:w-[225px] xl:text-lg"
+                        className="flex h-14 w-[180px] shrink-0 cursor-pointer items-center justify-center gap-3  rounded-[10px] bg-[#191443] font-sans text-sm font-medium text-white shadow-[0_0_6px_0_rgba(0,53,153,0.20)] transition-all duration-300 hover:bg-[#191443] disabled:cursor-not-allowed disabled:opacity-90 md:h-14.5 md:w-[200px] lg:w-[215px] lg:text-[0.9rem] xl:h-18 xl:w-[255px] xl:text-lg"
                       >
-                        {isRedirecting ? "Redirecting..." : <>Get My Free Quotes <Image src="/arrow.svg" alt="" width={22} height={22} className="h-4.5 w-4.5 shrink-0 xl:h-7 xl:w-7" /></>}
+                        {isRedirecting ? "Redirecting..." : <>Get My Free Quotes <Image src="/arrow.svg" alt="" width={22} height={22} className="h-4.5 w-4.5 shrink-0 xl:h-5.5 xl:w-5.5" /></>}
                       </Button>
                     </form>
                   </div>
@@ -249,7 +249,7 @@ export default function Hero() {
                       className="flex shrink-0 items-center gap-2.5 xl:gap-3"
                     >
                       {index > 0 ? (
-                        <span className="size-1 shrink-0 rounded-full bg-[#191443]" aria-hidden />
+                        <span className="size-1 xl:size-1.5 shrink-0 rounded-full bg-[#191443]" aria-hidden />
                       ) : null}
                       {"text" in badge && badge.text ? (
                         <div className="flex items-center gap-1.5 xl:gap-2">
@@ -258,9 +258,9 @@ export default function Hero() {
                             alt=""
                             width={20}
                             height={20}
-                            className="size-4.5 shrink-0 object-contain xl:size-5"
+                            className="size-4.5 xl:size-5.5 shrink-0 object-contain xl:size-5"
                           />
-                          <span className="font-sans text-[0.79rem] font-semibold text-[#191443] lg:text-[0.82rem] xl:text-base">
+                          <span className="font-sans text-[0.79rem] font-semibold text-[#191443]  xl:text-[0.95rem]">
                             {badge.text}
                           </span>
                         </div>
@@ -282,14 +282,14 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="pointer-events-none absolute bottom-0 right-0 z-[1] hidden h-full items-end justify-end md:flex md:w-[43%] md:-right-12 lg:w-[50%] lg:-right-8 xl:w-[48%] xl:-right-12 2xl:-right-14">
+      <div className="pointer-events-none absolute bottom-0 right-0 z-[1] hidden h-full items-end justify-end md:flex md:w-[43%] md:-right-12 lg:w-[50%] lg:right-8 xl:w-[48%] xl:right-22 2xl:right-72 ">
         <Image
           src={HERO_CONTENT.image.src}
           alt={HERO_CONTENT.image.alt}
           width={860}
           height={1080}
           priority
-          className="h-full max-h-[400px] w-auto max-w-none object-contain object-bottom lg:max-h-[480px] xl:max-h-[560px] 2xl:max-h-[620px]"
+          className="h-full max-h-[400px] w-auto max-w-none object-contain object-bottom lg:max-h-[480px] xl:max-h-[560px] "
         />
       </div>
     </div>
