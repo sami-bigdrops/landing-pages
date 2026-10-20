@@ -136,7 +136,6 @@ export const FOOTER_CONTENT = {
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },
-    { text: "Contact Us", href: "/contact" },
   ],
 
   copyrightText: "Copyright © 2026 Protectifii. All Rights Reserved.",
