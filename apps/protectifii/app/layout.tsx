@@ -52,7 +52,7 @@ export default function RootLayout({
           data-api="https://api.arohaa.net"
           data-lp-id="lp_umO7gQcRqDrlAArv"
           data-page="www.protectifii.com"
-          data-formtype="multiple"
+          data-formtype="zip"
         />
         <script
           type="text/javascript"
