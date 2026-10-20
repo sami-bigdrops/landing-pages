@@ -30,15 +30,15 @@ export const HERO_CONTENT = {
 } as const
 
 export const PARTNERS_CONTENT = {
-  header: "We partner with top providers",
+  
 
   partners: [
-    { alt: "Partner 1", src: "/partner-1.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 2", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 3", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 4", src: "/partner-4.svg", className: "w-16 md:w-15 lg:w-14 xl:w-19 overflow-hidden object-contain" },
-    { alt: "Partner 5", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
-    { alt: "Partner 6", src: "/partner-6.svg", className: "w-28 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
+    { alt: "progressive", src: "/partner-5.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "nationwide", src: "/partner-1.svg", className: "w-30 md:w-28 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "allstate", src: "/partner-2.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "liberty mutual", src: "/partner-3.svg", className: "w-30 md:w-25 lg:w-33 xl:w-46 overflow-hidden object-contain" },
+    { alt: "root insurance", src: "/partner-4.svg", className: "w-16 md:w-14 lg:w-14 xl:w-19 overflow-hidden object-contain" },
+    { alt: "the general", src: "/partner-6.svg", className: "w-27 md:w-28 lg:w-25 xl:w-30 overflow-hidden object-contain" },
   ],
 } as const
 
@@ -55,42 +55,44 @@ export const OPTIONS_CONTENT = {
 
 export const REVIEW_CONTENT = {
   header: "What Our Customers Say",
-  
+
   reviews: [
     {
-     id: 1,
-      quote: "I didn’t expect it to be this simple. I answered a few questions, compared options, and ended up switching to a better rate the same day. Having an agent walk me through everything really helped.",
+      id: 1,
+      quote:
+        '“I was looking for a better auto insurance rate and wanted to compare my options. Protectifii made the process feel simple and straightforward.”',
       customer: {
-        name: "Amanda Reynolds",
-        location: "San Diego, CA",
+        name: "Alex M.",
+        location: "Austin, TX",
         image: {
           src: "/profile-1.svg",
-          alt: "Amanda Reynolds",
+          alt: "Alex M.",
         },
       },
     },
     {
       id: 2,
-      quote: "I liked that I could see different quotes in one place instead of jumping between websites. The process was quick, and I felt confident about the coverage I chose.",
+      quote:
+        '“I appreciated being able to explore different coverage options in one place instead of having to figure everything out on my own.”',
       customer: {
-        name: "Jason M.",
-        location: "Austin, TX",
+        name: "Jordan T.",
+        location: "San Diego, CA",
         image: {
           src: "/profile-2.svg",
-          alt: "Jason M.",
+          alt: "Jordan T.",
         },
       },
     },
     {
-     
       id: 3,
-      quote: "I was paying way more than I should have. Quotifii helped me find a more affordable option in minutes, and the agent explained everything clearly. Super easy experience.",
+      quote:
+        '“The experience was easy to follow, and I liked having the chance to look into my options without feeling pressured to make a decision.”',
       customer: {
-        name: "Priya S",
-        location: "Edison, NJ",
+        name: "Taylor R.",
+        location: "Chicago, IL",
         image: {
           src: "/profile-3.svg",
-          alt: "Priya S",
+          alt: "Taylor R.",
         },
       },
     },
@@ -98,21 +100,21 @@ export const REVIEW_CONTENT = {
 } as const
 
 export const FEATURES_CONTENT = {
-  header: "A Smarter Way To Shop For Coverage",
+  header: "Better Coverage. More Ways To Save.",
   steps: [
     {
       number: 1,
-      title: "Multi-Vehicle Savings",
-      description: "One household, more than one car? Bundle options in seconds and see what changes.",
+      title: "Multi-Vehicle Discounts",
+      description: "More than one car? Explore insurance options that could help you save when you cover multiple vehicles under one policy.",
       image: {
         src: "/feature-1.svg",
-        alt: "Multi-Vehicle Savings",
+        alt: "Multi-Vehicle Discounts",
       },
     },
     {
       number: 2,
       title: "Safe Driver Discounts",
-      description: "If you drive sensibly, your rate should notice. We help you spot discounts you may qualify for.",
+      description: "Your good driving record could mean lower premiums. Compare insurers that may reward you for driving safely.",
       image: {
         src: "/feature-2.svg",
         alt: "Safe Driver Discounts",
@@ -120,11 +122,11 @@ export const FEATURES_CONTENT = {
     },
     {
       number: 3,
-      title: "24/7 Roadside Assistance",
-      description: "Flat tire, dead battery, surprise breakdown. Check plans that keep help a call away, day or night.",
+      title: "Roadside Assistance",
+      description: "Flat tyres, unexpected breakdowns or dead batteries? Explore coverage options that include roadside assistance when you need it.",
       image: {
         src: "/feature-3.svg",
-        alt: "24/7 Roadside Assistance",
+        alt: "Roadside Assistance",
       },
     },
   ],
