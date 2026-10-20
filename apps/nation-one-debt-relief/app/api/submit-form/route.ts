@@ -5,7 +5,12 @@ import { verifyEmailWithHunter } from "@/lib/hunter-verify-email"
 import { geocodeAddress } from "@/lib/geocode-address"
 import { isValidDob } from "@/lib/validate-dob"
 import { isoToLeadProsperDob } from "@/lib/dob-format"
-import { postLeadProsper } from "@/lib/leadprosper"
+import {
+  getSafeHttpRedirectUrl,
+  logLeadProsperInvalidResponse,
+  logLeadProsperResponse,
+  postLeadProsper,
+} from "@/lib/leadprosper"
 
 const REQUIRED_FIELDS = [
   "firstName",
@@ -262,15 +267,7 @@ export async function POST(request: NextRequest) {
       const postResult = await postLeadProsper(formData)
 
       if (!postResult.ok) {
-        console.error(
-          "[submit-form] LeadProsper DIRECT_POST status: NOT RECEIVED (invalid JSON response)"
-        )
-        if (postResult.raw) {
-          console.error(
-            "[submit-form] LeadProsper DIRECT_POST invalid JSON:",
-            postResult.raw
-          )
-        }
+        logLeadProsperInvalidResponse(postResult.raw)
         return NextResponse.json(
           {
             success: false,
@@ -282,6 +279,7 @@ export async function POST(request: NextRequest) {
       }
 
       const result = postResult.data
+      logLeadProsperResponse(result)
 
       if (result.status === "ERROR") {
         leadProsperStatus = {
@@ -289,9 +287,12 @@ export async function POST(request: NextRequest) {
           status: result.status,
           reason: result.message ?? "error",
         }
-        console.log(
-          `[submit-form] LeadProsper status: NOT RECEIVED (${result.status}${result.code != null ? `, code ${result.code}` : ""}${result.message ? ` — ${result.message}` : ""})`
-        )
+        const leadProsperRedirectUrl = getSafeHttpRedirectUrl(result.redirect_url)
+        if (leadProsperRedirectUrl) {
+          console.log(
+            `[submit-form] LeadProsper fallback redirect on reject: ${leadProsperRedirectUrl}`
+          )
+        }
         const code = result.code
         const qs =
           typeof code === "number" && Number.isFinite(code)
@@ -303,6 +304,7 @@ export async function POST(request: NextRequest) {
             rejected: true,
             redirectUrl: `/rejected${qs}`,
             leadProsper: leadProsperStatus,
+            leadProsperRedirectUrl,
           },
           { status: 200 }
         )
@@ -315,9 +317,6 @@ export async function POST(request: NextRequest) {
           status: result.status,
           reason: "unexpected_status",
         }
-        console.log(
-          `[submit-form] LeadProsper status: NOT RECEIVED (unexpected status: ${result.status ?? "none"})`
-        )
         return NextResponse.json(
           {
             success: false,
@@ -333,7 +332,6 @@ export async function POST(request: NextRequest) {
         received: true,
         status: result.status,
       }
-      console.log(`[submit-form] LeadProsper status: RECEIVED (${result.status})`)
     } else {
       console.log("[submit-form] LeadProsper status: NOT SENT (LeadProsper env not configured)")
     }

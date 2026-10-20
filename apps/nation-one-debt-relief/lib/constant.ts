@@ -177,6 +177,7 @@ export const REJECTED_PAGE_CONTENT = {
     "We weren't able to match your property with a buyer at this time.",
   defaultDetail:
     "Please double-check your details and try again later.",
+  redirectCountdownLabel: "We will redirect you in",
   codeMessages: {
     1013:
       "This request couldn't be verified. Please review your details and try again.",

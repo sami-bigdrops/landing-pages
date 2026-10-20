@@ -21,6 +21,7 @@ import {
   FORM_STEP_NAMES,
   trackArohaa,
 } from "@/lib/arohaa"
+import { LEADPROSPER_REDIRECT_STORAGE_KEY } from "@/lib/leadprosper"
 import { BirthdateInput } from "./BirthdateInput"
 import { PartnersDialog } from "./PartnersDialog"
 
@@ -547,8 +548,10 @@ function FormPage() {
       const data = (await res.json()) as {
         error?: string
         success?: boolean
+        rejected?: boolean
         redirectUrl?: string
         field?: string
+        leadProsperRedirectUrl?: string | null
         leadProsper?: {
           received: boolean
           status?: string
@@ -588,17 +591,32 @@ function FormPage() {
 
       if (data.success) {
         trackArohaa("form_submit")
+        const isRejected = data.rejected === true
         try {
-          sessionStorage.setItem(AROHAA_SUBMITTED_KEY, "1")
+          if (!isRejected) {
+            sessionStorage.setItem(AROHAA_SUBMITTED_KEY, "1")
+          }
+          if (
+            isRejected &&
+            typeof data.leadProsperRedirectUrl === "string" &&
+            data.leadProsperRedirectUrl.length > 0
+          ) {
+            sessionStorage.setItem(
+              LEADPROSPER_REDIRECT_STORAGE_KEY,
+              data.leadProsperRedirectUrl
+            )
+          } else {
+            sessionStorage.removeItem(LEADPROSPER_REDIRECT_STORAGE_KEY)
+          }
         } catch {
           /* ignore */
         }
-        const thankYouUrl =
+        const nextUrl =
           typeof data.redirectUrl === "string" && data.redirectUrl.length > 0
             ? data.redirectUrl
             : `/thankyou?email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(formData.first_name.trim())}`
-        redirectUrlRef.current = thankYouUrl
-        redirectToThankYou(thankYouUrl)
+        redirectUrlRef.current = nextUrl
+        redirectToThankYou(nextUrl)
         return
       }
 

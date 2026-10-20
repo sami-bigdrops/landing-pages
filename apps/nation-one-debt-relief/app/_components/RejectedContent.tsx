@@ -1,10 +1,18 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { AlertTriangle } from "lucide-react"
 
 import { REJECTED_PAGE_CONTENT } from "@/lib/constant"
+import {
+  getSafeHttpRedirectUrl,
+  LEADPROSPER_REDIRECT_DELAY_MS,
+  LEADPROSPER_REDIRECT_STORAGE_KEY,
+} from "@/lib/leadprosper"
+
+const REDIRECT_SECONDS = Math.round(LEADPROSPER_REDIRECT_DELAY_MS / 1000)
 
 export function RejectedContent() {
   const searchParams = useSearchParams()
@@ -13,6 +21,57 @@ export function RejectedContent() {
   const hasCode = Number.isFinite(code)
   const mapped = hasCode ? REJECTED_PAGE_CONTENT.codeMessages[code] : undefined
   const detail = mapped ?? REJECTED_PAGE_CONTENT.defaultDetail
+
+  const [redirectUrl, setRedirectUrl] = useState<string | null>(null)
+  const [secondsLeft, setSecondsLeft] = useState(REDIRECT_SECONDS)
+
+  useEffect(() => {
+    let stored = ""
+    try {
+      stored = sessionStorage.getItem(LEADPROSPER_REDIRECT_STORAGE_KEY) ?? ""
+    } catch {
+      return
+    }
+
+    const safeUrl = getSafeHttpRedirectUrl(stored)
+    if (!safeUrl) {
+      try {
+        sessionStorage.removeItem(LEADPROSPER_REDIRECT_STORAGE_KEY)
+      } catch {
+        /* ignore */
+      }
+      return
+    }
+
+    setRedirectUrl(safeUrl)
+  }, [])
+
+  useEffect(() => {
+    if (!redirectUrl) return
+
+    setSecondsLeft(REDIRECT_SECONDS)
+    const startedAt = Date.now()
+
+    const interval = window.setInterval(() => {
+      const elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000)
+      const remaining = Math.max(REDIRECT_SECONDS - elapsedSeconds, 0)
+      setSecondsLeft(remaining)
+
+      if (remaining <= 0) {
+        window.clearInterval(interval)
+        try {
+          sessionStorage.removeItem(LEADPROSPER_REDIRECT_STORAGE_KEY)
+        } catch {
+          /* ignore */
+        }
+        window.location.assign(redirectUrl)
+      }
+    }, 250)
+
+    return () => window.clearInterval(interval)
+  }, [redirectUrl])
+
+  const secondLabel = secondsLeft === 1 ? "second" : "seconds"
 
   return (
     <main className="flex w-full flex-1 flex-col bg-gradient-to-b from-slate-100/90 via-white to-slate-50">
@@ -28,6 +87,22 @@ export function RejectedContent() {
             <h1 className="mt-5 text-center text-2xl font-bold tracking-tight text-[#1e3a5f] sm:mt-6 sm:text-[1.65rem] sm:leading-tight">
               {REJECTED_PAGE_CONTENT.title}
             </h1>
+
+            <p className="mt-4 text-center text-sm leading-relaxed text-slate-600 sm:text-[0.95rem]">
+              {detail}
+            </p>
+
+            {redirectUrl ? (
+              <p
+                className="mt-5 text-center text-sm font-medium text-[#1e3a5f] sm:text-base"
+                aria-live="polite"
+              >
+                {REJECTED_PAGE_CONTENT.redirectCountdownLabel}{" "}
+                <span className="tabular-nums font-bold">{secondsLeft}</span>{" "}
+                {secondLabel}
+              </p>
+            ) : null}
+
             <div className="mt-7 flex justify-center">
               <Link
                 href="/"
