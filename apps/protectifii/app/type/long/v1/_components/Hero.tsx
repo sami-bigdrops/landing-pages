@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import {
   useUtmParams,
   setCookie,
@@ -13,11 +13,15 @@ import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
 import { HERO_CONTENT } from "@/lib/constant";
 
-
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
 const BASE_URL = "https://autoquotes.protectifii.com";
 const ANALYTICS_FLUSH_DELAY_MS = 300;
+const ZIP_PATTERN = /^\d{5}$/;
+
+function normalizeZip(value: string) {
+  return value.replace(/\D/g, "").slice(0, 5);
+}
 
 export default function Hero() {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
@@ -33,22 +37,22 @@ export default function Hero() {
       .then((data) => {
         if (cancelled) return;
         const city = data?.city != null ? String(data.city).trim() : null;
-        const zip = data?.zip != null ? String(data.zip).replace(/\D/g, "").slice(0, 5) : null;
+        const zip = data?.zip != null ? normalizeZip(String(data.zip)) : null;
         if (city) setCityName(city);
         if (zip && zip.length === 5) {
           setZipCode((prev) => (prev === "" ? zip : prev));
         }
       })
-      .catch(() => { });
-    return () => { cancelled = true };
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
-    if (!/^\d{5}$/.test(trimmed)) {
+    const trimmed = normalizeZip(zipCode);
+    if (!ZIP_PATTERN.test(trimmed)) {
       alert("Please enter a valid 5-digit ZIP code");
       return;
     }
@@ -84,7 +88,7 @@ export default function Hero() {
     }, ANALYTICS_FLUSH_DELAY_MS);
   };
 
-  const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
+  const zipValid = ZIP_PATTERN.test(normalizeZip(zipCode));
 
   return (
     <div
@@ -93,15 +97,7 @@ export default function Hero() {
       <div className="relative z-10 h-full w-full px-6 py-8 md:px-8 md:pb-0 md:pt-10 lg:px-14 lg:pt-14 xl:px-23 xl:pt-18 2xl:pt-20">
         <div className="container mx-auto max-w-[1280px]">
           <div className="hero-content relative flex w-full min-w-0 flex-col items-center justify-center gap-4 md:flex-row md:items-center md:justify-between">
-
-            
-
             <div className="left lg:pb-18 flex h-full w-full flex-col items-center justify-center gap-6 md:w-[55%] md:items-start md:justify-center md:gap-5 lg:gap-6 xl:gap-8">
-
-
-            
-         
-
               <div className="w-full flex flex-col items-center justify-center md:items-start  gap-2.5 xl:gap-3">
                 <h1
                   className="text-2xl md:text-[1.6rem]  lg:text-3xl xl:text-4xl  md:max-w-[330px] lg:max-w-[450px] xl:max-w-[500px] font-extrabold text-[#191443] text-center md:text-left font-sans"
@@ -109,7 +105,6 @@ export default function Hero() {
                     lineHeight: "1.3",
                   }}
                 >
-           
                   {HERO_CONTENT.headline}
                 </h1>
                 <p className="text-[#4B4B57] text-center md:text-left font-normal font-sans text-[0.85rem]  xl:text-base md:max-w-[350px] lg:max-w-[430px] xl:max-w-[560px] " style={{ lineHeight: "1.6" }}>
@@ -119,7 +114,6 @@ export default function Hero() {
 
               <div className="flex w-full  flex-col items-center gap-6 md:max-w-[500px] md:items-start lg:max-w-[500px] xl:max-w-[600px] xl:gap-6">
                 <div className="flex w-full md:max-w-[380px] lg:max-w-[470px] xl:max-w-full flex-col items-center justify-center bg-white/80 rounded-[10px] p-4.5 md:p-3.5 lg:p-4 xl:p-5.5">
-           
                   <div className="w-full">
                     {/* Mobile */}
                     <form
@@ -291,13 +285,5 @@ export default function Hero() {
         />
       </div>
     </div>
-
-
-
-
-
-
-
-
   );
 }

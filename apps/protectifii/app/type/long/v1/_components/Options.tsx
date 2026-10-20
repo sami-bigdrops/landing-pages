@@ -1,10 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { OPTIONS_CONTENT, HERO_CONTENT } from "@/lib/constant";
-import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
-import { Button } from "@workspace/ui/components/button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import {
   useUtmParams,
   setCookie,
@@ -12,14 +8,20 @@ import {
   QUOTIFII_EXTENDED_UTM_OPTIONS,
 } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
+import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
+import { Button } from "@workspace/ui/components/button";
+import Image from "next/image";
+import { OPTIONS_CONTENT, HERO_CONTENT } from "@/lib/constant";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
 const BASE_URL = "https://quote.cheapautoinsuranceoptions.com";
 const ANALYTICS_FLUSH_DELAY_MS = 300;
+const ZIP_PATTERN = /^\d{5}$/;
 
-
-
+function normalizeZip(value: string) {
+  return value.replace(/\D/g, "").slice(0, 5);
+}
 
 export default function Options() {
   useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
@@ -34,20 +36,22 @@ export default function Options() {
       .then((data) => {
         if (cancelled) return;
         const city = data?.city != null ? String(data.city).trim() : null;
-        const zip = data?.zip != null ? String(data.zip).replace(/\D/g, "").slice(0, 5) : null;
+        const zip = data?.zip != null ? normalizeZip(String(data.zip)) : null;
         if (city) setCityName(city);
         if (zip && zip.length === 5) {
           setZipCode((prev) => (prev === "" ? zip : prev));
         }
       })
-      .catch(() => { });
-    return () => { cancelled = true };
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const trimmed = zipCode.replace(/\D/g, "").slice(0, 5);
-    if (!/^\d{5}$/.test(trimmed)) {
+    const trimmed = normalizeZip(zipCode);
+    if (!ZIP_PATTERN.test(trimmed)) {
       alert("Please enter a valid 5-digit ZIP code");
       return;
     }
@@ -73,7 +77,7 @@ export default function Options() {
     }, ANALYTICS_FLUSH_DELAY_MS);
   };
 
-  const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
+  const zipValid = ZIP_PATTERN.test(normalizeZip(zipCode));
 
   return (
     <div className="options bg-[#FFFFFF] w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-23 xl:py-16">
@@ -88,7 +92,6 @@ export default function Options() {
 
           <div className="flex w-full md:w-[52%]  xl:w-[50%]  flex-col items-center gap-6 md:max-w-[500px] md:items-start lg:max-w-[500px] xl:max-w-[600px] xl:gap-6">
             <div className="flex w-full md:max-w-[380px] lg:max-w-[470px] xl:max-w-full flex-col items-center justify-center bg-[#F5F5F8] rounded-[10px] p-4.5 md:p-3.5 lg:p-4 xl:p-5.5">
-
               <div className="w-full">
                 {/* Mobile */}
                 <form
@@ -132,7 +135,6 @@ export default function Options() {
                   </Button>
                 </form>
 
-                {/* Desktop */}
                 <form
                   data-arohaa-zip-form
                   onSubmit={handleSubmit}
@@ -176,7 +178,7 @@ export default function Options() {
               </div>
             </div>
 
-            {/* Mobile: Trustpilot, then Free to compare • No obligation */}
+            {/* Mobile screen badges */}
             <div className="flex w-full flex-col items-center gap-3.5 md:hidden">
               <Image
                 src={HERO_CONTENT.badge[0].icon}
@@ -214,7 +216,7 @@ export default function Options() {
               </div>
             </div>
 
-            {/* md: Trustpilot • Free to compare, then No obligation */}
+            {/* md screen  badges */}
             <div className="hidden w-full flex-col items-center gap-3.5 md:flex lg:hidden">
               <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
                 <Image
@@ -252,7 +254,7 @@ export default function Options() {
               </div>
             </div>
 
-            {/* lg+: all badges in one horizontal row */}
+            {/* lg screen onwards badges */}
             <div className="hidden w-full items-center justify-center gap-x-2.5 whitespace-nowrap lg:flex lg:justify-start xl:gap-x-4">
               {HERO_CONTENT.badge.map((badge, index) => (
                 <div
@@ -289,9 +291,6 @@ export default function Options() {
             </div>
           </div>
         </div>
-
-
-
       </div>
     </div>
   );
