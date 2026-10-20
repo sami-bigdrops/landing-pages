@@ -43,13 +43,10 @@ export const PARTNERS_CONTENT = {
 } as const
 
 export const OPTIONS_CONTENT = {
-  header: "A Better Rate Could Be Waiting In Your ZIP",
-  description: "Tell us the basics and we’ll line up options worth a look.",
+  header: "Your Next Auto Insurance Quote Could Save You Hundreds.",
+  description: "Enter your ZIP code, compare available rates and see how much you could save on your auto insurance.",
 
-  image: {
-    src: "/quokka.webp",
-    alt: "Quokka Image",
-  },
+
   
 } as const
 
@@ -139,16 +136,17 @@ export const FOOTER_CONTENT = {
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },
-    { text: "Contact ", href: "/contact" },
+    { text: "Contact Us", href: "/contact" },
   ],
 
-  copyrightText: "Copyright © 2026 Quotifii. All Rights Reserved.",
+  copyrightText: "Copyright © 2026 Protectifii. All Rights Reserved.",
+  disclaimerText: "*Savings estimates are based on initial quotes from customers who requested insurance quotes through our website. Your actual savings may differ based on your state, personal circumstances, coverage choices, and insurance provider. Individual results are not guaranteed.",
 } as const
 
 export const THANKYOU_CONTENT = {
   title: "Thank you!",
   subtitle:
-    "Your request has been received. A vehicle protection specialist will contact you shortly with your quote.",
+    "Your request has been received. A licensed auto insurance specialist will reach out to you soon with your personalized quotes.",
   confirmationTitle:
     "A confirmation message has been sent to your email address.",
   confirmationDescription:

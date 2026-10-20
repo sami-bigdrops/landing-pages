@@ -96,7 +96,7 @@ export default function Hero() {
         <div className="container mx-auto max-w-[1280px]">
           <div className="hero-content relative flex w-full min-w-0 flex-col items-center justify-center gap-4 md:flex-row md:items-center md:justify-between">
 
-            {/* Mobile */}
+            
 
             <div className="left lg:pb-18 flex h-full w-full flex-col items-center justify-center gap-6 md:w-[55%] md:items-start md:justify-center md:gap-5 lg:gap-6 xl:gap-8">
 

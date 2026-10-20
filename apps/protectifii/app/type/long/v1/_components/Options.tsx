@@ -1,22 +1,28 @@
 "use client";
 
 import Image from "next/image";
-import { OPTIONS_CONTENT } from "@/lib/constant";
+import { OPTIONS_CONTENT, HERO_CONTENT } from "@/lib/constant";
 import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import { useState, useEffect } from "react";
-import { setCookie, getCookie } from "@workspace/lp-core";
+import {
+  useUtmParams,
+  setCookie,
+  getCookie,
+  QUOTIFII_EXTENDED_UTM_OPTIONS,
+} from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
-import { ArrowRight } from "lucide-react";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const REDIRECT_BASE_URL = "https://auto.assurerates.com";
-const REFERRER = "quotes.assurerates.com";
-const TID = "3286";
+const BASE_URL = "https://quote.cheapautoinsuranceoptions.com";
 const ANALYTICS_FLUSH_DELAY_MS = 300;
 
+
+
+
 export default function Options() {
+  useUtmParams(QUOTIFII_EXTENDED_UTM_OPTIONS);
   const [zipCode, setZipCode] = useState("");
   const [cityName, setCityName] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -48,28 +54,16 @@ export default function Options() {
 
     setCookie(ZIP_COOKIE_NAME, trimmed, ZIP_COOKIE_DAYS);
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const utmSource =
-      getCookie("subid1") || urlParams.get("sid") || urlParams.get("utm_source") || "";
-    const utmId =
-      getCookie("subid2") ||
-      urlParams.get("tid") ||
-      urlParams.get("uid") ||
-      urlParams.get("utm_id") ||
-      "";
-    const utmS1 =
-      getCookie("subid3") || urlParams.get("sub1") || urlParams.get("utm_s1") || "";
-
-    const params = new URLSearchParams({
-      zip_code: trimmed,
-      referrer: REFERRER,
-      tid: TID,
-    });
-    if (utmSource) params.set("subid", utmSource);
-    if (utmId) params.set("subid2", utmId);
-    if (utmS1) params.set("c1", utmS1);
-
-    const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
+    const utmSource = getCookie("subid1") || "";
+    const utmId = getCookie("subid2") || "";
+    const utmS1 = getCookie("subid3") || "";
+    const params = new URLSearchParams();
+    params.set("tid", utmId);
+    params.set("uid", utmId);
+    params.set("sid", utmSource);
+    params.set("sub1", utmS1);
+    params.set("zip", trimmed);
+    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
 
@@ -82,118 +76,184 @@ export default function Options() {
   const zipValid = /^\d{5}$/.test(zipCode.replace(/\D/g, "").slice(0, 5));
 
   return (
-    <div
-      className="options relative w-full h-full overflow-visible px-4 py-8 md:px-6 md:py-10 lg:px-14 lg:py-12 xl:px-20 xl:py-25"
-      style={{
-        background: "linear-gradient(0deg, #EBF4FF 36.53%, #FFF 100%)"
-      }}
-    >
-      <div className="container mx-auto relative">
-        <div className="options-content relative w-full flex flex-col md:flex-row items-center justify-center md:justify-end gap-6 md:gap-0">
-          <div className="hidden md:block absolute left-0 md:-bottom-65 md:-left-10 lg:-bottom-74 lg:-left-1 xl:-bottom-100 xl:-left-2 z-0 w-[38%] h-auto md:w-[360px]  lg:w-[420px] xl:w-[500px] pointer-events-none">
-            <Image
-              src={OPTIONS_CONTENT.image.src}
-              alt={OPTIONS_CONTENT.image.alt}
-              width={500}
-              height={500}
-              className="w-full h-full object-contain object-left-bottom"
-              style={{ objectPosition: "left bottom" }}
-            />
+    <div className="options bg-[#FFFFFF] w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-23 xl:py-16">
+      <div className="mx-auto w-full max-w-[1280px]">
+        <div className="options-content w-full flex flex-col md:flex-row items-center justify-center md:justify-start md:items-center lg:items-start gap-6 md:gap-6 lg:gap-10 xl:gap-14">
+          <div className="flex flex-col items-center justify-center  md:items-start md:justify-start gap-2.5 xl:gap-4  md:w-[48%]  xl:w-[50%]">
+            <h2 className="w-full text-2xl md:text-2xl xl:text-3xl   font-extrabold text-[#191443] text-center md:text-left  font-sans xl:max-w-[500px] tracking-normal" style={{ lineHeight: 1.3 }}>
+              {OPTIONS_CONTENT.header}
+            </h2>
+            <p className="text-[#4B4B57] text-center font-normal font-sans text-[0.85rem] md:text-left xl:text-base md:max-w-[350px] lg:max-w-[430px] xl:max-w-[500px] " style={{ lineHeight: "1.6" }}>{OPTIONS_CONTENT.description}</p>
           </div>
-          <div className="w-full md:w-[58%] lg:w-[52%] xl:w-[59%]  md:pl-4 flex flex-col items-center justify-center md:justify-start md:items-start gap-6 md:gap-5 xl:gap-9 relative z-[1]">
-            <div className="flex flex-col items-center justify-center md:justify-start md:items-start gap-3 md:gap-4  xl:gap-5">
-              <h2 className="text-2xl md:text-2xl lg:text-2xl xl:text-3xl font-bold text-[#1A1A1A] md:max-w-[320px] lg:max-w-[400px] xl:max-w-full md:text-left text-center font-sans leading-tight tracking-tight">
-                {OPTIONS_CONTENT.header}
-              </h2>
-              <p className="text-sm lg:text-base xl:text-xl text-[#4B5563] md:text-left text-center font-sans leading-tight tracking-tight">
-                {OPTIONS_CONTENT.description}
-              </p>
-            </div>
-            <div className="w-full space-y-4 sm:space-y-0 lg:max-w-[490px] xl:max-w-full">
-                  {/* Mobile */}
-                  <form
-                    data-arohaa-zip-form
-                    onSubmit={handleSubmit}
-                    className="block sm:hidden space-y-4"
-                  >
-                    <div className="relative w-full">
-                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                        <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
-                      </div>
-                      <ZipCodeInput
-                        id="options-zipcode-mobile"
-                        name="zip"
-                        data-arohaa-zip
-                        value={zipCode}
-                        onChange={(value) => setZipCode(value)}
-                        placeholder="90001"
-                        inputClassName="
-                        h-14 pl-10 pr-2 text-[0.9rem] font-normal font-sans
-                        rounded-[10px]
-                        border border-[#0035994D]
-                        bg-white
-                        w-full
-                        shadow-[0_0_10px_0_rgba(0,53,153,0.15)]
-                        placeholder:text-[#444444]
-                        focus-visible:ring-0 focus-visible:ring-offset-0
-                      "
-                        containerClassName="w-full"
-                      />
-                    </div>
-                    <Button
-                      type="1"
-                      variant="default"
-                      htmlType="submit"
-                      data-arohaa-zip-submit
-                      disabled={isRedirecting || !zipValid}
-                      className="bg-[#F16601] h-14 w-full cursor-pointer text-white font-medium font-sans rounded-[10px] text-[0.9rem] px-8 py-4 flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed"
-                    >
-                      {isRedirecting ? "Redirecting..." : <>Continue <ArrowRight className="w-5.5 h-5.5" /></>}
-                    </Button>
-                  </form>
 
-                  {/* Desktop */}
-                  <form
-                    data-arohaa-zip-form
-                    onSubmit={handleSubmit}
-                    className="hidden sm:block relative w-full xl:max-w-[640px]"
-                  >
-                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                      <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-5 h-5 xl:w-6 xl:h-6 " />
+          <div className="flex w-full md:w-[52%]  xl:w-[50%]  flex-col items-center gap-6 md:max-w-[500px] md:items-start lg:max-w-[500px] xl:max-w-[600px] xl:gap-6">
+            <div className="flex w-full md:max-w-[380px] lg:max-w-[470px] xl:max-w-full flex-col items-center justify-center bg-[#F5F5F8] rounded-[10px] p-4.5 md:p-3.5 lg:p-4 xl:p-5.5">
+
+              <div className="w-full">
+                {/* Mobile */}
+                <form
+                  data-arohaa-zip-form
+                  onSubmit={handleSubmit}
+                  className="block space-y-3 sm:hidden"
+                >
+                  <div className="relative w-full">
+                    <div className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 transform">
+                      <Image src="/location.svg" alt="location icon" width={20} height={20} className="h-5 w-5 xl:h-6 xl:w-6" />
                     </div>
                     <ZipCodeInput
-                      id="options-zipcode"
+                      id="hero-zipcode-mobile"
                       name="zip"
                       data-arohaa-zip
                       value={zipCode}
                       onChange={(value) => setZipCode(value)}
                       placeholder="90001"
                       inputClassName="
-                        h-14 md:h-14.5 xl:h-18 pl-10 xl:pl-11 pr-[180px] md:pr-[200px]  text-[0.9rem] lg:text-[1.05rem] xl:text-xl font-normal font-sans
-                        rounded-[10px]
-                        border border-[#0035994D]
-                        bg-white
-                        w-full
-                        shadow-[0_0_10px_0_rgba(0,53,153,0.15)]
-                        placeholder:text-[#444444]
-                        focus-visible:ring-0 focus-visible:ring-offset-0
-                      "
+                          h-14 pl-10 pr-2 text-[0.9rem] font-normal font-sans
+                          rounded-[10px]
+                          border border-[#D5D2E5]
+                          bg-white
+                          w-full
+                          shadow-[0_0_2px_0_rgba(25,20,67,0.15)]
+                          placeholder:text-[#191443]
+                          focus-visible:ring-0 focus-visible:ring-offset-0
+                        "
                       containerClassName="w-full"
                     />
-                    <Button
-                      type="1"
-                      variant="default"
-                      htmlType="submit"
-                      data-arohaa-zip-submit
-                      disabled={isRedirecting || !zipValid}
-                      className="absolute right-0 top-0 h-14 md:h-14.5 xl:h-18 w-[180px] md:w-[170px] lg:w-[180px] xl:w-[225px]  rounded-r-[10px] rounded-l-none cursor-pointer text-white font-medium font-sans text-sm lg:text-[0.9rem] xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#F16601] disabled:opacity-90 disabled:cursor-not-allowed bg-[#F16601]"
-                    >
-                      {isRedirecting ? "Redirecting..." : <>Continue <ArrowRight className="w-5.5 h-5.5 xl:w-8 xl:h-8" /></>}
-                    </Button>
-                  </form>
+                  </div>
+                  <Button
+                    type="1"
+                    variant="default"
+                    htmlType="submit"
+                    data-arohaa-zip-submit
+                    disabled={isRedirecting || !zipValid}
+                    className="flex h-14 w-full cursor-pointer items-center justify-center tracking-normal gap-3 rounded-[10px] bg-[#191443] px-8 py-4 font-sans text-[0.9rem] font-medium text-white shadow-[0_0_6px_0_rgba(0,53,153,0.20)] transition-all duration-300 hover:bg-[#191443] disabled:cursor-not-allowed disabled:opacity-90"
+                  >
+                    {isRedirecting ? "Redirecting..." : <>Compare My Quotes <Image src="/arrow.svg" alt="" width={22} height={22} className="h-4.5 w-4.5 shrink-0" /></>}
+                  </Button>
+                </form>
+
+                {/* Desktop */}
+                <form
+                  data-arohaa-zip-form
+                  onSubmit={handleSubmit}
+                  className="hidden w-full items-stretch sm:flex md:gap-2.5 xl:gap-3.5"
+                >
+                  <div className="relative min-w-0 flex-1">
+                    <div className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 transform">
+                      <Image src="/location.svg" alt="location icon" width={20} height={20} className="h-5 w-5 xl:h-5.5 xl:w-5.5" />
+                    </div>
+                    <ZipCodeInput
+                      id="hero-zipcode"
+                      name="zip"
+                      data-arohaa-zip
+                      value={zipCode}
+                      onChange={(value) => setZipCode(value)}
+                      placeholder="90001"
+                      inputClassName="
+                            h-14 md:h-14.5 xl:h-18 pl-10 xl:pl-11 pr-3 text-[0.9rem] lg:text-[1.05rem] xl:text-xl font-normal font-sans
+                            rounded-[10px]
+                            border border-[#D5D2E5]
+                            bg-white
+                            w-full
+                            shadow-[0_0_2px_0_rgba(25,20,67,0.15)]
+                            placeholder:text-[#191443]
+                            focus-visible:ring-0 focus-visible:ring-offset-0
+                          "
+                      containerClassName="w-full"
+                    />
+                  </div>
+                  <Button
+                    type="1"
+                    variant="default"
+                    htmlType="submit"
+                    data-arohaa-zip-submit
+                    disabled={isRedirecting || !zipValid}
+                    className="flex h-14 w-[180px] shrink-0 cursor-pointer items-center justify-center gap-3  rounded-[10px] bg-[#191443] font-sans text-sm font-medium text-white shadow-[0_0_6px_0_rgba(0,53,153,0.20)] transition-all duration-300 hover:bg-[#191443] disabled:cursor-not-allowed disabled:opacity-90 md:h-14.5 md:w-[200px] lg:w-[215px] lg:text-[0.9rem] xl:h-18 xl:w-[255px] xl:text-lg"
+                  >
+                    {isRedirecting ? "Redirecting..." : <>Compare My Quotes <Image src="/arrow.svg" alt="" width={22} height={22} className="h-4.5 w-4.5 shrink-0 xl:h-5.5 xl:w-5.5" /></>}
+                  </Button>
+                </form>
+              </div>
+            </div>
+
+            {/* Mobile + md: Trustpilot • Free to compare, then No obligation */}
+            <div className="flex w-full flex-col items-center gap-3.5 lg:hidden">
+              <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+                <Image
+                  src={HERO_CONTENT.badge[0].icon}
+                  alt="Trustpilot"
+                  width={208}
+                  height={24}
+                  className="h-5 w-auto object-contain"
+                />
+                <span className="size-1 shrink-0 rounded-full bg-[#191443]" aria-hidden />
+                <div className="flex items-center gap-1.5">
+                  <Image
+                    src={HERO_CONTENT.badge[1].icon}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="size-4.5 shrink-0 object-contain"
+                  />
+                  <span className="font-sans text-[0.82rem] font-semibold text-[#191443]">
+                    {HERO_CONTENT.badge[1].text}
+                  </span>
                 </div>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Image
+                  src={HERO_CONTENT.badge[2].icon}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="size-4.5 shrink-0 object-contain"
+                />
+                <span className="font-sans text-[0.82rem] font-semibold text-[#191443]">
+                  {HERO_CONTENT.badge[2].text}
+                </span>
+              </div>
+            </div>
+
+            {/* lg+: all badges in one horizontal row */}
+            <div className="hidden w-full items-center justify-center gap-x-2.5 whitespace-nowrap lg:flex lg:justify-start xl:gap-x-4">
+              {HERO_CONTENT.badge.map((badge, index) => (
+                <div
+                  key={"text" in badge ? badge.text : badge.icon}
+                  className="flex shrink-0 items-center gap-2.5 xl:gap-3"
+                >
+                  {index > 0 ? (
+                    <span className="size-1 shrink-0 rounded-full bg-[#191443] xl:size-1.5" aria-hidden />
+                  ) : null}
+                  {"text" in badge && badge.text ? (
+                    <div className="flex items-center gap-1.5 xl:gap-2">
+                      <Image
+                        src={badge.icon}
+                        alt=""
+                        width={20}
+                        height={20}
+                        className="size-4.5 shrink-0 object-contain xl:size-5.5"
+                      />
+                      <span className="font-sans text-[0.79rem] font-semibold text-[#191443] xl:text-[0.95rem]">
+                        {badge.text}
+                      </span>
+                    </div>
+                  ) : (
+                    <Image
+                      src={badge.icon}
+                      alt="Trustpilot"
+                      width={208}
+                      height={24}
+                      className="h-4.5 w-auto shrink-0 object-contain xl:h-6"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+
+
+
       </div>
     </div>
   );
