@@ -176,8 +176,46 @@ export default function Options() {
               </div>
             </div>
 
-            {/* Mobile + md: Trustpilot • Free to compare, then No obligation */}
-            <div className="flex w-full flex-col items-center gap-3.5 lg:hidden">
+            {/* Mobile: Trustpilot, then Free to compare • No obligation */}
+            <div className="flex w-full flex-col items-center gap-3.5 md:hidden">
+              <Image
+                src={HERO_CONTENT.badge[0].icon}
+                alt="Trustpilot"
+                width={208}
+                height={24}
+                className="h-5 w-auto object-contain"
+              />
+              <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+                <div className="flex items-center gap-1.5">
+                  <Image
+                    src={HERO_CONTENT.badge[1].icon}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="size-4.5 shrink-0 object-contain"
+                  />
+                  <span className="font-sans text-[0.82rem] font-semibold text-[#191443]">
+                    {HERO_CONTENT.badge[1].text}
+                  </span>
+                </div>
+                <span className="size-1 shrink-0 rounded-full bg-[#191443]" aria-hidden />
+                <div className="flex items-center gap-1.5">
+                  <Image
+                    src={HERO_CONTENT.badge[2].icon}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="size-4.5 shrink-0 object-contain"
+                  />
+                  <span className="font-sans text-[0.82rem] font-semibold text-[#191443]">
+                    {HERO_CONTENT.badge[2].text}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* md: Trustpilot • Free to compare, then No obligation */}
+            <div className="hidden w-full flex-col items-center gap-3.5 md:flex lg:hidden">
               <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
                 <Image
                   src={HERO_CONTENT.badge[0].icon}

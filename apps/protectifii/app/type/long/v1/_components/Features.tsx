@@ -1,15 +1,15 @@
-"use client"
-
-import React from 'react'
-import Image from 'next/image'
-import { FEATURES_CONTENT } from '@/lib/constant'
+import Image from "next/image"
+import { FEATURES_CONTENT } from "@/lib/constant"
 
 export default function Features() {
   return (
     <div className="steps bg-white w-full h-full px-6 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 xl:px-20 xl:py-16">
       <div className="container mx-auto max-w-[1280px]">
         <div className="step-content w-full flex flex-col items-center justify-center gap-8 md:gap-10 lg:gap-12 xl:gap-14 ">
-          <h2 className="w-full text-2xl md:text-2xl xl:text-3xl   font-extrabold text-[#191443] text-center  font-sans  tracking-normal" style={{ lineHeight: 1.3 }}>
+          <h2
+            className="w-full text-2xl md:text-2xl xl:text-3xl   font-extrabold text-[#191443] text-center  font-sans  tracking-normal"
+            style={{ lineHeight: 1.3 }}
+          >
             {FEATURES_CONTENT.header}
           </h2>
 
@@ -21,7 +21,6 @@ export default function Features() {
                     <h3 className="text-center font-sans text-base font-bold text-[#191443] md:max-w-[150px] lg:max-w-full  xl:text-[1.2rem]">
                       {step.title}
                     </h3>
-
                     <p
                       className="mx-auto text-center font-sans text-[0.85rem] text-[#4B4B57] lg:max-w-[300px] xl:max-w-full xl:text-base "
                       style={{ lineHeight: 1.6 }}
@@ -38,7 +37,6 @@ export default function Features() {
                         width={60}
                         height={60}
                         className="h-full w-full object-contain"
-                        priority
                       />
                     </div>
                   </div>
@@ -47,9 +45,7 @@ export default function Features() {
             ))}
           </div>
         </div>
-
       </div>
-
     </div>
   )
 }

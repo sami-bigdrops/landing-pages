@@ -43,9 +43,7 @@ export default function Hero() {
     return () => { cancelled = true };
   }, []);
 
-  const headlineText = cityName
-    ? `Let's Drop Your Rate in  ${cityName} Today!`
-    : "Let's Drop Your Rate in Your Area Today!";
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -209,7 +207,7 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* Mobile badges: Trustpilot row, then features */}
+                {/* Mobile badges */}
                 <div className="flex w-full flex-col items-center gap-3.5 md:hidden">
                   <Image
                     src={HERO_CONTENT.badge[0].icon}
@@ -241,7 +239,7 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* md+ badges: single horizontal row */}
+                {/* md Onwards badges */}
                 <div className="hidden w-full items-center justify-start gap-x-2.5 whitespace-nowrap md:flex lg:gap-x-3 xl:gap-x-4">
                   {HERO_CONTENT.badge.map((badge, index) => (
                     <div
