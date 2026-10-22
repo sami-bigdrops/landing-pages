@@ -11,19 +11,19 @@ import {
   FORM_STEP_NAMES,
   trackArohaa,
 } from "@/lib/arohaa"
-import { SelectInput } from "@workspace/ui/components/select-input"
-
-const INPUT_FIELD =
-  "mt-0 h-14 w-full rounded-[10px] border border-[#AAAEC1] bg-white px-4 text-sm text-[#111827] shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] focus:border-[#102E50] focus:outline-none xl:h-15 xl:text-base"
+import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group"
 
 const options = [
-  { label: "Less than $7,500", value: "under_7500" },
-  { label: "$7,500 – $10,000", value: "7500_10000" },
-  { label: "$10,000 – $15,000", value: "10000_15000" },
-  { label: "$15,000 – $20,000", value: "15000_20000" },
-  { label: "$20,000 – $30,000", value: "20000_30000" },
-  { label: "$30,000+", value: "30000_plus" },
+  { label: "Less than $10,000", value: "under_10000" },
+  { label: "$10,000 - $24,999", value: "10000_24999" },
+  { label: "$25,000 - $49,999", value: "25000_49999" },
+  { label: "$50,000 - $100,000", value: "50000_100000" },
+  { label: "More than $100,000", value: "100000_plus" },
 ]
+
+const RADIO_OPTION_CLASS =
+  "w-full justify-start rounded-[10px] border border-[#AAAEC1] bg-white py-3.5 px-4 text-left text-sm text-[#111827] shadow-[0_4px_12px_0_rgba(0,0,0,0.06)] hover:border-[#BF0A30]/40 xl:text-base"
+const RADIO_LABEL_CLASS = "font-medium text-[#142B4A]"
 
 export default function Hero() {
   useUtmParams(30)
@@ -77,30 +77,44 @@ export default function Hero() {
             data-arohaa-step="1"
             data-arohaa-step-name={FORM_STEP_NAMES[1]}
           >
-            <h3 className="text-center text-lg  font-semibold text-[#142B4A] xl:text-xl ">How much debt do you have?</h3>
+            <h3 className="text-center text-lg  font-semibold text-[#142B4A] xl:text-xl ">
+              Choose your debt amount
+            </h3>
 
-            <div className="w-full flex flex-col-reverse items-center justify-center gap-4 md:max-w-[300px] xl:max-w-[330px]">
-              <div className="flex w-full max-w-lg flex-col gap-4">
-                <div className="flex w-full items-stretch gap-2.5 md:max-w-[300px] xl:max-w-[330px] md:mx-auto">
+            <div className="w-full flex flex-col items-center justify-center gap-5 md:max-w-[360px] xl:max-w-[400px]">
+              <div
+                className="flex w-full flex-col gap-2 text-left"
+                data-arohaa-field="debtAmount"
+              >
+                <RadioButtonGroup
+                  name="debtAmount"
+                  type="1"
+                  layout="column"
+                  value={value}
+                  onChange={handleSelectChange}
+                  options={options}
+                  error={showError ? "Please select a debt amount" : undefined}
+                  containerClassName="w-full space-y-0"
+                  className="w-full !flex-col gap-3"
+                  optionClassName={RADIO_OPTION_CLASS}
+                  optionLabelClassName={RADIO_LABEL_CLASS}
+                  selectedOptionBackgroundColor="#FFF5F6"
+                  selectedOptionBorderColor="#BF0A30"
+                  selectedIndicatorColor="#BF0A30"
+                />
+              </div>
+
+              <div className="flex w-full flex-col gap-4">
+                <div className="flex w-full items-stretch gap-2.5">
                   <button
                     type="button"
                     onClick={handleContinue}
                     className="h-12 flex-1 cursor-pointer rounded-[10px] bg-[#BF0A30] text-sm xl:text-base font-semibold text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 md:h-[52px] md:py-3.5 xl:h-14 xl:text-[1.05rem]"
                   >
-                    See My Options
+                    Continue
                   </button>
                 </div>
                 <CreditScoreNotice />
-              </div>
-
-              <div className="flex w-full max-w-lg flex-col gap-4 text-left" data-arohaa-field="debtAmount">
-                <SelectInput
-                  placeholder="Select debt amount"
-                  options={options}
-                  value={value}
-                  onChange={handleSelectChange}
-                  selectClassName={`${INPUT_FIELD} ${showError ? "border-red-500 focus:border-red-500" : ""}`}
-                />
               </div>
             </div>
           </div>
