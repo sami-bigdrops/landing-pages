@@ -2367,6 +2367,9 @@ importers:
 
   apps/protectifii:
     dependencies:
+      '@aws-sdk/client-ses':
+        specifier: ^3.1025.0
+        version: 3.1025.0
       '@neondatabase/serverless':
         specifier: ^1.0.2
         version: 1.0.2

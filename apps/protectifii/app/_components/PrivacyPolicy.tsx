@@ -132,7 +132,10 @@ export default function PrivacyPolicy() {
                     <span className="font-bold">You can request that we stop sharing information with third parties for their marketing purposes.</span> To opt out of having us share your information with third parties for their promotional purposes, email us at <a href="mailto:contact@protectifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@protectifii.com</a>.
                   </p>
 
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
+                  <p
+                    id="cookies-and-other-technology"
+                    className="scroll-mt-24 text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter"
+                  >
                     <span className="font-bold">You can control cookies and tracking tools.</span> To learn how to manage how we - and our vendors - use cookies and other tracking tools. <span className="font-bold">Our Do Not Track Policy: Some browsers have &quot;do not track&quot; features that allow you to tell a website not to track you. These features are not all uniform. We do not currently respond to those signals.</span> If you block cookies, certain features on our sites may not work. If you block or reject cookies, not all of the tracking described here will stop.
                   </p>
 
@@ -144,7 +147,10 @@ export default function PrivacyPolicy() {
                     <span className="font-bold">You can control tools on your mobile devices.</span> For example, you can turn off the GPS locator or push notifications on your phone through your phone&apos;s settings.
                   </p>
 
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">
+                  <h2
+                    id="california-privacy-choices"
+                    className="scroll-mt-24 text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter"
+                  >
                     YOUR CALIFORNIA PRIVACY RIGHTS
                   </h2>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
@@ -163,7 +169,10 @@ export default function PrivacyPolicy() {
                     <span className="font-bold">Disclosure of Personal Information:</span> We may share your personal information with third parties. In the preceding 12 months, we may have disclosed the following categories of personal information for business or commercial purposes: identifiers, categories of personal information described in subdivision (e) of Section 1798.80 including financial information, commercial information, biometric information, internet or other electronic network activity information, geolocation data, professional or employment-related information, education information, and inferences draw from any of the information identified.
                   </p>
 
-                  <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
+                  <p
+                    id="do-not-sell"
+                    className="scroll-mt-24 text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter"
+                  >
                     <span className="font-bold">Sale of Personal Information:</span> California law requires that we provide transparency about personal information we &quot;sell,&quot; which for the purposes of the CCPA, means scenarios in which personal information is shared with third parties in exchange for valuable consideration. In the preceding 12 months, we have &quot;sold&quot; the following categories of personal information: identifiers, categories of personal information described in subdivision (e) of Section 1798.80 including financial information, commercial information, biometric information, internet or other electronic network activity information, geolocation data, professional or employment-related information, education information, and inferences draw from any of the information identified. California consumers above the age of 16 have the right to opt out of these sales at any time. We do not knowingly sell personal information about consumers under the age of 16. Please email <a href="mailto:contact@protectifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@protectifii.com</a> to make an opt-out request.
                   </p>
 
@@ -200,7 +209,7 @@ export default function PrivacyPolicy() {
                   </p>
 
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Reach us at: 1021 E Lincolnway Suite #6487, Cheyenne, WY 82001
+                    Reach us at: 12540 SW Leveton Dr #P2150, Tualatin, OR 97062
                   </p>
 
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-[#1e1e1e] font-inter">

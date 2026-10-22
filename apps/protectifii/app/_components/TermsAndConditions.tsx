@@ -278,7 +278,7 @@ export default function TermsOfUse() {
                     If you have any questions regarding any of these Terms, please contact us by emailing <a href="mailto:contact@protectifii.com" className="text-blue-600 hover:text-blue-800 font-inter">contact@protectifii.com</a>.
                   </p>
                   <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-5 text-[#1e1e1e] font-inter">
-                    Reach us at: 1021 E Lincolnway Suite #6487, Cheyenne, WY 82001
+                    Reach us at: 12540 SW Leveton Dr #P2150, Tualatin, OR 97062
                   </p>
                 </div>
               </div>

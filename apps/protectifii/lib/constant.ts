@@ -136,6 +136,18 @@ export const FOOTER_CONTENT = {
   links: [
     { text: "Privacy Policy", href: "/privacy-policy" },
     { text: "Terms of Use", href: "/terms-of-use" },
+    {
+      text: "Do not sell my personal information",
+      href: "/do-not-sell-my-personal-information",
+    },
+    {
+      text: "California Privacy Choices",
+      href: "/california-privacy-choices",
+    },
+    {
+      text: "Cookies and Other Technology",
+      href: "/cookies-and-other-technology",
+    },
   ],
 
   copyrightText: "Copyright © 2026 Protectifii. All Rights Reserved.",
