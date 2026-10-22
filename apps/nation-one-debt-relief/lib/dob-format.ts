@@ -25,15 +25,19 @@ export function formatIsoDate(date: Date): string {
   return `${year}-${month}-${day}`
 }
 
-/** User-facing and LeadProsper format: MM/DD/YYYY */
+/** User-facing format: MM/DD/YYYY */
 export function isoToDisplay(iso: string): string {
   const match = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/)
   if (!match) return ""
   return `${match[2]}/${match[3]}/${match[1]}`
 }
 
+/** LeadProsper DOB format: YYYY-DD-MM */
 export function isoToLeadProsperDob(iso: string): string {
-  return isoToDisplay(iso)
+  const match = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (!match) return ""
+  const [, year, month, day] = match
+  return `${year}-${day}-${month}`
 }
 
 export function partsToIso(mm: string, dd: string, yyyy: string): string {
