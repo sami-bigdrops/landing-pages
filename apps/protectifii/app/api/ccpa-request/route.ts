@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 
 import {
-  sendCcpaRequestEmail,
+  appendCcpaRequestToSheet,
   type CcpaRequestPayload,
-} from "@/lib/send-ccpa-email"
+} from "@/lib/send-ccpa-to-sheets"
 
 const REQUIRED_FIELDS = [
   "firstName",
@@ -69,6 +69,7 @@ export async function POST(request: NextRequest) {
 
     const forwarded = request.headers.get("x-forwarded-for")
     const ip = forwarded?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown"
+    const userAgent = request.headers.get("user-agent") ?? ""
 
     console.log(
       "[ccpa-request]",
@@ -76,7 +77,7 @@ export async function POST(request: NextRequest) {
         {
           ...payload,
           ip,
-          userAgent: request.headers.get("user-agent") ?? "",
+          userAgent,
           submittedAt: new Date().toISOString(),
         },
         null,
@@ -84,12 +85,12 @@ export async function POST(request: NextRequest) {
       )
     )
 
-    const emailed = await sendCcpaRequestEmail(payload)
-    if (!emailed) {
+    const saved = await appendCcpaRequestToSheet(payload, { ip, userAgent })
+    if (!saved) {
       return NextResponse.json(
         {
           success: false,
-          error: "Unable to deliver CCPA request email",
+          error: "Unable to save CCPA request to Google Sheets",
         },
         { status: 502 }
       )
