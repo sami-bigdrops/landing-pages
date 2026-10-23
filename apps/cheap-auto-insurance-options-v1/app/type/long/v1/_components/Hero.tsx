@@ -12,6 +12,7 @@ import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
 import { HERO_CONTENT } from "@/lib/constant";
+import { getZipSubmitRedirectTarget } from "@/lib/blocked-tid";
 import Partners from "./Partners";
 import { fireBlutrckZipSubmitPixel } from "@/lib/blutrck";
 
@@ -86,7 +87,8 @@ export default function Hero() {
     params.set("sub1", utmS1);
     params.set("zip", trimmed);
 
-    const redirectUrl = `${BASE_URL}/?${params.toString()}`;
+    const externalRedirectUrl = `${BASE_URL}/?${params.toString()}`;
+    const redirectUrl = getZipSubmitRedirectTarget(utmId, externalRedirectUrl);
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
     fireBlutrckZipSubmitPixel(utmId);

@@ -9,6 +9,7 @@ import { setCookie, getCookie } from "@workspace/lp-core";
 import { track } from "@vercel/analytics";
 import { ArrowRight } from "lucide-react";
 import { fireBlutrckZipSubmitPixel } from "@/lib/blutrck";
+import { getZipSubmitRedirectTarget } from "@/lib/blocked-tid";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
@@ -62,7 +63,8 @@ export default function Options() {
     if (utmId) params.set("subid2", utmId);
     if (utmS1) params.set("c1", utmS1);
 
-    const redirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
+    const externalRedirectUrl = `${REDIRECT_BASE_URL}/form?${params.toString()}`;
+    const redirectUrl = getZipSubmitRedirectTarget(utmId, externalRedirectUrl);
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
     fireBlutrckZipSubmitPixel(utmId);
