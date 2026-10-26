@@ -61,7 +61,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${fontSans.variable} ${fontSans.className} antialiased overflow-x-hidden overflow-y-auto`}
+        className={`${fontSans.variable} ${fontSans.className} antialiased overflow-x-hidden`}
       >
         <Providers>{children}</Providers>
         <Analytics />

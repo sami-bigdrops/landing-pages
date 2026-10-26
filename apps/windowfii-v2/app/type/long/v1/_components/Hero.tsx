@@ -12,14 +12,7 @@ export default function Hero() {
 
   return (
     <div
-      className="relative w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[580px]"
-      style={{
-        backgroundImage: `url('${HERO_CONTENT.image.src}')`,
-        backgroundPosition: "85% top",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-      }}
+      className="relative w-full h-full md:min-h-[292px] lg:min-h-[320px] xl:min-h-[510px] 2xl:min-h-[580px] md:bg-[url('/hero-bg.webp')] md:bg-cover md:bg-no-repeat md:bg-[position:85%_top]"
     >
       <div className="relative z-10 bg-white w-full h-full md:max-w-[650px]  xl:max-w-[720px] mx-auto ">
         <div className="container ">
@@ -32,9 +25,10 @@ export default function Hero() {
               <div className=" w-full flex flex-col items-center  gap-2  border-none">
                 <Image
                   src="/hero-img.webp"
-                  alt="Hero image"
-                  width={1000}
-                  height={1000}
+                  alt={HERO_CONTENT.image.alt}
+                  width={1440}
+                  height={733}
+                  sizes="(max-width: 768px) 100vw, 720px"
                   className="w-full h-full object-cover rounded-none   md:h-[310px]  xl:h-[350px]"
                   priority
                 />

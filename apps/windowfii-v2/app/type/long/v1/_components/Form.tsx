@@ -10,6 +10,7 @@ import { ZipCodeInput } from "@workspace/ui/components/zip-code-input"
 import { Button } from "@workspace/ui/components/button"
 import { TrustedForm, getCookie, setCookie } from "@workspace/lp-core"
 import { AddressAutocomplete } from "./AddressAutocomplete"
+import PartnerModal from "./Partners-model"
 
 import { trackArohaa } from "@/lib/arohaa"
 
@@ -137,6 +138,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; phone?: string }>({})
   const [zipError, setZipError] = useState("")
   const [googlePlacesReady, setGooglePlacesReady] = useState(false)
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false)
   const googlePlacesApiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY
 
   const applyZipIfEmpty = (raw: string) => {
@@ -569,12 +571,17 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                 </div>
                 <div className="text-left text-[0.69rem] leading-relaxed text-[#333333] md:text-[0.79rem] space-y-4">
                   <p>
-                    *By clicking GET STARTED NOW above, I provide my electronic signature and expressly consent to receive recurring informational and marketing calls and texts via automated telephone dialing system, artificial/prerecorded voice, SMS/MMS, and/or AI technology regarding window projects from Windowfii. Message and data rates may apply. I understand consent is not required for purchase and that I can opt-out at any time, including (for texts) by replying “STOP.”
-                  </p>
-                  <p>
-                    By submitting this form, I also agree to receive emails about products, services, and sales, as well as third-party offers including, without limitation, from our affiliates and/or unrelated third parties.
+                    *By clicking GET STARTED NOW above, I provide my electronic signature and expressly consent to receive recurring informational and marketing calls and texts via automated telephone dialing system, artificial/prerecorded voice, SMS/MMS, and/or AI technology regarding window projects from Windowfii and its{" "}
+                    <button
+                      type="button"
+                      onClick={() => setIsPartnerModalOpen(true)}
+                      className="inline cursor-pointer border-0 bg-transparent p-0 font-bold text-inherit "
+                    >
+                      partners
+                    </button>
                   </p>
                 </div>
+           
               </div>
             </div>
           ) : null}
@@ -600,6 +607,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
           </div>
         </form>
       </div>
+      <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
     </section>
   )
 }

@@ -139,7 +139,8 @@ export async function POST(request: NextRequest) {
         city,
         state,
         tcpa:
-          "By submitting this form, I agree to the Windowfii Terms of Use and Privacy Policy. I authorize Windowfii and its partners to send me marketing text messages or phone calls at the number provided, including those made with an autodialer. Standard message and data rates may apply. Message frequency varies. Opt-out anytime by replying STOP.",
+          "By clicking GET STARTED NOW above, I provide my electronic signature and expressly consent to receive recurring informational and marketing calls and texts via automated telephone dialing system, artificial/prerecorded voice, SMS/MMS, and/or AI technology regarding window projects from Windowfii and its partners",
+     
         ip_address: ip,
         user_agent: request.headers.get("user-agent") ?? "",
         landing_page_url: request.headers.get("referer") ?? "",

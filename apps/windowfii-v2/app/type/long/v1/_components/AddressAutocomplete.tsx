@@ -94,7 +94,7 @@ export function AddressAutocomplete({
   }, [googleReady, onChange, onPlaceSelect])
 
   return (
-    <div className="space-y-1.5">
+    <div className="w-full space-y-1.5">
       {label ? (
         <label
           htmlFor={id}
