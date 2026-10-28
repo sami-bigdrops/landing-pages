@@ -15,7 +15,7 @@ import { OPTIONS_CONTENT, HERO_CONTENT } from "@/lib/constant";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
-const BASE_URL = "https://quote.cheapautoinsuranceoptions.com";
+const BASE_URL = "https://autoquotes.protectifii.com";
 const ANALYTICS_FLUSH_DELAY_MS = 300;
 const ZIP_PATTERN = /^\d{5}$/;
 
@@ -63,8 +63,7 @@ export default function Options() {
     const utmS1 = getCookie("subid3") || "";
     const params = new URLSearchParams();
     params.set("pcid", utmId);
-    params.set("uid", utmId);
-    params.set("sid", utmSource);
+    params.set("source", utmSource);
     params.set("sub1", utmS1);
     params.set("zip", trimmed);
     const redirectUrl = `${BASE_URL}/?${params.toString()}`;

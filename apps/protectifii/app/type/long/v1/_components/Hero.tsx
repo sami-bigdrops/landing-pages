@@ -74,8 +74,7 @@ export default function Hero() {
 
     const params = new URLSearchParams();
     params.set("pcid", utmId);
-    params.set("uid", utmId);
-    params.set("sid", utmSource);
+    params.set("source", utmSource);
     params.set("sub1", utmS1);
     params.set("zip", trimmed);
 
