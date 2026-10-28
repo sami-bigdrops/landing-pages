@@ -12,6 +12,7 @@ import { ZipCodeInput } from "@workspace/ui/components/zip-code-input";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
 import { OPTIONS_CONTENT, HERO_CONTENT } from "@/lib/constant";
+import { fireBlutrckZipSubmitPixel } from "@/lib/blutrck";
 
 const ZIP_COOKIE_NAME = "zipCode";
 const ZIP_COOKIE_DAYS = 30;
@@ -69,6 +70,7 @@ export default function Options() {
     const redirectUrl = `${BASE_URL}/?${params.toString()}`;
 
     track("zip_submission", { state: cityName || undefined, zip_code: trimmed });
+    fireBlutrckZipSubmitPixel(utmId);
 
     setIsRedirecting(true);
     window.setTimeout(() => {
