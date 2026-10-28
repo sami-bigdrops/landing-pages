@@ -64,6 +64,7 @@ export default function Hero() {
       getCookie("subid1") || urlParams.get("sid") || urlParams.get("utm_source") || "";
     const utmId =
       getCookie("subid2") ||
+      urlParams.get("pcid") ||
       urlParams.get("tid") ||
       urlParams.get("uid") ||
       urlParams.get("utm_id") ||
@@ -72,7 +73,7 @@ export default function Hero() {
       getCookie("subid3") || urlParams.get("sub1") || urlParams.get("utm_s1") || "";
 
     const params = new URLSearchParams();
-    params.set("tid", utmId);
+    params.set("pcid", utmId);
     params.set("uid", utmId);
     params.set("sid", utmSource);
     params.set("sub1", utmS1);
