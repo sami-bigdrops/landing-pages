@@ -36,7 +36,7 @@ export default function RootLayout({
       <head>
         <meta
           name="arohaa-verify"
-          content="v-jM43ZmTwj4teHpsj4tnkBJzm4xY4S8"
+          content="5DVQsh9lgXaeYKHKu4n9EBg1BQfqaDlz"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -48,10 +48,10 @@ export default function RootLayout({
           id="arohaa-sdk"
           src="https://cdn.arohaa.net/sdk.js"
           async
-          data-wid="9b5448db-5321-4837-aa6a-d6a3e07aeb17"
+          data-wid="571f11b1-e728-449d-b604-f32b89f6c01d"
           data-api="https://api.arohaa.net"
-          data-lp-id="lp_EYSm8H5lSLsKE0a6"
-          data-page="www.windowfii.com"
+          data-lp-id="lp_uBBCAS65FEn8WK2n"
+          data-page="get.windowfii.com"
           data-formtype="multiple"
         />
         <script
