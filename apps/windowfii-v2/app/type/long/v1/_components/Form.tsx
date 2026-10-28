@@ -28,11 +28,15 @@ const FORM_FEATURES = [
   { icon: "/form-3.svg", label: "Lifetime Warranty" },
 ] as const
 
+const FORM_STEP_NAMES: Record<number, string> = {
+  1: "Where is your project?",
+  2: "Who are we speaking with?",
+  3: "What is your home address?",
+  4: "Let us know how we can reach you",
+}
+
 function stepNameFor(step: number): string {
-  if (step === 1) return "Where is your project?"
-  if (step === 2) return "Who are we speaking with?"
-  if (step === 3) return "What is your home address?"
-  return "Let us know how we can reach you"
+  return FORM_STEP_NAMES[step] ?? `Step ${step}`
 }
 
 const defaultFormData = {
@@ -249,6 +253,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
       setFormData((prev) => ({ ...prev, zipCode: zip }))
       setCookie(ZIP_COOKIE_NAME, zip, ZIP_COOKIE_DAYS)
       setZipError("")
+      trackArohaa("zip_submit", { zip })
       setCurrentStep((prev) => prev + 1)
       return
     }
@@ -379,14 +384,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
     }
   }
 
-  const stepTitle =
-    currentStep === 1
-      ? "Where is your project?"
-      : currentStep === 2
-        ? "Who are we speaking with?"
-        : currentStep === 3
-          ? "What is your home address?"
-          : "Let us know how we can reach you"
+  const stepTitle = stepNameFor(currentStep)
 
   return (
     <section className="flex w-full flex-1 flex-col ">
@@ -427,12 +425,12 @@ function FormPage({ initialZip = "" }: FormPageProps) {
             <div
               className="flex w-full flex-col items-center gap-4.5 md:gap-5 xl:gap-6 max-w-[420px] md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]"
               data-arohaa-step="1"
-              data-arohaa-step-name="Where is your project?"
+              data-arohaa-step-name={FORM_STEP_NAMES[1]}
             >
               <ZipCodeInput
                 id="form-zipcode"
                 name="zip"
-                data-arohaa-zip
+                data-arohaa-field="zipCode"
                 value={formData.zipCode}
                 onChange={(value) => {
                   handleInputChange("zipCode", normalizeZip(value))
@@ -453,7 +451,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
             <div
               className="flex w-full max-w-[420px] flex-col items-center gap-4.5 md:max-w-[420px] md:gap-5 xl:gap-6 lg:max-w-[450px] xl:max-w-[520px]"
               data-arohaa-step="2"
-              data-arohaa-step-name="Who are we speaking with?"
+              data-arohaa-step-name={FORM_STEP_NAMES[2]}
             >
               <div className="flex w-full max-w-[420px] flex-col gap-3 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
                 <TextInput
@@ -488,7 +486,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
             <div
               className="flex w-full flex-col items-center gap-4 md:gap-5 max-w-[420px]  md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]"
               data-arohaa-step="3"
-              data-arohaa-step-name="What is your home address?"
+              data-arohaa-step-name={FORM_STEP_NAMES[3]}
             >
               <AddressAutocomplete
                 id="streetAddress"
@@ -499,6 +497,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
                 placeholder="Street Address"
                 className={INPUT_FIELD}
                 googleReady={googlePlacesReady}
+                data-arohaa-field="address"
               />
 
               <div className={BTN_ROW}>
@@ -512,7 +511,7 @@ function FormPage({ initialZip = "" }: FormPageProps) {
             <div
               className="flex w-full max-w-[720px] flex-col items-center gap-4.5 md:gap-5 xl:gap-6"
               data-arohaa-step="4"
-              data-arohaa-step-name="Contact Information"
+              data-arohaa-step-name={FORM_STEP_NAMES[4]}
             >
               <div className="flex w-full max-w-[420px] flex-col gap-3 md:max-w-[340px] lg:max-w-[375px] xl:max-w-[450px]">
                 <TextInput

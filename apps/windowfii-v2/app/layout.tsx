@@ -51,8 +51,8 @@ export default function RootLayout({
           data-wid="9b5448db-5321-4837-aa6a-d6a3e07aeb17"
           data-api="https://api.arohaa.net"
           data-lp-id="lp_EYSm8H5lSLsKE0a6"
-          data-page="autoquote.cheapautoinsuranceoptions.com"
-          data-formtype="zip"
+          data-page="www.windowfii.com"
+          data-formtype="multiple"
         />
         <script
           type="text/javascript"

@@ -36,6 +36,7 @@ export interface AddressAutocompleteProps {
   labelClassName?: string
   className?: string
   googleReady: boolean
+  "data-arohaa-field"?: string
 }
 
 function getComponent(
@@ -58,6 +59,7 @@ export function AddressAutocomplete({
   labelClassName,
   className,
   googleReady,
+  "data-arohaa-field": dataArohaaField,
 }: AddressAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const autocompleteRef = useRef<GooglePlacesAutocompleteInstance | null>(null)
@@ -111,6 +113,7 @@ export function AddressAutocomplete({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         autoComplete="off"
+        data-arohaa-field={dataArohaaField}
         className={cn(
           "w-full min-w-0 rounded-lg border border-input bg-background px-3 py-2 text-base font-normal text-foreground shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
           className
