@@ -24,7 +24,7 @@ export default function Hero() {
             <div className="w-full flex flex-col items-center justify-center  gap-6 md:gap-5 xl:gap-6  pb-4 md:pt-0 xl:pb-6 ">
               <div className=" w-full flex flex-col items-center  gap-2  border-none">
                 <Image
-                  src="/hero-img.webp"
+                  src="/hero-image.webp"
                   alt={HERO_CONTENT.image.alt}
                   width={1440}
                   height={733}
