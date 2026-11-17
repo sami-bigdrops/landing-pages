@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
         address,
         city,
         state,
-        tcpa:
+        tcpa_text:
           "By clicking GET STARTED NOW above, I provide my electronic signature and expressly consent to receive recurring informational and marketing calls and texts via automated telephone dialing system, artificial/prerecorded voice, SMS/MMS, and/or AI technology regarding window projects from Windowfii and its partners",
      
         ip_address: ip,
