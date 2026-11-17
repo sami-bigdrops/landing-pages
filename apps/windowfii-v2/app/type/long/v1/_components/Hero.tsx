@@ -29,7 +29,7 @@ export default function Hero() {
                   width={1440}
                   height={733}
                   sizes="(max-width: 768px) 100vw, 720px"
-                  className="w-full h-full object-cover rounded-none   md:h-[310px]  xl:h-[350px]"
+                  className="h-auto w-full object-contain object-center"
                   priority
                 />
 
