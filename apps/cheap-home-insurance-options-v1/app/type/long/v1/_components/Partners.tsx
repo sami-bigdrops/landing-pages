@@ -16,7 +16,7 @@ export default function Partners() {
           </h2>
 
           <div className="w-full flex justify-center items-center">
-            <div className="grid grid-cols-2  md:grid-cols-6 gap-8 md:gap-8 lg:gap-9 xl:gap-14 ">
+            <div className="grid grid-cols-2 md:grid-cols-5 w-full gap-8 md:gap-8 lg:gap-9 xl:gap-14">
               {PARTNERS_CONTENT.partners.map((partner, index) => (
                 <div
                   key={index}
