@@ -111,7 +111,7 @@ export default function Hero() {
             <div className="w-full flex flex-col items-center justify-center  gap-5 md:gap-7 xl:gap-9">
               <div className="w-full flex flex-col items-center  gap-2 xl:gap-3">
                 <h1
-                  className="text-[1.5rem]   md:text-3xl xl:text-5xl max-w-[240px] md:max-w-[400px] lg:max-w-[400px] xl:max-w-[600px] font-extrabold text-[#102A43] text-center  font-sans"
+                  className="text-[2.5rem] md:text-3xl xl:text-5xl md:max-w-[400px] lg:max-w-[400px] xl:max-w-[600px] font-extrabold text-[#102A43] text-center font-sans"
                   style={{
                     lineHeight: "1.3",
 
@@ -122,7 +122,7 @@ export default function Hero() {
                   </sup>
                   {HERO_CONTENT.headline}
                 </h1>
-                <p className="text-[#374151] text-center font-normal font-sans text-sm  xl:text-xl max-w-[180px] md:max-w-full">
+                <p className="text-[#374151] text-center font-normal font-sans text-md  xl:text-xl md:max-w-full">
                   {HERO_CONTENT.description}
                 </p>
               </div>
@@ -138,9 +138,6 @@ export default function Hero() {
                       className="block sm:hidden space-y-3"
                     >
                       <div className="relative w-full">
-                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                          <Image src="/location.svg" alt="location icon" width={20} height={20} className="w-4.5 h-4.5 xl:w-6 xl:h-6 " />
-                        </div>
                         <ZipCodeInput
                           id="hero-zipcode-mobile"
                           name="zip"
@@ -149,7 +146,7 @@ export default function Hero() {
                           onChange={(value) => setZipCode(value)}
                           placeholder="90001"
                           inputClassName="
-                          h-14 pl-9.5 pr-2 text-[0.9rem] font-normal font-poppins
+                          h-14 px-3 text-center text-lg font-semibold font-poppins
                           rounded-[6px]
                           border border-[#0752A0]
                           bg-white
@@ -168,13 +165,13 @@ export default function Hero() {
                         htmlType="submit"
                         data-arohaa-zip-submit
                         disabled={isRedirecting || !zipValid}
-                        className="flex h-14 w-full cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#FF3E00] px-8 py-4 font-poppins text-[0.9rem] font-semibold uppercase text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#FF3E00] disabled:cursor-not-allowed disabled:opacity-90"
+                        className="flex h-14 w-full cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#FF3E00] px-8 py-4 font-poppins text-lg font-semibold text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#FF3E00] disabled:cursor-not-allowed disabled:opacity-90"
                       >
                         {isRedirecting ? (
                           "Redirecting..."
                         ) : (
                           <>
-                            Get My Free Quote
+                            Get Free Quote
                             <QuoteArrowIcon />
                           </>
                         )}
@@ -200,7 +197,7 @@ export default function Hero() {
                           onChange={(value) => setZipCode(value)}
                           placeholder="90001"
                           inputClassName="
-                          h-14 md:h-14 xl:h-17.5 pl-10 xl:pl-10.5 pr-2 text-[0.9rem] lg:text-[0.95rem] xl:text-xl font-normal font-poppins
+                          h-14 md:h-14 xl:h-17.5 pl-10 xl:pl-10.5 pr-2 text-lg lg:text-xl xl:text-2xl font-semibold font-poppins
                           rounded-[6px]
                           border border-[#0752A0]
                           bg-white
@@ -219,13 +216,13 @@ export default function Hero() {
                         htmlType="submit"
                         data-arohaa-zip-submit
                         disabled={isRedirecting || !zipValid}
-                        className="flex h-14 w-full shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#FF3E00] px-4 font-poppins text-sm font-bold uppercase text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#FF3E00] disabled:cursor-not-allowed disabled:opacity-90 md:h-14 md:w-[205px]  xl:h-17.5 xl:w-[260px] xl:text-lg"
+                        className="flex h-14 w-full shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-[6px] bg-[#FF3E00] px-4 font-poppins text-lg font-bold text-white shadow-[0_0_10px_0_rgba(31,58,95,0.10)] transition-all duration-300 hover:bg-[#FF3E00] disabled:cursor-not-allowed disabled:opacity-90 md:h-14 md:w-[205px] xl:h-17.5 xl:w-[260px] xl:text-2xl"
                       >
                         {isRedirecting ? (
                           "Redirecting..."
                         ) : (
                           <>
-                            Get My Free Quote
+                            Get Free Quote
                             <QuoteArrowIcon />
                           </>
                         )}

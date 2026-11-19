@@ -16,9 +16,9 @@ export default function Navbar() {
           <Image
             src="/logo.svg"
             alt="Cheap Home Insurance Options"
-            width={160}
-            height={50}
-            className="h-auto w-44 object-contain lg:w-52 xl:w-60"
+            width={208}
+            height={65}
+            className="h-auto w-52 object-contain lg:w-56 xl:w-60"
             priority
           />
         </Link>

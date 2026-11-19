@@ -182,7 +182,7 @@ export default function Options() {
                       htmlType="submit"
                       data-arohaa-zip-submit
                       disabled={isRedirecting || !zipValid}
-                      className="absolute right-0 top-0 h-14 md:h-14.5 xl:h-18 w-[180px] md:w-[170px] lg:w-[180px] xl:w-[225px]  rounded-r-[10px] rounded-l-none cursor-pointer text-white font-medium font-sans text-sm lg:text-[0.9rem] xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#FF3E00] disabled:opacity-90 disabled:cursor-not-allowed bg-[#FF3E00]"
+                      className="absolute right-0 top-0 h-14 md:h-14.5 xl:h-18 w-[180px] md:w-[170px] lg:w-[180px] xl:w-[225px] rounded-r-[10px] rounded-l-none cursor-pointer text-white font-medium font-sans text-sm lg:text-[0.9rem] xl:text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:bg-[#FF3E00] disabled:opacity-90 disabled:cursor-not-allowed bg-[#FF3E00]"
                     >
                       {isRedirecting ? "Redirecting..." : <>Continue <ArrowRight className="w-5.5 h-5.5 xl:w-8 xl:h-8" /></>}
                     </Button>

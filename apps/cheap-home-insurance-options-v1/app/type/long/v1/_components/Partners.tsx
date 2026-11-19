@@ -11,7 +11,7 @@ export default function Partners() {
     >
       <div className="container mx-auto">
         <div className="partners-content w-full flex flex-col items-center justify-center gap-6 ">
-          <h2 className="md:hidden  text-base lg:text-lg xl:text-xl font-semibold text-[#102A43] text-center font-sans "style={{ lineHeight: "1.4" }}>
+          <h2 className="md:hidden w-full whitespace-nowrap text-center text-[13px] font-semibold text-[#102A43] font-sans tracking-tight" style={{ lineHeight: "1.4" }}>
             {TOP_NAV_CONTENT.headline}
           </h2>
 
@@ -20,7 +20,11 @@ export default function Partners() {
               {PARTNERS_CONTENT.partners.map((partner, index) => (
                 <div
                   key={index}
-                  className="flex justify-center items-center object-contain"
+                  className={`flex justify-center items-center object-contain${
+                    index === PARTNERS_CONTENT.partners.length - 1
+                      ? " col-span-2 md:col-span-1"
+                      : ""
+                  }`}
                 >
                   <Image
                     src={partner.src}
