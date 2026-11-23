@@ -174,6 +174,7 @@ export default function AskTheExperts() {
               containerClassName="w-full min-w-0 flex-1 space-y-0"
               inputClassName="
                 !h-[56px] w-full rounded-none border-0 bg-white px-4
+                text-center sm:text-left
                 font-inter text-lg font-medium leading-none text-[#1C2833]
                 shadow-none outline-none
                 placeholder:text-[#9CA3AF] placeholder:font-normal placeholder:text-base
