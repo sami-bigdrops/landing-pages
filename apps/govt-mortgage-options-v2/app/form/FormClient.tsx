@@ -1048,7 +1048,7 @@ function RefinanceForm() {
 
       {isLastStep && (
         <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">
-          By clicking &quot;Continue,&quot; I electronically sign and agree that GovMortgageOptions.com may collect, use, and share my information, including my self-reported credit information, with its{" "}
+          By clicking &quot;Submit Details,&quot; I electronically sign and agree that GovMortgageOptions.com may collect, use, and share my information, including my self-reported credit information, with its{" "}
           <button
             type="button"
             onClick={() => setIsPartnerModalOpen(true)}
