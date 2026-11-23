@@ -93,6 +93,7 @@ function buildLeadPayload(body: RefinanceSubmitBody, ip: string, request: NextRe
     PropertyType: String(body.PROP_DESC ?? "").trim(),
     PropertyUse: String(body.PROP_PURP ?? "").trim(),
     income: String(body.ANNUAL_INCOME ?? ""),
+    VA_STATUS: String(body.VA_STATUS ?? "NO").trim() || "NO",
   }
 }
 

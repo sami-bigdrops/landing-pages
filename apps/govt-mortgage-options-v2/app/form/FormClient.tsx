@@ -1,22 +1,21 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useMemo, Suspense, useCallback } from "react";
+import React, { useState, useEffect, useRef, Suspense, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
-import { ArrowLeft, DollarSign, Loader2, Info } from "lucide-react";
-import { ProgressBar } from "@workspace/ui/components/progress-bar";
+import { Loader2, Info } from "lucide-react";
 import { RadioButtonGroup } from "@workspace/ui/components/radio-button-group";
-import MotivationalQuote from "@/components/MotivationalQuotes";
 import { TrustedForm, useUtmParams, getCookie } from "@workspace/lp-core";
+import { AnnualIncomeInput } from "./_components/AnnualIncomeInput";
+import PartnersModal from "./_components/PartnersModal";
 
 const ZIP_COOKIE_NAME = "zipCode";
-const FORM_DRAFT_KEY = "govt-mortgage-options-v2:form-draft:v9";
+const FORM_DRAFT_KEY = "govt-mortgage-options-v2:form-draft:v11";
 
-const TOTAL_STEPS = 8;
+const TOTAL_STEPS = 9;
 
 const ACCENT = "#249E45";
 const ACCENT_BG = "#E8F8EE";
-const ACCENT_TRACK = "#D8F0E0";
 
 const INPUT_CLS =
   "w-full px-4 py-3 rounded-md border border-gray-200 text-sm font-inter focus:outline-none focus:ring-2 focus:ring-[#249E45]/20 focus:border-[#249E45] transition-colors";
@@ -30,7 +29,7 @@ const RADIO_SELECTED_BG = ACCENT_BG;
 const RADIO_SELECTED_BORDER = ACCENT;
 const RADIO_INDICATOR = ACCENT;
 
-const DEFAULT_EST_VAL = 375_000;
+const DEFAULT_EST_VAL = 515_000;
 const DEFAULT_BAL_ONE = 265_000;
 const DEFAULT_ANNUAL_INCOME = 85_000;
 
@@ -173,6 +172,11 @@ const CRED_GRADE_OPTS = [
   { value: "640-659", label: "640 - 659" },
   { value: "620-639", label: "620 - 639" },
   { value: "580-619", label: "580 - 619" },
+];
+
+const YES_NO_OPTS = [
+  { value: "NO", label: "No" },
+  { value: "YES", label: "Yes" },
 ];
 
 function mapCredGradeToApi(range: string): string {
@@ -511,6 +515,7 @@ function RefinanceForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const currentStepRef = useRef(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [draftReady, setDraftReady] = useState(false);
 
@@ -587,7 +592,7 @@ function RefinanceForm() {
   }, [currentStep, fd, draftReady]);
 
   useEffect(() => {
-    if (currentStep === 7) {
+    if (currentStep === 8) {
       autocompleteRef.current = null;
       setTimeout(initAutocomplete, 100);
     }
@@ -597,16 +602,7 @@ function RefinanceForm() {
   function getNextStep(cur: number): number {
     return Math.min(cur + 1, TOTAL_STEPS);
   }
-  function getPrevStep(cur: number): number {
-    return Math.max(cur - 1, 1);
-  }
 
-  const applicableSteps = useMemo(() => {
-    return Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1);
-  }, []);
-
-  const progressCurrent = applicableSteps.indexOf(currentStep) + 1;
-  const progressTotal = applicableSteps.length;
   const isLastStep = currentStep === TOTAL_STEPS;
 
   // ── Auto-advance helper ────────────────────────────────────────────────────
@@ -625,8 +621,9 @@ function RefinanceForm() {
       case 4: return fd.CRED_GRADE !== "";
       case 5: return fd.LOAN_PURPOSE !== "";
       case 6: return fd.ANNUAL_INCOME >= 10_000;
-      case 7: return fd.ADDRESS.trim() !== "" && fd.CITY.trim() !== "" && fd.STATE !== "" && /^\d{5}$/.test(fd.ZIP);
-      case 8: {
+      case 7: return fd.VA_STATUS !== "";
+      case 8: return fd.ADDRESS.trim() !== "" && fd.CITY.trim() !== "" && fd.STATE !== "" && /^\d{5}$/.test(fd.ZIP);
+      case 9: {
         const fnOk = fd.FNAME.trim().length >= 2 && /^[A-Za-z\s'.-]+$/.test(fd.FNAME.trim()) && !/^(.)\1+$/.test(fd.FNAME.trim().replace(/\s/g, "")) && !/^(test|fake|asdf|qwerty|xxxx|aaaa|bbbb|cccc|name|user|admin|none|null|n\/a)$/i.test(fd.FNAME.trim());
         const lnOk = fd.LNAME.trim().length >= 2 && /^[A-Za-z\s'.-]+$/.test(fd.LNAME.trim()) && !/^(.)\1+$/.test(fd.LNAME.trim().replace(/\s/g, "")) && !/^(test|fake|asdf|qwerty|xxxx|aaaa|bbbb|cccc|name|user|admin|none|null|n\/a)$/i.test(fd.LNAME.trim());
         return fnOk && lnOk && fd.EMAIL.includes("@") && fd.EMAIL.includes(".") && checkPhoneValidity(fd.PRI_PHON.replace(/\D/g, "")) === "";
@@ -696,7 +693,6 @@ function RefinanceForm() {
     }
   };
 
-  const handleBack = () => setCurrentStep(getPrevStep(currentStep));
   const clearError = (f: string) => setErrors((p) => { const n = { ...p }; delete n[f]; return n; });
   const setError = (f: string, m: string) => setErrors((p) => ({ ...p, [f]: m }));
   const validateName = (field: "FNAME" | "LNAME", value: string) => {
@@ -727,19 +723,6 @@ function RefinanceForm() {
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <div className="mb-3">
-        <MotivationalQuote step={currentStep} formType="refinance" />
-      </div>
-      <div className="mb-6">
-        <ProgressBar
-          type="1" currentStep={progressCurrent} totalSteps={progressTotal}
-          foregroundColor={ACCENT} backgroundColor={ACCENT_TRACK}
-          icon={<DollarSign size={18} className="text-[#249E45]" />}
-        />
-      </div>
-
-     
-
       <form onSubmit={(e) => e.preventDefault()} className="rounded-lg bg-white border border-gray-200 shadow-sm p-6 md:p-8">
         <TrustedForm />
 
@@ -904,22 +887,40 @@ function RefinanceForm() {
                 Include wages, bonuses, and other regular income before taxes.
               </p>
             </div>
-            <div className="space-y-1.5">
-              <label htmlFor="annualIncome" className={LABEL_CLS}>Annual Income</label>
-              <input
-                id="annualIncome"
-                value={formatCurrency(fd.ANNUAL_INCOME)}
-                onChange={(e) => update({ ANNUAL_INCOME: parseCurrency(e.target.value) })}
-                placeholder="$85,000"
-                className={`${INPUT_CLS} h-12`}
-                inputMode="numeric"
-              />
-            </div>
+            <AnnualIncomeInput
+              value={fd.ANNUAL_INCOME}
+              onChange={(v) => update({ ANNUAL_INCOME: v })}
+              labelClassName={LABEL_CLS}
+              inputClassName={`${INPUT_CLS} h-12`}
+            />
           </div>
         )}
 
-        {/* ── 7 · Address ── */}
+        {/* ── 7 · VA / military (auto-advance) ── */}
         {currentStep === 7 && (
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h2 className={STEP_HEADING_CLS}>
+                Are you a veteran or active military?
+              </h2>
+            </div>
+            <RadioButtonGroup
+              name="vaStatus"
+              options={YES_NO_OPTS}
+              value={fd.VA_STATUS}
+              onChange={(v) => { update({ VA_STATUS: v }); autoAdvance(7); }}
+              type="1"
+              layout="column"
+              optionClassName={RADIO_OPTION_CLS}
+              selectedOptionBackgroundColor={RADIO_SELECTED_BG}
+              selectedOptionBorderColor={RADIO_SELECTED_BORDER}
+              selectedIndicatorColor={RADIO_INDICATOR}
+            />
+          </div>
+        )}
+
+        {/* ── 8 · Address ── */}
+        {currentStep === 8 && (
           <div className="space-y-6">
             <style>{PLACES_STYLES}</style>
             <div className="space-y-2">
@@ -957,8 +958,8 @@ function RefinanceForm() {
           </div>
         )}
 
-        {/* ── 8 · Contact info ── */}
-        {currentStep === 8 && (
+        {/* ── 9 · Contact info ── */}
+        {currentStep === 9 && (
           <div className="space-y-5">
             <div className="space-y-2">
               <h2 className={STEP_HEADING_CLS}>Almost there! Your contact information</h2>
@@ -1016,19 +1017,11 @@ function RefinanceForm() {
         )}
 
         {/* ── Navigation ── */}
-        <div className="flex gap-3 mt-8">
-          {currentStep > 1 && (
-            <button
-              type="button" onClick={handleBack}
-              className="flex items-center gap-2 px-5 py-3 rounded-md font-semibold text-sm border-2 border-gray-200 text-gray-600 hover:border-[#249E45] hover:text-[#249E45] transition-all duration-200"
-            >
-              <ArrowLeft size={17} /> Back
-            </button>
-          )}
+        <div className="mt-8">
           <button
             type="button" onClick={handleNext}
             disabled={isSubmitting || !isStepValid()}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-md font-semibold text-sm transition-all duration-200
+            className={`w-full flex items-center justify-center gap-2 py-3 rounded-md font-semibold text-sm transition-all duration-200
               ${isSubmitting || !isStepValid()
                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                 : "bg-[#249E45] text-white hover:bg-[#1E8A3A] shadow-md hover:shadow-lg"}`}
@@ -1039,9 +1032,17 @@ function RefinanceForm() {
         </div>
       </form>
 
-      {currentStep === 7 && (
+      {currentStep === 8 && (
         <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">
-        By clicking &quot;Continue&quot; above, I authorize GovMortgageOptions.com & <a href="/partners" target="_blank" className="underline hover:text-gray-600">GovMortgageOptions.com&apos;s Partners</a>, to obtain my consumer report, credit profile, or other credit information associated with me from any consumer reporting agency for purposes of my inquiry, as well as for marketing purposes and to provide me with information and recommendations on financial products and services that may be of interest to me.
+        By clicking &quot;Continue&quot; above, I authorize GovMortgageOptions.com &{" "}
+        <button
+          type="button"
+          onClick={() => setIsPartnerModalOpen(true)}
+          className="underline hover:text-gray-600"
+        >
+          GovMortgageOptions.com&apos;s Partners
+        </button>
+        , to obtain my consumer report, credit profile, or other credit information associated with me from any consumer reporting agency for purposes of my inquiry, as well as for marketing purposes and to provide me with information and recommendations on financial products and services that may be of interest to me.
         </p>
       )}
 
@@ -1065,6 +1066,11 @@ function RefinanceForm() {
           credit profile to prequalify you for credit options and connect you with an appropriate partner.
         </p>
       )}
+
+      <PartnersModal
+        isOpen={isPartnerModalOpen}
+        onClose={() => setIsPartnerModalOpen(false)}
+      />
 
       <Script
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY}&libraries=places`}
