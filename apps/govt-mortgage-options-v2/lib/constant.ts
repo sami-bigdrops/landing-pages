@@ -8,7 +8,7 @@ export const SITE_BRAND = {
 //  sections constants
 
 export const HERO_CONTENT = {
-  headline: "UPDATED RATES JUST RELEASED",
+  headline: "UPDATED HELOC RATES",
   headlineSecondary: "CHECK YOUR ZIP CODE",
   zipPlaceholder: "Please enter ZIP code",
   ctaButton: "See Savings",
@@ -19,12 +19,12 @@ export const HERO_CONTENT = {
 } as const
 
 export const HERO_NOTIFICATIONS = [
-  { name: "Mauri",   city: "Hudson, NY",      message: "Inquired about current mortgage rates!" },
-  { name: "Jake",    city: "Austin, TX",       message: "Just checked their refinancing options!" },
-  { name: "Sarah",   city: "Denver, CO",       message: "Got an estimate for cash-out refinancing!" },
-  { name: "Michael", city: "Nashville, TN",    message: "Compared today's mortgage rates!" },
-  { name: "Emma",    city: "Phoenix, AZ",      message: "Requested a free rate estimate!" },
-  { name: "David",   city: "Charlotte, NC",    message: "Locked in a lower mortgage rate today!" },
+  { name: "Mauri",   city: "Hudson, NY",      message: "Inquired about HELOC rates!" },
+  { name: "Jake",    city: "Austin, TX",       message: "Just checked their HELOC options!" },
+  { name: "Sarah",   city: "Denver, CO",       message: "Got an estimate for a HELOC!" },
+  { name: "Michael", city: "Nashville, TN",    message: "Compared today's HELOC rates!" },
+  { name: "Emma",    city: "Phoenix, AZ",      message: "Requested a free HELOC rate estimate!" },
+  { name: "David",   city: "Charlotte, NC",    message: "Locked in a lower HELOC rate today!" },
 ] as const
 
 export const PARTNERS_CONTENT = {
