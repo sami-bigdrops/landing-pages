@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { FORM_TCPA_TEXT } from "@/lib/constant"
 
 type RefinanceSubmitBody = {
   PRODUCT?: string
@@ -47,9 +48,6 @@ function calculateLtv(loanAmount: number, propertyValue: number): number {
   return Math.round(raw * 100) / 100
 }
 
-const TCPA_TEXT =
-  "By clicking Submit Details, you agree to: (1) our TERMS OF USE, which include a Class Waiver and Mandatory Arbitration Agreement, (2) our PRIVACY POLICY, and (3) receive notices and other COMMUNICATIONS ELECTRONICALLY. By clicking Submit Details, you: (a) provide your express written consent and binding signature under the ESIGN Act for Leadpoint, Inc. dba SecureRights, a Delaware corporation, to share your information with up to four (4) of its PREMIER PARTNERS and/or third parties acting on their behalf to contact you via telephone, mobile device (including SMS and MMS) and/or email, including but not limited to texts or calls made using an automated telephone dialing system, AI-generated voice and text messages, or pre-recorded or artificial voice messages, regarding financial services or other offers related to homeownership; (b) understand that your consent is valid even if your telephone number is currently listed on any state, federal, local or corporate Do Not Call list; (c) represent that you are the wireless subscriber or customary user of the wireless number(s) provided with authority to consent; (d) understand your consent is not required in order to obtain any good or service; (e) represent that you have received and reviewed the MORTGAGE BROKER DISCLOSURES for your state; and (f) provide your consent under the Fair Credit Reporting Act for SecureRights and/or its PREMIER PARTNERS to obtain information from your personal credit profile to prequalify you for credit options and connect you with an appropriate partner."
-
 function buildLeadPayload(body: RefinanceSubmitBody, ip: string, request: NextRequest) {
   const subid1 = request.cookies.get("subid1")?.value ?? ""
   const subid2 = request.cookies.get("subid2")?.value ?? ""
@@ -83,7 +81,7 @@ function buildLeadPayload(body: RefinanceSubmitBody, ip: string, request: NextRe
     user_agent: request.headers.get("user-agent") ?? "",
     landing_page_url: request.headers.get("referer") ?? "",
     trustedform_cert_url: String(body.trustedformCertUrl ?? "").trim(),
-    tcpa_text: TCPA_TEXT,
+    tcpa_text: FORM_TCPA_TEXT,
 
     ltv,
     loanamount: loanAmount,

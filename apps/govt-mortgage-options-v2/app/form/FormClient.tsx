@@ -1048,22 +1048,29 @@ function RefinanceForm() {
 
       {isLastStep && (
         <p className="text-[10px] leading-relaxed text-gray-400 font-inter mt-4 px-1">
-          By clicking Submit Details, you agree to: (1) our{" "}
-          <a href="#" target="_blank" className="underline hover:text-gray-600">TERMS OF USE</a>,
-          {" "}which include a Class Waiver and Mandatory Arbitration Agreement, (2) our{" "}
-          <a href="#" target="_blank" className="underline hover:text-gray-600">PRIVACY POLICY</a>,
-          {" "}and (3) receive notices and other COMMUNICATIONS ELECTRONICALLY. By clicking Submit Details, you: (a) provide your
-          express written consent and binding signature under the ESIGN Act for Leadpoint, Inc. dba SecureRights, a Delaware
-          corporation, to share your information with up to four (4) of its PREMIER PARTNERS and/or third parties acting on their
-          behalf to contact you via telephone, mobile device (including SMS and MMS) and/or email, including but not limited to
-          texts or calls made using an automated telephone dialing system, AI-generated voice and text messages, or pre-recorded
-          or artificial voice messages, regarding financial services or other offers related to homeownership; (b) understand that
-          your consent is valid even if your telephone number is currently listed on any state, federal, local or corporate Do Not
-          Call list; (c) represent that you are the wireless subscriber or customary user of the wireless number(s) provided with
-          authority to consent; (d) understand your consent is not required in order to obtain any good or service; (e) represent
-          that you have received and reviewed the MORTGAGE BROKER DISCLOSURES for your state; and (f) provide your consent under
-          the Fair Credit Reporting Act for SecureRights and/or its PREMIER PARTNERS to obtain information from your personal
-          credit profile to prequalify you for credit options and connect you with an appropriate partner.
+          By clicking &quot;Continue,&quot; I electronically sign and agree that GovMortgageOptions.com may collect, use, and share my information, including my self-reported credit information, with its{" "}
+          <button
+            type="button"
+            onClick={() => setIsPartnerModalOpen(true)}
+            className="underline hover:text-gray-600"
+          >
+            Partners
+          </button>
+          {" "}to provide information about mortgage, home equity, refinancing, insurance, and other financial products and services. I provide my prior express written consent for GovMortgageOptions.com and the specifically identified{" "}
+          <button
+            type="button"
+            onClick={() => setIsPartnerModalOpen(true)}
+            className="underline hover:text-gray-600"
+          >
+            Partners
+          </button>
+          {" "}to contact me at the telephone number provided regarding these products and services, including through automated dialing systems, prerecorded or artificial voice calls, and SMS/text messages, even if my number is listed on a Do Not Call registry. Consent is not a condition of purchasing any product or service. I agree to the{" "}
+          <a href="/terms-of-use" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Terms of Use</a>
+          {" "}and{" "}
+          <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Privacy Policy</a>
+          . I may revoke consent at any time by emailing{" "}
+          <a href="mailto:consent@govmortgageoptions.com" className="underline hover:text-gray-600">consent@govmortgageoptions.com</a>
+          {" "}or replying STOP to a text message.
         </p>
       )}
 
