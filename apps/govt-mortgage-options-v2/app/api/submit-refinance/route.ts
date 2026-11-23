@@ -63,9 +63,9 @@ function buildLeadPayload(body: RefinanceSubmitBody, ip: string, request: NextRe
   const ltv = calculateLtv(loanAmount, propertyValue)
 
   return {
-    lp_campaign_id: process.env.REFI_LEADPROSPER_CAMPAIGN_ID,
-    lp_supplier_id: process.env.REFI_LEADPROSPER_SUPPLIER_ID,
-    lp_key: process.env.REFI_LEADPROSPER_API_KEY,
+    lp_campaign_id: process.env.LEADPROSPER_CAMPAIGN_ID,
+    lp_supplier_id: process.env.LEADPROSPER_SUPPLIER_ID,
+    lp_key: process.env.LEADPROSPER_API_KEY,
     lp_action: "",
     lp_subid1: subid1,
     lp_subid2: subid2,
@@ -116,17 +116,17 @@ export async function POST(request: NextRequest) {
     }
 
     const hasLeadProsper =
-      process.env.REFI_LEADPROSPER_CAMPAIGN_ID &&
-      process.env.REFI_LEADPROSPER_SUPPLIER_ID &&
-      process.env.REFI_LEADPROSPER_API_KEY &&
-      process.env.REFI_LEADPROSPER_API_URL
+      process.env.LEADPROSPER_CAMPAIGN_ID &&
+      process.env.LEADPROSPER_SUPPLIER_ID &&
+      process.env.LEADPROSPER_API_KEY &&
+      process.env.LEADPROSPER_API_URL
 
     if (hasLeadProsper) {
       const lpPayload = buildLeadPayload(body, ip, request)
       const lpLog = { ...lpPayload, lp_key: lpPayload.lp_key ? "[REDACTED]" : "" }
       console.log("[submit-refinance] LeadProsper payload:", JSON.stringify(lpLog, null, 2))
 
-      const apiResponse = await fetch(process.env.REFI_LEADPROSPER_API_URL!, {
+      const apiResponse = await fetch(process.env.LEADPROSPER_API_URL!, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(lpPayload),
